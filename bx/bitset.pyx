@@ -63,10 +63,10 @@ cdef class BitSet:
     cdef count_in_range( self, int start, int count ):
         return bitCountRange( self.bits, start, count )
 
-    cdef int find_next_set( self, int start ):
+    cdef int next_set( self, int start ):
         return bitFindSet( self.bits, start, self.bitCount )
     
-    cdef int find_next_clear( self, int start ):
+    cdef int next_clear( self, int start ):
         return bitFindClear( self.bits, start, self.bitCount )
 
     cdef iand( self, BitSet other ):
@@ -103,7 +103,7 @@ import math
 
 class BinnedBitSet:
     def __init__( self, int granularity=1024, int max_size=MAX ):
-        self.max_size = MAX
+        self.max_size = max_size
         self.bin_size = int( math.ceil( ( max_size / granularity ) ) )
         self.nbins = int( math.ceil( ( max_size / self.bin_size ) ) )
         self.bins = [ 0 ] * self.nbins
@@ -123,4 +123,52 @@ class BinnedBitSet:
         bin, offset = self.get_bin_offset( index )
         if self.bins[bin] == 0 or self.bins[bin] == 1: self.init_bin( bin )
         self.bins[bin].set( offset )            
-        
+    def set_range( self, start, size ):
+        cdef BitSet bin
+        while size > 0:
+            bin_index, offset = self.get_bin_offset( start )
+            if self.bins[bin_index] == 0 or self.bins[bin_index] == 1: self.init_bin( bin_index )
+            bin = self.bins[bin_index]
+            bin_size = self.bin_size
+            amount = bin_size - offset
+            if amount < size:
+                bin.set_range( offset, amount )
+                size = size - amount
+                start = start + amount
+            else:
+                bin.set_range( offset, size )
+                size = 0
+    def next_set( self, start ):
+        cdef BitSet bin
+        bin_index, offset = self.get_bin_offset( start )
+        while bin_index < self.nbins:
+            if self.bins[bin_index] == 0:
+                bin_index = bin_index + 1
+                offset = 0
+                continue
+            bin = self.bins[bin_index]
+            ns = bin.next_set( offset )
+            if ns < self.bin_size:
+                return (bin_index*self.bin_size) + ns
+            else:
+                bin_index = bin_index + 1
+                offset = 0
+        else:
+            return None
+    def next_clear( self, start ):
+        cdef BitSet bin
+        bin_index, offset = self.get_bin_offset( start )
+        while bin_index < self.nbins:
+            if self.bins[bin_index] == 0:
+                bin_index = bin_index + 1
+                offset = 0
+                continue
+            bin = self.bins[bin_index]
+            ns = bin.next_clear( offset )
+            if ns < self.bin_size:
+                return (bin_index*self.bin_size) + ns
+            else:
+                bin_index = bin_index + 1
+                offset = 0
+        else:
+            return None
