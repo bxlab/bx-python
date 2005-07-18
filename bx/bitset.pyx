@@ -69,16 +69,16 @@ cdef class BitSet:
     cdef int find_next_clear( self, int start ):
         return bitFindClear( self.bits, start, self.bitCount )
 
-    cdef and( self, BitSet other ):
+    cdef iand( self, BitSet other ):
         bitAnd( self.bits, other.bits, self.bitCount )
         
-    cdef or( self, BitSet other ): 
+    cdef ior( self, BitSet other ): 
         bitOr( self.bits, other.bits, self.bitCount )
 
     cdef bitXor( self, BitSet other ): 
         bitXor( self.bits, other.bits, self.bitCount )
 
-    cdef not( self ):
+    cdef invert( self ):
         bitNot( self.bits, self.bitCount)
 
     ## ---- Python "Operator Overloading" ----
@@ -87,13 +87,13 @@ cdef class BitSet:
         return self.get( index )
 
     cdef __iand__( self, BitSet other ):
-        self.and( other )
+        self.iand( other )
 
     cdef __ior__( self, BitSet other ):
-        self.or( other )
+        self.ior( other )
 
     cdef __invert__( self ):
-        self.bitNot
+        self.invert()
         
         
 
