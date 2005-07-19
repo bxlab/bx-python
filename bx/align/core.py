@@ -11,10 +11,13 @@ class Alignment( object ):
     def __init__( self, score=0, attributes={} ):
         self.score = 0
         self.text_size = 0
-        self.attributes = {}
+        self.attributes = attributes
+        if species_to_lengths == None: self.species_to_lengths = {}
+        else: self.species_to_lengths = species_to_lengths
         self.components = []
 
     def add_component( self, component ):
+        component.alignment = self
         self.components.append( component )
         if self.text_size == 0: self.text_size = len( component.text )
         elif self.text_size != len( component.text ): raise "Components must have same text length"
@@ -29,6 +32,17 @@ class Alignment( object ):
             s += str( c )
             s += "\n"
         return s
+
+    def src_size( self, src ):
+        species,chrom = src_split( src )
+        if species == None: raise "no src_size (%s not of form species.chrom)" % src
+        if species not in self.species_to_lengths: raise "no src_size (no length file for %s)" % species
+        chrom_to_length = self.species_to_lengths[species]
+        if type( chrom_to_length ) == type( "" ):  # (if it's a file name)
+            chrom_to_length = read_lengths_file( chrom_to_length )
+            self.species_to_lengths[species] = chrom_to_length
+        if chrom not in chrom_to_length: "no src_size (%s has no length for %s)" % ( species, chrom )
+        return chrom_to_length[chrom]
 
     def get_component_by_src( self, src ):
         for c in self.components:
@@ -102,12 +116,13 @@ class Alignment( object ):
     
 class Component( object ):
 
-    def __init__( self, src='', start=0, size=0, strand=None, src_size=0, text='' ):
+    def __init__( self, src='', start=0, size=0, strand=None, src_size=None, text='' ):
+        self.alignment = None
         self.src = src
-        self.start = start
-        self.size = size
-        self.strand = strand
-        self.src_size = src_size
+        self.start = start          # Nota Bene:  start,size,strand are as they
+        self.size = size            # .. appear in a MAF file-- origin-zero, end
+        self.strand = strand        # .. excluded, and minus strand counts from
+        self._src_size = src_size   # .. end of sequence
         self.text = text
 
     def __str__( self ):
@@ -118,6 +133,15 @@ class Component( object ):
     def get_end( self ):
         return self.start + self.size
     end = property( fget=get_end )
+
+    def get_src_size( self ):
+        if self._src_size == None:
+            if self.alignment == None: raise "component has no src_size"
+            self._src_size = self.alignment.src_size( self.src )
+        return self._src_size
+    def set_src_size( self,src_size ):
+        self._src_size = src_size
+    src_size = property( fget=get_src_size, fset=set_src_size )
 
     def get_forward_strand_start( self ):
         if self.strand == '-': return self.src_size - self.end
@@ -133,11 +157,16 @@ class Component( object ):
         start = self.src_size - self.start 
         if self.strand == "+": strand = "-"
         else: strand = "+"
-        text = self.text.translate( DNA_COMP )
-        return Component( self.src, start, self.size, strand, self.src_size, text )
+        comp = [ch for ch in self.text.translate(DNA_COMP)]
+        comp.reverse()
+        text = "".join(comp)
+        new = Component( self.src, start, self.size, strand, self._src_size, text )
+        new.alignment = self.alignment
+        return new
 
     def slice( self, start, end ):
-        new = Component( src=self.src, start=self.start, strand=self.strand, src_size=self.src_size )
+        new = Component( src=self.src, start=self.start, strand=self.strand, src_size=self._src_size )
+        new.alignment = self.alignment
         new.text = self.text[start:end]
 
         #for i in range( 0, start ):
@@ -185,10 +214,25 @@ class Component( object ):
             col += 1 
         return col
 
-def get_reader( format, infile ):
+def get_reader( format, infile, species_to_lengths=None ):
     import align.axt, align.maf
-    if format == "maf": return align.maf.Reader( infile )
-    elif format == "axt": return align.axt.Reader( infile )
+    if format == "maf": return align.maf.Reader( infile, species_to_lengths )
+    elif format == "axt": return align.axt.Reader( infile, species_to_lengths )
+    elif format == "lav": return align.lav.Reader( infile, species_to_lengths )
+    else: raise "Unknown alignment format %s" % format
+
+def get_writer( format, outfile, attributes={} ):
+    import align.axt, align.maf
+    if format == "maf": return align.maf.Writer( outfile, attributes )
+    elif format == "axt": return align.axt.Writer( outfile, attributes )
+    elif format == "lav": return align.lav.Writer( outfile, attributes )
+    else: raise "Unknown alignment format %s" % format
+
+def get_indexed( format, filename, index_filename=None, keep_open=False, species_to_lengths=None ):
+    import align.axt, align.maf
+    if format == "maf": return align.maf.Indexed( filename, index_filename, keep_open, species_to_lengths )
+    elif format == "axt": return align.axt.Indexed( filename, index_filename, keep_open, species_to_lengths )
+    elif format == "lav": return align.lav.Indexed( filename, index_filename, keep_open, species_to_lengths )
     else: raise "Unknown alignment format %s" % format
 
 def shuffle_columns( a ):
@@ -198,5 +242,29 @@ def shuffle_columns( a ):
     for c in a.components:
         c.text = ''.join( [ c.text[i] for i in mask ] )
 
+def src_split( src ): # splits src into species,chrom
+    dot = src.rfind( "." )
+    if dot == -1: return None,src
+    else:         return src[:dot],src[dot+1:]
 
+# improvement: lengths file should probably be another class
+
+def read_lengths_file( name ):
+    chrom_to_length = {}
+    f = file ( name, "rt" )
+    for line in f:
+        line = line.strip()
+        if line == '' or line[0] == '#': continue
+        try:
+            fields = line.split()
+            if len(fields) != 2: raise
+            chrom = fields[0]
+            length = int( fields[1] )
+        except:
+            raise "bad length file line: %s" % line
+        if chrom in chrom_to_length and length != chrom_to_length[chrom]:
+            raise "%s has more than one length!" % chrom
+        chrom_to_length[chrom] = length
+    f.close()
+    return chrom_to_length
 
