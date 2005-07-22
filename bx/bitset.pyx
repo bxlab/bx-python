@@ -138,6 +138,22 @@ class BinnedBitSet:
             else:
                 bin.set_range( offset, size )
                 size = 0
+    def count_range( self, start, size ):
+        cdef BitSet bin
+        count = 0
+        while size > 0:
+            bin_index, offset = self.get_bin_offset( start )
+            if self.bins[bin_index] == 0 or self.bins[bin_index] == 1: continue
+            bin = self.bins[bin_index]
+            bin_size = self.bin_size
+            amount = bin_size - offset
+            if amount < size:
+                count = count + bin.count_in_range( offset, amount )
+                size = size - amount
+                start = start + amount
+            else:
+                count = count + bin.count_in_range( offset, size )
+                size = 0
     def next_set( self, start ):
         cdef BitSet bin
         bin_index, offset = self.get_bin_offset( start )

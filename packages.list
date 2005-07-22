@@ -1,3 +1,6 @@
 bx
+bx/align
+bx/seq
+bx/intervals
 cookbook
 psyco_full.py

@@ -64,6 +64,8 @@ class Intersecter( object ):
         
     def find( self, start, end ):
         """Return a list of all stored intervals intersecting [start,end)"""
+        # Tweak [0,n) to [1,n]
+        start += 1
         result = []
         self.find_func( 0, len( self.intervals ), start, end, result.append )
         return result
@@ -74,7 +76,7 @@ class Intersecter( object ):
         n_intervals = len( self.intervals )
         # starts is filled with the indices of intervals sorted by start position
         self.starts = range( 0, n_intervals )
-        self.starts.sort( lambda a, b: cmp( self.intervals[ a ].start, self.intervals[ b ].start ) )
+        self.starts.sort( lambda a, b: cmp( self.intervals[ a ].start+1, self.intervals[ b ].start+1 ) )
         # ends is filled with the indices of intervals sorted by end position
         self.ends = range( 0, n_intervals )
         self.ends.sort( lambda a, b: cmp( self.intervals[ a ].end, self.intervals[ b ].end ) )
@@ -94,7 +96,7 @@ class Intersecter( object ):
         q = center + 1
         g = lo
         for i in range( q, hi ):
-            if self.intervals[ self.ends[ i ] ].start > mid:
+            if self.intervals[ self.ends[ i ] ].start+1 > mid:
                 self.centers[ g ] = self.ends[ i ]
                 g += 1
             else:
@@ -140,7 +142,7 @@ class Intersecter( object ):
             self.find_func( q, hi, start, end, report_func )
         elif end < m:
             j = p
-            while j < q and self.intervals[ self.starts[ j ] ].start <= end:
+            while j < q and self.intervals[ self.starts[ j ] ].start+1 <= end:
                 report_func( self.intervals[ self.starts[ j ] ] )
                 j += 1
             self.find_func( lo, p, start, end, report_func )
@@ -153,7 +155,7 @@ class Intersecter( object ):
     def small_find( self, lo, hi, start, end, report_func ):
         for i in range( lo, hi ):
             interval = self.intervals[ self.starts[ i ] ]
-            if start <= interval.end and interval.start <= end:
+            if start <= interval.end and interval.start+1 <= end:
                 report_func( interval )
 
     def left_find( self, lo, hi, start, end, report_func ):
@@ -176,7 +178,7 @@ class Intersecter( object ):
             p, q, m = self.parts( lo, hi )
             if end < m:
                 j = p
-                while j < q and self.intervals[ self.starts[ j ] ].start <= end:
+                while j < q and self.intervals[ self.starts[ j ] ].start+1 <= end:
                     report_func( self.intervals[ self.starts[ j ] ] )
                     j += 1
                 hi = p
@@ -198,16 +200,16 @@ class Intersecter( object ):
     def check_partition( self, lo, hi ):
         if hi - lo < Intersecter.THRESH:
             for i in range( lo, hi - 1 ):
-                assert self.intervals[ self.starts[ i ] ].start <= self.intervals[ self.starts[ i + 1 ] ].start
+                assert self.intervals[ self.starts[ i ] ].start+1 <= self.intervals[ self.starts[ i + 1 ] ].start+1
                 assert self.intervals[ self.ends[ i ] ].end <= self.intervals[ self.ends[ i + 1 ] ].end
         else:
             p, q, m = self.parts( lo, hi )
             for i in range( lo, p ): 
                 assert self.intervals[ self.ends[ i ] ].end < m
             for i in range( q, hi ): 
-                assert self.intervals[ self.starts[ i ] ].start > m
+                assert self.intervals[ self.starts[ i ] ].start+1 > m
             for i in range( p, q ): 
-                assert self.intervals[ self.starts[ i ] ].start <= m
+                assert self.intervals[ self.starts[ i ] ].start+1 <= m
                 assert self.intervals[ self.ends[ i ] ].end >= m
             self.check_partition( lo, p )
             self.check_partition( q, hi )
