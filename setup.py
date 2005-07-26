@@ -17,6 +17,6 @@ setup(  name = "python-bio-tools",
         py_modules = py_packages,
         packages = packages,
         scripts = open( "scripts.list" ).read().split(),
-        ext_modules=[ Extension( "bx.bitset", [ "bx/bitset.pyx" ] + [ JK_LIB + f for f in bitset_deps ], include_dirs=[JK_INC] ) ],
+        ext_modules=[ Extension( "bx.bitset", [ "bx/bitset.pyx", "src/binBits.c" ] + [ JK_LIB + f for f in bitset_deps ], include_dirs=[JK_INC, "src"] ) ],
         cmdclass = {'build_ext': build_ext}
      )

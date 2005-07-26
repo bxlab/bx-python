@@ -18,7 +18,7 @@ if len( sys.argv ) > 2: out_file = open( sys.argv[2], "w" )
 else: out_file = sys.stdout
 
 for fields in bx.wiggle.Reader( in_file ):
-    print " ".join( line )
+    print " ".join( map( str, fields ) )
 
 in_file.close()
 out_file.close()
