@@ -1,14 +1,24 @@
 #!/usr/bin/env python
 
 """
-Find regions of one bed file that overlap regions in a second bed file
+Find regions of first bed file that overlap regions in a second bed file
+
 usage: %prog bed_file_1 bed_file_2
+    -m, --mincols=N: Require this much overlap 
 """
 import sys
 from warnings import warn
 from bx.bitset import BinnedBitSet
+import cookbook.doc_optparse
 
-in_fname, in2_fname = sys.argv[1:]
+options, args = cookbook.doc_optparse.parse( __doc__ )
+try:
+    if options.mincols: mincols = int( options.mincols )
+    else: mincols = 1
+    in_fname, in2_fname = args
+except:
+    cookbook.doc_optparse.exit()
+
 
 last_chrom = None
 last_bitset = None
@@ -32,6 +42,5 @@ for line in open( in_fname ):
     if fields[0] not in bitsets: continue
     start, end = int( fields[1] ), int( fields[2] )
     if start > end: warn( "Bed interval start after end!" )
-    ns = bitsets[fields[0]].next_set( start )
-    if ns is not None and ns < end: 
+    if bitsets[fields[0]].count_range( start, end-start ) >= mincols:
         print line,

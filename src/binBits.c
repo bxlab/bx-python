@@ -97,8 +97,15 @@ int binBitsCountRange( struct BinBits *bb, int start, int size )
         delta = bb->bin_size - offset;
         if ( bb->bins[bin] == NULL )
         {
-            start += delta;
-            size -= delta;
+            if ( delta < size )
+            {
+                size -= delta;
+                start += delta;
+            }
+            else
+            {
+                size = 0;
+            }
         }
         else if ( delta < size )
         {
