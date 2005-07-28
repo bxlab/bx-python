@@ -94,20 +94,25 @@ int binBitsCountRange( struct BinBits *bb, int start, int size )
     {
         int bin = binBitsGetBin( bb, start );  
         int offset = binBitsGetOffset( bb, start );
-        if ( bb->bins[bin] == NULL ) continue;
         delta = bb->bin_size - offset;
-        if ( delta < size )
+        if ( bb->bins[bin] == NULL )
         {
-            count += bitCountRange( bb->bins[bin], start, delta );
+            start += delta;
+            size -= delta;
+        }
+        else if ( delta < size )
+        {
+            count += bitCountRange( bb->bins[bin], offset, delta );
             size -= delta;
             start += delta;
         }
         else
         {
-            count += bitCountRange( bb->bins[bin], start, size );
+            count += bitCountRange( bb->bins[bin], offset, size );
             size = 0;
         } 
     }
+    return count;
 }
 
 int binBitsFindSet( struct BinBits *bb, int start )

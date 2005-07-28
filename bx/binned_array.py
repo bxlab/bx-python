@@ -2,13 +2,14 @@ from __future__ import division
 
 import math
 
+from fpconst import *
 from Numeric import *
 from RandomArray import *
 
 MAX=512*1024*1024 
 
 class BinnedArray( object ):
-    def __init__( self, granularity=1024, default=None, max_size=MAX ):
+    def __init__( self, granularity=1024, default=NaN, max_size=MAX ):
         self.max_size = MAX
         self.bin_size = int( math.ceil( ( max_size / granularity ) ) )
         self.nbins = int( math.ceil( ( max_size / self.bin_size ) ) )
@@ -18,7 +19,7 @@ class BinnedArray( object ):
         return index // self.bin_size, index % self.bin_size
     def init_bin( self, index ):
         # self.bins[index] = zeros( self.bin_size ) * self.default
-        self.bins[index] = [ self.default ] * self.bin_size
+        self.bins[index] = array( [ self.default ] * self.bin_size, typecode="f" )
     def __getitem__( self, key ):
         bin, offset = self.get_bin_offset( key )
         if self.bins[bin]:

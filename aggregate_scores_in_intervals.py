@@ -10,7 +10,9 @@ import sys
 import psyco_full
 import bx.wiggle
 from bx.binned_array import BinnedArray
+from fpconst import isNaN
 import cookbook.doc_optparse
+import misc
 
 def read_scores( f ):
     scores_by_chrom = dict()
@@ -34,7 +36,7 @@ def main():
     except:
         cookbook.doc_optparse.exit()
 
-    scores_by_chrom = read_scores( open( sys.argv[1] ) )
+    scores_by_chrom = read_scores( misc.open_compressed( sys.argv[1] ) )
     for line in open( sys.argv[2] ):
         fields = line.split()
         chrom, start, stop = fields[0], int( fields[1] ), int( fields[2] )
@@ -45,10 +47,11 @@ def main():
         for i in range( start, stop ):
             if chrom in scores_by_chrom and scores_by_chrom[chrom][i]:
                 score = scores_by_chrom[chrom][i]
-                total += score
-                count += 1
-                max_score = max( score, max_score )
-                min_score = min( score, min_score )
+                if not isNaN( score ):
+                    total += score
+                    count += 1
+                    max_score = max( score, max_score )
+                    min_score = min( score, min_score )
         if total > 0:
             avg = total/count
         else:

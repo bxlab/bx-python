@@ -61,55 +61,64 @@ cdef class BitSet:
     def __dealloc__( self ):
         bitFree( & self.bits )
 
-    cdef set( self, int index ):
+    property size:
+        def __get__( self ):
+            return self.bitCount
+
+    def set( self, index ):
         bitSetOne( self.bits, index )
 
-    cdef clear( self, int index ):
+    def clear( self, index ):
         bitClearOne( self.bits, index )
 
-    cdef set_range( self, int start, int count ):   
+    def set_range( self, start, count ):   
         bitSetRange( self.bits, start, count )
 
     ## cdef clear_range( self, int start, int count ):
     ##    bitClearRange( self.bits, start, count )
 
-    cdef int get( self, int index ):
+    def get( self, index ):
         return bitReadOne( self.bits, index );
     
-    cdef count_in_range( self, int start, int count ):
+    def count_range( self, start, count ):
         return bitCountRange( self.bits, start, count )
 
-    cdef int next_set( self, int start ):
-        return bitFindSet( self.bits, start, self.bitCount )
+    def next_set( self, start, end=None ):
+        if end == None: end = self.bitCount
+        return bitFindSet( self.bits, start, end )
     
-    cdef int next_clear( self, int start ):
-        return bitFindClear( self.bits, start, self.bitCount )
+    def next_clear( self, start, end=None ):
+        if end == None: end = self.bitCount
+        return bitFindClear( self.bits, start, end )
 
-    cdef iand( self, BitSet other ):
+    def iand( self, BitSet other ):
         bitAnd( self.bits, other.bits, self.bitCount )
         
-    cdef ior( self, BitSet other ): 
+    def ior( self, BitSet other ): 
         bitOr( self.bits, other.bits, self.bitCount )
 
-    cdef bitXor( self, BitSet other ): 
+    def bitXor( self, BitSet other ): 
         bitXor( self.bits, other.bits, self.bitCount )
 
-    cdef invert( self ):
+    def invert( self ):
         bitNot( self.bits, self.bitCount)
 
     ## ---- Python "Operator Overloading" ----
         
-    cdef __getitem__( self, int index ):
+    def __getitem__( self, index ):
         return self.get( index )
 
-    cdef __iand__( self, BitSet other ):
+    def __iand__( self, other ):
         self.iand( other )
+        return self
 
-    cdef __ior__( self, BitSet other ):
+    def __ior__( self, other ):
         self.ior( other )
+        return self
 
-    cdef __invert__( self ):
+    def __invert__( self ):
         self.invert()
+        return self
         
 MAX=512*1024*1024 
 
@@ -130,5 +139,7 @@ cdef class BinnedBitSet:
     def next_set( self, start ):
         return binBitsFindSet( self.bb, start )
     def next_clear( self, start ):
-        return binBitsFindClear( self.bb, size )
-
+        return binBitsFindClear( self.bb, start )
+    property size:
+        def __get__( self ):
+            return self.bb.size

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Merge any overlapping regions of bed files.
+Print number of bases covered by intervals in a bed file
 
 usage: %prog bed files ...
 """
@@ -9,15 +9,19 @@ usage: %prog bed files ...
 import psyco_full
 import sys
 from bx.bitset import BinnedBitSet
+from itertools import *
 
 bed_filenames = sys.argv[1:]
+if bed_filenames:
+    input = chain( * imap( open, bed_filenames ) )
+else:
+    input = sys.stdin
 
 last_chrom = None
 last_bitset = None
 bitsets = dict() 
 
-for fname in bed_filenames:
-    for line in open( fname ):
+for line in input:
         if line.startswith("#") or line.startswith("track"): continue
         fields = line.split()
         if fields[0] != last_chrom:
@@ -29,11 +33,8 @@ for fname in bed_filenames:
         if start > end: print >>sys.stderr, "Bed interval start after end: " + line.strip()
         last_bitset.set_range( start, end-start )
 
+total = 0
 for chrom in bitsets:
-    bits = bitsets[chrom]
-    end = 0
-    while 1:
-        start = bits.next_set( end )
-        if start == bits.size: break
-        end = bits.next_clear( start )
-        print "%s\t%d\t%d" % ( chrom, start, end )
+    total += bitsets[chrom].count_range( 0, bitsets[chrom].size )
+
+print total    

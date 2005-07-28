@@ -1,5 +1,8 @@
 aggregate_scores_in_intervals.py
 align_print_template.py
+bed_intersect.py
+bed_merge_overlapping.py
+bed_coverage.py
 find_in_sorted_file.py
 int_seqs_to_char_strings.py
 interval_count_intersections.py
