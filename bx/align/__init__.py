@@ -1,1 +1,1 @@
-from align.core import *
+from bx.align.core import *

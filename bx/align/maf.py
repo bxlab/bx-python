@@ -1,4 +1,4 @@
-from align import *
+from bx.align import *
 
 import itertools
 import interval_index_file
@@ -11,7 +11,7 @@ class MultiIndexed( object ):
         self.indexes = [ Indexed( maf_file, maf_file + ".index" ) for maf_file in maf_filenames ]
     def get( self, src, start, end ):
         blocks = []
-        for index in self.indexes: blocks += index.get( src, start, end )
+        for index in self.indexes: blocks.extend( index.get( src, start, end ) )
         return blocks
     
 class Indexed( object ):
@@ -29,7 +29,7 @@ class Indexed( object ):
 
     def get( self, src, start, end ):
         intersections = self.indexes.find( src, start, end )
-        return itertools.imap( self.get_maf_at_offset, [ val for start, end, val in intersections ] )
+        return map( self.get_maf_at_offset, [ val for start, end, val in intersections ] )
 
     def get_maf_at_offset( self, offset ):
         if self.f:

@@ -11,7 +11,7 @@ usage: %prog species1 species2 ... < maf
 
 import psyco_full
 
-from bx import align.maf
+import bx.align.maf
 import copy
 import sys
 
@@ -31,8 +31,8 @@ def main():
     except:
         doc_optparse.exit()
 
-    maf_reader = align.maf.Reader( sys.stdin )
-    maf_writer = align.maf.Writer( sys.stdout )
+    maf_reader = bx.align.maf.Reader( sys.stdin )
+    maf_writer = bx.align.maf.Writer( sys.stdout )
 
     if fuse: maf_writer = MafFuser( maf_writer )
    

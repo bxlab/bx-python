@@ -9,15 +9,19 @@ usage: %prog bed files ...
 import psyco_full
 import sys
 from bx.bitset import BinnedBitSet
+from itertools import *
 
 bed_filenames = sys.argv[1:]
+if bed_filenames:
+    input = chain( * imap( open, bed_filenames ) )
+else:
+    input = sys.stdin
 
 last_chrom = None
 last_bitset = None
 bitsets = dict() 
 
-for fname in bed_filenames:
-    for line in open( fname ):
+for line in input:
         if line.startswith("#") or line.startswith("track"): continue
         fields = line.split()
         if fields[0] != last_chrom:

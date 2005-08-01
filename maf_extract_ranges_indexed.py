@@ -22,7 +22,7 @@ import psyco_full
 
 import cookbook.doc_optparse
 
-from bx import align.maf
+import bx.align.maf
 from bx import misc
 import os
 import sys
@@ -49,12 +49,12 @@ def __main__():
         cookbook.doc_optparse.exit()
 
     # Open indexed access to mafs
-    indexes = [ align.maf.Indexed( maf_file, maf_file + ".index" ) for maf_file in maf_files ]
+    index = bx.align.maf.MultiIndexed( maf_files )
 
     # Start MAF on stdout
 
     if dir is None: 
-        out = align.maf.Writer( sys.stdout )
+        out = bx.align.maf.Writer( sys.stdout )
 
     # Iterate over input ranges 
 
@@ -69,12 +69,10 @@ def __main__():
             if do_strand: strand = fields[3]
         if prefix: src = prefix + src
         # Find overlap with reference component
-        blocks = []
-        for index in indexes: blocks += index.get( src, start, end )
-        print >>sys.stderr, src, start, end, len( blocks )
+        blocks = index.get( src, start, end )
         # Open file if needed
         if dir:
-            out = align.maf.Writer( open( os.path.join( dir, "%s:%09d-%09d.maf" % ( src, start, end ) ), 'w' ) )
+            out = bx.align.maf.Writer( open( os.path.join( dir, "%s:%09d-%09d.maf" % ( src, start, end ) ), 'w' ) )
         # Write each intersecting block
         if chop:
             for block in blocks: 
