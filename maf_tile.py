@@ -10,9 +10,9 @@ import psyco_full
 
 import cookbook.doc_optparse
 
-from bx import align.maf
+import bx.align.maf
 from bx import misc
-from bx import seq.nib
+import bx.seq.nib
 import os
 import string
 import sys
@@ -23,9 +23,9 @@ def main():
 
     sources = sys.argv[1].translate( tree_tx ).split()
     seq_db = load_seq_db( sys.argv[2] )
-    index = align.maf.MultiIndexed( sys.argv[3:] )
+    index = bx.align.maf.MultiIndexed( sys.argv[3:] )
 
-    out = align.maf.Writer( sys.stdout )
+    out = bx.align.maf.Writer( sys.stdout )
 
     for line in sys.stdin:
         ref_src, start, end = line.split()[0:3]
@@ -73,7 +73,7 @@ def do_interval( sources, index, out, ref_src, start, end, seq_db ):
 
     for ss, ee, index in intervals_from_mask( mask ):
         if index < 0:
-            tiled[0].append( seq.nib.NibFile( open( seq_db[ ref.src ] ) ).get( start+ss, ee-ss ) )
+            tiled[0].append( bx.seq.nib.NibFile( open( seq_db[ ref.src ] ) ).get( start+ss, ee-ss ) )
             for row in tiled[1:]:
                 row.append( "*" * ( ee - ss ) )
         else:

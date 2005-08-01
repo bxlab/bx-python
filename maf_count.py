@@ -14,7 +14,7 @@ usage: %prog [options]
 import cookbook.doc_optparse
 import sys
 
-from bx import align.maf
+import bx.align.maf
 
 def __main__():
 
@@ -32,7 +32,7 @@ def __main__():
     except:
         cookbook.doc_optparse.exit()
 
-    maf_reader = align.maf.Reader( sys.stdin )
+    maf_reader = bx.align.maf.Reader( sys.stdin )
 
     count = 0
 

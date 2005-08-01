@@ -10,7 +10,7 @@ import psyco_full
 
 import cookbook.doc_optparse
 
-from bx import align.maf
+import bx.align.maf
 from bx import intervals
 import sys
 
@@ -38,11 +38,11 @@ def __main__():
 
     # Start MAF on stdout
 
-    out = align.maf.Writer( sys.stdout )
+    out = bx.align.maf.Writer( sys.stdout )
 
     # Iterate over input MAF
 
-    for maf in align.maf.Reader( sys.stdin ):
+    for maf in bx.align.maf.Reader( sys.stdin ):
         # Find overlap with reference component
         intersections = intersector.find( maf.components[0].start, maf.components[0].end )
         # Write only if no overlap

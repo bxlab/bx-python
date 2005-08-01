@@ -16,7 +16,7 @@ import psyco_full
 
 from numarray import *
 
-from bx import align.maf
+import bx.align.maf
 from bx import alphabet
 from bx import seq_numarray
 import string
@@ -29,7 +29,7 @@ def main():
     else:
         alpha_map = None
 
-    for maf in align.maf.Reader( sys.stdin ):
+    for maf in bx.align.maf.Reader( sys.stdin ):
         # Translate alignment to ints
         int_seq = seq_numarray.DNA.translate_alignment( [ c.text for c in maf.components ] )
         # Apply mapping 

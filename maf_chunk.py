@@ -8,8 +8,8 @@ no more than a certain number of columns
 usage = "usage: %prog chunk_size out_dir"
 
 import sys
-from bx import align.maf
 from optparse import OptionParser
+import bx.align.maf
 import psyco_full
 import random
 
@@ -29,7 +29,7 @@ def __main__():
     out_dir = args[1]
     prob = options.prob
 
-    maf_reader = align.maf.Reader( sys.stdin )
+    maf_reader = bx.align.maf.Reader( sys.stdin )
 
     maf_writer = None
 
@@ -58,7 +58,7 @@ def __main__():
             if prob: write_current_chunk = bool( random.random() <= prob )
             else: write_current_chunk = True
             if write_current_chunk:
-                maf_writer = align.maf.Writer( file( "%s/%09d.maf" % ( out_dir, current_chunk ), "w" ) )
+                maf_writer = bx.align.maf.Writer( file( "%s/%09d.maf" % ( out_dir, current_chunk ), "w" ) )
             else:
                 maf_writer = None
             count = 0

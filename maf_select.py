@@ -10,7 +10,7 @@ usage: %prog feature_file < maf_file
 import psyco_full
 
 import sys
-from bx import align.maf
+import bx.align.maf
 
 def __main__():
 
@@ -23,8 +23,8 @@ def __main__():
     
     feature_vector = [ int( line ) for line in file( feature_file ) ]
 
-    maf_reader = align.maf.Reader( sys.stdin )
-    maf_writer = align.maf.Writer( sys.stdout )
+    maf_reader = bx.align.maf.Reader( sys.stdin )
+    maf_writer = bx.align.maf.Writer( sys.stdout )
 
     index = 0
 

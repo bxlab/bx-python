@@ -8,11 +8,11 @@ in each block.
 from __future__ import division
 
 import sys
-from bx import align.maf
+import bx.align.maf
 
 def main():
     
-    for m in align.maf.Reader( sys.stdin ):  
+    for m in bx.align.maf.Reader( sys.stdin ):  
     
         ungapped_columns = 0
         ungapped_runs = 0

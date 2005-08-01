@@ -9,7 +9,6 @@ from __future__ import division
 
 import psyco_full
 
-from bx import align.maf
 from bx import intervals
 from bx import misc
 import string

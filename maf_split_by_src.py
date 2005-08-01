@@ -8,7 +8,7 @@ no more than a certain number of columns
 usage = "usage: %prog"
 
 import sys, string
-from bx import align.maf
+import bx.align.maf
 from optparse import OptionParser
 
 import psyco_full
@@ -25,7 +25,7 @@ def __main__():
 
     out_prefix = options.outprefix
 
-    maf_reader = align.maf.Reader( sys.stdin )
+    maf_reader = bx.align.maf.Reader( sys.stdin )
 
     writers = {}
 
@@ -34,7 +34,7 @@ def __main__():
         writer_key = string.join( [ c.src for c in m.components ], '_' )
 
         if not writers.has_key( writer_key ):
-            writer = align.maf.Writer( file( "%s%s.maf" % ( out_prefix, writer_key ), "w" ) )
+            writer = bx.align.maf.Writer( file( "%s%s.maf" % ( out_prefix, writer_key ), "w" ) )
             writers[ writer_key ] = writer
         else:
             writer = writers[ writer_key ] 

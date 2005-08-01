@@ -15,7 +15,7 @@ import cookbook.doc_optparse
 from bx import interval_index_file
 import sys
 
-from bx import align.maf
+import bx.align.maf
 
 def main():
 
@@ -30,7 +30,7 @@ def main():
     except:
         cookbook.doc_optparse.exit()
 
-    maf_reader = align.maf.Reader( open( maf_file ) )
+    maf_reader = bx.align.maf.Reader( open( maf_file ) )
 
     indexes = interval_index_file.Indexes()
 
