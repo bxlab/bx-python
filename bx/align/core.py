@@ -8,7 +8,7 @@ DNA_COMP = "                                             -                  " \
 
 class Alignment( object ):
 
-    def __init__( self, score=0, attributes={} ):
+    def __init__( self, score=0, attributes={}, species_to_lengths=None ):
         self.score = 0
         self.text_size = 0
         self.attributes = attributes
