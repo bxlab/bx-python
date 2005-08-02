@@ -9,6 +9,12 @@ DNA_COMP = "                                             -                  " \
 class Alignment( object ):
 
     def __init__( self, score=0, attributes={}, species_to_lengths=None ):
+        # species_to_lengths is needed only for file formats that don't provide
+        # chromosome lengths;  it maps each species name to one of these:
+        #   - the name of a file that contains a list of chromosome length pairs
+        #   - a dict mapping chromosome names to their length
+        # internally a file name is replaced by a dict, but only on an "as
+        # needed" basis
         self.score = 0
         self.text_size = 0
         self.attributes = attributes
