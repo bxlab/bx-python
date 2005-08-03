@@ -60,6 +60,16 @@ void binBitsSetOne( struct BinBits * bb, int pos )
     bitSetOne( bb->bins[bin], offset );
 }
 
+void binBitsClearOne( struct BinBits * bb, int pos )
+{
+    int bin = binBitsGetBin( bb, pos );  
+    int offset = binBitsGetOffset( bb, pos );
+    if ( bb->bins[bin] != NULL )
+    {
+        bitClearOne( bb->bins[bin], offset );
+    }
+}
+
 void binBitsSetRange( struct BinBits *bb, int start, int size )
 {
     int bin, offset, delta;

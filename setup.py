@@ -7,9 +7,9 @@ all_packages = open( "packages.list" ).read().split()
 py_packages = [ p[:-3] for p in all_packages if p.endswith( ".py" ) ]
 packages = [ p for p in all_packages if not p.endswith( ".py" ) ]
 
-
-JK_LIB="/home/james/projects/ucsc-genome-cvs/kent/src/lib/"
-JK_INC="/home/james/projects/ucsc-genome-cvs/kent/src/inc/"
+UCSC_CVS="/Users/james/Projects/ucsc-genome-cvs/"
+JK_LIB= UCSC_CVS + "kent/src/lib/"
+JK_INC= UCSC_CVS + "kent/src/inc/"
 
 bitset_deps = 'bits.c', 'common.c', 'memalloc.c', 'dlist.c', 'errabort.c', 'osunix.c', 'wildcmp.c'
 

@@ -1,3 +1,6 @@
+cdef extern from "common.h":
+    ctypedef int boolean
+
 cdef extern from "bits.h":
 
     ctypedef unsigned char Bits
@@ -44,6 +47,7 @@ cdef extern from "binBits.h":
     void binBitsFree( BinBits * bb )
     int binBitsReadOne( BinBits * bb, int pos )
     void binBitsSetOne( BinBits * bb, int pos )
+    void binBitsClearOne( BinBits * bb, int pos )
     void binBitsSetRange( BinBits *bb, int start, int size )
     int binBitsCountRange( BinBits *bb, int start, int size )
     int binBitsFindSet( BinBits *bb, int start )
@@ -73,9 +77,6 @@ cdef class BitSet:
 
     def set_range( self, start, count ):   
         bitSetRange( self.bits, start, count )
-
-    ## cdef clear_range( self, int start, int count ):
-    ##    bitClearRange( self.bits, start, count )
 
     def get( self, index ):
         return bitReadOne( self.bits, index );
@@ -132,6 +133,8 @@ cdef class BinnedBitSet:
         return binBitsReadOne( self.bb, pos )
     def set( self, pos ):
         binBitsSetOne( self.bb, pos )
+    def clear( self, pos ):
+        binBitsClearOne( self.bb, pos )
     def set_range( self, int start, size ):
         binBitsSetRange( self.bb, start, size )
     def count_range( self, start, size ):
