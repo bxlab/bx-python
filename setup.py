@@ -7,7 +7,7 @@ all_packages = open( "packages.list" ).read().split()
 py_packages = [ p[:-3] for p in all_packages if p.endswith( ".py" ) ]
 packages = [ p for p in all_packages if not p.endswith( ".py" ) ]
 
-UCSC_CVS="/Users/james/Projects/ucsc-genome-cvs/"
+UCSC_CVS="/home/james/projects/ucsc-genome-cvs/"
 JK_LIB= UCSC_CVS + "kent/src/lib/"
 JK_INC= UCSC_CVS + "kent/src/inc/"
 
