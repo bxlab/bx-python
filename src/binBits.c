@@ -2,6 +2,9 @@
 #include "bits.h"
 #include "binBits.h"
 
+static Bits * ALL_ZERO = NULL;
+static Bits * ALL_ONE = ( Bits * ) &"ONE";
+
 struct BinBits* binBitsAlloc( int size, int granularity )
 {
     struct BinBits * bb;
@@ -15,15 +18,15 @@ struct BinBits* binBitsAlloc( int size, int granularity )
 
 void binBitsFree( struct BinBits *bb )
 {
-  int i;
-  for ( i = 0; i < bb->nbins; i++ )
-  {
-      if ( bb->bins[i] != NULL )
-      {
-          bitFree( bb->bins[i] );
-      }
-      freeMem( bb );
-  }
+    int i;
+    for ( i = 0; i < bb->nbins; i++ )
+    {
+        if ( ( bb->bins[i] != ALL_ZERO ) && ( bb->bins[i] != ALL_ONE ) )
+        {
+            bitFree( &(bb->bins[i]) );
+        }
+    }
+    freeMem( bb );
 }
     
 inline int binBitsGetBin( struct BinBits * bb, int pos )
@@ -39,13 +42,18 @@ inline int binBitsGetOffset( struct BinBits * bb, int pos )
 boolean binBitsReadOne( struct BinBits * bb, int pos )
 {
     int bin = binBitsGetBin( bb, pos );
-    if ( bb->bins[bin] )
+    
+    if ( bb->bins[bin] == ALL_ZERO )
     {
-        return bitReadOne( bb->bins[bin], binBitsGetOffset( bb, pos ) );
+        return 0;
+    }
+    else if ( bb->bins[bin] == ALL_ONE )
+    {
+        return 1;
     }
     else
     {
-        return 0;
+        return bitReadOne( bb->bins[bin], binBitsGetOffset( bb, pos ) );
     }
 }
 
@@ -53,7 +61,11 @@ void binBitsSetOne( struct BinBits * bb, int pos )
 {
     int bin = binBitsGetBin( bb, pos );  
     int offset = binBitsGetOffset( bb, pos );
-    if ( bb->bins[bin] == NULL )
+    if ( bb->bins[bin] == ALL_ONE )
+    {
+        return;
+    }
+    if ( bb->bins[bin] == ALL_ZERO )
     {
         bb->bins[bin] = bitAlloc( bb->bin_size );
     }
@@ -64,10 +76,16 @@ void binBitsClearOne( struct BinBits * bb, int pos )
 {
     int bin = binBitsGetBin( bb, pos );  
     int offset = binBitsGetOffset( bb, pos );
-    if ( bb->bins[bin] != NULL )
+    if ( bb->bins[bin] == ALL_ZERO )
     {
-        bitClearOne( bb->bins[bin], offset );
+        return;
     }
+    if ( bb->bins[bin] == ALL_ONE )
+    {
+        bb->bins[bin] = bitAlloc( bb->bin_size );
+        bitSetRange( bb->bins[bin], 0, bb->bin_size );
+    }
+    bitClearOne( bb->bins[bin], offset );
 }
 
 void binBitsSetRange( struct BinBits *bb, int start, int size )
@@ -75,11 +93,16 @@ void binBitsSetRange( struct BinBits *bb, int start, int size )
     int bin, offset, delta;
     while ( size > 0 )
     {
-        int bin = binBitsGetBin( bb, start );  
-        int offset = binBitsGetOffset( bb, start );
-        if ( bb->bins[bin] == NULL )
+        bin = binBitsGetBin( bb, start );  
+        offset = binBitsGetOffset( bb, start );
+        if ( bb->bins[bin] == ALL_ZERO )
         {
             bb->bins[bin] = bitAlloc( bb->bin_size );   
+        }
+        else if ( bb->bins[bin] == ALL_ONE )
+        {
+            bb->bins[bin] = bitAlloc( bb->bin_size );
+            bitSetRange( bb->bins[bin], 0, bb->bin_size );
         }
         delta = bb->bin_size - offset;
         if ( delta < size )
@@ -105,7 +128,7 @@ int binBitsCountRange( struct BinBits *bb, int start, int size )
         int bin = binBitsGetBin( bb, start );  
         int offset = binBitsGetOffset( bb, start );
         delta = bb->bin_size - offset;
-        if ( bb->bins[bin] == NULL )
+        if ( bb->bins[bin] == ALL_ZERO )
         {
             if ( delta < size )
             {
@@ -114,6 +137,20 @@ int binBitsCountRange( struct BinBits *bb, int start, int size )
             }
             else
             {
+                size = 0;
+            }
+        }
+        else if ( bb->bins[bin] == ALL_ONE )
+        {
+            if ( delta < size )
+            {
+                count += ( delta - offset );
+                size -= delta;
+                start += delta;
+            }
+            else
+            {
+                count += ( size - offset );
                 size = 0;
             }
         }
@@ -139,7 +176,11 @@ int binBitsFindSet( struct BinBits *bb, int start )
     int offset = binBitsGetOffset( bb, start );
     while ( bin < bb->nbins )
     {
-        if ( bb->bins[bin] != NULL )
+        if ( bb->bins[bin] == ALL_ONE )
+        {
+            return bin * bb->bin_size + offset;
+        }
+        else if ( bb->bins[bin] != ALL_ZERO )
         {
             ns = bitFindSet( bb->bins[bin], offset, bb->bin_size );
             if ( ns < bb->bin_size )
@@ -160,11 +201,11 @@ int binBitsFindClear( struct BinBits *bb, int start )
     int offset = binBitsGetOffset( bb, start );
     while ( bin < bb->nbins )
     {
-        if ( bb->bins[bin] == NULL )
+        if ( bb->bins[bin] == ALL_ZERO )
         {
-            return bin*bb->bin_size;
+            return bin*bb->bin_size + offset;
         }
-        else
+        else if ( bb->bins[bin] != ALL_ONE )
         {
             ns = bitFindClear( bb->bins[bin], offset, bb->bin_size );
             if ( ns < bb->bin_size )
@@ -176,4 +217,101 @@ int binBitsFindClear( struct BinBits *bb, int start )
         offset = 0;
     }
     return bb->size;
+}
+
+void binBitsAnd( struct BinBits *bb1, struct BinBits *bb2 )
+{
+    int i;    
+    assert( bb1->bin_size == bb2->bin_size && bb1->nbins == bb2->nbins && bb1->size == bb2->size );
+
+    for ( i = 0; i < bb1->nbins; i++ )
+    {
+        if ( bb1->bins[i] == ALL_ZERO )
+        {
+            // Do nothing
+        }
+        else if ( bb2->bins[i] == ALL_ZERO )
+        {
+            bitFree( &bb1->bins[i] );
+            bb1->bins[i] = ALL_ZERO;
+        }
+        else if ( bb1->bins[i] == ALL_ONE )
+        {
+            if ( bb2->bins[i] == ALL_ONE )
+            {
+                // Do nothing
+            }
+            else if ( bb2->bins[i] == ALL_ZERO )
+            {
+                bb1->bins[i] = ALL_ZERO;
+            }
+            else
+            {
+                bb1->bins[i] = bitClone( bb2->bins[i], bb1->bin_size );
+            }
+        }
+        else
+        {
+            bitAnd( bb1->bins[i], bb2->bins[i], bb1->bin_size );
+        }
+    }
+}
+
+void binBitsOr( struct BinBits *bb1, struct BinBits *bb2 )
+{
+    int i;    
+    assert( bb1->bin_size == bb2->bin_size && bb1->nbins == bb2->nbins && bb1->size == bb2->size );
+
+    for ( i = 0; i < bb1->nbins; i++ )
+    {
+        if ( bb1->bins[i] == ALL_ONE )
+        {
+            // Do nothing
+        }
+        else if ( bb2->bins[i] == ALL_ONE )
+        {
+            bitFree( &bb1->bins[i] );
+            bb1->bins[i] = ALL_ONE;
+        }
+        else if ( bb1->bins[i] == ALL_ZERO )
+        {
+            if ( bb2->bins[i] == ALL_ZERO )
+            {
+                // Do nothing
+            }
+            else if ( bb2->bins[i] == ALL_ONE )
+            {
+                bb1->bins[i] = ALL_ONE;
+            }
+            else
+            {
+                bb1->bins[i] = bitClone( bb2->bins[i], bb1->bin_size );
+            }
+        }
+        else
+        {
+            bitOr( bb1->bins[i], bb2->bins[i], bb1->bin_size );
+        }
+    }
+}
+
+void binBitsNot( struct BinBits *bb )
+{
+    int i;    
+
+    for ( i = 0; i < bb->nbins; i++ )
+    {
+        if ( bb->bins[i] == ALL_ONE )
+        {
+            bb->bins[i] = ALL_ZERO;
+        }
+        else if ( bb->bins[i] == ALL_ZERO )
+        {
+            bb->bins[i] = ALL_ONE;
+        }
+        else
+        {
+            bitNot( bb->bins[i], bb->bin_size );
+        }
+    }
 }

@@ -60,7 +60,35 @@ class AbstractTests( unittest.TestCase ):
         self.assertEquals( bits.next_clear( 11 ), 14 )
         self.assertEquals( bits.next_clear( 20 ), 75 )
         self.assertEquals( bits.next_clear( 92 ), 100 )
-       
+
+    def test_and( self ):
+        bits1 = self.new_bits( 100 )
+        bits2 = self.new_bits( 100 )
+        bits1.set_range( 20, 40 )
+        bits2.set_range( 50, 25 )
+        bits1.iand( bits2 )
+        l = [0]*100
+        for i in range( 50, 60 ): l[i] = 1
+        self.assert_bits( bits1, l )
+    
+    def test_or( self ):
+        bits1 = self.new_bits( 100 )
+        bits2 = self.new_bits( 100 )
+        bits1.set_range( 20, 40 )
+        bits2.set_range( 50, 25 )
+        bits1.ior( bits2 )
+        l = [0]*100
+        for i in range( 20, 75 ): l[i] = 1
+        self.assert_bits( bits1, l )
+        
+    def test_not( self ):
+        bits = self.new_bits( 100 )
+        bits.set_range( 20, 40 )
+        bits.invert()
+        l = [1]*100
+        for i in range( 20, 60 ): l[i] = 0
+        self.assert_bits( bits, l )
+        
 class BitsetTests( AbstractTests ):
     def new_bits( self, size ):
         return bx.bitset.BitSet( size ) 

@@ -52,7 +52,9 @@ cdef extern from "binBits.h":
     int binBitsCountRange( BinBits *bb, int start, int size )
     int binBitsFindSet( BinBits *bb, int start )
     int binBitsFindClear( BinBits *bb, int start )
-
+    void binBitsAnd( BinBits *bb1, BinBits *bb2 )
+    void binBitsOr( BinBits *bb1, BinBits *bb2 )
+    void binBitsNot( BinBits *bb )
 
 cdef class BitSet:
     cdef Bits * bits
@@ -98,7 +100,7 @@ cdef class BitSet:
     def ior( self, BitSet other ): 
         bitOr( self.bits, other.bits, self.bitCount )
 
-    def bitXor( self, BitSet other ): 
+    def ixor( self, BitSet other ): 
         bitXor( self.bits, other.bits, self.bitCount )
 
     def invert( self ):
@@ -146,3 +148,9 @@ cdef class BinnedBitSet:
     property size:
         def __get__( self ):
             return self.bb.size
+    def iand( self, BinnedBitSet other ):
+        binBitsAnd( self.bb, other.bb )
+    def ior( self, BinnedBitSet other ):
+        binBitsOr( self.bb, other.bb )
+    def invert( self ):
+        binBitsNot( self.bb )

@@ -21,5 +21,8 @@ void binBitsSetRange( struct BinBits *bb, int start, int size );
 int binBitsCountRange( struct BinBits *bb, int start, int size );
 int binBitsFindSet( struct BinBits *bb, int start );
 int binBitsFindClear( struct BinBits *bb, int start );
+void binBitsAnd( struct BinBits *bb1, struct BinBits *bb2 );
+void binBitsOr( struct BinBits *bb1, struct BinBits *bb2 );
+void binBitsNot( struct BinBits *bb );
 
 #endif
