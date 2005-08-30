@@ -1,7 +1,7 @@
 from bx.align import *
 
 import itertools
-import interval_index_file
+from bx import interval_index_file
 
 # Tools for dealing with multiple alignments in MAF format
 
