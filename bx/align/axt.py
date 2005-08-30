@@ -18,15 +18,13 @@ class MultiIndexed( object ):
 class Indexed( object ):
     """Indexed access to a axt using overlap queries, requires an index file"""
 
-    def __init__( self, axt_filename, index_filename=None, keep_open=False, species_to_lengths=None, primary_species = None, secondary_species=None ):
+    def __init__( self, axt_filename, index_filename=None, keep_open=False, species1 = None, species2=None, species_to_lengths=None ):
         if index_filename is None: index_filename = axt_filename + ".index"
         self.indexes = interval_index_file.Indexes( filename=index_filename )
         self.axt_filename = axt_filename
+        self.species1           = species1 or "species1"
+        self.species2           = species2 or "species2"
         self.species_to_lengths = species_to_lengths
-        if (primary_species   == None): primary_species   = "species1"
-        if (secondary_species == None): secondary_species = "species2"
-        self.primary_species    = primary_species
-        self.secondary_species  = secondary_species
         if keep_open:
             self.f = open( axt_filename )
         else:
@@ -39,29 +37,27 @@ class Indexed( object ):
     def get_axt_at_offset( self, offset ):
         if self.f:
             self.f.seek( offset )
-            return read_next_axt( self.f, self.primary_species, self.secondary_species, self.species_to_lengths )
+            return read_next_axt( self.f, self.species1, self.species2, self.species_to_lengths )
         else:
             f = open( self.axt_filename )
             try:
                 f.seek( offset )
-                return read_next_axt( f, self.primary_species, self.secondary_species, self.species_to_lengths )
+                return read_next_axt( f, self.species1, self.species2, self.species_to_lengths )
             finally:
                 f.close()
 
 class Reader( object ):
     """Iterate over all axt blocks in a file in order"""
     
-    def __init__( self, file, species_to_lengths=None, primary_species = None, secondary_species=None ):
+    def __init__( self, file, species1 = None, species2=None, species_to_lengths=None ):
         self.file = file
+        self.species1           = species1 or "species1"
+        self.species2           = species2 or "species2"
         self.species_to_lengths = species_to_lengths
-        if (primary_species   == None): primary_species   = "species1"
-        if (secondary_species == None): secondary_species = "species2"
-        self.primary_species    = primary_species
-        self.secondary_species  = secondary_species
         self.attributes = {}
 
     def next( self ):
-        return read_next_axt( self.file, self.primary_species, self.secondary_species, self.species_to_lengths )
+        return read_next_axt( self.file, self.species1, self.species2, self.species_to_lengths )
 
     def __iter__( self ):
         return ReaderIter( self )
@@ -119,7 +115,7 @@ class Writer( object ):
 # first species is always on plus strand
 # when second species is on minus strand, start and stop are counted from sequence end
 
-def read_next_axt( file, primary_species, secondary_species, species_to_lengths=None ):
+def read_next_axt( file, species1, species2, species_to_lengths=None ):
     line = readline( file, skip_blank=True )
     if not line: return
     fields = line.split()
@@ -130,10 +126,9 @@ def read_next_axt( file, primary_species, secondary_species, species_to_lengths=
     if not line or line.isspace(): raise "incomplete axt-block; header: %s" % line
     # Build 2 component alignment
     alignment = Alignment(species_to_lengths=species_to_lengths)
-    alignment.score = fields[8]
     # Build component for species 1
     component = Component()
-    component.src = "%s.%s" % (primary_species, fields[1])
+    component.src = "%s.%s" % (species1, fields[1])
     component.start = int( fields[2] ) - 1    # (axt intervals are origin-1
     end = int( fields[3] )                    #  and inclusive on both ends)
     component.size = end - component.start
@@ -142,13 +137,21 @@ def read_next_axt( file, primary_species, secondary_species, species_to_lengths=
     alignment.add_component( component )
     # Build component for species 2
     component = Component()
-    component.src = "%s.%s" % (secondary_species, fields[4])
+    component.src = "%s.%s" % (species2, fields[4])
     component.start = int( fields[5] ) - 1
     end = int( fields[6] )
     component.size = end - component.start
     component.strand = fields[7]
     component.text = seq2.strip()
     alignment.add_component( component )
+    # add score
+    try:
+        alignment.score = int( fields[8] )
+    except:
+        try:
+            alignment.score = float( fields[8] )
+        except:
+            alignment.score = fields[8]
     return alignment
 
 def readline( file, skip_blank=False ):
