@@ -15,7 +15,7 @@ class Alignment( object ):
         #   - a dict mapping chromosome names to their length
         # internally a file name is replaced by a dict, but only on an "as
         # needed" basis
-        self.score = 0
+        self.score = score
         self.text_size = 0
         self.attributes = attributes
         if species_to_lengths == None: self.species_to_lengths = {}
