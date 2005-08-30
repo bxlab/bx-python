@@ -17,8 +17,6 @@ import sys
 import copy
 import bx.align.axt
 import bx.align.maf
-true  = 1
-false = 0
 
 debug = []
 
@@ -106,8 +104,8 @@ def main():
 	axtsWritten = 0
 	for axtBlock in bx.align.axt.Reader(sys.stdin,\
 			species_to_lengths = speciesToLengths,
-			primary_species    = primary,
-			secondary_species  = secondary):
+			species1           = primary,
+			species2           = secondary):
 		axtsRead += 1
 
 		p = axtBlock.get_component_by_src_start(primary)
@@ -136,8 +134,7 @@ def read_lengths (fileName):
 
 	f = file (fileName, "r")
 
-	lineNumber = 0
-	for line in f:
+	for lineNumber,line in enumerate(f):
 		line = line.strip()
 		lineNumber += 1
 		if (line == ""): continue

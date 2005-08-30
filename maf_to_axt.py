@@ -17,8 +17,6 @@ import sys
 import copy
 import bx.align.maf
 import bx.align.axt
-true  = 1
-false = 0
 
 debug = []
 
