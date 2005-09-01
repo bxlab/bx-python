@@ -28,23 +28,6 @@ bitsets = binned_bitsets_from_file( open( in_fname ) )
 
 lens = read_len( open( len_fname ) )
 
-# chrom_col, start_col, end_col = 0, 1, 2
-# 
-# last_chrom = None
-# last_bitset = None
-# bitsets = dict() 
-# for line in open( in_fname ):
-#     fields = line.split()
-#     chrom = fields[chrom_col]
-#     if chrom != last_chrom:
-#         if chrom not in bitsets:
-#             bitsets[chrom] = BitSet( lens[chrom] ) 
-#         last_chrom = chrom
-#         last_bitset = bitsets[chrom]
-#     start, end = int( fields[start_col] ), int( fields[end_col] )
-#     if start > end: warn( "Interval start after end!" )
-#     last_bitset.set_range( start, end-start )
-
 for chrom in lens:
     if chrom in bitsets:
         bits = bitsets[chrom]
