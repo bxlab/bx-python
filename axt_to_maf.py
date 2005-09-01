@@ -136,7 +136,6 @@ def read_lengths (fileName):
 
 	for lineNumber,line in enumerate(f):
 		line = line.strip()
-		lineNumber += 1
 		if (line == ""): continue
 		if (line.startswith("#")): continue
 
