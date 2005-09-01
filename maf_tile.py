@@ -11,6 +11,7 @@ import psyco_full
 import cookbook.doc_optparse
 
 import bx.align.maf
+import bx.align as align
 from bx import misc
 import bx.seq.nib
 import os
@@ -44,7 +45,7 @@ def load_seq_db( fname ):
 
 def do_interval( sources, index, out, ref_src, start, end, seq_db ):
 
-    assert sources[0].split('.')[0] == ref_src.split('.')[0]
+    assert sources[0].split('.')[0] == ref_src.split('.')[0], "%s != %s" % ( sources[0].split('.')[0], ref_src.split('.')[0] )
 
     base_len = end - start
         
@@ -57,6 +58,7 @@ def do_interval( sources, index, out, ref_src, start, end, seq_db ):
     # print len( blocks )
     # print blocks[0]
     
+    ref_src_size = None
     for i, block in enumerate( blocks ):
         ref = block.get_component_by_src_start( ref_src )
         ref_src_size = ref.src_size
@@ -73,9 +75,9 @@ def do_interval( sources, index, out, ref_src, start, end, seq_db ):
 
     for ss, ee, index in intervals_from_mask( mask ):
         if index < 0:
-            tiled[0].append( bx.seq.nib.NibFile( open( seq_db[ ref.src ] ) ).get( start+ss, ee-ss ) )
+            tiled[0].append( bx.seq.nib.NibFile( open( seq_db[ ref_src ] ) ).get( start+ss, ee-ss ) )
             for row in tiled[1:]:
-                row.append( "*" * ( ee - ss ) )
+                row.append( "-" * ( ee - ss ) )
         else:
             slice_start = start + ss
             slice_end = start + ee
@@ -96,6 +98,7 @@ def do_interval( sources, index, out, ref_src, start, end, seq_db ):
         text = "".join( tiled[i] )
         size = len( text ) - text.count( "-" )
         if i == 0:
+            if ref_src_size is None: ref_src_size = bx.seq.nib.NibFile( open( seq_db[ ref_src ] ) ).length
             c = align.Component( ref_src, start, end-start, "+", ref_src_size, text )
         else:
             c = align.Component( name + ".fake", 0, size, "?", size, text )
