@@ -52,7 +52,7 @@ def main():
                     count += 1
                     max_score = max( score, max_score )
                     min_score = min( score, min_score )
-        if total > 0:
+        if count > 0:
             avg = total/count
         else:
             avg = "nan"
