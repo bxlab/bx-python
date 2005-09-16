@@ -148,6 +148,9 @@ cdef class BinnedBitSet:
     property size:
         def __get__( self ):
             return self.bb.size
+    property bin_size:
+        def __get__( self ):
+            return self.bb.bin_size
     def iand( self, BinnedBitSet other ):
         binBitsAnd( self.bb, other.bb )
     def ior( self, BinnedBitSet other ):
@@ -159,7 +162,7 @@ cdef class BinnedBitSet:
 
 from warnings import warn
 
-def binned_bitsets_from_file( f, chrom_col=0, start_col=1, end_col=2, upstream_pad=0, downstream_pad=0 ):
+def binned_bitsets_from_file( f, chrom_col=0, start_col=1, end_col=2, upstream_pad=0, downstream_pad=0, lens={} ):
     """Read a file into a dictionary of bitsets"""
     last_chrom = None
     last_bitset = None
@@ -169,7 +172,11 @@ def binned_bitsets_from_file( f, chrom_col=0, start_col=1, end_col=2, upstream_p
         chrom = fields[chrom_col]
         if chrom != last_chrom:
             if chrom not in bitsets:
-                bitsets[chrom] = BinnedBitSet() 
+                if chrom in lens:
+                    size = lens[chrom]
+                else:
+                    size = MAX
+                bitsets[chrom] = BinnedBitSet( size ) 
             last_chrom = chrom
             last_bitset = bitsets[chrom]
         start, end = int( fields[start_col] ), int( fields[end_col] )

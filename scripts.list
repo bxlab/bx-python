@@ -41,3 +41,4 @@ scores_to_h5.py
 tfloc_summary.py
 ucsc_gene_table_to_intervals.py
 wiggle_to_simple.py
+wiggle_to_binned_array.py

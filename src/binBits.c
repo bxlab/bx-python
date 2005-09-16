@@ -232,26 +232,22 @@ void binBitsAnd( struct BinBits *bb1, struct BinBits *bb2 )
         }
         else if ( bb2->bins[i] == ALL_ZERO )
         {
-            bitFree( &bb1->bins[i] );
+            if ( bb1->bins[i] != ALL_ONE )
+            {
+                bitFree( &bb1->bins[i] );
+            }
             bb1->bins[i] = ALL_ZERO;
+        }
+        else if ( bb2->bins[i] == ALL_ONE )
+        {
+            // Do nothing
         }
         else if ( bb1->bins[i] == ALL_ONE )
         {
-            if ( bb2->bins[i] == ALL_ONE )
-            {
-                // Do nothing
-            }
-            else if ( bb2->bins[i] == ALL_ZERO )
-            {
-                bb1->bins[i] = ALL_ZERO;
-            }
-            else
-            {
-                bb1->bins[i] = bitClone( bb2->bins[i], bb1->bin_size );
-            }
+            bb1->bins[i] = bitClone( bb2->bins[i], bb1->bin_size );
         }
         else
-        {
+        {            
             bitAnd( bb1->bins[i], bb2->bins[i], bb1->bin_size );
         }
     }
@@ -270,23 +266,19 @@ void binBitsOr( struct BinBits *bb1, struct BinBits *bb2 )
         }
         else if ( bb2->bins[i] == ALL_ONE )
         {
-            bitFree( &bb1->bins[i] );
+            if ( bb1->bins[i] != ALL_ZERO )
+            {
+                bitFree( &bb1->bins[i] );
+            }
             bb1->bins[i] = ALL_ONE;
+        }
+        else if ( bb2->bins[i] == ALL_ZERO )
+        {
+            // Do nothing
         }
         else if ( bb1->bins[i] == ALL_ZERO )
         {
-            if ( bb2->bins[i] == ALL_ZERO )
-            {
-                // Do nothing
-            }
-            else if ( bb2->bins[i] == ALL_ONE )
-            {
-                bb1->bins[i] = ALL_ONE;
-            }
-            else
-            {
-                bb1->bins[i] = bitClone( bb2->bins[i], bb1->bin_size );
-            }
+            bb1->bins[i] = bitClone( bb2->bins[i], bb1->bin_size );
         }
         else
         {
