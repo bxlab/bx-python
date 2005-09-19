@@ -1,12 +1,13 @@
-from distutils.core import setup
-from distutils.extension import Extension
-from Pyrex.Distutils import build_ext
+# Automatically download setuptools if not available
+from ez_setup import use_setuptools
+use_setuptools()
 
+from setuptools import *
+
+# Names of all command line scripts
 scripts = open( "scripts.list" ).read().split()
-all_packages = open( "packages.list" ).read().split()
-py_packages = [ p[:-3] for p in all_packages if p.endswith( ".py" ) ]
-packages = [ p for p in all_packages if not p.endswith( ".py" ) ]
 
+# Some extensions depend on code from UCSC
 UCSC_CVS="/home/james/projects/ucsc-genome-cvs/"
 JK_LIB= UCSC_CVS + "kent/src/lib/"
 JK_INC= UCSC_CVS + "kent/src/inc/"
@@ -14,9 +15,14 @@ JK_INC= UCSC_CVS + "kent/src/inc/"
 bitset_deps = 'bits.c', 'common.c', 'memalloc.c', 'dlist.c', 'errabort.c', 'osunix.c', 'wildcmp.c'
 
 setup(  name = "python-bio-tools",
-        py_modules = py_packages,
-        packages = packages,
-        scripts = open( "scripts.list" ).read().split(),
+        version = "0.1.0",
+        py_modules = [ 'psyco_full' ],
+        packages = find_packages(),
+        scripts = scripts,
         ext_modules=[ Extension( "bx.bitset", [ "bx/bitset.pyx", "src/binBits.c" ] + [ JK_LIB + f for f in bitset_deps ], include_dirs=[JK_INC, "src"] ) ],
-        cmdclass = {'build_ext': build_ext}
+        test_suite="tests.suite",
+        author = "James Taylor, Bob Harris, David King, and others in Webb Miller's Lab",
+        author_email = "james@bx.psu.edu",
+        description = "Tools for manipulating biological data, particularly multiple sequence alignments",
+        url = "http://www.bx.psu.edu/miller_lab/"
      )
