@@ -24,7 +24,17 @@ def build_scoring_scheme( s, gap_open, gap_extend ):
             ss.set_score( ord( chars[i].upper() ), ord( chars[j].upper() ), score )
     return ss
             
-def score( scoring_scheme, text1, text2 ):
+def score_alignment( scoring_scheme, a ):
+    score = 0
+    ncomps = len( a.components )
+    for i in range( ncomps ):
+        for j in range( i+1, ncomps ):
+            score += score_texts( scoring_scheme, a.components[i].text, a.components[j].text )
+            print "."
+    return score
+    
+
+def score_texts( scoring_scheme, text1, text2 ):
     rval = 0
     last_gap = False
     for i in range( len( text1 ) ):
