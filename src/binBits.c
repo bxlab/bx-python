@@ -95,25 +95,26 @@ void binBitsSetRange( struct BinBits *bb, int start, int size )
     {
         bin = binBitsGetBin( bb, start );  
         offset = binBitsGetOffset( bb, start );
+        delta = bb->bin_size - offset;
         if ( bb->bins[bin] == ALL_ZERO )
         {
             bb->bins[bin] = bitAlloc( bb->bin_size );   
         }
-        else if ( bb->bins[bin] == ALL_ONE )
-        {
-            bb->bins[bin] = bitAlloc( bb->bin_size );
-            bitSetRange( bb->bins[bin], 0, bb->bin_size );
-        }
-        delta = bb->bin_size - offset;
         if ( delta < size )
         {
-            bitSetRange( bb->bins[bin], offset, delta );
+            if ( bb->bins[bin] != ALL_ONE )
+            {
+                bitSetRange( bb->bins[bin], offset, delta );
+            }
             size -= delta;
             start += delta;
         }
         else
         {
-            bitSetRange( bb->bins[bin], offset, size );
+            if ( bb->bins[bin] != ALL_ONE )
+            {
+                bitSetRange( bb->bins[bin], offset, size );
+            }
             size = 0;
         }
     }
