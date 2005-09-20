@@ -39,11 +39,13 @@ def score_texts( scoring_scheme, text1, text2 ):
     for i in range( len( text1 ) ):
         a = text1[i]
         b = text2[i]
+        if a == '-' and b == '-': continue # ignore gap/gap pair
         if a == '-' or b == '-':
             rval -= scoring_scheme.gap_extend
-            if not last_gap:
+            if not (last_gap and (a == '-') == gap_on_a):
                 rval -= scoring_scheme.gap_open
                 last_gap = True
+                gap_on_a = (a == '-')
         else:   
             rval += scoring_scheme.table[ord(a),ord(b)]
             last_gap = False

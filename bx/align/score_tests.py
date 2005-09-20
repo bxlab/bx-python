@@ -6,9 +6,18 @@ import unittest
 aligns = [ ( "CCACTAGTTTTTAAATAATCTACTATCAAATAAAAGATTTGTTAATAATAAATTTTAAATCATTAACACTT",
              "CCATTTGGGTTCAAAAATTGATCTATCA----------TGGTGGATTATTATTTAGCCATTAAGGACAAAT", 
              -111 ),
+           ( "CCACTAGTTTTTAAATAATCTAC-----AATAAAAGATTTGTTAATAAT---AAATTTTAAATCATTAA-----CACTT",
+             "CCATTTGGGTTCAAAAATTGATCTATCA----------TGGTGGAT---TATTATTT-----AGCCATTAAGGACAAAT", 
+             -3626 ),
+           ( "CCACTAGTTTTTGATTC",
+             "CCATTTGGGTTC-----", 
+             -299 ),
+           ( "CTTAGTTTTTGATCACC",
+             "-----CTTGGGTTTACC", 
+             -299 ),
            ( "gggaattgaacaatgagaacacatggacacaggaaggggaacatcacacacc----------ggggcctgttgtggggtggggggaag",
              "ggaactagaacaagggagacacatacaaacaacaacaacaacaacacagcccttcccttcaaagagcttatagtctgatggaggagag",
-             1690 )   
+             1690 )
          ]
 
 mafs = """##maf
