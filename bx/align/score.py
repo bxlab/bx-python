@@ -1,8 +1,8 @@
 from Numeric import *
 
 class ScoringScheme( object ):
-    def __init__( self, gap_open, gap_extend, input_size=128, default=-100, typecode=Int16 ):
-        self.table = zeros( (input_size, input_size) )
+    def __init__( self, gap_open, gap_extend, input_size=128, default=-100, typecode=Int ):
+        self.table = zeros( (input_size, input_size), typecode=typecode )
         self.table *= default
         self.gap_open = gap_open
         self.gap_extend = gap_extend
@@ -30,7 +30,6 @@ def score_alignment( scoring_scheme, a ):
     for i in range( ncomps ):
         for j in range( i+1, ncomps ):
             score += score_texts( scoring_scheme, a.components[i].text, a.components[j].text )
-            print "."
     return score
     
 
