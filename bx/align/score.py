@@ -32,25 +32,79 @@ def score_alignment( scoring_scheme, a ):
             score += score_texts( scoring_scheme, a.components[i].text, a.components[j].text )
     return score
     
-
 def score_texts( scoring_scheme, text1, text2 ):
     rval = 0
-    last_gap = False
+    last_gap_a = last_gap_b = False
     for i in range( len( text1 ) ):
         a = text1[i]
         b = text2[i]
-        if a == '-' and b == '-': continue # ignore gap/gap pair
-        if a == '-' or b == '-':
+        # Ignore gap/gap pair
+        if a == '-' and b == '-': 
+            continue
+        # Gap in first species
+        elif a == '-':
             rval -= scoring_scheme.gap_extend
-            if not (last_gap and (a == '-') == gap_on_a):
-                rval -= scoring_scheme.gap_open
-                last_gap = True
-                gap_on_a = (a == '-')
+            if not last_gap_a:
+               rval -= scoring_scheme.gap_open
+               last_gap_a = True
+               last_gap_b = False
+        # Gap in second species
+        elif b == '-':
+            rval -= scoring_scheme.gap_extend
+            if not last_gap_b:
+               rval -= scoring_scheme.gap_open
+               last_gap_a = False
+               last_gap_b = True
+        # Aligned base
         else:   
             rval += scoring_scheme.table[ord(a),ord(b)]
-            last_gap = False
+            last_gap_a = last_gap_b = False
     return rval
-            
+
+def accumulate_scores( scoring_scheme, text1, text2, skip_ref_gaps=False ):
+    """
+    Return cumulative scores for each position in alignment as a Numeric array.
+    
+    If `skip_ref_gaps` is False positions in returned array correspond to each
+    column in alignment, if True they correspond to each non-gap position (each
+    base) in text1.
+    """
+    if skip_ref_gaps:
+        rval = zeros( len( text1 ) - text1.count( '-' ) )
+    else:
+        rval = zeros( len( text1 ) )
+    score = 0
+    pos = 0
+    last_gap_a = last_gap_b = False
+    for i in range( len( text1 ) ):
+        a = text1[i]
+        b = text2[i]
+        # Ignore gap/gap pair
+        if a == '-' and b == '-': 
+            continue
+        # Gap in first species
+        elif a == '-':
+            score -= scoring_scheme.gap_extend
+            if not last_gap_a:
+               score -= scoring_scheme.gap_open
+               last_gap_a = True
+               last_gap_b = False
+        # Gap in second species
+        elif b == '-':
+            score -= scoring_scheme.gap_extend
+            if not last_gap_b:
+               score -= scoring_scheme.gap_open
+               last_gap_a = False
+               last_gap_b = True
+        # Aligned base
+        else:   
+            score += scoring_scheme.table[ord(a),ord(b)]
+            last_gap_a = last_gap_b = False
+        if not( skip_ref_gaps ) or a != '-':
+            rval[pos] = score
+            pos += 1
+    return rval
+
 hox70 = build_scoring_scheme( """  A    C    G    T
                                   91 -114  -31 -123
                                 -114  100 -125  -31

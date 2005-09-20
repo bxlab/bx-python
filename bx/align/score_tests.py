@@ -3,6 +3,8 @@ import bx.align.maf
 import StringIO
 import unittest
 
+from Numeric import array, cumsum
+
 aligns = [ ( "CCACTAGTTTTTAAATAATCTACTATCAAATAAAAGATTTGTTAATAATAAATTTTAAATCATTAACACTT",
              "CCATTTGGGTTCAAAAATTGATCTATCA----------TGGTGGATTATTATTTAGCCATTAAGGACAAAT", 
              -111 ),
@@ -41,6 +43,13 @@ class BasicTests( unittest.TestCase ):
         ss = bx.align.score.hox70
         for block in bx.align.maf.Reader( StringIO.StringIO( mafs ) ):
             self.assertEquals( bx.align.score.score_alignment( ss, block ), float( block.score ) )
+            
+    def test_accumulate( self ):
+        ss = bx.align.score.hox70
+        self.assertEquals( bx.align.score.accumulate_scores( ss, "-----CTTT", "CTTAGTTTA"  ),
+                           cumsum( array( [ -430, -30, -30, -30, -30, -31, 91, 91, -123 ] ) ) )
+        self.assertEquals( bx.align.score.accumulate_scores( ss, "-----CTTT", "CTTAGTTTA", skip_ref_gaps=True ),
+                           cumsum( array( [ -581, 91, 91, -123 ] ) ) )
             
 test_classes = [ BasicTests ]
 suite = unittest.TestSuite( [ unittest.makeSuite( c ) for c in test_classes ] )
