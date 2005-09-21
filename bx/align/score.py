@@ -1,29 +1,102 @@
 from Numeric import *
 
 class ScoringScheme( object ):
-    def __init__( self, gap_open, gap_extend, input_size=128, default=-100, typecode=Int ):
-        self.table = zeros( (input_size, input_size), typecode=typecode )
+    def __init__( self, gap_open, gap_extend, default=-100, alphabet1="ACGT", alphabet2=None, gap1="-", gap2=None, text1_range=128, text2_range=None, typecode=Int ):
+        if (text2_range == None): text2_range = text1_range
+        if (alphabet2 == None): alphabet2 = alphabet1
+        if (gap2 == None): gap2 = gap1
+        if type(alphabet1) == str: alphabet1 = [ch for ch in alphabet1]
+        if type(alphabet2) == str: alphabet2 = [ch for ch in alphabet2]
+        self.table = zeros( (text1_range, text2_range), typecode=typecode )
         self.table *= default
         self.gap_open = gap_open
         self.gap_extend = gap_extend
+        self.gap1 = gap1
+        self.gap2 = gap2
+        self.alphabet1 = alphabet1
+        self.alphabet2 = alphabet2
     def set_score( self, a, b, val ):
         self.table[a,b] = val
-    
-def build_scoring_scheme( s, gap_open, gap_extend ):
+
+def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None ):
     """
     Initialize scoring scheme from a blastz style text blob, first line
     specifies the bases for each row/col, subsequent lines contain the
-    corresponding scores.
+    corresponding scores.  Slaw extensions allow for unusual and/or
+    asymmetric alphabets.  Symbols can be two digit hex, and each row
+    begins with symbol.  Note that a row corresponds to a symbol in text1
+    and a column to a symbol in text2.
+
+    examples:
+    
+       blastz                       slaw
+
+          A    C    G    T               01   02    A    C    G    T
+         91 -114  -31 -123          01  200 -200  -50  100  -50  100
+       -114  100 -125  -31          02 -200  200  100  -50  100  -50
+        -31 -125  100 -114
+       -123  -31 -114   91
     """
-    ss = ScoringScheme( gap_open, gap_extend )
+    # perform initial parse to determine alphabets and locate scores
+    bad_matrix = "invalid scoring matrix"
     lines = s.split( "\n" )
-    chars = lines[0].split()
-    for i, line in enumerate( lines[1:] ):
-        for j, score in enumerate( map( int, line.split() ) ):
-            ss.set_score( ord( chars[i].lower() ), ord( chars[j].lower() ), score )
-            ss.set_score( ord( chars[i].upper() ), ord( chars[j].upper() ), score )
+    rows  = []
+    symbols2 = lines.pop(0).split()
+    symbols1 = None
+    rows_have_syms = False
+    a_la_blastz = True
+    for i, line in enumerate( lines ):
+        row_scores = line.split()
+        if len( row_scores ) == len( symbols2 ):        # blastz-style row
+            if symbols1 == None:
+                if len( lines ) != len( symbols2 ):
+                    raise bad_matrix
+                symbols1 = symbols2
+            elif (rows_have_syms):
+                raise bad_matrix
+        elif len( row_scores ) == len( symbols2 ) + 1:  # row starts with symbol
+            if symbols1 == None:
+                symbols1 = []
+                rows_have_syms = True
+                a_la_blastz = False
+            elif not rows_have_syms:
+                raise bad_matrix
+            symbols1.append( row_scores.pop(0) )
+        else:
+            raise bad_matrix
+        rows.append( row_scores )
+    # convert alphabets from strings to characters
+    try:
+        alphabet1 = [sym_to_char( sym ) for sym in symbols1]
+        alphabet2 = [sym_to_char( sym ) for sym in symbols2]
+    except ValueError:
+        raise bad_matrix
+    if (alphabet1 != symbols1) or (alphabet2 != symbols2):
+        a_la_blastz = False
+    if a_la_blastz:
+        alphabet1 = [ch.upper() for ch in alphabet1]
+        alphabet2 = [ch.upper() for ch in alphabet2]
+    # create appropriately sized matrix
+    text1_range = text2_range = 128
+    if ord( max( alphabet1 ) ) >= 128: text1_range = 256
+    if ord( max( alphabet2 ) ) >= 128: text2_range = 256
+    ss = ScoringScheme( gap_open, gap_extend, alphabet1=alphabet1, alphabet2=alphabet2, gap1=gap1, gap2=gap2, text1_range=text1_range, text2_range=text2_range )
+    # fill matrix
+    for i, row_scores in enumerate( rows ):
+        for j, score in enumerate( map( int, row_scores ) ):
+            ss.set_score( ord( alphabet1[i] ), ord( alphabet2[j] ), score )
+            if a_la_blastz:
+                ss.set_score( ord( alphabet1[i].upper() ), ord( alphabet2[j].lower() ), score )
+                ss.set_score( ord( alphabet1[i].lower() ), ord( alphabet2[j].upper() ), score )
+                ss.set_score( ord( alphabet1[i].lower() ), ord( alphabet2[j].lower() ), score )
     return ss
-            
+
+# convert possible two-char symbol to a single character
+def sym_to_char( sym ):
+    if   len( sym ) == 1: return sym
+    elif len( sym ) != 2: raise ValueError
+    else:                 return chr(int(sym,base=16))
+
 def score_alignment( scoring_scheme, a ):
     score = 0
     ncomps = len( a.components )
@@ -39,17 +112,17 @@ def score_texts( scoring_scheme, text1, text2 ):
         a = text1[i]
         b = text2[i]
         # Ignore gap/gap pair
-        if a == '-' and b == '-': 
+        if a == scoring_scheme.gap1 and b == scoring_scheme.gap2: 
             continue
         # Gap in first species
-        elif a == '-':
+        elif a == scoring_scheme.gap1:
             rval -= scoring_scheme.gap_extend
             if not last_gap_a:
                rval -= scoring_scheme.gap_open
                last_gap_a = True
                last_gap_b = False
         # Gap in second species
-        elif b == '-':
+        elif b == scoring_scheme.gap2:
             rval -= scoring_scheme.gap_extend
             if not last_gap_b:
                rval -= scoring_scheme.gap_open
@@ -70,7 +143,7 @@ def accumulate_scores( scoring_scheme, text1, text2, skip_ref_gaps=False ):
     base) in text1.
     """
     if skip_ref_gaps:
-        rval = zeros( len( text1 ) - text1.count( '-' ) )
+        rval = zeros( len( text1 ) - text1.count( scoring_scheme.gap1 ) )
     else:
         rval = zeros( len( text1 ) )
     score = 0
@@ -80,17 +153,17 @@ def accumulate_scores( scoring_scheme, text1, text2, skip_ref_gaps=False ):
         a = text1[i]
         b = text2[i]
         # Ignore gap/gap pair
-        if a == '-' and b == '-': 
+        if a == scoring_scheme.gap1 and b == scoring_scheme.gap2: 
             continue
         # Gap in first species
-        elif a == '-':
+        elif a == scoring_scheme.gap1:
             score -= scoring_scheme.gap_extend
             if not last_gap_a:
                score -= scoring_scheme.gap_open
                last_gap_a = True
                last_gap_b = False
         # Gap in second species
-        elif b == '-':
+        elif b == scoring_scheme.gap2:
             score -= scoring_scheme.gap_extend
             if not last_gap_b:
                score -= scoring_scheme.gap_open
@@ -100,7 +173,7 @@ def accumulate_scores( scoring_scheme, text1, text2, skip_ref_gaps=False ):
         else:   
             score += scoring_scheme.table[ord(a),ord(b)]
             last_gap_a = last_gap_b = False
-        if not( skip_ref_gaps ) or a != '-':
+        if not( skip_ref_gaps ) or a != scoring_scheme.gap1:
             rval[pos] = score
             pos += 1
     return rval
