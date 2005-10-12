@@ -24,5 +24,6 @@ setup(  name = "python-bio-tools",
         author = "James Taylor, Bob Harris, David King, and others in Webb Miller's Lab",
         author_email = "james@bx.psu.edu",
         description = "Tools for manipulating biological data, particularly multiple sequence alignments",
-        url = "http://www.bx.psu.edu/miller_lab/"
+        url = "http://www.bx.psu.edu/miller_lab/",
+        zip_safe = True
      )

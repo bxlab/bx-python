@@ -83,7 +83,8 @@ cdef class BitSet:
     def get( self, index ):
         return bitReadOne( self.bits, index );
     
-    def count_range( self, start, count ):
+    def count_range( self, start=0, count=None ):
+        if count == None: count = self.bitCount
         return bitCountRange( self.bits, start, count )
 
     def next_set( self, start, end=None ):

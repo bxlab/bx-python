@@ -1,4 +1,5 @@
 import random
+#from bx import align
 
 # DNA reverse complement table
 DNA_COMP = "                                             -                  " \
