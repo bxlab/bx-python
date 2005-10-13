@@ -3,6 +3,7 @@ from bx.tracks import *
 from matplotlib.patches import *
 from matplotlib.transforms import *
 from matplotlib.colors import colorConverter
+from bx.matplotlib.extras import *
 
 from itertools import *
 
@@ -46,12 +47,20 @@ class AlignmentTrack( Track ):
             for underlay in self.underlays:
                 underlay.draw( comp.src, ax, trans )
             # Draw each character of the alignment onto the axes
-            for j, ch in enumerate( comp.text ):
-                ax.text( j + 0.5, 0.5, ch,
-                         verticalalignment='center', 
-                         horizontalalignment='center',
-                         transform=trans,
-                         fontdict=dict(family='monospace') )
+            cc = CharacterCollection( comp.text, 
+                                      [ j + 0.5 for j in range( len( comp.text ) ) ], 
+                                      0.5, 
+                                      horizontalalignment='center', 
+                                      verticalalignment='center' ) 
+            cc.fontproperties.set_family( 'monospace' )
+            cc.set_transform( trans )
+            ax.add_artist( cc )
+            ## for j, ch in enumerate( comp.text ):
+            ##   ax.text( j + 0.5, 0.5, ch,
+            ##             verticalalignment='center', 
+            ##             horizontalalignment='center',
+            ##             transform=trans,
+            ##             fontdict=dict(family='monospace') )
             # Add a label
             offset = ( nrows - i ) / (nrows+0.0) - ( 1 / ( 2.0 * nrows ) )
             ticklocs.append( offset )
