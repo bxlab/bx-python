@@ -47,7 +47,7 @@ def IntervalReader( f ):
             fields = line.split()
             pos = int( fields[0] )
             val = float( fields[1] )
-            yield current_chrom, pos, pos+current_span, val
+            yield current_chrom, pos, pos+current_span, strand, val
         elif mode == "fixedStep":
             val = float( line.split()[0] )
             current_pos += current_step
