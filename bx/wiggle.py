@@ -50,8 +50,8 @@ def IntervalReader( f ):
             yield current_chrom, pos, pos+current_span, val
         elif mode == "fixedStep":
             val = float( line.split()[0] )
-            pos = current_pos
-            yield current_chrom, pos, pos+current_span, strand, val
+            current_pos += current_step
+            yield current_chrom, current_pos, current_pos+current_span, strand, val
         else:
             raise "Unexpected input line: %s" % line.strip()
 
