@@ -34,7 +34,8 @@ def main():
         pwm[ wm.id ] = wm
 
     fbunch = {}
-    for scoremax in MafScorer(pwm, species, inmaf):
+    for scoremax,index in MafScorer(pwm, species, inmaf):
+        print >>sys.stderr, index
         for k,matrix in scoremax.items():
             fname = k + '.mx'
             if fname not in fbunch:
@@ -51,7 +52,11 @@ def main():
 
 def MafScorer(pwm,species,inmaf):
 
+    index = 0
+
     for maf in align.maf.Reader( inmaf ):
+        width = len(maf.components[0].text)
+
         # expand block rows to full
         mafBlockSpecies = [specName.src.split('.')[0] for specName in maf.components]
         alignlist = []
@@ -60,7 +65,7 @@ def MafScorer(pwm,species,inmaf):
                 i = mafBlockSpecies.index( sp )
                 alignlist.append( maf.components[i].text )
             except ValueError:
-                alignlist.append( [ NaN for n in range(len(maf.components[0].text)) ] )
+                alignlist.append( [ NaN for n in range( width ) ] )
         alignrows = pwmx.Align( alignlist )
         scoremax = {}
         # record gap positions
@@ -68,6 +73,7 @@ def MafScorer(pwm,species,inmaf):
         # score pwm models
         for model in pwm.keys():
             scoremax[model] = pwm[model].score_align( alignrows, filter )
-        yield scoremax
+        index += width
+        yield scoremax,index
 
 if __name__ == '__main__': main()
