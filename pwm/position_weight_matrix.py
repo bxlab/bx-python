@@ -37,9 +37,13 @@ class Align(object):
         self.nrows = len(seqrows)
         ncol = None
         for rownum,row in enumerate(self.rows):
-            if ncol == None: ncol = len(row)
-            elif ncol != len(row):
-                raise "Align: __init__:alignment block:row %d does not have %d columns, it has %d" % (rownum,ncol,len(row))
+            try:
+                if ncol == None: ncol = len(row)
+                elif ncol != len(row):
+                    raise "Align: __init__:alignment block:row %d does not have %d columns, it has %d" % (rownum,ncol,len(row))
+            except:
+                print row
+                raise ''
         self.ncols = ncol
         self.dims = (self.nrows,self.ncols)
 
@@ -326,20 +330,7 @@ class PositionWeightMatrix (object):
                 position_rsq.append( r / smallN )
         return position_rsq 
 
-    def score_align_gaps (self, align):
-
-        # a blank score matrix
-        nrows,ncols = align.dims
-        scoremax = AlignScoreMatrix( align ).matrix
-
-        for ir in range(nrows):
-            for pos in range(ncols):
-                if align.rows[ir][pos] == '-': scoremax[ir][pos] = 1
-                else: scoremax[ir][pos] = 0
-
-        return scoremax
-
-    def score_align (self,align):
+    def score_align (self,align,gapmask=None,byPosition=True):
 
         # a blank score matrix
         nrows,ncols = align.dims
@@ -348,6 +339,10 @@ class PositionWeightMatrix (object):
 
         minSeqLen = len( self )
         for ir in range(nrows):
+
+            # row is missing data
+            if isnan(align.rows[ir][0]): continue
+
             for start in range(ncols):
                 if align.rows[ir][start] == '-': continue
                 elif align.rows[ir][start] == 'n': continue
@@ -363,28 +358,26 @@ class PositionWeightMatrix (object):
                     if len(subseq) == minSeqLen: 
                         end = ic+1
 
+                        #forward
                         scores = self.score_seq( subseq )
                         raw,forward_score = scores[0]
-
+                        #reverse
                         scores = self.score_reverse_seq( subseq )
                         raw,reverse_score = scores[0]
 
                         score = max(forward_score, reverse_score)
 
                         # replace the alignment positions with the result
-                        if True:
+                        if byPosition:
                             scoremax[ir][start] = score
                         else:
+                        # replace positions matching the width of the pwm
                             for i in range(start,end):
                                 if isnan(scoremax[ir][i]): scoremax[ir][i] = score
                                 elif score > scoremax[ir][i]: scoremax[ir][i] = score
-                        #print subseq,scoremax
-                        #for x in range(len(scoremax)):
-                            #for y in range(len(scoremax[x])):
-                                #print "%.2f\t" % scoremax[x][y],
-                            #print
-            #print
-        gapmask = self.score_align_gaps(align)
+        # mask gap characters
+        if gapmask == None:
+            gapmask = score_align_gaps(align)
         putmask( scoremax, gapmask, float('nan') )
         return scoremax
         
@@ -488,6 +481,19 @@ class PositionWeightMatrix (object):
     def __setitem__ (self,key,value):
         self.rows[key] = value
 
+def score_align_gaps (align):
+    # a blank score matrix
+    nrows,ncols = align.dims
+    scoremax = AlignScoreMatrix( align ).matrix
+    for ir in range(nrows):
+        # row is missing data
+        if isnan(align.rows[ir][0]): continue
+        # scan for gaps
+        for pos in range(ncols):
+            if align.rows[ir][pos] == '-': scoremax[ir][pos] = 1
+            else: scoremax[ir][pos] = 0
+    return scoremax
+
 #-----------
 #
 # WeightMatrix Reader--
@@ -503,7 +509,7 @@ class PositionWeightMatrix (object):
 class Reader (object):
     """Iterate over all interesting weight matrices in a file"""
 
-    def __init__ (self,file,tfIds=None,name=None,format='transfac',background=None):
+    def __init__ (self,file,tfIds=None,name=None,format='basic',background=None):
         self.tfIds      = tfIds
         self.file       = file
         self.name       = name
@@ -619,8 +625,10 @@ class Reader (object):
         # clean up
         self.tfToPwm = None
 
-def isnan(m):
-    return not_equal(m,m)
+def isnan(x):
+    #return ieeespecial.isnan(x)
+    if x==x: return False
+    return True
 
 def reverse_complement (nukes):
     return nukes[::-1].translate(PositionWeightMatrix.complementMap)
