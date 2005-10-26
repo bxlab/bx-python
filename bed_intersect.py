@@ -11,7 +11,7 @@ usage: %prog bed_file_1 bed_file_2
 """
 import sys
 from warnings import warn
-from bx.bitset import binned_bitsets_from_file
+from bx.bitset_builders import binned_bitsets_from_file
 import cookbook.doc_optparse
 
 mincols = 1

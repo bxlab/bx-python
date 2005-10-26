@@ -8,6 +8,7 @@ usage: %prog bed_file chrom_length_file
 import sys
 from warnings import warn
 from bx.bitset import *
+from bx.bitset_builders import *
 import cookbook.doc_optparse
 
 def read_len( f ):
