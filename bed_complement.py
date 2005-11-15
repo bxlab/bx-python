@@ -1,15 +1,22 @@
 #!/usr/bin/env python
 
 """
-Complement the regions of a bed file
+Complement the regions of a bed file. Requires a file that maps source names
+to sizes. This should be in the simple LEN file format (each line contains
+a source name followed by a size, separated by whitespace).
 
 usage: %prog bed_file chrom_length_file
 """
+
 import sys
-from warnings import warn
+
 from bx.bitset import *
 from bx.bitset_builders import *
+
 import cookbook.doc_optparse
+
+import pkg_resources
+pkg_resources.require( "bx-python" )
 
 def read_len( f ):
     """Read a 'LEN' file and return a mapping from chromosome to length"""

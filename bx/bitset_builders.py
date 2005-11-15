@@ -1,14 +1,26 @@
 from warnings import warn
 from bx.bitset import *
 
-def binned_bitsets_from_file( f, chrom_col=0, start_col=1, end_col=2, upstream_pad=0, downstream_pad=0, lens={} ):
-    """Read a file into a dictionary of bitsets"""
+def binned_bitsets_from_file( f, chrom_col=0, start_col=1, end_col=2, strand_col=5, upstream_pad=0, downstream_pad=0, lens={} ):
+    """
+    Read a file into a dictionary of bitsets. The defaults arguments 
+    
+    - 'f' should be a file like object (or any iterable containing strings)
+    - 'chrom_col', 'start_col', and 'end_col' must exist in each line. 
+    - 'strand_col' is optional, any line without it will be assumed to be '+'
+    - if 'lens' is provided bitset sizes will be looked up from it, otherwise
+      chromosomes will be assumed to be the maximum size
+    """
     last_chrom = None
     last_bitset = None
     bitsets = dict() 
     for line in f:
-        if line.startswith("#"): continue
+        if line.startswith("#"):
+            continue
         fields = line.split()
+        strand = "+"
+        if len(fields) > strand_col:
+            if fields[strand_col] == "-": strand = "-"
         chrom = fields[chrom_col]
         if chrom != last_chrom:
             if chrom not in bitsets:
@@ -20,9 +32,13 @@ def binned_bitsets_from_file( f, chrom_col=0, start_col=1, end_col=2, upstream_p
             last_chrom = chrom
             last_bitset = bitsets[chrom]
         start, end = int( fields[start_col] ), int( fields[end_col] )
+        # Switch to '+' strand coordinates if not already
+        if strand == '-':
+            start = size - end
+            end = size - start
         if upstream_pad: start = max( 0, start - upstream_pad )
-        if downstream_pad: end = min( MAX, end + downstream_pad )
-#        if start > end: warn( "Interval start after end!" )
+        if downstream_pad: end = min( size, end + downstream_pad )
+        if start > end: warn( "Interval start after end!" )
         last_bitset.set_range( start, end-start )
     return bitsets
 

@@ -12,6 +12,9 @@ from warnings import warn
 from bx.bitset_builders import binned_bitsets_from_file
 import cookbook.doc_optparse
 
+import pkg_resources
+pkg_resources.require( "bx-python" )
+
 def read_len( f ):
     """Read a 'LEN' file and return a mapping from chromosome to length"""
     mapping = dict()

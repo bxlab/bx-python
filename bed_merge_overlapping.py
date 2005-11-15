@@ -1,15 +1,22 @@
 #!/usr/bin/env python
 
 """
-Merge any overlapping regions of bed files.
+Merge any overlapping regions of bed files. Bed files can be provided on the
+command line or on stdin. Merged regions are always reported on the '+' 
+strand, and any fields beyond chrom/start/stop are lost. 
 
 usage: %prog bed files ...
 """
 
 import psyco_full
 import sys
-from bx.bitset import BinnedBitSet
+
+from bx.bitset import *
+from bx.bitset_builders import *
 from itertools import *
+
+import pkg_resources
+pkg_resources.require( "bx-python" )
 
 bed_filenames = sys.argv[1:]
 if bed_filenames:
@@ -17,21 +24,7 @@ if bed_filenames:
 else:
     input = sys.stdin
 
-last_chrom = None
-last_bitset = None
-bitsets = dict() 
-
-for line in input:
-        if line.startswith("#") or line.startswith("track"): continue
-        fields = line.split()
-        if fields[0] != last_chrom:
-            if fields[0] not in bitsets:
-                bitsets[fields[0]] = BinnedBitSet()
-            last_chrom = fields[0]
-            last_bitset = bitsets[fields[0]]
-        start, end = int( fields[1] ), int( fields[2] )
-        if start > end: print >>sys.stderr, "Bed interval start after end: " + line.strip()
-        last_bitset.set_range( start, end-start )
+bitsets = binned_bitsets_from_file( input )
 
 for chrom in bitsets:
     bits = bitsets[chrom]

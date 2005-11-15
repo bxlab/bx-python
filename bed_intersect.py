@@ -4,15 +4,22 @@
 Find regions of first bed file that overlap regions in a second bed file
 
 usage: %prog bed_file_1 bed_file_2
-    -m, --mincols=N: Require this much overlap 
-    -u, --upstream_pad=N: upstream interval padding
-    -d, --downstream_pad=N: downstream interval padding
+    -m, --mincols=N: Require this much overlap (default 1bp)
+    -u, --upstream_pad=N: upstream interval padding (default 0bp)
+    -d, --downstream_pad=N: downstream interval padding (default 0bp)
     -v, --reverse: Print regions that DO NOT overlap
 """
+
 import sys
 from warnings import warn
-from bx.bitset_builders import binned_bitsets_from_file
+
+from bx.bitset import *
+from bx.bitset_builders import *
+
 import cookbook.doc_optparse
+
+import pkg_resources
+pkg_resources.require( "bx-python" )
 
 mincols = 1
 upstream_pad = 0

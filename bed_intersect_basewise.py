@@ -1,30 +1,20 @@
 #!/usr/bin/env python
 
 """
-Find regions of first bed file that overlap regions in a second bed file
+Find regions of first bed file that overlap regions in a second bed file. This
+program performs a base-by-base intersection, so only runs of bases that are
+covered in both of the inputs will be output.
 
 usage: %prog bed_file_1 bed_file_2
 """
 import sys
 from warnings import warn
-from bx.bitset import BinnedBitSet
+from bx.bitset import *
+from bx.bitset_builders import *
 import cookbook.doc_optparse
 
-def read_bed( f ):
-    last_chrom = None
-    last_bitset = None
-    bitsets = dict() 
-    for line in f:
-        fields = line.split()
-        if fields[0] != last_chrom:
-            if fields[0] not in bitsets:
-                bitsets[fields[0]] = BinnedBitSet() 
-            last_chrom = fields[0]
-            last_bitset = bitsets[fields[0]]
-        start, end = int( fields[1] ), int( fields[2] )
-        if start > end: warn( "Bed interval start after end!" )
-        last_bitset.set_range( start, end-start )
-    return bitsets   
+import pkg_resources
+pkg_resources.require( "bx-python" )
 
 options, args = cookbook.doc_optparse.parse( __doc__ )
 try:
@@ -32,8 +22,8 @@ try:
 except:
     cookbook.doc_optparse.exit()
 
-bits1 = read_bed( open( in_fname ) )
-bits2 = read_bed( open( in2_fname ) )
+bits1 = binned_bitsets_from_file( open( in_fname ) )
+bits2 = binned_bitsets_from_file( open( in2_fname ) )
 
 bitsets = dict()
 
