@@ -4,7 +4,7 @@ class ScoringScheme( object ):
     def __init__( self, gap_open, gap_extend, default=-100, alphabet1="ACGT", alphabet2=None, gap1="-", gap2=None, text1_range=128, text2_range=None, typecode=Int ):
         if (text2_range == None): text2_range = text1_range
         if (alphabet2 == None): alphabet2 = alphabet1
-        if (gap2 == None): gap2 = gap1
+        if (gap2 == None): gap2 = gap1 # (scheme with gap1=gap2=None is legit)
         if type(alphabet1) == str: alphabet1 = [ch for ch in alphabet1]
         if type(alphabet2) == str: alphabet2 = [ch for ch in alphabet2]
         self.table = zeros( (text1_range, text2_range), typecode=typecode )
@@ -17,6 +17,10 @@ class ScoringScheme( object ):
         self.alphabet2 = alphabet2
     def set_score( self, a, b, val ):
         self.table[a,b] = val
+	def score_alignment( self, a ):
+		return score_alignment(self,a)
+	def score_texts( self, text1, text2 ):
+		return score_texts( self, text1, text2 )
 
 def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None ):
     """
@@ -28,7 +32,7 @@ def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None ):
     and a column to a symbol in text2.
 
     examples:
-    
+
        blastz                       slaw
 
           A    C    G    T               01   02    A    C    G    T
@@ -39,6 +43,7 @@ def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None ):
     """
     # perform initial parse to determine alphabets and locate scores
     bad_matrix = "invalid scoring matrix"
+    s = s.rstrip( "\n" )
     lines = s.split( "\n" )
     rows  = []
     symbols2 = lines.pop(0).split()
