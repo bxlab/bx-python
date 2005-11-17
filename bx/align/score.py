@@ -21,6 +21,40 @@ class ScoringScheme( object ):
         return score_alignment(self,a)
     def score_texts( self, text1, text2 ):
         return score_texts( self, text1, text2 )
+    def __str__ (self):
+        isDna1 = "".join( self.alphabet1 ) == "ACGT"
+        isDna2 = "".join( self.alphabet2 ) == "ACGT"
+        labelRows = not ( isDna1 and isDna2 )
+        width = 3
+        for a in self.alphabet1:
+            for b in self.alphabet2:
+                score = self.table[ord(a),ord(b)]
+                if (type(score) == float): s = "%8.6f" % score
+                else:                      s = "%d"    % score
+                if (len(s)+1 > width):
+                    width = len(s)+1
+        lines = []
+        line = []
+        if labelRows:
+            if isDna1: line.append(" ")
+            else:      line.append("  ")
+        for b in self.alphabet2:
+            if isDna2: s = b
+            else:      s = "%02X" % ord(b)
+            line.append("%*s" % (width,s))
+        lines.append(("".join(line))+"\n")
+        for a in self.alphabet1:
+            line = []
+            if labelRows:
+                if isDna1: line.append(a)
+                else:      line.append("%02X" % ord(a))
+            for b in self.alphabet2:
+                score = self.table[ord(a),ord(b)]
+                if (type(score) == float): s = "%8.6f" % score
+                else:                      s = "%d"    % score
+                line.append("%*s" % (width,s))
+            lines.append(("".join(line))+"\n")
+        return "".join(lines)
 
 def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None ):
     """
@@ -85,16 +119,24 @@ def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None ):
     text1_range = text2_range = 128
     if ord( max( alphabet1 ) ) >= 128: text1_range = 256
     if ord( max( alphabet2 ) ) >= 128: text2_range = 256
-    ss = ScoringScheme( gap_open, gap_extend, alphabet1=alphabet1, alphabet2=alphabet2, gap1=gap1, gap2=gap2, text1_range=text1_range, text2_range=text2_range )
+    typecode = Int
+    for i, row_scores in enumerate( rows ):
+        for j, score in enumerate( map( int_or_float, row_scores ) ):
+            if type( score ) == float: typecode = Float
+    ss = ScoringScheme( gap_open, gap_extend, alphabet1=alphabet1, alphabet2=alphabet2, gap1=gap1, gap2=gap2, text1_range=text1_range, text2_range=text2_range, typecode=typecode )
     # fill matrix
     for i, row_scores in enumerate( rows ):
-        for j, score in enumerate( map( int, row_scores ) ):
+        for j, score in enumerate( map( int_or_float, row_scores ) ):
             ss.set_score( ord( alphabet1[i] ), ord( alphabet2[j] ), score )
             if a_la_blastz:
                 ss.set_score( ord( alphabet1[i].upper() ), ord( alphabet2[j].lower() ), score )
                 ss.set_score( ord( alphabet1[i].lower() ), ord( alphabet2[j].upper() ), score )
                 ss.set_score( ord( alphabet1[i].lower() ), ord( alphabet2[j].lower() ), score )
     return ss
+
+def int_or_float(s):
+    try:    return int(s)
+    except: return float(s)
 
 # convert possible two-char symbol to a single character
 def sym_to_char( sym ):
