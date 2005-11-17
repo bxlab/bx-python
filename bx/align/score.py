@@ -17,10 +17,10 @@ class ScoringScheme( object ):
         self.alphabet2 = alphabet2
     def set_score( self, a, b, val ):
         self.table[a,b] = val
-	def score_alignment( self, a ):
-		return score_alignment(self,a)
-	def score_texts( self, text1, text2 ):
-		return score_texts( self, text1, text2 )
+    def score_alignment( self, a ):
+        return score_alignment(self,a)
+    def score_texts( self, text1, text2 ):
+        return score_texts( self, text1, text2 )
 
 def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None ):
     """
