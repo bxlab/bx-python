@@ -34,7 +34,7 @@ def main():
         pwm[ wm.id ] = wm
 
     fbunch = {}
-    for scoremax,index in MafScorer(pwm, species, inmaf):
+    for scoremax,index,headers in MafScorer(pwm, species, inmaf):
         print >>sys.stderr, index
         for k,matrix in scoremax.items():
             fname = k + '.mx'
@@ -53,27 +53,42 @@ def main():
 def MafScorer(pwm,species,inmaf):
 
     index = 0
-
     for maf in align.maf.Reader( inmaf ):
-        width = len(maf.components[0].text)
-
-        # expand block rows to full
-        mafBlockSpecies = [specName.src.split('.')[0] for specName in maf.components]
-        alignlist = []
-        for sp in species:
-            try:
-                i = mafBlockSpecies.index( sp )
-                alignlist.append( maf.components[i].text )
-            except ValueError:
-                alignlist.append( [ NaN for n in range( width ) ] )
-        alignrows = pwmx.Align( alignlist )
-        scoremax = {}
-        # record gap positions
-        filter = pwmx.score_align_gaps( alignrows )
-        # score pwm models
-        for model in pwm.keys():
-            scoremax[model] = pwm[model].score_align( alignrows, filter )
+        try:
+            scoremax,width,headers = MafBlockScorer(pwm,species,maf)
+        except:
+            print >>sys.stderr, "Failed on:"
+            syserr = align.maf.Writer( sys.stderr )
+            syserr.write( maf )
+            #print >>sys.stderr,headers
+            print >>sys.stderr,width
+            print >>sys.stderr,len(scoremax)
+            syserr.close()
+            sys.exit(1)
         index += width
-        yield scoremax,index
+        yield scoremax,index,headers
+
+def MafBlockScorer(pwm,species,maf):
+    width = len(maf.components[0].text)
+    headers = [ (c.src,c.start,c.end) for c in maf.components]
+
+    # expand block rows to full
+    mafBlockSpecies = [specName.src.split('.')[0] for specName in maf.components]
+    alignlist = []
+    for sp in species:
+        try:
+            i = mafBlockSpecies.index( sp )
+            alignlist.append( maf.components[i].text )
+        except ValueError:
+            alignlist.append( [ NaN for n in range( width ) ] )
+    alignrows = pwmx.Align( alignlist )
+    scoremax = {}
+    # record gap positions
+    filter = pwmx.score_align_gaps( alignrows )
+    # score pwm models
+    for model in pwm.keys():
+        #print >>sys.stderr,"%s_%d_%d" % headers[0],width,model
+        scoremax[model] = pwm[model].score_align( alignrows, filter )
+    yield scoremax,width,headers
 
 if __name__ == '__main__': main()
