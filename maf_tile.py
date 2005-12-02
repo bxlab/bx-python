@@ -4,6 +4,7 @@
 NOT YET CORRECT!!!
 
 usage: %prog start end maf_files...
+    -m, --missingData: Inserts wildcards for missing block rows instead of '-'
 """
 
 import psyco_full
@@ -22,15 +23,20 @@ tree_tx = string.maketrans( "(),", "   " )
 
 def main():
 
-    sources = sys.argv[1].translate( tree_tx ).split()
-    seq_db = load_seq_db( sys.argv[2] )
-    index = bx.align.maf.MultiIndexed( sys.argv[3:] )
+    options, args = cookbook.doc_optparse.parse( __doc__ )
+    try:
+        sources = args[0].translate( tree_tx ).split()
+        seq_db = load_seq_db( args[1] )
+        index = bx.align.maf.MultiIndexed( args[2:] )
 
-    out = bx.align.maf.Writer( sys.stdout )
+        out = bx.align.maf.Writer( sys.stdout )
+        missing_data = bool(options.missingData)
+    except:
+        cookbook.doc_optparse.exit()
 
     for line in sys.stdin:
         ref_src, start, end = line.split()[0:3]
-        do_interval( sources, index, out, ref_src, int( start ), int( end ), seq_db )
+        do_interval( sources, index, out, ref_src, int( start ), int( end ), seq_db, missing_data )
 
     out.close()
 
@@ -43,7 +49,7 @@ def load_seq_db( fname ):
         db[src]=seq.strip()
     return db
 
-def do_interval( sources, index, out, ref_src, start, end, seq_db ):
+def do_interval( sources, index, out, ref_src, start, end, seq_db, missing_data ):
 
     assert sources[0].split('.')[0] == ref_src.split('.')[0], "%s != %s" % ( sources[0].split('.')[0], ref_src.split('.')[0] )
 
@@ -68,7 +74,7 @@ def do_interval( sources, index, out, ref_src, start, end, seq_db ):
         for j in range( slice_start, slice_end ):
             mask[j-start] = i
 
-    #print mask
+    #print >>sys.stderr, mask
 
     tiled = []
     for i in range( len( sources ) ): tiled.append( [] )
@@ -77,7 +83,10 @@ def do_interval( sources, index, out, ref_src, start, end, seq_db ):
         if index < 0:
             tiled[0].append( bx.seq.nib.NibFile( open( seq_db[ ref_src ] ) ).get( start+ss, ee-ss ) )
             for row in tiled[1:]:
-                row.append( "-" * ( ee - ss ) )
+                if missing_data: 
+                    row.append( "*" * ( ee - ss ) )
+                else: 
+                    row.append( "-" * ( ee - ss ) )
         else:
             slice_start = start + ss
             slice_end = start + ee
@@ -91,7 +100,8 @@ def do_interval( sources, index, out, ref_src, start, end, seq_db ):
                 if comp:
                     tiled[i].append( comp.text )
                 else:
-                    tiled[i].append( "-" * sliced.text_size )
+                    if missing_data: tiled[i].append( "*" * sliced.text_size )
+                    else: tiled[i].append( "-" * sliced.text_size )
         
     a = align.Alignment()
     for i, name in enumerate( sources ):
