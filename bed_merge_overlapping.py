@@ -24,7 +24,7 @@ if bed_filenames:
 else:
     input = sys.stdin
 
-bitsets = binned_bitsets_from_file( input )
+bitsets = binned_bitsets_from_bed_file( input )
 
 for chrom in bitsets:
     bits = bitsets[chrom]

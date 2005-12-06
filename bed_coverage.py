@@ -10,6 +10,7 @@ usage: %prog bed files ...
 import psyco_full
 import sys
 from bx.bitset import BinnedBitSet
+from bx.bitset_builders import *
 from itertools import *
 
 import pkg_resources
@@ -21,7 +22,7 @@ if bed_filenames:
 else:
     input = sys.stdin
 
-bitsets = binned_bitsets_from_file( open( in_fname ) )
+bitsets = binned_bitsets_from_file( input )
 
 total = 0
 for chrom in bitsets:

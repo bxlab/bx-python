@@ -5,6 +5,7 @@ bed_intersect_basewise.py
 bed_merge_overlapping.py
 bed_coverage.py
 bed_complement.py
+bed_subtract_basewise.py
 find_in_sorted_file.py
 int_seqs_to_char_strings.py
 interval_count_intersections.py

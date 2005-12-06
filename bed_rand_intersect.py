@@ -45,7 +45,7 @@ def throw_random_2( lengths, mask ):
         for gap in gaps:
             if gap[0] >= length:
                 max_candidate += 1
-                candidate_bases += ( gap[0] - length + 1 )
+                candidate_bases += ( gap[0] - length )
             else: 
                 break
         if max_candidate == 0:
@@ -56,8 +56,8 @@ def throw_random_2( lengths, mask ):
         chosen_index = 0
         for gap in gaps:
             gap_length, gap_start, gap_end = gap
-            if s > ( gap_length - length + 1 ):
-                s -= ( gap_length - length + 1 )
+            if s > ( gap_length - length ):
+                s -= ( gap_length - length )
                 chosen_index += 1
             else:
                 break

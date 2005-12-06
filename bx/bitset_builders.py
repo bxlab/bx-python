@@ -1,5 +1,6 @@
 from warnings import warn
 from bx.bitset import *
+import re
 
 def binned_bitsets_from_file( f, chrom_col=0, start_col=1, end_col=2, strand_col=5, upstream_pad=0, downstream_pad=0, lens={} ):
     """
@@ -15,7 +16,7 @@ def binned_bitsets_from_file( f, chrom_col=0, start_col=1, end_col=2, strand_col
     last_bitset = None
     bitsets = dict() 
     for line in f:
-        if line.startswith("#"):
+        if line.startswith("#") or line.isspace():
             continue
         fields = line.split()
         strand = "+"
@@ -32,6 +33,57 @@ def binned_bitsets_from_file( f, chrom_col=0, start_col=1, end_col=2, strand_col
             last_chrom = chrom
             last_bitset = bitsets[chrom]
         start, end = int( fields[start_col] ), int( fields[end_col] )
+        if upstream_pad: start = max( 0, start - upstream_pad )
+        if downstream_pad: end = min( size, end + downstream_pad )
+        if start > end: warn( "Interval start after end!" )
+        last_bitset.set_range( start, end-start )
+    return bitsets
+
+def binned_bitsets_from_bed_file( f, chrom_col=0, start_col=1, end_col=2, strand_col=5, upstream_pad=0, downstream_pad=0, lens={} ):
+    """
+    Read a file into a dictionary of bitsets. The defaults arguments 
+    
+    - 'f' should be a file like object (or any iterable containing strings)
+    - 'chrom_col', 'start_col', and 'end_col' must exist in each line. 
+    - 'strand_col' is optional, any line without it will be assumed to be '+'
+    - if 'lens' is provided bitset sizes will be looked up from it, otherwise
+      chromosomes will be assumed to be the maximum size
+    """
+    last_chrom = None
+    last_bitset = None
+    bitsets = dict() 
+    offset = 0
+    for line in f:
+        if line.startswith("#") or line.isspace():
+            continue
+        # Ignore browser lines completely
+        if line.startswith( "browser" ):
+            continue
+        # Need to check track lines due to the offset 
+        if line.startswith( "track" ):
+            m = re.search( "offset=(\d+)", line )
+            if m and m.group( 1 ):
+                offset = int( m.group(1) )
+            continue
+        fields = line.split()
+        strand = "+"
+        if len(fields) > strand_col:
+            if fields[strand_col] == "-": strand = "-"
+        chrom = fields[chrom_col]
+        if chrom != last_chrom:
+            if chrom not in bitsets:
+                if chrom in lens:
+                    size = lens[chrom]
+                else:
+                    size = MAX
+                bitsets[chrom] = BinnedBitSet( size ) 
+            last_chrom = chrom
+            last_bitset = bitsets[chrom]
+        start, end = int( fields[start_col] ) + offset, int( fields[end_col] ) + offset
+        # Switch to '+' strand coordinates if not already
+        if strand == '-':
+            start = size - end
+            end = size - start
         if upstream_pad: start = max( 0, start - upstream_pad )
         if downstream_pad: end = min( size, end + downstream_pad )
         if start > end: warn( "Interval start after end!" )

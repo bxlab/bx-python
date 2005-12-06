@@ -15,14 +15,6 @@ import cookbook.doc_optparse
 import pkg_resources
 pkg_resources.require( "bx-python" )
 
-def read_len( f ):
-    """Read a 'LEN' file and return a mapping from chromosome to length"""
-    mapping = dict()
-    for line in f:
-        fields = line.split()
-        mapping[ fields[0] ] = int( fields[1] )
-    return mapping
-
 def print_bits_as_bed( bits ):
     end = 0
     while 1:
@@ -33,16 +25,14 @@ def print_bits_as_bed( bits ):
 
 options, args = cookbook.doc_optparse.parse( __doc__ )
 try:
-    in_fname, in2_fname, len_fname = args
+    in_fname, in2_fname = args
 except:
     cookbook.doc_optparse.exit()
 
-lens = read_len( open( len_fname ) )
-
 # Read first bed into some bitsets
 
-bitsets1 = binned_bitsets_from_file( open( in_fname ), lens=lens )
-bitsets2 = binned_bitsets_from_file( open( in2_fname ), lens=lens )
+bitsets1 = binned_bitsets_from_file( open( in_fname ) )
+bitsets2 = binned_bitsets_from_file( open( in2_fname ) )
 
 for chrom in bitsets1:  
     if chrom not in bitsets1:

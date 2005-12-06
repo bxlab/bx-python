@@ -76,6 +76,11 @@ cdef class BitSet:
 
     def clear( self, index ):
         bitClearOne( self.bits, index )
+        
+    def clone( self ):
+        other = BitSet( self.bitCount )
+        other.ior( self )
+        return other
 
     def set_range( self, start, count ):   
         bitSetRange( self.bits, start, count )
