@@ -32,7 +32,7 @@ false = 0
 ENCODE_NONCODING_BACKGROUND = { 'A':0.2863776,'T':0.2878264,'G':0.2128400,'C':0.2129560}
 
 class Align(object):
-    def __init__ (self, seqrows):
+    def __init__ (self, seqrows, headers=None):
         self.rows = seqrows
         self.nrows = len(seqrows)
         ncol = None
@@ -46,6 +46,7 @@ class Align(object):
                 raise ''
         self.ncols = ncol
         self.dims = (self.nrows,self.ncols)
+        self.headers = headers
 
 class AlignScoreMatrix (object):
     def __init__(self,align):
@@ -60,10 +61,83 @@ class AlignScoreMatrix (object):
     def __str__(self):
         print self.matrix
 
+def score_align_motif (align,motif,gapmask=None,byPosition=True):
+
+    #dbg
+    #print >>sys.stderr, align.headers
+    chr,chr_start,chr_stop = align.headers[0]
+
+    # a blank score matrix
+    nrows,ncols = align.dims
+    ascoremax = AlignScoreMatrix( align )
+    scoremax = ascoremax.matrix
+
+    minSeqLen = len( motif )
+    for ir in range(nrows):
+
+        # row is missing data
+        if isnan(align.rows[ir][0]): continue
+
+        for start in range(ncols):
+            if align.rows[ir][start] == '-': continue
+            elif align.rows[ir][start] == 'n': continue
+            elif align.rows[ir][start] == 'N': continue
+
+            # get enough sequence for the weight matrix
+            subseq = ""
+            end = 0
+            for ic in range(start,ncols):
+
+                char = align.rows[ir][ic].upper()
+                if char == '-' or char == 'N': continue
+                else: subseq += char
+
+                if len(subseq) == minSeqLen: 
+                    end = ic+1
+                    for_score = int( match_consensus(subseq,motif) )
+                    revseq = reverse_complement( subseq )
+                    rev_score = int( match_consensus(revseq,motif) )
+
+                    score = max(for_score, rev_score)
+                    #dbg
+                    #if ir == 0: print >>sys.stderr, int(chr_start) + start - align.rows[ir].count('-',0,start), subseq, score
+
+                    # replace the alignment positions with the result
+                    if byPosition:
+                        scoremax[ir][start] = score
+                    else:
+                    # replace positions matching the width of the pwm
+                        for i in range(start,end):
+                            if isnan(scoremax[ir][i]): scoremax[ir][i] = score
+                            elif score > scoremax[ir][i]: scoremax[ir][i] = score
+    # mask gap characters
+    if gapmask == None:
+        gapmask = score_align_gaps(align)
+    putmask( scoremax, gapmask, float('nan') )
+    return scoremax
+
 class PositionWeightMatrix (object):
     complementMap = string.maketrans("ACGTacgt","TGCAtgca")
 
+    # IUPAC-IUB 
+    symbols = {
+        'A':Set(['A']),
+        'C':Set(['C']),
+        'G':Set(['G']),
+        'T':Set(['T']),
+        'R':Set(['A','G']),
+        'Y':Set(['C','T']),
+        'M':Set(['A','C']),
+        'K':Set(['G','T']),
+        'S':Set(['G','C']),
+        'W':Set(['A','T']),
+        'H':Set(['A','C','T']),
+        'B':Set(['G','T','C']),
+        'V':Set(['G','C','A']),
+        'D':Set(['G','T','A'])}
+
     def __init__ (self, id, rows, alphabet, background=None):
+
         self.id       = id
         self.alphabet = alphabet
         nsymbols = len(self.alphabet)
@@ -354,7 +428,9 @@ class PositionWeightMatrix (object):
                 for ic in range(start,ncols):
 
                     char = align.rows[ir][ic]
-                    if char != '-': subseq += char
+                    if char == '-' or char == 'N': continue
+                    else: subseq += char
+
                     if len(subseq) == minSeqLen: 
                         end = ic+1
 
@@ -380,7 +456,7 @@ class PositionWeightMatrix (object):
             gapmask = score_align_gaps(align)
         putmask( scoremax, gapmask, float('nan') )
         return scoremax
-        
+
     def score_seq(self,seq):
         scores = []
         for start in range( len(seq)):
@@ -648,25 +724,10 @@ def sum_of_squares( x,y=None ):
     return sum([ float(xi)*float(yi) for xi,yi in zip(x,y)]) - len(x)*xmean*ymean
 
 def match_consensus(sequence,pattern):
-    # IUPAC-IUB 
-    symbols = {
-        'A':Set(['A']),
-        'C':Set(['C']),
-        'G':Set(['G']),
-        'T':Set(['T']),
-        'R':Set(['A','G']),
-        'Y':Set(['C','T']),
-        'M':Set(['A','C']),
-        'K':Set(['G','T']),
-        'S':Set(['G','C']),
-        'W':Set(['A','T']),
-        'H':Set(['A','C','T']),
-        'B':Set(['G','T','C']),
-        'V':Set(['G','C','A']),
-        'D':Set(['G','T','A'])}
     
     for s,p in zip(sequence,pattern):
-        if not s in symbols[p]: return False
+        if p == 'N': continue
+        if not s in PositionWeightMatrix.symbols[p]: return False
 
     return True
 

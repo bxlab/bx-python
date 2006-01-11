@@ -91,4 +91,26 @@ def MafBlockScorer(pwm,species,maf):
         scoremax[model] = pwm[model].score_align( alignrows, filter )
     yield scoremax,width,headers
 
+def MafMotifScorer(species,maf,motif):
+    width = len(maf.components[0].text)
+    headers = [ (c.src,c.start,c.end) for c in maf.components]
+
+    # expand block rows to full
+    mafBlockSpecies = [specName.src.split('.')[0] for specName in maf.components]
+    alignlist = []
+    for sp in species:
+        try:
+            i = mafBlockSpecies.index( sp )
+            alignlist.append( maf.components[i].text )
+        except ValueError:
+            alignlist.append( [ NaN for n in range( width ) ] )
+
+    alignrows = pwmx.Align( alignlist, headers )
+    # record gap positions
+    filter = pwmx.score_align_gaps( alignrows )
+    # score motif
+    print >>sys.stderr, headers
+    scoremax = pwmx.score_align_motif( alignrows, motif, filter )
+    yield scoremax,width,headers
+
 if __name__ == '__main__': main()
