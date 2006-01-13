@@ -76,7 +76,7 @@ def main():
     # Wrap canvas in an 'Alignment' to prevent it from stretching
     alignment = gtk.Alignment( 0.5, 0.5  )
     alignment.add( canvas )
-    
+
     # Wrap the alignment in a scroll area (so it scrolls when window is smaller than figure)
     scroll = gtk.ScrolledWindow()
     scroll.add_with_viewport( alignment )
@@ -92,6 +92,7 @@ def main():
     renderer = gtk.CellRendererText()
     column = gtk.TreeViewColumn( "Track", renderer, text=0 )
     treeview.append_column(column)
+    treeview.append_column(gtk.TreeViewColumn( "Next", renderer, text=0 ))
     
     selection = treeview.get_selection()
     selection.set_mode(gtk.SELECTION_BROWSE)
