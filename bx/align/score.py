@@ -115,6 +115,12 @@ def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None ):
     if a_la_blastz:
         alphabet1 = [ch.upper() for ch in alphabet1]
         alphabet2 = [ch.upper() for ch in alphabet2]
+	# decide if rows and/or columns should reflect case
+    if a_la_blastz:
+    	foldcase1 = foldcase2 = True
+    else:
+        foldcase1 = "".join( alphabet1 ) == "ACGT"
+        foldcase2 = "".join( alphabet2 ) == "ACGT"
     # create appropriately sized matrix
     text1_range = text2_range = 128
     if ord( max( alphabet1 ) ) >= 128: text1_range = 256
@@ -128,15 +134,19 @@ def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None ):
     for i, row_scores in enumerate( rows ):
         for j, score in enumerate( map( int_or_float, row_scores ) ):
             ss.set_score( ord( alphabet1[i] ), ord( alphabet2[j] ), score )
-            if a_la_blastz:
-                ss.set_score( ord( alphabet1[i].upper() ), ord( alphabet2[j].lower() ), score )
+            if foldcase1 and foldcase2:
                 ss.set_score( ord( alphabet1[i].lower() ), ord( alphabet2[j].upper() ), score )
+                ss.set_score( ord( alphabet1[i].upper() ), ord( alphabet2[j].lower() ), score )
                 ss.set_score( ord( alphabet1[i].lower() ), ord( alphabet2[j].lower() ), score )
+            elif foldcase1:
+                ss.set_score( ord( alphabet1[i].lower() ), ord( alphabet2[j]         ), score )
+            elif foldcase2:
+                ss.set_score( ord( alphabet1[i]         ), ord( alphabet2[j].lower() ), score )
     return ss
 
-def int_or_float(s):
-    try:    return int(s)
-    except: return float(s)
+def int_or_float( s ):
+    try:    return int( s )
+    except: return float( s )
 
 # convert possible two-char symbol to a single character
 def sym_to_char( sym ):
