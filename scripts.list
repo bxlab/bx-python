@@ -1,7 +1,10 @@
 aggregate_scores_in_intervals.py
+get_scores_in_intervals.py
 align_print_template.py
 bed_intersect.py
 bed_intersect_basewise.py
+bed_rand_intersect.py
+bed_diff_basewise_summary.py
 bed_merge_overlapping.py
 bed_coverage.py
 bed_complement.py

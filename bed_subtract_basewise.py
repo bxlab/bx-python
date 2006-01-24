@@ -7,13 +7,14 @@ second from first)
 usage: %prog bed_file_1 bed_file_2
 
 """
+
+import pkg_resources
+pkg_resources.require( "bx-python" )
+
 import sys
 from warnings import warn
 from bx.bitset_builders import binned_bitsets_from_file
 import cookbook.doc_optparse
-
-import pkg_resources
-pkg_resources.require( "bx-python" )
 
 def print_bits_as_bed( bits ):
     end = 0

@@ -12,13 +12,24 @@ usage: %prog bounding_region_file intervals1 intervals2 nsamples
 
 from __future__ import division 
 
+import pkg_resources
+pkg_resources.require( "bx-python" )
+
 import sys, random
 import bisect
 import stats
 from Numeric import *
-from bx.bitset import BitSet
+from bx.bitset import *
 
 maxtries = 1000
+
+class MaxtriesException( Exception ):
+    pass
+
+def bit_clone( bits ):
+    new = BitSet( bits.size )
+    new.ior( bits )
+    return new
 
 def throw_random_2( lengths, mask ):
     """
@@ -49,7 +60,7 @@ def throw_random_2( lengths, mask ):
             else: 
                 break
         if max_candidate == 0:
-            raise "No gap can fit region of length %d" % length
+            raise MaxtriesException( "No gap can fit region of length %d" % length )
         # Select start position
         s = random.randrange( candidate_bases )
         # Map back to region
@@ -65,7 +76,7 @@ def throw_random_2( lengths, mask ):
         assert ( gap_length, gap_start, gap_end ) == gaps.pop( chosen_index )
         # gap_length, gap_start, gap_end =  gaps.pop( chosen_index )
         assert s >= 0
-        assert gap_start + s + length <= gap_end
+        assert gap_start + s + length <= gap_end, "Expected: %d + %d + %d == %d <= %d" % ( gap_start, s, length, gap_start + s + length, gap_end )
         gaps.reverse()
         if s > 0:
             bisect.insort( gaps, ( s, gap_start, gap_start + s ) )
@@ -80,10 +91,9 @@ def throw_random_2( lengths, mask ):
     assert bits.count_range( 0, bits.size ) == sum( lengths )
     return bits
             
-def throw_random( lengths, mask ):
+def throw_random_1( lengths, mask ):
     total_length = mask.size
     bits = BitSet( total_length )
-    bits |= mask
     lengths = lengths[:]
     random.shuffle( lengths )
     for length in lengths:
@@ -92,19 +102,39 @@ def throw_random( lengths, mask ):
             start = random.randrange( total_length-length )
             # Check if that interval is already covered at all
             if bits[start] == 0 and bits.next_set( start, start+length ) == start+length:
-                # Mark the range covered and continue
-                bits.set_range( start, length )
-                break
+                # Also check the mask!
+                if mask[start] == 0 and mask.next_set( start, start+length ) == start+length:
+                    # Mark the range covered and continue
+                    bits.set_range( start, length )
+                    break
         else:
-            raise "Could not place intervals after %d tries" % maxtries
+            raise MaxtriesException( "Could not place intervals after %d tries" % maxtries )
     assert bits.count_range( 0, bits.size ) == sum( lengths )
     return bits
 
+def throw_random( lengths, mask ):
+    saved = None
+    for i in range( 10 ):
+        try:
+            return throw_random_2( lengths, mask )
+        except MaxtriesException, e:
+            saved = e
+            continue
+    raise e
+    
 def as_bits( region_start, region_length, intervals ):
     bits = BitSet( region_length )
     for chr, start, stop in intervals:
         bits.set_range( start - region_start, stop - start )
     return bits
+
+def interval_lengths( bits ):
+    end = 0
+    while 1:
+        start = bits.next_set( end )
+        if start == bits.size: break
+        end = bits.next_clear( start )
+        yield end - start
 
 def count_overlap( bits1, bits2 ):
     b = BitSet( bits1.size )
@@ -140,22 +170,29 @@ def main():
         print >>sys.stderr, "Processing region:", fields[3]
         r_chr, r_start, r_stop = fields[0], int( fields[1] ), int( fields[2] )
         r_length = r_stop - r_start
-        intervals1 = overlapping_in_bed( intervals1_fname, r_chr, r_start, r_stop )
-        bits1 = as_bits( r_start, r_length, intervals1 )
+        # Load the mask
         mask = overlapping_in_bed( mask_fname, r_chr, r_start, r_stop )
         bits_mask = as_bits( r_start, r_length, mask )
+        bits_not_masked = bit_clone( bits_mask ); bits_not_masked.invert()
+        # Load the first set
+        intervals1 = overlapping_in_bed( intervals1_fname, r_chr, r_start, r_stop )
+        bits1 = as_bits( r_start, r_length, intervals1 )
+        # Intersect it with the mask 
+        bits1.iand( bits_not_masked )
         # Sanity checks
         assert count_overlap( bits1, bits_mask ) == 0
         # For each data set
         for featnum, intervals2_fname in enumerate( intervals2_fnames ):
+            print >>sys.stderr, intervals2_fname
             intervals2 = overlapping_in_bed( intervals2_fname, r_chr, r_start, r_stop )
             bits2 = as_bits( r_start, r_length, intervals2 )
+            bits2.iand( bits_not_masked )
             assert count_overlap( bits2, bits_mask ) == 0
             # Observed values
             actual_overlap = count_overlap( bits1, bits2 )
             total_actual[featnum] += actual_overlap
             # Sample 
-            lengths2 = [ stop - start for chr, start, stop in intervals2 ]
+            lengths2 = list( interval_lengths( bits2 ) )
             total_lengths2[ featnum ] += sum( lengths2 )
             for i in range( nsamples ):
                 # Build randomly covered bitmask for second set

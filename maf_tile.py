@@ -7,6 +7,9 @@ usage: %prog start end maf_files...
     -m, --missingData: Inserts wildcards for missing block rows instead of '-'
 """
 
+import pkg_resources
+pkg_resources.require( "bx-python" )
+
 import psyco_full
 
 import cookbook.doc_optparse

@@ -37,7 +37,7 @@ except:
 
 # Read first bed into some bitsets
 
-bitsets = binned_bitsets_from_file( open( in_fname ) )
+bitsets = binned_bitsets_from_bed_file( open( in_fname ) )
 
 # Read second BED and intersect
 

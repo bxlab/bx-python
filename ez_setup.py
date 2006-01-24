@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!python
 """Bootstrap setuptools installation
 
 If you want to use setuptools in your package's setup.py, just include this
@@ -14,7 +14,7 @@ the appropriate options to ``use_setuptools()``.
 This file can also be run as a script to install or upgrade setuptools.
 """
 import sys
-DEFAULT_VERSION = "0.6a2"
+DEFAULT_VERSION = "0.6a6"
 DEFAULT_URL     = "http://cheeseshop.python.org/packages/%s/s/setuptools/" % sys.version[:3]
 
 md5_data = {
@@ -24,6 +24,12 @@ md5_data = {
     'setuptools-0.6a1-py2.4.egg': '8256b5f1cd9e348ea6877b5ddd56257d',
     'setuptools-0.6a2-py2.3.egg': 'b98da449da411267c37a738f0ab625ba',
     'setuptools-0.6a2-py2.4.egg': 'be5b88bc30aed63fdefd2683be135c3b',
+    'setuptools-0.6a3-py2.3.egg': 'ee0e325de78f23aab79d33106dc2a8c8',
+    'setuptools-0.6a3-py2.4.egg': 'd95453d525a456d6c23e7a5eea89a063',
+    'setuptools-0.6a4-py2.3.egg': 'e958cbed4623bbf47dd1f268b99d7784',
+    'setuptools-0.6a4-py2.4.egg': '7f33c3ac2ef1296f0ab4fac1de4767d8',
+    'setuptools-0.6a5-py2.3.egg': '748408389c49bcd2d84f6ae0b01695b1',
+    'setuptools-0.6a5-py2.4.egg': '999bacde623f4284bfb3ea77941d2627',
 }
 
 import sys, os

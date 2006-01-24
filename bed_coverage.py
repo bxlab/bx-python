@@ -7,14 +7,14 @@ provided on the command line or to stdin.
 usage: %prog bed files ...
 """
 
+import pkg_resources
+pkg_resources.require( "bx-python" )
+
 import psyco_full
 import sys
 from bx.bitset import BinnedBitSet
 from bx.bitset_builders import *
 from itertools import *
-
-import pkg_resources
-pkg_resources.require( "bx-python" )
 
 bed_filenames = sys.argv[1:]
 if bed_filenames:

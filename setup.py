@@ -14,9 +14,9 @@ JK_INC= UCSC_CVS + "kent/src/inc/"
 
 bitset_deps = 'bits.c', 'common.c', 'memalloc.c', 'dlist.c', 'errabort.c', 'osunix.c', 'wildcmp.c'
 
-setup(  name = "python-bio-tools",
+setup(  name = "bx-python",
         version = "0.1.0",
-        py_modules = [ 'psyco_full' ],
+        py_modules = [ 'psyco_full', 'stats', 'pstat' ],
         packages = find_packages(),
         scripts = scripts,
         ext_modules=[ Extension( "bx.bitset", [ "bx/bitset.pyx", "src/binBits.c" ] + [ JK_LIB + f for f in bitset_deps ], include_dirs=[JK_INC, "src"] ) ],
@@ -25,5 +25,5 @@ setup(  name = "python-bio-tools",
         author_email = "james@bx.psu.edu",
         description = "Tools for manipulating biological data, particularly multiple sequence alignments",
         url = "http://www.bx.psu.edu/miller_lab/",
-        zip_safe = True
+        zip_safe = False
      )

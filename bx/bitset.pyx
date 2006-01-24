@@ -67,6 +67,11 @@ cdef class BitSet:
     def __dealloc__( self ):
         bitFree( & self.bits )
 
+    ## def clone( self ):
+    ##     other = BitSet( self.bitCount )
+    ##     other.ior( self )
+    ##     return other
+
     property size:
         def __get__( self ):
             return self.bitCount

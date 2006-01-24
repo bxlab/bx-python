@@ -7,14 +7,15 @@ covered in both of the inputs will be output.
 
 usage: %prog bed_file_1 bed_file_2
 """
+
+import pkg_resources
+pkg_resources.require( "bx-python" )
+
 import sys
 from warnings import warn
 from bx.bitset import *
 from bx.bitset_builders import *
 import cookbook.doc_optparse
-
-import pkg_resources
-pkg_resources.require( "bx-python" )
 
 options, args = cookbook.doc_optparse.parse( __doc__ )
 try:
