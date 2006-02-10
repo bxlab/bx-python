@@ -16,7 +16,7 @@ bitset_deps = 'bits.c', 'common.c', 'memalloc.c', 'dlist.c', 'errabort.c', 'osun
 
 setup(  name = "bx-python",
         version = "0.1.0",
-        py_modules = [ 'psyco_full', 'stats', 'pstat' ],
+        py_modules = [ 'psyco_full', 'stats', 'pstat', 'pkg_resources' ],
         packages = find_packages(),
         scripts = scripts,
         ext_modules=[ Extension( "bx.bitset", [ "bx/bitset.pyx", "src/binBits.c" ] + [ JK_LIB + f for f in bitset_deps ], include_dirs=[JK_INC, "src"] ) ],
