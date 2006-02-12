@@ -47,6 +47,8 @@ class Align(object):
         self.ncols = ncol
         self.dims = (self.nrows,self.ncols)
         self.headers = headers
+    def __str__ (self):
+        return "\n".join(self.rows)
 
 class AlignScoreMatrix (object):
     def __init__(self,align):

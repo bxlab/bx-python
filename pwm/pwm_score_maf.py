@@ -35,7 +35,7 @@ def main():
 
     fbunch = {}
     for scoremax,index,headers in MafScorer(pwm, species, inmaf):
-        print >>sys.stderr, index
+        #print >>sys.stderr, index
         for k,matrix in scoremax.items():
             fname = k + '.mx'
             if fname not in fbunch:
@@ -68,80 +68,98 @@ def MafScorer(pwm,species,inmaf):
         index += width
         yield scoremax,index,headers
 
-def MafMotifExplore(pwm,maf,motif=None,threshold=0,species=None):
+def MafMotifSelect(mafblock,pwm,motif=None,threshold=0):
 
     if motif != None and len(motif) != len(pwm): 
         raise "pwm and motif must be the same length"
-
-    width = len(maf.components[0].text)
-    headers = [ (c.src,c.start,c.end) for c in maf.components]
-
-    mafBlockSpecies = [specName.src.split('.')[0] for specName in maf.components]
-    # expand block rows to full
-    if species != None:
-        alignlist = []
-        for sp in species:
-            try:
-                i = mafBlockSpecies.index( sp )
-                alignlist.append( maf.components[i].text )
-            except ValueError:
-                alignlist.append( [ NaN for n in range( width ) ] )
-    # align rows as in maf block
-    else:
-        alignlist = [ c.text for c in maf.components ]
-
-    alignrows = pwmx.Align( alignlist )
-
-    chr,chr_start,chr_stop = align.headers[0]
-
-    # a blank score matrix
+    # generic alignment
+    alignlist = [ c.text for c in mafblock.components ]
+    align = pwmx.Align( alignlist )
     nrows,ncols = align.dims
-    ascoremax = AlignScoreMatrix( align )
-    scoremax = ascoremax.matrix
-
+    #chr,chr_start,chr_stop = align.headers[0]
+    # required sequence length
     minSeqLen = len( motif )
+    # record the text sizes from the alignment rows
+    align_match_lens = []
+
+    for start in range(ncols - minSeqLen):
+        if align.rows[0][start] == '-': continue
+        subseq = ""
+        pwm_score_vec = []
+        motif_score_vec = []
+        max_cols = 0
+        for ir in range(nrows):
+            expanded = align.rows[ir].count( '-', start, minSeqLen)
+            subtext = align.rows[ir][ start : minSeqLen+expanded ]
+            max_cols = max( len(subtext), max_cols )
+            subseq = subtext.replace('-','')
+            revseq = pwmx.reverse_complement(subseq)
+            # pwm score
+            nill,f_score = pwm.score_seq( subseq )[0]
+            r_score, nill = pwm.score_seq( revseq )[0]
+            pwm_score_vec.append( max(f_score, r_score) )
+            # consensus score
+            if motif is not None:
+                for_score = int( pwmx.match_consensus(subseq,motif) )
+                rev_score = int( pwmx.match_consensus(revseq,motif) )
+                motif_score_vec.append( max(for_score, rev_score) )
+        #check threshold
+        try:
+            assert not isnan(max(pwm_score_vec) )
+            assert not isnan(max(motif_score_vec) )
+        except:
+            print >>sys.stderr, pwm_score_vec, motif_score_vec
+            print >>sys.stderr, len(subseq), len(pwm)
+        if max(pwm_score_vec) < threshold: continue
+        if max(motif_score_vec) < threshold: continue
+        # chop block
+        col_start = start
+        col_end = max_cols + 1
+        motifmaf = mafblock.slice( col_start, col_end )
+        yield motifmaf, pwm_score_vec, motif_score_vec
+                
+    """
     for ir in range(nrows):
-
-        # row is missing data
-        if isnan(align.rows[ir][0]): continue
-
+        # scan alignment row for motif subsequences
         for start in range(ncols):
             if align.rows[ir][start] == '-': continue
             elif align.rows[ir][start] == 'n': continue
             elif align.rows[ir][start] == 'N': continue
-
-            # get enough sequence for the weight matrix
-            subseq = ""
-            end = 0
+            # gather enough subseq for motif
             for ic in range(start,ncols):
-
                 char = align.rows[ir][ic].upper()
                 if char == '-' or char == 'N': continue
                 else: subseq += char
-
                 if len(subseq) == minSeqLen: 
-                    end = ic+1
-                    for_score = int( match_consensus(subseq,motif) )
-                    revseq = reverse_complement( subseq )
-                    rev_score = int( match_consensus(revseq,motif) )
+                    revseq = pwmx.reverse_complement( subseq )
+                    align_match_lens.append( ic )
+                    # pwm score
+                    nill,f_score = pwm.score_seq( subseq )[0]
+                    r_score, nill = pwm.score_seq( revseq )[0]
+                    pwm_score_vec.append( max(f_score, r_score) )
+                    # consensus score
+                    if motif is not None:
+                        for_score = int( pwmx.match_consensus(subseq,motif) )
+                        rev_score = int( pwmx.match_consensus(revseq,motif) )
+                        motif_score_vec.append( max(for_score, rev_score) )
+                    #check threshold
+                    try:
+                        assert not isnan(max(pwm_score_vec) )
+                        assert not isnan(max(motif_score_vec) )
+                    except:
+                        print >>sys.stderr, pwm_score_vec, motif_score_vec
+                        print >>sys.stderr, len(subseq), len(pwm)
+                    if max(pwm_score_vec) < threshold: continue
+                    if max(motif_score_vec) < threshold: continue
+                    # chop block
+                    col_start = start
+                    col_end = max( align_match_lens ) + 1
+                    motifmaf = mafblock.slice( col_start, col_end )
 
-                    score = max(for_score, rev_score)
-                    #dbg
-                    #if ir == 0: print >>sys.stderr, int(chr_start) + start - align.rows[ir].count('-',0,start), subseq, score
-
-                    # replace the alignment positions with the result
-                    if byPosition:
-                        scoremax[ir][start] = score
-                    else:
-                    # replace positions matching the width of the pwm
-                        for i in range(start,end):
-                            if isnan(scoremax[ir][i]): scoremax[ir][i] = score
-                            elif score > scoremax[ir][i]: scoremax[ir][i] = score
-    # mask gap characters
-    if gapmask == None:
-        gapmask = score_align_gaps(align)
-    putmask( scoremax, gapmask, float('nan') )
-    return scoremax
+                    print subseq,revseq,ic
+                    print align_match_lens
+                    yield motifmaf, pwm_score_vec, motif_score_vec
+        """
 
 def MafBlockScorer(pwm,species,maf):
     width = len(maf.components[0].text)
@@ -184,7 +202,7 @@ def MafMotifScorer(species,maf,motif):
     # record gap positions
     filter = pwmx.score_align_gaps( alignrows )
     # score motif
-    print >>sys.stderr, headers
+    #print >>sys.stderr, headers
     scoremax = pwmx.score_align_motif( alignrows, motif, filter )
     yield scoremax,width,headers
 
