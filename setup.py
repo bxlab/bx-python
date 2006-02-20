@@ -8,11 +8,8 @@ from setuptools import *
 scripts = open( "scripts.list" ).read().split()
 
 # Some extensions depend on code from UCSC
-UCSC_CVS="/home/james/projects/ucsc-genome-cvs/"
-JK_LIB= UCSC_CVS + "kent/src/lib/"
-JK_INC= UCSC_CVS + "kent/src/inc/"
-
-bitset_deps = 'bits.c', 'common.c', 'memalloc.c', 'dlist.c', 'errabort.c', 'osunix.c', 'wildcmp.c'
+JK_INC = JK_LIB = "src/kent/"
+bitset_deps = [ 'bits.c', 'common.c' ]
 
 setup(  name = "bx-python",
         version = "0.1.0",
