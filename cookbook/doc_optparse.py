@@ -27,7 +27,7 @@ the docstring is not correctly formatted you will get a SyntaxError
 or worse, the script will not work as expected.
 """
 
-import optparse, re, sys
+import optparse, re, sys, traceback
 
 USAGE = re.compile(r'(?s)\s*usage: (.*?)(\n[ \t]*\n|$)')
 
@@ -42,6 +42,11 @@ optparse.Values.__nonzero__ = nonzero # dynamically fix optparse.Values
 class ParsingError(Exception): pass
 
 optionstring=""
+
+def exception(msg=""):
+    print >> sys.stderr, "Exception while parsing command line:"
+    print >>sys.stderr, traceback.format_exc()
+    exit( msg )
 
 def exit(msg=""):
     raise SystemExit(msg or optionstring.replace("%prog",sys.argv[0]))

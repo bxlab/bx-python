@@ -80,10 +80,10 @@ def binned_bitsets_from_bed_file( f, chrom_col=0, start_col=1, end_col=2, strand
             last_chrom = chrom
             last_bitset = bitsets[chrom]
         start, end = int( fields[start_col] ) + offset, int( fields[end_col] ) + offset
-        # Switch to '+' strand coordinates if not already
-        if strand == '-':
-            start = size - end
-            end = size - start
+        ## # Switch to '+' strand coordinates if not already
+        ## if strand == '-':
+        ##     start = size - end
+        ##     end = size - start
         if upstream_pad: start = max( 0, start - upstream_pad )
         if downstream_pad: end = min( size, end + downstream_pad )
         if start > end: warn( "Interval start after end!" )
