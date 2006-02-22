@@ -41,7 +41,7 @@ class GenomicInterval( object ):
             self.strand = default_strand
         else:
             strand = fields[strand_col]
-            if strand not in ( "+", "- "):
+            if strand not in ( "+", "-"):
                 raise ParseError( "Strand must be either '+' or '-'" )
             self.strand = strand
     def __setattr__( self, name, value ):
@@ -140,7 +140,10 @@ class Reader( object ):
                     return self.next()
         # Not a comment, must be an interval
         fields = line.split( "\t" )
-        return GenomicInterval( fields, self.chrom_col, self.start_col, self.end_col, self.strand_col, self.default_strand )
+        try:
+            return GenomicInterval( fields, self.chrom_col, self.start_col, self.end_col, self.strand_col, self.default_strand )
+        except ParseError, e:
+            raise ParseError( str( e ) + "on line " + str( self.linenum ) )    
                 
 suite = doctest.DocTestSuite( sys.modules[ __name__ ] )
         
