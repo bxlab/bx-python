@@ -99,7 +99,7 @@ def main():
             min_score = "nan"
             max_score = "nan"
             
-        print >> out_file, chrom, start, stop, avg, min_score, max_score
+        print >> out_file, "\t".join( map( str, [ chrom, start, stop, avg, min_score, max_score ] ) )
 
     out_file.close()
 
