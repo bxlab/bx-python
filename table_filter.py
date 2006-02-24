@@ -37,7 +37,10 @@ def __main__():
                 except:
                     v = c
                 cols.append( c )
-        expr = args[0]
+        if len( args ) > 0:
+            expr = args[0]
+        else:
+            expr = None
     except:
         doc_optparse.exception()
 
@@ -55,9 +58,9 @@ def __main__():
             if keep_comments: 
                 print element
         else:
-            if bool( eval( expr, dict( row=element ) ) ):
+            if expr is None or bool( eval( expr, dict( row=element ) ) ):
                 if cols:
-                    print "\t".join( element[c] for c in cols )
+                    print "\t".join( [ element[c] for c in cols ] )
                 else:
                     print element
 
