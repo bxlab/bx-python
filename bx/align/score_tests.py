@@ -3,7 +3,10 @@ import bx.align.maf
 import StringIO
 import unittest
 
-from Numeric import array, cumsum
+try:
+    from numpy import array, cumsum, allclose
+except:
+    from Numeric import array, cumsum, allclose
 
 aligns = [ ( "CCACTAGTTTTTAAATAATCTACTATCAAATAAAAGATTTGTTAATAATAAATTTTAAATCATTAACACTT",
              "CCATTTGGGTTCAAAAATTGATCTATCA----------TGGTGGATTATTATTTAGCCATTAAGGACAAAT", 
@@ -69,10 +72,10 @@ class BasicTests( unittest.TestCase ):
             
     def test_accumulate( self ):
         ss = bx.align.score.hox70
-        self.assertEquals( bx.align.score.accumulate_scores( ss, "-----CTTT", "CTTAGTTTA"  ),
-                           cumsum( array( [ -430, -30, -30, -30, -30, -31, 91, 91, -123 ] ) ) )
-        self.assertEquals( bx.align.score.accumulate_scores( ss, "-----CTTT", "CTTAGTTTA", skip_ref_gaps=True ),
-                           cumsum( array( [ -581, 91, 91, -123 ] ) ) )
+        self.assert_( allclose( bx.align.score.accumulate_scores( ss, "-----CTTT", "CTTAGTTTA"  ),
+                           cumsum( array( [ -430, -30, -30, -30, -30, -31, 91, 91, -123 ] ) ) ) )
+        self.assert_( allclose( bx.align.score.accumulate_scores( ss, "-----CTTT", "CTTAGTTTA", skip_ref_gaps=True ),
+                           cumsum( array( [ -581, 91, 91, -123 ] ) ) ) )
 
     def test_nonsymm_scoring( self ):
         ss = nonsymm_scheme

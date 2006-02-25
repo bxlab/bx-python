@@ -1,16 +1,14 @@
 import sys
 import doctest
 from itertools import *
+from bx.tabular.io import *
 
-class ParseError( Exception ):
-    pass
-
-class GenomicInterval( object ):
+class GenomicInterval( TableRow ):
     """
     A genomic interval stored in a set of fields (a row of a table)
     """
-    def __init__( self, fields, chrom_col, start_col, end_col, strand_col, default_strand ):
-        self.value = self.fields = fields
+    def __init__( self, reader, fields, chrom_col, start_col, end_col, strand_col, default_strand ):
+        TableRow.__init__( self, reader, fields )
         self.chrom_col = chrom_col
         self.start_col = start_col
         self.end_col = end_col
@@ -58,29 +56,12 @@ class GenomicInterval( object ):
     def __str__( self ):
         return "\t".join( self.fields )
 
-class Header( object ):
-    """
-    Header of a table -- contains column names and a mapping from them
-    to column indexes
-    """
-    def __init__( self, fields ):
-        self.fields = fields
-        self.fields_to_column = dict( zip( fields, count() ) )
-    def __str__( self ):
-        return "#" + "\t".join( self.fields )
-        
-class Comment( object ):
-    def __init__( self, line ):
-        self.line = line
-    def __str__( self ):
-        return "#" + self.line
-
-class Reader( object ):
+class GenomicIntervalReader( TableReader ):
     """
     Reader for iterating a set of intervals in a tab separated file. Can
     also parse header and comment lines if requested.
     
-    >>> r = Reader( [ "#chrom\\tname\\tstart\\tend\\textra",
+    >>> r = GenomicIntervalReader( [ "#chrom\\tname\\tstart\\tend\\textra",
     ...               "chr1\\tfoo\\t1\\t100\\txxx",
     ...               "chr2\\tbar\\t20\\t300\\txxx",
     ...               "#I am a comment",
@@ -104,47 +85,18 @@ class Reader( object ):
     >>> assert type( elements[4] ) is GenomicInterval
     """
     def __init__( self, input, chrom_col=0, start_col=1, end_col=2, strand_col=5, 
-                  default_strand="+", return_header=True, return_comments=True ):
-        self.input = input
+                  default_strand="+", return_header=True, return_comments=True, force_header=None ):
+        TableReader.__init__( self, input, return_header, return_comments, force_header )
         self.chrom_col = chrom_col
         self.start_col = start_col
         self.end_col = end_col
         self.strand_col = strand_col
         self.default_strand = default_strand
-        self.return_comments = return_comments
-        self.return_header = return_header
-        self.input_iter = iter( input )
-        self.linenum = -1
-        self.header = None
-    def __iter__( self ):
-        return self
-    def next( self ):
-        line = self.input_iter.next()
-        self.linenum += 1
-        line = line.rstrip( "\r\n" )
-        # Is it a comment line?
-        if line.startswith( "#" ):
-            line = line[1:]
-            # If a comment and the first line we assume it is a header
-            if self.linenum == 0:
-                fields = line.split( "\t" )
-                self.header = Header( fields )
-                if self.return_header:
-                    return self.header
-                else:
-                    return self.next()
-            else:
-                if self.return_comments:
-                    return Comment( line )
-                else:
-                    return self.next()
-        # Not a comment, must be an interval
-        fields = line.split( "\t" )
-        try:
-            return GenomicInterval( fields, self.chrom_col, self.start_col, self.end_col, self.strand_col, self.default_strand )
-        except ParseError, e:
-            raise ParseError( str( e ) + "on line " + str( self.linenum ) )    
-                
+    def parse_row( self, line ):
+        return GenomicInterval( self, line.split( "\t" ), self.chrom_col, 
+                                self.start_col, self.end_col,
+                                self.strand_col, self.default_strand )
+                    
 suite = doctest.DocTestSuite( sys.modules[ __name__ ] )
         
         

@@ -47,7 +47,7 @@ def __main__():
     # Compile expression for SPEED
     if expr: expr = compile( expr, '<expr arg>', 'eval' )
 
-    for element in bx.tabular.io.Reader( sys.stdin ):
+    for element in bx.tabular.io.TableReader( sys.stdin ):
         if type( element ) is bx.tabular.io.Header:
             if keep_header: 
                 if cols:

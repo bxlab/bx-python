@@ -1,4 +1,7 @@
-from Numeric import *
+try:
+    from numpy import *
+except:
+    from Numeric import *
 
 class ScoringScheme( object ):
     def __init__( self, gap_open, gap_extend, default=-100, alphabet1="ACGT", alphabet2=None, gap1="-", gap2=None, text1_range=128, text2_range=None, typecode=Int ):
@@ -7,7 +10,7 @@ class ScoringScheme( object ):
         if (gap2 == None): gap2 = gap1 # (scheme with gap1=gap2=None is legit)
         if type(alphabet1) == str: alphabet1 = [ch for ch in alphabet1]
         if type(alphabet2) == str: alphabet2 = [ch for ch in alphabet2]
-        self.table = zeros( (text1_range, text2_range), typecode=typecode )
+        self.table = zeros( (text1_range, text2_range), typecode )
         self.table *= default
         self.gap_open = gap_open
         self.gap_extend = gap_extend

@@ -21,13 +21,13 @@ def main():
     intersecters = {}
 
     # Read second set into intersecter
-    for interval in bx.intervals.io.Reader( open( sys.argv[2] ) ):
+    for interval in bx.intervals.io.GenomicIntervalReader( open( sys.argv[2] ) ):
         if not intersecters.has_key( interval.chrom ): 
             intersecters[ interval.chrom ] = bx.intervals.Intersecter()
         intersecters[ interval.chrom ].add_interval( interval )
 
     # Join with first set    
-    for interval in bx.intervals.io.Reader( open( sys.argv[1] ) ):
+    for interval in bx.intervals.io.GenomicIntervalReader( open( sys.argv[1] ) ):
         if intersecters.has_key( interval.chrom ):
             intersection = intersecters[ interval.chrom ].find( interval.start, interval.end )
             for interval2 in intersection:
