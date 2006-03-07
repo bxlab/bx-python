@@ -43,7 +43,7 @@ class Intersecter( object ):
     >>> intersecter.find( 2, 5 )
     [Interval( 3, 40 ), Interval( 0, 10 ), Interval( 3, 7 )]
     >>> intersecter.find( 10, 100 )
-    [Interval( 3, 40 ), Interval( 10, 50 ), Interval( 0, 10 )]
+    [Interval( 3, 40 ), Interval( 10, 50 )]
     >>> intersecter.find( 100, 200 )
     []
     """

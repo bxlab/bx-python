@@ -4,11 +4,28 @@ import bx.align.maf as maf
 
 from StringIO import StringIO
 
+test_maf = """##maf version=1 scoring=humor.v4
+# humor.v4 R=30 M=10 /cluster/data/hg15/bed/blastz.mm3/axtNet300/chr1.maf
+# /cluster/data/hg15/bed/blastz.rn3/axtNet300/chr1.maf
+
+a score=0.128
+s human_hoxa 100  8 + 100257 ACA-TTACT
+s horse_hoxa 120  9 -  98892 ACAATTGCT
+s fugu_hoxa   88  7  + 90788 ACA--TGCT
+
+
+a score=0.071
+s human_unc 9077 8 + 10998 ACAGTATT
+# Comment
+s horse_unc 4555 6 -  5099 ACA--ATT
+s fugu_unc  4000 4 +  4038 AC----TT
+"""
+
 class MAFTestCase( unittest.TestCase ):
 
     def testReader( self ):
 
-        reader = maf.Reader( file( "test.maf" ) )
+        reader = maf.Reader( StringIO( test_maf ) )
         assert reader.attributes["version"] == "1" 
         assert reader.attributes["scoring"] == "humor.v4" 
 
@@ -74,5 +91,5 @@ def check_component( c, src, start, size, strand, src_size, text ):
     assert c.src_size == src_size 
     assert c.text == text
 
-if __name__ == "__main__":
-    unittest.main()
+test_classes = [ MAFTestCase ]
+suite = unittest.TestSuite( [ unittest.makeSuite( c ) for c in test_classes ] )

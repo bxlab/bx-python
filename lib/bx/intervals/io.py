@@ -1,5 +1,4 @@
 import sys
-import doctest
 from itertools import *
 from bx.tabular.io import *
 
@@ -96,17 +95,4 @@ class GenomicIntervalReader( TableReader ):
         return GenomicInterval( self, line.split( "\t" ), self.chrom_col, 
                                 self.start_col, self.end_col,
                                 self.strand_col, self.default_strand )
-                    
-suite = doctest.DocTestSuite( sys.modules[ __name__ ] )
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
