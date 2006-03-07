@@ -7,6 +7,8 @@ of intervals and the overlap in `nsamples` random coverings of the
 regions with intervals having the same lengths. Prints the z-score relative
 to the mean and sample stdev of the random coverings.
 
+Currently intervals must bed in bed 3+ format.
+
 usage: %prog bounding_region_file intervals1 intervals2 nsamples
 """
 
@@ -20,115 +22,49 @@ import bisect
 import stats
 from Numeric import *
 from bx.bitset import *
+from bx.intervals.random import *
 
-maxtries = 1000
+maxtries = 10
 
 class MaxtriesException( Exception ):
     pass
 
 def bit_clone( bits ):
+    """
+    Clone a bitset
+    """
     new = BitSet( bits.size )
     new.ior( bits )
     return new
 
-def throw_random_2( lengths, mask ):
-    """
-    Version of throw using gap lists (like Hiram's randomPlacement). This 
-    is not ready yet!!!
-    """
-    # Projected version for throwing
-    bits = BitSet( mask.size )
-    # Use mask to find the gaps
-    gaps = []
-    start = end = 0
-    while 1:
-        start = mask.next_clear( end )
-        if start == mask.size: break
-        end = mask.next_set( start )
-        gaps.append( ( end-start, start, end ) )
-    # Sort (long regions first )    
-    gaps.sort()
-    gaps.reverse()
-    # And throw
-    for length in lengths:
-        max_candidate = 0
-        candidate_bases = 0
-        for gap in gaps:
-            if gap[0] >= length:
-                max_candidate += 1
-                candidate_bases += ( gap[0] - length )
-            else: 
-                break
-        if max_candidate == 0:
-            raise MaxtriesException( "No gap can fit region of length %d" % length )
-        # Select start position
-        s = random.randrange( candidate_bases )
-        # Map back to region
-        chosen_index = 0
-        for gap in gaps:
-            gap_length, gap_start, gap_end = gap
-            if s > ( gap_length - length ):
-                s -= ( gap_length - length )
-                chosen_index += 1
-            else:
-                break
-        # Remove the chosen gap and split
-        assert ( gap_length, gap_start, gap_end ) == gaps.pop( chosen_index )
-        # gap_length, gap_start, gap_end =  gaps.pop( chosen_index )
-        assert s >= 0
-        assert gap_start + s + length <= gap_end, "Expected: %d + %d + %d == %d <= %d" % ( gap_start, s, length, gap_start + s + length, gap_end )
-        gaps.reverse()
-        if s > 0:
-            bisect.insort( gaps, ( s, gap_start, gap_start + s ) )
-        if s + length < gap_length:
-            bisect.insort( gaps, ( gap_length - ( s + length ), gap_start + s + length, gap_end) )
-        gaps.reverse()
-        # And finally set the bits
-        assert bits[gap_start + s] == 0 
-        assert bits.next_set( gap_start + s, gap_start+s+length ) == gap_start+s+length 
-        assert( gap_start + s >= 0 and gap_start + s + length <= bits.size ), "Bad interval %d %d %d %d %d" % ( gap_start, s, length, gap_start + s + length, bits.size )
-        bits.set_range( gap_start + s, length )   
-    assert bits.count_range( 0, bits.size ) == sum( lengths )
-    return bits
-            
-def throw_random_1( lengths, mask ):
-    total_length = mask.size
-    bits = BitSet( total_length )
-    lengths = lengths[:]
-    random.shuffle( lengths )
-    for length in lengths:
-        for i in range( maxtries ):
-            # Pick a random start position
-            start = random.randrange( total_length-length )
-            # Check if that interval is already covered at all
-            if bits[start] == 0 and bits.next_set( start, start+length ) == start+length:
-                # Also check the mask!
-                if mask[start] == 0 and mask.next_set( start, start+length ) == start+length:
-                    # Mark the range covered and continue
-                    bits.set_range( start, length )
-                    break
-        else:
-            raise MaxtriesException( "Could not place intervals after %d tries" % maxtries )
-    assert bits.count_range( 0, bits.size ) == sum( lengths )
-    return bits
-
 def throw_random( lengths, mask ):
+    """
+    Try multiple times to run 'throw_random'
+    """
     saved = None
-    for i in range( 10 ):
+    for i in range( maxtries ):
         try:
-            return throw_random_2( lengths, mask )
+            return throw_random_bits( lengths, mask )
         except MaxtriesException, e:
             saved = e
             continue
     raise e
     
 def as_bits( region_start, region_length, intervals ):
+    """
+    Convert a set of intervals overlapping a region of a chromosome into 
+    a bitset for just that region with the bits covered by the intervals 
+    set.
+    """
     bits = BitSet( region_length )
     for chr, start, stop in intervals:
         bits.set_range( start - region_start, stop - start )
     return bits
 
 def interval_lengths( bits ):
+    """
+    Get the length distribution of all contiguous runs of set bits from
+    """
     end = 0
     while 1:
         start = bits.next_set( end )
@@ -137,12 +73,19 @@ def interval_lengths( bits ):
         yield end - start
 
 def count_overlap( bits1, bits2 ):
+    """
+    Count the number of bits that overlap between two sets
+    """
     b = BitSet( bits1.size )
     b |= bits1
     b &= bits2
     return b.count_range( 0, b.size )
     
 def overlapping_in_bed( fname, r_chr, r_start, r_stop ):
+    """
+    Get from a bed all intervals that overlap the region defined by
+    r_chr, r_start, r_stop.
+    """
     rval = []
     for line in open( fname ):
         if line.startswith( "#" ) or line.startswith( "track" ):
@@ -211,4 +154,5 @@ def main():
     #print "z-score:", ( total_actual - stats.amean( total_samples ) ) / stats.asamplestdev( total_samples )
     #print "percentile:", sum( total_actual > total_samples ) / nsamples
     
-if __name__ == "__main__": main()
+if __name__ == "__main__": 
+    main()
