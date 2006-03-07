@@ -18,26 +18,26 @@ from sets import ImmutableSet
 from os import utime, rename, unlink    # capture these to bypass sandboxing
 from os import open as os_open
 
+def _get_max_platform(plat):
+    """Return this platform's maximum compatible version.
 
+    distutils.util.get_platform() normally reports the minimum version
+    of Mac OS X that would be required to *use* extensions produced by
+    distutils.  But what we want when checking compatibility is to know the
+    version of Mac OS X that we are *running*.  To allow usage of packages that
+    explicitly require a newer version of Mac OS X, we must also know the
+    current version of the OS.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    If this condition occurs for any other platform with a version in its
+    platform strings, this function should be extended accordingly.
+    """
+    m = macosVersionString.match(plat)
+    if m is not None and sys.platform == "darwin":
+        try:
+            plat = 'macosx-%s-%s' % ('.'.join(_macosx_vers()[:2]), m.group(3))
+        except ValueError:
+            pass    # not Mac OS X
+    return plat
 
 __all__ = [
     # Basic resource access and distribution/entry point discovery
@@ -61,13 +61,13 @@ __all__ = [
     # Parsing functions and string utilities
     'parse_requirements', 'parse_version', 'safe_name', 'safe_version',
     'get_platform', 'compatible_platforms', 'yield_lines', 'split_sections',
-    'safe_extra',
+    'safe_extra', 'to_filename',
 
     # filesystem utilities
     'ensure_directory', 'normalize_path',
 
     # Distribution "precedence" constants
-    'EGG_DIST', 'BINARY_DIST', 'SOURCE_DIST', 'CHECKOUT_DIST',
+    'EGG_DIST', 'BINARY_DIST', 'SOURCE_DIST', 'CHECKOUT_DIST', 'DEVELOP_DIST',
 
     # "Provider" interfaces, implementations, and registration/lookup APIs
     'IMetadataProvider', 'IResourceProvider', 'FileMetadata',
@@ -94,11 +94,11 @@ class UnknownExtra(ResolutionError):
 
 _provider_factories = {}
 PY_MAJOR = sys.version[:3]
-
 EGG_DIST    = 3
 BINARY_DIST = 2
 SOURCE_DIST = 1
 CHECKOUT_DIST = 0
+DEVELOP_DIST = -1
 
 def register_loader_type(loader_type, provider_factory):
     """Register `provider_factory` to make providers for `loader_type`
@@ -142,7 +142,9 @@ def get_platform():
     XXX Currently this is the same as ``distutils.util.get_platform()``, but it
     needs some hacks for Linux and Mac OS X.
     """
-    if sys.platform == "darwin":
+    from distutils.util import get_platform
+    plat = get_platform()
+    if sys.platform == "darwin" and not plat.startswith('macosx-'):
         try:
             version = _macosx_vers()
             machine = os.uname()[4].replace(" ", "_")
@@ -152,9 +154,7 @@ def get_platform():
             # if someone is running a non-Mac darwin system, this will fall
             # through to the default implementation
             pass
-
-    from distutils.util import get_platform
-    return get_platform()
+    return plat
 
 macosVersionString = re.compile(r"macosx-(\d+)\.(\d+)-(.*)")
 darwinVersionString = re.compile(r"darwin-(\d+)\.(\d+)\.(\d+)-(.*)")
@@ -167,10 +167,12 @@ def compatible_platforms(provided,required):
 
     Returns true if either platform is ``None``, or the platforms are equal.
 
-    XXX Needs compatibility checks for Linux and Mac OS X.
+    XXX Needs compatibility checks for Linux and other unixy OSes.
     """
     if provided is None or required is None or provided==required:
         return True     # easy case
+    provided = _get_max_platform(provided)
+    if provided==required: return True
 
     # Mac OS X special cases
     reqMac = macosVersionString.match(required)
@@ -194,14 +196,12 @@ def compatible_platforms(provided,required):
                     #    "use the macosx designation instead of darwin.",
                     #    category=DeprecationWarning)
                     return True
-
             return False    # egg isn't macosx or legacy darwin
 
         # are they the same major version and machine type?
         if provMac.group(1) != reqMac.group(1) or \
             provMac.group(3) != reqMac.group(3):
             return False
-
 
         # is the required OS major update >= the provided one?
         if int(provMac.group(2)) > int(reqMac.group(2)):
@@ -490,6 +490,88 @@ class WorkingSet(object):
 
         return to_activate    # return list of distros to activate
 
+    def find_plugins(self,
+        plugin_env, full_env=None, installer=None, fallback=True
+    ):
+        """Find all activatable distributions in `plugin_env`
+
+        Example usage::
+
+            distributions, errors = working_set.find_plugins(
+                Environment(plugin_dirlist)
+            )
+            map(working_set.add, distributions)  # add plugins+libs to sys.path
+            print "Couldn't load", errors        # display errors
+
+        The `plugin_env` should be an ``Environment`` instance that contains
+        only distributions that are in the project's "plugin directory" or
+        directories. The `full_env`, if supplied, should be an ``Environment``
+        contains all currently-available distributions.  If `full_env` is not
+        supplied, one is created automatically from the ``WorkingSet`` this
+        method is called on, which will typically mean that every directory on
+        ``sys.path`` will be scanned for distributions.
+
+        `installer` is a standard installer callback as used by the
+        ``resolve()`` method. The `fallback` flag indicates whether we should
+        attempt to resolve older versions of a plugin if the newest version
+        cannot be resolved.
+
+        This method returns a 2-tuple: (`distributions`, `error_info`), where
+        `distributions` is a list of the distributions found in `plugin_env`
+        that were loadable, along with any other distributions that are needed
+        to resolve their dependencies.  `error_info` is a dictionary mapping
+        unloadable plugin distributions to an exception instance describing the
+        error that occurred. Usually this will be a ``DistributionNotFound`` or
+        ``VersionConflict`` instance.
+        """
+
+        plugin_projects = list(plugin_env)
+        plugin_projects.sort()  # scan project names in alphabetic order
+
+        error_info = {}
+        distributions = {}
+
+        if full_env is None:
+            env = Environment(self.entries)
+            env += plugin_env
+        else:
+            env = full_env + plugin_env
+
+        shadow_set = self.__class__([])
+        map(shadow_set.add, self)   # put all our entries in shadow_set
+
+        for project_name in plugin_projects:
+
+            for dist in plugin_env[project_name]:
+
+                req = [dist.as_requirement()]
+
+                try:
+                    resolvees = shadow_set.resolve(req, env, installer)
+
+                except ResolutionError,v:
+                    error_info[dist] = v    # save error info
+                    if fallback:
+                        continue    # try the next older version of project
+                    else:
+                        break       # give up on this project, keep going
+
+                else:
+                    map(shadow_set.add, resolvees)
+                    distributions.update(dict.fromkeys(resolvees))
+
+                    # success, no need to try any more versions of this project
+                    break
+
+        distributions = list(distributions)
+        distributions.sort()
+
+        return distributions, error_info
+
+
+
+
+
     def require(self, *requirements):
         """Ensure that distributions matching `requirements` are activated
 
@@ -651,7 +733,48 @@ class Environment(object):
         for key in self._distmap.keys():
             if self[key]: yield key
 
+
+
+
+    def __iadd__(self, other):
+        """In-place addition of a distribution or environment"""
+        if isinstance(other,Distribution):
+            self.add(other)
+        elif isinstance(other,Environment):
+            for project in other:
+                for dist in other[project]:
+                    self.add(dist)
+        else:
+            raise TypeError("Can't add %r to environment" % (other,))
+        return self
+
+    def __add__(self, other):
+        """Add an environment or distribution to an environment"""
+        new = self.__class__([], platform=None, python=None)
+        for env in self, other:
+            new += env
+        return new
+
+
 AvailableDistributions = Environment    # XXX backward compatibility
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class ResourceManager:
@@ -821,9 +944,9 @@ def get_default_cache():
 def safe_name(name):
     """Convert an arbitrary string to a standard distribution name
 
-    Any runs of non-alphanumeric characters are replaced with a single '-'.
+    Any runs of non-alphanumeric/. characters are replaced with a single '-'.
     """
-    return re.sub('[^A-Za-z0-9]+', '-', name)
+    return re.sub('[^A-Za-z0-9.]+', '-', name)
 
 
 def safe_version(version):
@@ -842,15 +965,15 @@ def safe_extra(extra):
     Any runs of non-alphanumeric characters are replaced with a single '_',
     and the result is always lowercased.
     """
-    return re.sub('[^A-Za-z0-9]+', '_', extra).lower()
+    return re.sub('[^A-Za-z0-9.]+', '_', extra).lower()
 
 
+def to_filename(name):
+    """Convert a project or version name to its filename-escaped form
 
-
-
-
-
-
+    Any '-' characters are currently replaced with '_'.
+    """
+    return name.replace('-','_')
 
 
 
@@ -1373,13 +1496,14 @@ def find_on_path(importer, path_item, only=False):
                 lower = entry.lower()
                 if lower.endswith('.egg-info'):
                     fullpath = os.path.join(path_item, entry)
-                    if os.path.isdir(fullpath):                       
+                    if os.path.isdir(fullpath):
                         # egg-info directory, allow getting metadata
                         metadata = PathMetadata(path_item, fullpath)
                     else:
                         metadata = FileMetadata(fullpath)
-                    yield Distribution.from_location(path_item,entry,metadata)
-
+                    yield Distribution.from_location(
+                        path_item,entry,metadata,precedence=DEVELOP_DIST
+                    )
                 elif not only and lower.endswith('.egg'):
                     for dist in find_distributions(os.path.join(path_item, entry)):
                         yield dist
@@ -1390,7 +1514,6 @@ def find_on_path(importer, path_item, only=False):
                             yield item
 
 register_finder(ImpWrapper,find_on_path)
-
 
 _namespace_handlers = {}
 _namespace_packages = {}
@@ -1529,8 +1652,8 @@ def yield_lines(strs):
 
 LINE_END = re.compile(r"\s*(#.*)?$").match         # whitespace and comment
 CONTINUE = re.compile(r"\s*\\\s*(#.*)?$").match    # line continuation
-DISTRO   = re.compile(r"\s*(\w+)").match           # Distribution or option
-VERSION  = re.compile(r"\s*(<=?|>=?|==|!=)\s*((\w|\.)+)").match  # version info
+DISTRO   = re.compile(r"\s*((\w|[-.])+)").match    # Distribution or extra
+VERSION  = re.compile(r"\s*(<=?|>=?|==|!=)\s*((\w|[-.])+)").match  # ver. info
 COMMA    = re.compile(r"\s*,").match               # comma between items
 OBRACKET = re.compile(r"\s*\[").match
 CBRACKET = re.compile(r"\s*\]").match
@@ -1736,7 +1859,7 @@ class Distribution(object):
         self._provider = metadata or empty_provider
 
     #@classmethod
-    def from_location(cls,location,basename,metadata=None):
+    def from_location(cls,location,basename,metadata=None,**kw):
         project_name, version, py_version, platform = [None]*4
         basename, ext = os.path.splitext(basename)
         if ext.lower() in (".egg",".egg-info"):
@@ -1747,7 +1870,7 @@ class Distribution(object):
                 )
         return cls(
             location, metadata, project_name=project_name, version=version,
-            py_version=py_version, platform=platform
+            py_version=py_version, platform=platform, **kw
         )
     from_location = classmethod(from_location)
 
@@ -1846,13 +1969,12 @@ class Distribution(object):
     def egg_name(self):
         """Return what this distribution's standard .egg filename should be"""
         filename = "%s-%s-py%s" % (
-            self.project_name.replace('-','_'), self.version.replace('-','_'),
+            to_filename(self.project_name), to_filename(self.version),
             self.py_version or PY_MAJOR
         )
 
         if self.platform:
             filename += '-'+self.platform
-
         return filename
 
     def __repr__(self):
@@ -1874,9 +1996,10 @@ class Distribution(object):
         return getattr(self._provider, attr)
 
     #@classmethod
-    def from_filename(cls,filename,metadata=None):
+    def from_filename(cls,filename,metadata=None, **kw):
         return cls.from_location(
-            _normalize_cached(filename), os.path.basename(filename), metadata
+            _normalize_cached(filename), os.path.basename(filename), metadata,
+            **kw
         )
     from_filename = classmethod(from_filename)
 
@@ -1953,6 +2076,25 @@ class Distribution(object):
             return False
         return True
 
+    def clone(self,**kw):
+        """Copy this distribution, substituting in any changed keyword args"""
+        for attr in (
+            'project_name', 'version', 'py_version', 'platform', 'location',
+            'precedence'
+        ):
+            kw.setdefault(attr, getattr(self,attr,None))
+        kw.setdefault('metadata', self._provider)
+        return self.__class__(**kw)
+
+
+
+
+    #@property
+    def extras(self):
+        return [dep for dep in self._dep_map if dep]
+    extras = property(extras)
+
+
 def issue_warning(*args,**kw):
     level = 1
     g = globals()
@@ -1965,6 +2107,28 @@ def issue_warning(*args,**kw):
         pass
     from warnings import warn
     warn(stacklevel = level+1, *args, **kw)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def parse_requirements(strs):
     """Yield ``Requirement`` objects for each specification in `strs`
@@ -1982,7 +2146,7 @@ def parse_requirements(strs):
         while not TERMINATOR(line,p):
             if CONTINUE(line,p):
                 try:
-                    line = lines.next().replace('-','_'); p = 0
+                    line = lines.next(); p = 0
                 except StopIteration:
                     raise ValueError(
                         "\\ must not appear on the last nonblank line"
@@ -2008,7 +2172,6 @@ def parse_requirements(strs):
         return line, p, items
 
     for line in lines:
-        line = line.replace('-','_')
         match = DISTRO(line)
         if not match:
             raise ValueError("Missing distribution spec", line)
@@ -2024,8 +2187,8 @@ def parse_requirements(strs):
             )
 
         line, p, specs = scan_list(VERSION,LINE_END,line,p,(1,2),"version spec")
-        specs = [(op,val.replace('_','-')) for op,val in specs]
-        yield Requirement(project_name.replace('_','-'), specs, extras)
+        specs = [(op,safe_version(val)) for op,val in specs]
+        yield Requirement(project_name, specs, extras)
 
 
 def _sort_dists(dists):
@@ -2048,9 +2211,11 @@ def _sort_dists(dists):
 
 
 
+
 class Requirement:
     def __init__(self, project_name, specs, extras):
         """DO NOT CALL THIS UNDOCUMENTED METHOD; use Requirement.parse()!"""
+        self.unsafe_name, project_name = project_name, safe_name(project_name)
         self.project_name, self.key = project_name, project_name.lower()
         index = [(parse_version(v),state_machine[op],op,v) for op,v in specs]
         index.sort()
@@ -2067,8 +2232,6 @@ class Requirement:
         extras = ','.join(self.extras)
         if extras: extras = '[%s]' % extras
         return '%s%s%s' % (self.project_name, extras, specs)
-
-    def __repr__(self): return "Requirement.parse(%r)" % str(self)
 
     def __eq__(self,other):
         return isinstance(other,Requirement) and self.hashCmp==other.hashCmp
@@ -2089,8 +2252,11 @@ class Requirement:
         if last is None: last = True    # no rules encountered
         return last
 
+
     def __hash__(self):
         return self.__hash
+
+    def __repr__(self): return "Requirement.parse(%r)" % str(self)
 
     #@staticmethod
     def parse(s):
@@ -2102,7 +2268,6 @@ class Requirement:
         raise ValueError("No requirements found", s)
 
     parse = staticmethod(parse)
-
 
 state_machine = {
     #       =><
@@ -2121,7 +2286,6 @@ def _get_mro(cls):
         class cls(cls,object): pass
         return cls.__mro__[1:]
     return cls.__mro__
-
 
 def _find_adapter(registry, ob):
     """Return an adapter factory for `ob` from `registry`"""
