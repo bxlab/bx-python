@@ -1,4 +1,4 @@
-from pyparsing import *
+from bx_extras.pyparsing import *
 
 __all__ = [ "Tree", "Edge", "NewickParser", "newick_parser" ]
 

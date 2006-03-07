@@ -19,7 +19,7 @@ pkg_resources.require( "bx-python" )
 
 import sys, random
 import bisect
-import stats
+from bx_extras import stats
 from Numeric import *
 from bx.bitset import *
 from bx.intervals.random import *
