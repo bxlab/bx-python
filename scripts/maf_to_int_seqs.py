@@ -14,24 +14,21 @@ from __future__ import division
 
 import psyco_full
 
-from numarray import *
-
 import bx.align.maf
-from bx import alphabet
-from bx import seq_numarray
+from bx import seqmapping
 import string
 import sys
 
 def main():
 
     if len( sys.argv ) > 1:
-        alpha_map = alphabet.Mapping( file( sys.argv[1] ) )
+        alpha_map = seqmapping.alignment_mapping_from_file( file( sys.argv[1] ) )
     else:
         alpha_map = None
 
     for maf in bx.align.maf.Reader( sys.stdin ):
         # Translate alignment to ints
-        int_seq = seq_numarray.DNA.translate_alignment( [ c.text for c in maf.components ] )
+        int_seq = seqmapping.DNA.translate_list( [ c.text for c in maf.components ] )
         # Apply mapping 
         if alpha_map:
             int_seq = alpha_map.translate( int_seq )

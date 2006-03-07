@@ -7,6 +7,7 @@ import bx.align.score_tests
 import bx.intervals.io
 import bx.phylo.newick_tests
 import bx.phylo.phast_tests
+import bx.seqmapping_tests
 
 tests = []
 
@@ -20,5 +21,6 @@ tests.append( bx.phylo.phast_tests.suite )
 tests.append( bx.bitset_tests.suite )
 tests.append( bx.align.maf_tests.suite )
 tests.append( bx.align.score_tests.suite )
+tests.append( bx.seqmapping_tests.suite )
 
 suite = unittest.TestSuite( tests )
