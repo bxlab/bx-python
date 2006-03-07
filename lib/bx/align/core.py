@@ -193,33 +193,7 @@ class Component( object ):
     def coord_to_col( self, pos ):
         if pos < self.start or pos > self.get_end():
             raise "Range error: %d not in %d-%d" % ( pos, self.start, self.get_end() )
-        return self.py_coord_to_col( pos )
-
-    def weave_coord_to_col( self, pos ):
-        text = self.text
-        text_size = len( self.text )
-        start = self.start
-        pos = pos
-        return weave.inline( """
-                                int col;
-                                int i;
-                                const char * ctext = text.c_str();
-                                for ( col = 0, i = start - 1; col < text_size; ++col )
-                                    if ( text[ col ] != '-' && ++i == pos ) break;
-                                return_val = col;
-                             """, 
-                             ['text', 'text_size', 'start', 'pos' ] )
-
-    def py_coord_to_col( self, pos ):
-        if pos < self.start or pos > self.get_end():
-            raise "Range error: %d not in %d-%d" % ( pos, self.start, self.get_end() )
-        i = self.start
-        col = 0
-        text = self.text
-        while i < pos:
-            if text[col] != '-': i += 1
-            col += 1 
-        return col
+        return coord_to_col( self.start, self.text, pos )
 
 def get_reader( format, infile, species_to_lengths=None ):
     import align.axt, align.maf
@@ -275,3 +249,18 @@ def read_lengths_file( name ):
     f.close()
     return chrom_to_length
 
+# ---- Read C extension if availabe -----------------------------------------
+
+try:
+    from _core import coord_to_col
+except:
+    def coord_to_col( self, pos ):
+        if pos < self.start or pos > self.get_end():
+            raise "Range error: %d not in %d-%d" % ( pos, self.start, self.get_end() )
+        i = self.start
+        col = 0
+        text = self.text
+        while i < pos:
+            if text[col] != '-': i += 1
+            col += 1 
+        return col
