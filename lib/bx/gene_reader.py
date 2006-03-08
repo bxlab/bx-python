@@ -15,7 +15,7 @@ For gff/gtf, the start_codon stop_codon line types are merged with CDSs.
 """
 
 def GeneReader( fh, format='gff' ):
-""" yield chrom, strand, gene_exons, name """
+    """ yield chrom, strand, gene_exons, name """
 
     known_formats = ( 'gff', 'gtf', 'bed')
     if format not in known_formats: 
@@ -77,7 +77,7 @@ def GeneReader( fh, format='gff' ):
             yield chrom, strand, gene_exons, gene
 
 def CDSReader( fh, format='gff' ):
-""" yield chrom, strand, cds_exons, name """
+    """ yield chrom, strand, cds_exons, name """
 
     known_formats = ( 'gff', 'gtf', 'bed')
     if format not in known_formats: 
@@ -153,14 +153,15 @@ def CDSReader( fh, format='gff' ):
             yield chrom, strand, cds_exons, gene
 
 def FeatureReader( fh, format='gff', alt_introns_subtract="exons", gtf_parse=None):
-""" yield chrom, strand, cds_exons, introns, exons, name
+    """ 
+    yield chrom, strand, cds_exons, introns, exons, name
 
-gtf_parse Example:
-# parse gene_id from transcript_id "AC073130.2-001"; gene_id "TES";
-gene_name = lambda s: s.split(';')[1].split()[1].strip('"')
+    gtf_parse Example:
+    # parse gene_id from transcript_id "AC073130.2-001"; gene_id "TES";
+    gene_name = lambda s: s.split(';')[1].split()[1].strip('"')
 
-for chrom, strand, cds_exons, introns, exons, name in FeatureReader( sys.stdin, format='gtf', gtf_parse=gene_name )
-"""
+    for chrom, strand, cds_exons, introns, exons, name in FeatureReader( sys.stdin, format='gtf', gtf_parse=gene_name )
+    """
 
     known_formats = ( 'gff', 'gtf', 'bed')
     if format not in known_formats: 
