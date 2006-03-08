@@ -1,6 +1,7 @@
 #!/usr/bin/python2.4
 import sys
 from bx.bitset import *
+from bx.bitset_utils import *
 from bx.bitset_builders import *
 
 """
@@ -265,66 +266,3 @@ def FeatureReader( fh, format='gff', alt_introns_subtract="exons", gtf_parse=Non
 
             yield chrom, strand, cds_exons, introns, exons, gene
 
-def bitset_subtract( ex1, ex2 ):
-    bits1 = BinnedBitSet(MAX)
-    for l in ex1:
-        start, end = l[0], l[1]
-        bits1.set_range( start, end - start )
-    bits2 = BinnedBitSet(MAX)
-    for l in ex1:
-        start, end = l[0], l[1]
-        bits2.set_range( start, end - start )
-
-    bits2.invert()
-    bits1.iand( bits2 )
-    return bits2list( bits1 )
-
-def bits2list( bits ):
-    ex = []
-    end = 0
-    while 1:
-        start = bits.next_set( end )
-        if start == bits.size: break
-        end = bits.next_clear( start )
-        ex.append( (start, end) )
-
-    return ex
-
-def bitset_complement( exons ):
-    bits = BinnedBitSet(MAX)
-    introns = []
-    for l in exons:
-        start, end = l[0], l[1]
-        bits.set_range( start, end - start )
-    bits.invert()
-
-    # only complement within the range of the list
-    ex_start = min( [a[0] for a in exons] )
-    ex_end = max( [a[1] for a in exons] )
-    end = ex_start
-    len = ex_end
-    while 1:
-            start = bits.next_set( end )
-            if start == bits.size: break
-            end = bits.next_clear( start )
-            if end > len: end = len
-            if start != end:
-                introns.append( (start,end ) )
-            if end == len: break
-    return introns 
-
-
-def bitset_union( exons ):
-    bits = BinnedBitSet(MAX)
-    Uexons = []
-    for l in exons:
-        start, end = l[0], l[1]
-        bits.set_range( start, end - start )
-    end = 0
-    while 1:
-        start = bits.next_set( end )
-        if start == bits.size: break
-        end = bits.next_clear( start )
-        Uexons.append( (start, end) )
-
-    return Uexons
