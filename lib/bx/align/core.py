@@ -249,18 +249,14 @@ def read_lengths_file( name ):
     f.close()
     return chrom_to_length
 
-# ---- Read C extension if availabe -----------------------------------------
+# ---- Read C extension if available ---------------------------------------
 
 try:
     from _core import coord_to_col
 except:
-    def coord_to_col( self, pos ):
-        if pos < self.start or pos > self.get_end():
-            raise "Range error: %d not in %d-%d" % ( pos, self.start, self.get_end() )
-        i = self.start
+    def coord_to_col( start, text, pos ):
         col = 0
-        text = self.text
-        while i < pos:
-            if text[col] != '-': i += 1
+        while start < pos:
+            if text[col] != '-': start += 1
             col += 1 
         return col

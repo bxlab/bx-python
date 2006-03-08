@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python2.4
 
 """
 Build an index file for a set of MAF alignment blocks.
@@ -6,6 +6,7 @@ Build an index file for a set of MAF alignment blocks.
 If index_file is not provided maf_file.index is used.
 
 usage: %prog maf_file index_file
+    -s, --species=a,b,c: only index the position of the block in the listed species
 """
 
 import psyco_full
@@ -27,6 +28,10 @@ def main():
         maf_file = sys.argv[1]
         if len( sys.argv ) > 2: index_file = sys.argv[2]
         else: index_file = maf_file + ".index" 
+        if options.species:
+            species = options.species.split( "," )
+        else:
+            species = None
     except:
         cookbook.doc_optparse.exit()
 
@@ -40,6 +45,8 @@ def main():
         block = maf_reader.next()
         if block is None: break
         for c in block.components:
+            if species is not None and c.src.split('.')[0] not in species:
+                continue
             indexes.add( c.src, c.forward_strand_start, c.forward_strand_end, pos )
 
     out = open( index_file, 'w' )

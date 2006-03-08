@@ -99,8 +99,6 @@ class TableReader( object ):
         return Comment( line[1:] )
     def parse_row( self, line ):
         return TableRow( self, line.split( "\t" ) )
-                
-suite = doctest.DocTestSuite( sys.modules[ __name__ ] )
         
         
         

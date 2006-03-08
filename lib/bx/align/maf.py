@@ -18,7 +18,8 @@ class Indexed( object ):
     """Indexed access to a maf using overlap queries, requires an index file"""
 
     def __init__( self, maf_filename, index_filename=None, keep_open=False, species_to_lengths=None ):
-        if index_filename is None: index_filename = maf_filename + ".index"
+        if index_filename is None: 
+            index_filename = maf_filename + ".index"
         self.indexes = interval_index_file.Indexes( filename=index_filename )
         self.maf_filename = maf_filename
         self.species_to_lengths = species_to_lengths

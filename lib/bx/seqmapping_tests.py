@@ -27,7 +27,7 @@ class IntMappingTests( unittest.TestCase ):
         m.set_mapping( 2, 0 )
         m.set_mapping( 1, 1 )
         m.set_mapping( 3, 1 )
-        self.assertEqual( m.translate( array( [ 0, 1, 2, 3, 4 ] ) ), array( [ 0, 1, 0, 1, -1 ] ) ) 
+        self.assertEqual( m.translate( array( [ 0, 1, 2, 3, 4 ], 'i' ) ), array( [ 0, 1, 0, 1, -1 ] ) ) 
         
 test_classes = [ CharMappingTests, IntMappingTests ]
 suite = unittest.TestSuite( [ unittest.makeSuite( c ) for c in test_classes ] )

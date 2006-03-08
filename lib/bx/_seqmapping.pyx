@@ -122,12 +122,13 @@ cdef class IntToIntMapping:
             self.out_size = symbol + 1
 
     def translate( self, src ):
-        """Translate 'string' and return as int array"""
+        """Translate `string` and return as int array"""
         cdef int s_len, t_len
         cdef int *s_buf, *t_buf
         # Get direct access to string
         PyObject_AsReadBuffer( src, <void **> &s_buf, &s_len )
         s_len = s_len / sizeof( int )
+        assert s_len == len( src ), "`src` argument must be a buffer of 32bit integers"
         # Initialize empty array
         rval = zeros( s_len, 'i' )
         PyObject_AsWriteBuffer( rval, <void **> &t_buf, &t_len )
