@@ -6,12 +6,11 @@ Some basic utils for lists
 
 def bitset_subtract( ex1, ex2 ):
     bits1 = BinnedBitSet(MAX)
-    for l in ex1:
-        start, end = l[0], l[1]
+    for start,end  in ex1:
         bits1.set_range( start, end - start )
+
     bits2 = BinnedBitSet(MAX)
-    for l in ex1:
-        start, end = l[0], l[1]
+    for start,end  in ex2:
         bits2.set_range( start, end - start )
 
     bits2.invert()
@@ -32,8 +31,7 @@ def bits2list( bits ):
 def bitset_complement( exons ):
     bits = BinnedBitSet(MAX)
     introns = []
-    for l in exons:
-        start, end = l[0], l[1]
+    for start, end in exons:
         bits.set_range( start, end - start )
     bits.invert()
 
@@ -54,8 +52,7 @@ def bitset_complement( exons ):
 
 def bitset_union( exons ):
     bits = BinnedBitSet(MAX)
-    for l in exons:
-        start, end = l[0], l[1]
+    for start,end in exons:
         bits.set_range( start, end - start )
     end = 0
     return bits2list( bits )
