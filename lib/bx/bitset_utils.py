@@ -50,9 +50,22 @@ def bitset_complement( exons ):
             if end == len: break
     return introns 
 
+def bitset_interval_intersect( bits, istart, iend ):
+    rval = []
+    end = istart
+    len = iend
+    while 1:
+        start = bits.next_set( end )
+        if start >= len: break
+        end = bits.next_clear( start )
+        if start != end:
+            rval.append( (start,end) )
+        if end >= len: break
+    return rval
+
+
 def bitset_union( exons ):
     bits = BinnedBitSet(MAX)
     for start,end in exons:
         bits.set_range( start, end - start )
-    end = 0
     return bits2list( bits )
