@@ -227,42 +227,58 @@ def FeatureReader( fh, format='gff', alt_introns_subtract="exons", gtf_parse=Non
             else:
                 group = fields[8]
 
+            # Results are listed in the same order as encountered
             if group not in grouplist: grouplist.append( group )
+
             if group not in genelist:
-                # chrom, strand, cds_exons, introns, exons
-                genelist[group] = (chrom, strand, [], [], [])
+                # chrom, strand, cds_exons, introns, exons, cds_start, cds_end
+                genelist[group] = (chrom, strand, [], [], [], None, None)
             
             if fields[2] == 'exon':
                 genelist[group][4].append( ( ex_st, ex_end ) )
+
             elif fields[2] in ('CDS', 'stop_codon', 'start_codon'):
                 genelist[group][2].append( ( ex_st, ex_end ) )
+
+                if fields[2] == 'start_codon':
+                    if strand == '+': genelist[group][5] = ex_st
+                    else: genelist[group][5] = ex_end
+                if fields[2] == 'stop_codon':
+                    if strand == '+': genelist[group][5] = ex_end
+                    else: genelist[group][5] = ex_st
+
             elif fields[2] == 'intron':
                 genelist[group][3].append( ( ex_st, ex_end ) )
 
-        sp = lambda a,b: cmp( a[0], b[0] )
-
-        #for gene in genelist.values():
         for gene in grouplist:
-            chrom, strand, cds_exons, introns, exons = genelist[ gene ]
-            seqlen = sum([ a[1]-a[0] for a in cds_exons ])
-            overhang = seqlen % 3
-            if overhang > 0:
-                #print >>sys.stderr, "adjusting ", gene  
-                if strand == '+': 
-                    cds_exons[-1] = ( cds_exons[-1][0], cds_exons[-1][1] - overhang )
-                else:
-                    cds_exons[0] = ( cds_exons[0][0] + overhang, cds_exons[0][1] )
+            chrom, strand, cds_exons, introns, exons, cds_start, cds_end = genelist[ gene ]
 
             cds_exons = bitset_union( cds_exons )
             exons = bitset_union( exons )
 
+            # assure that cds exons were within the cds range
+            if cds_start is not None and cds_end is not None:
+                if strand == '+':
+                    cds_exons = bitset_intersect( cds_exons, [(cds_start,cds_end)] )
+                else:
+                    cds_exons = bitset_intersect( cds_exons, [(cds_end,cds_start)] )
+
+            # assure that introns are non-overlapping with themselves or exons
             if alt_introns_subtract:
                 if alt_introns_subtract == 'exons':
                     introns = bitset_subtract( introns, exons )
                 if alt_introns_subtract == 'cds_exons':
                     introns = bitset_subtract( introns, cds_exons )
-            else:
-                introns = bitset_union( introns )
+            else: introns = bitset_union( introns )
+
+            # assure CDS is a multiple of 3, trim from last exon if necessary
+            seqlen = sum([ a[1]-a[0] for a in cds_exons ])
+            overhang = seqlen % 3
+            if overhang > 0:
+                if strand == '+': 
+                    cds_exons[-1] = ( cds_exons[-1][0], cds_exons[-1][1] - overhang )
+                else:
+                    cds_exons[0] = ( cds_exons[0][0] + overhang, cds_exons[0][1] )
 
             yield chrom, strand, cds_exons, introns, exons, gene
 

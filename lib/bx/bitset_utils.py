@@ -4,18 +4,24 @@ from bx.bitset import *
 Some basic utils for lists
 """
 
+def bitset_intersect( ex1, ex2 ):
+    bits1 = list2bits( ex1 )
+    bits2 = list2bits( ex2 )
+    bits1.iand( bits2 )
+    return bits2list( bits1 )
+
 def bitset_subtract( ex1, ex2 ):
-    bits1 = BinnedBitSet(MAX)
-    for start,end  in ex1:
-        bits1.set_range( start, end - start )
-
-    bits2 = BinnedBitSet(MAX)
-    for start,end  in ex2:
-        bits2.set_range( start, end - start )
-
+    bits1 = list2bits( ex1 )
+    bits2 = list2bits( ex2 )
     bits2.invert()
     bits1.iand( bits2 )
     return bits2list( bits1 )
+
+def list2bits( ex ):
+    bits = BinnedBitSet(MAX)
+    for start,end  in ex:
+        bits.set_range( start, end - start )
+    return bits
 
 def bits2list( bits ):
     ex = []
@@ -25,7 +31,6 @@ def bits2list( bits ):
         if start == bits.size: break
         end = bits.next_clear( start )
         ex.append( (start, end) )
-
     return ex
 
 def bitset_complement( exons ):
@@ -63,9 +68,6 @@ def bitset_interval_intersect( bits, istart, iend ):
         if end >= len: break
     return rval
 
-
 def bitset_union( exons ):
-    bits = BinnedBitSet(MAX)
-    for start,end in exons:
-        bits.set_range( start, end - start )
+    bits = list2bits( exons )
     return bits2list( bits )
