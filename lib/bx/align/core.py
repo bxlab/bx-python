@@ -131,6 +131,10 @@ class Component( object ):
         self.strand = strand        # .. excluded, and minus strand counts from
         self._src_size = src_size   # .. end of sequence
         self.text = text
+        # Optional fields to keep track of synteny status (only makes sense
+        # when the alignment is part of an ordered set)
+        self.synteny_left = None
+        self.synteny_right = None
 
     def __str__( self ):
         return "s %s %d %d %s %d %s" % ( self.src, self.start, 
@@ -183,6 +187,9 @@ class Component( object ):
         new.start += start - self.text.count( '-', 0, start )
         new.size = len( new.text ) - new.text.count( '-' )
 
+        new.synteny_left = self.synteny_left
+        new.synteny_right = self.synteny_right
+
         return new
 
     def slice_by_coord( self, start, end ):
@@ -196,10 +203,10 @@ class Component( object ):
         return coord_to_col( self.start, self.text, pos )
 
 def get_reader( format, infile, species_to_lengths=None ):
-    import align.axt, align.maf
-    if format == "maf": return align.maf.Reader( infile, species_to_lengths )
+    import bx.align.axt, bx.align.maf
+    if format == "maf": return bx.align.maf.Reader( infile, species_to_lengths )
     elif format == "axt": return align.axt.Reader( infile, species_to_lengths )
-    elif format == "lav": return align.lav.Reader( infile, species_to_lengths )
+    elif format == "lav": return bx.align.lav.Reader( infile, species_to_lengths )
     else: raise "Unknown alignment format %s" % format
 
 def get_writer( format, outfile, attributes={} ):

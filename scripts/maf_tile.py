@@ -35,7 +35,7 @@ def main():
         out = bx.align.maf.Writer( sys.stdout )
         missing_data = bool(options.missingData)
     except:
-        cookbook.doc_optparse.exit()
+        cookbook.doc_optparse.exception()
 
     for line in sys.stdin:
         ref_src, start, end = line.split()[0:3]

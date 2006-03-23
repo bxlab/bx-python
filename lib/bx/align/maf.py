@@ -3,6 +3,16 @@ from bx.align import *
 import itertools
 from bx import interval_index_file
 
+MAF_INVERSE_STATUS = 'V'
+MAF_INSERT_STATUS = 'I'
+MAF_CONTIG_STATUS = 'C'
+MAF_CONTIG_NESTED_STATUS = 'c'
+MAF_NEW_STATUS = 'N'
+MAF_NEW_NESTED_STATUS = 'n'
+MAF_MAYBE_NEW_STATUS = 'S'
+MAF_MAYBE_NEW_NESTED_STATUS = 's'
+MAF_MISSING_STATUS = 'M'
+
 # Tools for dealing with multiple alignments in MAF format
 
 class MultiIndexed( object ):
@@ -101,7 +111,7 @@ class Writer( object ):
     def close( self ):
         self.file.close()
 
-# ---- Helper methods ---------------------------------------------------------
+# ---- Helper methods -------------------------------------------------------
 
 def read_next_maf( file, species_to_lengths=None ):
     alignment = Alignment(species_to_lengths=species_to_lengths)
@@ -114,24 +124,38 @@ def read_next_maf( file, species_to_lengths=None ):
     alignment.score = alignment.attributes['score']
     del alignment.attributes['score']
     # Sequence lines
+    last_component = None
     while 1:
         line = readline( file )
         # EOF or Blank line terminates alignment components
         if not line or line.isspace(): break
         if line.isspace(): break 
-        # Verify
+        # Parse row
         fields = line.split()
-        if fields[0] != 's': raise "Expected 's ...' line"
-        # Parse 
-        component = Component()
-        component.src = fields[1]
-        component.start = int( fields[2] )
-        component.size = int( fields[3] )
-        component.strand = fields[4]
-        component.src_size = int( fields[5] )
-        if len(fields) > 6: component.text = fields[6].strip()
-        # Add to set
-        alignment.add_component( component )
+        if fields[0] == 's':
+            # An 's' row contains sequence for a component
+            component = Component()
+            component.src = fields[1]
+            component.start = int( fields[2] )
+            component.size = int( fields[3] )
+            component.strand = fields[4]
+            component.src_size = int( fields[5] )
+            if len(fields) > 6: component.text = fields[6].strip()
+            # Add to set
+            alignment.add_component( component )
+            last_component = component
+        elif fields[0] == 'e':
+            # An 'e' row... kind of like a status that goes *through* a 
+            # component, skipping for now (alternative is to make empty
+            # components, but what good would it do? confused...)
+            pass
+        elif fields[0] == 'i':
+            # An 'i' row, indicates left and right synteny status for the 
+            # previous component, we hope ;)
+            assert fields[1] == last_component.src, "'i' row does not follow matching 's' row"
+            last_component.synteny_left = ( fields[2], int( fields[3] ) )
+            last_component.synteny_right = ( fields[4], int( fields[5] ) )
+            
     return alignment
 
 def readline( file, skip_blank=False ):

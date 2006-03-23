@@ -25,8 +25,8 @@ def main():
     options, args = cookbook.doc_optparse.parse( __doc__ )
 
     try:
-        maf_file = sys.argv[1]
-        if len( sys.argv ) > 2: index_file = sys.argv[2]
+        maf_file = args[0]
+        if len( args ) > 1: index_file = args[1]
         else: index_file = maf_file + ".index" 
         if options.species:
             species = options.species.split( "," )

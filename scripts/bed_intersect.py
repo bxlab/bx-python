@@ -8,6 +8,7 @@ usage: %prog bed_file_1 bed_file_2
     -u, --upstream_pad=N: upstream interval padding (default 0bp)
     -d, --downstream_pad=N: downstream interval padding (default 0bp)
     -v, --reverse: Print regions that DO NOT overlap
+    -b, --booleans: Just print '1' if interval overlaps or '0' otherwise
 """
 
 import sys
@@ -31,6 +32,7 @@ try:
     if options.upstream_pad: upstream_pad = int( options.upstream_pad )
     if options.downstream_pad: downstream_pad = int( options.downstream_pad )
     reverse = bool( options.reverse )
+    booleans = bool( options.booleans )
     in_fname, in2_fname = args
 except:
     cookbook.doc_optparse.exit()
@@ -47,6 +49,16 @@ for line in open( in_fname ):
     start, end = int( fields[1] ), int( fields[2] )
     if start > end: warn( "Bed interval start after end!" )
     if bitsets[fields[0]].count_range( start, end-start ) >= mincols:
-        if not reverse: print line,
+        if reverse and booleans:
+            print 0
+        elif booleans: 
+            print 1
+        else:
+            print line,
     elif reverse:
-        print line,
+        if booleans:
+            print 1
+        else:
+            print line,
+    elif booleans:
+        print 0
