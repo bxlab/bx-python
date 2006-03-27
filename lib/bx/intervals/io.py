@@ -1,6 +1,7 @@
 import sys
 from itertools import *
 from bx.tabular.io import *
+from bx.bitset import *
 
 class GenomicInterval( TableRow ):
     """
@@ -95,4 +96,24 @@ class GenomicIntervalReader( TableReader ):
         return GenomicInterval( self, line.split( "\t" ), self.chrom_col, 
                                 self.start_col, self.end_col,
                                 self.strand_col, self.default_strand )
-        
+
+    def binned_bitsets( self , upstream_pad=0, downstream_pad=0, lens={} ):
+        last_chrom = None
+        last_bitset = None
+        bitsets = dict()
+        for interval in self:
+            if type( interval ) == GenomicInterval:
+                chrom = interval[self.chrom_col]
+                if chrom != last_chrom:
+                    if chrom not in bitsets:
+                        if chrom in lens:
+                            size = lens[chrom]
+                        else:
+                            size = MAX
+                        bitsets[chrom] = BinnedBitSet( size )
+                    last_chrom = chrom
+                    last_bitset = bitsets[chrom]
+                start = max(int( interval[self.start_col]), 0 )
+                end = min(int( interval[self.end_col]), size)
+                last_bitset.set_range( start, end-start )
+        return bitsets
