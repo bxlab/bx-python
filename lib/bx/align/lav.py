@@ -1,7 +1,7 @@
-from align import *
+from bx.align import *
 
 import itertools
-import interval_index_file
+from bx import interval_index_file
 
 class Reader( object ):
     """Iterate over all lav blocks in a file in order"""
