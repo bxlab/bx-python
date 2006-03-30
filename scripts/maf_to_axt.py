@@ -1,31 +1,20 @@
 #!/usr/bin/env python
-#--------+---------+---------+---------+---------+---------+---------+--------=
-#
-# File: maf_to_axt.py								Author: Bob Harris
-#
-#----------
+"""
+Application to convert MAF file to AXT file, projecting to any two species
+--------------------------------------------------------------------------
 
-"""---------
-#
-# maf_to_axt--
-#	Convert a MAF file to an AXT file, projecting the alignment to any two
-#	species.
-#
-#-------"""
+:Author: Bob Harris (rsharris@bx.psu.edu)
+:Version: $Revision: $
+
+The application reads a MAF file from standard input and writes an AXT file to
+standard out;  some statistics are written to standard error.  The user must
+specify the two species of interest.
+"""
 
 import sys
 import copy
 import bx.align.maf
 import bx.align.axt
-
-debug = []
-
-#-----------
-#
-# maf_to_axt--
-#	main program
-#
-#----------
 
 def usage(s=None):
 	message = """
@@ -36,17 +25,11 @@ maf_to_axt primary_species secondary_species < maf_file > axt_file
 
 
 def main():
-	global debug
 
-	##########
 	# parse the command line
-	##########
 
 	primary   = None
 	secondary = None
-	debug     = []
-
-	# pick off options
 
 	args = sys.argv[1:]
 	while (len(args) > 0):
@@ -59,9 +42,7 @@ def main():
 			if (val == ""):
 				usage("missing a value in %s=" % arg)
 
-		if (arg == "-debug") and (val != None):
-			debug.append(val)
-		elif (primary == None) and (val == None):
+		if (primary == None) and (val == None):
 			primary = arg
 		elif (secondary == None) and (val == None):
 			secondary = arg
@@ -74,9 +55,7 @@ def main():
 	if (secondary == None):
 		usage("missing secondary species")
 
-	##########
 	# read the alignments and other info
-	##########
 
 	out = bx.align.axt.Writer(sys.stdout)
 
@@ -84,8 +63,6 @@ def main():
 	mafsWritten = 0
 	for mafBlock in bx.align.maf.Reader(sys.stdin):
 		mafsRead += 1
-
-		#...print " ".join([comp.src for comp in mafBlock.components])
 
 		p = mafBlock.get_component_by_src_start(primary)
 		if (p == None): continue
@@ -129,11 +106,6 @@ def remove_mutual_gaps (block):
 
 	block.text_size = len(nonGaps)
 
-#-----------
-#
-# (technically, this is the main program)
-#
-#----------
 
 if __name__ == "__main__": main()
 
