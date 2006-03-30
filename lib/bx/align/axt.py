@@ -94,7 +94,7 @@ class Writer( object ):
         spec1,chr1 = src_split( c1.src )
         spec2,chr2 = src_split( c2.src )
 
-        self.file.write( "0 %s %d %d %s %d %d %s %d\n" % \
+        self.file.write( "0 %s %d %d %s %d %d %s %s\n" % \
               (chr1,c1.start+1,c1.start+c1.size,
                chr2,c2.start+1,c2.start+c2.size,c2.strand,
                alignment.score))
