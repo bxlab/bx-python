@@ -24,6 +24,8 @@ qdna file format:
    offset    S:  ...          data sequence
 """
 
+from bx.seq import *
+
 import sys, struct, string
 
 qdnaMagic     = 0xC4B47197L    # big endian magic number for qdna files

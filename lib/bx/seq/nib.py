@@ -1,3 +1,4 @@
+from bx.seq import *
 from __future__ import division
 
 import sys, struct, string, math

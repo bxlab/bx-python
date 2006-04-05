@@ -18,7 +18,7 @@ test_seq_len = len(test_seq)
 class QDNATestCase(unittest.TestCase):
 
     def test_get(self):
-        qdnafile = qdna.QdnaFile(file(os.path.join('lib','bx','seq','test.qdna')))
+        qdnafile = qdna.QdnaFile(file(os.path.join('lib','bx','seq','test.qdna'), "rb"))
         do_test_get(qdnafile, 0, test_seq_len)
         do_test_get(qdnafile, 0, 40)
         do_test_get(qdnafile, test_seq_len - 40, 40)

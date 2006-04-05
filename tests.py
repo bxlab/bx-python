@@ -8,6 +8,7 @@ import bx.intervals.io
 import bx.phylo.newick_tests
 import bx.phylo.phast_tests
 import bx.seqmapping_tests
+import bx.seq.seq_tests
 import bx.seq.nib_tests
 import bx.seq.qdna_tests
 
@@ -24,6 +25,7 @@ tests.append( bx.bitset_tests.suite )
 tests.append( bx.align.maf_tests.suite )
 tests.append( bx.align.score_tests.suite )
 tests.append( bx.seqmapping_tests.suite )
+tests.append( bx.seq.seq_tests.suite )
 tests.append( bx.seq.nib_tests.suite )
 tests.append( bx.seq.qdna_tests.suite )
 
