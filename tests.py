@@ -9,6 +9,7 @@ import bx.phylo.newick_tests
 import bx.phylo.phast_tests
 import bx.seqmapping_tests
 import bx.seq.seq_tests
+import bx.seq.fasta_tests
 import bx.seq.nib_tests
 import bx.seq.qdna_tests
 

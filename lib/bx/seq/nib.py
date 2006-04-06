@@ -12,7 +12,7 @@ NIB_I2C_TABLE = "TCAGNXXXtcagnxxx"
 READ_CHUNK_SIZE=1024*1024
 
 class NibFile( object ):
-    def __init__( self, file ):
+    def __init__( self, file, name="" ):
         self.byte_order = ">" 
         magic = struct.unpack( ">L", file.read( NIB_MAGIC_SIZE ) )[0]
         if magic != NIB_MAGIC_NUMBER: 
@@ -21,6 +21,7 @@ class NibFile( object ):
         self.file = file
         self.magic = magic
         self.length = struct.unpack( "%sL" % self.byte_order, file.read( NIB_LENGTH_SIZE ) )[0]
+        self.name = name
     def get( self, start, length ):
         assert start >= 0
         assert start + length - 1 < self.length
