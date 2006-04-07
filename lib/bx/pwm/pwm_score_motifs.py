@@ -5,12 +5,12 @@ The positions are projected onto human coordinates
 """
 
 import psyco_full
-import align.maf
+from bx.align import maf as align_maf
 import position_weight_matrix as pwmx
-from pwm_score_maf import MafMotifScorer
+from bx.pwm.pwm_score_maf import MafMotifScorer
 from numarray import *
 import sys
-import intervals
+from bx import intervals
 
 def isnan(x):
     return not x==x
@@ -30,7 +30,7 @@ def main():
     for sp in sys.argv[3].split(','):
         species.append( sp )
 
-    for maf in align.maf.Reader(inmaf):
+    for maf in align_maf.Reader(inmaf):
         mafchrom = maf.components[0].src.split('.')[1]
         mafstart = maf.components[0].start
         mafend = maf.components[0].end

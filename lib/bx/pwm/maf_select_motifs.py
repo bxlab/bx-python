@@ -5,12 +5,12 @@ The positions are projected onto human coordinates
 """
 
 import psyco_full
-import align.maf
-import position_weight_matrix as pwmx
-from pwm_score_maf import MafMotifSelect
+from bx.align import maf as align_maf
+import bx.pwm.position_weight_matrix as pwmx
+from bx.pwm.pwm_score_maf import MafMotifSelect
 from numarray import *
 import sys
-import intervals
+from bx import intervals
 
 def isnan(x):
     return not x==x
@@ -28,7 +28,7 @@ def main():
     if len(sys.argv) > 5: motif = sys.argv[5]
     else: motif = None
 
-    for maf in align.maf.Reader(inmaf):
+    for maf in align_maf.Reader(inmaf):
         for mafmotif,pwm_score,motif_score in MafMotifSelect(maf, pwm, motif, threshold):
             #mafwrite( mafmotif,pwm_score,motif_score)
             print mafmotif, pwm_score, motif_score

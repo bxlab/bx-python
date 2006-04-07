@@ -1,7 +1,7 @@
 #!/usr/bin/python2.4
 import sys,os
-import align.maf
-import position_weight_matrix as pwmx
+from bx.align import maf as align_maf
+import bx.pwm.position_weight_matrix as pwmx
 from numarray import *
 
 def isnan(x):
@@ -53,12 +53,12 @@ def main():
 def MafScorer(pwm,species,inmaf):
 
     index = 0
-    for maf in align.maf.Reader( inmaf ):
+    for maf in align_maf.Reader( inmaf ):
         try:
             scoremax,width,headers = MafBlockScorer(pwm,species,maf)
         except:
             print >>sys.stderr, "Failed on:"
-            syserr = align.maf.Writer( sys.stderr )
+            syserr = align_maf.Writer( sys.stderr )
             syserr.write( maf )
             #print >>sys.stderr,headers
             print >>sys.stderr,width
