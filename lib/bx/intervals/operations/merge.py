@@ -16,8 +16,6 @@ from warnings import warn
 from bx.intervals.io import *
 from bx.intervals.operations import *
 
-MAX_END = 512*1024*1024
-
 # sorting could make this a less memory intensive operation(?)
 def merge(interval, mincols=1):
     bitsets = interval.binned_bitsets()
