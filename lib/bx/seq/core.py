@@ -5,19 +5,18 @@ Support for "biological sequence" files
 :Author: Bob Harris (rsharris@bx.psu.edu)
 :Version: $Revision: $
 
-A biological sequence is a sequence of bytes or characters.  Usually these
-represent DNA (A,C,G,T), proteins, or some variation of those.
+See seq.py for more information
 """
 
 import struct
 import fasta, nib, qdna
 
-def seq_file (file, format=None):
+def seq_file (file, format=None, revcomp=False, name="", gap=None):
     if   (format == None):    format = infer_format(file)
-    if   (format == "fasta"): return fasta.FastaFile (file)
-    elif (format == "nib"):   return nib.NibFile (file)
-    elif (format == "qdna"):  return qdna.QdnaFile (file)
-    else: raise "Unknown alignment format %s" % format
+    if   (format == "fasta"): return fasta.FastaFile (file, revcomp=revcomp, name=name, gap=gap)
+    elif (format == "nib"):   return nib.NibFile     (file, revcomp=revcomp, name=name, gap=gap)
+    elif (format == "qdna"):  return qdna.QdnaFile   (file, revcomp=revcomp, name=name, gap=gap)
+    else: raise "Unknown sequence format %s" % format
 
 def infer_format (file):
     format = None
@@ -29,6 +28,7 @@ def infer_format (file):
     else:
         file.seek(0)
         if (file.read(1) == ">"):
-        	format = "fasta"
+            format = "fasta"
     file.seek(0)
     return format
+

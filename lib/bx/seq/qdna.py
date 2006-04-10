@@ -11,11 +11,11 @@ probability vector is external to this module.
 
 qdna file format:
 
-   Fields can be in little- or big-endian format (this is determined from the
-   magic number).
+   Fields can be in big- or little-endian format;  they must match the endianess
+   of the magic number.
 
-   offset 0x00: C4 B4 71 97   new magic number
-   offset 0x04: 00 00 01 00   version (second byte will be sub version)
+   offset 0x00: C4 B4 71 97   big endian magic number (97 71 B4 C4 => little endian)
+   offset 0x04: 00 00 01 00   version (fourth byte will be sub version)
    offset 0x08: 00 00 00 10   header length (in bytes, including this field)
    offset 0x0C: xx xx xx xx   S, offset (from file start) to data sequence
    offset 0x10: xx xx xx xx   N, offset to name, 0 indicates no name
@@ -24,16 +24,19 @@ qdna file format:
    offset    S:  ...          data sequence
 """
 
-from bx.seq import *
-
+from bx.seq.seq import SeqFile
 import sys, struct, string
 
 qdnaMagic     = 0xC4B47197L    # big endian magic number for qdna files
 qdnaMagicSwap = 0x9771B4C4L
 
-class QdnaFile(object):
+class QdnaFile(SeqFile):
 
-    def __init__(self, file):
+    def __init__(self, file, revcomp=False, name="", gap=None):
+        SeqFile.__init__(self,file,revcomp,name,gap)
+        if (gap == None): self.gap = chr(0)
+        assert (revcomp == False), "reverse complement is not supported for qdna files"
+
         self.byte_order = ">" 
         magic = struct.unpack(">L", file.read(4))[0]
         if (magic != qdnaMagic):
@@ -42,7 +45,6 @@ class QdnaFile(object):
             else:
                 raise "not a quantum-dna file (magic=%08X)" % magic
 
-        self.file  = file
         self.magic = magic
 
         # process header
@@ -72,9 +74,7 @@ class QdnaFile(object):
                 if (ch == chr(0)): break
                 self.name += ch
 
-    def get(self, start, length):
-        assert (start >= 0)
-        assert (start + length - 1 < self.length)
+    def raw_fetch(self, start, length):
         self.file.seek(self.seqOffset + start)
         return self.file.read(length)
 

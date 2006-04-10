@@ -28,30 +28,24 @@ A typical FASTA file:
     ... more sequences
 """
 
-from bx.seq import *
-
+from bx.seq.seq import SeqFile
 import sys, string
 
-class FastaFile(object):
+class FastaFile(SeqFile):
 
-    def __init__(self, file):
-        self.name = ""
-        self.text = None
+    def __init__(self, file, revcomp=False, name="", gap=None):
+        SeqFile.__init__(self,file,revcomp,name,gap)
 
-        for line in file:
+        for line in self.file:
             if (line.startswith(">")):
                 if (self.text != None):
                     break # $$$ (multiple sequences not supported yet)
-                self.name = line[1:].strip()
-                self.text = ""
+                self.name = self.extract_name(line[1:])
+                self.text = []
                 continue
-            line = "".join(line.split()) # (remove whitespace)
-            if (self.text == None): self.text =  line
-            else:                   self.text += line
+            line = line.split() # (remove whitespace)
+            if (self.text == None): self.text = line # (allows headerless fasta)
+            else:                   self.text.extend(line)
+        self.text   = "".join(self.text)
         self.length = len(self.text)
-
-    def get(self, start, length):
-        assert (start >= 0)
-        assert (start + length - 1 < self.length)
-        return self.text[start:start+length]
 
