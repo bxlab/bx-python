@@ -65,8 +65,6 @@ class SeqFile(object):
         if (self.revcomp == "-3'"):
             return self.reverse_complement(self.raw_fetch(start,length))
         assert (self.revcomp == "-5'"), "unrecognized reverse complement scheme"
-#...
-        print "start=%d -> %s" % (start,self.raw_fetch(start,length))
         start = self.length - (start+length)
         return self.reverse_complement(self.raw_fetch(start,length))
 
