@@ -12,6 +12,7 @@ def fail( msg ):
     sys.exit(1)
 
 BED_DEFAULT_COLS = 0, 1, 2, 5
+MAX_END = 512*1024*1024
 
 def bits_set_in_range( bits, range_start, range_end ):
     """

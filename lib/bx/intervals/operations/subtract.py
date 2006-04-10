@@ -1,13 +1,9 @@
 #!/usr/bin/env python
 """
-Take an input of GenomicIntervalReaders, intersect, and return a
-GenomicIntervalReader.  The returned GenomicIntervalReader will be in
-the order of the first set of intervals passed in, with the
-corresponding meta-data.
-
-The parameter output can be any object with an append(foo) method.  A
-list is used by default, but GenomicIntervalWriter could be used as
-well (not yet written as of 3/26/06).
+Take an input of GenomicIntervalReaders, subtract, and yield
+GenomicIntervals.  The returned GenomicIntervals will be in the order
+of the first set of intervals passed in, with the corresponding
+meta-data.
 """
 
 import pkg_resources
@@ -22,9 +18,10 @@ from warnings import warn
 from bx.intervals.io import *
 from bx.intervals.operations import *
 
-def intersect(intervals, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens={}, comments=True):
+def subtract(intervals, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens={}, comments=True):
 
-    # Read all but first into bitsets and intersect to one
+    # Read all but first into bitsets and union to one (if confused,
+    # read DeMorgan's...)
     primary = intervals[0]
     intersect = intervals[1:]
     bitsets = intersect[0].binned_bitsets(upstream_pad = upstream_pad, downstream_pad = downstream_pad, lens = lens)
@@ -33,10 +30,10 @@ def intersect(intervals, mincols=1, upstream_pad=0, downstream_pad=0, pieces=Tru
         bitset2 = andset.binned_bitsets(upstream_pad = upstream_pad, downstream_pad = downstream_pad, lens = lens)
         for chrom in bitsets:
             if chrom not in bitset2: continue
-            bitsets[chrom].iand(bitset2[chrom])
+            bitsets[chrom].ior(bitset2[chrom])
         intersect = intersect[1:]
     
-    # Read remaining intervals and intersect
+    # Read remaining intervals and subtract
     for interval in primary:
         if type( interval ) is Header:
             yield interval
@@ -49,12 +46,13 @@ def intersect(intervals, mincols=1, upstream_pad=0, downstream_pad=0, pieces=Tru
             if chrom not in bitsets: continue
             if start > end: warn( "Interval start after end! on line '%d' of second input" % f.lineno() )
             out_intervals = []
-            # Intersect or Overlap
+            # Find the intervals that meet the criteria (for the three sensible
+            # permutations of reverse and pieces)
             if bitsets[ chrom ].count_range( start, end-start ) >= mincols:                
                 if pieces:
-                    out_intervals = bits_set_in_range( bitsets[chrom], start, end )
-                else:
-                    out_intervals = [ ( start, end ) ]
+                    out_intervals = bits_clear_in_range( bitsets[chrom], start, end )
+            else:
+                out_intervals = [ ( start, end ) ]
             # Write the intervals
             for start, end in out_intervals:
                 new_interval = interval.copy()
