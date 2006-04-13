@@ -124,6 +124,9 @@ class Reader(object):
         self.seq1_contig   = int(fields[4])
         if (fields[3] == "1"): self.seq1_strand = "-"
         else:                  self.seq1_strand = "+"
+        assert (self.seq1_contig == 1), \
+               "multiple query sequences not yet supported (line %d, \"%s\")" \
+             % (self.lineNumber,line)
 
         line = self.file.readline().strip()
         self.lineNumber += 1
@@ -134,6 +137,9 @@ class Reader(object):
         self.seq2_contig   = int(fields[4])
         if (fields[3] == "1"): self.seq2_strand = "-"
         else:                  self.seq2_strand = "+"
+        assert (self.seq2_contig == 1), \
+               "multiple query sequences not yet supported (line %d, \"%s\")" \
+             % (self.lineNumber,line)
 
         line = self.file.readline().strip()
         self.lineNumber += 1
