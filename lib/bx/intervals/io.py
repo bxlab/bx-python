@@ -55,6 +55,8 @@ class GenomicInterval( TableRow ):
         object.__setattr__( self, name, value )
     def __str__( self ):
         return "\t".join( self.fields )
+    def copy( self ):
+        return GenomicInterval(self.reader, list( self.fields ), self.chrom_col, self.start_col, self.end_col, self.strand_col, self.strand)
 
 class GenomicIntervalReader( TableReader ):
     """
