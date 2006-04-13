@@ -5,8 +5,9 @@ the first input.  In other words, it is possible to concat two files
 that have different column orders.  Of course, the meta-data of the
 second will be lost (and filled with a .).  If all of the files
 (GenomicInteralReaders) are the same format, sameformat=True will
-preserve all columns, but fails to pad extra columns.  If
-sameformat=False then extra columns are filled with (.).
+preserve all columns of the first input, cuts extra columns on
+subsequent input, and pads missing columns.  If sameformat=False then
+extra columns are filled with (.).
 """
 
 import pkg_resources
@@ -32,14 +33,20 @@ def concat(readers, comments=True, header=True, sameformat=True):
             if type( interval ) is GenomicInterval:
                 out_interval = interval.copy()
                 if sameformat or firsttime:
+                    if not firsttime:
+                        if len(out_interval.fields) > nfields:
+                            out_interval.fields = out_interval.fields[0:(nfields - 1)]
+                        while len(out_interval.fields) < nfields:
+                            out_interval.fields.append(".")
                     yield out_interval
-                    nfields = interval.nfields
+                    if firsttime:
+                        nfields = interval.nfields
                 else:
                     chrom = out_interval.chrom
                     start = out_interval.start
                     end = out_interval.end
                     strand = out_interval.strand
-                    out_interval.fields = ["."] * nfields
+                    out_interval.fields = ["." for col in range(nfields)]  
                     out_interval.fields[chrom_col] = chrom
                     out_interval.fields[start_col] = str(start)
                     out_interval.fields[end_col] = str(end)
