@@ -4,10 +4,6 @@ Take an input of GenomicIntervalReaders, intersect, and return a
 GenomicIntervalReader.  The returned GenomicIntervalReader will be in
 the order of the first set of intervals passed in, with the
 corresponding meta-data.
-
-The parameter output can be any object with an append(foo) method.  A
-list is used by default, but GenomicIntervalWriter could be used as
-well (not yet written as of 3/26/06).
 """
 
 import pkg_resources
