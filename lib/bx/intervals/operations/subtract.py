@@ -18,20 +18,21 @@ from warnings import warn
 from bx.intervals.io import *
 from bx.intervals.operations import *
 
-def subtract(intervals, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens={}, comments=True):
+def subtract(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens={}, comments=True):
 
     # Read all but first into bitsets and union to one (if confused,
     # read DeMorgan's...)
-    primary = intervals[0]
-    intersect = intervals[1:]
-    bitsets = intersect[0].binned_bitsets(upstream_pad = upstream_pad, downstream_pad = downstream_pad, lens = lens)
-    intersect = intersect[1:]
-    for andset in intersect:
+    primary = readers[0]
+    union = readers[1:]
+    bitsets = union[0].binned_bitsets(upstream_pad = upstream_pad, downstream_pad = downstream_pad, lens = lens)
+    union = union[1:]
+    for andset in union:
         bitset2 = andset.binned_bitsets(upstream_pad = upstream_pad, downstream_pad = downstream_pad, lens = lens)
-        for chrom in bitsets:
-            if chrom not in bitset2: continue
-            bitsets[chrom].ior(bitset2[chrom])
-        intersect = intersect[1:]
+        for chrom in bitset2:
+            if chrom not in bitsets:
+                bitsets[chrom] = bitset2[chrom]
+            else:
+                bitsets[chrom].ior(bitset2[chrom])
     
     # Read remaining intervals and subtract
     for interval in primary:

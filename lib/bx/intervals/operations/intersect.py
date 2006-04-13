@@ -22,11 +22,11 @@ from warnings import warn
 from bx.intervals.io import *
 from bx.intervals.operations import *
 
-def intersect(intervals, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens={}, comments=True):
+def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens={}, comments=True):
 
     # Read all but first into bitsets and intersect to one
-    primary = intervals[0]
-    intersect = intervals[1:]
+    primary = readers[0]
+    intersect = readers[1:]
     bitsets = intersect[0].binned_bitsets(upstream_pad = upstream_pad, downstream_pad = downstream_pad, lens = lens)
     intersect = intersect[1:]
     for andset in intersect:
