@@ -59,10 +59,10 @@ def main():
 
 	out = bx.align.axt.Writer(sys.stdout)
 
-	mafsRead = 0
+	axtsRead = 0
 	mafsWritten = 0
 	for mafBlock in bx.align.maf.Reader(sys.stdin):
-		mafsRead += 1
+		axtsRead += 1
 
 		p = mafBlock.get_component_by_src_start(primary)
 		if (p == None): continue
@@ -80,7 +80,7 @@ def main():
 		out.write (axtBlock)
 		mafsWritten += 1
 
-	sys.stderr.write ("%d blocks read, %d written\n" % (mafsRead,mafsWritten))
+	sys.stderr.write ("%d blocks read, %d written\n" % (axtsRead,mafsWritten))
 
 
 def clone_component(c):
