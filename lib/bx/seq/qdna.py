@@ -24,7 +24,7 @@ qdna file format:
    offset    S:  ...          data sequence
 """
 
-from bx.seq.seq import SeqFile
+from bx.seq.seq import SeqFile,SeqReader
 import sys, struct, string
 
 qdnaMagic     = 0xC4B47197L    # big endian magic number for qdna files
@@ -77,4 +77,16 @@ class QdnaFile(SeqFile):
     def raw_fetch(self, start, length):
         self.file.seek(self.seqOffset + start)
         return self.file.read(length)
+
+
+class QdnaReader(SeqReader):
+    
+    def __init__(self, file, revcomp=False, name="", gap=None):
+        SeqReader.__init__(self,file,revcomp,name,gap)
+
+    def next(self):
+        if (self.seqs_read != 0): return  # qdna files have just one sequence
+        seq = QdnaFile(self.file,self.revcomp,self.name,self.gap)
+        self.seqs_read += 1
+        return seq
 

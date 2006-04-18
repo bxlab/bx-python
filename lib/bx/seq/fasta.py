@@ -28,24 +28,46 @@ A typical FASTA file:
     ... more sequences
 """
 
-from bx.seq.seq import SeqFile
+from bx.seq.seq import SeqFile,SeqReader
 import sys, string
 
 class FastaFile(SeqFile):
 
-    def __init__(self, file, revcomp=False, name="", gap=None):
+    def __init__(self, file, revcomp=False, name="", gap=None,lookahead=None):
         SeqFile.__init__(self,file,revcomp,name,gap)
+        self.lookahead = None
 
-        for line in self.file:
+        while (True):
+            if (lookahead != None): (line,lookahead) = (lookahead,None)
+            else:                    line = self.file.readline()
+            if (line == ""): break
             if (line.startswith(">")):
                 if (self.text != None):
-                    break # $$$ (multiple sequences not supported yet)
+                    self.lookahead = line # (next sequence header)
+                    break
                 self.name = self.extract_name(line[1:])
                 self.text = []
                 continue
             line = line.split() # (remove whitespace)
             if (self.text == None): self.text = line # (allows headerless fasta)
             else:                   self.text.extend(line)
-        self.text   = "".join(self.text)
-        self.length = len(self.text)
+        if (self.text != None):
+            self.text   = "".join(self.text)
+            self.length = len(self.text)
+
+
+class FastaReader(SeqReader):
+    
+    def __init__(self, file, revcomp=False, name="", gap=None):
+        SeqReader.__init__(self,file,revcomp,name,gap)
+        self.lookahead = None
+
+    def next(self):
+        seq = FastaFile(self.file,self.revcomp,self.name,self.gap,self.lookahead)
+        if (seq.text == None): return
+        self.lookahead = seq.lookahead
+        self.seqs_read += 1
+        return seq
+
+
 

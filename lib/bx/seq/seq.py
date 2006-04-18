@@ -57,6 +57,12 @@ class SeqFile(object):
     def extract_name(self,line):
         return line.split()[0]
 
+    def __str__ (self):
+        text = ""
+        if (self.name != None): text += self.name + " "
+        text += self.get(0,self.length)
+        return text
+
     def get(self, start, length):
         assert (start >= 0)
         assert (start + length - 1 < self.length)
@@ -75,3 +81,37 @@ class SeqFile(object):
         comp = [ch for ch in text.translate(DNA_COMP)]
         comp.reverse()
         return "".join(comp)
+
+
+class SeqReader(object):
+    """Iterate over all sequences in a file in order"""
+    
+    def __init__(self, file, revcomp=False, name="", gap=None):
+        self.file      = file
+        self.revcomp   = revcomp
+        self.name      = name
+        self.gap       = gap
+        self.seqs_read = 0
+
+    def close(self):
+        self.file.close()
+
+    def __iter__(self):
+        return SeqReaderIter(self)
+
+    def next(self):  # subclasses should override this method and return the
+        return       # .. next sequence (of type SeqFile or a subclass) read
+                     # .. from self.file
+
+
+class SeqReaderIter(object):
+    def __init__(self,reader):
+        self.reader = reader
+    def __iter__(self): 
+        return self
+    def next(self):
+        v = self.reader.next()
+        if not v: raise StopIteration
+        return v
+
+

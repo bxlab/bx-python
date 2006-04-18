@@ -21,7 +21,7 @@ nib file format:
                               byte is first in sequence
 """
 
-from bx.seq.seq import SeqFile
+from bx.seq.seq import SeqFile,SeqReader
 import sys, struct, string, math
 
 NIB_MAGIC_NUMBER = 0x6BE93D3A
@@ -61,4 +61,16 @@ class NibFile(SeqFile):
         if (start + length) & 1: del result[ -1 ]
         # Return as string
         return string.join(result, '')
+
+
+class NibReader(SeqReader):
+    
+    def __init__(self, file, revcomp=False, name="", gap=None):
+        SeqReader.__init__(self,file,revcomp,name,gap)
+
+    def next(self):
+        if (self.seqs_read != 0): return  # nib files have just one sequence
+        seq = NibFile(self.file,self.revcomp,self.name,self.gap)
+        self.seqs_read += 1
+        return seq
 

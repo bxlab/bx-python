@@ -18,6 +18,15 @@ def seq_file (file, format=None, revcomp=False, name="", gap=None):
     elif (format == "qdna"):  return qdna.QdnaFile   (file, revcomp=revcomp, name=name, gap=gap)
     else: raise "Unknown sequence format %s" % format
 
+
+def seq_reader (file, format=None, revcomp=False, name="", gap=None):
+    if   (format == None):    format = infer_format(file)
+    if   (format == "fasta"): return fasta.FastaReader (file, revcomp=revcomp, name=name, gap=gap)
+    elif (format == "nib"):   return nib.NibReader     (file, revcomp=revcomp, name=name, gap=gap)
+    elif (format == "qdna"):  return qdna.QdnaReader   (file, revcomp=revcomp, name=name, gap=gap)
+    else: raise "Unknown sequence format %s" % format
+
+
 def infer_format (file):
     format = None
     magic = struct.unpack(">L", file.read(4))[0]
