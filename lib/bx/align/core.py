@@ -14,6 +14,7 @@ class Alignment( object ):
         # chromosome lengths;  it maps each species name to one of these:
         #   - the name of a file that contains a list of chromosome length pairs
         #   - a dict mapping chromosome names to their length
+        #   - a single length value (useful when we just have one sequence and no chromosomes)
         # internally a file name is replaced by a dict, but only on an "as
         # needed" basis
         self.score = score
@@ -42,9 +43,10 @@ class Alignment( object ):
 
     def src_size( self, src ):
         species,chrom = src_split( src )
-        if species == None: raise "no src_size (%s not of form species.chrom)" % src
         if species not in self.species_to_lengths: raise "no src_size (no length file for %s)" % species
         chrom_to_length = self.species_to_lengths[species]
+        if type( chrom_to_length ) == int:         # (if it's a single length)
+        	return chrom_to_length
         if type( chrom_to_length ) == type( "" ):  # (if it's a file name)
             chrom_to_length = read_lengths_file( chrom_to_length )
             self.species_to_lengths[species] = chrom_to_length
@@ -234,6 +236,10 @@ def src_split( src ): # splits src into species,chrom
     dot = src.rfind( "." )
     if dot == -1: return None,src
     else:         return src[:dot],src[dot+1:]
+
+def src_merge( species,chrom ): # creates src (inverse of src_split)
+    if species == None: return chrom
+    else:               return species + "." + chrom
 
 # improvement: lengths file should probably be another class
 
