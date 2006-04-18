@@ -23,6 +23,7 @@ from bx.intervals.io import *
 from bx.intervals.operations import *
 
 def concat(readers, comments=True, header=True, sameformat=True):
+    # Save columns from the first input
     chrom_col = readers[0].chrom_col
     start_col = readers[0].start_col
     end_col = readers[0].end_col
@@ -34,6 +35,8 @@ def concat(readers, comments=True, header=True, sameformat=True):
                 out_interval = interval.copy()
                 if sameformat or firsttime:
                     if not firsttime:
+                        # everything except the first input has to be
+                        # trimmed or padded to match the first input
                         if len(out_interval.fields) > nfields:
                             out_interval.fields = out_interval.fields[0:(nfields - 1)]
                         while len(out_interval.fields) < nfields:
@@ -56,4 +59,5 @@ def concat(readers, comments=True, header=True, sameformat=True):
                 yield interval
             elif type( interval ) is Comment and comments:
                 yield interval
+        # All other inputs will be mangled
         firsttime=False
