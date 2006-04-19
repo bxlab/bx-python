@@ -1,24 +1,19 @@
 #!/usr/bin/env python
-#--------+---------+---------+---------+---------+---------+---------+--------=
-#
-# File: axt_to_maf.py								Author: Bob Harris
-#
-#----------
+"""
+Application to convert AXT file to MAF file
+-------------------------------------------
 
-"""---------
-#
-# axt_to_maf--
-#	Convert an AXT file to a two-species MAF file.  User must provide species
-#	names and lengths files.
-#
-#-------"""
+:Author: Bob Harris (rsharris@bx.psu.edu)
+:Version: $Revision: $
+
+The application reads an AXT file from standard input and writes a MAF file to
+standard out;  some statistics are written to standard error.
+"""
 
 import sys
 import copy
 import bx.align.axt
 import bx.align.maf
-
-debug = []
 
 #-----------
 #
@@ -59,9 +54,7 @@ def main():
 			if (val == ""):
 				usage("missing a value in %s=" % arg)
 
-		if (arg == "-debug") and (val != None):
-			debug.append(val)
-		elif (primary == None) and (val == None):
+		if (primary == None) and (val == None):
 			primary = arg
 		elif (secondary == None) and (val == None):
 			secondary = arg
@@ -159,11 +152,6 @@ def read_lengths (fileName):
 
 	return chromToLength
 
-#-----------
-#
-# (technically, this is the main program)
-#
-#----------
 
 if __name__ == "__main__": main()
 
