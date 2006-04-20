@@ -41,7 +41,7 @@ def subtract(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, 
         if type( interval ) is Comment and comments:
             yield interval
         elif type( interval ) == GenomicInterval:
-            chrom = interval.chroms
+            chrom = interval.chrom
             start = int(interval.start)
             end = int(interval.end)
             if chrom not in bitsets: continue
