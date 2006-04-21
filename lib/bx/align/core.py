@@ -50,7 +50,7 @@ class Alignment( object ):
         if type( chrom_to_length ) == type( "" ):  # (if it's a file name)
             chrom_to_length = read_lengths_file( chrom_to_length )
             self.species_to_lengths[species] = chrom_to_length
-        if chrom not in chrom_to_length: "no src_size (%s has no length for %s)" % ( species, chrom )
+        if chrom not in chrom_to_length: raise "no src_size (%s has no length for %s)" % ( species, chrom )
         return chrom_to_length[chrom]
 
     def get_component_by_src( self, src ):
