@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.4
 
 """
-usage: %prog start end maf_files...
+usage: %prog list,of,species,to,keep seq_db_file indexed_maf_files ...
     -m, --missingData: Inserts wildcards for missing block rows instead of '-'
 """
 
@@ -72,6 +72,23 @@ def get_fill_char( maf_status ):
     else:
         raise "Unknwon maf status"
         
+def guess_fill_char( left_comp, right_comp ):
+    """
+    For the case where there is no annotated synteny we will try to guess it
+    """
+    # No left component, obiously new
+    return "*"
+    # First check that the blocks have the same src (not just species) and 
+    # orientation
+    if ( left_comp.src == right_comp.src and left_comp.strand != right_comp.strand ): 
+        # Are they completely contiguous? Easy to call that a gap
+        if left_comp.end == right_comp.start: 
+            return "-"
+        # TODO: should be able to make some guesses about short insertions
+        # here
+    # All other cases we have no clue about
+    return "*" 
+        
 def remove_all_gap_columns( texts ):
     """
     Remove any columns containing only gaps from alignment texts
@@ -124,8 +141,14 @@ def do_interval( sources, index, out, ref_src, start, end, seq_db, missing_data 
     for i, block in enumerate( blocks ):
         # Check for overlap in reference species
         ref = block.get_component_by_src_start( ref_src )
+        if ref.start < last_stop:
+            if ref.end < last_stop: 
+                continue
+            block = block.slice_by_component( ref, last_stop, min( end, ref.end ) )
+            ref = block.get_component_by_src_start( ref_src )
         block = block.slice_by_component( ref, max( start, ref.start ), min( end, ref.end ) )
         ref = block.get_component_by_src_start( ref_src )
+        # print block
         assert last_components[0] is None or ref.start >= last_components[0].end, \
             "MAF must be sorted and single coverage in reference species!"
         assert ref.strand == "+", \
@@ -150,8 +173,14 @@ def do_interval( sources, index, out, ref_src, start, end, seq_db, missing_data 
             source_index = source_to_index[ source ]
             comp = block.get_component_by_src_start( source )
             if comp:
-                left_status, left_length = comp.synteny_left
-                right_status, right_length = comp.synteny_right
+                if comp.synteny_left is None:
+                    left_status, left_length = None, -1
+                else:
+                    left_status, left_length = comp.synteny_left
+                if comp.synteny_right is None:
+                    right_status, right_length = None, -1
+                else:
+                    right_status, right_length = comp.synteny_right
                 # We have a component, do we need to do some filling?
                 cols_to_fill = cols_needing_fill[ source_index ]
                 if cols_to_fill > 0:
@@ -159,7 +188,10 @@ def do_interval( sources, index, out, ref_src, start, end, seq_db, missing_data 
                     ## assert last_status[ source_index ] is None or last_status[ source_index ] == left_status, \
                     ##     "left status (%s) does not match right status (%s) of last component for %s" \
                     ##         % ( left_status, last_status[ source_index ], source )
-                    fill_char = get_fill_char( left_status )
+                    if left_status is None:
+                        fill_char = guess_fill_char( last_components[source_index], comp )
+                    else:
+                        fill_char = get_fill_char( left_status )
                     tiled_rows[ source_index ] += ( fill_char * cols_to_fill )
                     cols_needing_fill[ source_index ] = 0
                 # Okay, filled up to current position, now append the text
@@ -185,11 +217,14 @@ def do_interval( sources, index, out, ref_src, start, end, seq_db, missing_data 
         source_index = source_to_index[ source ]
         fill_needed = cols_needing_fill[ source_index ]
         if fill_needed > 0:
-            if last_status[ source_index ] is None:
+            if last_components[ source_index ] is None:
                 # print >>sys.stderr, "Never saw any components for %s, filling with @" % source
                 fill_char = '@'
             else:
-                fill_char = get_fill_char( last_status[ source_index ] )
+                if last_status[ source_index ] is None:
+                    fill_char = '*'
+                else:
+                    fill_char = get_fill_char( last_status[ source_index ] )
             tiled_rows[ source_index ] += fill_char * fill_needed
         assert len( tiled_rows[ source_index ] ) == len( tiled_rows[ 0 ] ), \
             "length of tiled row should match reference row"

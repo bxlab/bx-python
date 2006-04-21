@@ -45,20 +45,22 @@ bitsets = binned_bitsets_from_file( open( in2_fname ) )
 
 for line in open( in_fname ):
     fields = line.split()
-    if fields[0] not in bitsets: continue
     start, end = int( fields[1] ), int( fields[2] )
-    if start > end: warn( "Bed interval start after end!" )
-    if bitsets[fields[0]].count_range( start, end-start ) >= mincols:
-        if reverse and booleans:
-            print 0
-        elif booleans: 
-            print 1
-        else:
-            print line,
-    elif reverse:
+    if start > end: 
+        warn( "Bed interval start after end!" )
+    if fields[0] in bitsets and bitsets[fields[0]].count_range( start, end-start ) >= mincols:
         if booleans:
-            print 1
-        else:
+            if reverse: 
+                print 0
+            else:
+                print 1
+        elif not reverse:
             print line,
-    elif booleans:
-        print 0
+    else:
+        if booleans:
+            if reverse:
+                print 1
+            else:
+                print 0
+        elif reverse:
+            print line,
