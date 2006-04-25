@@ -27,6 +27,8 @@ class Alignment( object ):
     def add_component( self, component ):
         component.alignment = self
         self.components.append( component )
+#...
+        print component.src,len(component.text),component.text
         if self.text_size == 0: self.text_size = len( component.text )
         elif self.text_size != len( component.text ): raise "Components must have same text length"
 
@@ -43,8 +45,12 @@ class Alignment( object ):
 
     def src_size( self, src ):
         species,chrom = src_split( src )
-        if species not in self.species_to_lengths: raise "no src_size (no length file for %s)" % species
-        chrom_to_length = self.species_to_lengths[species]
+        if species in self.species_to_lengths:
+            chrom_to_length = self.species_to_lengths[species]
+        elif chrom in self.species_to_lengths:
+            chrom_to_length = self.species_to_lengths
+        else:
+        	raise "no src_size (no length file for %s)" % species
         if type( chrom_to_length ) == int:         # (if it's a single length)
         	return chrom_to_length
         if type( chrom_to_length ) == type( "" ):  # (if it's a file name)
