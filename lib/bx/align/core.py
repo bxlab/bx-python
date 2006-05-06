@@ -27,8 +27,6 @@ class Alignment( object ):
     def add_component( self, component ):
         component.alignment = self
         self.components.append( component )
-#...
-        print component.src,len(component.text),component.text
         if self.text_size == 0: self.text_size = len( component.text )
         elif self.text_size != len( component.text ): raise "Components must have same text length"
 
