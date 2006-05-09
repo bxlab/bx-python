@@ -36,9 +36,9 @@ def coverage(readers, comments=True):
         if type( interval ) is Comment and comments:
             yield interval
         elif type( interval ) == GenomicInterval:
-            chrom = interval["chrom"]
-            start = int(interval["start"])
-            end = int(interval["end"])
+            chrom = interval.chrom
+            start = int(interval.start)
+            end = int(interval.end)
             if chrom not in bitsets: continue
             if start > end: warn( "Interval start after end! on line '%d' of second input" % f.lineno() )
             bases_covered = bitsets[ chrom ].count_range( start, end-start )
