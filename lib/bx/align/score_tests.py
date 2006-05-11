@@ -2,6 +2,7 @@ import bx.align.score
 import bx.align.maf
 import StringIO
 import unittest
+import sys
 
 try:
     from numpy import array, cumsum, allclose
@@ -60,6 +61,14 @@ aligns_for_asymm_scheme = [ ( "\x01\x01\x01\x01\x01\x01",
 
 
 class BasicTests( unittest.TestCase ):
+
+    def setUp( self ):
+        self.save = sys.stdout # this causes an AttributeError if any of these
+        sys.stdout = None      # .. tests inadvertently print something
+
+    def tearDown( self ):
+        sys.stdout = self.save
+
     def test_scoring_text( self ):
         ss = bx.align.score.hox70
         for t1, t2, score in aligns:

@@ -1,4 +1,5 @@
 import unittest
+import sys
 import bx.align as align
 import bx.align.maf as maf
 
@@ -22,6 +23,13 @@ s fugu_unc  4000 4 +  4038 AC----TT
 """
 
 class MAFTestCase( unittest.TestCase ):
+
+    def setUp( self ):
+        self.save = sys.stdout # this causes an AttributeError if any of these
+        sys.stdout = None      # .. tests inadvertently print something
+
+    def tearDown( self ):
+        sys.stdout = self.save
 
     def testReader( self ):
 

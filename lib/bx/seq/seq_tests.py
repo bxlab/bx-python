@@ -1,5 +1,6 @@
 import unittest
 import os.path
+import sys
 import bx.seq, fasta_tests, nib_tests, qdna_tests
 
 test_fasta = fasta_tests.test_seq
@@ -13,6 +14,13 @@ test2 = [("apple",      "GGCGCTGCGATAAGGTTGCGACAACACGGACCTTCTTTTGCCTACCTCTGTTCTT
          ("grapefruit", "CCTGCATATCGACTAGTACACCCTCCCGAGGTACCCCACCCATCCCTCTTTTCTCGGCGCG")]
 
 class SEQTestCase (unittest.TestCase):
+
+    def setUp(self):
+        self.save = sys.stdout # this causes an AttributeError if any of these
+        sys.stdout = None      # .. tests inadvertently print something
+
+    def tearDown(self):
+        sys.stdout = self.save
 
     def test_get_fasta (self):
         fastafile = bx.seq.seq_file (file (os.path.join('lib','bx','seq','test.fa'),"rb"))
