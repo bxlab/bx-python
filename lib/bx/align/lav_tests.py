@@ -65,11 +65,11 @@ m {
 class lavTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.save = sys.stdout # this causes an AttributeError if any of these
-        sys.stdout = None      # .. tests inadvertently print something
+        sys.stdout = None # this causes an AttributeError if any of these
+                          # .. tests inadvertently print something
 
     def tearDown(self):
-        sys.stdout = self.save
+        sys.stdout = sys.__stdout__
 
     def testReader(self):
 

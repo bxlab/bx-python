@@ -1,4 +1,5 @@
 import unittest
+import sys
 import os.path
 import fasta
 
@@ -16,6 +17,13 @@ test_seq = "TGGAGGCATTTGTGATTCAATAGATGCAGAAAGAAACCTTCCTAGAGCTG" \
 test_seq_len = len( test_seq )
 
 class FASTATestCase( unittest.TestCase ):
+
+    def setUp(self):
+        sys.stdout = None # this causes an AttributeError if any of these
+                          # .. tests inadvertently print something
+
+    def tearDown(self):
+        sys.stdout = sys.__stdout__
 
     def test_get( self ):
         fastafile = fasta.FastaFile( file( os.path.join('lib','bx','seq','test.fa'), "rb" ) )

@@ -29,6 +29,7 @@ tests.append( bx.align.lav_tests.suite )
 tests.append( bx.align.score_tests.suite )
 tests.append( bx.seqmapping_tests.suite )
 tests.append( bx.seq.seq_tests.suite )
+tests.append( bx.seq.fasta_tests.suite )
 tests.append( bx.seq.nib_tests.suite )
 tests.append( bx.seq.qdna_tests.suite )
 

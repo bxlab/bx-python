@@ -16,11 +16,11 @@ test2 = [("apple",      "GGCGCTGCGATAAGGTTGCGACAACACGGACCTTCTTTTGCCTACCTCTGTTCTT
 class SEQTestCase (unittest.TestCase):
 
     def setUp(self):
-        self.save = sys.stdout # this causes an AttributeError if any of these
-        sys.stdout = None      # .. tests inadvertently print something
+        sys.stdout = None # this causes an AttributeError if any of these
+                          # .. tests inadvertently print something
 
     def tearDown(self):
-        sys.stdout = self.save
+        sys.stdout = sys.__stdout__
 
     def test_get_fasta (self):
         fastafile = bx.seq.seq_file (file (os.path.join('lib','bx','seq','test.fa'),"rb"))

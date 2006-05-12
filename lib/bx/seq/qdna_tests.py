@@ -1,4 +1,5 @@
 import unittest
+import sys
 import os.path
 import qdna
 
@@ -16,6 +17,13 @@ test_seq = "C7wMwHQrMKqEtSREuUv5nsLinpTS8l7jXpbI7IipvCbHnhOdgx" \
 test_seq_len = len(test_seq)
 
 class QDNATestCase(unittest.TestCase):
+
+    def setUp(self):
+        sys.stdout = None # this causes an AttributeError if any of these
+                          # .. tests inadvertently print something
+
+    def tearDown(self):
+        sys.stdout = sys.__stdout__
 
     def test_get(self):
         qdnafile = qdna.QdnaFile(file(os.path.join('lib','bx','seq','test.qdna'), "rb"))
