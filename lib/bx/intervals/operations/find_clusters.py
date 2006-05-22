@@ -27,16 +27,18 @@ from bx.intervals.operations import *
 
 
 def find_clusters(reader, mincols=1):
+    extra = dict()
     chroms = dict()
     linenum = -1
     for interval in reader:
-        if not type( interval ) is GenomicInterval: continue
         linenum += 1
+        if not type( interval ) is GenomicInterval:
+            extra[linenum] = interval
         if interval.chrom in chroms:
              chroms[interval.chrom] = chroms[interval.chrom].insert(interval.start, interval.end, linenum)
         else:
              chroms[interval.chrom] = ClusterNode(interval.start, interval.end, linenum, mincols)
-    return chroms
+    return chroms, extra
    
 class ClusterNode( object ):
     def __init__( self, start, end, linenum, mincols ):
@@ -143,7 +145,7 @@ class ClusterNode( object ):
 ## def main():
 ##     f1 = fileinput.FileInput("big.bed")
 ##     g1 = GenomicIntervalReader(f1)
-##     returntree = find_clusters(g1, mincols=50)
+##     returntree, extra = find_clusters(g1, mincols=50)
 ##     for chrom, value in returntree.items():
 ##         for start, end in value.getintervals(2):
 ##            print chrom+"\t"+str(start)+"\t"+str(end)

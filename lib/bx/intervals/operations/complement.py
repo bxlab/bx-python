@@ -26,7 +26,7 @@ def complement(reader, lens):
     # Read remaining intervals and subtract
     for chrom in bitsets:
         bitset = bitsets[chrom]
-        out_intervals = bits_set_in_range( bitset, 0, lens.get(chrom, 512*1024*1024))
+        out_intervals = bits_set_in_range( bitset, 0, lens.get(chrom, 512*1024*1024) )
         # Write the intervals
         for start, end in out_intervals:
             fields = ["."  for x in range(max(reader.chrom_col, reader.start_col, reader.end_col)+1)]
@@ -35,3 +35,14 @@ def complement(reader, lens):
             fields[reader.end_col] = end
             new_interval = GenomicInterval(reader, fields, reader.chrom_col, reader.start_col, reader.end_col, reader.strand_col, "+")
             yield new_interval
+
+
+def main():
+    # test it all out
+    f1 = fileinput.FileInput("dataset_7.dat")
+    g1 = GenomicIntervalReader(f1)
+    for interval in complement(g1,{"chr":16000000}):
+        print "\t".join(interval)
+
+if __name__ == "__main__":
+    main()
