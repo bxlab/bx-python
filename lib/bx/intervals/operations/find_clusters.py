@@ -100,12 +100,8 @@ class ClusterNode( object ):
     def push_up( self, topnode ):
         # Note: this function does not affect heap property
         # Distance method removed for inline, faster?
-        distance = 0
-        if self.start > topnode.end:
-            distance = self.start - topnode.end
-        elif topnode.start > self.end:
-            distance = topnode.start - self.end
-        if distance < self.mincols:
+        distance = max(self.start, topnode.start) - min(self.end, topnode.end)
+        if distance <= self.mincols:
             topnode.start = min(self.start, topnode.start)
             topnode.end = min(self.end, topnode.end)
             for linenum in self.lines:
