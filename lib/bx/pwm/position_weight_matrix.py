@@ -3,31 +3,16 @@
 import sys
 import math
 import string
-from numarray import *
+#from numarray import *
 from sets import *
-true  = 1
-false = 0
-
-#-----------
-#
-# WeightMatrix--
-#    A position weight matrix (PWM) representation of a motif.
-#
-#----------
-# id:        id (name) of the motif
-# alphabet:  symbols allowed
-# rows:      the matrix;  each row is a hash from symbol to weight
-# threshold: to be considered a match, a window must score at least this
-# cutoff:    internal representation of threshold
-#----------
 
 # This is the average of all species in the alignment outside of exons
 #        > mean(r)
-#        A         T         C         G 
-#        0.2863776 0.2878264 0.2129560 0.2128400 
+#        A         T         C         G
+#        0.2863776 0.2878264 0.2129560 0.2128400
 #        > sd(r)
-#        A          T          C          G 
-#        0.01316192 0.01371148 0.01293836 0.01386655 
+#        A          T          C          G
+#        0.01316192 0.01371148 0.01293836 0.01386655
 
 ENCODE_NONCODING_BACKGROUND = { 'A':0.2863776,'T':0.2878264,'G':0.2128400,'C':0.2129560}
 
@@ -94,7 +79,7 @@ def score_align_motif (align,motif,gapmask=None,byPosition=True):
                 if char == '-' or char == 'N': continue
                 else: subseq += char
 
-                if len(subseq) == minSeqLen: 
+                if len(subseq) == minSeqLen:
                     end = ic+1
                     for_score = int( match_consensus(subseq,motif) )
                     revseq = reverse_complement( subseq )
@@ -118,10 +103,31 @@ def score_align_motif (align,motif,gapmask=None,byPosition=True):
     putmask( scoremax, gapmask, float('nan') )
     return scoremax
 
+#-----------
+#
+# WeightMatrix--
+#    A position weight matrix (PWM) representation of a motif.
+#
+#----------
+# construction arguments:
+#   id:         id (name) of the motif
+#   rows:       the matrix;  each row is a hash from symbol to weight, with
+#               .. the weight in string form
+#   alphabet:   symbols allowed
+#   background: hash from symbol to background probability of that symbol;  if
+#               .. not specified, ENCODE_NONCODING_BACKGROUND is used
+# internal fields:
+#   rows:       the matrix;  each row is a hash from symbol to log-odds score
+#               .. of that symbol for that row of the weight matrix
+#   counts:     the matrix;  count[row][sym] is the weight, as an integer
+#   probs:      the matrix;  probs[row][sym] is the weight, as an probability
+#----------
+
 class PositionWeightMatrix (object):
+
     complementMap = string.maketrans("ACGTacgt","TGCAtgca")
 
-    # IUPAC-IUB 
+    # IUPAC-IUB
     symbols = {
         'A':Set(['A']),
         'C':Set(['C']),
@@ -138,12 +144,12 @@ class PositionWeightMatrix (object):
         'V':Set(['G','C','A']),
         'D':Set(['G','T','A'])}
 
-    def __init__ (self, id, rows, alphabet, background=None):
+    def __init__ (self, id, rows, alphabet, background=None, score_correction=True):
 
         self.id       = id
         self.alphabet = alphabet
         nsymbols = len(self.alphabet)
-        for i in range(len(self.alphabet)): 
+        for i in range(len(self.alphabet)):
             self.alphabet[ i ] = self.alphabet[ i ].upper()
         if background != None:
             self.background = background
@@ -152,15 +158,25 @@ class PositionWeightMatrix (object):
             sorted_alphabet = []
             sorted_alphabet[:] = self.alphabet[:]
             sorted_alphabet.sort()
-            if ['A','C','G','T'] == sorted_alphabet: 
+            if ['A','C','G','T'] == sorted_alphabet:
                 self.background = ENCODE_NONCODING_BACKGROUND
             else:
-                for x in self.alphabet: self.background[ x ] = float(1)/len(self.alphabet) 
+                for x in self.alphabet: self.background[ x ] = float(1)/len(self.alphabet)
+
+        if (score_correction == True):
+            self.score_correction = self.corrected_probability_score
+        else:
+            self.score_correction = self.simple_probability
+
+        # partition counts from consensus symbol
+        # in order to properly handle scaling in the presense of non-integers,
+        # we prescan the matrix to figure out the largest scale factor, then go
+        # back through and scale 'em all (some rows may be integer counts,
+        # others may be probabilities)
 
         self.consensus = []
         scale = 1
 
-        # partition counts from consensus symbol
         for i in range(len(rows)):
 
             #try:
@@ -173,9 +189,9 @@ class PositionWeightMatrix (object):
 
                 # replace row counts with (values,scale)
                 rows[i][x] = (w,s)
-                if (s > scale): scale = s
+                scale = max(s,scale)
 
-            #except: 
+            #except:
                 #print >>sys.stderr,rows
                 #raise ValueError
                 #raise ValueError, "pwm row %s has wrong field count" % " ".join(fields)
@@ -186,6 +202,7 @@ class PositionWeightMatrix (object):
         hashRows = []
         self.matrix_base_counts = {} # for pseudocounts
         self.counts = [] # for scaled counts
+        self.probs = [] # for probabilities
 
         # scale counts to integers
         for i in range(len(rows)):
@@ -197,21 +214,25 @@ class PositionWeightMatrix (object):
                 if sym not in self.matrix_base_counts: self.matrix_base_counts[sym] = 0
                 self.matrix_base_counts[sym] += hashRows[i][sym]
             self.counts.append( hashRows[i].copy() )
+            self.probs.append( hashRows[i].copy() )
+            totalWeight = float(sum(self.probs[i].values()))
+            for sym in self.probs[i]:
+                self.probs[i][sym] /= totalWeight
         self.sites = sum ( hashRows[0].values() )
-                    
-        # scan and compute the pwm probabilities
+
+        # scan pwm to pre-compute logs of probabilities and min and max log-odds
+        # scores (over the whole PWM) for scaling;  note that the same min and max
+        # applies for scaling long-odds scores for quantum comparisions
         self.information_content = []
         minSum = 0
         maxSum = 0
 
         for i in range( len( hashRows )):
             self.information_content.append( self.information_content_calculation( i, hashRows ) )
-            #print >>sys.stderr, hashRows[i]
-            lowest  = None
-            highest = None
+            newHashRow = {}
             for base in self.alphabet:
-                #print >>sys.stderr, "j %d %c" % (i,base),hashRows[i][base],
-                hashRows[i][base] = self.pwm_score(base, i, hashRows)
+                newHashRow[base] = self.pwm_score(base, i, hashRows)
+            hashRows[i] = newHashRow
 
             minSum += min(hashRows[i].values())
             maxSum += max(hashRows[i].values())
@@ -223,7 +244,7 @@ class PositionWeightMatrix (object):
     # Reference 1: Wasserman and Sandelin: Nat Rev Genet. 2004 Apr;5(4):276-87.
     # Reference 2: Gertz et al.: Genome Res. 2005 Aug;15(8):1145-52.
     def information_content_calculation(self, i, counts):
-        # Reference 1) 
+        # Reference 1)
         return 2 + sum( [ self.information_base_content(base,i,counts) for base in self.alphabet ] )
 
         # Reference 2)
@@ -232,37 +253,16 @@ class PositionWeightMatrix (object):
     def information_base_content(self, base, i, counts):
 
         # Reference 1)
-        #return self.corrected_probability_score(counts,base,i) * math.log ( self.corrected_probability_score(counts,base,i), 2)
+        #return self.score_correction(counts,base,i) * math.log ( self.score_correction(counts,base,i), 2)
 
         # Reference 2)
-        return self.corrected_probability_score(counts,base,i) * self.pwm_score(base, i, counts)
-        
-
-    #def __str__ (self):
-        #lines = [self.id]
-        #headers = ["%6s" % nt for nt in self.alphabet]
-        #lines.append("P0 " + " ".join(headers))
-        #for ix in range(0,len(self.rows)):
-            ##weights = ["%.3f" % self.rows[ix][nt] for nt in self.alphabet]
-            #weights = ["%d" % self.counts[ix][nt] for nt in self.alphabet]
-            #lines.append(("%02d " % ix) + " ".join(weights) + "\t" + self.consensus[ix])
-
-        return "\n".join(lines)
-
-    def __getitem__ (self,key):
-        return self.rows[key]
-
-    def __setitem__ (self,key,value):
-        self.rows[key] = value
-
-    def __len__ (self):
-        return len( self.rows )
+        return self.score_correction(counts,base,i) * self.pwm_score(base, i, counts)
 
     def __call__ (self,seq):
         return self.score_seq(seq)
 
     def __add__ (self,other):
-        
+
         assert self.alphabet == other.alphabet
         r,(p,q) = self.max_correlation(other)
 
@@ -293,11 +293,11 @@ class PositionWeightMatrix (object):
         return PositionWeightMatrix(self.id+other.id,newRows,self.alphabet,self.background)
 
     def __old_add__ (self,other,maxp=None):
-        
+
         assert self.alphabet == other.alphabet
         bigN = max(len(self),len(other))
         smallN = min(len(self),len(other))
-        if not maxp: 
+        if not maxp:
             prsq = self.correlation(other)
             maxp = prsq.index( max(prsq) )
 
@@ -404,7 +404,7 @@ class PositionWeightMatrix (object):
                 for q in range(smallN):
                     r += rsquared(list(smaller[q]),list(larger[p+q]))
                 position_rsq.append( r / smallN )
-        return position_rsq 
+        return position_rsq
 
     def score_align (self,align,gapmask=None,byPosition=True):
 
@@ -433,7 +433,7 @@ class PositionWeightMatrix (object):
                     if char == '-' or char == 'N': continue
                     else: subseq += char
 
-                    if len(subseq) == minSeqLen: 
+                    if len(subseq) == minSeqLen:
                         end = ic+1
 
                         #forward
@@ -459,7 +459,13 @@ class PositionWeightMatrix (object):
         putmask( scoremax, gapmask, float('nan') )
         return scoremax
 
+    # seq can be a string, a list of characters, or a quantum sequence (a list
+    # of hashes from symbols to probability)
+
     def score_seq(self,seq):
+        if (type(seq[0]) == dict):
+            return self.score_quantum_seq(seq)
+ 
         scores = []
         for start in range( len(seq)):
             if start + len(self) > len(seq): break
@@ -473,12 +479,33 @@ class PositionWeightMatrix (object):
             scores.append( (raw, scaled) )
         return scores
 
+    def score_quantum_seq(self,seq):
+        scores = []
+        for start in range(len(seq)):
+            if (start + len(self) > len(seq)): break
+            subseq = seq[start:start+len(self)]
+            raw = 0
+            try:
+                for i,nt in enumerate(subseq):
+                    numer = sum([subseq[i][nt] * self.probs[i][nt]   for nt in subseq[i]])
+                    denom = sum([subseq[i][nt] * self.background[nt] for nt in subseq[i]])
+                    raw += math.log(numer/denom,2)
+                scaled = self.scaled(raw)
+            except KeyError:
+                raw,scaled = float('nan'),float('nan')
+            except OverflowError,e:
+                raw,scaled = float('nan'),float('nan')
+            except ValueError,e:
+                raw,scaled = float('nan'),float('nan')
+            scores.append((raw,scaled))
+        return scores
+
     def score_reverse_seq(self,seq):
         revSeq = reverse_complement( seq )
         scores = self.score_seq( revSeq )
         scores.reverse()
         return scores
-                
+
     def scaled(self,val):
         return ( val - self.minSum ) / (self.maxSum - self.minSum)
 
@@ -491,8 +518,15 @@ class PositionWeightMatrix (object):
         else:
             return float("nan")
 
+    def simple_probability (self,freq, base, i):
+        # p(base,i) = f(base,i)
+        #             ----------------------
+        #             sum(f(base,{A,C,G,T}))
+
+        return float( freq[i][base] ) / sum([freq[i][nt] for nt in self.alphabet])
+
     def corrected_probability_score (self,freq, base, i):
-        # p(base,i) = f(base,i) + s(base) 
+        # p(base,i) = f(base,i) + s(base)
         #             --------------------
         #              N + sum(s(A,C,T,G))
 
@@ -506,10 +540,10 @@ class PositionWeightMatrix (object):
 
         assert (f + s) > 0
         return (f + s) / (N + self.pseudocount())
-        
+
     def pwm_score (self,base,i,freq,background=None):
         if background == None: background = self.background
-        p = self.corrected_probability_score(freq,base,i)
+        p = self.score_correction(freq,base,i)
         #print >>sys.stderr, p
         #print >>sys.stderr, "k %d %c" % (i,base),freq[i][base]
         b = background[ base ]
@@ -541,9 +575,6 @@ class PositionWeightMatrix (object):
 
     def __str__ (self):
         lines = [self.id]
-        #lines = [self.id,
-                 #"threshold: %s" % self.threshold,
-                 #"cutoff:    %s" % self.cutoff]
         headers = ["%s" % nt for nt in self.alphabet]
         lines.append("P0\t" + "\t".join(headers))
         for ix in range(0,len(self.rows)):
@@ -554,10 +585,13 @@ class PositionWeightMatrix (object):
         return "\n".join(lines)
 
     def __getitem__ (self,key):
-        return self.counts[key]
+        return self.rows[key]
 
     def __setitem__ (self,key,value):
         self.rows[key] = value
+
+    def __len__ (self):
+        return len( self.rows )
 
 def score_align_gaps (align):
     # a blank score matrix
@@ -577,23 +611,19 @@ def score_align_gaps (align):
 # WeightMatrix Reader--
 #    Read position weight matrices (PWM) from a file.
 #
-# See notes in file header about the format of the file.  In order to properly
-# handle scaling in the presense of non-intergers, we prescan the matrix to
-# figure out the largest scale factor, then go back through and scale 'em all.
-#
 #-----------
-
 
 class Reader (object):
     """Iterate over all interesting weight matrices in a file"""
 
-    def __init__ (self,file,tfIds=None,name=None,format='basic',background=None):
+    def __init__ (self,file,tfIds=None,name=None,format='basic',background=None,score_correction=True):
         self.tfIds      = tfIds
         self.file       = file
         self.name       = name
         self.lineNumber = 0
-        self.format = format
+        self.format     = format
         self.background = background
+        self.score_correction = score_correction
 
 
     def close (self):
@@ -608,98 +638,101 @@ class Reader (object):
 
 
     def __iter__ (self):
+        if self.format == 'basic':
+            return self.read_as_basic()
+        elif self.format == 'transfac':
+            return self.read_as_transfac()
+        else:
+            raise "unknown weight matrix file format: '%s'" % self.format
 
+    def read_as_basic(self):
+        tfId    = None
+        pwmRows = None
+    
+        alphabet = ['A','C','G','T']
+        while (True):
+            line = self.file.readline()
+            if (not line): break
+            line = line.strip()
+            self.lineNumber += 1
+            if line.startswith(">"):
+                if pwmRows != None:
+                    yield PositionWeightMatrix(tfId,pwmRows,alphabet,background=self.background)
+                    #try:
+                        #yield PositionWeightMatrix(tfId,pwmRows,alphabet)
+                    #except:
+                        #print >>sys.stderr, "Failed to read", tfId
+                tfId = line.strip()[1:]
+                pwmRows = []
+            elif line[0].isdigit():
+                tokens = line.strip().split()
+                tokens.append( consensus_symbol(line) )
+                vals = [float(v) for v in tokens[:-1]]
+                #print >>sys.stderr,[ "%.2f" % (float(v)/sum(vals)) for v in vals], tokens[-1]
+                pwmRows.append( tokens )
+        if pwmRows != None: # we've finished collecting a desired matrix
+            yield PositionWeightMatrix(tfId,pwmRows,alphabet,background=self.background,score_correction=self.score_correction)
+    
+    def read_as_transfac(self):
         self.tfToPwm = {}
         tfId    = None
         pwmRows = None
-        if self.format == 'basic':
-            alphabet = ['A','C','G','T']
-            while (true):
-                line = self.file.readline()
-                if (not line): break
-                line = line.strip()
-                self.lineNumber += 1
-                if line.startswith(">"):
-                    if pwmRows != None:
-                        yield PositionWeightMatrix(tfId,pwmRows,alphabet,background=self.background)
-                        #try:
-                            #yield PositionWeightMatrix(tfId,pwmRows,alphabet)
-                        #except:
-                            #print >>sys.stderr, "Failed to read", tfId
-                    tfId = line.strip()[1:]
-                    pwmRows = []
-                elif line[0].isdigit():
-                    tokens = line.strip().split()
-                    tokens.append( consensus_symbol(line) )
-                    vals = [float(v) for v in tokens[:-1]]
-                    #print >>sys.stderr,[ "%.2f" % (float(v)/sum(vals)) for v in vals], tokens[-1]
-                    pwmRows.append( tokens )
-            if pwmRows != None: # we've finished collecting a desired matrix
-                yield PositionWeightMatrix(tfId,pwmRows,alphabet,background=self.background)
-                #try:
-                    #yield PositionWeightMatrix(tfId,pwmRows,alphabet)
-                #except:
-                    #print >>sys.stderr, "Failed to read", tfId
-        elif self.format == 'transfac':
-            while (true):
-                line = self.file.readline()
-                if (not line): break
-                line = line.strip()
-                self.lineNumber += 1
-                # handle an ID line
-                if line.startswith("ID"):
-                    if pwmRows != None: # we've finished collecting a desired matrix
-                        try:
-                            yield PositionWeightMatrix(tfId,pwmRows,alphabet,background=self.background)
-                        except:
-                            print >>sys.stderr, "Failed to read", tfId
-                        tfId    = None
-                        pwmRows = None
-
-                    tokens = line.split (None, 2)
-                    if len(tokens) != 2:
-                        raise ValueError, "bad line, need two fields (%s)" % self.where()
-                    tfId = tokens[1]
-                    if self.tfIds != None and (not tfId in self.tfIds):
-                        continue          # ignore it, this isn't a desired matrix
-                    if tfId in self.tfToPwm:
-                        raise ValueError, "transcription factor %s appears twice (%s)" \
-                            % (tfId,self.where())
-                    pwmRows = []          # start collecting a desired matrix
-                    continue
-
-                # if we're not collecting, skip this line
-                if pwmRows == None: continue
-                if len(line) < 1:   continue
     
-                # handle a P0 line
-                if line.startswith("P0"):
-                    alphabet = line.split()[1:]
-                    if len(alphabet) < 2:
-                        raise ValueError, "bad line, need more dna (%s)" % self.where()
-                    continue
-
-                # handle a 01,02,etc. line
-                if line[0].isdigit():
-                    tokens = line.split ()
+        while (True):
+            line = self.file.readline()
+            if (not line): break
+            line = line.strip()
+            self.lineNumber += 1
+            # handle an ID line
+            if line.startswith("ID"):
+                if pwmRows != None: # we've finished collecting a desired matrix
                     try:
-                        index = int(tokens[0])
-                        if index != len(pwmRows)+1: raise ValueError
+                        yield PositionWeightMatrix(tfId,pwmRows,alphabet,background=self.background,score_correction=self.score_correction)
                     except:
-                        raise ValueError,"bad line, bad index (%s)" % self.where()
-                    pwmRows.append(tokens[1:])
-                    continue
-                # skip low quality entries
-                if line.startswith("CC  TRANSFAC Sites of quality"): 
-                    print >>sys.stderr, line.strip(), tfId
+                        print >>sys.stderr, "Failed to read", tfId
+                    tfId    = None
                     pwmRows = None
-                    continue
-            if pwmRows != None: # we've finished collecting a desired matrix
-                yield PositionWeightMatrix(tfId,pwmRows,alphabet,background=self.background)
-                #try:
-                    #yield PositionWeightMatrix(tfId,pwmRows,alphabet)
-                #except:
-                    #print >>sys.stderr, "Failed to read", tfId
+    
+                tokens = line.split (None, 2)
+                if len(tokens) != 2:
+                    raise ValueError, "bad line, need two fields (%s)" % self.where()
+                tfId = tokens[1]
+                if self.tfIds != None and (not tfId in self.tfIds):
+                    continue          # ignore it, this isn't a desired matrix
+                if tfId in self.tfToPwm:
+                    raise ValueError, "transcription factor %s appears twice (%s)" \
+                        % (tfId,self.where())
+                pwmRows = []          # start collecting a desired matrix
+                continue
+    
+            # if we're not collecting, skip this line
+            if pwmRows == None: continue
+            if len(line) < 1:   continue
+    
+            # handle a P0 line
+            if line.startswith("P0"):
+                alphabet = line.split()[1:]
+                if len(alphabet) < 2:
+                    raise ValueError, "bad line, need more dna (%s)" % self.where()
+                continue
+    
+            # handle a 01,02,etc. line
+            if line[0].isdigit():
+                tokens = line.split ()
+                try:
+                    index = int(tokens[0])
+                    if index != len(pwmRows)+1: raise ValueError
+                except:
+                    raise ValueError,"bad line, bad index (%s)" % self.where()
+                pwmRows.append(tokens[1:])
+                continue
+            # skip low quality entries
+            if line.startswith("CC  TRANSFAC Sites of quality"):
+                print >>sys.stderr, line.strip(), tfId
+                pwmRows = None
+                continue
+        if pwmRows != None: # we've finished collecting a desired matrix
+            yield PositionWeightMatrix(tfId,pwmRows,alphabet,background=self.background,score_correction=self.score_correction)
         # clean up
         self.tfToPwm = None
 
@@ -726,7 +759,7 @@ def sum_of_squares( x,y=None ):
     return sum([ float(xi)*float(yi) for xi,yi in zip(x,y)]) - len(x)*xmean*ymean
 
 def match_consensus(sequence,pattern):
-    
+
     for s,p in zip(sequence,pattern):
         if p == 'N': continue
         if not s in PositionWeightMatrix.symbols[p]: return False

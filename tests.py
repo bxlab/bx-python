@@ -13,6 +13,7 @@ import bx.seq.seq_tests
 import bx.seq.fasta_tests
 import bx.seq.nib_tests
 import bx.seq.qdna_tests
+import bx.pwm.pwm_tests
 
 tests = []
 
@@ -32,5 +33,6 @@ tests.append( bx.seq.seq_tests.suite )
 tests.append( bx.seq.fasta_tests.suite )
 tests.append( bx.seq.nib_tests.suite )
 tests.append( bx.seq.qdna_tests.suite )
+tests.append( bx.pwm.pwm_tests.suite )
 
 suite = unittest.TestSuite( tests )
