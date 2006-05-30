@@ -22,7 +22,7 @@ import sys
 def main():
 
     if len( sys.argv ) > 1:
-        alpha_map = seqmapping.alignment_mapping_from_file( file( sys.argv[1] ) )
+        _, alpha_map = seqmapping.alignment_mapping_from_file( file( sys.argv[1] ) )
     else:
         alpha_map = None
 

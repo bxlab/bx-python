@@ -3,6 +3,7 @@
 """
 usage: %prog score_file interval_file [out_file] [options] 
     -b, --binned: 'score_file' is actually a directory of binned array files
+    -m, --mask=FILE: bed file containing regions not to consider valid
 """
 
 from __future__ import division
@@ -13,6 +14,8 @@ import os, os.path
 from UserDict import DictMixin
 import bx.wiggle
 from bx.binned_array import BinnedArray, FileBinnedArray
+from bx.bitset import *
+from bx.bitset_builders import *
 from fpconst import isNaN
 import cookbook.doc_optparse
 import misc
@@ -69,6 +72,7 @@ def main():
         else:
             out_file = sys.stdout
         binned = bool( options.binned )
+        mask_fname = options.mask
     except:
         cookbook.doc_optparse.exit()
 
@@ -76,6 +80,11 @@ def main():
         scores_by_chrom = load_scores_ba_dir( score_fname )
     else:
         scores_by_chrom = load_scores_wiggle( score_fname )
+
+    if mask_fname:
+        masks = binned_bitsets_from_file( open( mask_fname ) )
+    else:
+        masks = None
 
     for line in open( interval_fname ):
         fields = line.split()
@@ -86,6 +95,11 @@ def main():
         max_score = -100000000
         for i in range( start, stop ):
             if chrom in scores_by_chrom and scores_by_chrom[chrom][i]:
+                # Skip if base is masked
+                if masks and chrom in masks:
+                    if masks[chrom][i]:
+                        continue
+                # Get the score, only count if not 'nan'
                 score = scores_by_chrom[chrom][i]
                 if not isNaN( score ):
                     total += score

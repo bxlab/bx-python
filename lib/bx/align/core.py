@@ -1,11 +1,14 @@
 import random
+import string
 #from bx import align
 
 # DNA reverse complement table
-DNA_COMP = "                                             -                  " \
-           " TVGH  CD  M KN   YSA BWXR       tvgh  cd  m kn   ysa bwxr      " \
-           "                                                                " \
-           "                                                                "
+## DNA_COMP = "                                             -                  " \
+##            " TVGH  CD  M KN   YSA BWXR       tvgh  cd  m kn   ysa bwxr      " \
+##            "                                                                " \
+##            "                                                                "
+
+DNA_COMP = string.maketrans( "ACGTacgt", "TGCAtgca" )
 
 class Alignment( object ):
 
@@ -171,7 +174,7 @@ class Component( object ):
     forward_strand_end = property( fget=get_forward_strand_end)
 
     def reverse_complement( self ):
-        start = self.src_size - self.start 
+        start = self.src_size - self.end 
         if self.strand == "+": strand = "-"
         else: strand = "+"
         comp = [ch for ch in self.text.translate(DNA_COMP)]
@@ -274,6 +277,7 @@ except:
     def coord_to_col( start, text, pos ):
         col = 0
         while start < pos:
-            if text[col] != '-': start += 1
+            if text[col] != '-': 
+                start += 1
             col += 1 
         return col

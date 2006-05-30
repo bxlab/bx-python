@@ -3,6 +3,7 @@
 """
 usage: %prog list,of,species,to,keep seq_db_file indexed_maf_files ...
     -m, --missingData: Inserts wildcards for missing block rows instead of '-'
+    -s, --strand:      Use strand information for intervals, reveres complement if '-'
 """
 
 import pkg_resources
@@ -34,12 +35,18 @@ def main():
 
         out = maf.Writer( sys.stdout )
         missing_data = bool(options.missingData)
+        use_strand = bool(options.strand)
     except:
         cookbook.doc_optparse.exception()
 
     for line in sys.stdin:
-        ref_src, start, end = line.split()[0:3]
-        do_interval( sources, index, out, ref_src, int( start ), int( end ), seq_db, missing_data )
+        fields = line.split()
+        ref_src, start, end = fields[0:3]
+        if use_strand and len( fields ) > 5:
+            strand = fields[5]
+        else:
+            strand = '+'
+        do_interval( sources, index, out, ref_src, int( start ), int( end ), seq_db, missing_data, strand )
 
     out.close()
 
@@ -109,7 +116,7 @@ def remove_all_gap_columns( texts ):
             i += 1
     return [ ''.join( s ) for s in seqs ]
 
-def do_interval( sources, index, out, ref_src, start, end, seq_db, missing_data ):
+def do_interval( sources, index, out, ref_src, start, end, seq_db, missing_data, strand ):
     """
     Join together alignment blocks to create a semi human projected local 
     alignment (small reference sequence deletions are kept as supported by 
@@ -240,5 +247,7 @@ def do_interval( sources, index, out, ref_src, start, end, seq_db, missing_data 
         else:
             c = align.Component( name + ".fake", 0, size, "?", size, text )
         a.add_component( c )
+    if strand == '-':
+        a = a.reverse_complement()
     out.write( a )
 main()

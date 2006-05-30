@@ -59,7 +59,7 @@ class ScoringScheme( object ):
             lines.append(("".join(line))+"\n")
         return "".join(lines)
 
-def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None ):
+def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None, **kwargs ):
     """
     Initialize scoring scheme from a blastz style text blob, first line
     specifies the bases for each row/col, subsequent lines contain the
@@ -132,7 +132,7 @@ def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None ):
     for i, row_scores in enumerate( rows ):
         for j, score in enumerate( map( int_or_float, row_scores ) ):
             if type( score ) == float: typecode = Float
-    ss = ScoringScheme( gap_open, gap_extend, alphabet1=alphabet1, alphabet2=alphabet2, gap1=gap1, gap2=gap2, text1_range=text1_range, text2_range=text2_range, typecode=typecode )
+    ss = ScoringScheme( gap_open, gap_extend, alphabet1=alphabet1, alphabet2=alphabet2, gap1=gap1, gap2=gap2, text1_range=text1_range, text2_range=text2_range, typecode=typecode, **kwargs )
     # fill matrix
     for i, row_scores in enumerate( rows ):
         for j, score in enumerate( map( int_or_float, row_scores ) ):
