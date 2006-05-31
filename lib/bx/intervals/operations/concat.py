@@ -53,7 +53,9 @@ def concat(readers, comments=True, header=True, sameformat=True):
                     out_interval.fields[chrom_col] = chrom
                     out_interval.fields[start_col] = str(start)
                     out_interval.fields[end_col] = str(end)
-                    out_interval.fields[strand_col] = strand
+                    # Strand is optional, might not exist in output
+                    if strand_col < len( out_interval.fields ):
+                        out_interval.fields[strand_col] = strand
                     yield out_interval
             elif type( interval ) is Header and firsttime and header:
                 yield interval
