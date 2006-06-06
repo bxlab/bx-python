@@ -11,6 +11,7 @@ pkg_resources.require( "bx-python" )
 
 import psyco_full
 
+import math
 import traceback
 import fileinput
 from warnings import warn
@@ -19,84 +20,107 @@ from bx.intervals.io import *
 from bx.intervals.operations import *
 
 def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
-    left = leftSet.next()
-    right = rightSet.next()
-    leftfields = 0
-    rightfields = 0
-    wrote = [False,False]
-    
-    while left or right:
-        advanceright = False
-        advanceleft = False
-        # Advance past comments
-        while left and not type( left ) is GenomicInterval:
-            try:
-                left = leftSet.next()
-            except StopIteration, e:
-                left = None
-        while right and not type( right ) is GenomicInterval:
-            try:
-                right = rightSet.next()
-            except StopIteration, e:
-                right = None
-        # These should be updated to reflect the number of fields, but
-        # only on GenomicIntervals and only if it's actually there
-        # (and not None)
-        if left:
-            leftfields = left.nfields
-        if right:
-            rightfields = right.nfields
-            
-        if left and right:
-            if left.chrom == right.chrom:
-                if findoverlap(left, right) >= mincols:
-                    outfields = list(left.fields)
-                    map(outfields.append, right.fields)
-                    yield outfields
-                    # advance lower, both written
-                    wrote = [True, True]
-                    advanceleft = left.end < right.end
-                    advanceright = not advanceleft
-                else:                    
-                    advanceleft = left.end < right.end
-                    advanceright = not advanceleft
-            else:
-                advanceleft = left.chrom < right.chrom
-                advanceright = not advanceleft
-        elif left:
-            advanceleft = True
-            advanceright = not advanceleft
-        elif right:
-            advanceright = True
-            advanceleft = not advanceright
+    # Read rightSet into memory:
+    rightlen = 0
+    leftlen = 0
+    rightSorted = list()
+    for item in rightSet:
+        if rightlen == 0 and type( item ) is GenomicInterval:
+            rightlen = item.nfields
+        if type( item ) is GenomicInterval:
+            rightSorted.append([item, False])
 
-        # handle advancing and filling down here
-        if advanceright:
-            # advance, write if fill
-            if not wrote[1] and leftfill:
-                outfields = ["." for x in range(leftfields)]
-                map(outfields.append, right.fields)
-                yield outfields
-            wrote[1] = False
-            try:
-                right = rightSet.next()
-            except StopIteration, e:
-                right = None
-        elif advanceleft:
-            # advance, write if fill
-            if not wrote[0] and rightfill:
-                outfields = list(left.fields)
-                for x in range(rightfields): outfields.append(".")
-                yield outfields
-            wrote[0] = False
-            try:
-                left = leftSet.next()
-            except StopIteration, e:
-                left = None
+    # We can't use bisect.insort because it wouldn't know how to
+    # handle our list properly
+    rightSorted.sort(cmp=interval_cmp)
+
+    for interval in leftSet:
+        if leftlen == 0 and type( interval ) is GenomicInterval:
+            leftlen = interval.nfields
+        if not (type( interval ) is GenomicInterval):
+            yield interval
         else:
-            # impass, Iteration ended
-            break
- 
+            lower, upper = findintersect(interval, rightSorted, mincols)
+            x = lower
+            while x <= upper:
+                outfields = list(interval)
+                map(outfields.append, rightSorted[x][0])
+                rightSorted[x][1] = True
+                yield outfields
+                x += 1
+            if lower > upper and rightfill:
+                # no intersection, and fill
+                outfields = list(interval)
+                for x in range(rightlen): outfields.append(".")
+                yield outfields
+
+    if leftfill:
+        for item in rightSorted:
+            if not item[1]:
+                outfields = list()
+                for x in range(leftlen): outfields.append(".")
+                map(outfields.append, item[0])
+                yield outfields
+
+
+def interval_cmp(a, b):
+    interval1 = a[0]
+    interval2 = b[0]
+    if not (type( interval1 ) is GenomicInterval and type( interval2 ) is GenomicInterval):
+        return 0
+    # Both are intervals
+    if interval1.chrom == interval2.chrom:
+        if interval1.start == interval2.start:
+            return interval1.end-interval2.end
+        else:
+            return interval1.start-interval2.start
+    else:
+        if interval1.chrom > interval2.chrom:
+            return 1
+        else:
+            return -1
+
+    return 0
+
+def findintersect(interval, sortedlist, mincols):
+    # find range of intervals that intersect via a binary search
+    # find lower bound
+    x = len(sortedlist) / 2
+    n = int(math.pow(2,math.ceil(math.log(len(sortedlist),2))))
+
+    not_found = True
+    while not_found and n > 0:
+        n = n / 2
+        if x >= len(sortedlist):
+            x -= n
+        elif x < 0:
+            x += n
+        else:
+            if findoverlap(sortedlist[x][0], interval) >= mincols:
+                not_found = False
+            else:
+                comp = interval_cmp(sortedlist[x], [interval, 0])
+                if comp > 0:
+                    x -= n
+                else:
+                    x += n
+        
+    if not_found:
+        return 0,-1
+
+    lowerbound = x
+    middlebound = x
+    upperbound = x
+    while (lowerbound > -1) and (findoverlap(sortedlist[lowerbound-1][0],interval) >= mincols):
+        lowerbound -= 1
+    while (upperbound+1 < len(sortedlist)) and (findoverlap(sortedlist[upperbound+1][0],interval) >= mincols):
+        upperbound += 1
+
+    return lowerbound, upperbound
+
 def findoverlap(a, b):
     # overlapping
-    return min(a.end, b.end) - max(a.start, b.start)
+    if a.chrom == b.chrom:
+        return min(a.end, b.end) - max(a.start, b.start)
+    else:
+        return 0
