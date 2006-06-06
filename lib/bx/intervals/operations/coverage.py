@@ -39,10 +39,13 @@ def coverage(readers, comments=True):
             chrom = interval.chrom
             start = int(interval.start)
             end = int(interval.end)
-            if chrom not in bitsets: continue
             if start > end: warn( "Interval start after end! on line '%d' of second input" % f.lineno() )
-            bases_covered = bitsets[ chrom ].count_range( start, end-start )
-            percent = float(bases_covered) / float(end - start)
+            if chrom not in bitsets:
+                bases_covered = 0
+                percent = 0.0
+            else:
+                bases_covered = bitsets[ chrom ].count_range( start, end-start )
+                percent = float(bases_covered) / float(end - start)
             interval.fields.append(str(bases_covered))
             interval.fields.append(str(percent))
             yield interval
