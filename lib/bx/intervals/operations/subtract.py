@@ -42,21 +42,23 @@ def subtract(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, 
             yield interval
         elif type( interval ) == GenomicInterval:
             chrom = interval.chrom
-            start = int(interval.start)
-            end = int(interval.end)
-            if chrom not in bitsets: continue
-            if start > end: warn( "Interval start after end! on line '%d' of second input" % f.lineno() )
-            out_intervals = []
-            # Find the intervals that meet the criteria (for the three sensible
-            # permutations of reverse and pieces)
-            if bitsets[ chrom ].count_range( start, end-start ) >= mincols:                
-                if pieces:
-                    out_intervals = bits_clear_in_range( bitsets[chrom], start, end )
+            if chrom not in bitsets:
+                yield interval
             else:
-                out_intervals = [ ( start, end ) ]
-            # Write the intervals
-            for start, end in out_intervals:
-                new_interval = interval.copy()
-                new_interval.start = start
-                new_interval.end = end
-                yield new_interval
+                start = int(interval.start)
+                end = int(interval.end)
+                if start > end: warn( "Interval start after end! on line '%d' of second input" % f.lineno() )
+                out_intervals = []
+                # Find the intervals that meet the criteria (for the three sensible
+                # permutations of reverse and pieces)
+                if bitsets[ chrom ].count_range( start, end-start ) >= mincols:                
+                    if pieces:
+                        out_intervals = bits_clear_in_range( bitsets[chrom], start, end )
+                else:
+                    out_intervals = [ ( start, end ) ]
+                # Write the intervals
+                for start, end in out_intervals:
+                    new_interval = interval.copy()
+                    new_interval.start = start
+                    new_interval.end = end
+                    yield new_interval
