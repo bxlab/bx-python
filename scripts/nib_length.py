@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from bx import seq.nib
+from bx.seq import nib as seq_nib
 import sys
 
-nib = seq.nib.NibFile( file( sys.argv[1] ) )
+nib = seq_nib.NibFile( file( sys.argv[1] ) )
 print nib.length
