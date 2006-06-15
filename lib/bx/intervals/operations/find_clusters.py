@@ -22,11 +22,12 @@ import traceback
 import fileinput
 from warnings import warn
 
+from bx.intervals.cluster import *
 from bx.intervals.io import *
 from bx.intervals.operations import *
 
 
-def find_clusters(reader, mincols=1):
+def find_clusters(reader, mincols=1, minregions=2):
     extra = dict()
     chroms = dict()
     linenum = -1
@@ -34,14 +35,17 @@ def find_clusters(reader, mincols=1):
         linenum += 1
         if not type( interval ) is GenomicInterval:
             extra[linenum] = interval
-        if interval.chrom in chroms:
-             chroms[interval.chrom] = chroms[interval.chrom].insert(interval.start, interval.end, linenum)
         else:
-             chroms[interval.chrom] = ClusterNode(interval.start, interval.end, linenum, mincols)
+            if interval.chrom not in chroms:
+                chroms[interval.chrom] = ClusterTree( mincols, minregions )
+            chroms[interval.chrom].insert(interval.start, interval.end, linenum)
     return chroms, extra
-   
+
+
+### DEPRECATED: Use the ClusterTree in bx.intervals.cluster for this.
+### It does the same thing, but is a C implementation.
 class ClusterNode( object ):
-    def __init__( self, start, end, linenum, mincols ):
+    def __init__( self, start, end, linenum, mincols, minregions ):
         # Python lacks the binomial distribution, so we convert a
         # uniform into a binomial because it naturally scales with
         # tree size.  Also, python's uniform is perfect since the
@@ -53,6 +57,7 @@ class ClusterNode( object ):
         self.right = None
         self.lines = [linenum]
         self.mincols = mincols
+        self.minregions = minregions
         
     def insert( self, start, end, linenum ):
         if start - self.mincols > self.end:
@@ -60,7 +65,7 @@ class ClusterNode( object ):
             if self.right:
                 self.right = self.right.insert( start, end, linenum )
             else:
-                self.right = ClusterNode(start, end, linenum, self.mincols)
+                self.right = ClusterNode(start, end, linenum, self.mincols, self.minregions)
             # rebalance tree
             if self.priority < self.right.priority:
                 return self.rotateleft()
@@ -69,7 +74,7 @@ class ClusterNode( object ):
             if self.left:
                 self.left = self.left.insert( start, end, linenum )
             else:
-                self.left = ClusterNode(start, end, linenum, self.mincols)
+                self.left = ClusterNode(start, end, linenum, self.mincols, self.minregions)
             # rebalance tree
             if self.priority < self.left.priority:
                 return self.rotateright()
@@ -103,7 +108,7 @@ class ClusterNode( object ):
         distance = max(self.start, topnode.start) - min(self.end, topnode.end)
         if distance <= self.mincols:
             topnode.start = min(self.start, topnode.start)
-            topnode.end = min(self.end, topnode.end)
+            topnode.end = max(self.end, topnode.end)
             for linenum in self.lines:
                 topnode.lines.append(linenum)
             if self.right:
@@ -117,7 +122,7 @@ class ClusterNode( object ):
             self.left = self.left.push_up( topnode )
         return self
 
-    def getintervals( self, minregions ):
+    def getintervals( self ):
         if self.left:
             for start, end in self.left.getintervals(minregions):
                 yield start, end
@@ -127,25 +132,26 @@ class ClusterNode( object ):
             for start, end in self.right.getintervals(minregions):
                 yield start, end
 
-    def getlines( self, minregions ):
+    def getlines( self ):
         if self.left:
-            for line in self.left.getlines(minregions):
+            for line in self.left.getlines():
                 yield line
         if len(self.lines) >= minregions:
             for line in self.lines:
                 yield line
         if self.right:
-            for line in self.right.getlines(minregions):
+            for line in self.right.getlines():
                 yield line
                 
 ## def main():
 ##     f1 = fileinput.FileInput("big.bed")
 ##     g1 = GenomicIntervalReader(f1)
 ##     returntree, extra = find_clusters(g1, mincols=50)
+##     print "All found"
 ##     for chrom, value in returntree.items():
-##         for start, end in value.getintervals(2):
-##            print chrom+"\t"+str(start)+"\t"+str(end)
-##         for line in value.getlines(2):
+##         for start, end in value.getregions():
+##             print chrom+"\t"+str(start)+"\t"+str(end)
+##         for line in value.getlines():
 ##             print "Line:\t"+str(line)
 
 ## main()
