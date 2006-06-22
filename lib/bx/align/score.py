@@ -86,7 +86,7 @@ def read_scoring_scheme( f, gap_open, gap_extend, gap1="-", gap2=None, **kwargs 
     if (type(f) == str):
         f = file(f,"rt")
         close_it = True
-    ss = build_scoring_scheme("".join([line for line in f]))
+    ss = build_scoring_scheme("".join([line for line in f]),gap_open, gap_extend, gap1=gap1, gap2=gap2, **kwargs)
     if (close_it):
         f.close()
     return ss
