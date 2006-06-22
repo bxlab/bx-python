@@ -18,8 +18,26 @@ class ScoringScheme( object ):
         self.gap2 = gap2
         self.alphabet1 = alphabet1
         self.alphabet2 = alphabet2
-    def set_score( self, a, b, val ):
+    def set_score( self, a, b, val, foldcase1=False, foldcase2=False ):
         self.table[a,b] = val
+        if foldcase1:
+            aCh = chr(a)
+            if   (aCh.isUpper()): aa = ord(aCh.lower())
+            elif (aCh.isLower()): aa = ord(aCh.upper())
+            else:                 foldcase1 = False
+        if foldcase2:
+            bCh = chr(b)
+            if   (bCh.isUpper()): bb = ord(bCh.lower())
+            elif (bCh.isLower()): bb = ord(bCh.upper())
+            else:                 foldcase2 = False
+        if foldcase1 and foldcase2:
+            self.table[aa,b ] = val
+            self.table[a ,bb] = val
+            self.table[aa,bb] = val
+        elif foldcase1:
+            self.table[aa,b ] = val
+        elif foldcase2:
+            self.table[a ,bb] = val
     def score_alignment( self, a ):
         return score_alignment(self,a)
     def score_texts( self, text1, text2 ):
@@ -58,6 +76,20 @@ class ScoringScheme( object ):
                 line.append("%*s" % (width,s))
             lines.append(("".join(line))+"\n")
         return "".join(lines)
+
+def read_scoring_scheme( f, gap_open, gap_extend, gap1="-", gap2=None, **kwargs ):
+    """
+    Initialize scoring scheme from a file containint a blastz style text blob.
+    f can be either a file or the name of a file.
+    """
+    close_it = False
+    if (type(f) == str):
+        f = file(f,"rt")
+        close_it = True
+    ss = build_scoring_scheme("".join([line for line in f]))
+    if (close_it):
+        f.close()
+    return ss
 
 def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None, **kwargs ):
     """
@@ -118,9 +150,9 @@ def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None, **kwargs
     if a_la_blastz:
         alphabet1 = [ch.upper() for ch in alphabet1]
         alphabet2 = [ch.upper() for ch in alphabet2]
-	# decide if rows and/or columns should reflect case
+    # decide if rows and/or columns should reflect case
     if a_la_blastz:
-    	foldcase1 = foldcase2 = True
+        foldcase1 = foldcase2 = True
     else:
         foldcase1 = "".join( alphabet1 ) == "ACGT"
         foldcase2 = "".join( alphabet2 ) == "ACGT"
