@@ -55,7 +55,10 @@ class SeqFile(object):
         self.file = None
 
     def extract_name(self,line):
-        return line.split()[0]
+        try:
+            return line.split()[0]
+        except:
+            return ""
 
     def __str__ (self):
         text = ""
