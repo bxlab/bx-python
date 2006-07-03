@@ -46,6 +46,9 @@ class AlignScoreMatrix (object):
                 matrix[ir][ic] = nan
         self.matrix = matrix
 
+    def __len__(self):
+        return shape(self.matrix)[1]
+
     def __str__(self):
         print self.matrix
 

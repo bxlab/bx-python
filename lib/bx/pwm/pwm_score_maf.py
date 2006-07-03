@@ -52,16 +52,21 @@ def main():
 def MafScorer(pwm,species,inmaf):
 
     index = 0
+    scoremax,width = None,None
     for maf in align_maf.Reader( inmaf ):
-        try:
-            scoremax,width,headers = MafBlockScorer(pwm,species,maf)
+        #try:
+        if True:
+            val = MafBlockScorer(pwm,species,maf)
+            for scoremax,width,headers in val: yield scoremax,index,headers
+            #scoremax,width,headers = MafBlockScorer(pwm,species,maf)
+        try: pass
         except:
             print >>sys.stderr, "Failed on:"
             syserr = align_maf.Writer( sys.stderr )
             syserr.write( maf )
             #print >>sys.stderr,headers
-            print >>sys.stderr,width
-            print >>sys.stderr,len(scoremax)
+            if width: print >>sys.stderr,width
+            if scoremax: print >>sys.stderr,len(scoremax)
             syserr.close()
             sys.exit(1)
         index += width
@@ -183,7 +188,7 @@ def MafBlockScorer(pwm,species,maf):
         scoremax[model] = pwm[model].score_align( alignrows, filter )
     yield scoremax,width,headers
 
-def MafMotifScorer(species,maf,motif):
+def MafMotifScorer(species,maf,motifs):
     width = len(maf.components[0].text)
     headers = [ (c.src,c.start,c.end) for c in maf.components]
 
@@ -202,7 +207,12 @@ def MafMotifScorer(species,maf,motif):
     filter = pwmx.score_align_gaps( alignrows )
     # score motif
     #print >>sys.stderr, headers
-    scoremax = pwmx.score_align_motif( alignrows, motif, filter )
+    if isinstance( motifs, list):
+        scoremax = {}
+        for string in motifs:
+            scoremax[string] = pwmx.score_align_motif( alignrows, string, filter )
+    else:
+        scoremax = pwmx.score_align_motif( alignrows, motif, filter )
     yield scoremax,width,headers
 
 if __name__ == '__main__': main()

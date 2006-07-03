@@ -7,7 +7,7 @@ The positions are projected onto human coordinates
 import psyco_full
 from bx.align import maf as align_maf
 import position_weight_matrix as pwmx
-from bx.pwm.pwm_score_maf import MafBlockScorer
+from bx.pwm.pwm_score_maf import MafMotifScorer
 import sys
 from bx import intervals
 import Numeric
@@ -18,7 +18,7 @@ def isnan(x):
 def main():
 
     if len(sys.argv) < 5:
-        print >>sys.stderr, "%s bedfile inmaf spec1,spec2,... motif_file " % sys.argv[0]
+        print >>sys.stderr, "%s bedfile inmaf spec1,spec2,... string [string2,...]" % sys.argv[0]
         sys.exit(0)
 
     # read in intervals
@@ -34,11 +34,8 @@ def main():
         if chrom not in regions: regions[chrom] = intervals.Intersecter()
         regions[chrom].add( start, end, name )
 
-    pwm = {}
-    for wm in pwmx.Reader(open( sys.argv[4] )):
-        pwm[ wm.id] = wm
-        print >>sys.stderr, wm.id, len(wm)
-
+    motif_strings = sys.argv[4:]
+    if not isinstance(motif_strings, list): motif_strings = [motif_strings]
     inmaf = open(sys.argv[2])
     threshold = 0.5
 
@@ -54,7 +51,7 @@ def main():
         reftext = maf.components[0].text
 
         # maf block scores for each matrix
-        for scoremax,width,headers in MafBlockScorer(pwm,species, maf):
+        for scoremax,width,headers in MafMotifScorer(species, maf, motif_strings):
             #print >>sys.stderr,headers
             blocklength = width
             mafsrc,mafstart,mafend = headers[0]
@@ -70,7 +67,7 @@ def main():
                     for i in range(len(species)):
                         if mx[i][offset] > threshold:
                             refstart = mafstart + offset - reftext.count('-',0,offset)
-                            refend = refstart + len(pwm[mx_name])
+                            refend = refstart + len(mx_name)
 
                             data = " ".join([ "%.2f" % mx[x][offset] for x in range(len(species))])
                             # quote the motif
