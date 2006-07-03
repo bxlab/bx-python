@@ -207,9 +207,9 @@ class Component( object ):
         return self.slice( start_col, end_col )
     
     def coord_to_col( self, pos ):
-        if pos < self.start or pos > self.get_end():
+        if pos < self.get_foward_strand_start() or pos > self.get_forward_strand_end():
             raise "Range error: %d not in %d-%d" % ( pos, self.start, self.get_end() )
-        return coord_to_col( self.start, self.text, pos )
+        return coord_to_col( self.get_forward_strand_start(), self.text, pos )
 
 def get_reader( format, infile, species_to_lengths=None ):
     import bx.align.axt, bx.align.maf
