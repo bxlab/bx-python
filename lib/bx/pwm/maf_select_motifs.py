@@ -8,7 +8,6 @@ import psyco_full
 from bx.align import maf as align_maf
 import bx.pwm.position_weight_matrix as pwmx
 from bx.pwm.pwm_score_maf import MafMotifSelect
-from numarray import *
 import sys
 from bx import intervals
 

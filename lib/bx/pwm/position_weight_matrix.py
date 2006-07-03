@@ -4,6 +4,7 @@ import sys
 import math
 import string
 #from numarray import *
+from Numeric import *
 from sets import *
 
 # This is the average of all species in the alignment outside of exons
@@ -39,7 +40,7 @@ class AlignScoreMatrix (object):
     def __init__(self,align):
         nan = float('nan')
 
-        matrix = zeros((align.nrows,align.ncols),type='Float32')
+        matrix = zeros((align.nrows,align.ncols),typecode=Float32)
         for ir in range( len(matrix) ):
             for ic in range(len( matrix[ir] )):
                 matrix[ir][ic] = nan

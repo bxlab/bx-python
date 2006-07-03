@@ -3,7 +3,22 @@ import sys
 import bx.pwm.position_weight_matrix as pwm
 from StringIO import StringIO
 
-testPwm = \
+basicPwm = \
+"""
+>MA0101 c-REL REL
+0   5   8   4
+0   1   15  1
+1   0   15  1
+5   1   9   2
+6   5   3   3
+5   1   1   10
+1   0   0   16
+2   0   0   15
+0   15  0   2
+1   16  0   0
+"""
+
+transfacPwm = \
 """
 ID  TATA
 XX
@@ -60,7 +75,13 @@ class PWMTestCase (unittest.TestCase):
 
     def testReader(self):
 
-        wms = [wm for wm in pwm.Reader(StringIO(testPwm),format="transfac", \
+        # test basic format: i.e. for jaspar
+        wms = [wm for wm in pwm.Reader(StringIO(basicPwm),format="basic", \
+                          background=background,score_correction=False)]
+        assert len(wms) == 1
+
+        # test transfac format
+        wms = [wm for wm in pwm.Reader(StringIO(transfacPwm),format="transfac", \
                           background=background,score_correction=False)]
         assert len(wms) == 1
 

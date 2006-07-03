@@ -2,7 +2,6 @@
 import sys,os
 from bx.align import maf as align_maf
 import bx.pwm.position_weight_matrix as pwmx
-from numarray import *
 
 def isnan(x):
     #return ieeespecial.isnan(x)
