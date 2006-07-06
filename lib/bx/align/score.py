@@ -4,6 +4,7 @@ except:
     from Numeric import *
 
 class ScoringScheme( object ):
+	# note that gap_open and gap_extend are penalties, which means you should make them positive
     def __init__( self, gap_open, gap_extend, default=-100, alphabet1="ACGT", alphabet2=None, gap1="-", gap2=None, text1_range=128, text2_range=None, typecode=Int ):
         if (text2_range == None): text2_range = text1_range
         if (alphabet2 == None): alphabet2 = alphabet1
