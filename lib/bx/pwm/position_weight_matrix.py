@@ -41,6 +41,8 @@ class AlignScoreMatrix (object):
         nan = float('nan')
 
         matrix = zeros((align.nrows,align.ncols),typecode=Float32)
+        
+        # set to nans
         for ir in range( len(matrix) ):
             for ic in range(len( matrix[ir] )):
                 matrix[ir][ic] = nan
@@ -65,11 +67,13 @@ def score_align_motif (align,motif,gapmask=None,byPosition=True):
 
     minSeqLen = len( motif )
     for ir in range(nrows):
+        pass
 
         # row is missing data
         if isnan(align.rows[ir][0]): continue
 
         for start in range(ncols):
+
             if align.rows[ir][start] == '-': continue
             elif align.rows[ir][start] == 'n': continue
             elif align.rows[ir][start] == 'N': continue
@@ -77,30 +81,35 @@ def score_align_motif (align,motif,gapmask=None,byPosition=True):
             # get enough sequence for the weight matrix
             subseq = ""
             end = 0
-            for ic in range(start,ncols):
+            ic = start
+            while len(subseq) < minSeqLen:
+            #for ic in range(start,ncols):
 
+                if ic >= len(align.rows[ir]): break
                 char = align.rows[ir][ic].upper()
+                ic += 1
                 if char == '-' or char == 'N': continue
                 else: subseq += char
 
-                if len(subseq) == minSeqLen:
-                    end = ic+1
-                    for_score = int( match_consensus(subseq,motif) )
-                    revseq = reverse_complement( subseq )
-                    rev_score = int( match_consensus(revseq,motif) )
+            if len(subseq) == minSeqLen:
+                end = ic+1
+                for_score = int( match_consensus(subseq,motif) )
+                revseq = reverse_complement( subseq )
+                rev_score = int( match_consensus(revseq,motif) )
 
-                    score = max(for_score, rev_score)
-                    #dbg
-                    #if ir == 0: print >>sys.stderr, int(chr_start) + start - align.rows[ir].count('-',0,start), subseq, score
+                score = max(for_score, rev_score)
+                #dbg
+                #if ir == 0: print >>sys.stderr, int(chr_start) + start - align.rows[ir].count('-',0,start), subseq, score
 
-                    # replace the alignment positions with the result
-                    if byPosition:
-                        scoremax[ir][start] = score
-                    else:
-                    # replace positions matching the width of the pwm
-                        for i in range(start,end):
-                            if isnan(scoremax[ir][i]): scoremax[ir][i] = score
-                            elif score > scoremax[ir][i]: scoremax[ir][i] = score
+                # replace the alignment positions with the result
+                if byPosition:
+                    scoremax[ir][start] = score
+                else:
+                # replace positions matching the width of the pwm
+                    for i in range(start,end):
+                        if isnan(scoremax[ir][i]): scoremax[ir][i] = score
+                        elif score > scoremax[ir][i]: scoremax[ir][i] = score
+                #break
     # mask gap characters
     if gapmask == None:
         gapmask = score_align_gaps(align)
@@ -764,11 +773,13 @@ def sum_of_squares( x,y=None ):
 
 def match_consensus(sequence,pattern):
 
-    for s,p in zip(sequence,pattern):
-        if p == 'N': continue
-        if not s in PositionWeightMatrix.symbols[p]: return False
+    return c_match_consensus( sequence, pattern, len(sequence))
 
-    return True
+    #for s,p in zip(sequence,pattern):
+        #if p == 'N': continue
+        #if not s in PositionWeightMatrix.symbols[p]: return False
+
+    #return True
 
 def consensus_symbol( pattern ):
 
@@ -819,3 +830,16 @@ def consensus_symbol( pattern ):
     else: return 'N'
     print >>sys.stderr,pattern
     raise '?'
+
+# import C extensions
+try:
+    from _position_weight_matrix import c_match_consensus
+    print >>sys.stderr, "C match_consensus used"
+except:
+    print >>sys.stderr, "python match_consensus used"
+    def match_consensus(sequence, pattern, size):
+        for s,p in zip(sequence,pattern):
+            if p == 'N': continue
+            if not s in PositionWeightMatrix.symbols[p]: return False
+
+        return True

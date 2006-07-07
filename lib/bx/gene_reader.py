@@ -232,7 +232,7 @@ def FeatureReader( fh, format='gff', alt_introns_subtract="exons", gtf_parse=Non
 
             if group not in genelist:
                 # chrom, strand, cds_exons, introns, exons, cds_start, cds_end
-                genelist[group] = (chrom, strand, [], [], [], None, None)
+                genelist[group] = [chrom, strand, [], [], [], None, None]
             
             if fields[2] == 'exon':
                 genelist[group][4].append( ( ex_st, ex_end ) )
