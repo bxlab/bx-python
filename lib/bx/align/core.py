@@ -221,10 +221,7 @@ class Component( object ):
         try:
             x = self.index[ pos - self.get_forward_strand_start() ]
         except:
-            print "Pos = " + str(pos)
-            print "start = " + str(self.get_forward_strand_start())
-            print self.index
-            sys.exit()
+            raise "Error in index."
         return x
 # return coord_to_col( self.get_forward_strand_start(), self.text, pos )
 
