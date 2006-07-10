@@ -79,6 +79,7 @@ class Writer( object ):
 
     def __init__( self, file, attributes={} ):
         self.file = file
+        self.block = 0
 
     def write( self, alignment ):
         if (len(alignment.components) != 2):
@@ -94,13 +95,14 @@ class Writer( object ):
         spec1,chr1 = src_split( c1.src )
         spec2,chr2 = src_split( c2.src )
 
-        self.file.write( "0 %s %d %d %s %d %d %s %s\n" % \
-              (chr1,c1.start+1,c1.start+c1.size,
+        self.file.write( "%d %s %d %d %s %d %d %s %s\n" % \
+              (self.block,chr1,c1.start+1,c1.start+c1.size,
                chr2,c2.start+1,c2.start+c2.size,c2.strand,
                alignment.score))
         self.file.write( "%s\n" % c1.text )
         self.file.write( "%s\n" % c2.text )
         self.file.write( "\n" )
+        self.block += 1
 
     def close( self ):
         self.file.close()
