@@ -144,6 +144,8 @@ class Component( object ):
         # when the alignment is part of an ordered set)
         self.synteny_left = None
         self.synteny_right = None
+        # Index coord -> col
+        self.index = None
 
     def __str__( self ):
         return "s %s %d %d %s %d %s" % ( self.src, self.start, 
@@ -207,9 +209,24 @@ class Component( object ):
         return self.slice( start_col, end_col )
     
     def coord_to_col( self, pos ):
+        if not self.index:
+            self.index = list()
+            for x in range( len(self.text) ):
+                if not self.text[x] == '-':
+                    self.index.append(x)
+
         if pos < self.get_forward_strand_start() or pos > self.get_forward_strand_end():
             raise "Range error: %d not in %d-%d" % ( pos, self.start, self.get_end() )
-        return coord_to_col( self.get_forward_strand_start(), self.text, pos )
+        x = None
+        try:
+            x = self.index[ pos - self.get_forward_strand_start() ]
+        except:
+            print "Pos = " + str(pos)
+            print "start = " + str(self.get_forward_strand_start())
+            print self.index
+            sys.exit()
+        return x
+# return coord_to_col( self.get_forward_strand_start(), self.text, pos )
 
 def get_reader( format, infile, species_to_lengths=None ):
     import bx.align.axt, bx.align.maf
