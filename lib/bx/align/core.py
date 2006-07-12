@@ -214,7 +214,7 @@ class Component( object ):
             for x in range( len(self.text) ):
                 if not self.text[x] == '-':
                     self.index.append(x)
-
+            self.index.append( len(self.text) )
         if pos < self.get_forward_strand_start() or pos > self.get_forward_strand_end():
             raise "Range error: %d not in %d-%d" % ( pos, self.start, self.get_end() )
         x = None
