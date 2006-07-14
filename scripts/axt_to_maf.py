@@ -29,7 +29,7 @@ axt_to_maf primary:lengths_file secondary:lengths_file < axt_file > maf_file
   information but axt file does not contain it).  The format is a series of
   lines of the form
     <chromosome name> <length>
-  The chromosome field in each axt block muct match some <chromosome name> in
+  The chromosome field in each axt block must match some <chromosome name> in
   the lengths file.
 """
 	if (s == None): sys.exit (message)
