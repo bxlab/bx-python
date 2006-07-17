@@ -8,7 +8,7 @@ usage: %prog range_file nib_file
 """
 
 import cookbook.doc_optparse
-from bx import seq.nib
+import bx.seq.nib
 import string
 import sys
 
@@ -22,7 +22,7 @@ def __main__():
     except:
         cookbook.doc_optparse.exit()
 
-    nib = seq.nib.NibFile( nib_file )
+    nib = bx.seq.nib.NibFile( nib_file )
 
     for line in range_file: 
         fields = line.split()
