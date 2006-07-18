@@ -4,7 +4,7 @@ import psyco_full
 
 import sys
 
-import ranges, sys
+import sys
 from bx.align import maf
 from optparse import OptionParser
 

@@ -18,7 +18,6 @@ import cookbook.doc_optparse
 import align.maf
 import intervals
 import misc
-import ranges
 import sys
 
 
