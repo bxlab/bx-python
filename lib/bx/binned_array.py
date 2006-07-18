@@ -107,9 +107,10 @@ class BinnedArray( object ):
             write_packed( f, ">2I", pos, size )
             
 class FileBinnedArray( object ):
-    def __init__( self, f, lite=False):
+    def __init__( self, f, cache=None):
+        # If cache=None, then everything is allowed to stay in memory,
+        # this is the default behavior.
         self.f = f
-        self.lite = lite
         M, V, max_size, bin_size, nbins = read_packed( f, ">5I" )
         assert M == MAGIC
         # assert less than
@@ -118,6 +119,8 @@ class FileBinnedArray( object ):
         self.bin_size = bin_size
         self.nbins = nbins        
         self.bins = [ None ] * self.nbins
+        self.cachelist = list()
+        self.cachesize = max(cache,1)
         # Read typecode
         if V >= 1:
             self.typecode = unpack( 'c', f.read(1) )[0]
@@ -145,14 +148,22 @@ class FileBinnedArray( object ):
             a = a.byteswapped()
         assert len( a ) == self.bin_size
         self.bins[index] = a
+        # Add pointer as most recently used to cache
+        if self.cachesize != None:
+            self.cachelist.append(index)
+            while len(self.cachelist) >= self.cachesize:
+                self.bins[self.cachelist[0]] = None
+                self.cachelist = self.cachelist[1:]
     def get( self, key ):
         bin, offset = self.get_bin_offset( key )
         if self.bins[bin]:
-            return self.bins[bin][offset]
+            # Identify most recently used
+            if self.cachesize != None:
+                try: self.cachelist.remove(bin)
+                except: pass
+                self.cachelist.append(bin)
+                return self.bins[bin][offset]
         elif self.bin_pos[bin]:
-            # Switching bins, kick the old bins out of memmory if
-            # "lite"
-            if self.lite: self.bins = [ None ] * self.nbins
             self.load_bin( bin )
             return self.bins[bin][offset]
         else:
@@ -165,7 +176,6 @@ class FileBinnedArray( object ):
             bin, offset = self.get_bin_offset( start )
             delta = self.bin_size - offset
             if self.bins[bin] is None and self.bin_pos[bin] != 0:
-                if self.lite: self.bins = [ None ] * self.nbins
                 self.load_bin( bin )
             if self.bins[bin] is None:
                 if delta < size:
@@ -190,8 +200,8 @@ class FileBinnedArray( object ):
             assert stride == 1, "Slices with strides are not supported"
             return self.get_range( start, stop )
         else:
-            return self.get( key )      
-
+            return self.get( key )
+        
 class BinnedArrayWriter( object ):
     def __init__( self, f, bin_size=512*1024, default=NaN, max_size=MAX, typecode="f" ):
         # All parameters in the constructor are immutable after creation
