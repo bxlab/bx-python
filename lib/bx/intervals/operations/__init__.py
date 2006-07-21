@@ -3,6 +3,7 @@ Utility functions for interval operations
 """
 
 from bx.bitset import *
+from bx.filter import *
 
 def warn( msg ):
     print >> sys.stderr, msg
@@ -35,4 +36,3 @@ def bits_clear_in_range( bits, range_start, range_end ):
         if start >= range_end: break
         end = min( bits.next_set( start ), range_end )
         yield start, end
-     
