@@ -23,13 +23,13 @@ class ScoringScheme( object ):
         self.table[a,b] = val
         if foldcase1:
             aCh = chr(a)
-            if   (aCh.isUpper()): aa = ord(aCh.lower())
-            elif (aCh.isLower()): aa = ord(aCh.upper())
+            if   (aCh.isupper()): aa = ord(aCh.lower())
+            elif (aCh.islower()): aa = ord(aCh.upper())
             else:                 foldcase1 = False
         if foldcase2:
             bCh = chr(b)
-            if   (bCh.isUpper()): bb = ord(bCh.lower())
-            elif (bCh.isLower()): bb = ord(bCh.upper())
+            if   (bCh.isupper()): bb = ord(bCh.lower())
+            elif (bCh.islower()): bb = ord(bCh.upper())
             else:                 foldcase2 = False
         if foldcase1 and foldcase2:
             self.table[aa,b ] = val
