@@ -47,9 +47,12 @@ int symbol_match( char s, char p ) {
             if (S=='C' || S=='T') return 1;
             else return 0;
         case 'M':
-            if (S=='G' || S=='T') return 1;
+            if (S=='A' || S=='C') return 1;
             else return 0;
         case 'K':
+            if (S=='G' || S=='T') return 1;
+            else return 0;
+        case 'S':
             if (S=='G' || S=='C') return 1;
             else return 0;
         case 'W':
