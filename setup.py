@@ -15,7 +15,7 @@ setup(  name = "bx-python",
         packages = find_packages( 'lib' ),
 		package_dir = { '': 'lib' },
 		scripts = glob( "scripts/*.py" ),
-        install_requires = ['Numeric', "fpconst>=0.7.2", "lrucache>=0.2" ],
+        install_requires = ["fpconst>=0.7.2", "lrucache>=0.2" ],
         ext_modules=[ Extension( "bx.bitset", \
                                  [ "lib/bx/bitset.pyx", "src/binBits.c" ] + [ JK_LIB + f for f in bitset_deps ], \
                                  include_dirs=[JK_INC, "src"] ),
