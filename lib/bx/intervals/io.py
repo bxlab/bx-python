@@ -33,7 +33,7 @@ class GenomicInterval( TableRow ):
         except ValueError, e:
             raise ParseError( "Could not parse end_col: " + str( e ) )
         # Parse strand and ensure it is valid
-        if strand_col >= nfields:
+        if strand_col >= nfields or strand < 0:
             # This should probable be immutable since the fields are 
             # not updated when it is set
             self.strand = default_strand
@@ -50,7 +50,7 @@ class GenomicInterval( TableRow ):
         elif name == "end":
             self.fields[self.end_col] = str( value )
         elif name == "strand":
-            if self.strand_col < self.nfields:
+            if self.strand_col < self.nfields and self.strand_col >= 0:
                 self.fields[self.strand_col] = str( value )
         object.__setattr__( self, name, value )
     def __str__( self ):

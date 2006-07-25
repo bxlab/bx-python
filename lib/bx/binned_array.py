@@ -7,6 +7,7 @@ from fpconst import *
 from Numeric import *
 # from RandomArray import *
 from struct import *
+from lrucache import LRUCache
 
 MAGIC=0x4AB04612
 # Version incremented from version 0 to version 1 by Ian Schenck, June
@@ -107,7 +108,7 @@ class BinnedArray( object ):
             write_packed( f, ">2I", pos, size )
             
 class FileBinnedArray( object ):
-    def __init__( self, f, cache=None):
+    def __init__( self, f, cache=32):
         # If cache=None, then everything is allowed to stay in memory,
         # this is the default behavior.
         self.f = f
@@ -118,9 +119,7 @@ class FileBinnedArray( object ):
         self.max_size = max_size
         self.bin_size = bin_size
         self.nbins = nbins        
-        self.bins = [ None ] * self.nbins
-        self.cachelist = list()
-        self.cachesize = max(cache,1)
+        self.bins = LRUCache(size=cache)
         # Read typecode
         if V >= 1:
             self.typecode = unpack( 'c', f.read(1) )[0]
@@ -148,21 +147,10 @@ class FileBinnedArray( object ):
             a = a.byteswapped()
         assert len( a ) == self.bin_size
         self.bins[index] = a
-        # Add pointer as most recently used to cache
-        if self.cachesize != None:
-            self.cachelist.append(index)
-            while len(self.cachelist) >= self.cachesize:
-                self.bins[self.cachelist[0]] = None
-                self.cachelist = self.cachelist[1:]
     def get( self, key ):
         bin, offset = self.get_bin_offset( key )
-        if self.bins[bin]:
-            # Identify most recently used
-            if self.cachesize != None:
-                try: self.cachelist.remove(bin)
-                except: pass
-                self.cachelist.append(bin)
-                return self.bins[bin][offset]
+        if bin in self.bins:
+            return self.bins[bin][offset]
         elif self.bin_pos[bin]:
             self.load_bin( bin )
             return self.bins[bin][offset]
