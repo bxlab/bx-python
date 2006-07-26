@@ -1,8 +1,7 @@
 from _cpg import *
 from bx.align.sitemask import Masker
 from bx.filter import *
-import re
-import bisect
+import string
 
 # Restricted.  Only mask out sites that are defitely CpG
 class Restricted( Masker ):
@@ -14,8 +13,8 @@ class Restricted( Masker ):
     def __call__( self, block ):
         if not block: return block
         cpglist = list_cpg_restricted( \
-            block.components[0].text, \
-            block.components[1].text )
+            string.upper(block.components[0].text), \
+            string.upper(block.components[1].text) )
 
         # now we have a fast list of CpG columns, iterate/mask
         self.masked += len(cpglist)
@@ -31,14 +30,12 @@ class Inclusive( Masker ):
         self.mask = mask
         self.masked = 0
         self.total = 0
-        self.p = re.compile( "(([CcGg]-*)\\w(-*\\w))|((\\w-*)\\w(-*[CcGg]))" )
-        # The groups we're interested are 2 or 5, whichever is not None
         
     def __call__( self, block ):
         if not block: return block
         cpglist = list_cpg( \
-            block.components[0].text, \
-            block.components[1].text )
+            string.upper(block.components[0].text), \
+            string.upper(block.components[1].text) )
         
         self.masked += len( cpglist )
         self.total += len( block.components[0].text )
@@ -59,5 +56,5 @@ def mask_columns( masklist, text, mask ):
     for position in templist:
         newtext.append(text[c:position])
         c = position + 1 # Gaps have len = 1
-        joinedtext = mask.join(newtext)
+    joinedtext = mask.join(newtext)
     return joinedtext

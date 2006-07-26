@@ -25,7 +25,8 @@ inline int is_cpg( char * sp1, char * sp2, int pos)
 
 inline int is_non_cpg( char * sp1, char * sp2, int pos)
 {
-  if ( pos < 1 ) return 0;
+  // first one can't assuredly be cpg
+  if ( pos < 1 ) return 1;
   if ( sp1[pos + 1] == '\0' ) return 0;
   return
     ( sp1[pos - 1] != 'C' && sp2[pos - 1] != 'C' &&
