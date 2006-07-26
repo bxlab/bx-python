@@ -81,19 +81,10 @@ def main():
         # setup maf
         writer = bx.align.maf.Writer(outstream, attributes=reader.attributes)
 
-    Block = 0
     qualfilter = Simple( mask=mask, qualspecies = species_to_lengths, \
                          qualfiles = qualfiles, minqual = minqual, cache=50 )
-    
-    for block in reader:
-        print "Processing block " + str(Block)
-        Block += 1
 
-        qualfilter.filter( block )
-        
-        outBlock = bx.align.Alignment (block.score, block.attributes)
-        map( outBlock.add_component, block.components )
-        writer.write (outBlock)
+    qualfilter.run( reader, writer.write )
 
     print "For "+str(qualfilter.total)+" base pairs, "+str(qualfilter.masked)+" base pairs were masked."
     print str(float(qualfilter.masked)/float(qualfilter.total) * 100)+"%"

@@ -163,7 +163,7 @@ class FileBinnedArray( object ):
         while size > 0:
             bin, offset = self.get_bin_offset( start )
             delta = self.bin_size - offset
-            if self.bins[bin] is None and self.bin_pos[bin] != 0:
+            if not bin in self.bins and self.bin_pos[bin] != 0:
                 self.load_bin( bin )
             if self.bins[bin] is None:
                 if delta < size:

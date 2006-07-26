@@ -49,7 +49,7 @@ def mask_columns( masklist, text, mask ):
     for position in masklist:
         if text[position] != "-":
             templist.append(position)
-            templist.append(len(text)) # Add the end of the text
+    templist.append(len(text)) # Add the end of the text
     #cut string
     newtext = list()
     c = 0
