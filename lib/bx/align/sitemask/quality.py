@@ -60,7 +60,8 @@ class Simple( Masker ):
                                              component.text[col+1:len(component.text)]
                 # iterate through quality
                 x += 1
-
+        return block
+    
 class NQS( Masker ):
     # keys should be:
     # qualspecies: dictionary of species as key, lengths
@@ -118,3 +119,4 @@ class NQS( Masker ):
                                              component.text[col+1:len(component.text)]
                 # iterate through quality
                 x += 1
+        return block
