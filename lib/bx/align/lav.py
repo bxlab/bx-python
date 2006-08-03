@@ -11,6 +11,8 @@ class Reader(object):
         self.file = file
         self.lineNumber = 0
 
+        self.d_stanza_text = None
+
         self.seq1_filename = None
         self.seq1_file     = None
         self.seq1_header   = None
@@ -42,6 +44,9 @@ class Reader(object):
                                  % (self.lineNumber,line)
                 return None
             if (line == "#:lav"):
+                continue
+            if (line.startswith("d {")):
+                self.d_stanza_text = self.parse_unknown_stanza()
                 continue
             if (line.startswith("s {")):
                 self.parse_s_stanza()
@@ -152,15 +157,21 @@ class Reader(object):
             self.seq2_filename = self.seq2_filename[:-1]
 
     def parse_h_stanza(self):
-        line = self.file.readline().strip('"')
+        line = self.file.readline().strip().strip('"')
         self.lineNumber += 1
-        if (line.startswith(">")): self.seq1_header = line[1:]
-        else:                      self.seq1_header = line
+        self.seq1_header = line
+        self.seq1_header_prefix = ""
+        if (line.startswith(">")):
+            self.seq1_header = line[1:]
+            self.seq1_header_prefix = ">"
 
-        line = self.file.readline().strip('"')
+        line = self.file.readline().strip().strip('"')
         self.lineNumber += 1
-        if (line.startswith(">")): self.seq2_header = line[1:]
-        else:                      self.seq2_header = line
+        self.seq2_header = line
+        self.seq2_header_prefix = ""
+        if (line.startswith(">")):
+            self.seq2_header = line[1:]
+            self.seq2_header_prefix = ">"
 
         line = self.file.readline().strip()
         self.lineNumber += 1
@@ -216,11 +227,41 @@ class Reader(object):
         return (score,pieces)
 
     def parse_unknown_stanza(self):
+        lines = []
         while (True):
             line = self.file.readline().strip()
             self.lineNumber += 1
             assert (line), "unexpected end of file (missing #:eof)"
             if (line == "}"): break
+            lines.append(line)
+        return "  " + "\n  ".join(lines) + "\n"
+
+    def d_stanza(self):
+        if (self.d_stanza_text == None): return ""
+        return "d {\n%s}" % self.d_stanza_text
+
+    def s_stanza(self):
+        if (self.seq1_filename == None): return ""
+
+        if (self.seq1_strand == "-"): seq1_strand = "1"
+        else:                         seq1_strand = "0"
+        if (self.seq2_strand == "-"): seq2_strand = "1"
+        else:                         seq2_strand = "0"
+
+        s =  "  \"%s\" %d %d %s %d\n"\
+           % (self.seq1_filename,self.seq2_start+1,self.seq1_end,
+              seq1_strand,self.seq1_contig)
+        s += "  \"%s\" %d %d %s %d\n"\
+           % (self.seq2_filename,self.seq2_start+1,self.seq2_end,
+              seq2_strand,self.seq2_contig)
+
+        return "s {\n%s}" % s
+
+    def h_stanza(self):
+        if (self.seq1_header == None): return ""
+        s =  "  \"%s%s\"\n" % (self.seq1_header_prefix,self.seq1_header)
+        s += "  \"%s%s\"\n" % (self.seq2_header_prefix,self.seq2_header)
+        return "h {\n%s}" % s
 
     def build_alignment(self,score,pieces):
         """converts a score and pieces to an alignment"""
