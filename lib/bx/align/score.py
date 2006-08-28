@@ -21,9 +21,9 @@ class ScoringScheme( object ):
         self.alphabet2 = alphabet2
 	# private _set_score and _get_score allow subclasses to override them to
 	# implement a different underlying table object
-	def _set_score((a,b),val):
+    def _set_score(self,(a,b),val):
         self.table[a,b] = val
-	def _get_score((a,b)):
+    def _get_score(self,(a,b)):
         return self.table[a,b]
     def set_score( self, a, b, val, foldcase1=False, foldcase2=False ):
         self._set_score((a,b),val)
@@ -231,7 +231,7 @@ def score_texts( scoring_scheme, text1, text2 ):
                last_gap_b = True
         # Aligned base
         else:   
-            rval += scoring_scheme._get_score((ord(a),ord(b))
+            rval += scoring_scheme._get_score((ord(a),ord(b)))
             last_gap_a = last_gap_b = False
     return rval
 
@@ -272,7 +272,7 @@ def accumulate_scores( scoring_scheme, text1, text2, skip_ref_gaps=False ):
                last_gap_b = True
         # Aligned base
         else:   
-            score += scoring_scheme._get_score((ord(a),ord(b))
+            score += scoring_scheme._get_score((ord(a),ord(b)))
             last_gap_a = last_gap_b = False
         if not( skip_ref_gaps ) or a != scoring_scheme.gap1:
             rval[pos] = score
