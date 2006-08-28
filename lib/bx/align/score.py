@@ -11,7 +11,7 @@ class ScoringScheme( object ):
         if (gap2 == None): gap2 = gap1 # (scheme with gap1=gap2=None is legit)
         if type(alphabet1) == str: alphabet1 = [ch for ch in alphabet1]
         if type(alphabet2) == str: alphabet2 = [ch for ch in alphabet2]
-        self.table = zeros( (text1_range, text2_range), typecode )
+        self.table = ones( (text1_range, text2_range), typecode )
         self.table *= default
         self.gap_open = gap_open
         self.gap_extend = gap_extend
@@ -19,8 +19,14 @@ class ScoringScheme( object ):
         self.gap2 = gap2
         self.alphabet1 = alphabet1
         self.alphabet2 = alphabet2
-    def set_score( self, a, b, val, foldcase1=False, foldcase2=False ):
+	# private _set_score and _get_score allow subclasses to override them to
+	# implement a different underlying table object
+	def _set_score((a,b),val):
         self.table[a,b] = val
+	def _get_score((a,b)):
+        return self.table[a,b]
+    def set_score( self, a, b, val, foldcase1=False, foldcase2=False ):
+        self._set_score((a,b),val)
         if foldcase1:
             aCh = chr(a)
             if   (aCh.isupper()): aa = ord(aCh.lower())
@@ -32,13 +38,13 @@ class ScoringScheme( object ):
             elif (bCh.islower()): bb = ord(bCh.upper())
             else:                 foldcase2 = False
         if foldcase1 and foldcase2:
-            self.table[aa,b ] = val
-            self.table[a ,bb] = val
-            self.table[aa,bb] = val
+            self._set_score((aa,b ),val)
+            self._set_score((a ,bb),val)
+            self._set_score((aa,bb),val)
         elif foldcase1:
-            self.table[aa,b ] = val
+            self._set_score((aa,b ),val)
         elif foldcase2:
-            self.table[a ,bb] = val
+            self._set_score((a ,bb),val)
     def score_alignment( self, a ):
         return score_alignment(self,a)
     def score_texts( self, text1, text2 ):
@@ -50,9 +56,9 @@ class ScoringScheme( object ):
         width = 3
         for a in self.alphabet1:
             for b in self.alphabet2:
-                score = self.table[ord(a),ord(b)]
+                score = self._get_score((ord(a),ord(b)))
                 if (type(score) == float): s = "%8.6f" % score
-                else:                      s = "%d"    % score
+                else:                      s = "%s"    % score
                 if (len(s)+1 > width):
                     width = len(s)+1
         lines = []
@@ -71,9 +77,9 @@ class ScoringScheme( object ):
                 if isDna1: line.append(a)
                 else:      line.append("%02X" % ord(a))
             for b in self.alphabet2:
-                score = self.table[ord(a),ord(b)]
+                score = self._get_score((ord(a),ord(b)))
                 if (type(score) == float): s = "%8.6f" % score
-                else:                      s = "%d"    % score
+                else:                      s = "%s"    % score
                 line.append("%*s" % (width,s))
             lines.append(("".join(line))+"\n")
         return "".join(lines)
@@ -225,7 +231,7 @@ def score_texts( scoring_scheme, text1, text2 ):
                last_gap_b = True
         # Aligned base
         else:   
-            rval += scoring_scheme.table[ord(a),ord(b)]
+            rval += scoring_scheme._get_score((ord(a),ord(b))
             last_gap_a = last_gap_b = False
     return rval
 
@@ -266,7 +272,7 @@ def accumulate_scores( scoring_scheme, text1, text2, skip_ref_gaps=False ):
                last_gap_b = True
         # Aligned base
         else:   
-            score += scoring_scheme.table[ord(a),ord(b)]
+            score += scoring_scheme._get_score((ord(a),ord(b))
             last_gap_a = last_gap_b = False
         if not( skip_ref_gaps ) or a != scoring_scheme.gap1:
             rval[pos] = score
