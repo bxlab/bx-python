@@ -17,7 +17,7 @@ import bx.align.axt
 
 def usage(s=None):
 	message = """
-lav_to_axt < lav_file > axt_file
+lav_to_axt [--silent] < lav_file > axt_file
 """
 	if (s == None): sys.exit (message)
 	else:           sys.exit ("%s\n%s" % (s,message))
@@ -27,7 +27,11 @@ def main():
 
 	# check the command line
 
-	if (len(sys.argv) > 1):
+	silent = False
+
+	if (len(sys.argv) == 2) and (sys.argv[1] == "--silent"):
+		silent = True
+	elif (len(sys.argv) > 1):
 		usage("give me no arguments")
 
 	# read the alignments and other info
@@ -41,7 +45,8 @@ def main():
 		out.write (lavBlock)
 		axtsWritten += 1
 
-	sys.stderr.write ("%d blocks read, %d written\n" % (lavsRead,axtsWritten))
+	if (not silent):
+		sys.stderr.write ("%d blocks read, %d written\n" % (lavsRead,axtsWritten))
 
 
 if __name__ == "__main__": main()
