@@ -42,6 +42,7 @@ class Simple( Masker ):
         if not block: return
         for qualspec in self.qualities:
             comp = block.get_component_by_src_start(qualspec)
+            if not comp: continue
             chrom = comp.src.split(".")[1]
             start, end = comp.get_forward_strand_start(), comp.get_forward_strand_end()
             # get quality slice, for + strand
