@@ -110,7 +110,7 @@ class QdnaFile(SeqFile):
             self.codebook = QdnaCodebook(StringIO(value))
         else:
             raise "named properties as instance variables are not implemented yet"
-            # muck with self.__dict__ ???
+            # $$$ do this by adding a properties dict and __getitem__/__setitem__
 
 
     def read_string(self):
