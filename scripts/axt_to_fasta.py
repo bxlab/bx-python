@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 """
-Application to convert fasta file to FASTA file
+Application to convert AXT file to FASTA file
 ---------------------------------------------
 
 :Author: Bob Harris (rsharris@bx.psu.edu)
 :Version: $Revision: $
 
-The application reads an fasta file from standard input and writes a FASTA file
+The application reads an AXT file from standard input and writes a FASTA file
 to standard out.
 """
 
