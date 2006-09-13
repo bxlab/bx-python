@@ -4,8 +4,7 @@ import bx.pwm.position_weight_matrix as pwm
 from StringIO import StringIO
 
 basicPwm = \
-"""
->MA0101 c-REL REL
+""">MA0101 c-REL REL
 0   5   8   4
 0   1   15  1
 1   0   15  1
@@ -19,8 +18,7 @@ basicPwm = \
 """
 
 transfacPwm = \
-"""
-ID  TATA
+"""ID  TATA
 XX
 P0    A    C    G    T
 01   33   73   78   16      S
