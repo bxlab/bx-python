@@ -30,6 +30,9 @@ def complement(reader, lens):
         # Write the intervals
         for start, end in out_intervals:
             fields = ["."  for x in range(max(reader.chrom_col, reader.start_col, reader.end_col)+1)]
+            # default the column to a + if it exists
+            if reader.strand_col < len( fields ) and reader.strand_col >= 0:
+                fields[reader.strand_col] = "+"
             fields[reader.chrom_col] = chrom
             fields[reader.start_col] = start
             fields[reader.end_col] = end
