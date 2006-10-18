@@ -70,4 +70,21 @@ class FastaReader(SeqReader):
         return seq
 
 
+class FastaWriter(object):
 
+    def __init__(self,file,columns=50):
+        self.file    = file
+        self.columns = columns
+
+    def write(self,seq):
+        print >>self.file,">%s" % seq.name
+        text = seq.text
+        if (self.columns != None) and (self.columns > 0):
+            text = "\n".join([text[ix:ix+self.columns] \
+                              for ix in range(0,len(text),self.columns)])
+        print >>self.file,text
+
+    def close(self):
+        assert (self.file != None)
+        self.file.close()
+        self.file = None

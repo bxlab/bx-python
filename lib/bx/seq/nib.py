@@ -74,3 +74,15 @@ class NibReader(SeqReader):
         self.seqs_read += 1
         return seq
 
+
+class NibWriter(object):
+
+    def __init__(self,file):
+        self.file = file
+
+    def write(self,seq):
+        assert (False), "NibWriter.write() is not implemented yet"
+
+    def close(self):
+        self.file.close()
+

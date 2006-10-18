@@ -30,6 +30,13 @@ def seq_reader (file, format=None, revcomp=False, name="", gap=None):
     else: raise "Unknown sequence format %s" % format
 
 
+def seq_writer (outfile, format=None, name=""):
+    if   (format == "fasta"): return fasta.FastaWriter (outfile)
+    elif (format == "nib"):   return nib.NibWriter     (outfile)
+    elif (format == "qdna"):  return qdna.QdnaWriter   (outfile)
+    else: raise "Unknown sequence format %s" % format
+
+
 def infer_format (file):
     format = None
     magic = struct.unpack(">L", file.read(4))[0]

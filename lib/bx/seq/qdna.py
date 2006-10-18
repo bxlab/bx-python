@@ -238,3 +238,16 @@ class QdnaCodebook(object):
             codeToProbs[chr(codeNum)] = vec
 
         return (alphabet,codeToProbs)
+
+
+class QdnaWriter(object):
+
+    def __init__(self,file):
+        self.file = file
+
+    def write(self,seq):
+        assert (False), "QdnaWriter.write() is not implemented yet"
+
+    def close(self):
+        self.file.close()
+

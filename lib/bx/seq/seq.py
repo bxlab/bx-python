@@ -35,7 +35,7 @@ DNA_COMP = "                                             -                  " \
 
 class SeqFile(object):
 
-    def __init__(self, file, revcomp=False, name="", gap=None):
+    def __init__(self, file=None, revcomp=False, name="", gap=None):
         self.file = file
         if   (revcomp == True):  self.revcomp = "-5'"
         elif (revcomp == "+3'"): self.revcomp = "-5'"
@@ -59,6 +59,10 @@ class SeqFile(object):
             return line.split()[0]
         except:
             return ""
+
+    def set_text(self,text):
+        self.text   = text
+        self.length = len(text)
 
     def __str__ (self):
         text = ""
