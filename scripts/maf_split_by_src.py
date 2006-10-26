@@ -21,17 +21,24 @@ def __main__():
 
     parser = OptionParser( usage=usage )
     parser.add_option( "-o", "--outprefix", action="store", default="" )
+    parser.add_option( "-c", "--component", action="store", default=None )
     ( options, args ) = parser.parse_args()
 
     out_prefix = options.outprefix
+    comp = options.component
+    if comp is not None:
+       comp = int( comp )
 
     maf_reader = bx.align.maf.Reader( sys.stdin )
 
     writers = {}
 
     for m in maf_reader:
-        
-        writer_key = string.join( [ c.src for c in m.components ], '_' )
+       
+        if comp is None: 
+            writer_key = string.join( [ c.src for c in m.components ], '_' )
+        else:
+            writer_key = m.components[ comp ].src
 
         if not writers.has_key( writer_key ):
             writer = bx.align.maf.Writer( file( "%s%s.maf" % ( out_prefix, writer_key ), "w" ) )
