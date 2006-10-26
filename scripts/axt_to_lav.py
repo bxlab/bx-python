@@ -1,25 +1,35 @@
 #!/usr/bin/env python
 """
-Application to convert AXT file to MAF file
+Application to convert AXT file to LAV file
 -------------------------------------------
 
 :Author: Bob Harris (rsharris@bx.psu.edu)
 :Version: $Revision: $
 
-The application reads an AXT file from standard input and writes a MAF file to
+The application reads an AXT file from standard input and writes a LAV file to
 standard out;  some statistics are written to standard error.
 """
 
 import sys
 import copy
 import bx.align.axt
-import bx.align.maf
+import bx.align.lav
+
 
 def usage(s=None):
 	message = """
-axt_to_maf primary:lengths_file secondary:lengths_file < axt_file > maf_file
-  [--silent] prevents stats report
-  Lengths files provide the length of each chromosome (maf format needs this
+axt_to_lav primary_spec secondary_spec [--silent] < axt_file > lav_file
+  Each spec is of the form seq_file[:species_name]:lengths_file.
+
+  seq_file should be a format string for the file names for the individual
+  sequences, with %s to be replaced by the alignment's src field.  For example,
+  "hg18/%s.nib" would prescribe files named "hg18/chr1.nib", "hg18/chr2.nib",
+  etc.
+
+  species_name is optional.  If present, it is prepended to the alignment's src
+  field.
+
+  Lengths files provide the length of each chromosome (lav format needs this
   information but axt file does not contain it).  The format is a series of
   lines of the form
     <chromosome name> <length>
@@ -33,9 +43,7 @@ axt_to_maf primary:lengths_file secondary:lengths_file < axt_file > maf_file
 def main():
 	global debug
 
-	##########
 	# parse the command line
-	##########
 
 	primary   = None
 	secondary = None
@@ -64,65 +72,54 @@ def main():
 			usage("unknown argument: %s" % arg)
 
 	if (primary == None):
-		usage("missing primary species")
+		usage("missing primary file name and length")
 
 	if (secondary == None):
-		usage("missing secondary species")
+		usage("missing secondary file name and length")
 
-	fields = primary.split(":")
-	if (len(fields) != 2):
-		usage("bad primary species (must be species:lengths_file")
-	primary = fields[0]
-	primaryLengths = fields[1]
+	try:
+		(primaryFile,primary,primaryLengths) = parse_spec(primary)
+	except:
+		usage("bad primary spec (must be seq_file[:species_name]:lengths_file")
 
-	fields = secondary.split(":")
-	if (len(fields) != 2):
-		usage("bad secondary species (must be species:lengths_file")
-	secondary = fields[0]
-	secondaryLengths = fields[1]
+	try:
+		(secondaryFile,secondary,secondaryLengths) = parse_spec(secondary)
+	except:
+		usage("bad secondary spec (must be seq_file[:species_name]:lengths_file")
 
-	##########
 	# read the lengths
-	##########
 
 	speciesToLengths = {}
 	speciesToLengths[primary]   = read_lengths (primaryLengths)
 	speciesToLengths[secondary] = read_lengths (secondaryLengths)
 
-	##########
 	# read the alignments
-	##########
 
-	out = bx.align.maf.Writer(sys.stdout)
+	out = bx.align.lav.Writer(sys.stdout, \
+			attributes = { "name_format_1" : primaryFile,
+			               "name_format_2" : secondaryFile })
 
 	axtsRead = 0
 	axtsWritten = 0
-	for axtBlock in bx.align.axt.Reader(sys.stdin,\
+	for axtBlock in bx.align.axt.Reader(sys.stdin, \
 			species_to_lengths = speciesToLengths,
 			species1           = primary,
-			species2           = secondary):
+			species2           = secondary,
+			support_ids        = True):
 		axtsRead += 1
-
-		p = axtBlock.get_component_by_src_start(primary)
-		if (p == None): continue
-		s = axtBlock.get_component_by_src_start(secondary)
-		if (s == None): continue
-
-		mafBlock = bx.align.Alignment (axtBlock.score, axtBlock.attributes)
-		mafBlock.add_component (clone_component(p))
-		mafBlock.add_component (clone_component(s))
-
-		out.write (mafBlock)
+		out.write (axtBlock)
 		axtsWritten += 1
+
+	out.close()
 
 	if (not silent):
 		sys.stderr.write ("%d blocks read, %d written\n" % (axtsRead,axtsWritten))
 
-
-def clone_component(c):
-	return bx.align.Component (c.src, c.start, c.size, c.strand, c.src_size, \
-	                           copy.copy(c.text))
-
+def parse_spec(spec): # returns (seq_file,species_name,lengths_file)
+	fields = spec.split(":")
+	if   (len(fields) == 2): return (fields[0],"",fields[1])
+	elif (len(fields) == 3): return (fields[0],fields[1],fields[2])
+	else:                    raise ValueError
 
 def read_lengths (fileName):
 
