@@ -117,8 +117,10 @@ class Indexes:
         return self.indexes[name]
 
     def find( self, name, start, end ):
-        try: return self.get( name ).find( start, end )
-        except: return []
+        if name in self.indexes:
+            return self.get( name ).find( start, end )
+        else:
+            return []
 
     def open( self, filename ):
         self.filename = filename
