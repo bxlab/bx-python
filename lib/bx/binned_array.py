@@ -7,7 +7,7 @@ from fpconst import *
 from Numeric import *
 # from RandomArray import *
 from struct import *
-from lrucache import LRUCache
+from bx_extras.lrucache import LRUCache
 
 MAGIC=0x4AB04612
 # Version incremented from version 0 to version 1 by Ian Schenck, June
@@ -203,6 +203,7 @@ class BinnedArrayWriter( object ):
         self.bin_pos = 0
         self.bin_index = []
         self.buffer = resize( array(self.default, typecode=self.typecode), (self.bin_size,) )
+        self.buffer_contains_values = False
         self.write_header()
         # Start the first bin
         self.bin_index = [ (self.data_offset, 0) ]
@@ -227,8 +228,19 @@ class BinnedArrayWriter( object ):
         for pos, size in self.bin_index:
             write_packed( self.f, ">2I", pos, size )
 
+    def skip( self ):
+        self.bin_pos += 1
+        if self.bin_pos == self.bin_size:
+            self.flush()
+            self.bin_pos = 0
+            self.bin += 1
+            assert self.bin <= self.nbins
+            self.buffer = resize( array(self.default, typecode=self.typecode), (self.bin_size,) )
+            self.bin_index.append( (self.f.tell(), 0) )
+
     def write( self, data ):
         self.buffer[self.bin_pos] = data
+        buffer_contains_values = True
         self.bin_pos += 1
         if self.bin_pos == self.bin_size:
             self.flush()
@@ -240,15 +252,19 @@ class BinnedArrayWriter( object ):
 
     def flush( self ):
         # Flush buffer to file
-        pos, size = self.bin_index[self.bin]
-        self.f.seek( pos )
-        if LittleEndian:
-            s = self.buffer.byteswapped().tostring()
+        if self.buffer_contains_values:
+            pos, size = self.bin_index[self.bin]
+            self.f.seek( pos )
+            if LittleEndian:
+                s = self.buffer.byteswapped().tostring()
+            else:
+                s = self.buffer.tostring()
+            compressed = zlib.compress( s )
+            self.bin_index[self.bin] = ( pos, len( compressed ) )
+            self.f.write( compressed )
         else:
-            s = self.buffer.tostring()
-        compressed = zlib.compress( s )
-        self.bin_index[self.bin] = ( pos, len( compressed ) )
-        self.f.write( compressed )
+            self.bin_index[self.bin] = ( 0, 0 )
+            
 
     def finish( self ):
         self.flush()
