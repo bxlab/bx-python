@@ -3,18 +3,42 @@ from __future__ import division
 import math
 import zlib
 
-from fpconst import *
+from bx_extras.fpconst import *
 from Numeric import *
-# from RandomArray import *
+from RandomArray import *
 from struct import *
 from bx_extras.lrucache import LRUCache
 
 MAGIC=0x4AB04612
+
 # Version incremented from version 0 to version 1 by Ian Schenck, June
 # 23, 2006.  Version 1 supports different typecodes, and in doing so
 # breaks the original header format.  The new FileBinnedArray is
 # backwards compatible with version 0.
-VERSION=1
+
+# Version 1 -> 2 by James Taylor, allow specifying different compression 
+# types.
+
+VERSION=2
+
+# Compression types
+
+comp_types = dict()
+
+comp_types['none'] = ( lambda x: x, lambda x: x )
+
+try:
+    import zlib
+    comp_types['zlib'] = ( zlib.compress, zlib.decompress )
+except:
+    pass
+    
+try:
+    import lzo
+    comp_types['lzo'] = ( lzo.compress, lzo.decompress )
+except:
+    pass
+
 
 MAX=512*1024*1024 
 
@@ -30,13 +54,14 @@ class BinnedArray( object ):
         return index // self.bin_size, index % self.bin_size
     def init_bin( self, index ):
         # self.bins[index] = zeros( self.bin_size ) * self.default
-        self.bins[index] = resize( array(self.default, typecode=self.typecode), (self.bin_size,) )
+        self.bins[index] = zeros( self.bin_size, typecode=self.typecode )
+        self.bins[index][:] = self.default
     def get( self, key ):
         bin, offset = self.get_bin_offset( key )
-        if self.bins[bin]:
-            return self.bins[bin][offset]
-        else:
+        if self.bins[bin] is None:
             return self.default
+        else:
+            return self.bins[bin][offset]
     def set( self, key, value ):
         bin, offset = self.get_bin_offset( key )
         if not self.bins[bin]: self.init_bin( bin )
@@ -74,12 +99,16 @@ class BinnedArray( object ):
             return self.get( key )
     def __setitem__( self, key, value ):
         return self.set( key, value )
-    def to_file( self, f ):
+    def to_file( self, f, comp_type='zlib' ):
+        # Get compress method
+        compress, _ = comp_types[comp_type]
         # Write header
         write_packed( f, ">5I", MAGIC, VERSION, self.max_size, self.bin_size, self.nbins )
         # Struct module can't deal with NaN and endian conversion, we'll hack around that with Numeric
         # save type code
         f.write( pack('c',self.typecode ) )
+        # save compression type
+        f.write( comp_type[0:4].ljust( 4 ) )
         # write default value
         a = array( self.default, typecode=self.typecode ) 
         if LittleEndian: a = a.byteswapped()
@@ -99,7 +128,7 @@ class BinnedArray( object ):
                     s = bin.byteswapped().tostring()
                 else:
                     s = bin.tostring()
-                compressed = zlib.compress( s )
+                compressed = compress( s )
                 bin_pos_and_size.append( ( f.tell(), len( compressed ) ) )
                 f.write( compressed )
         # Go back and fill in table
@@ -114,8 +143,8 @@ class FileBinnedArray( object ):
         self.f = f
         M, V, max_size, bin_size, nbins = read_packed( f, ">5I" )
         assert M == MAGIC
-        # assert less than
-        assert V <= VERSION 
+        # assert version less than max supported
+        assert V <= VERSION, "File is version %d but I don't know about anything beyond %d" % ( V, VERSION )
         self.max_size = max_size
         self.bin_size = bin_size
         self.nbins = nbins        
@@ -125,6 +154,13 @@ class FileBinnedArray( object ):
             self.typecode = unpack( 'c', f.read(1) )[0]
         else:
             self.typecode = 'f'
+        # Read compression type
+        if V >= 2:
+            self.comp_type = f.read( 4 ).strip()
+        else:
+            self.comp_type = 'zlib'
+        self.decompress = comp_types[self.comp_type][1]
+        # Read default value
         s = f.read( calcsize( self.typecode ) )
         a = fromstring( s, self.typecode )
         if LittleEndian: a = a.byteswapped()
@@ -142,7 +178,7 @@ class FileBinnedArray( object ):
         assert self.bin_pos[index] != 0
         self.f.seek( self.bin_pos[index] )
         raw = self.f.read( self.bin_sizes[index] )
-        a = fromstring( zlib.decompress( raw ), self.typecode )
+        a = fromstring( self.decompress( raw ), self.typecode )
         if LittleEndian:
             a = a.byteswapped()
         assert len( a ) == self.bin_size
@@ -191,7 +227,7 @@ class FileBinnedArray( object ):
             return self.get( key )
         
 class BinnedArrayWriter( object ):
-    def __init__( self, f, bin_size=512*1024, default=NaN, max_size=MAX, typecode="f" ):
+    def __init__( self, f, bin_size=512*1024, default=NaN, max_size=MAX, typecode="f", comp_type='zlib' ):
         # All parameters in the constructor are immutable after creation
         self.f = f
         self.max_size = max_size
@@ -204,6 +240,8 @@ class BinnedArrayWriter( object ):
         self.bin_index = []
         self.buffer = resize( array(self.default, typecode=self.typecode), (self.bin_size,) )
         self.buffer_contains_values = False
+        self.comp_type = comp_type
+        self.compress = comp_types[comp_type][0]
         self.write_header()
         # Start the first bin
         self.bin_index = [ (self.data_offset, 0) ]
@@ -217,6 +255,9 @@ class BinnedArrayWriter( object ):
         self.f.write( pack('c',self.typecode ) )
         # write default value
         a = array( self.default, typecode=self.typecode ) 
+        # write comp type
+        f.write( self.comp_type[0:4].ljust(4) )
+        # write default
         if LittleEndian: a = a.byteswapped()
         self.f.write( a.tostring() )
         # Save current position (start of bin offsets)
@@ -259,7 +300,7 @@ class BinnedArrayWriter( object ):
                 s = self.buffer.byteswapped().tostring()
             else:
                 s = self.buffer.tostring()
-            compressed = zlib.compress( s )
+            compressed = self.compress( s )
             self.bin_index[self.bin] = ( pos, len( compressed ) )
             self.f.write( compressed )
         else:
@@ -281,20 +322,23 @@ def read_packed( f, pattern ):
     return rval
     
 if __name__ == "__main__":
+    import time
     source = []
     for i in range( 13 ):
         if random() < 0.5:
-            source = concatenate( ( source, random_integers( 10, 0, 9456 ) ) )
+            source = concatenate( ( source, random( 9456 ) ) )
         else:
-            source = concatenate( ( source, zeros( 8972 ) ) )
+            source = concatenate( ( source, zeros( 8972, typecode='f' ) ) )
+    source = source.astype( 'f' )
     # Set on target
     target = BinnedArray( 128, NaN, len( source ) )
+    # print target.bins
     for i in range( len( source ) ):
-        if not isNaN( source[i] ):
+        # if not isNaN( source[i] ):
             target[i] = source[i]
     # Verify
     for i in range( len( source ) ):
-        assert source[i] == target[i], "No match, index: %d, source: %d, target: %d" % ( i, source[i], target[i] )
+        assert source[i] == target[i], "No match, index: %d, source: %f, target: %f, len( source ): %d" % ( i, source[i], target[i], len( source ) )
     # Verfiy with slices
     for i in range( 10 ):
         a = int( random() * len( source ) )
@@ -303,11 +347,17 @@ if __name__ == "__main__":
         assert source[a:b] == target[a:b], "No match, index: %d:%d, source: %s, target: %s" % \
             ( a, b, ",".join( map( str, source[a:a+10] ) ), ",".join( map( str, target[a:a+10] ) ) )
     # With a file
+    secs = time.clock()
     target.to_file( open( "/tmp/foo", "w" ) )
+    secs = time.clock() - secs
+    print "%f seconds to write with zlib" % secs
+    secs = time.clock()
     target2 = FileBinnedArray( open( "/tmp/foo" ) )
     # Verify
     for i in range( len( source ) ):
         assert source[i] == target2[i], "No match, index: %d, source: %d, target: %d" % ( i, source[i], target2[i] )
+    secs = time.clock() - secs
+    print "%f seconds to read with zlib" % secs
     # Verfiy with slices
     target2 = FileBinnedArray( open( "/tmp/foo" ) )
     for i in range( 10 ):
@@ -316,6 +366,26 @@ if __name__ == "__main__":
         if b < a: a, b = b, a
         assert source[a:b] == target[a:b], "No match, index: %d:%d, source: %s, target: %s" % \
             ( a, b, ",".join( map( str, source[a:a+10] ) ), ",".join( map( str, target2[a:a+10] ) ) )
+    # With lzo compression
+    secs = time.clock()
+    target.to_file( open( "/tmp/foo3", "w" ), comp_type="lzo" )
+    secs = time.clock() - secs
+    print "%f seconds to write with lzo" % secs
+    secs = time.clock()
+    target3 = FileBinnedArray( open( "/tmp/foo3" ) )
+    # Verify
+    for i in range( len( source ) ):
+        assert source[i] == target3[i], "No match, index: %d, source: %d, target: %d" % ( i, source[i], target3[i] )
+    secs = time.clock() - secs
+    print "%f seconds to read with lzo" % secs
+    # Verfiy with slices
+    target3 = FileBinnedArray( open( "/tmp/foo3" ) )
+    for i in range( 10 ):
+        a = int( random() * len( source ) )
+        b = int( random() * len( source ) )
+        if b < a: a, b = b, a
+        assert source[a:b] == target3[a:b], "No match, index: %d:%d, source: %s, target: %s" % \
+            ( a, b, ",".join( map( str, source[a:a+10] ) ), ",".join( map( str, target3[a:a+10] ) ) )
             
             
             
