@@ -244,7 +244,9 @@ class BinnedArrayWriter( object ):
         self.compress = comp_types[comp_type][0]
         self.write_header()
         # Start the first bin
-        self.bin_index = [ (self.data_offset, 0) ]
+        ## self.bin_index = [ (self.data_offset, 0) ]
+        # Put the fp at the start of the data (we go back and fill in the index at the end)
+        self.f.seek( self.data_offset )
 
     def write_header( self ):
         self.f.seek(0)
@@ -256,7 +258,7 @@ class BinnedArrayWriter( object ):
         # write default value
         a = array( self.default, typecode=self.typecode ) 
         # write comp type
-        f.write( self.comp_type[0:4].ljust(4) )
+        self.f.write( self.comp_type[0:4].ljust(4) )
         # write default
         if LittleEndian: a = a.byteswapped()
         self.f.write( a.tostring() )
@@ -277,11 +279,12 @@ class BinnedArrayWriter( object ):
             self.bin += 1
             assert self.bin <= self.nbins
             self.buffer = resize( array(self.default, typecode=self.typecode), (self.bin_size,) )
-            self.bin_index.append( (self.f.tell(), 0) )
+            self.buffer_contains_values = False
+            ## self.bin_index.append( (self.f.tell(), 0) )
 
     def write( self, data ):
         self.buffer[self.bin_pos] = data
-        buffer_contains_values = True
+        self.buffer_contains_values = True
         self.bin_pos += 1
         if self.bin_pos == self.bin_size:
             self.flush()
@@ -289,23 +292,27 @@ class BinnedArrayWriter( object ):
             self.bin += 1
             assert self.bin <= self.nbins
             self.buffer = resize( array(self.default, typecode=self.typecode), (self.bin_size,) )
-            self.bin_index.append( (self.f.tell(), 0) )
+            self.buffer_contains_values = False
+            ## self.bin_index.append( (self.f.tell(), 0) )
 
     def flush( self ):
         # Flush buffer to file
         if self.buffer_contains_values:
-            pos, size = self.bin_index[self.bin]
-            self.f.seek( pos )
+            ## pos, size = self.bin_index[self.bin]
+            ## self.f.seek( pos )
+            pos = self.f.tell()
             if LittleEndian:
                 s = self.buffer.byteswapped().tostring()
             else:
                 s = self.buffer.tostring()
             compressed = self.compress( s )
-            self.bin_index[self.bin] = ( pos, len( compressed ) )
+            size = len( compressed )
+            assert len( self.bin_index ) == self.bin
+            self.bin_index.append( ( pos, size ) )
             self.f.write( compressed )
         else:
-            self.bin_index[self.bin] = ( 0, 0 )
-            
+            assert len( self.bin_index ) == self.bin
+            self.bin_index.append( ( 0, 0 ) )
 
     def finish( self ):
         self.flush()
@@ -386,6 +393,21 @@ if __name__ == "__main__":
         if b < a: a, b = b, a
         assert source[a:b] == target3[a:b], "No match, index: %d:%d, source: %s, target: %s" % \
             ( a, b, ",".join( map( str, source[a:a+10] ) ), ",".join( map( str, target3[a:a+10] ) ) )
+    # Test with ba writer
+    secs = time.clock()
+    o = open( "/tmp/foo4", "w" )
+    w = BinnedArrayWriter( o, comp_type='lzo' )
+    for val in source:
+        w.write( val )
+    w.finish()
+    o.close()
+    secs = time.clock() - secs
+    print "%f seconds to build+write with writer+lzo" % secs
+    # Verify
+    target4 = FileBinnedArray( open( "/tmp/foo4" ) )
+    for i in range( len( source ) ):
+        assert source[i] == target4[i], "No match, index: %d, source: %d, target: %d" % ( i, source[i], target4[i] )
+            
             
             
             
