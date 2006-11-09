@@ -26,7 +26,19 @@ def main():
         else: suffix = ""
 
         print >>sys.stderr, "\nReading feature",
-        feature = binned_bitsets_from_file(open( args[0] ), lens=lens)
+        interval_file = open(args[0])
+        feature = binned_bitsets_from_file(interval_file, lens=lens)
+        interval_file.close()
+        # reuse interval file 
+        intervals = {}
+        interval_file = open(args[0])
+        for line in interval_file:
+            fields = line.split()
+            chrom, start, end = fields[0], int(fields[1]), int(fields[2])
+            if chrom not in intervals: intervals[chrom] = []
+            intervals[chrom].append( [start,end] )
+        interval_file.close()
+
         print >>sys.stderr, "\nReading ar",
         ar = binned_bitsets_from_file(open( args[1] ), lens=lens)
 
@@ -91,7 +103,6 @@ def main():
         div = div_copy
         snp[chr] = snp_copy[chr]
         print >>sys.stderr, "feature:", chr,
-        # Note: can loop over feature intervals here for individual counts
         feature[chr].iand( ar_mask[chr] ) # clip to non-AR only
         snp[chr].iand( feature[chr] )
         div[chr].iand( feature[chr] )
@@ -99,6 +110,13 @@ def main():
         print >>sys.stderr, snp[chr].count_range(0,snp[chr].size), div[chr].count_range(0,div[chr].size)
         feature_div_count += div[chr].count_range(0,div[chr].size)
         print >>sys.stderr, snp[chr].count_range(0,snp[chr].size), div[chr].count_range(0,div[chr].size)
+
+        # Note: can loop over feature intervals here for individual counts
+        if chr in intervals:
+            for start,end in intervals[chr]:
+                ind_div_count = div[chr].count_range(start,end-start)
+                ind_snp_count = snp[chr].count_range(start,end-start)
+                print chr, start, end, ind_div_count, ind_snp_count
     
     print "feature snp\t%d" %feature_snp_count
     print "feature div\t%d" %feature_div_count

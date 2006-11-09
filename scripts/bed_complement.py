@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.4
 
 """
 Complement the regions of a bed file. Requires a file that maps source names
