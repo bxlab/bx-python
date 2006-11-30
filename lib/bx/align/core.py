@@ -51,9 +51,9 @@ class Alignment( object ):
         elif chrom in self.species_to_lengths:
             chrom_to_length = self.species_to_lengths
         else:
-        	raise "no src_size (no length file for %s)" % species
+            raise "no src_size (no length file for %s)" % species
         if type( chrom_to_length ) == int:         # (if it's a single length)
-        	return chrom_to_length
+            return chrom_to_length
         if type( chrom_to_length ) == type( "" ):  # (if it's a file name)
             chrom_to_length = read_lengths_file( chrom_to_length )
             self.species_to_lengths[species] = chrom_to_length
@@ -228,22 +228,22 @@ class Component( object ):
 def get_reader( format, infile, species_to_lengths=None ):
     import bx.align.maf, bx.align.axt, bx.align.lav
     if format == "maf": return bx.align.maf.Reader( infile, species_to_lengths )
-    elif format == "axt": return align.axt.Reader( infile, species_to_lengths )
+    elif format == "axt": return bx.align.axt.Reader( infile, species_to_lengths )
     elif format == "lav": return bx.align.lav.Reader( infile, species_to_lengths )
     else: raise "Unknown alignment format %s" % format
 
 def get_writer( format, outfile, attributes={} ):
     import bx.align.maf, bx.align.axt, bx.align.lav
-    if format == "maf": return align.maf.Writer( outfile, attributes )
-    elif format == "axt": return align.axt.Writer( outfile, attributes )
-    elif format == "lav": return align.lav.Writer( outfile, attributes )
+    if format == "maf": return bx.align.maf.Writer( outfile, attributes )
+    elif format == "axt": return bx.align.axt.Writer( outfile, attributes )
+    elif format == "lav": return bx.align.lav.Writer( outfile, attributes )
     else: raise "Unknown alignment format %s" % format
 
 def get_indexed( format, filename, index_filename=None, keep_open=False, species_to_lengths=None ):
     import bx.align.maf, bx.align.axt, bx.align.lav
-    if format == "maf": return align.maf.Indexed( filename, index_filename, keep_open, species_to_lengths )
-    elif format == "axt": return align.axt.Indexed( filename, index_filename, keep_open, species_to_lengths )
-    elif format == "lav": return align.lav.Indexed( filename, index_filename, keep_open, species_to_lengths )
+    if format == "maf": return bx.align.maf.Indexed( filename, index_filename, keep_open, species_to_lengths )
+    elif format == "axt": return bx.align.axt.Indexed( filename, index_filename, keep_open, species_to_lengths )
+    elif format == "lav": return bx.align.lav.Indexed( filename, index_filename, keep_open, species_to_lengths )
     else: raise "Unknown alignment format %s" % format
 
 def shuffle_columns( a ):
