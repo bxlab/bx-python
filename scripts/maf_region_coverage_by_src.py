@@ -15,7 +15,7 @@ import psyco_full
 
 import cookbook.doc_optparse
 
-import align.maf
+import bx.align.maf
 import intervals
 import misc
 import sys
@@ -35,7 +35,7 @@ def __main__():
         cookbook.doc_optparse.exit()
 
     # Open indexed access to mafs
-    indexes = [ align.maf.Indexed( maf_file, maf_file + ".index" ) for maf_file in maf_files ]
+    indexes = [ bx.align.maf.Indexed( maf_file, maf_file + ".index" ) for maf_file in maf_files ]
 
     # Iterate over input ranges 
 
