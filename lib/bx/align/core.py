@@ -226,21 +226,21 @@ class Component( object ):
 # return coord_to_col( self.get_forward_strand_start(), self.text, pos )
 
 def get_reader( format, infile, species_to_lengths=None ):
-    import bx.align.axt, bx.align.maf
+    import bx.align.maf, bx.align.axt, bx.align.lav
     if format == "maf": return bx.align.maf.Reader( infile, species_to_lengths )
     elif format == "axt": return align.axt.Reader( infile, species_to_lengths )
     elif format == "lav": return bx.align.lav.Reader( infile, species_to_lengths )
     else: raise "Unknown alignment format %s" % format
 
 def get_writer( format, outfile, attributes={} ):
-    import align.axt, align.maf
+    import bx.align.maf, bx.align.axt, bx.align.lav
     if format == "maf": return align.maf.Writer( outfile, attributes )
     elif format == "axt": return align.axt.Writer( outfile, attributes )
     elif format == "lav": return align.lav.Writer( outfile, attributes )
     else: raise "Unknown alignment format %s" % format
 
 def get_indexed( format, filename, index_filename=None, keep_open=False, species_to_lengths=None ):
-    import align.axt, align.maf
+    import bx.align.maf, bx.align.axt, bx.align.lav
     if format == "maf": return align.maf.Indexed( filename, index_filename, keep_open, species_to_lengths )
     elif format == "axt": return align.axt.Indexed( filename, index_filename, keep_open, species_to_lengths )
     elif format == "lav": return align.lav.Indexed( filename, index_filename, keep_open, species_to_lengths )
