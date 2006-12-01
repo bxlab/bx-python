@@ -299,7 +299,7 @@ def write_packed_uints( f, v, num_bytes ):
     else:
         parts = []
         while num_bytes > 0:
-            parts.append( v & 0xFFFFFFFF )
+            parts.append( v & 0xFFFFFFFFL )
             v >>= 32
             num_bytes -= 4
         parts.reverse() # (write most-significant chunk first)
