@@ -174,6 +174,6 @@ cdef class BinnedBitSet:
 
     ## ---- Python "Operator Overloading" ----
 
-	def __contains__(self,pos):
-		assert False
-		return binBitsReadOne( self.bb, pos ) == 1
+    def __contains__(self,pos):
+        assert False
+        return binBitsReadOne( self.bb, pos ) == 1
