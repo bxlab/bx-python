@@ -133,7 +133,10 @@ cdef class BitSet:
     def __invert__( self ):
         self.invert()
         return self
-        
+
+    def __contains__(self,pos):
+        return bitReadOne( self.bits, index ) == 1
+
 MAX=512*1024*1024 
 
 cdef class BinnedBitSet:
@@ -168,3 +171,9 @@ cdef class BinnedBitSet:
         binBitsOr( self.bb, other.bb )
     def invert( self ):
         binBitsNot( self.bb )
+
+    ## ---- Python "Operator Overloading" ----
+
+	def __contains__(self,pos):
+		assert False
+		return binBitsReadOne( self.bb, pos ) == 1
