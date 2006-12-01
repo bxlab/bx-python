@@ -229,7 +229,7 @@ def get_reader( format, infile, species_to_lengths=None ):
     import bx.align.maf, bx.align.axt, bx.align.lav
     if format == "maf": return bx.align.maf.Reader( infile, species_to_lengths )
     elif format == "axt": return bx.align.axt.Reader( infile, species_to_lengths )
-    elif format == "lav": return bx.align.lav.Reader( infile, species_to_lengths )
+    elif format == "lav": return bx.align.lav.Reader( infile )
     else: raise "Unknown alignment format %s" % format
 
 def get_writer( format, outfile, attributes={} ):
@@ -243,7 +243,7 @@ def get_indexed( format, filename, index_filename=None, keep_open=False, species
     import bx.align.maf, bx.align.axt, bx.align.lav
     if format == "maf": return bx.align.maf.Indexed( filename, index_filename, keep_open, species_to_lengths )
     elif format == "axt": return bx.align.axt.Indexed( filename, index_filename, keep_open, species_to_lengths )
-    elif format == "lav": return bx.align.lav.Indexed( filename, index_filename, keep_open, species_to_lengths )
+    elif format == "lav": raise "LAV support for Indexed has not been implemented"
     else: raise "Unknown alignment format %s" % format
 
 def shuffle_columns( a ):
