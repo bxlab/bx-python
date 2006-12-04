@@ -80,10 +80,7 @@ class Reader(object):
 			else:                         revcomp = "-5'"
 			self.seq1_file = bx.seq.seq_file(file(self.seq1_filename,"rb"),revcomp=revcomp)
 			self.seq1_gap  = self.seq1_file.gap
-			if (self.seq1_file.name == None) or (self.seq1_file.name == ""):
-				name1 = "seq1"
-			else:
-				name1 = self.seq1_file.name
+			name1 = self.path_to_src_name(self.seq1_filename)
 			(species1,chrom1) = src_split(name1)
 			self.seq1_src = src_merge(species1,chrom1)
 
@@ -92,10 +89,7 @@ class Reader(object):
 			else:                         revcomp = "-5'"
 			self.seq2_file = bx.seq.seq_file(file(self.seq2_filename,"rb"),revcomp=revcomp)
 			self.seq2_gap  = self.seq2_file.gap
-			if (self.seq2_file.name == None) or (self.seq2_file.name == ""):
-				name2 = "seq2"
-			else:
-				name2 = self.seq2_file.name
+			name2 = self.path_to_src_name(self.seq2_filename)
 			(species2,chrom2) = src_split(name2)
 			self.seq2_src = src_merge(species2,chrom2)
 
@@ -179,6 +173,7 @@ class Reader(object):
 		assert (line == "}"), "improper h-stanza terminator (line %d, \"%s\")" \
 							% (self.lineNumber,line)
 
+
 	def parse_a_stanza(self):
 		"""returns the pair (score,pieces)
 		   where pieces is a list of ungapped segments (start1,start2,length,pctId)"""
@@ -188,7 +183,8 @@ class Reader(object):
 		fields = line.split()
 		assert (fields[0] == "s"), "s line expected in a-stanza (line %d, \"%s\")" \
 								 % (self.lineNumber,line)
-		score = float(fields[1])
+		try:    score = int(fields[1])
+		except: score = float(fields[1])
 
 		# 'b' line -- begin positions in seqs, 2 fields
 		line = self.file.readline().strip()
@@ -266,7 +262,7 @@ class Reader(object):
 
 	def build_alignment(self,score,pieces):
 		"""converts a score and pieces to an alignment"""
-		# build text
+	 	# build text
 		self.open_seqs()
 		text1 = text2 = ""
 		end1  = end2  = None
@@ -284,16 +280,32 @@ class Reader(object):
 			end1 = start1 + length
 			end2 = start2 + length
 		# create alignment
+		start1 = pieces[0][0]
+		start2 = pieces[0][1]
+		end1   = pieces[-1][0] + pieces[-1][2]
+		end2   = pieces[-1][1] + pieces[-1][2]
+		size1  = end1 - start1
+		size2  = end2 - start2
 		a = Alignment(score=score,species_to_lengths=self.species_to_lengths)
-		fetch1 = start1 = pieces[0][0]
-		if (self.seq1_strand == "-"):
-			start1 = self.seq1_file.length - (start1+len(text1))
-		a.add_component(Component(self.seq1_src,fetch1,len(text1),self.seq1_strand,text=text1))
-		fetch2 = start2 = pieces[0][1]
-		if (self.seq2_strand == "-"):
-			start2 = self.seq2_file.length - (start2+len(text2))
-		a.add_component(Component(self.seq2_src,fetch2,len(text2),self.seq2_strand,text=text2))
+		#if (self.seq1_strand == "-"): start1 = self.seq1_file.length - end1
+		a.add_component(Component(self.seq1_src,start1,size1,self.seq1_strand,text=text1))
+		#if (self.seq2_strand == "-"): start2 = self.seq2_file.length - end2
+		a.add_component(Component(self.seq2_src,start2,size2,self.seq2_strand,text=text2))
 		return a
+
+	def path_to_src_name(self,path_name):
+		# converts, e.g. .../hg18/seq/chr13.nib to hg18.chr13
+		if (path_name.endswith(".nib")):   path_name = path_name[:-4]
+		if (path_name.endswith(".fa")):    path_name = path_name[:-3]
+		if (path_name.endswith(".fasta")): path_name = path_name[:-6]
+		slash = path_name.rfind("/")
+		if (slash == -1): return path_name
+		name      = path_name[slash+1:]
+		path_name = path_name[:slash]
+		if (path_name.endswith("/seq")):   path_name = path_name[:-4]
+		slash = path_name.rfind("/")
+		if (slash != -1): path_name = path_name[slash+1:]
+		return path_name + "." + name
 
 class ReaderIter(object):
 	def __init__(self,reader):
@@ -363,15 +375,15 @@ class Writer(object):
 
 	def write_s_stanza(self):
 		self.write_lav_marker()
-		strand1 = minus_or_nothing(self.strand1)
-		strand2 = minus_or_nothing(self.strand2)
+		(strand1,flag1) = minus_or_nothing(self.strand1)
+		(strand2,flag2) = minus_or_nothing(self.strand2)
 		fname1 = build_filename(self.fname1,self.src1)
 		fname2 = build_filename(self.fname2,self.src2)
 		print >>self.file,"s {"
-		print >>self.file,"  \"%s%s\" 1 %d 0 1" \
-		                % (fname1,strand1,self.length1)
-		print >>self.file,"  \"%s%s\" 1 %d 0 1" \
-		                % (fname2,strand2,self.length2)
+		print >>self.file,"  \"%s%s\" 1 %d %d 1" \
+		                % (fname1,strand1,self.length1,flag1)
+		print >>self.file,"  \"%s%s\" 1 %d %d 1" \
+		                % (fname2,strand2,self.length2,flag2)
 		print >>self.file,"}"
 
 	def write_h_stanza(self):
@@ -465,8 +477,8 @@ def build_filename(fmt,src):
 	return fmt % (species,chrom)
 
 def minus_or_nothing(strand):
-	if (strand == "-"): return "-"
-	else:               return ""
+	if (strand == "-"): return ("-",1)
+	else:               return ("",0)
 
 def rc_or_nothing(strand):
 	if (strand == "-"): return " (reverse complement)"
