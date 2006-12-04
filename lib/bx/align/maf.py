@@ -121,8 +121,11 @@ def read_next_maf( file, species_to_lengths=None ):
     fields = line.split() 
     if fields[0] != 'a': raise "Expected 'a ...' line"
     alignment.attributes = parse_attributes( fields[1:] )
-    alignment.score = alignment.attributes['score']
-    del alignment.attributes['score']
+    if 'score' in alignment.attributes:
+        alignment.score = alignment.attributes['score']
+        del alignment.attributes['score']
+    else:
+        alignment.score = 0
     # Sequence lines
     last_component = None
     while 1:
