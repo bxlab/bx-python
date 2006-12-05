@@ -1,7 +1,7 @@
 from bx.align import *
 import bx.seq
 
-import sys,math
+import sys,math,StringIO
 import itertools
 from bx import interval_index_file
 
@@ -36,9 +36,11 @@ class Reader(object):
 
 	def next(self):
 		while (True):
-			line = self.file.readline().rstrip()
-			self.lineNumber += 1
+			line = self.fetch_line(strip=None,requireLine=False)
 			assert (line), "unexpected end of file (missing #:eof)"
+			line = line.rstrip()
+			if (line == ""):	# (allow blank lines between stanzas)
+				continue
 			if (line == "#:eof"):
 				line = self.file.readline().rstrip()
 				assert (not line), "extra line after #:eof (line %d, \"%s\")" \
@@ -78,18 +80,36 @@ class Reader(object):
 		if (self.seq1_file == None):
 			if (self.seq1_strand == "+"): revcomp = False
 			else:                         revcomp = "-5'"
-			self.seq1_file = bx.seq.seq_file(file(self.seq1_filename,"rb"),revcomp=revcomp)
+			try:
+				self.seq1_file = bx.seq.seq_file(file(self.seq1_filename,"rb"),revcomp=revcomp)
+			except:
+				self.seq1_file = bx.seq.seq_file(StringIO.StringIO(">seq1\n" + ("n" * (self.seq1_end - self.seq1_start))))
 			self.seq1_gap  = self.seq1_file.gap
-			name1 = self.path_to_src_name(self.seq1_filename)
+			try:
+				name1 = self.path_to_src_name(self.seq1_filename)
+			except ValueError:
+				try:
+					name1 = self.header_to_src_name(self.seq1_header)
+				except ValueError:
+					name1 = "seq1"
 			(species1,chrom1) = src_split(name1)
 			self.seq1_src = src_merge(species1,chrom1)
 
 		if (self.seq2_file == None):
 			if (self.seq2_strand == "+"): revcomp = False
 			else:                         revcomp = "-5'"
-			self.seq2_file = bx.seq.seq_file(file(self.seq2_filename,"rb"),revcomp=revcomp)
+			try:
+				self.seq2_file = bx.seq.seq_file(file(self.seq2_filename,"rb"),revcomp=revcomp)
+			except:
+				self.seq2_file = bx.seq.seq_file(StringIO.StringIO(">seq2\n" + ("n" * (self.seq2_end - self.seq2_start))))
 			self.seq2_gap  = self.seq2_file.gap
-			name2 = self.path_to_src_name(self.seq2_filename)
+			try:
+				name2 = self.path_to_src_name(self.seq2_filename)
+			except ValueError:
+				try:
+					name2 = self.header_to_src_name(self.seq2_header)
+				except ValueError:
+					name2 = "seq2"
 			(species2,chrom2) = src_split(name2)
 			self.seq2_src = src_merge(species2,chrom2)
 
@@ -114,9 +134,7 @@ class Reader(object):
 
 	def parse_s_stanza(self):
 		self.close_seqs()
-
-		line = self.file.readline().strip()
-		self.lineNumber += 1
+		line = self.fetch_line(report=" in s-stanza")
 		fields = line.split()
 		self.seq1_filename = fields[0].strip('"')
 		self.seq1_start    = int(fields[1]) - 1
@@ -128,8 +146,7 @@ class Reader(object):
 		       "multiple query sequences not yet supported (line %d, \"%s\")" \
 		     % (self.lineNumber,line)
 
-		line = self.file.readline().strip()
-		self.lineNumber += 1
+		line = self.fetch_line(report=" in s-stanza")
 		fields = line.split()
 		self.seq2_filename = fields[0].strip('"')
 		self.seq2_start    = int(fields[1]) - 1
@@ -141,8 +158,7 @@ class Reader(object):
 		       "multiple query sequences not yet supported (line %d, \"%s\")" \
 		     % (self.lineNumber,line)
 
-		line = self.file.readline().strip()
-		self.lineNumber += 1
+		line = self.fetch_line(report=" in s-stanza")
 		assert (line == "}"), "improper s-stanza terminator (line %d, \"%s\")" \
 							% (self.lineNumber,line)
 
@@ -152,24 +168,21 @@ class Reader(object):
 			self.seq2_filename = self.seq2_filename[:-1]
 
 	def parse_h_stanza(self):
-		line = self.file.readline().strip().strip('"')
-		self.lineNumber += 1
+		line = self.fetch_line(strip='"',report=" in h-stanza")
 		self.seq1_header = line
 		self.seq1_header_prefix = ""
 		if (line.startswith(">")):
 			self.seq1_header = line[1:]
 			self.seq1_header_prefix = ">"
 
-		line = self.file.readline().strip().strip('"')
-		self.lineNumber += 1
+		line = self.fetch_line(strip='"',report=" in h-stanza")
 		self.seq2_header = line
 		self.seq2_header_prefix = ""
 		if (line.startswith(">")):
 			self.seq2_header = line[1:]
 			self.seq2_header_prefix = ">"
 
-		line = self.file.readline().strip()
-		self.lineNumber += 1
+		line = self.fetch_line(report=" in h-stanza")
 		assert (line == "}"), "improper h-stanza terminator (line %d, \"%s\")" \
 							% (self.lineNumber,line)
 
@@ -178,8 +191,7 @@ class Reader(object):
 		"""returns the pair (score,pieces)
 		   where pieces is a list of ungapped segments (start1,start2,length,pctId)"""
 		# 's' line -- score, 1 field
-		line = self.file.readline().strip()
-		self.lineNumber += 1
+		line = self.fetch_line(report=" in a-stanza")
 		fields = line.split()
 		assert (fields[0] == "s"), "s line expected in a-stanza (line %d, \"%s\")" \
 								 % (self.lineNumber,line)
@@ -187,8 +199,7 @@ class Reader(object):
 		except: score = float(fields[1])
 
 		# 'b' line -- begin positions in seqs, 2 fields
-		line = self.file.readline().strip()
-		self.lineNumber += 1
+		line = self.fetch_line(report=" in a-stanza")
 		fields = line.split()
 		assert (fields[0] == "b"), "b line expected in a-stanza (line %d, \"%s\")" \
 								 % (self.lineNumber,line)
@@ -196,8 +207,7 @@ class Reader(object):
 		beg2 = int(fields[2]) - 1
 
 		# 'e' line -- end positions in seqs, 2 fields
-		line = self.file.readline().strip()
-		self.lineNumber += 1
+		line = self.fetch_line(report=" in a-stanza")
 		fields = line.split()
 		assert (fields[0] == "e"), "e line expected in a-stanza (line %d, \"%s\")" \
 								 % (self.lineNumber,line)
@@ -207,8 +217,7 @@ class Reader(object):
 		# 'l' lines
 		pieces = []
 		while (True):
-			line = self.file.readline().strip()
-			self.lineNumber += 1
+			line = self.fetch_line(report=" in a-stanza")
 			fields = line.split()
 			if (fields[0] != "l"):
 				break
@@ -216,7 +225,8 @@ class Reader(object):
 			start2  = int(fields[2]) - 1
 			length  = int(fields[3]) - start1
 			length2 = int(fields[4]) - start2
-			pctId   = float(fields[5])
+			try:    pctId = int(fields[5])
+			except: pctId = float(fields[5])
 			assert (length2 == length), "length mismatch in a-stanza"
 			pieces.append((start1+self.seq1_start,start2+self.seq2_start,length,pctId))
 		assert (line == "}"), "improper a-stanza terminator (line %d, \"%s\")" \
@@ -226,12 +236,23 @@ class Reader(object):
 	def parse_unknown_stanza(self):
 		lines = []
 		while (True):
-			line = self.file.readline().strip()
-			self.lineNumber += 1
+			line = self.fetch_line()
 			assert (line), "unexpected end of file (missing #:eof)"
 			if (line == "}"): break
 			lines.append(line)
 		return "  " + "\n  ".join(lines) + "\n"
+
+	def fetch_line(self,strip=True,requireLine=True,report=""):
+		if   (strip == None): line = self.file.readline()
+		elif (strip == True): line = self.file.readline().strip()
+		else:                 line = self.file.readline().strip().strip(strip)
+		self.lineNumber += 1
+		if (requireLine):
+			assert (line), \
+			       "unexpected blank line or end of file%s (line %d)" \
+			     % (report,self.lineNumber)
+		return line
+
 
 	def d_stanza(self):
 		if (self.d_stanza_text == None): return ""
@@ -294,7 +315,8 @@ class Reader(object):
 		return a
 
 	def path_to_src_name(self,path_name):
-		# converts, e.g. .../hg18/seq/chr13.nib to hg18.chr13
+		# converts, e.g. ".../hg18/seq/chr13.nib" to "hg18.chr13"
+		if (path_name == None) or (path_name == ""): raise ValueError
 		if (path_name.endswith(".nib")):   path_name = path_name[:-4]
 		if (path_name.endswith(".fa")):    path_name = path_name[:-3]
 		if (path_name.endswith(".fasta")): path_name = path_name[:-6]
@@ -306,6 +328,13 @@ class Reader(object):
 		slash = path_name.rfind("/")
 		if (slash != -1): path_name = path_name[slash+1:]
 		return path_name + "." + name
+
+	def header_to_src_name(header):
+		# converts, e.g. "hg18.chr13:115404472-117281897" to "hg18.chr13"
+		if (header == None) or (header == ""): raise ValueError
+		colon = header.rfind(":")
+		if (colon != -1): header = header[:colon]
+
 
 class ReaderIter(object):
 	def __init__(self,reader):
