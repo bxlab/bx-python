@@ -76,16 +76,16 @@ class lavTestCase(unittest.TestCase):
         reader = lav.Reader(StringIO(test_lav))
 
         a = reader.next()
-        assert a.score == 10286.0, "a.score is wrong: %s" % a.score
+        assert a.score == 10286, "a.score is wrong: %s" % a.score
         assert len(a.components) == 2
-        check_component(a.components[0], "apple", 106, 268, "+", 411, "GTCCGGCCGGCTGAGAGCTACAATACACATGCACGCAGTTTGGCCACTCACATTAAGTATATGAGGAAGGGTTAGCATGAGTTGTACTATAAGGCAGCGGATAGCAGGTTGTGGAAAAATATCCTCCCGATTCAAATCCCCAGGTGCCTAAA----------------GTAGGGCCGGTAGTTGAATGCTTGCCTGTCAGACTGGATGACCAAGTTCAGTATCAACACAATATAGTGCCAGGAGCTAATTGTTCCCCAGCAGCGTGAC")
-        check_component(a.components[1], "seq2",   53, 268, "+", 361, "GTCCGGCCGGCTGTGTGCTACAATACACGTTCACGCAGTTTGGCCAATCACTTTAAGTATATACGAAATGGTTACCATGAGTTGTACTGTAAGGCAGCGGAAAGC---TTGTTAA--------CTCCTGGGCGACATT----GGGGCTGCAACATCGTTTATCCTCCTCTACAACCAATAGCTG-TTGCTTCTTGGTTCAAGTATATCCCATGGATTAGTATCAACACGATATAGTGTCAGGAGCTAATTGTTCCCCAGCAGCGTGAC")
+        check_component(a.components[0], "align.lav_tests_apple",  106, 252, "+", 411, "GTCCGGCCGGCTGAGAGCTACAATACACATGCACGCAGTTTGGCCACTCACATTAAGTATATGAGGAAGGGTTAGCATGAGTTGTACTATAAGGCAGCGGATAGCAGGTTGTGGAAAAATATCCTCCCGATTCAAATCCCCAGGTGCCTAAA----------------GTAGGGCCGGTAGTTGAATGCTTGCCTGTCAGACTGGATGACCAAGTTCAGTATCAACACAATATAGTGCCAGGAGCTAATTGTTCCCCAGCAGCGTGAC")
+        check_component(a.components[1], "align.lav_tests_orange",  53, 252, "+", 361, "GTCCGGCCGGCTGTGTGCTACAATACACGTTCACGCAGTTTGGCCAATCACTTTAAGTATATACGAAATGGTTACCATGAGTTGTACTGTAAGGCAGCGGAAAGC---TTGTTAA--------CTCCTGGGCGACATT----GGGGCTGCAACATCGTTTATCCTCCTCTACAACCAATAGCTG-TTGCTTCTTGGTTCAAGTATATCCCATGGATTAGTATCAACACGATATAGTGTCAGGAGCTAATTGTTCCCCAGCAGCGTGAC")
 
         a = reader.next()
-        assert a.score == 3586.0, "a.score is wrong: %s" % a.score
+        assert a.score == 3586, "a.score is wrong: %s" % a.score
         assert len(a.components) == 2
-        check_component(a.components[0], "apple",  52,  72, "+", 411, "TGCATATCGACTATTACAGCCACGCGAGTTACATTCCTCTTTTTTTTTGCTGGCGTCCGGCCGGCTGAGAGC")
-        check_component(a.components[1], "seq2",    2,  72, "-", 361, "TGCATATCGACTAGTACAGCCTCTCGAGTTACCCCCCCCATTCCTCTTGCTGACGTCACGCTGCTGGGGAAC")
+        check_component(a.components[0], "align.lav_tests_apple",   52,  72, "+", 411, "TGCATATCGACTATTACAGCCACGCGAGTTACATTCCTCTTTTTTTTTGCTGGCGTCCGGCCGGCTGAGAGC")
+        check_component(a.components[1], "align.lav_tests_orange",   2,  72, "-", 361, "TGCATATCGACTAGTACAGCCTCTCGAGTTACCCCCCCCATTCCTCTTGCTGACGTCACGCTGCTGGGGAAC")
 
         a = reader.next()
         assert a is None
@@ -93,12 +93,12 @@ class lavTestCase(unittest.TestCase):
         reader.close()
 
 def check_component( c, src, start, size, strand, src_size, text ):
-    assert c.src      == src,      "c.src = %s"      % c.src
-    assert c.start    == start,    "c.start = %s"    % c.start
-    assert c.size     == size,     "c.size = %s"     % c.size
-    assert c.strand   == strand,   "c.strand = %s"   % c.strand
-    assert c.src_size == src_size, "c.src_size = %s" % c.src_size
-    assert c.text     == text,     "c.text = \"%s\"" % c.text
+    assert c.src      == src,      "c.src = %s (expected %s)"          % (c.src,     src)
+    assert c.start    == start,    "c.start = %s (expected %s)"        % (c.start,   start)
+    assert c.size     == size,     "c.size = %s (expected %s)"         % (c.size,    size)
+    assert c.strand   == strand,   "c.strand = %s (expected %s)"       % (c.strand,  strand)
+    assert c.src_size == src_size, "c.src_size = %s (expected %s)"     % (c.src_size,src_size)
+    assert c.text     == text,     "c.text = \"%s\" (expected \"%s\")" % (c.text,    text)
 
 test_classes = [ lavTestCase ]
 suite = unittest.TestSuite([ unittest.makeSuite(c) for c in test_classes ])
