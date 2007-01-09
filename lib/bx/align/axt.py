@@ -88,9 +88,9 @@ class Writer( object ):
     def __init__( self, file, attributes={} ):
         self.file = file
         self.block = 0
-       	self.src_split = True
+        self.src_split = True
         if ("src_split" in attributes):
-        	self.src_split = attributes["src_split"]
+            self.src_split = attributes["src_split"]
 
     def write( self, alignment ):
         if (len(alignment.components) != 2):
@@ -104,8 +104,8 @@ class Writer( object ):
             c2 = c2.reverse_complement()
 
         if (self.src_split):
-	        spec1,chr1 = src_split( c1.src )
-	        spec2,chr2 = src_split( c2.src )
+            spec1,chr1 = src_split( c1.src )
+            spec2,chr2 = src_split( c2.src )
         else:
             chr1,chr2 = c1.src,c2.src
 
