@@ -63,11 +63,11 @@ def create_parser():
     # Need to forward declare this due to circularity
     node_list = Forward()
     # A leaf node must have a label
-    leaf = ( label + Optional( colon + branch_length, "" ) ) \
-        .setParseAction( lambda s, l, t: Edge( t[1] or None, Tree( t[0] ) ) )
+    leaf = ( label + Optional( colon + branch_length, None ) ) \
+        .setParseAction( lambda s, l, t: Edge( t[1], Tree( t[0] ) ) )
     # But a subtree doesn't but must have edges
-    subtree = ( node_list + Optional( label, "" ) + Optional( colon + branch_length, "" ) )\
-        .setParseAction( lambda s, l, t: Edge( t[2] or None, Tree( t[1] or None, t[0] ) ) )
+    subtree = ( node_list + Optional( label, "" ) + Optional( colon + branch_length, None ) )\
+        .setParseAction( lambda s, l, t: Edge( t[2], Tree( t[1] or None, t[0] ) ) )
     # A tree is then a nested set of leaves and subtrees
     node = leaf | subtree
     node_list << ( lpar + delimitedList( node ) + rpar ) \
