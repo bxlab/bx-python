@@ -73,6 +73,10 @@ class TableReader( object ):
         line = self.input_iter.next()
         self.linenum += 1
         line = line.rstrip( "\r\n" )
+        # Catch blank lines (throw a warning?)
+        # This will end up adding a '#' at the beginning of blank lines
+        if line == '':
+            return Comment( line )
         # Is it a comment line?
         if line.startswith( "#" ):
             # If a comment and the first line we assume it is a header
@@ -91,7 +95,7 @@ class TableReader( object ):
         try:
             return self.parse_row( line )
         except ParseError, e:
-            raise ParseError( str( e ) + "on line " + str( self.linenum ) ) 
+            raise ParseError( str( e ) + " on line " + str( self.linenum ) ) 
     def parse_header( self, line ):
         fields = line[1:].split( "\t" )
         return Header( fields )
