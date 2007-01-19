@@ -1,6 +1,7 @@
 import base
+import unittest
 
-class Test( base.BaseScriptTest ):
+class Test( base.BaseScriptTest, unittest.TestCase ):
     command_line = "./scripts/line_select.py ${features}"
     input_features = base.TestFile( """0
                                        1

@@ -1,10 +1,11 @@
-import unittest
 import tempfile
 import subprocess
 import filecmp
 import os
+import sys
 import string
 import StringIO
+import unittest
 
 class TestFile( object ):
     def __init__( self, text=None, filename=None ):
@@ -28,7 +29,7 @@ class TestFile( object ):
         if self.tempfile:
             os.remove( self.filename )
 
-class BaseScriptTest( unittest.TestCase ):
+class BaseScriptTest( object ):
     """
     Helper class for testing a command line tool
     """
@@ -70,8 +71,11 @@ class BaseScriptTest( unittest.TestCase ):
                 stderr = open( output_fnames[ key ], 'w' )
                 stdout.flush()
         real_command = string.Template( command_line ).substitute( all_fnames )
+        # Augment PYTHONPATH, bit of a HACK here! need to suck this data from setuptools or something?
+        env = dict( os.environ )
+        env['PYTHONPATH'] = "./lib:" + env['PYTHONPATH']
         # Run the command
-        assert subprocess.call( real_command, stdin=stdin, stdout=stdout, stderr=stderr, shell=True ) == 0
+        assert subprocess.call( real_command, stdin=stdin, stdout=stdout, stderr=stderr, shell=True, env=env ) == 0
         # Check the outputs
         for key, value in output_files.iteritems():
             value.check( output_fnames[key] )
@@ -80,12 +84,12 @@ class BaseScriptTest( unittest.TestCase ):
             os.remove( value )
         
         
-class TestTest( BaseScriptTest ):
+class TestTest( BaseScriptTest, unittest.TestCase ):
     input_in1 = TestFile( """Foo\nBar\nBaz""")
     output_stdout = TestFile( """Foo""" )
     command_line = "/usr/bin/head -1 ${in1}"
     
-class TestTest2( BaseScriptTest ):
+class TestTest2( BaseScriptTest, unittest.TestCase ):
     input_in1 = TestFile( "/etc/passwd" )
     output_stdout = TestFile( "/etc/passwd" )
     command_line = "cat ${in1}" 
