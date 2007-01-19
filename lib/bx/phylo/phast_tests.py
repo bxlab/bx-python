@@ -33,5 +33,5 @@ class Test( unittest.TestCase ):
         self.assertEqual( tm.tree, "((((((hg16:0.007738,panTro1:0.008356):0.027141,(baboon:0.009853,rheMac1:0.010187):0.035049):0.103138,galago:0.174770):0.019102,((rn3:0.092633,mm6:0.089667):0.273942,rabbit:0.230839):0.021927):0.023762,(canFam1:0.204637,(elephant:0.123777,tenrec:0.278910):0.085977):0.009439):0.306466,monDom1:0.401151)mammals;" )
         
 
-test_classes = [ Test ]
-suite = unittest.TestSuite( [ unittest.makeSuite( c ) for c in test_classes ] )
+#test_classes = [ Test ]
+#suite = unittest.TestSuite( [ unittest.makeSuite( c ) for c in test_classes ] )

@@ -1,7 +1,7 @@
 import bx.bitset
 import unittest
 
-class AbstractTests( unittest.TestCase ):
+class AbstractTests( object ):
 
     def assert_bits( self, bits, list ):
         assert bits.size == len( list ), "Bitset size and verification list size do not match"
@@ -89,11 +89,11 @@ class AbstractTests( unittest.TestCase ):
         for i in range( 20, 60 ): l[i] = 0
         self.assert_bits( bits, l )
         
-class BitsetTests( AbstractTests ):
+class BitsetTests( AbstractTests, unittest.TestCase ):
     def new_bits( self, size ):
         return bx.bitset.BitSet( size ) 
 
-class BinnedBitsetTests( AbstractTests ):
+class BinnedBitsetTests( AbstractTests, unittest.TestCase ):
     def new_bits( self, size ):
         granularity = size % 11 
         return bx.bitset.BinnedBitSet( size, granularity ) 

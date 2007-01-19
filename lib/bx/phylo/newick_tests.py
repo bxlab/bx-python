@@ -12,14 +12,9 @@ results = [ ( Tree( 'label', [Edge( 6.0, Tree( 'B', None ) ), Edge( 5.0, Tree( '
             ( Tree( None, [Edge( 0.69394999999999996, Tree( 'Bovine', None ) ), Edge( 0.54939000000000004, Tree( None, [Edge( 0.36079, Tree( 'Hylobates', None ) ), Edge( 0.15057000000000001, Tree( None, [Edge( 0.33635999999999999, Tree( 'Pongo', None ) ), Edge( 0.061240000000000003, Tree( None, [Edge( 0.17147000000000001, Tree( 'G. Gorilla', None ) ), Edge( 0.083860000000000004, Tree( None, [Edge( 0.19267999999999999, Tree( 'P. paniscus', None ) ), Edge( 0.11927, Tree( 'H. sapiens', None ) )] ) )] ) )] ) )] ) ), Edge( 1.2145999999999999, Tree( 'Rodent', None ) )] ) )
             ]
 
-class Test( unittest.TestCase ):
-    def __init__( self, s, r ):
-        self.s = s
-        self.r = r
-        unittest.TestCase.__init__( self, "test_parser" )
-    def test_parser( self ):
-        self.assertEqual( newick_parser.parse_string( self.s ), self.r )
+def check_parser( s, r ):
+    assert newick_parser.parse_string( s ) == r
 
-suite = unittest.TestSuite()
-for s, r in zip( trees, results ):
-    suite.addTest( Test( s, r ) )
+def test_parser():
+    for s, r in zip( trees, results ):
+        yield check_parser, s, r

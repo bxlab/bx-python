@@ -834,9 +834,9 @@ def consensus_symbol( pattern ):
 # import C extensions
 try:
     from _position_weight_matrix import c_match_consensus
-    print >>sys.stderr, "C match_consensus used"
+    ## print >>sys.stderr, "C match_consensus used"
 except:
-    print >>sys.stderr, "python match_consensus used"
+    ## print >>sys.stderr, "python match_consensus used"
     def match_consensus(sequence, pattern, size):
         for s,p in zip(sequence,pattern):
             if p == 'N': continue

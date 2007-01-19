@@ -27,11 +27,11 @@ class QDNATestCase(unittest.TestCase):
 
     def test_get(self):
         qdnafile = qdna.QdnaFile(file(os.path.join('lib','bx','seq','test.qdna'), "rb"))
-        do_test_get(qdnafile, 0, test_seq_len)
-        do_test_get(qdnafile, 0, 40)
-        do_test_get(qdnafile, test_seq_len - 40, 40)
+        check_get(qdnafile, 0, test_seq_len)
+        check_get(qdnafile, 0, 40)
+        check_get(qdnafile, test_seq_len - 40, 40)
 
-def do_test_get(qdnafile, start, len):
+def check_get(qdnafile, start, len):
     assert qdnafile.get(start, len) == test_seq[start:start+len]
 
 test_classes = [ QDNATestCase ]
