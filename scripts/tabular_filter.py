@@ -5,6 +5,8 @@ Read a file and print each line for which 'expr' is true. Expressions
 can use variables "line" (the current line) and "fields" (line split
 on '\t').
 
+TODO: Does table_filter obviate this?
+
 usage: %prog "expr" < file
 """
 

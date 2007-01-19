@@ -20,7 +20,7 @@ import sys
 
 import sys
 import bx.tabular.io
-from cookbook import doc_optparse
+from bx.cookbook import doc_optparse
 
 def __main__():
 

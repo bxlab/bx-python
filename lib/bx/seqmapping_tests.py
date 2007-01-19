@@ -75,10 +75,9 @@ rows = [ "AAATTGT-----ATGTCCATCCTTTAAAGGTCATTCCTTTAATGGTCTTTTCTGGACACCACTAGGGGTC
 class AlignmentMappingTests( unittest.TestCase ):
     def test_largescale( self ):
        f = StringIO( eight_species_mapping )
-       m = bx.seqmapping.alignment_mapping_from_file( f )
+       n, m = bx.seqmapping.alignment_mapping_from_file( f )
        t = bx.seqmapping.DNA.translate_list( rows )
        i = m.translate( t )
-       print i
         
         
 test_classes = [ AlignmentMappingTests, CharMappingTests, IntMappingTests ]

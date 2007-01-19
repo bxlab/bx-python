@@ -9,19 +9,19 @@ usage: %prog refindex [options]
 from __future__ import division
 
 import sys
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 from bx.align import maf
 from optparse import OptionParser
 
 def __main__():
 
     # Parse command line arguments
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
 
     try:
         refindex = int( args[0] )
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     maf_reader = maf.Reader( sys.stdin )
 

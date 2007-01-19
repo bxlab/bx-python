@@ -10,11 +10,11 @@ usage: %prog feature.bed ar.bed snp.bed div_directory [options]
 import sys
 import bx.bitset
 from bx.bitset_builders import *
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 
 def main():
 
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
     try:
         lens = {}
         if options.lens:
@@ -57,7 +57,7 @@ def main():
         if options.mask: mask = binned_bitsets_from_file(open(options.mask), lens=lens)
         else: mask = None
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
     
     if mask:
         for chrom in mask.keys():

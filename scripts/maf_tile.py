@@ -7,12 +7,9 @@ usage: %prog start end maf_files...
     -m, --missingData: Inserts wildcards for missing block rows instead of '-'
 """
 
-import pkg_resources
-pkg_resources.require( "bx-python" )
-
 import psyco_full
 
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 
 import bx.align.maf
 import bx.align as align
@@ -26,7 +23,7 @@ tree_tx = string.maketrans( "(),", "   " )
 
 def main():
 
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
     try:
         sources = args[0].translate( tree_tx ).split()
         seq_db = load_seq_db( args[1] )
@@ -35,7 +32,7 @@ def main():
         out = bx.align.maf.Writer( sys.stdout )
         missing_data = bool(options.missingData)
     except:
-        cookbook.doc_optparse.exception()
+        doc_optparse.exception()
 
     for line in sys.stdin:
         ref_src, start, end = line.split()[0:3]

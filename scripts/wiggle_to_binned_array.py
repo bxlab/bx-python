@@ -12,13 +12,13 @@ import psyco_full
 import bx.wiggle
 from bx.binned_array import BinnedArray
 from fpconst import isNaN
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 import misc
 
 def main():
     
     # Parse command line
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
     try:
         if options.comp:
             comp_type = options.comp
@@ -27,7 +27,7 @@ def main():
         score_fname = args[0]
         out_fname = args[1]
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     scores = BinnedArray()
 

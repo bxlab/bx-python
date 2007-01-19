@@ -9,7 +9,7 @@ import sys
 from warnings import warn
 from bx.bitset import BinnedBitSet
 from bx.bitset_builders import *
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 
 def coverage( bitsets ):
     total = 0
@@ -17,11 +17,11 @@ def coverage( bitsets ):
         total += bitsets[chrom].count_range( 0, bitsets[chrom].size )
     return total    
 
-options, args = cookbook.doc_optparse.parse( __doc__ )
+options, args = doc_optparse.parse( __doc__ )
 try:
     in_fname, in2_fname = args
 except:
-    cookbook.doc_optparse.exit()
+    doc_optparse.exit()
 
 bits1 = binned_bitsets_from_file( open( in_fname ) )
 bits2 = binned_bitsets_from_file( open( in2_fname ) )

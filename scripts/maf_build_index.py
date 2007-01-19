@@ -11,7 +11,7 @@ usage: %prog maf_file index_file
 
 import psyco_full
 
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 
 from bx import interval_index_file
 import sys
@@ -22,7 +22,7 @@ def main():
 
     # Parse command line
 
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
 
     try:
         maf_file = args[0]
@@ -33,7 +33,7 @@ def main():
         else:
             species = None
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     maf_reader = bx.align.maf.Reader( open( maf_file ) )
 

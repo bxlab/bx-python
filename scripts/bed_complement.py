@@ -8,15 +8,12 @@ a source name followed by a size, separated by whitespace).
 usage: %prog bed_file chrom_length_file
 """
 
-import pkg_resources
-pkg_resources.require( "bx-python" )
-
 import sys
 
 from bx.bitset import *
 from bx.bitset_builders import *
 
-import cookbook.doc_optparse
+import bx.cookbook import doc_optparse
 
 def read_len( f ):
     """Read a 'LEN' file and return a mapping from chromosome to length"""
@@ -26,11 +23,11 @@ def read_len( f ):
         mapping[ fields[0] ] = int( fields[1] )
     return mapping
 
-options, args = cookbook.doc_optparse.parse( __doc__ )
+options, args = doc_optparse.parse( __doc__ )
 try:
     in_fname, len_fname = args
 except:
-    cookbook.doc_optparse.exit()
+    doc_optparse.exit()
 
 bitsets = binned_bitsets_from_file( open( in_fname ) )
 

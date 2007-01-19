@@ -9,7 +9,7 @@ usage: %prog interval_file pickle_file
 
 import psyco_full
 
-import cookbook.doc_optparse
+import from bx.cookbook import doc_optparse
 
 from bx import intervals
 import pickle
@@ -20,13 +20,13 @@ def __main__():
 
     # Parse Command Line
 
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
 
     try:
         range_filename = args[ 0 ]
         pickle_filename = args[ 1 ]
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     # Load Intervals
 

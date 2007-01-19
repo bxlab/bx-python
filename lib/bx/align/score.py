@@ -1,5 +1,6 @@
 try:
     from numpy import *
+    Int = int32
 except:
     from Numeric import *
 

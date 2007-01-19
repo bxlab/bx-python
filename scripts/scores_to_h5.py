@@ -9,7 +9,7 @@ from tables import *
 
 from bx.misc import *
 
-from cookbook.progress_bar import ProgressBar
+from bx.cookbook.progress_bar import ProgressBar
 
 def main():
 

@@ -8,7 +8,7 @@ usage: %prog interval files...
 
 import psyco_full
 
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 
 import bx.align.maf
 from bx import intervals
@@ -19,12 +19,12 @@ def __main__():
 
     # Parse Command Line
 
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
 
     try:
         assert len( args ) > 0
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     # Load Intervals
 

@@ -55,34 +55,42 @@ def IntervalReader( f ):
         else:
             raise "Unexpected input line: %s" % line.strip()
 
-def Reader( f ):
 
-    current_chrom = None
-    current_pos = None
-    current_step = None
 
-    mode = "bed"
+class Reader( object ):
 
-    for line in f:
+    def __init__( self, f ):
+        self.f
+        self.current_chrom = None
+        self.current_pos = None
+        self.current_step = None
+        self.mode = "bed"
+        
+    def __iter__( self ):
+        return self
+
+    def next( self ):
+        line = self.f.readline()
         if line.startswith( "track" ) or line.startswith( "#" ) or line.isspace():
-            continue
+            return self.__next__()
         elif line.startswith( "variableStep" ):
             header = parse_header( line )
-            current_chrom = header['chrom']
-            current_pos = None
-            current_step = None
-            if 'span' in header: current_span = int( header['span'] )
+            self.current_chrom = header['chrom']
+            self.current_pos = None
+            self.current_step = None
+            if 'span' in header: self.current_span = int( header['span'] )
             else: current_span = 1
-            mode = "variableStep"
+            self.mode = "variableStep"
+            return self.__next__()
         elif line.startswith( "fixedStep" ):
             header = parse_header( line )
-            current_chrom = header['chrom']
-            current_pos = int( header['start'] )
-            current_step = int( header['step'] )
-            if 'span' in header: current_span = int( header['span'] )
-            else: current_span = 1
-            mode = "fixedStep"
-        elif mode == "bed":
+            self.current_chrom = header['chrom']
+            self.current_pos = int( header['start'] )
+            self.current_step = int( header['step'] )
+            if 'span' in header: self.current_span = int( header['span'] )
+            else: self.current_span = 1
+            self.mode = "fixedStep"
+        elif self.mode == "bed":
             fields = line.split()
             if len( fields ) > 3:
                 chrom = fields[0]
@@ -90,20 +98,20 @@ def Reader( f ):
                 end = int( fields[2] )
                 val = float( fields[3] )
                 for i in range( start, end ):
-                    yield chrom, i, val
+                    return chrom, i, val
             else:
-                yield fields[0], fields[1], fields[2]
-        elif mode == "variableStep": 
+                return fields[0], fields[1], fields[2]
+        elif self.mode == "variableStep": 
             fields = line.split()
             pos = int( fields[0] )
             val = float( fields[1] )
-            for i in range( current_span ):
-                yield current_chrom, pos+i, val
+            for i in range( self.current_span ):
+                return self.current_chrom, pos+i, val
         elif mode == "fixedStep":
             val = float( line.split()[0] )
-            pos = current_pos
-            for i in range( current_span ):
-                yield current_chrom, pos+i, val
-            current_pos += current_span
+            pos = self.current_pos
+            for i in range( self.current_span ):
+                return self.current_chrom, pos+i, val
+            self.current_pos += self.current_span
         else:
             raise "Unexpected input line: %s" % line.strip()

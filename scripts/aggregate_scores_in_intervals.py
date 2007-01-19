@@ -17,7 +17,7 @@ from bx.binned_array import BinnedArray, FileBinnedArray
 from bx.bitset import *
 from bx.bitset_builders import *
 from fpconst import isNaN
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 import misc
 
 class FileBinnedArrayDir( DictMixin ):
@@ -63,7 +63,7 @@ def load_scores_ba_dir( dir ):
 def main():
 
     # Parse command line
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
     try:
         score_fname = args[0]
         interval_fname = args[1]
@@ -74,7 +74,7 @@ def main():
         binned = bool( options.binned )
         mask_fname = options.mask
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     if binned:
         scores_by_chrom = load_scores_ba_dir( score_fname )

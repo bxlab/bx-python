@@ -15,12 +15,12 @@ import sys
 import bx.align.axt
 import bx.align.maf
 import bx.binned_array
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 import fileinput
 from bx.align.sitemask.quality import *
 def main():
     
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
     try:
         inputformat = options.input
         outputformat = options.output
@@ -31,7 +31,7 @@ def main():
         inputfile = args[0]
         outputfile = args[1]
     except:
-        cookbook.doc_optparse.exception()
+        doc_optparse.exception()
 
     outstream = open( outputfile, "w" )
     instream = open( inputfile, "r" )

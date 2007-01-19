@@ -8,9 +8,6 @@ usage: %prog bed1 bed2 [mask]
 
 from __future__ import division
 
-import pkg_resources
-pkg_resources.require( "bx-python" )
-
 import psyco_full
 import sys
 from bx.bitset import BinnedBitSet

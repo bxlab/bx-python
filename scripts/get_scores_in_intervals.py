@@ -11,7 +11,7 @@ import psyco_full
 import bx.wiggle
 from bx.binned_array import BinnedArray
 from fpconst import isNaN
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 import misc
 
 def read_scores( f ):
@@ -25,7 +25,7 @@ def read_scores( f ):
 def main():
 
     # Parse command line
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
     try:
         score_file = open( args[0] )
         interval_file = open( args[1] )
@@ -34,7 +34,7 @@ def main():
         else:
             out_file = sys.stdout
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     scores_by_chrom = read_scores( misc.open_compressed( sys.argv[1] ) )
     for line in open( sys.argv[2] ):

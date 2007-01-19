@@ -13,7 +13,7 @@ from __future__ import division
 
 import psyco_full
 
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 
 import bx.align.maf
 import intervals
@@ -25,14 +25,14 @@ def __main__():
 
     # Parse Command Line
 
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
 
     try:
         maf_files = args
         if options.prefix: prefix = options.prefix
         else: prefix = None
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     # Open indexed access to mafs
     indexes = [ bx.align.maf.Indexed( maf_file, maf_file + ".index" ) for maf_file in maf_files ]

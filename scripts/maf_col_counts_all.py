@@ -12,8 +12,7 @@ usage: %prog [options]
 
 import bx.align.maf
 import sys
-import cookbook
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse, cross_lists
 
 from itertools import *
 
@@ -38,7 +37,7 @@ for block in bx.align.maf.Reader( sys.stdin ):
 ## for count, col in counts:
 ##     print "".join(col), count
 
-options, args = cookbook.doc_optparse.parse( __doc__ )
+options, args = doc_optparse.parse( __doc__ )
 
 wildcard = False
 if options.wildcard: 
@@ -52,7 +51,7 @@ nucs = "ACGT-"
 if wildcard:
     nucs += "*"
 
-for col in cookbook.cross_lists( *( [ nucs ] * nspecies ) ):
+for col in cross_lists( *( [ nucs ] * nspecies ) ):
     col = ''.join( col )
     if wildcard and col.count( "*" ) > max_wildcard:
         continue

@@ -1,14 +1,16 @@
 #!/usr/bin/env python2.3
 
 """
-Read a maf from stdin and print the percent identity of each alignment
+Read a PAIRWISE maf from stdin and print the fraction of columns whose bases 
+match for each alignment.
+
+TODO: generalize for more than two speceis.
 
 usage: %prog [options]
 """
 
 from __future__ import division
 
-import cookbook.doc_optparse
 import sys
 
 import psyco_full
@@ -17,9 +19,6 @@ from bx.align import maf
 
 
 def __main__():
-
-    # Parse command line arguments
-    # options, args = cookbook.doc_optparse.parse( __doc__ )
     
     maf_reader = maf.Reader( sys.stdin )
 

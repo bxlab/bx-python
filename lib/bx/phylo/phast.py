@@ -3,7 +3,6 @@ Rudimentary support for PHAST's tree model file format
 """
 
 from Numeric import *
-from cookbook import *
 
 class TreeModel:
     def __init__( self ):

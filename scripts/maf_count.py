@@ -11,14 +11,14 @@ usage: %prog [options]
    -r, --ref=N: reference sequence (first by default, 0..n)
 """
 
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 import sys
 
 import bx.align.maf
 
 def __main__():
 
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
 
     try:
         if options.cols: action = "cols"
@@ -30,7 +30,7 @@ def __main__():
         if options.skip: skip = options.skip
         else: skip = None
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     maf_reader = bx.align.maf.Reader( sys.stdin )
 

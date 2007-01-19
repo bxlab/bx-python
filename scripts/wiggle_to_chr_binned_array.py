@@ -13,18 +13,18 @@ import psyco_full
 import bx.wiggle
 from bx.binned_array import BinnedArray
 from fpconst import isNaN
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 import misc
 
 
 def main():
     
     # Parse command line
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
     try:
         score_fname = args[0]
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     scores = {}
     for i, ( chrom, pos, val ) in enumerate( bx.wiggle.Reader( open(sys.argv[1]) ) ):

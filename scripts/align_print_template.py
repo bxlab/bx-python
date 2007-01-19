@@ -15,7 +15,7 @@ from __future__ import division
 import psyco_full
 
 import sys
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 from bx import align
 
 from Cheetah.Template import Template
@@ -23,14 +23,14 @@ from Cheetah.Template import Template
 def main():
 
     # Parse command line arguments
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
 
     try:
         template = Template( args[0] )
         format = options.format
         if not format: format = "maf"
     except:
-        cookbook.doc_optparse.exception()
+        doc_optparse.exception()
 
     reader = align.get_reader( format, sys.stdin ) 
 

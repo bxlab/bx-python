@@ -17,16 +17,13 @@ from warnings import warn
 from bx.bitset import *
 from bx.bitset_builders import *
 
-import cookbook.doc_optparse
-
-import pkg_resources
-pkg_resources.require( "bx-python" )
+from bx.cookbook import doc_optparse
 
 mincols = 1
 upstream_pad = 0
 downstream_pad = 0
 
-options, args = cookbook.doc_optparse.parse( __doc__ )
+options, args = doc_optparse.parse( __doc__ )
 try:
     if options.mincols: mincols = int( options.mincols )
     if options.upstream_pad: upstream_pad = int( options.upstream_pad )
@@ -35,7 +32,7 @@ try:
     booleans = bool( options.booleans )
     in_fname, in2_fname = args
 except:
-    cookbook.doc_optparse.exit()
+    doc_optparse.exit()
 
 # Read first bed into some bitsets
 

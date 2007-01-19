@@ -2,7 +2,7 @@
 
 """
 Read a maf file from stdin and write out a new maf with only blocks having all of
-the passed in species, after dropping any other species and removing  columns 
+the passed in species, after dropping any other species and removing columns 
 containing only gaps.
 
 usage: %prog species,species2,... < maf
@@ -15,8 +15,6 @@ import copy
 import sys
 
 from itertools import *
-
-from cookbook import doc_optparse
 
 def main():
 

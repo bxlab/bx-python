@@ -20,7 +20,7 @@ usage: %prog maf_file index_file [options] < interval_file
 
 import psyco_full
 
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 
 import bx.align.maf
 from bx import misc
@@ -31,7 +31,7 @@ def __main__():
 
     # Parse Command Line
 
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
 
     try:
         maf_files = args
@@ -46,7 +46,7 @@ def __main__():
         chop = bool( options.chop )
         do_strand = bool( options.strand )
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     # Open indexed access to mafs
     index = bx.align.maf.MultiIndexed( maf_files )

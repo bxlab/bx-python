@@ -11,7 +11,7 @@ from __future__ import division
 
 import psyco; psyco.profile()
 
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 import string
 import sys
 

@@ -17,7 +17,7 @@ import sys
 
 from itertools import *
 
-from cookbook import doc_optparse
+from bx.cookbook import doc_optparse
 
 def main():
 

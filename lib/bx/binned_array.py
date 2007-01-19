@@ -297,6 +297,7 @@ class BinnedArrayWriter( object ):
 
     def flush( self ):
         # Flush buffer to file
+	print >> sys.stderr, "flushing bin", self.bin
         if self.buffer_contains_values:
             ## pos, size = self.bin_index[self.bin]
             ## self.f.seek( pos )
@@ -396,7 +397,7 @@ if __name__ == "__main__":
     # Test with ba writer
     secs = time.clock()
     o = open( "/tmp/foo4", "w" )
-    w = BinnedArrayWriter( o, comp_type='lzo' )
+    w = BinnedArrayWriter( o, 128, comp_type='lzo' )
     for val in source:
         w.write( val )
     w.finish()

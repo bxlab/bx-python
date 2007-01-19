@@ -7,19 +7,19 @@ those ranges to stdout
 usage: %prog nib_dir < range_file
 """
 
-import cookbook.doc_optparse
+import from bx.cookbook import doc_optparse
 import bx.seq.nib
 import string
 import sys
 
 def __main__():
 
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
 
     try:
         nib_dir = args[0] 
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     nibs = {}
 

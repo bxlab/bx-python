@@ -1,7 +1,10 @@
 #!/usr/bin/env python2.4
 
 """
-Read a MAF from standard input and print counts of alignments, bases, or columns. 
+Read a MAF from standard input and print counts of alignments, bases, or 
+columns. 
+
+TODO: Should be able to read an arbitrary scoring matrix.
 
 usage: %prog [options]
    -r, --recalculate: don't use the score from the maf, recalculate (using hox70 matrix)
@@ -11,7 +14,7 @@ usage: %prog [options]
 from __future__ import division
 
 import sys
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 from bx.align import maf
 from bx.align import score
 from optparse import OptionParser
@@ -19,13 +22,13 @@ from optparse import OptionParser
 def main():
 
     # Parse command line arguments
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
 
     try:
         lnorm = bool( options.lnorm )
         recalculate = bool( options.recalculate )
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     hox70 = score.build_scoring_scheme( """  A    C    G    T
                                       91 -114  -31 -123

@@ -8,19 +8,19 @@ usage: %prog < input > output
 
 import bx.align
 import bx.align.maf
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 import sys
 import bx.align.sitemask.cpg
 
 def main():
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
     try:
         if options.mask:
             mask = options.mask
         else:
             mask = "?"
     except:
-        cookbook.doc_optparse.exception()
+        doc_optparse.exception()
 
     reader = bx.align.maf.Reader( sys.stdin )
     writer = bx.align.maf.Writer( sys.stdout )

@@ -8,13 +8,10 @@ usage: %prog bed_file_1 bed_file_2
 
 """
 
-import pkg_resources
-pkg_resources.require( "bx-python" )
-
 import sys
 from warnings import warn
 from bx.bitset_builders import binned_bitsets_from_file
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 
 def print_bits_as_bed( bits ):
     end = 0
@@ -24,11 +21,11 @@ def print_bits_as_bed( bits ):
         end = bits.next_clear( start )
         print "%s\t%d\t%d" % ( chrom, start, end )
 
-options, args = cookbook.doc_optparse.parse( __doc__ )
+options, args = doc_optparse.parse( __doc__ )
 try:
     in_fname, in2_fname = args
 except:
-    cookbook.doc_optparse.exit()
+    doc_optparse.exit()
 
 # Read first bed into some bitsets
 

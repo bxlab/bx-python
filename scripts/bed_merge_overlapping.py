@@ -8,9 +8,6 @@ strand, and any fields beyond chrom/start/stop are lost.
 usage: %prog bed files ...
 """
 
-import pkg_resources
-pkg_resources.require( "bx-python" )
-
 import psyco_full
 import sys
 

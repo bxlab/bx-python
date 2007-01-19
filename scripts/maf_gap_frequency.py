@@ -1,7 +1,8 @@
 #!/usr/bin/env python2.3
 
 """
-Read a MAF from standard input and print the fraction of gap columns in each block.
+Read a MAF from standard input and print the fraction of gap columns in 
+each block.
 """
 
 from __future__ import division

@@ -7,20 +7,20 @@ those ranges to stdout
 usage: %prog range_file nib_file
 """
 
-import cookbook.doc_optparse
+import from bx.cookbook import doc_optparse
 import bx.seq.nib
 import string
 import sys
 
 def __main__():
 
-    options, args = cookbook.doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse( __doc__ )
 
     try:
         range_file = file( args[0] )
         nib_file = file( args[1] )
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     nib = bx.seq.nib.NibFile( nib_file )
 

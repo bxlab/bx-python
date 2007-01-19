@@ -7,9 +7,6 @@ provided on the command line or to stdin.
 usage: %prog bed files ...
 """
 
-import pkg_resources
-pkg_resources.require( "bx-python" )
-
 import psyco_full
 import sys
 from bx.bitset import BinnedBitSet

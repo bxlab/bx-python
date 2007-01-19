@@ -10,7 +10,7 @@ import string
 import psyco_full
 import sys
 from binned_array import *
-from cookbook import *
+from bx.cookbook import *
 import fileinput
 
 def main():

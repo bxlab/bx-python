@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-USAGE = """
+"""
 Returns a bed-like translation of a CDS
 usage: %prog nibdir genefile [options]
     -o, --outfile=o:      output file
@@ -18,7 +18,7 @@ from bx.bitset import *
 from bx.bitset_builders import *
 from bx.bitset_utils import *
 from bx.gene_reader import *
-import cookbook.doc_optparse
+from bx.cookbook import doc_optparse
 
 GENETIC_CODE = """
 TTT (Phe/F)Phenylalanine
@@ -133,7 +133,7 @@ def codon_degeneracy( codon, position=3 ):
 
 def main():
 
-    options, args = cookbook.doc_optparse.parse( USAGE )
+    options, args = doc_optparse.parse( __doc__ )
     try:
         if options.outfile: 
             out = open( options.outfile, "w")
@@ -149,7 +149,7 @@ def main():
         nibdir = args[0]
         bedfile = args[1]
     except:
-        cookbook.doc_optparse.exit()
+        doc_optparse.exit()
 
     nibs = getnib(nibdir)
 

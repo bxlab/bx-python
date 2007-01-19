@@ -8,16 +8,12 @@ usage: %prog [options]
 
 from __future__ import division
 
-import cookbook.doc_optparse
 import sys
 
 from bx.align import maf
 
 
 def __main__():
-
-    # Parse command line arguments
-    # options, args = cookbook.doc_optparse.parse( __doc__ )
     
     maf_reader = maf.Reader( sys.stdin )
 

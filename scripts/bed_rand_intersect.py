@@ -14,9 +14,6 @@ usage: %prog bounding_region_file intervals1 intervals2 nsamples
 
 from __future__ import division 
 
-import pkg_resources
-pkg_resources.require( "bx-python" )
-
 import sys, random
 import bisect
 from bx_extras import stats
