@@ -1,13 +1,10 @@
 #!/usr/bin/env python
 """
-Application to convert LAV file to MAF file
--------------------------------------------
+Application to convert LAV file to MAF file. Reads a LAV file from standard 
+input and writes a MAF file to standard out; some statistics are written to 
+standard error.
 
-:Author: Bob Harris (rsharris@bx.psu.edu)
-:Version: $Revision: $
-
-The application reads a LAV file from standard input and writes a MAF file to
-standard out;  some statistics are written to standard error.
+usage: lav_to_maf [--silent] < lav_file > maf_file
 """
 
 import sys
@@ -16,9 +13,7 @@ import bx.align.lav
 import bx.align.maf
 
 def usage(s=None):
-	message = """
-lav_to_maf [--silent] < lav_file > maf_file
-"""
+	message = __doc__
 	if (s == None): sys.exit (message)
 	else:           sys.exit ("%s\n%s" % (s,message))
 

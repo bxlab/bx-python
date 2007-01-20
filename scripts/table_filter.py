@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
 """
 Tool for filtering a tabular data file. Fields are separated by tabs, the 

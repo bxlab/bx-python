@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 """
-Reads a list of intervals and a maf. For each interval print the amount 
-covered by each species other than the reference
+Reads a list of intervals and a set of indexed mafs. For each interval print
+the amount covered by each species other than the reference.
 
-usage: %prog maf_file index_file [options] < interval_file
+usage: %prog maf_files  [options] < interval_file
    -s, --src=s:      Use this src for all intervals
    -p, --prefix=p:   Prepend this to each src before lookup
 """
@@ -19,7 +19,6 @@ import bx.align.maf
 import intervals
 import misc
 import sys
-
 
 def __main__():
 

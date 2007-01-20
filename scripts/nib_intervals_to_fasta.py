@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
 Read a set of ranges and a nib file, print portions of nib overlapping

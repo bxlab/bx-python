@@ -1,14 +1,33 @@
 #!/usr/bin/env python
-"""
-Application to convert AXT file to LAV file
--------------------------------------------
 
-:Author: Bob Harris (rsharris@bx.psu.edu)
-:Version: $Revision: $
-
-The application reads an AXT file from standard input and writes a LAV file to
-standard out;  some statistics are written to standard error.
 """
+Application to convert AXT file to LAV file. Reads an AXT file from standard 
+input and writes a LAV file to standard out; some statistics are written to 
+standard error.
+
+usage: %prog primary_spec secondary_spec [--silent] < axt_file > lav_file
+
+Each spec is of the form seq_file[:species_name]:lengths_file.
+
+- seq_file should be a format string for the file names for the individual
+  sequences, with %s to be replaced by the alignment's src field.  For 
+  example, "hg18/%s.nib" would prescribe files named "hg18/chr1.nib", 
+  "hg18/chr2.nib", etc.
+
+- species_name is optional.  If present, it is prepended to the alignment's 
+  src field.
+
+- Lengths files provide the length of each chromosome (lav format needs this
+  information but axt file does not contain it).  The format is a series of
+  lines of the form:
+
+  <chromosome name> <length>
+
+  The chromosome field in each axt block must match some <chromosome name> in
+  the lengths file.
+"""
+
+__author__ = "Bob Harris (rsharris@bx.psu.edu)"
 
 import sys
 import copy
@@ -17,25 +36,7 @@ import bx.align.lav
 
 
 def usage(s=None):
-	message = """
-axt_to_lav primary_spec secondary_spec [--silent] < axt_file > lav_file
-  Each spec is of the form seq_file[:species_name]:lengths_file.
-
-  seq_file should be a format string for the file names for the individual
-  sequences, with %s to be replaced by the alignment's src field.  For example,
-  "hg18/%s.nib" would prescribe files named "hg18/chr1.nib", "hg18/chr2.nib",
-  etc.
-
-  species_name is optional.  If present, it is prepended to the alignment's src
-  field.
-
-  Lengths files provide the length of each chromosome (lav format needs this
-  information but axt file does not contain it).  The format is a series of
-  lines of the form
-    <chromosome name> <length>
-  The chromosome field in each axt block must match some <chromosome name> in
-  the lengths file.
-"""
+	message = __doc__
 	if (s == None): sys.exit (message)
 	else:           sys.exit ("%s\n%s" % (s,message))
 

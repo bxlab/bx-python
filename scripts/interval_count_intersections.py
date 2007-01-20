@@ -3,6 +3,11 @@
 """
 Read two lists of intervals (with chromosomes) and count the number of entries
 in the second set that intersect any entry in the first set.
+
+TODO: This could use bitsets rather than the intervals package, would it be
+      faster?
+
+usage: %prog bed1 bed2 > out
 """
 
 from __future__ import division

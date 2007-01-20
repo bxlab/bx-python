@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+"""
+Read some whitespace separated data from stdin and pretty print it so that
+the columns line up.
+"""
+
 import sys
 
 def main():

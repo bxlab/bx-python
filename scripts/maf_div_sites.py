@@ -1,10 +1,9 @@
 #!/usr/bin/env python2.4
 """
-maf_div_sites.py maf ref other
+Create a bed file listing all the divergent sites between two specific species 
+in a maf.
 
-Create a bed file of all the divergent sites
-between two species in a maf.
-
+usage: %prog maf_file reference_species_name other_species_name
 """
 
 import sys

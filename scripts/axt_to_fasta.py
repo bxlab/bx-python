@@ -1,14 +1,13 @@
 #!/usr/bin/env python
-"""
-Application to convert AXT file to FASTA file
----------------------------------------------
 
-:Author: Bob Harris (rsharris@bx.psu.edu)
-:Version: $Revision: $
-
-The application reads an AXT file from standard input and writes a FASTA file
-to standard out.
 """
+Application to convert AXT file to FASTA file. Reads an AXT file from standard 
+input and writes a FASTA file to standard out.
+
+usage: %prog < axt_file > fasta_file
+"""
+
+__author__ = "Bob Harris (rsharris@bx.psu.edu)"
 
 import sys
 import bx.align.axt

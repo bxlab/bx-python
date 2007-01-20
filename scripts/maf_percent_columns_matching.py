@@ -6,7 +6,7 @@ match for each alignment.
 
 TODO: generalize for more than two speceis.
 
-usage: %prog [options]
+usage: %prog < maf > out
 """
 
 from __future__ import division

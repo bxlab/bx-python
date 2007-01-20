@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 """
-Application to convert MAF file to AXT file, projecting to any two species
---------------------------------------------------------------------------
+Application to convert MAF file to AXT file, projecting to any two species. 
+Reads a MAF file from standard input and writes an AXT file to standard out;  
+some statistics are written to standard error.  The user must specify the 
+two species of interest.
 
-:Author: Bob Harris (rsharris@bx.psu.edu)
-:Version: $Revision: $
-
-The application reads a MAF file from standard input and writes an AXT file to
-standard out;  some statistics are written to standard error.  The user must
-specify the two species of interest.
+usage: %prog primary_species secondary_species < maf_file > axt_file
 """
+
+__author__ = "Bob Harris (rsharris@bx.psu.edu)"
 
 import sys
 import copy

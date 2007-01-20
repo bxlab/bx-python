@@ -1,13 +1,33 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
 """
+'Tile' the blocks of a maf file over each of a set of intervals. The
+highest scoring block that covers any part of a region will be used, and 
+pieces not covered by any block filled with "-" or optionally "*". 
+
+This version uses synteny annotation if found on the alignment blocks, and
+will attempt to fill gaps with special characters depending on the type of
+gap, similar to the projected alignment display of the UCSC genome browser: 
+'*' for new, '=' for inverse/inset, '#' for contig, 'X' for missing. 
+
+- The list of species to tile is specified by the first argument (either a 
+  newick tree or just a comma separated list). 
+  
+- The `seq_db` is a lookup table mapping species and chromosome names
+  to nib file for filling in the reference species sequence. In this file
+  column 1 contains the species, column 2 the chromomsome or contig, and
+  column 4 the directory containing the sequences in nib format.
+  
+- The remaining arguments are a list of maf files which must have 
+  corresponding ".index" files.
+
+TODO: The seq_db format is specific to something old and obsure at PSU, 
+      need to standardize.
+
 usage: %prog list,of,species,to,keep seq_db_file indexed_maf_files ...
     -m, --missingData: Inserts wildcards for missing block rows instead of '-'
     -s, --strand:      Use strand information for intervals, reveres complement if '-'
 """
-
-import pkg_resources
-pkg_resources.require( "bx-python" )
 
 import psyco_full
 
@@ -250,4 +270,5 @@ def do_interval( sources, index, out, ref_src, start, end, seq_db, missing_data,
     if strand == '-':
         a = a.reverse_complement()
     out.write( a )
+    
 main()

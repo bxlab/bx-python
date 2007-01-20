@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 """
-Find regions of first bed file that overlap regions in a second bed file
+Find regions of first bed file that overlap regions in a second bed file. The
+output preserves all fields from the input. 
 
 usage: %prog bed_file_1 bed_file_2
     -m, --mincols=N: Require this much overlap (default 1bp)

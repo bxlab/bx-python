@@ -1,8 +1,9 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
 """
-Read a MAF from standard input and print counts of alignments, bases, or 
-columns. 
+Read a MAF from standard input and print the score of each block. It can 
+optionally recalculate each score using the hox70 matrix, and normalize the 
+score by the number of columns in the alignment.
 
 TODO: Should be able to read an arbitrary scoring matrix.
 

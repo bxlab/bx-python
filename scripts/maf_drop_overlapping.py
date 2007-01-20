@@ -1,9 +1,9 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
-Remove any alignments from a maf that overlap any of a set of intervals.
+Remove any blocks from a maf that overlap any of a set of intervals.
 
-usage: %prog interval files...
+usage: %prog interval files... < maf
 """
 
 import psyco_full

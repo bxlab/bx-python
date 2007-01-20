@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 """
-usage: %prog score_file 
-
 Writes compressed data from a wiggle file by chromosome.
+
+usage: %prog score_file < wiggle_data
 """
 
 from __future__ import division

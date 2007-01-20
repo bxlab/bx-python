@@ -7,7 +7,11 @@ of intervals and the overlap in `nsamples` random coverings of the
 regions with intervals having the same lengths. Prints the z-score relative
 to the mean and sample stdev of the random coverings.
 
-Currently intervals must bed in bed 3+ format.
+Currently intervals must be in bed 3+ format.
+
+TODO: There are a few versions of this floating around, including a 
+      better/faster one using gap lists instead of bitsets. Need to track 
+      that down and merge as neccesary.
 
 usage: %prog bounding_region_file intervals1 intervals2 nsamples
 """

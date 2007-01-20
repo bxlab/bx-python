@@ -1,8 +1,11 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
 Read a set of ranges and a nib file, print portions of nib overlapping
 those ranges to stdout
+
+TODO: General sequence handling would be nice, as well as merging with
+      'nib_intervals_to_fasta.py'.
 
 usage: %prog nib_dir < range_file
 """

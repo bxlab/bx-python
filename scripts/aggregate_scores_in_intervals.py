@@ -1,6 +1,12 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
 """
+Given a list of intervals in BED format (`interval_file`) and a set of scores
+(`score_file`) print each interval plus the average, minimum, and maximum of
+the scores that fall in that interval. Scores can either be wiggle format
+data or a directory containing binned array files (named according to the
+sequence source / chromosome of the intervals).
+
 usage: %prog score_file interval_file [out_file] [options] 
     -b, --binned: 'score_file' is actually a directory of binned array files
     -m, --mask=FILE: bed file containing regions not to consider valid

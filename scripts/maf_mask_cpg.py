@@ -1,9 +1,12 @@
 #!/usr/bin/env python
+
 """
-Mask out strict CpGs.
+Mask out potential CpG sites from a maf. Restricted or inclusive definition
+of CpG sites can be used. The total fraction masked is printed to stderr.
+
 usage: %prog < input > output
-    -m,--mask=N: Character to use as mask ('?' is default)
-    -r,--restricted: Use restricted definition of CpGs
+    -m, --mask=N: Character to use as mask ('?' is default)
+    -r, --restricted: Use restricted definition of CpGs
 """
 
 import bx.align

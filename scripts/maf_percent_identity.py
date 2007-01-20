@@ -7,7 +7,7 @@ over the number of aligned (non-gap) columns.
 
 TODO: Generalize for more than two species
 
-usage: %prog [options]
+usage: %prog < maf > out
 """
 
 from __future__ import division

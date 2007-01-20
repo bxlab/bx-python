@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
 """
 Tool for adding a column to a table. Expressions for the column are similar

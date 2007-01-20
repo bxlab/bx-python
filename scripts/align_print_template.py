@@ -3,7 +3,7 @@
 """
 Read an alignment from stdin and for each block print the result of 
 evaluating `template_string` (in cheetah template format). The alignment
-block will be place of the template context as `a` and the list of components
+block will be placed in the template context as `a` and the list of components
 as `c`.
 
 usage: %prog template [options]
@@ -18,7 +18,11 @@ import sys
 from bx.cookbook import doc_optparse
 from bx import align
 
-from Cheetah.Template import Template
+try:
+    from Cheetah.Template import Template
+except:
+    print >> sys.stderr, "This script requires the Cheetah template modules"
+    sys.exit( -1 )
 
 def main():
 

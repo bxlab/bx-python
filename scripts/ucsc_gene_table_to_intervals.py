@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
 Read a table dump in the UCSC gene table format and print a tab separated

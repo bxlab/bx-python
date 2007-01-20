@@ -1,11 +1,15 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
 For every column that occurs in a multiple alignment print the column
 and the number of times it occurs (one column/count per line, tab
 separated), sorted by count descending.
 
-usage: %prog [options]
+This version allows special handling of the 'wildcard' symbol in alignments.
+
+Note: all blocks must have exactly the same number of species.
+
+usage: %prog [options] < maf > column_counts
     -w, --wildcard: include wildcards
     -m, --maxwildcards=N: only allow N missing species
 """

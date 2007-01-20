@@ -1,14 +1,24 @@
 #!/usr/bin/env python
-"""
-Application to convert AXT file to MAF file
--------------------------------------------
 
-:Author: Bob Harris (rsharris@bx.psu.edu)
-:Version: $Revision: $
-
-The application reads an AXT file from standard input and writes a MAF file to
-standard out;  some statistics are written to standard error.
 """
+Application to convert AXT file to MAF file. Reads an AXT file from standard 
+input and writes a MAF file to standard out;  some statistics are written to 
+standard error.
+
+axt_to_maf primary:lengths_file secondary:lengths_file < axt_file > maf_file
+  --silent: prevents stats report
+  
+  Lengths files provide the length of each chromosome (maf format needs this
+  information but axt file does not contain it).  The format is a series of
+  lines of the form:
+  
+    <chromosome name> <length>
+  
+  The chromosome field in each axt block must match some <chromosome name> in
+  the lengths file.
+"""
+
+__author__ = "Bob Harris (rsharris@bx.psu.edu)"
 
 import sys
 import copy
@@ -16,16 +26,7 @@ import bx.align.axt
 import bx.align.maf
 
 def usage(s=None):
-	message = """
-axt_to_maf primary:lengths_file secondary:lengths_file < axt_file > maf_file
-  [--silent] prevents stats report
-  Lengths files provide the length of each chromosome (maf format needs this
-  information but axt file does not contain it).  The format is a series of
-  lines of the form
-    <chromosome name> <length>
-  The chromosome field in each axt block must match some <chromosome name> in
-  the lengths file.
-"""
+	message = __doc__
 	if (s == None): sys.exit (message)
 	else:           sys.exit ("%s\n%s" % (s,message))
 

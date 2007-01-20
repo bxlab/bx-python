@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
 """
-usage: %prog score_file out_file
+Convert wiggle data to a binned array. This assumes the input data is on a
+single chromosome and does no sanity checks!
+
+usage: %prog score_file out_file < wiggle_data
     -c, --comp=type: compression type (none, zlib, lzo)
 """
 

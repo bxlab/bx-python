@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 
 """
+Read scores in "wiggle" format from `score_file` and intervals in "bed" format
+from `interval_file` and print all scores overlapping intervals.
+
+TODO: Support binned array format scores also.
+
 usage: %prog score_file interval_file [out_file] 
 """
 

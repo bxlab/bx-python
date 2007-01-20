@@ -1,11 +1,17 @@
 #!/usr/bin/env python2.3
 
 """
-Read a MAF from stdin and break into a set of mafs containing 
-no more than a certain number of columns
-"""
+Read a MAF from stdin and break into several mafs based on the source of 
+each block. If the `component` option is provided then only that component
+will be used to determine the new file for each block, otherwise the src
+for *all* components will be used.
 
-usage = "usage: %prog"
+TODO: Should be able to specify component by species/prefix?
+
+usage: %prog [options] < maf
+    -o, --outprefix: prepend this to the name of each generate maf
+    -c, --component: use only this component (by index!) to split
+"""
 
 import sys, string
 import bx.align.maf
@@ -19,7 +25,7 @@ def __main__():
 
     # Parse command line arguments
 
-    parser = OptionParser( usage=usage )
+    parser = OptionParser()
     parser.add_option( "-o", "--outprefix", action="store", default="" )
     parser.add_option( "-c", "--component", action="store", default=None )
     ( options, args ) = parser.parse_args()

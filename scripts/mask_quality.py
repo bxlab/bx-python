@@ -1,7 +1,10 @@
 #!/usr/bin/env python
+
 """
 Masks an AXT or MAF file based on quality (from a binned_array) and
 outputs AXT or MAF.
+
+Binned array form of quality scores can be generated with `qv_to_bqv.py`.
 
 usage: %prog input output
     -i, --input=N: Format of input (axt or maf)
@@ -11,6 +14,7 @@ usage: %prog input output
     -t, --type=N: base_pair or nqs
     -l, --list=N: colon seperated list of species,len_file[,qualityfile].
 """
+
 import sys
 import bx.align.axt
 import bx.align.maf
@@ -18,6 +22,7 @@ import bx.binned_array
 from bx.cookbook import doc_optparse
 import fileinput
 from bx.align.sitemask.quality import *
+
 def main():
     
     options, args = doc_optparse.parse( __doc__ )

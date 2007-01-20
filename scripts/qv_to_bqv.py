@@ -1,7 +1,11 @@
 #!/usr/bin/env python
+
 """
 Convert a qual (qv) file to several BinnedArray files for fast seek.
 This script takes approximately 4 seconds per 1 million base pairs.
+
+The input format is fasta style quality -- fasta headers followed by 
+whitespace separated integers.
 
 usage: %prog qual_file output_file
 """

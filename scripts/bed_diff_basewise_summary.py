@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 """
-Find regions of first bed file that overlap regions in a second bed file
+Given two bed files print the number of bases covered 1) by both, 2) only by 
+the first, and 3) only by the second.
 
 usage: %prog bed_file_1 bed_file_2
 """

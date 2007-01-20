@@ -1,4 +1,15 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
+
+"""
+Extract ranges of scores from a sorted file in which each line contains a
+position followed by a score. 
+
+TODO: The finder class might actually be useful, it strides through a file
+      and builds an index based on the first line. Maybe move it into the
+      library and get rid of this very specific script?
+      
+usage: %prog start_pos stop_pos
+"""
 
 import sys
 

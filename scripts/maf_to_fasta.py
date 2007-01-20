@@ -1,7 +1,9 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python.
 
 """
 Read a maf and print the text as a fasta file.
+
+usage: %prog < maf > fasta
 """
 
 from __future__ import division
@@ -14,10 +16,14 @@ def __main__():
 
     maf_reader = maf.Reader( sys.stdin )
 
-    if len( sys.argv ) > 1:
-        comps = map( int, sys.argv[1:] )
-    else:
-        comps = None    
+    # Confusing since maf_to_concat_fasta takes names.
+
+    # if len( sys.argv ) > 1:
+    #     comps = map( int, sys.argv[1:] )
+    # else:
+    #     comps = None    
+
+    comps = None
 
     for i, m in enumerate( maf_reader ):
         if comps: l = [ m.components[i] for i in comps ]

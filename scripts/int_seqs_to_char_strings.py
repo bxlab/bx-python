@@ -1,4 +1,12 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
+
+"""
+Translate lists of space separated integers (magnitude less than 62) and print 
+as strings of alphanumeric characters. This is useful mainly for some machine
+learning algorithms that only take string input.
+
+usage: %prog < int_seqs > strings
+"""
 
 from itertools import *
 

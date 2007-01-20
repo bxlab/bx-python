@@ -1,9 +1,12 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
-Read a maf and print the text as a fasta file, concatenating blocks
+Read a maf and print the text as a fasta file, concatenating blocks. A 
+specific subset of species can be chosen. 
 
-usage %prog species1,species2,... [--fill="expression"] [--wrap=columns] < maf_file
+usage %prog [options] species1,species2,... < maf_file > fasta_file
+    --fill="expression": Insert this between blocks
+    --wrap=columns: Wrap FASTA to this many columns
 """
 
 from optparse import OptionParser

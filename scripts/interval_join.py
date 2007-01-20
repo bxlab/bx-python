@@ -1,9 +1,10 @@
 #!/usr/bin/env python2.4
 
 """
-Match up intersecting intervals
+Match up intersecting intervals from two files. This performs a "full join", 
+any pair of intervals with any basewise overlap will be printed side-by-side.
 
-FIXME: Currently assumes bed format for both files
+usage: %prog bed1 bed2
 """
 
 from __future__ import division

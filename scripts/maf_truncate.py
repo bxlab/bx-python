@@ -1,8 +1,10 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
-Pass through alignments from a MAF until a certain number of columns
+Pass through blocks from a maf file until a certain number of columns
 have been passed.
+
+usage: %prog -c cols < maf > maf
 """
 
 import sys

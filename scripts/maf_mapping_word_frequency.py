@@ -1,7 +1,13 @@
 #!/usr/bin/env python2.3
 
 """
-usage: %prog motif_len mapping_file
+
+Reads a maf file from stdin and applies the mapping file specified by
+`mapping_file` to produce a sequence of integers. Then for each possible word
+of length `motif_len` in this integer alphabet print the number of times
+that word occurs in the block. 
+
+usage: %prog motif_len mapping_file < maf_file > counts
 """
 
 from __future__ import division

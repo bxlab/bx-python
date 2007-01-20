@@ -1,9 +1,9 @@
 #!/usr/bin/env python2.3
 
 """
-Read a maf file from stdin and write out a new maf with only blocks having all of
-the passed in species, after dropping any other species and removing columns 
-containing only gaps.
+Read a maf file from stdin and write out a new maf with only blocks having all
+of the required in species, after dropping any other species and removing
+columns containing only gaps.
 
 usage: %prog species,species2,... < maf
 """

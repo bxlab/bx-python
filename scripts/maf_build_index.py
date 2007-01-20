@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
 """
 Build an index file for a set of MAF alignment blocks.

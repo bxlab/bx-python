@@ -4,6 +4,8 @@
 Read a MAF and print counts and frequencies of all n-mers
 (words composed on n consecutive alignment columns)
 
+TODO: reconcile this and maf_mapping_word_frequency.py
+
 usage: %prog n < maf_file
 """
 

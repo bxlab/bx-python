@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
 Read a feature file containing a 0 or 1 on each line, output 

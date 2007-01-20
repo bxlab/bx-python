@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 """
-Application to convert LAV file to AXT file
--------------------------------------------
+Application to convert LAV file to AXT file. Reads a LAV file from standard 
+input and writes a AXT file to standard out;  some statistics are written 
+to standard error.
 
-:Author: Bob Harris (rsharris@bx.psu.edu)
-:Version: $Revision: $
-
-The application reads a LAV file from standard input and writes a AXT file to
-standard out;  some statistics are written to standard error.
+usage: lav_to_axt [--silent] < lav_file > axt_file
 """
+
+__author__ = "Bob Harris (rsharris@bx.psu.edu)"
 
 import sys
 import copy
@@ -16,9 +15,7 @@ import bx.align.lav
 import bx.align.axt
 
 def usage(s=None):
-	message = """
-lav_to_axt [--silent] < lav_file > axt_file
-"""
+	message = __doc__
 	if (s == None): sys.exit (message)
 	else:           sys.exit ("%s\n%s" % (s,message))
 

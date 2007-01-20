@@ -1,7 +1,10 @@
 #!/usr/bin/python
 
 """
-Returns a bed-like translation of a CDS
+Returns a bed-like translation of a CDS in which each record corresponds to
+a single site in the CDS and includes additional fields for site degenaracy, 
+position ind CDS, and amino acid encoded.
+
 usage: %prog nibdir genefile [options]
     -o, --outfile=o:      output file
     -f, --format=f:       format bed (default), or gtf|gff

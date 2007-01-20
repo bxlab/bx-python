@@ -1,8 +1,9 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
 For each block in a maf file (read from stdin) write a sequence of ints 
-corresponding to the columns of the block after applying the provided mapping.
+corresponding to the columns of the block after applying the provided sequence
+mapping.
 
 The 'correct' number of species is determined by the mapping file, blocks not having
 this number of species will be ignored.

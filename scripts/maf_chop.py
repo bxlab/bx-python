@@ -1,8 +1,11 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
 Chops alignments in a MAF file to piece of a specified length. A random set of
 non overlapping chunks of exactly the specified chop length will be produced
+
+usage: %prog [options] < maf > maf
+  -l, --length: Chop to exactly this length in columns (default 100)
 """
 
 import sys

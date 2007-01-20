@@ -1,8 +1,10 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
 """
 Script to select random lines from a file. Reads entire file into
 memory!
+
+TODO: Replace this with a more elegant implementation.
 """
 
 import sys

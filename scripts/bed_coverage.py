@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 """
-Print number of bases covered by intervals in a bed file. Bed files can be
+Print number of bases covered by all intervals in a bed file (bases covered by
+more than one interval are counted only once). Multiple bed files can be 
 provided on the command line or to stdin.
 
 usage: %prog bed files ...

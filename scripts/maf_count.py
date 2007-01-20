@@ -1,7 +1,8 @@
 #!/usr/bin/env python2.3
 
 """
-Read a MAF from standard input and print counts of alignments, bases, or columns. 
+Read a MAF from standard input and print counts of alignments, bases, or 
+columns. 
 
 usage: %prog [options]
    -c, --cols: count alignment columns rather than number of alignments

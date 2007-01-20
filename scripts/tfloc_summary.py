@@ -3,6 +3,8 @@
 """
 Read TFLOC output from stdin and write out a summary in which the nth line 
 contains the number of sites found in the nth alignment of the input.
+
+TODO: This is very special case, should it be here?
 """
 
 import sys

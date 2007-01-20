@@ -1,6 +1,8 @@
 #!/usr/bin/env python2.4
 
 """
+FIXME!
+
 usage: %prog feature.bed ar.bed snp.bed div_directory [options]
     -m, --mask=M: Mask AR and features with this file
     -s, --suffix=S: append suffix to chromosomes to get filenames from div_directory

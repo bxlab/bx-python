@@ -1,7 +1,11 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
-Read a maf file and print the regions covered to a set of bed files (one for each source)
+Read a maf file and print the regions covered to a set of bed files (one for 
+each sequence source referenced in the maf). Only blocks with a positive 
+percent identity are written out. 
+
+TODO: Can this be generalized to be made more useful?
 
 usage: %prog bed_outfile_prefix < maf
 """

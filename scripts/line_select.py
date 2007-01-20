@@ -1,8 +1,11 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
-Read a feature file containing a 0 or 1 on each line, output 
-all lines from stdin for which the feature file is 1
+Read a file containing a 0 or 1 on each line (`feature_file`), output 
+all lines from stdin for which that value was 1
+
+TODO: no need to read the feature_file into memory here, just iterate in
+      parallel.
 
 usage: %prog feature_file < ...
 """

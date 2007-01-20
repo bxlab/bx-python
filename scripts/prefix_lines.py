@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
 """
 Simple script to add a prefix to every line in a file.

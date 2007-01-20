@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
 """
-Find regions of first bed that are not in second bed file (subtract
-second from first)
+Find continuous regions that are covered by the first bed file (`bed_file_1`)
+but not by the second bed file (`bed_file_2`)
 
 usage: %prog bed_file_1 bed_file_2
-
 """
 
 import sys

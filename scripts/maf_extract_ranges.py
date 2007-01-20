@@ -1,8 +1,13 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
-Reads a list of intervals and a maf. Produces a new maf containing the
-portions of the original that overlapped the intervals
+Reads a list of intervals (start, stop) and a maf. Produces a new maf
+containing the blocks from the original that overlapped the intervals.
+
+NOTE: See maf_extract_ranges_indexed.py which works better / faster for many
+      use cases.
+
+NOTE: chromosome/src information in the MAF is ignored by this variant.
 
 usage: %prog interval_file refindex [options] < maf_file
    -m, --mincols=10: Minimum length (columns) required for alignment to be output

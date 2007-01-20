@@ -1,4 +1,16 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
+
+"""
+Filter each block in a maf file. Can filter blocks for a minimum number of
+components (rows), a minimum length in columns, or an arbitrary python 
+expression (which will be evaluated for each block with the variable 'm'
+containing that block).
+
+usage: %prog [options] < maf > maf
+    --component_count=N: Minimum number of components (rows)
+    --min_cols=N: Minimum number of columns
+    -e, --expr=EXPR: Python expression that must evaulate to true
+"""
 
 import psyco_full
 

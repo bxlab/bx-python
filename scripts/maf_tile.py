@@ -1,9 +1,17 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
 """
-NOT YET CORRECT!!!
+'Tile' the blocks of a maf file over each of a set of intervals. The
+highest scoring block that covers any part of a region will be used, and 
+pieces not covered by any block filled with "-" or optionally "*". The list
+of species to tile is specified by `tree` (either a tree or just a comma
+separated list). The `seq_db` is a lookup table mapping chromosome names
+to nib file for filling in the reference species. Maf files must be indexed.
 
-usage: %prog start end maf_files...
+NOTE: See maf_tile_2.py for a more sophisticated version of this program, I
+      think this one will be eliminated in the future. 
+
+usage: %prog tree maf_files...
     -m, --missingData: Inserts wildcards for missing block rows instead of '-'
 """
 

@@ -1,9 +1,13 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
 For every column that occurs in a multiple alignment print the column
 and the number of times it occurs (one column/count per line, tab
 separated), sorted by count descending.
+
+Note: all blocks must have exactly the same number of species.
+
+usage: %prog < maf > column_counts
 """
 
 import bx.align.maf

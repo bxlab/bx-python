@@ -1,7 +1,12 @@
 #!/usr/bin/env python2.3
 
 """
-Read a maf from stdin and print the chromosome number or each alignment
+Read a maf from stdin and print the chromosome number for each alignment. It
+searches for 'chr' in each alignment block src, and may not be robust if other
+src formats are used. 
+
+NOTE: See 'align_print_template.py' for a more general variation of this
+      program.
 
 usage: %prog refindex [options]
 """

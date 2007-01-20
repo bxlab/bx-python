@@ -3,6 +3,8 @@
 """
 Read a MAF from standard input and determine the mean length of ungapped pieces
 in each block.
+
+usage: %prog < maf > out
 """
 
 from __future__ import division

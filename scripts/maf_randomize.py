@@ -1,4 +1,11 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
+
+"""
+Randomize the order of blocks in a MAF file. If `sample_size` is specified,
+that many random blocks will be kept from the original maf
+
+usage: %prog [sample_size] < maf > maf
+"""
 
 import sys
 

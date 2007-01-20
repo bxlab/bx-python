@@ -1,8 +1,14 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
-Read a MAF from stdin and break into a set of mafs containing 
-no more than a certain number of columns
+Read a MAF from stdin and break into several new mafs containing no more than
+`chunk_size` columns. The new mafs will be written to `out_dir` along with a
+file "intervals.txt" specifying the range covered by each new maf file. A
+probability for writing each chunk can optionally be specified, resulting in
+a random fraction of chunks from the input MAF being produced.
+
+usage: %prog [options] chunk_size out_dir < maf
+  --prob: probability of writing versus skipping each chunk.
 """
 
 usage = "usage: %prog chunk_size out_dir"
@@ -19,7 +25,7 @@ def __main__():
 
     # Parse command line arguments
 
-    parser = OptionParser( usage=usage )
+    parser = OptionParser( "usage: %prog chunk_size out_dir" )
     parser.add_option( "--prob", action="store", default=None, type="float", 
                        help="Probability of writing a given chunk" )
     
