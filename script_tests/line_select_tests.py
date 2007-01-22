@@ -17,4 +17,4 @@ class Test( base.BaseScriptTest, unittest.TestCase ):
                                     f""" )
     output_stdout = base.TestFile( """b
 
-                                      d""" )
+                                      e""" )
