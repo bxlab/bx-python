@@ -189,7 +189,8 @@ class Reader(object):
 
 	def parse_a_stanza(self):
 		"""returns the pair (score,pieces)
-		   where pieces is a list of ungapped segments (start1,start2,length,pctId)"""
+		   where pieces is a list of ungapped segments (start1,start2,length,pctId)
+		   with start1,start2 origin-0"""
 		# 's' line -- score, 1 field
 		line = self.fetch_line(report=" in a-stanza")
 		fields = line.split()
@@ -345,6 +346,15 @@ class ReaderIter(object):
 		v = self.reader.next()
 		if (not v): raise StopIteration
 		return v
+
+
+class LavAsPiecesReader(Reader):
+	"""Iterate over all lav blocks in a file in order, returning alignments
+	   as score and pieces, as returned by Reader.parse_a_stanza"""
+
+	def build_alignment(self,score,pieces):
+		return (score,pieces)
+
 
 class Writer(object):
 
