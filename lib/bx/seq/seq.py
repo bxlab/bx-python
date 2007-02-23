@@ -71,8 +71,11 @@ class SeqFile(object):
         return text
 
     def get(self, start, length):
-        assert (start >= 0)
-        assert (start + length - 1 < self.length)
+        assert (start >= 0), \
+            "attempt to fetch from sequence location %s" % start
+        assert (start + length - 1 < self.length), \
+            "attempt to fetch from beyond sequence end (%s..%s > %s)" \
+          % (start,start+length,self.length)
         if (not self.revcomp):
             return self.raw_fetch(start,length)
         if (self.revcomp == "-3'"):

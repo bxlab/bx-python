@@ -80,8 +80,10 @@ class Reader(object):
 		if (self.seq1_file == None):
 			if (self.seq1_strand == "+"): revcomp = False
 			else:                         revcomp = "-5'"
+			if (self.seq1_contig == 1): contig = None
+			else:                       contig = self.seq1_contig
 			try:
-				self.seq1_file = bx.seq.seq_file(file(self.seq1_filename,"rb"),revcomp=revcomp)
+				self.seq1_file = bx.seq.seq_file(file(self.seq1_filename,"rb"),revcomp=revcomp,contig=contig)
 			except:
 				self.seq1_file = bx.seq.seq_file(StringIO.StringIO(">seq1\n" + ("n" * (self.seq1_end - self.seq1_start))))
 			self.seq1_gap  = self.seq1_file.gap
@@ -93,13 +95,15 @@ class Reader(object):
 				except ValueError:
 					name1 = "seq1"
 			(species1,chrom1) = src_split(name1)
-			self.seq1_src = src_merge(species1,chrom1)
+			self.seq1_src = src_merge(species1,chrom1,contig)
 
 		if (self.seq2_file == None):
 			if (self.seq2_strand == "+"): revcomp = False
 			else:                         revcomp = "-5'"
+			if (self.seq2_contig == 1): contig = None
+			else:                       contig = self.seq2_contig
 			try:
-				self.seq2_file = bx.seq.seq_file(file(self.seq2_filename,"rb"),revcomp=revcomp)
+				self.seq2_file = bx.seq.seq_file(file(self.seq2_filename,"rb"),revcomp=revcomp,contig=contig)
 			except:
 				self.seq2_file = bx.seq.seq_file(StringIO.StringIO(">seq2\n" + ("n" * (self.seq2_end - self.seq2_start))))
 			self.seq2_gap  = self.seq2_file.gap
@@ -111,7 +115,7 @@ class Reader(object):
 				except ValueError:
 					name2 = "seq2"
 			(species2,chrom2) = src_split(name2)
-			self.seq2_src = src_merge(species2,chrom2)
+			self.seq2_src = src_merge(species2,chrom2,contig)
 
 		length1 = self.seq1_file.length
 		length2 = self.seq2_file.length
@@ -135,37 +139,34 @@ class Reader(object):
 	def parse_s_stanza(self):
 		self.close_seqs()
 		line = self.fetch_line(report=" in s-stanza")
-		fields = line.split()
-		self.seq1_filename = fields[0].strip('"')
-		self.seq1_start    = int(fields[1]) - 1
-		self.seq1_end      = int(fields[2])
-		self.seq1_contig   = int(fields[4])
-		if (fields[3] == "1"): self.seq1_strand = "-"
-		else:                  self.seq1_strand = "+"
-		assert (self.seq1_contig == 1), \
-		       "multiple query sequences not yet supported (line %d, \"%s\")" \
-		     % (self.lineNumber,line)
+		(self.seq1_filename,
+		 self.seq1_start,
+		 self.seq1_end,
+		 self.seq1_strand,
+		 self.seq1_contig) = self.parse_s_seq(line)
 
 		line = self.fetch_line(report=" in s-stanza")
-		fields = line.split()
-		self.seq2_filename = fields[0].strip('"')
-		self.seq2_start    = int(fields[1]) - 1
-		self.seq2_end      = int(fields[2])
-		self.seq2_contig   = int(fields[4])
-		if (fields[3] == "1"): self.seq2_strand = "-"
-		else:                  self.seq2_strand = "+"
-		assert (self.seq2_contig == 1), \
-		       "multiple query sequences not yet supported (line %d, \"%s\")" \
-		     % (self.lineNumber,line)
+		(self.seq2_filename,
+		 self.seq2_start,
+		 self.seq2_end,
+		 self.seq2_strand,
+		 self.seq2_contig) = self.parse_s_seq(line)
 
 		line = self.fetch_line(report=" in s-stanza")
 		assert (line == "}"), "improper s-stanza terminator (line %d, \"%s\")" \
 							% (self.lineNumber,line)
 
-		if (self.seq1_filename.endswith("-")):
-			self.seq1_filename = self.seq1_filename[:-1]
-		if (self.seq2_filename.endswith("-")):
-			self.seq2_filename = self.seq2_filename[:-1]
+	def parse_s_seq(self,line):
+		fields = line.split()
+		filename = fields[0].strip('"')
+		start    = int(fields[1]) - 1
+		end      = int(fields[2])
+		contig   = int(fields[4])
+		if (fields[3] == "1"): strand = "-"
+		else:                  strand = "+"
+		if (filename.endswith("-")): filename = filename[:-1]
+		return (filename,start,end,strand,contig)
+
 
 	def parse_h_stanza(self):
 		line = self.fetch_line(strip='"',report=" in h-stanza")

@@ -33,28 +33,36 @@ import sys, string
 
 class FastaFile(SeqFile):
 
-    def __init__(self, file, revcomp=False, name="", gap=None,lookahead=None):
+    def __init__(self, file, revcomp=False, name="", gap=None, lookahead=None, contig=None):
         SeqFile.__init__(self,file,revcomp,name,gap)
         self.lookahead = None
+        if (contig == None): contig = 1
+        assert (contig >= 1), "contig %d is not legal" % contig
 
+        # nota bene: certainly not the most efficient or elegant implementation
+
+        currContig = 1
         while (True):
             if (lookahead != None): (line,lookahead) = (lookahead,None)
             else:                    line = self.file.readline()
             if (line == ""): break
             if (line.startswith(">")):
                 if (self.text != None):
-                    self.lookahead = line # (next sequence header)
-                    break
+                    if (currContig == contig):
+                        self.lookahead = line # (next sequence header)
+                        break
+                    currContig += 1
                 self.name = self.extract_name(line[1:])
                 self.text = []
                 continue
             line = line.split() # (remove whitespace)
             if (self.text == None): self.text = line # (allows headerless fasta)
             else:                   self.text.extend(line)
+        assert (currContig == contig), \
+            "contig %d is not legal (file contains only %d)" % (contig,currContig)
         if (self.text != None):
             self.text   = "".join(self.text)
             self.length = len(self.text)
-
 
 class FastaReader(SeqReader):
     

@@ -258,9 +258,11 @@ def src_split( src ): # splits src into species,chrom
     if dot == -1: return None,src
     else:         return src[:dot],src[dot+1:]
 
-def src_merge( species,chrom ): # creates src (inverse of src_split)
-    if species == None: return chrom
-    else:               return species + "." + chrom
+def src_merge( species,chrom,contig=None ): # creates src (inverse of src_split)
+    if species == None: src = chrom
+    else:               src = species + "." + chrom
+    if contig != None: src += "[%s]" % contig
+    return src
 
 # improvement: lengths file should probably be another class
 

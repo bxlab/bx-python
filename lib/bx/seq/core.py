@@ -11,9 +11,11 @@ See seq.py for more information
 import struct
 import fasta, nib, qdna
 
-def seq_file (file, format=None, revcomp=False, name="", gap=None):
-    if   (format == None):    format = infer_format(file)
-    if   (format == "fasta"): return fasta.FastaFile (file, revcomp=revcomp, name=name, gap=gap)
+def seq_file (file, format=None, revcomp=False, name="", gap=None, contig=None):
+    if (format == None): format = infer_format(file)
+    if (contig != None) and (format not in ["fasta",None]):
+        raise "Contigs are not supported for format %s" % format
+    if   (format == "fasta"): return fasta.FastaFile (file, revcomp=revcomp, name=name, gap=gap, contig=contig)
     elif (format == "nib"):   return nib.NibFile     (file, revcomp=revcomp, name=name, gap=gap)
     elif (format == "qdna"):  return qdna.QdnaFile   (file, revcomp=revcomp, name=name, gap=gap)
     else:
