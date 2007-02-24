@@ -8,9 +8,14 @@ from bx import interval_index_file
 class Reader(object):
 	"""Iterate over all lav blocks in a file in order"""
 
-	def __init__(self,file):
+	def __init__(self,file,path_subs=None,fail_to_ns=False):
 		self.file = file
 		self.lineNumber = 0
+		self.path_subs  = path_subs   # list of (prefix,replacement) to allow
+		if (self.path_subs == None):  # .. redirection of sequence file paths
+			self.path_subs = []       # .. on different machines
+		self.fail_to_ns = fail_to_ns  # True => if sequences fail to open,
+		                              #         create a fake file of all Ns
 
 		self.d_stanza_text = None
 
@@ -83,9 +88,15 @@ class Reader(object):
 			if (self.seq1_contig == 1): contig = None
 			else:                       contig = self.seq1_contig
 			try:
-				self.seq1_file = bx.seq.seq_file(file(self.seq1_filename,"rb"),revcomp=revcomp,contig=contig)
+				f = file(self.seq1_filename,"rb")
 			except:
-				self.seq1_file = bx.seq.seq_file(StringIO.StringIO(">seq1\n" + ("n" * (self.seq1_end - self.seq1_start))))
+				if (self.fail_to_ns):
+					f = StringIO.StringIO(">seq1\n" + ("n" * (self.seq1_end - self.seq1_start)))
+					revcomp = False
+					contig  = 1
+				else:
+					assert (False), "failed to open %s" % self.seq1_filename
+			self.seq1_file = bx.seq.seq_file(f,revcomp=revcomp,contig=contig)
 			self.seq1_gap  = self.seq1_file.gap
 			try:
 				name1 = self.path_to_src_name(self.seq1_filename)
@@ -103,9 +114,15 @@ class Reader(object):
 			if (self.seq2_contig == 1): contig = None
 			else:                       contig = self.seq2_contig
 			try:
-				self.seq2_file = bx.seq.seq_file(file(self.seq2_filename,"rb"),revcomp=revcomp,contig=contig)
+				f = file(self.seq2_filename,"rb")
 			except:
-				self.seq2_file = bx.seq.seq_file(StringIO.StringIO(">seq2\n" + ("n" * (self.seq2_end - self.seq2_start))))
+				if (self.fail_to_ns):
+					f = StringIO.StringIO(">seq2\n" + ("n" * (self.seq2_end - self.seq2_start)))
+					revcomp = False
+					contig  = 1
+				else:
+					assert (False), "failed to open %s" % self.seq1_filename
+			self.seq2_file = bx.seq.seq_file(f,revcomp=revcomp,contig=contig)
 			self.seq2_gap  = self.seq2_file.gap
 			try:
 				name2 = self.path_to_src_name(self.seq2_filename)
@@ -164,7 +181,10 @@ class Reader(object):
 		contig   = int(fields[4])
 		if (fields[3] == "1"): strand = "-"
 		else:                  strand = "+"
-		if (filename.endswith("-")): filename = filename[:-1]
+		if (filename.endswith("-")):
+			assert (strand == "-"), "strand mismatch in \"%s\"" % line
+			filename = filename[:-1]
+		filename = do_path_subs(filename,self.path_subs)
 		return (filename,start,end,strand,contig)
 
 
@@ -524,3 +544,8 @@ def rc_or_nothing(strand):
 	if (strand == "-"): return " (reverse complement)"
 	else:               return ""
 
+def do_path_subs(path,path_subs):
+	for (prefix,replacement) in path_subs:
+		if (path.startswith(prefix)):
+			return replacement + path[len(prefix):]
+	return path

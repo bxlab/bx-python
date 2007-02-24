@@ -4,7 +4,7 @@ Application to convert LAV file to AXT file. Reads a LAV file from standard
 input and writes a AXT file to standard out;  some statistics are written 
 to standard error.
 
-usage: lav_to_axt [--silent] < lav_file > axt_file
+usage: lav_to_axt [--silent] [path=replacement] < lav_file > axt_file
 """
 
 __author__ = "Bob Harris (rsharris@bx.psu.edu)"
@@ -22,21 +22,26 @@ def usage(s=None):
 
 def main():
 
-	# check the command line
+	# parse the command line
 
 	silent = False
+	pathSubs = []
 
-	if (len(sys.argv) == 2) and (sys.argv[1] == "--silent"):
-		silent = True
-	elif (len(sys.argv) > 1):
-		usage("give me no arguments")
+	for arg in sys.argv[1:]:
+		if ("=" in arg):
+			ix = arg.find("=")
+			pathSubs.append((arg[:ix],arg[ix+1:]))
+		elif (arg == "--silent"):
+			silent = True
+		else:
+			usage("unrecognized argument: " + arg)
 
 	# read the alignments and other info
 
 	out = bx.align.axt.Writer(sys.stdout)
 
 	lavsRead = axtsWritten = 0
-	for lavBlock in bx.align.lav.Reader(sys.stdin):
+	for lavBlock in bx.align.lav.Reader(sys.stdin,path_subs=pathSubs):
 		lavsRead += 1
 
 		out.write (lavBlock)
