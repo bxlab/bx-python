@@ -4,7 +4,14 @@ from itertools import *
 from UserDict import DictMixin
 
 class ParseError( Exception ):
-    pass
+    def __init__( self, *args, **kwargs ):
+        Exception.__init__( self, *args, **kwargs )
+        self.linenum = kwargs.get("linenum",None)
+    def __str__( self ):
+        if self.linenum:
+            return Exception.__str__( self ) + " on line " + str(self.linenum)
+        else:
+            return Exception.__str__( self )
 
 class TableRow( object ):
     """
@@ -65,7 +72,7 @@ class TableReader( object ):
         self.return_comments = return_comments
         self.return_header = return_header
         self.input_iter = iter( input )
-        self.linenum = -1
+        self.linenum = 0
         self.header = force_header
     def __iter__( self ):
         return self
@@ -80,7 +87,7 @@ class TableReader( object ):
         # Is it a comment line?
         if line.startswith( "#" ):
             # If a comment and the first line we assume it is a header
-            if self.header is None and self.linenum == 0:
+            if self.header is None and self.linenum == 1:
                 self.header = self.parse_header( line )
                 if self.return_header:
                     return self.header
@@ -95,7 +102,8 @@ class TableReader( object ):
         try:
             return self.parse_row( line )
         except ParseError, e:
-            raise ParseError( str( e ) + " on line " + str( self.linenum ) ) 
+            e.linenum = self.linenum
+            raise e
     def parse_header( self, line ):
         fields = line[1:].split( "\t" )
         return Header( fields )

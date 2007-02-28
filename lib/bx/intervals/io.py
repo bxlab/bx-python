@@ -3,11 +3,27 @@ from itertools import *
 from bx.tabular.io import *
 from bx.bitset import *
 
+class MissingFieldError( ParseError ):
+    pass
+
+class FieldFormatError( ParseError ):
+    def __init__( self, *args, **kwargs):
+        ParseError.__init__( self, *args, **kwargs )
+        self.expected = kwargs.get("expected",None)
+    def __str__( self ):
+        if self.expected:
+            return ParseError.__str__( self ) + ", " + self.expected + " expected"
+        else:
+            return ParseError.__str__( self )
+
+class StrandFormatError( ParseError ):
+    pass
+
 class GenomicInterval( TableRow ):
     """
     A genomic interval stored in a set of fields (a row of a table)
     """
-    def __init__( self, reader, fields, chrom_col, start_col, end_col, strand_col, default_strand ):
+    def __init__( self, reader, fields, chrom_col, start_col, end_col, strand_col, default_strand, fix_strand=False ):
         TableRow.__init__( self, reader, fields )
         self.chrom_col = chrom_col
         self.start_col = start_col
@@ -16,22 +32,22 @@ class GenomicInterval( TableRow ):
         self.nfields = nfields = len( fields )
         # Parse chrom/source column
         if chrom_col >= nfields:
-            raise ParseError( "No field for chrom_col (%d)" % chrom_col )
+            raise MissingFieldError( "No field for chrom_col (%d)" % chrom_col )
         self.chrom = fields[chrom_col]
         # Parse start column and ensure it is an integer
         if start_col >= nfields:
-            raise ParseError( "No field for start_col (%d)" % start_col )
+            raise MissingFieldError( "No field for start_col (%d)" % start_col )
         try:
             self.start = int( fields[start_col] )
         except ValueError, e:
-            raise ParseError( "Could not parse start_col: " + str( e ) )
+            raise FieldFormatError( "Could not parse start_col: " + str( e ), expected="integer" )
         # Parse end column and ensure it is an integer
         if end_col >= nfields:
-            raise ParseError( "No field for end_col (%d)" % end_col )
+            raise MissingFieldError( "No field for end_col (%d)" % end_col )
         try:
             self.end = int( fields[end_col] )
         except ValueError, e:
-            raise ParseError( "Could not parse end_col: " + str( e ) )
+            raise FieldFormatError( "Could not parse end_col: " + str( e ), expected="integer" )
         # Parse strand and ensure it is valid
         if strand_col >= nfields or strand_col < 0:
             # This should probable be immutable since the fields are 
@@ -40,7 +56,9 @@ class GenomicInterval( TableRow ):
         else:
             strand = fields[strand_col]
             if strand not in ( "+", "-"):
-                raise ParseError( "Strand must be either '+' or '-'" )
+                if fix_strand:
+                    strand = "+"
+                else: raise StrandFormatError( "Strand must be either '+' or '-'" )
             self.strand = strand
     def __setattr__( self, name, value ):
         if name == "chrom":
@@ -87,7 +105,7 @@ class GenomicIntervalReader( TableReader ):
     >>> assert type( elements[4] ) is GenomicInterval
     """
     def __init__( self, input, chrom_col=0, start_col=1, end_col=2, strand_col=5, 
-                  default_strand="+", return_header=True, return_comments=True, force_header=None ):
+                  default_strand="+", return_header=True, return_comments=True, force_header=None, fix_strand=False ):
         TableReader.__init__( self, input, return_header, return_comments, force_header )
         self.chrom_col = chrom_col
         self.start_col = start_col
@@ -97,7 +115,7 @@ class GenomicIntervalReader( TableReader ):
     def parse_row( self, line ):
         return GenomicInterval( self, line.split( "\t" ), self.chrom_col, 
                                 self.start_col, self.end_col,
-                                self.strand_col, self.default_strand )
+                                self.strand_col, self.default_strand, fix_strand=False )
 
     def binned_bitsets( self , upstream_pad=0, downstream_pad=0, lens={} ):
         last_chrom = None
