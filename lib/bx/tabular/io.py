@@ -5,7 +5,7 @@ from UserDict import DictMixin
 
 class ParseError( Exception ):
     def __init__( self, *args, **kwargs ):
-        Exception.__init__( self, *args, **kwargs )
+        Exception.__init__( self, *args )
         self.linenum = kwargs.get("linenum",None)
     def __str__( self ):
         if self.linenum:

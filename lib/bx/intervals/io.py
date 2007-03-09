@@ -112,10 +112,11 @@ class GenomicIntervalReader( TableReader ):
         self.end_col = end_col
         self.strand_col = strand_col
         self.default_strand = default_strand
+        self.fix_strand = fix_strand
     def parse_row( self, line ):
         return GenomicInterval( self, line.split( "\t" ), self.chrom_col, 
                                 self.start_col, self.end_col,
-                                self.strand_col, self.default_strand, fix_strand=False )
+                                self.strand_col, self.default_strand, fix_strand=self.fix_strand )
 
     def binned_bitsets( self , upstream_pad=0, downstream_pad=0, lens={} ):
         last_chrom = None
