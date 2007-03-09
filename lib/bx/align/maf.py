@@ -1,5 +1,7 @@
 from bx.align import *
 
+from StringIO import StringIO
+
 import itertools
 from bx import interval_index_file
 
@@ -112,6 +114,9 @@ class Writer( object ):
         self.file.close()
 
 # ---- Helper methods -------------------------------------------------------
+
+def from_string( string ):
+    return read_next_maf( StringIO( string ) )
 
 def read_next_maf( file, species_to_lengths=None ):
     alignment = Alignment(species_to_lengths=species_to_lengths)

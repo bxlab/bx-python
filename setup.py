@@ -10,7 +10,7 @@ JK_INC = JK_LIB = "src/kent/"
 bitset_deps = [ 'bits.c', 'common.c' ]
 
 setup(  name = "bx-python",
-        version = "0.1.0",
+        version = "0.5.0",
         py_modules = [ 'psyco_full' ],
         packages = find_packages( 'lib' ),
 		package_dir = { '': 'lib' },
