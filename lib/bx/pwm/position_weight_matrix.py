@@ -563,12 +563,12 @@ class PositionWeightMatrix (object):
         try:
             return math.log( p/b, 2)
         except OverflowError,e:
-            print >>sys.stderr,"base=%c, math.log(%.3f / %.3f)" % (base,p,b)
-            print >>sys.stderr,self.id
+            ## print >>sys.stderr,"base=%c, math.log(%.3f / %.3f)" % (base,p,b)
+            ## print >>sys.stderr,self.id
             return float('nan')
         except ValueError,e:
-            print >>sys.stderr,"base=%c, math.log(%.3f / %.3f)" % (base,p,b)
-            print >>sys.stderr,self.id
+            ## print >>sys.stderr,"base=%c, math.log(%.3f / %.3f)" % (base,p,b)
+            ## print >>sys.stderr,self.id
             return float('nan')
 
     def parse_weight (self, weightString):

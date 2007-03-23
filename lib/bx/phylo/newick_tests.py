@@ -15,6 +15,7 @@ results = [ ( Tree( 'label', [Edge( 6.0, Tree( 'B', None ) ), Edge( 5.0, Tree( '
 def check_parser( s, r ):
     assert newick_parser.parse_string( s ) == r
 
-def test_parser():
-    for s, r in zip( trees, results ):
-        yield check_parser, s, r
+def test_parser_0(): check_parser( trees[0], results[0] )
+def test_parser_1(): check_parser( trees[1], results[1] )
+def test_parser_2(): check_parser( trees[2], results[2] )
+def test_parser_3(): check_parser( trees[3], results[3] )
