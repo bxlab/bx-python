@@ -49,7 +49,6 @@ extensions.append( Extension( "bx.intseq.ngramcount", [ "lib/bx/intseq/ngramcoun
 # Seekable access to bzip2 files
 extensions.append( Extension( "bx.misc.seekbzip2", 
                               [ "lib/bx/misc/seekbzip2.pyx",
-                                                              "src/bunzip/seek-bunzip.c", 
                                 "src/bunzip/micro-bunzip.c" ],
                               include_dirs=[ "src/bunzip" ] ) )
 
