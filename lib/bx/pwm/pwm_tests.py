@@ -64,12 +64,12 @@ qScoresExpected = "4.1106 0.7810"
 
 class PWMTestCase (unittest.TestCase):
 
-    def setUp(self):
-        sys.stdout = None # this causes an AttributeError if any of these
-                          # .. tests inadvertently print something
-
-    def tearDown(self):
-        sys.stdout = sys.__stdout__
+    # def setUp(self):
+    #     sys.stdout = None # this causes an AttributeError if any of these
+    #                       # .. tests inadvertently print something
+    # 
+    # def tearDown(self):
+    #     sys.stdout = sys.__stdout__
 
     def testReader(self):
 
