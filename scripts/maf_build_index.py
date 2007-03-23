@@ -13,10 +13,12 @@ import psyco_full
 
 from bx.cookbook import doc_optparse
 
-from bx import interval_index_file
 import sys
+import os.path
 
+from bx import interval_index_file
 import bx.align.maf
+from bx.misc.seekbzip2 import SeekableBzip2File
 
 def main():
 
@@ -26,16 +28,31 @@ def main():
 
     try:
         maf_file = args[0]
-        if len( args ) > 1: index_file = args[1]
-        else: index_file = maf_file + ".index" 
+        # If it appears to be a bz2 file, attempt to open with table
+        if maf_file.endswith( ".bz2" ):
+            table_file = maf_file + "t"
+            if not os.path.exists( table_file ):
+                doc_optparse.exit( "To index bz2 compressed files first "
+                                   "create a bz2t file with bzip-table." )
+            # Open with SeekableBzip2File so we have tell support
+            maf_in = SeekableBzip2File( maf_file, table_file )
+            # Strip .bz2 from the filename before adding ".index"
+            maf_file = maf_file[:-4]
+        else:
+            maf_in = open( maf_file )
+        # Determine the name of the index file
+        if len( args ) > 1: 
+            index_file = args[1]
+        else: 
+            index_file = maf_file + ".index" 
         if options.species:
             species = options.species.split( "," )
         else:
             species = None
     except:
-        doc_optparse.exit()
+        doc_optparse.exception()
 
-    maf_reader = bx.align.maf.Reader( open( maf_file ) )
+    maf_reader = bx.align.maf.Reader( maf_in )
 
     indexes = interval_index_file.Indexes()
 

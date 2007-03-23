@@ -42,9 +42,10 @@ cdef class SeekBzip2:
         # Initialize bunzip_data from the file
         start_bunzip( &( self.bd ), self.file_fd, NULL, 0 )
         
-    def __del__( self ):
+    def close( self ):
         free( self.bd.dbuf )
         free( self.bd )
+        os.close( self.file_fd )
 
     def seek( self, unsigned long position ):
         """

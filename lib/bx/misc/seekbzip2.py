@@ -34,6 +34,9 @@ class SeekableBzip2File( object ):
             pos = pos + length
         self.size = pos
         
+    def close( self ):
+        self.seek_bz2.close()
+        
     def fix_dirty( self ):
         # Our virtual position in the uncompressed data is out of sync
         # FIXME: If we're moving to a later position that is still in 

@@ -1,9 +1,12 @@
 from bx.align import *
 
 from StringIO import StringIO
+import os
 
 import itertools
 from bx import interval_index_file
+
+from bx.misc.seekbzip2 import SeekableBzip2File
 
 MAF_INVERSE_STATUS = 'V'
 MAF_INSERT_STATUS = 'I'
@@ -20,25 +23,53 @@ MAF_MISSING_STATUS = 'M'
 class MultiIndexed( object ):
     """Similar to 'indexed' but wraps more than one maf_file"""
     def __init__( self, maf_filenames, keep_open=False ):
-        self.indexes = [ Indexed( maf_file, maf_file + ".index" ) for maf_file in maf_filenames ]
+        self.indexes = [ Indexed( maf_file, keep_open=keep_open ) for maf_file in maf_filenames ]
     def get( self, src, start, end ):
         blocks = []
         for index in self.indexes: blocks.extend( index.get( src, start, end ) )
         return blocks
-    
+    def close( self ):
+        for index in self.indexes:
+            index.close()
+            
 class Indexed( object ):
     """Indexed access to a maf using overlap queries, requires an index file"""
 
     def __init__( self, maf_filename, index_filename=None, keep_open=False, species_to_lengths=None ):
-        if index_filename is None: 
-            index_filename = maf_filename + ".index"
-        self.indexes = interval_index_file.Indexes( filename=index_filename )
         self.maf_filename = maf_filename
+        if maf_filename.endswith( ".bz2" ):
+            table_filename = maf_filename + "t"
+            self.table_filename = table_filename
+            if not os.path.exists( table_filename ):
+                raise Exception( "Cannot find bz2t file for: " + maf_filename )
+            self.file_type = "bz2t"
+            # Strip .bz2 from the filename before adding ".index"
+            maf_filename_root = maf_filename[:-4]
+        else:
+            self.file_type = "plain"
+            maf_filename_root = maf_filename
+        # Open index
+        if index_filename is None: 
+            index_filename = maf_filename_root + ".index"
+        self.indexes = interval_index_file.Indexes( filename=index_filename )
+        # Species to lengths
         self.species_to_lengths = species_to_lengths
+        # Open now?
         if keep_open: 
-            self.f = open( maf_filename )
+            self.f = self.open_maf()
         else:
             self.f = None
+            
+    def close( self ):
+        if self.f:
+            self.f.close()
+            self.f = None
+            
+    def open_maf( self ):
+        if self.file_type == "plain":
+            return open( self.maf_filename )
+        elif self.file_type == "bz2t":
+            return SeekableBzip2File( self.maf_filename, self.table_filename )
 
     def get( self, src, start, end ):
         intersections = self.indexes.find( src, start, end )
@@ -49,7 +80,7 @@ class Indexed( object ):
             self.f.seek( offset )
             return read_next_maf( self.f, self.species_to_lengths )
         else:
-            f = open( self.maf_filename )
+            f = open_maf( self )
             try:
                 f.seek( offset )
                 return read_next_maf( f, self.species_to_lengths ) 

@@ -49,7 +49,7 @@ def __main__():
         doc_optparse.exit()
 
     # Open indexed access to mafs
-    index = bx.align.maf.MultiIndexed( maf_files )
+    index = bx.align.maf.MultiIndexed( maf_files, keep_open=True )
 
     # Start MAF on stdout
 
@@ -99,7 +99,8 @@ def __main__():
             out.close()
          
     # Close output MAF
-
+    
     out.close()
+    index.close()
 
 if __name__ == "__main__": __main__()
