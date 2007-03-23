@@ -1,13 +1,12 @@
 import os
 import bisect
-from bx_extras.filelike import FileLikeBase
+import sys
     
 from _seekbzip2 import SeekBzip2
     
-class SeekableBzip2File( FileLikeBase ):
+class SeekableBzip2File( object ):
     
-    def __init__( self, filename, table_filename ):
-        FileLikeBase.__init__( self )
+    def __init__( self, filename, table_filename, **kwargs ):
         self.filename = filename
         self.table_filename = table_filename
         self.init_table()
@@ -35,36 +34,57 @@ class SeekableBzip2File( FileLikeBase ):
             pos = pos + length
         self.size = pos
         
-    def _read( self, sizehint=-1 ):
-        if self.dirty:
-            # Our virtual position in the uncompressed data is out of sync
-            # FIXME: If we're moving to a later position that is still in 
-            # the same block, we could just read and throw out bytes in the
-            # compressed stream, less wasteful then backtracking
-            chunk, offset = self.get_chunk_and_offset( self.pos )
-            # Get the seek position for that chunk and seek to it
-            bz2_seek_pos = self.table_bz2positions[chunk] 
-            self.seek_bz2.seek( bz2_seek_pos )
-            # Consume bytes to move to the correct position
-            assert len( self.seek_bz2.read( offset ) ) == offset
-            # Update state
-            self.dirty = False
-        # Attempt to read desired amount
-        if sizehint == -1:
-            sizehint = 256 * 1024
-        val = self.seek_bz2.read( sizehint )
+    def fix_dirty( self ):
+        # Our virtual position in the uncompressed data is out of sync
+        # FIXME: If we're moving to a later position that is still in 
+        # the same block, we could just read and throw out bytes in the
+        # compressed stream, less wasteful then backtracking
+        chunk, offset = self.get_chunk_and_offset( self.pos )
+        # Get the seek position for that chunk and seek to it
+        bz2_seek_pos = self.table_bz2positions[chunk] 
+        self.seek_bz2.seek( bz2_seek_pos )
+        # Consume bytes to move to the correct position
+        assert len( self.seek_bz2.read( offset ) ) == offset
+        # Update state
+        self.dirty = False
+        
+    def read( self, sizehint=-1 ):
+        if sizehint < 0:
+            chunks = []
+            while 1:
+                self._read( 1024*1024 )
+                if val:
+                    chunks.append( val )
+                else:
+                    break
+            return "".join( chunks )
+        else:
+            return self._read( sizehint )
+        
+    def _read( self, size ):
+        if self.dirty: self.fix_dirty()
+        val = self.seek_bz2.read( size )
         if val is None:
             # EOF
             self.pos = self.size
+            val = ""
+        else:
+            self.pos = self.pos + len( val )
+        return val
+        
+    def readline( self, size=-1 ):
+        if self.dirty: self.fix_dirty()
+        val = self.seek_bz2.readline( size )
+        if val is None:
+            # EOF
+            self.pos = self.size
+            val = ""
         else:
             self.pos = self.pos + len( val )
         return val
         
     def tell( self ):
-        # HACK: This could be handled in a base class -- FilelikeBase does
-        #       buffered reading, so we need to account for any byte still
-        #       in it's buffer when determing current position.
-        return self.pos - len( self._FileLikeBase__rbuffer )
+        return self.pos
             
     def get_chunk_and_offset( self, position ):
         # Find the chunk that position is in using a binary search
@@ -92,7 +112,20 @@ class SeekableBzip2File( FileLikeBase ):
         # Mark as dirty, the next time a read is done we need to actually
         # move the position in the bzip2 file
         self.dirty = True
-        # HACK: This could be handled in a base class -- FilelikeBase does
-        #       buffered reading, so we need to reset the buffer since
-        #       it is no longer valid
-        self._FileLikeBase__rbuffer = ""
+        
+    # ---- File like methods ------------------------------------------------
+    
+    def next(self):
+        ln = self.readline()
+        if ln == "":
+            raise StopIteration()
+        return ln
+    
+    def __iter__(self):
+        return self
+        
+    def readlines(self,sizehint=-1):
+        return [ln for ln in self]
+
+    def xreadlines(self):
+        return iter(self)

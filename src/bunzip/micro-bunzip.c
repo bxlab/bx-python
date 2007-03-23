@@ -55,6 +55,8 @@
 #define RETVAL_OBSOLETE_INPUT			(-7)
 
 #define RETVAL_END_OF_BLOCK             (-8)
+#define RETVAL_STOPCHAR                 (-9)
+#define RETVAL_BUFFER_FULL              (-10)
 
 /* Other housekeeping constants */
 #define IOBUF_SIZE			4096
@@ -491,6 +493,102 @@ decode_next_byte:
 		}
 		/* james@bx.psu.edu -- rather than falling through we return here */
         return gotcount;
+	}
+	
+    goto decode_next_byte;
+}
+
+/**
+ * Same as read_bunzip, but will stop if it encounters `stop_char`. 
+ */
+int read_bunzip_to_char(bunzip_data *bd, char *outbuf, int len, int* gotcount_out, char stopchar )
+{
+	const unsigned int *dbuf;
+	int pos,current,previous,gotcount;
+
+	/* If last read was short due to end of file, return last block now */
+	/* if(bd->writeCount<0) return bd->writeCount; */
+	
+	/* james@bx.psu.edu: writeCount goes to -1 when the buffer is fully
+	   decoded, which results in this returning RETVAL_LAST_BLOCK, also
+	   equal to -1... Confusing, I'm returning 0 here to indicate no 
+	   bytes written into the buffer */
+    if(bd->writeCount<0) return RETVAL_END_OF_BLOCK;
+
+	gotcount = 0;
+	dbuf=bd->dbuf;
+	pos=bd->writePos;
+	current=bd->writeCurrent;
+
+	/* We will always have pending decoded data to write into the output
+	   buffer unless this is the very first call (in which case we haven't
+	   huffman-decoded a block into the intermediate buffer yet). */
+
+	if (bd->writeCopies) {
+		/* Inside the loop, writeCopies means extra copies (beyond 1) */
+		--bd->writeCopies;
+		/* Loop outputting bytes */
+		for(;;) {
+			/* Write next byte into output buffer, updating CRC */
+			/* If the output buffer is full, snapshot state and return */
+			if(gotcount >= len) {
+				bd->writePos=pos;
+				bd->writeCurrent=current;
+				bd->writeCopies++;
+                *gotcount_out = gotcount;
+				return RETVAL_BUFFER_FULL;
+			}
+			/* Also stop if we hit stop char (this could be faster) */
+			if( gotcount && outbuf[gotcount-1] == stopchar ) {
+				bd->writePos=pos;
+				bd->writeCurrent=current;
+				bd->writeCopies++;
+                *gotcount_out = gotcount;
+				return RETVAL_STOPCHAR;
+			}
+			outbuf[gotcount++] = current;
+			bd->writeCRC=(((bd->writeCRC)<<8)
+						  ^bd->crc32Table[((bd->writeCRC)>>24)^current]);
+			/* Loop now if we're outputting multiple copies of this byte */
+			if (bd->writeCopies) {
+				--bd->writeCopies;
+				continue;
+			}
+decode_next_byte:
+            if (!bd->writeCount--) break;
+			/* Follow sequence vector to undo Burrows-Wheeler transform */
+			previous=current;
+			pos=dbuf[pos];
+			current=pos&0xff;
+			pos>>=8;
+			/* After 3 consecutive copies of the same byte, the 4th is a repeat
+			   count.  We count down from 4 instead
+			 * of counting up because testing for non-zero is faster */
+			if(--bd->writeRunCountdown) {
+				if(current!=previous) bd->writeRunCountdown=4;
+			} else {
+				/* We have a repeated run, this byte indicates the count */
+				bd->writeCopies=current;
+				current=previous;
+				bd->writeRunCountdown=5;
+				/* Sometimes there are just 3 bytes (run length 0) */
+				if(!bd->writeCopies) goto decode_next_byte;
+				/* Subtract the 1 copy we'd output anyway to get extras */
+				--bd->writeCopies;
+			}
+		}
+		/* Decompression of this block completed successfully */
+		bd->writeCRC=~bd->writeCRC;
+		bd->totalCRC=((bd->totalCRC<<1) | (bd->totalCRC>>31)) ^ bd->writeCRC;
+		/* If this block had a CRC error, force file level CRC error. */
+		if(bd->writeCRC!=bd->headerCRC) {
+            // fprintf( stderr, "CRC ERROR\n" ); fflush( stderr );
+			bd->totalCRC=bd->headerCRC+1;
+			return RETVAL_LAST_BLOCK;
+		}
+		/* james@bx.psu.edu -- rather than falling through we return here */
+        *gotcount_out = gotcount;
+        return RETVAL_END_OF_BLOCK;
 	}
 	
     goto decode_next_byte;

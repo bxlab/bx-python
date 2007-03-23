@@ -47,8 +47,8 @@ extensions.append( Extension( "bx.align.sitemask._cpg", \
 extensions.append( Extension( "bx.intseq.ngramcount", [ "lib/bx/intseq/ngramcount.pyx" ] ) )
 
 # Seekable access to bzip2 files
-extensions.append( Extension( "bx.misc.seekbzip2", 
-                              [ "lib/bx/misc/seekbzip2.pyx",
+extensions.append( Extension( "bx.misc._seekbzip2", 
+                              [ "lib/bx/misc/_seekbzip2.pyx",
                                 "src/bunzip/micro-bunzip.c" ],
                               include_dirs=[ "src/bunzip" ] ) )
 

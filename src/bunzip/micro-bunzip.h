@@ -28,6 +28,10 @@
 #define RETVAL_OUT_OF_MEMORY			(-6)
 #define RETVAL_OBSOLETE_INPUT			(-7)
 
+#define RETVAL_END_OF_BLOCK             (-8)
+#define RETVAL_STOPCHAR                 (-9)
+#define RETVAL_BUFFER_FULL              (-10)
+
 /* Other housekeeping constants */
 #define IOBUF_SIZE			4096
 
@@ -68,5 +72,6 @@ unsigned int get_bits(bunzip_data *bd, char bits_wanted);
 int get_next_block( bunzip_data *bd );
 int read_bunzip(bunzip_data *bd, char *outbuf, int len);
 int start_bunzip(bunzip_data **bdp, int in_fd, char *inbuf, int len);
+int read_bunzip_to_char(bunzip_data *bd, char *outbuf, int len, int* gotcount_out, char stopchar );
 
 #endif
