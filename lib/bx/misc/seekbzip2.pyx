@@ -84,7 +84,10 @@ class SeekableBzip2File( FileLikeBase ):
         return val
         
     def tell( self ):
-        return self.pos
+        # HACK: This could be handled in a base class -- FilelikeBase does
+        #       buffered reading, so we need to account for any byte still
+        #       in it's buffer when determing current position.
+        return self.pos - len( self._FileLikeBase__rbuffer )
             
     def get_chunk_and_offset( self, position ):
         # Find the chunk that position is in using a binary search
@@ -112,6 +115,10 @@ class SeekableBzip2File( FileLikeBase ):
         # Mark as dirty, the next time a read is done we need to actually
         # move the position in the bzip2 file
         self.dirty = True
+        # HACK: This could be handled in a base class -- FilelikeBase does
+        #       buffered reading, so we need to reset the buffer since
+        #       it is no longer valid
+        self._FileLikeBase__rbuffer = ""
         
     
 cdef class _SeekBzip2:
