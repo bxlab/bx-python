@@ -75,7 +75,16 @@ class SeekableBzip2File( FileLikeBase ):
         # Attempt to read desired amount
         if sizehint == -1:
             sizehint = 256 * 1024
-        return self.seek_bz2.read( sizehint )
+        val = self.seek_bz2.read( sizehint )
+        if val is None:
+            # EOF
+            self.pos = self.size
+        else:
+            self.pos = self.pos + len( val )
+        return val
+        
+    def tell( self ):
+        return self.pos
             
     def get_chunk_and_offset( self, position ):
         # Find the chunk that position is in using a binary search

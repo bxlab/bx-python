@@ -20,6 +20,7 @@ import sys
 #         b = f.read( chunk )
 #         assert a == b
 #         pos += chunk
+#         assert f.tell() == min( pos, len(raw_data) )
 #         
 # def test_random_seeking():
 #     raw_data = bz2.BZ2File( F ).read()
@@ -33,3 +34,5 @@ import sys
 #         b = raw_data[ seek_to : seek_to + chunk ]
 #         
 #         assert a == b, "'%s' != '%s' on %dth attempt" % ( a.encode("hex"), b.encode("hex"), i )
+# 
+#         assert f.tell() == min( seek_to + chunk, len(raw_data) )
