@@ -4,10 +4,7 @@ import StringIO
 import unittest
 import sys
 
-try:
-    from numpy import array, cumsum, allclose
-except:
-    from Numeric import array, cumsum, allclose
+from numpy import array, cumsum, allclose
 
 aligns = [ ( "CCACTAGTTTTTAAATAATCTACTATCAAATAAAAGATTTGTTAATAATAAATTTTAAATCATTAACACTT",
              "CCATTTGGGTTCAAAAATTGATCTATCA----------TGGTGGATTATTATTTAGCCATTAAGGACAAAT", 

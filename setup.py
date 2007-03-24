@@ -52,6 +52,13 @@ extensions.append( Extension( "bx.misc._seekbzip2",
                                 "src/bunzip/micro-bunzip.c" ],
                               include_dirs=[ "src/bunzip" ] ) )
 
+# Such an annoyance
+try:
+    import numpy
+    numpy.test = None
+except:
+    pass
+
 setup(  name = "bx-python",
         version = "0.5.0",
         py_modules = [ 'psyco_full' ],

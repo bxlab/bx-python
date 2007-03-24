@@ -5,7 +5,7 @@ Unit tests for seqmapping.py
 import unittest
 import bx.seqmapping
 
-from Numeric import array
+from numpy import array
 from StringIO import StringIO
 
 class CharMappingTests( unittest.TestCase ):

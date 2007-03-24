@@ -1,13 +1,13 @@
 from __future__ import division
 
 import math
-import zlib
 
-from bx_extras.fpconst import *
-from Numeric import *
-from RandomArray import *
+from numpy import *
 from struct import *
 from bx_extras.lrucache import LRUCache
+
+import sys
+platform_is_little_endian = ( sys.byteorder == 'little' )
 
 MAGIC=0x4AB04612
 
@@ -54,7 +54,7 @@ class BinnedArray( object ):
         return index // self.bin_size, index % self.bin_size
     def init_bin( self, index ):
         # self.bins[index] = zeros( self.bin_size ) * self.default
-        self.bins[index] = zeros( self.bin_size, typecode=self.typecode )
+        self.bins[index] = zeros( self.bin_size, self.typecode )
         self.bins[index][:] = self.default
     def get( self, key ):
         bin, offset = self.get_bin_offset( key )
@@ -64,7 +64,8 @@ class BinnedArray( object ):
             return self.bins[bin][offset]
     def set( self, key, value ):
         bin, offset = self.get_bin_offset( key )
-        if not self.bins[bin]: self.init_bin( bin )
+        if self.bins[bin] is None: 
+            self.init_bin( bin )
         self.bins[bin][offset] = value
     def get_range( self, start, end ):
         size = end - start
@@ -75,11 +76,11 @@ class BinnedArray( object ):
             delta = self.bin_size - offset
             if self.bins[bin] is None:
                 if delta < size:
-                    rval.append( resize( array(self.default, typecode=self.typecode), (delta,) ) )
+                    rval.append( resize( array(self.default, self.typecode), (delta,) ) )
                     size -= delta
                     start += delta
                 else:
-                    rval.append( resize( array(self.default, typecode="f"), (size,) ) )
+                    rval.append( resize( array(self.default, "f"), (size,) ) )
                     size = 0
             else:
                 if delta < size:
@@ -104,14 +105,16 @@ class BinnedArray( object ):
         compress, _ = comp_types[comp_type]
         # Write header
         write_packed( f, ">5I", MAGIC, VERSION, self.max_size, self.bin_size, self.nbins )
-        # Struct module can't deal with NaN and endian conversion, we'll hack around that with Numeric
         # save type code
         f.write( pack('c',self.typecode ) )
         # save compression type
         f.write( comp_type[0:4].ljust( 4 ) )
         # write default value
-        a = array( self.default, typecode=self.typecode ) 
-        if LittleEndian: a = a.byteswapped()
+        a = array( self.default, self.typecode ) 
+        # Struct module can't deal with NaN and endian conversion, we'll hack 
+        # around that by byteswapping the array
+        if platform_is_little_endian: 
+            a = a.byteswap()
         f.write( a.tostring() )
         # Save current position (start of bin offsets)
         index_start_pos = f.tell()
@@ -123,9 +126,9 @@ class BinnedArray( object ):
             if bin is None: 
                 bin_pos_and_size.append( ( 0, 0 ) )
             else:
-                assert bin.typecode() == self.typecode
-                if LittleEndian:
-                    s = bin.byteswapped().tostring()
+                assert bin.dtype.char == self.typecode
+                if platform_is_little_endian:
+                    s = bin.byteswap().tostring()
                 else:
                     s = bin.tostring()
                 compressed = compress( s )
@@ -163,7 +166,8 @@ class FileBinnedArray( object ):
         # Read default value
         s = f.read( calcsize( self.typecode ) )
         a = fromstring( s, self.typecode )
-        if LittleEndian: a = a.byteswapped()
+        if platform_is_little_endian: 
+            a = a.byteswap()
         self.default = a[0]
         # Read bin sizes and offsets
         self.bin_pos = []
@@ -179,8 +183,8 @@ class FileBinnedArray( object ):
         self.f.seek( self.bin_pos[index] )
         raw = self.f.read( self.bin_sizes[index] )
         a = fromstring( self.decompress( raw ), self.typecode )
-        if LittleEndian:
-            a = a.byteswapped()
+        if platform_is_little_endian:
+            a = a.byteswap()
         assert len( a ) == self.bin_size
         self.bins[index] = a
     def get( self, key ):
@@ -203,11 +207,11 @@ class FileBinnedArray( object ):
                 self.load_bin( bin )
             if self.bins[bin] is None:
                 if delta < size:
-                    rval.append( resize( array(self.default, typecode=self.typecode), (delta,) ) )
+                    rval.append( resize( array(self.default, self.typecode), (delta,) ) )
                     size -= delta
                     start += delta
                 else:
-                    rval.append( resize( array(self.default, typecode=self.typecode), (size,) ) )
+                    rval.append( resize( array(self.default, self.typecode), (size,) ) )
                     size = 0
             else:
                 if delta < size:
@@ -238,7 +242,7 @@ class BinnedArrayWriter( object ):
         self.bin = 0
         self.bin_pos = 0
         self.bin_index = []
-        self.buffer = resize( array(self.default, typecode=self.typecode), (self.bin_size,) )
+        self.buffer = resize( array(self.default, self.typecode), (self.bin_size,) )
         self.buffer_contains_values = False
         self.comp_type = comp_type
         self.compress = comp_types[comp_type][0]
@@ -252,15 +256,17 @@ class BinnedArrayWriter( object ):
         self.f.seek(0)
         # Write header
         write_packed( self.f, ">5I", MAGIC, VERSION, self.max_size, self.bin_size, self.nbins )
-        # Struct module can't deal with NaN and endian conversion, we'll hack around that with Numeric
         # save type code
         self.f.write( pack('c',self.typecode ) )
         # write default value
-        a = array( self.default, typecode=self.typecode ) 
+        a = array( self.default, self.typecode ) 
         # write comp type
         self.f.write( self.comp_type[0:4].ljust(4) )
         # write default
-        if LittleEndian: a = a.byteswapped()
+        # Struct module can't deal with NaN and endian conversion, we'll hack 
+        # around that by byteswapping the array
+        if platform_is_little_endian: 
+            a = a.byteswap()
         self.f.write( a.tostring() )
         # Save current position (start of bin offsets)
         self.index_pos = self.f.tell()
@@ -278,7 +284,7 @@ class BinnedArrayWriter( object ):
             self.bin_pos = 0
             self.bin += 1
             assert self.bin <= self.nbins
-            self.buffer = resize( array(self.default, typecode=self.typecode), (self.bin_size,) )
+            self.buffer = resize( array(self.default, self.typecode), (self.bin_size,) )
             self.buffer_contains_values = False
             ## self.bin_index.append( (self.f.tell(), 0) )
 
@@ -291,19 +297,18 @@ class BinnedArrayWriter( object ):
             self.bin_pos = 0
             self.bin += 1
             assert self.bin <= self.nbins
-            self.buffer = resize( array(self.default, typecode=self.typecode), (self.bin_size,) )
+            self.buffer = resize( array(self.default, self.typecode), (self.bin_size,) )
             self.buffer_contains_values = False
             ## self.bin_index.append( (self.f.tell(), 0) )
 
     def flush( self ):
         # Flush buffer to file
-	print >> sys.stderr, "flushing bin", self.bin
         if self.buffer_contains_values:
             ## pos, size = self.bin_index[self.bin]
             ## self.f.seek( pos )
             pos = self.f.tell()
-            if LittleEndian:
-                s = self.buffer.byteswapped().tostring()
+            if platform_is_little_endian:
+                s = self.buffer.byteswap().tostring()
             else:
                 s = self.buffer.tostring()
             compressed = self.compress( s )
@@ -328,87 +333,3 @@ def read_packed( f, pattern ):
     rval = unpack( pattern, f.read( calcsize( pattern ) ) )
     if len( rval ) == 1: return rval[0]
     return rval
-    
-if __name__ == "__main__":
-    import time
-    source = []
-    for i in range( 13 ):
-        if random() < 0.5:
-            source = concatenate( ( source, random( 9456 ) ) )
-        else:
-            source = concatenate( ( source, zeros( 8972, typecode='f' ) ) )
-    source = source.astype( 'f' )
-    # Set on target
-    target = BinnedArray( 128, NaN, len( source ) )
-    # print target.bins
-    for i in range( len( source ) ):
-        # if not isNaN( source[i] ):
-            target[i] = source[i]
-    # Verify
-    for i in range( len( source ) ):
-        assert source[i] == target[i], "No match, index: %d, source: %f, target: %f, len( source ): %d" % ( i, source[i], target[i], len( source ) )
-    # Verfiy with slices
-    for i in range( 10 ):
-        a = int( random() * len( source ) )
-        b = int( random() * len( source ) )
-        if b < a: a, b = b, a
-        assert source[a:b] == target[a:b], "No match, index: %d:%d, source: %s, target: %s" % \
-            ( a, b, ",".join( map( str, source[a:a+10] ) ), ",".join( map( str, target[a:a+10] ) ) )
-    # With a file
-    secs = time.clock()
-    target.to_file( open( "/tmp/foo", "w" ) )
-    secs = time.clock() - secs
-    print "%f seconds to write with zlib" % secs
-    secs = time.clock()
-    target2 = FileBinnedArray( open( "/tmp/foo" ) )
-    # Verify
-    for i in range( len( source ) ):
-        assert source[i] == target2[i], "No match, index: %d, source: %d, target: %d" % ( i, source[i], target2[i] )
-    secs = time.clock() - secs
-    print "%f seconds to read with zlib" % secs
-    # Verfiy with slices
-    target2 = FileBinnedArray( open( "/tmp/foo" ) )
-    for i in range( 10 ):
-        a = int( random() * len( source ) )
-        b = int( random() * len( source ) )
-        if b < a: a, b = b, a
-        assert source[a:b] == target[a:b], "No match, index: %d:%d, source: %s, target: %s" % \
-            ( a, b, ",".join( map( str, source[a:a+10] ) ), ",".join( map( str, target2[a:a+10] ) ) )
-    # With lzo compression
-    secs = time.clock()
-    target.to_file( open( "/tmp/foo3", "w" ), comp_type="lzo" )
-    secs = time.clock() - secs
-    print "%f seconds to write with lzo" % secs
-    secs = time.clock()
-    target3 = FileBinnedArray( open( "/tmp/foo3" ) )
-    # Verify
-    for i in range( len( source ) ):
-        assert source[i] == target3[i], "No match, index: %d, source: %d, target: %d" % ( i, source[i], target3[i] )
-    secs = time.clock() - secs
-    print "%f seconds to read with lzo" % secs
-    # Verfiy with slices
-    target3 = FileBinnedArray( open( "/tmp/foo3" ) )
-    for i in range( 10 ):
-        a = int( random() * len( source ) )
-        b = int( random() * len( source ) )
-        if b < a: a, b = b, a
-        assert source[a:b] == target3[a:b], "No match, index: %d:%d, source: %s, target: %s" % \
-            ( a, b, ",".join( map( str, source[a:a+10] ) ), ",".join( map( str, target3[a:a+10] ) ) )
-    # Test with ba writer
-    secs = time.clock()
-    o = open( "/tmp/foo4", "w" )
-    w = BinnedArrayWriter( o, 128, comp_type='lzo' )
-    for val in source:
-        w.write( val )
-    w.finish()
-    o.close()
-    secs = time.clock() - secs
-    print "%f seconds to build+write with writer+lzo" % secs
-    # Verify
-    target4 = FileBinnedArray( open( "/tmp/foo4" ) )
-    for i in range( len( source ) ):
-        assert source[i] == target4[i], "No match, index: %d, source: %d, target: %d" % ( i, source[i], target4[i] )
-            
-            
-            
-            

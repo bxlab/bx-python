@@ -1,12 +1,8 @@
-try:
-    from numpy import *
-    Int = int32
-except:
-    from Numeric import *
+from numpy import *
 
 class ScoringScheme( object ):
 	# note that gap_open and gap_extend are penalties, which means you should make them positive
-    def __init__( self, gap_open, gap_extend, default=-100, alphabet1="ACGT", alphabet2=None, gap1="-", gap2=None, text1_range=128, text2_range=None, typecode=Int ):
+    def __init__( self, gap_open, gap_extend, default=-100, alphabet1="ACGT", alphabet2=None, gap1="-", gap2=None, text1_range=128, text2_range=None, typecode=int32 ):
         if (text2_range == None): text2_range = text1_range
         if (alphabet2 == None): alphabet2 = alphabet1
         if (gap2 == None): gap2 = gap1 # (scheme with gap1=gap2=None is legit)
@@ -168,12 +164,15 @@ def build_scoring_scheme( s, gap_open, gap_extend, gap1="-", gap2=None, **kwargs
     text1_range = text2_range = 128
     if ord( max( alphabet1 ) ) >= 128: text1_range = 256
     if ord( max( alphabet2 ) ) >= 128: text2_range = 256
-    typecode = Int
+    typecode = int32
     for i, row_scores in enumerate( rows ):
         for j, score in enumerate( map( int_or_float, row_scores ) ):
-            if type( score ) == float: typecode = Float
-    if type( gap_open ) == float: typecode = Float
-    if type( gap_extend ) == float: typecode = Float
+            if type( score ) == float: 
+                typecode = float32
+    if type( gap_open ) == float: 
+        typecode = float32
+    if type( gap_extend ) == float: 
+        typecode = float32
     ss = ScoringScheme( gap_open, gap_extend, alphabet1=alphabet1, alphabet2=alphabet2, gap1=gap1, gap2=gap2, text1_range=text1_range, text2_range=text2_range, typecode=typecode, **kwargs )
     # fill matrix
     for i, row_scores in enumerate( rows ):
@@ -238,7 +237,7 @@ def score_texts( scoring_scheme, text1, text2 ):
 
 def accumulate_scores( scoring_scheme, text1, text2, skip_ref_gaps=False ):
     """
-    Return cumulative scores for each position in alignment as a Numeric array.
+    Return cumulative scores for each position in alignment as a 1d array.
     
     If `skip_ref_gaps` is False positions in returned array correspond to each
     column in alignment, if True they correspond to each non-gap position (each

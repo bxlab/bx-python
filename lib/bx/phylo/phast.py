@@ -2,7 +2,7 @@
 Rudimentary support for PHAST's tree model file format
 """
 
-from Numeric import *
+from numpy import *
 
 class TreeModel:
     def __init__( self ):
@@ -13,6 +13,7 @@ class TreeModel:
         self.background = None
         self.tree = None
         self.matrix = None
+    ## TODO: Need scipy for this method
     ## def matrix_for_time( self, t ):
     ##     return expm( self.matrix * t )
     ## matrix_for_time = cachedmethod( matrix_for_time )
@@ -33,7 +34,7 @@ class TreeModel:
             if line.startswith( "TREE:" ):
                 tm.tree = line[6:].strip() 
             if line.startswith( "RATE_MAT:" ):
-                matrix = zeros( (tm.radix,tm.radix), Float )
+                matrix = zeros( (tm.radix,tm.radix), float )
                 for i in range( len( tm.alphabet ) ):
                     matrix[i] = map( float, input.next().split() )
                 tm.matrix = matrix
