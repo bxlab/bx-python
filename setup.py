@@ -22,7 +22,7 @@ extensions.append( Extension( "bx.bitset",
          
 # Interval clustering                
 extensions.append( Extension( "bx.intervals.cluster",
-                              [ "lib/bx/cluster.pyx", 
+                              [ "lib/bx/intervals/cluster.pyx", 
                                 "src/cluster.c", 
                                 "src/kent/common.c"],
                               include_dirs=["src/kent", "src"] ) )
