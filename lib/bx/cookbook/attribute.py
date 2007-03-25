@@ -1,4 +1,4 @@
-""" attribute.py
+"""
 Provides functions for creating simple properties.
 
 If, inside a class definition, you write:

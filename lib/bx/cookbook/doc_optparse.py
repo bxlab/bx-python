@@ -5,21 +5,22 @@
 
 You should use optionparse in your scripts as follows.
 First, write a module level docstring containing something like this
-(this is just an example):
+(this is just an example)::
 
-'''usage: %prog files [options]
-   -d, --delete: delete all files
-   -e, --erase = ERASE: erase the given file'''
+    '''usage: %prog files [options]
+       -d, --delete: delete all files
+       -e, --erase = ERASE: erase the given file'''
    
 Then write a main program of this kind:
 
-# sketch of a script to delete files
-if __name__=='__main__':
-    import optionparse
-    option,args=optionparse.parse(__doc__)
-    if not args and not option: optionparse.exit()
-    elif option.delete: print "Delete all files"
-    elif option.erase: print "Delete the given file"
+# sketch of a script to delete files::
+
+    if __name__=='__main__':
+        import optionparse
+        option,args=optionparse.parse(__doc__)
+        if not args and not option: optionparse.exit()
+        elif option.delete: print "Delete all files"
+        elif option.erase: print "Delete the given file"
 
 Notice that ``optionparse`` parses the docstring by looking at the
 characters ",", ":", "=", "\\n", so be careful in using them. If

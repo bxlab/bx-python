@@ -1,7 +1,7 @@
 """
-MaskPipeline implements a Pipeline through which alignments can be
-pushed and masked.  Pipelines can be aggregated.
+Base classes for site maskers.
 """
+
 from bx.filter import *
 
 class Masker( Filter ):
@@ -11,6 +11,10 @@ class Masker( Filter ):
         Exception("Abstract class")
 
 class MaskPipeline( Pipeline ):
+    """
+    MaskPipeline implements a Pipeline through which alignments can be
+    pushed and masked.  Pipelines can be aggregated.
+    """
     def get_masked( self ):
         masked = 0
         for function in self.pipeline:

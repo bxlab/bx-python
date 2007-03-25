@@ -1,5 +1,6 @@
 """
-Utility functions for interval operations
+High level operations on genomic intervals. Most accept and produce iterables
+of `bx.io.inervals.io.GenomicInterval` objects. 
 """
 
 from bx.bitset import *

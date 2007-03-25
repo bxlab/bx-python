@@ -1,3 +1,8 @@
+"""
+Tools for "threading" out specific species from aligments (removing other
+species and fixing alignment text).
+"""
+
 import copy
 import sys
 from itertools import *

@@ -1,9 +1,8 @@
-#!/usr/bin/env python
 """
-Take an input of GenomicIntervalReaders, intersect, and return a
-GenomicIntervalReader.  The returned GenomicIntervalReader will be in
-the order of the first set of intervals passed in, with the
-corresponding meta-data.
+Compute the intersection of two sets of genomic intervals, either base-by-base
+or at the interval level. The returned GenomicIntervalReader will be in
+the order of the first set of intervals passed in, with the corresponding 
+additional fields.
 """
 
 import pkg_resources

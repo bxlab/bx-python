@@ -1,6 +1,7 @@
 """
-'Intersector' provide a data structure for a set of intervals over a
-line which supports overlap queries in a reasonably fast way.
+`Intersecter` data structure for a set of intervals which supports fast 
+overlap queries and preserves all information about the intervals (unlike
+bitset projection methods). 
 """
 
 __all__ = [ "Interval", "Intersecter" ]

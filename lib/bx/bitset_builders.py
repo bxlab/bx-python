@@ -1,3 +1,10 @@
+"""
+Support for creating dictionaries of `Bitset`s / `BinnedBitset`s from text
+files containg sets of "covered" intervals in sequences (e.g. `BED`_ files).
+
+.. BED: http://genome.ucsc.edu/FAQ/FAQformat.html#format1
+"""
+
 from warnings import warn
 from bx.bitset import *
 import re

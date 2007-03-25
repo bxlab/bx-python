@@ -1,3 +1,7 @@
+"""
+Support for reading and writing genomic intervals from delimited text files.
+"""
+
 import sys
 from itertools import *
 from bx.tabular.io import *

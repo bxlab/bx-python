@@ -1,5 +1,8 @@
+"""
+Reading and writing delimited data files (with headers and comments).
+"""
+
 import sys
-import doctest
 from itertools import *
 from UserDict import DictMixin
 

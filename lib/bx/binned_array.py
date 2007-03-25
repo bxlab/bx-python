@@ -1,3 +1,13 @@
+"""
+Numeric arrays stored as individually compressed blocks on disk, allowing
+pseudo-random acccess. 
+
+`BinnedArray` is used to build such an array in memory and save it to disk.
+`BinnedArrayWriter` can instead be used when creating the array sequentially
+(does not require keeping all data in memory). `FileBinnedArray` provides
+read only access to an on disk binned array. 
+"""
+
 from __future__ import division
 
 import math

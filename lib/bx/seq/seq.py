@@ -1,9 +1,7 @@
 """
-Classes to support "biological sequence" files
-----------------------------------------------
+Classes to support "biological sequence" files.
 
 :Author: Bob Harris (rsharris@bx.psu.edu)
-:Version: $Revision: $
 
 A biological sequence is a sequence of bytes or characters.  Usually these
 represent DNA (A,C,G,T), proteins, or some variation of those.

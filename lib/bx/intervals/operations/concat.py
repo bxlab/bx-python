@@ -1,17 +1,13 @@
-#!/usr/bin/env python
 """
-Take an input of readers, and concatenate them.  Preserve format of
-the first input.  In other words, it is possible to concat two files
-that have different column orders.  Of course, the meta-data of the
-second will be lost (and filled with a .).  If all of the files
-(GenomicInteralReaders) are the same format, sameformat=True will
-preserve all columns of the first input, cuts extra columns on
-subsequent input, and pads missing columns.  If sameformat=False then
-extra columns are filled with (.).
-"""
+Concatenate sets of intervals. 
 
-import pkg_resources
-pkg_resources.require( "bx-python" )
+Preserves format of the first input -- it is possible to concat two files that
+have different column orders. Of course, the meta-data of the second will be
+lost (and filled with a "."). If all of the files (GenomicInteralReaders) are
+the same format, sameformat=True will preserve all columns of the first input,
+cuts extra columns on subsequent input, and pads missing columns. If
+sameformat=False then extra columns are filled with ".".
+"""
 
 import psyco_full
 

@@ -1,43 +1,43 @@
 """
-Classes to support "quantum-DNA" files
---------------------------------------
+Classes to support "quantum-DNA" files.
 
 :Author: Bob Harris (rsharris@bx.psu.edu)
-:Version: $Revision: $
 
 A quantum DNA sequence is a sequence of bytes, each representing a probability
 distribution (vector) over A, C, G, T.  The QdnaFile class encapsulates the
 sequence of bytes, while the mapping from byte value to probability vector is
 encapsulated by the QdnaCodebook class.
 
-qdna file format:
+qdna file format
+~~~~~~~~~~~~~~~~
 
-   Fields can be in big- or little-endian format;  they must match the endianess
-   of the magic number.
+Fields can be in big- or little-endian format;  they must match the endianess
+of the magic number.
 
-   offset 0x00: C4 B4 71 97   big endian magic number (97 71 B4 C4 => little endian)
-   offset 0x04: 00 00 02 00   version 2.0 (fourth byte is sub version)
-   offset 0x08: 00 00 00 14   header length (in bytes, including this field)
-   offset 0x0C: xx xx xx xx   S, offset (from file start) to data sequence
-   offset 0x10: xx xx xx xx   N, offset to name, 0 indicates no name
-   offset 0x14: xx xx xx xx   length of data sequence (counted in 'items')
-   offset 0x18: xx xx xx xx   (for version >= 2.0) P, offset to named
-                              .. properties, 0 indicates no properties
-   offset    N:  ...          name (zero-terminated string)
-   offset    S:  ...          data sequence
-   offset    P:  ...          named properties (see below)
+============ ===========   ======================================================
+offset 0x00: C4 B4 71 97   big endian magic number (97 71 B4 C4 => little endian)
+offset 0x04: 00 00 02 00   version 2.0 (fourth byte is sub version)
+offset 0x08: 00 00 00 14   header length (in bytes, including this field)
+offset 0x0C: xx xx xx xx   S, offset (from file start) to data sequence
+offset 0x10: xx xx xx xx   N, offset to name, 0 indicates no name
+offset 0x14: xx xx xx xx   length of data sequence (counted in 'items')
+offset 0x18: xx xx xx xx   (for version >= 2.0) P, offset to named
+                           .. properties, 0 indicates no properties
+offset    N: ...           name (zero-terminated string)
+offset    S: ...           data sequence
+offset    P: ...           named properties (see below)
+============ ===========   ======================================================
 
-   The named properties section consists of a list of pairs of zero-terminated
-   strings.  The list itself is terminated by an empty string (i.e. another
-   zero).  In each pair, the first is the name of the property and the second
-   is its value.  Some names are recognized and handled in some specific manner
-   (see list below this paragraph).  Any unrecognized name is simply added as
-   an instance variable with that name, as long as it is not already an instance
-   variable (in which case it is an error).
+The named properties section consists of a list of pairs of zero-terminated
+strings.  The list itself is terminated by an empty string (i.e. another
+zero).  In each pair, the first is the name of the property and the second
+is its value.  Some names are recognized and handled in some specific manner
+(see list below this paragraph).  Any unrecognized name is simply added as
+an instance variable with that name, as long as it is not already an instance
+variable (in which case it is an error).
 
-   Recognized properties (at present only one):
-      codebook: A string in qdna code file format (see QdnaCodebook class for
-                details).
+Recognized properties (at present only one):
+  - codebook: A string in qdna code file format (see QdnaCodebook class for details).
 """
 
 from bx.seq.seq import SeqFile,SeqReader

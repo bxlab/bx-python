@@ -1,3 +1,8 @@
+"""
+Tests for `bx.seq.seq`.
+"""
+
+
 import unittest
 import os.path
 import sys

@@ -1,25 +1,26 @@
-from __future__ import division
-
 """
-Classes to support nib files
---------------------------------------
+Classes to support nib files.
 
-:Author: Bob Harris (rsharris@bx.psu.edu)
-:Version: $Revision: $
+:Author: James Taylor (james@bx.psu.edu), Bob Harris (rsharris@bx.psu.edu)
 
 A nib sequence is a sequence of DNA, using the 10 character alphabet A,C,G,T,N
 (upper and lower case).  The file is packed as 4 bits per character.
 
-nib file format:
+nib file format
+---------------
 
-   Fields can be in big- or little-endian format;  they must match the endianess
-   of the magic number.
+Fields can be in big- or little-endian format;  they must match the endianess
+of the magic number.
 
-   offset 0x00: 6B E9 3D 3A   big endian magic number (3A 3D E9 6B => little endian)
-   offset 0x04: xx xx xx xx   length of data sequence (counted in characters)
-   offset 0x08:  ...          data sequence;  most significant nybble in each
-                              byte is first in sequence
+============ =========== ======================================================
+offset 0x00: 6B E9 3D 3A big endian magic number (3A 3D E9 6B => little endian)
+offset 0x04: xx xx xx xx length of data sequence (counted in characters)
+offset 0x08:  ...        data sequence;  most significant nybble in each
+                         byte is first in sequence
+============ =========== ======================================================
 """
+
+from __future__ import division
 
 from bx.seq.seq import SeqFile,SeqReader
 import sys, struct, string, math

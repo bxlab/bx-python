@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """
 Find clusters of intervals within a set of intervals.  A cluster is a
 group (of size minregions) of intervals within a specific distance (of

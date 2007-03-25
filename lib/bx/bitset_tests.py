@@ -1,3 +1,7 @@
+"""
+Tests for `bx.bitset`.
+"""
+
 import bx.bitset
 import unittest
 

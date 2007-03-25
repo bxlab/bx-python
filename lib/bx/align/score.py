@@ -1,3 +1,8 @@
+"""
+Support for scoring alignments using arbitrary scoring matrices, arbitrary
+alphabets, and affine gap penalties.
+"""
+
 from numpy import *
 
 class ScoringScheme( object ):

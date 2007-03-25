@@ -1,3 +1,10 @@
+"""
+Support for reading and writing the `AXT`_ format used for pairwise 
+alignments.
+
+.. _AXT: http://genome.ucsc.edu/goldenPath/help/axt.html
+"""
+
 from bx.align import *
 
 import itertools

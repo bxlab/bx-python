@@ -1,9 +1,7 @@
 """
-Classes for char-to-int mapping and int-to-int mapping
-------------------------------------------------------
+Classes for char-to-int mapping and int-to-int mapping.
 
 :Author: James Taylor (james@bx.psu.edu)
-:Version: $Revision: $
 
 The char-to-int mapping can be used to translate a list of strings
 over some alphabet to a single int array (example for encoding a multiple
@@ -17,17 +15,17 @@ multiple sequence alignment in a reduced alphabet defined by a partition
 of alignment columns. Many of the helper methods provided are for 
 solving such alignment oriented problems. 
 
-This code was originally written for producing the `regulatory potential`_
-project which includes software for searcing for alignment encodings 
-that work well for specific classification problems using various Markov 
-chain classifiers over the reduced encodings.
+This code was originally written for the `ESPERR`_ project which includes
+software for searcing for alignment encodings that work well for specific
+classification problems using various Markov chain classifiers over the
+reduced encodings.
 
 Most of the core implementation is in the pyrex/C extension 
 "_seqmapping.pyx" for performance reasons (specifically to avoid the
 excessive bounds checking that would make a sequence/array lookup heavy
 problem like this slow in pure python).
 
-.. _regulatory potential: http://www.bx.psu.edu/projects/rp/
+.. _ESPERR: http://www.bx.psu.edu/projects/esperr/
 """
 
 from _seqmapping import *
@@ -49,8 +47,9 @@ DNA.set_mapping( "*", 5 )
 # Creating mappings
 
 def alignment_mapping_from_file( f, char_mapping=DNA ):
-    """Create a mapping from a file of alignment columns"""
-        
+    """
+    Create a mapping from a file of alignment columns.
+    """    
     columns, symbols = [], []
     for line in f:
         column, symbol = line.split()

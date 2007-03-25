@@ -1,3 +1,10 @@
+"""
+Support for masking out sites in alignments based on sequence quality. Both 
+simple masking of regions below some threshold and masking using the 
+neighborhood quality standard (NQS) are supported. Uses sequence quality
+values stored in a `bx.binned_array.FileBinnedArray`.
+"""
+
 from bx.align.sitemask import Masker
 from bx.align import *
 from bx.binned_array import FileBinnedArray

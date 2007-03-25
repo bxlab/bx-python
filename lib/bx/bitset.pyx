@@ -1,3 +1,13 @@
+"""
+Compact mutable sequences of bits (vectors of 0s and 1s) supporting various
+boolean operations, and a "binned" variation which stores long runs of 
+identical bits compactly.
+
+Because the binned implementation avoids a lot of memory allocation and access
+when working with either small subregions of the total interval or setting /
+testing spans larger than the bin size, it an be much faster.
+"""
+
 cdef extern from "common.h":
     ctypedef int boolean
 

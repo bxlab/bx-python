@@ -1,9 +1,7 @@
 """
-Support for "biological sequence" files
----------------------------------------
+Support for "biological sequence" files.
 
 :Author: Bob Harris (rsharris@bx.psu.edu)
-:Version: $Revision: $
 
 See seq.py for more information
 """

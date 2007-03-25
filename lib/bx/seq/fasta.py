@@ -1,15 +1,13 @@
 """
-Classes to support FASTA files
-------------------------------
+Classes to support FASTA files.
 
 :Author: Bob Harris (rsharris@bx.psu.edu)
-:Version: $Revision: $
 
 A FASTA file contains multiple sequences.  Each sequence is usually DNA.
 
 WARNING:  THIS MODULE CURRENTLY ONLY READS THE FIRST SEQUENCE
 
-A typical FASTA file:
+A typical FASTA file::
 
    >mule
    TAATACCCCGGATATATGTCCTCACATAGTTCGAGGTCGAGAAAAATGAC

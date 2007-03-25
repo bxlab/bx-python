@@ -1,19 +1,18 @@
-#!/usr/bin/python2.4
+"""
+Readers extracting gene (exon and intron) information from bed / gtf / gff 
+formats.
+
+ - GeneReader: yields exons
+ - CDSReader: yields cds_exons
+ - FeatureReader: yields cds_exons, introns, exons
+
+For gff/gtf, the start_codon stop_codon line types are merged with CDSs.
+"""
+
 import sys
 from bx.bitset import *
 from bx.bitset_utils import *
 from bx.bitset_builders import *
-
-"""
-Readers for bed/gtf/gff formats 
-
-GeneReader: yields exons
-CDSReader: yields cds_exons
-FeatureReader: yields cds_exons,introns, exons
-
-For gff/gtf, the start_codon stop_codon line types are merged with CDSs.
-
-"""
 
 def GeneReader( fh, format='gff' ):
     """ yield chrom, strand, gene_exons, name """

@@ -1,8 +1,9 @@
-from bx.bitset import *
+"""
+Utility functions for working with `Bitset`s and treating lists of (start,end)
+as `Bitset`s.
+"""
 
-"""
-Some basic utils for lists
-"""
+from bx.bitset import *
 
 def bitset_intersect( ex1, ex2 ):
     bits1 = list2bits( ex1 )

@@ -1,6 +1,6 @@
 """
-Abstract classes for creating site maskers, such as for CpGs or
-quality.  See core.py for the actual classes.
+Tools for masking out specific sites in aligments by various criteria, for
+example masking CpG sites or sites with low sequence quality.
 """
 
 from bx.align.sitemask.core import *

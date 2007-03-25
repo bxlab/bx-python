@@ -1,5 +1,5 @@
 """
-Helper classes for seqmapping.py
+Pyrex extension classes used by `seqmapping.py`.
 """
 
 cdef extern from "stdlib.h":

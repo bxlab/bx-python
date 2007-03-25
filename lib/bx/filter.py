@@ -1,6 +1,8 @@
 """
-Abstract class to implement filters and a pipeline.
+Classes for implementing `Pipeline`s composed of `Filter`s (intended to be
+subclassed).
 """
+
 class Filter( object ):
     def __init__( self, **kwargs ):
         raise Exception("AbstractClass")

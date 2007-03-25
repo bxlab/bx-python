@@ -1,3 +1,7 @@
+"""
+Various utilities.
+"""
+
 import bz2, gzip
 
 def open_compressed( filename, mode='r' ):

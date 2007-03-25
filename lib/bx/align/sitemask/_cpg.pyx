@@ -1,3 +1,8 @@
+"""
+Pyrex/C extension for quickly finding potential CpG sites in pairs of 
+sequences.
+"""
+
 cdef extern from "find_cpg.h":
     int next_cpg( char * sp1, char * sp2, int start)
     int next_cpg_restricted( char * sp1, char *sp2, int start)

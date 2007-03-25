@@ -1,3 +1,9 @@
+"""
+Support for parsing phylogenetic tree's in newick format.
+
+TODO: Tree/Edge should be a generic data structure, not newick specific.
+"""
+
 from bx_extras.pyparsing import *
 
 __all__ = [ "Tree", "Edge", "NewickParser", "newick_parser" ]

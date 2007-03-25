@@ -1,3 +1,7 @@
+"""
+Tests for `bx.align.maf`.
+"""
+
 import unittest
 import sys
 import bx.align as align

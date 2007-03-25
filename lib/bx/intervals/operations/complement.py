@@ -1,10 +1,6 @@
-#!/usr/bin/env python
 """
-Complement a set of Intervals from reader.
+Complement a set of intervals.
 """
-
-import pkg_resources
-pkg_resources.require( "bx-python" )
 
 import psyco_full
 
@@ -40,12 +36,12 @@ def complement(reader, lens):
             yield new_interval
 
 
-def main():
-    # test it all out
-    f1 = fileinput.FileInput("dataset_7.dat")
-    g1 = GenomicIntervalReader(f1)
-    for interval in complement(g1,{"chr":16000000}):
-        print "\t".join(interval)
-
-if __name__ == "__main__":
-    main()
+# def main():
+#     # test it all out
+#     f1 = fileinput.FileInput("dataset_7.dat")
+#     g1 = GenomicIntervalReader(f1)
+#     for interval in complement(g1,{"chr":16000000}):
+#         print "\t".join(interval)
+# 
+# if __name__ == "__main__":
+#     main()

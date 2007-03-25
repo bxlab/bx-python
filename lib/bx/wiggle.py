@@ -1,4 +1,9 @@
-#!/usr/bin/env python
+"""
+Support for scores in the `wiggle`_ file format used by the UCSC Genome 
+Browser.
+
+.. _wiggle: http://genome.ucsc.edu/goldenPath/help/wiggle.html
+"""
 
 def parse_header( line ):
     return dict( [ field.split( '=' ) for field in line.split()[1:] ] )

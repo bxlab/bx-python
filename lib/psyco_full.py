@@ -1,3 +1,7 @@
+"""
+Attempt to call psyco.full, but ignore any errors.
+"""
+
 import sys
 
 try:

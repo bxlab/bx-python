@@ -1,10 +1,6 @@
-#!/usr/bin/env python
 """
-Return the number of bases covered by a set of intervals.
+Determine the number of bases covered by a set of intervals.
 """
-
-import pkg_resources
-pkg_resources.require( "bx-python" )
 
 import psyco_full
 

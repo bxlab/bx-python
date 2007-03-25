@@ -1,7 +1,7 @@
-#!/usr/bin/env python
 """
-Add two columns to the first input, giving number of bases covered and
-percent coverage on the second input.
+Determine amount of each interval in one set covered by the intervals of 
+another set. Adds two columns to the first input, giving number of bases 
+covered and percent coverage on the second input.
 """
 
 import pkg_resources

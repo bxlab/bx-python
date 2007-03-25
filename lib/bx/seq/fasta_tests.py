@@ -1,3 +1,7 @@
+"""
+Tests for `bx.seq.fasta`.
+"""
+
 import unittest
 import sys
 import os.path

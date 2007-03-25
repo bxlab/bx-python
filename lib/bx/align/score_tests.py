@@ -1,3 +1,7 @@
+"""
+Tests for `bx.align.score`.
+"""
+
 import bx.align.score
 import bx.align.maf
 import StringIO

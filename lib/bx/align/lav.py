@@ -1,3 +1,10 @@
+"""
+Support for reading and writing the LAV format produced by the `blastz`_
+pairwise aligner. 
+
+.. _blastz: http://www.bx.psu.edu/miller_lab/
+"""
+
 from bx.align import *
 import bx.seq
 

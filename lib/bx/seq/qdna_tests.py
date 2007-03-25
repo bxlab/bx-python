@@ -1,3 +1,7 @@
+"""
+Tests for `bx.seq.qdna`.
+"""
+
 import unittest
 import sys
 import os.path

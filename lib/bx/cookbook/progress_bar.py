@@ -1,10 +1,13 @@
-import sys
-
 """
-Class for building a text progress bar, see __main__ for command line use (\r is the key)
+An ASCII text progress bar. See __main__ for command line use (using \r to 
+move the cursor back to the start of the current line is the key, on
+terminals that do not support this functionality the progress bar will
+not work as well).
 
 http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/168639
 """
+
+import sys
 
 class ProgressBar:
     def __init__(self, minValue = 0, maxValue = 10, totalWidth=12):

@@ -1,5 +1,5 @@
 """
-Unit tests for seqmapping.py
+Tests for `bx.seqmapping`.
 """
 
 import unittest

@@ -1,3 +1,7 @@
+"""
+Tests for `bx.misc.seekbzip2`.
+"""
+
 import tempfile
 import commands
 import os

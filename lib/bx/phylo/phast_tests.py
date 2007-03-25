@@ -1,3 +1,7 @@
+"""
+Tests for `bx.phylo.phast`.
+"""
+
 import unittest
 from StringIO import StringIO
 from bx.phylo.phast import TreeModel

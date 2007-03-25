@@ -1,6 +1,6 @@
 """
 Classes for dealing with biological sequences. See `core` for the abstract
-sequence classes and `nib_file` and `qdna_file` for specifics of various
+sequence classes and `nib` and `qdna` for specifics of various
 formats.
 """
 

@@ -1,3 +1,7 @@
+"""
+Various useful utilities, mostly taken from the ASPN Python cookbook.
+"""
+
 seq_types = type( () ), type( [] )
 
 def flatten( *args ):

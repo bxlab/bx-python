@@ -1,3 +1,10 @@
+"""
+Support for the `MAF`_ multiple sequence alignment format used by `multiz`_.
+
+.. _MAF: http://genome.ucsc.edu/FAQ/FAQformat.html#format5
+.. _multiz: http://www.bx.psu.edu/miller_lab/
+"""
+
 from bx.align import *
 
 from StringIO import StringIO

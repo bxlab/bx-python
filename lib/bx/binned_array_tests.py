@@ -1,3 +1,7 @@
+"""
+Tests for `bx.binned_array`.
+"""
+
 from numpy import *
 from binned_array import *
 

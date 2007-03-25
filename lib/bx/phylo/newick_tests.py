@@ -1,3 +1,7 @@
+"""
+Tests for `bx.phylo.newick`.
+"""
+
 from bx.phylo.newick import *
 import unittest
 

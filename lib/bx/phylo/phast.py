@@ -1,5 +1,6 @@
 """
-Rudimentary support for PHAST's tree model file format
+Rudimentary support for PHAST's tree model file format (a simple format for
+storing trees and rate matrices).
 """
 
 from numpy import *

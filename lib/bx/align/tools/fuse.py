@@ -1,5 +1,5 @@
 """
-Methods and tools for fusing alignment blocks together
+Tools for fusing contiguous alignment blocks together.
 """
 
 from itertools import *

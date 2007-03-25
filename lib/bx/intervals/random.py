@@ -1,3 +1,7 @@
+"""
+Classes for generating random sets of intervals over larger regions.
+"""
+
 from bx.bitset import *
 import bisect
 random = __import__( 'random' )

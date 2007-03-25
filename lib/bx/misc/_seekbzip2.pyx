@@ -1,3 +1,8 @@
+"""
+Pyrex/C extension supporting `bx.misc.seekbzip2` (wrapping the low level
+functions in `micro-bunzip.c`).
+"""
+
 cdef extern from "Python.h":
     char * PyString_AsString( object )
     object PyString_FromStringAndSize( char *, int )

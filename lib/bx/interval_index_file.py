@@ -1,73 +1,84 @@
 """
-Classes for index files that map genomic intervals to values
-------------------------------------------------------------
+Classes for index files that map genomic intervals to values.
 
-:Author: James Taylor (james@bx.psu.edu)
-:Version: $Revision: $
-
-Original author James Taylor;  updates by Bob Harris (rsharris@bx.psu.edu)
+:Authors: James Taylor (james@bx.psu.edu), Bob Harris (rsharris@bx.psu.edu)
 
 An interval index file maps genomic intervals to values.
 
 This implementation writes version 1 file format, and reads versions 0 and 1.
 
-index file format:
+Index File Format
+-----------------
 
-   All fields are in big-endian format (most significant byte first).
+All fields are in big-endian format (most significant byte first).
 
-   All intervals are origin-zero, inclusive start, exclusive end.
+All intervals are origin-zero, inclusive start, exclusive end.
 
-   The file begins with an index file header, then is immediately followed
-   by an index table.  The index table points to index headers, and index
-   headers point to bins.  Index headers and bins are referenced via pointers
-   (file offsets), and can be placed more or less anywhere in the file.
+The file begins with an index file header, then is immediately followed
+by an index table.  The index table points to index headers, and index
+headers point to bins.  Index headers and bins are referenced via pointers
+(file offsets), and can be placed more or less anywhere in the file.
 
-   File header:
+File header
+~~~~~~~~~~~
 
-     offset 0x00: 2C FF 80 0A   magic number
-     offset 0x04: 00 00 00 01   version (00 00 00 00 is also supported)
-     offset 0x08: 00 00 00 2A   (N) number of index sets
-     offset 0x0C:  ...          index table
+============ ===========   =================================================
+offset 0x00: 2C FF 80 0A   magic number
+offset 0x04: 00 00 00 01   version (00 00 00 00 is also supported)
+offset 0x08: 00 00 00 2A   (N) number of index sets
+offset 0x0C:  ...          index table
+============ ===========   =================================================
 
-   Index table:
-     The index table is a list of N index headers, packed sequentially and
-     sorted by name.  The first begins at offset 0x0C.  Each header describes
-     one set of intervals.
+Index table
+~~~~~~~~~~~
 
-     offset:      xx xx xx xx   (L) length of index src name
-     offset+4:     ...          index src name (e.g. canFam1.chr1)
-     offset+4+L:  xx xx xx xx   offset (in this file) to index data
-     offset+8+L:  xx xx xx xx   (B) number of bytes in each value;  for version
-                                .. 0, this field is absent, and B is assumed
-                                .. to be 4
+The index table is a list of N index headers, packed sequentially and
+sorted by name.  The first begins at offset 0x0C.  Each header describes
+one set of intervals.
 
-   Index data:
-     The index data for (for one index table) consists of the overall range of
-     intervals followed by an array of pointers to bins.  The length of the
-     array is 1+binForRange(maxEnd-1,maxEnd), where maxEnd is the maximum
-     interval end.
+============ ===========   =================================================
+offset:      xx xx xx xx   (L) length of index src name
+offset+4:     ...          index src name (e.g. canFam1.chr1)
+offset+4+L:  xx xx xx xx   offset (in this file) to index data
+offset+8+L:  xx xx xx xx   (B) number of bytes in each value;  for version 
+                           0, this field is absent, and B is assumed to be 4
+============ ===========   =================================================
 
-     offset:      xx xx xx xx   minimun interval start
-     offset+4:    xx xx xx xx   maximum interval end
-     offset+8:    xx xx xx xx   offset (in this file) to bin 0
-     offset+12:   xx xx xx xx   number of intervals in bin 0
-     offset+16:   xx xx xx xx   offset (in this file) to bin 1
-     offset+20:   xx xx xx xx   number of intervals in bin 1
-      ... and so on ...
+Index data
+~~~~~~~~~~
 
-   Bin:
-     A bin is an array of (start,end,val), sorted by increasing start (with
-     end and val as tiebreakers).  Note that bins may be empty (the number of
-     intervals indicated in the index data is zero).  Note that B is determined
-     from the appropriate entry in the index table.
+The index data for (for one index table) consists of the overall range of
+intervals followed by an array of pointers to bins.  The length of the
+array is 1+binForRange(maxEnd-1,maxEnd), where maxEnd is the maximum
+interval end.
 
-     offset:      xx xx xx xx   start for interval 1
-     offset+4:    xx xx xx xx   end   for interval 1
-     offset+8:     ...          (B bytes) value for interval 1
-     offset+8+B:  xx xx xx xx   start for interval 2
-     offset+12+B: xx xx xx xx   end   for interval 2
-     offset+16+B:  ...          (B bytes) value for interval 2
-      ... and so on ...
+============ ===========   =================================================
+offset:      xx xx xx xx   minimun interval start
+offset+4:    xx xx xx xx   maximum interval end
+offset+8:    xx xx xx xx   offset (in this file) to bin 0
+offset+12:   xx xx xx xx   number of intervals in bin 0
+offset+16:   xx xx xx xx   offset (in this file) to bin 1
+offset+20:   xx xx xx xx   number of intervals in bin 1
+...          ...           ...
+============ ===========   =================================================
+
+Bin
+~~~
+
+A bin is an array of (start,end,val), sorted by increasing start (with
+end and val as tiebreakers).  Note that bins may be empty (the number of
+intervals indicated in the index data is zero).  Note that B is determined
+from the appropriate entry in the index table.
+
+============ ===========   =================================================
+offset:      xx xx xx xx   start for interval 1
+offset+4:    xx xx xx xx   end   for interval 1
+offset+8:     ...          (B bytes) value for interval 1
+offset+8+B:  xx xx xx xx   start for interval 2
+offset+12+B: xx xx xx xx   end   for interval 2
+offset+16+B:  ...          (B bytes) value for interval 2
+...          ...           ...
+============ ===========   =================================================
 """
 
 from bisect import *

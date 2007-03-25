@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
-Take an input of GenomicIntervalReaders, subtract, and yield
-GenomicIntervals.  The returned GenomicIntervals will be in the order
+Subtract one set of genomic intervals from another (base-by-base or whole
+intervals). The returned GenomicIntervals will be in the order
 of the first set of intervals passed in, with the corresponding
 meta-data.
 """

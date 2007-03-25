@@ -1,11 +1,6 @@
-#!/usr/bin/env python
 """
-Take an input of a GenomicIntervalReader, merge overlapping regions,
-and yield GenomicIntervals.
+Merge overlapping regions in two sets of genomic intervals.
 """
-
-import pkg_resources
-pkg_resources.require( "bx-python" )
 
 import psyco_full
 

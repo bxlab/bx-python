@@ -1,3 +1,11 @@
+"""
+ClusterTree data structure that supports efficient queries for "cluster" of
+intervals (groups where no interval is more than some distance from at least
+one other).
+
+TODO: Documentation of the algorithmic details.
+"""
+
 cdef extern from "common.h":
     pass
 

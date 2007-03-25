@@ -1,3 +1,7 @@
+"""
+Pyrex extension to speed up some operations in `core.py`.
+"""
+
 def coord_to_col( int start, char * text, int pos ):
     cdef int col
     col = 0

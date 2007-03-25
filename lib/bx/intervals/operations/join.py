@@ -1,13 +1,9 @@
-#!/usr/bin/env python
 """
 Join two sets of intervals using their overlap as the key.  The
 intervals MUST be sorted by chrom(lexicographically),
 start(arithmetically) and end(arithmetically).  This works by simply
 walking through the inputs in O(n) time.
 """
-
-import pkg_resources
-pkg_resources.require( "bx-python" )
 
 import psyco_full
 

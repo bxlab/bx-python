@@ -1,11 +1,13 @@
+"""
+Tools for tiling / projecting alignments onto an interval of a sequence.
+"""
+
 import bx.align as align
 from bx import misc
 import bx.seq.nib
 import os
 import string
 import sys
-
-
 
 
 def tile_interval( sources, index, ref_src, start, end, seq_db=None ):
