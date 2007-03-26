@@ -29,7 +29,7 @@ MAF_MISSING_STATUS = 'M'
 
 class MultiIndexed( object ):
     """Similar to 'indexed' but wraps more than one maf_file"""
-    def __init__( self, maf_filenames, keep_open=False ):
+    def __init__( self, maf_filenames, keep_open=False, **kwargs ):
         self.indexes = [ Indexed( maf_file, keep_open=keep_open ) for maf_file in maf_filenames ]
     def get( self, src, start, end ):
         blocks = []
@@ -42,7 +42,8 @@ class MultiIndexed( object ):
 class Indexed( object ):
     """Indexed access to a maf using overlap queries, requires an index file"""
 
-    def __init__( self, maf_filename, index_filename=None, keep_open=False, species_to_lengths=None ):
+    def __init__( self, maf_filename, index_filename=None, keep_open=False, **kwargs ):
+        self.maf_kwargs = kwargs
         self.maf_filename = maf_filename
         if maf_filename.endswith( ".bz2" ):
             table_filename = maf_filename + "t"
@@ -95,18 +96,19 @@ class Indexed( object ):
                 f.close()
             
 class Reader( object ):
-    """Iterate over all maf blocks in a file in order"""
-    
-    def __init__( self, file, species_to_lengths=None ):
+    """
+    Iterate over all maf blocks in a file in order
+    """
+    def __init__( self, file, **kwargs ):
         self.file = file
-        self.species_to_lengths = species_to_lengths
+        self.maf_kwargs = kwargs
         # Read and verify maf header, store any attributes
         fields = self.file.readline().split()
         if fields[0] != '##maf': raise "File does not have MAF header"
         self.attributes = parse_attributes( fields[1:] )
 
     def next( self ):
-        return read_next_maf( self.file, self.species_to_lengths )
+        return read_next_maf( self.file, **self.maf_kwargs )
 
     def __iter__( self ):
         return ReaderIter( self )
@@ -115,6 +117,9 @@ class Reader( object ):
         self.file.close()
 
 class ReaderIter( object ):
+    """
+    Adapts a `Reader` to the iterator protocol.
+    """
     def __init__( self, reader ):
         self.reader = reader
     def __iter__( self ): 
@@ -153,10 +158,15 @@ class Writer( object ):
 
 # ---- Helper methods -------------------------------------------------------
 
-def from_string( string ):
-    return read_next_maf( StringIO( string ) )
+def from_string( string, **kwargs ):
+    return read_next_maf( StringIO( string ), **kwargs )
 
-def read_next_maf( file, species_to_lengths=None ):
+def read_next_maf( file, species_to_lengths=None, parse_e_rows=False ):
+    """
+    Read the next MAF block from `file` and return as an `Alignment` 
+    instance. If `parse_i_rows` is true, empty components will be created 
+    when e rows are encountered.
+    """
     alignment = Alignment(species_to_lengths=species_to_lengths)
     # Attributes line
     line = readline( file, skip_blank=True )
@@ -191,10 +201,22 @@ def read_next_maf( file, species_to_lengths=None ):
             alignment.add_component( component )
             last_component = component
         elif fields[0] == 'e':
-            # An 'e' row... kind of like a status that goes *through* a 
-            # component, skipping for now (alternative is to make empty
-            # components, but what good would it do? confused...)
-            pass
+            # An 'e' row, when no bases align for a given species this tells
+            # us something about the synteny 
+            if parse_e_rows:
+                component = Component()
+                component.src = fields[1]
+                component.start = int( fields[2] )
+                component.size = int( fields[3] )
+                component.strand = fields[4]
+                component.src_size = int( fields[5] )
+                component.text= None
+                synteny = fields[6].strip()
+                assert len( synteny ) == 1, \
+                    "Synteny status in 'e' rows should be denoted with a single character code"
+                component.synteny_empty = synteny
+                alignment.add_component( component )
+                last_component = component
         elif fields[0] == 'i':
             # An 'i' row, indicates left and right synteny status for the 
             # previous component, we hope ;)

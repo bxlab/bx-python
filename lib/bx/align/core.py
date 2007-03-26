@@ -34,8 +34,11 @@ class Alignment( object ):
     def add_component( self, component ):
         component.alignment = self
         self.components.append( component )
-        if self.text_size == 0: self.text_size = len( component.text )
-        elif self.text_size != len( component.text ): raise "Components must have same text length"
+        if component.text is not None:
+            if self.text_size == 0: 
+                self.text_size = len( component.text )
+            elif self.text_size != len( component.text ): 
+                raise Exception( "Components must have same text length" )
 
     def __str__( self ):
         s = "a score=" + str( self.score )
@@ -148,6 +151,10 @@ class Component( object ):
         # when the alignment is part of an ordered set)
         self.synteny_left = None
         self.synteny_right = None
+        self.synteny_empty = None
+        # If true, this component actually represents a non-aligning region,
+        # and has no text.
+        self.empty = False
         # Index coord -> col
         self.index = None
 
