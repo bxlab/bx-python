@@ -61,7 +61,7 @@ class Indexed( object ):
             index_filename = maf_filename_root + ".index"
         self.indexes = interval_index_file.Indexes( filename=index_filename )
         # Species to lengths
-        self.species_to_lengths = species_to_lengths
+        self.species_to_lengths = kwargs.get("species_to_lengths", None)
         # Open now?
         if keep_open: 
             self.f = self.open_maf()
@@ -88,7 +88,7 @@ class Indexed( object ):
             self.f.seek( offset )
             return read_next_maf( self.f, self.species_to_lengths )
         else:
-            f = open_maf( self )
+            f = self.open_maf()
             try:
                 f.seek( offset )
                 return read_next_maf( f, self.species_to_lengths ) 
