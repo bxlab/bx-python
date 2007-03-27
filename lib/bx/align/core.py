@@ -136,6 +136,21 @@ class Alignment( object ):
         for i in range( len( self.components ) ):
             self.components[i].text = ''.join( seqs[i] )
         self.text_size = text_size
+        
+    def __eq__( self, other ):
+        if self.score != other.score:
+            return False
+        if self.attributes != other.attributes:
+            return False
+        if len( self.components ) != len( other.components ):
+            return False
+        for c1, c2 in zip( self.components, other.components ):
+            if c1 != c2:
+                return False
+        return True
+        
+    def __ne__( self, other ):
+        return not( self.__eq__( other ) )
     
 class Component( object ):
 
@@ -234,7 +249,23 @@ class Component( object ):
         except:
             raise "Error in index."
         return x
-# return coord_to_col( self.get_forward_strand_start(), self.text, pos )
+    
+    # return coord_to_col( self.get_forward_strand_start(), self.text, pos )
+    
+    def __eq__( self, other ):
+        return ( self.src == other.src
+                 and self.start == other.start
+                 and self.size == other.size            
+                 and self.strand == other.strand        
+                 and self._src_size == other._src_size   
+                 and self.text == other.text
+                 and self.synteny_left == other.synteny_left
+                 and self.synteny_right == other.synteny_right
+                 and self.synteny_empty == other.synteny_empty
+                 and self.empty == other.empty )
+        
+    def __ne__( self, other ):
+        return not( self.__eq__( other ) )
 
 def get_reader( format, infile, species_to_lengths=None ):
     import bx.align.maf, bx.align.axt, bx.align.lav
