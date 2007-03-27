@@ -65,28 +65,29 @@ def IntervalReader( f ):
 class Reader( object ):
 
     def __init__( self, f ):
-        self.f
+        self.file=f
         self.current_chrom = None
         self.current_pos = None
         self.current_step = None
+        self.current_span = None
         self.mode = "bed"
         
     def __iter__( self ):
         return self
 
     def next( self ):
-        line = self.f.readline()
+        line = self.file.readline()
         if line.startswith( "track" ) or line.startswith( "#" ) or line.isspace():
-            return self.__next__()
+            return self.next()
         elif line.startswith( "variableStep" ):
             header = parse_header( line )
             self.current_chrom = header['chrom']
             self.current_pos = None
             self.current_step = None
             if 'span' in header: self.current_span = int( header['span'] )
-            else: current_span = 1
+            else: self.current_span = 1
             self.mode = "variableStep"
-            return self.__next__()
+            return self.next()
         elif line.startswith( "fixedStep" ):
             header = parse_header( line )
             self.current_chrom = header['chrom']

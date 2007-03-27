@@ -6,6 +6,9 @@ from bx.bitset import *
 import bisect
 random = __import__( 'random' )
 
+class MaxtriesException( Exception ):
+    pass
+
 def throw_random_list( lengths, mask, allow_overlap=False ):
     rval = []
     throw_random_gap_list( lengths, mask, lambda x, y: rval.append( ( x, y ) ), allow_overlap )

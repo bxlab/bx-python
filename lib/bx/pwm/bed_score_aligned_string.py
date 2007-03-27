@@ -49,6 +49,8 @@ def main():
         mafstart = maf.components[0].start
         mafend = maf.components[0].end
         reftext = maf.components[0].text
+        r = regions[mafchrom].find( mafstart, mafend )
+        if mafchrom not in regions or len( r ) == 0: continue
 
         # maf block scores for each matrix
         for scoremax,width,headers in MafMotifScorer(species, maf, motif_strings):
