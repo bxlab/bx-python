@@ -138,6 +138,8 @@ class Alignment( object ):
         self.text_size = text_size
         
     def __eq__( self, other ):
+        if other is None or type( other ) != type( self ):
+            return False
         if self.score != other.score:
             return False
         if self.attributes != other.attributes:
@@ -253,6 +255,8 @@ class Component( object ):
     # return coord_to_col( self.get_forward_strand_start(), self.text, pos )
     
     def __eq__( self, other ):
+        if other is None or type( other ) != type( self ):
+            return False
         return ( self.src == other.src
                  and self.start == other.start
                  and self.size == other.size            
