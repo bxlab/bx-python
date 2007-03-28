@@ -7,7 +7,7 @@ those ranges to stdout
 usage: %prog range_file nib_file
 """
 
-import from bx.cookbook import doc_optparse
+from bx.cookbook import doc_optparse
 import bx.seq.nib
 import string
 import sys
