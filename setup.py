@@ -20,7 +20,48 @@ def main():
             description = "Tools for manipulating biological data, particularly multiple sequence alignments",
             url = "http://www.bx.psu.edu/miller_lab/",
             zip_safe = False,
-            dependency_links = [] )
+            dependency_links = [],
+            cmdclass=extra_commands )
+
+# ---- Commands -------------------------------------------------------------
+
+from distutils.core import Command
+
+extra_commands = dict()
+
+try:
+    # Attempt to import epydoc
+    import pkg_resources
+    pkg_resources.require( "epydoc" )
+    import epydoc.cli, sys, os, os.path
+    # Create command class to build API documentation
+    class BuildAPIDocs( Command ):
+        user_options = []
+        def initialize_options( self ):
+            pass
+        def finalize_options( self ):
+            pass
+        def run( self ):
+            # Save working directory and args
+            old_argv = sys.argv
+            old_cwd = os.getcwd()
+            # Build command line for Epydoc
+            sys.argv = """epydoc.py bx --html --output=../apidocs/lib --verbose
+                          --simple-term --docformat=reStructuredText""".split()
+            # Make output directory
+            if not os.path.exists( "./apidocs" ):
+                os.mkdir( "./apidocs" )
+            # Move to lib directory (so bx package is in current directory)
+            os.chdir( "./lib" )
+            # Invoke epydoc
+            epydoc.cli.cli()
+            # Restore args and working directory
+            sys.argv = old_argv
+            os.chdir( old_cwd )
+    # Add to extra_commands    
+    extra_commands['build_apidocs'] = BuildAPIDocs
+except:
+    pass
 
 # ---- Extension Modules ----------------------------------------------------
 
