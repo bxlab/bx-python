@@ -71,7 +71,15 @@ cdef class ClusterTree:
         while (has_next(&myitr)):
             node = next(&myitr)
             if node.regions >= self.minregions:
-                regions.append( (node.start, node.end) )
+                lines = []
+                if node.linnums and node.linenums.head:
+                    nums = node.linenums
+                    num = nums.head
+                    while num:
+                        lines.append( num.value )
+                        num = num.next
+                regions.append( (node.start, node.end, lines) )
+
         return regions
     
     def getlines( self ):
@@ -88,7 +96,7 @@ cdef class ClusterTree:
             if node.regions >= self.minregions:
                 if node.linenums and node.linenums.head:
                     nums = node.linenums
-                    num=nums.head
+                    num = nums.head
                     while num:
                         lines.append( num.value )
                         num = num.next
