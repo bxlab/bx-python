@@ -6,16 +6,20 @@ import tempfile
 import commands
 import os
 import random
+from itertools import *
 
 import seekbzip2
 import bz2
 
-F="/Users/james/work/seek-bzip2/test_random.dat.bz2"
-T="/Users/james/cache/hg18/align/multiz3way/chrY.maf.bz2"
+F=None
+T=None
+
+#F="/Users/james/work/seek-bzip2/test_random.dat.bz2"
+T="/Users/james/cache/hg18/align/multiz28way/chr10.maf.bz2"
 
 import sys
 
-if os.path.exists( F ):
+if F and os.path.exists( F ):
 
     def test_linear_reading():
         raw_data = bz2.BZ2File( F ).read()
@@ -46,15 +50,16 @@ if os.path.exists( F ):
             assert f.tell() == min( seek_to + chunk, len(raw_data) )
         f.close()
             
-if os.path.exists( T ):
+if T and os.path.exists( T ):
        
     def test_text_reading():
-        raw_data = bz2.BZ2File( T ).read()
+        #raw_data = bz2.BZ2File( T ).read()
+        #raw_lines = raw_data.split( "\n" )
+        raw_file = bz2.BZ2File( T )
         f = seekbzip2.SeekableBzip2File( T, T + "t" )
-        raw_lines = raw_data.split( "\n" )
         pos = 0
-        for i, line in enumerate( f ):
-            assert line.rstrip( "\n" ) == raw_lines[i], "%d: %r != %r" % ( i, line.rstrip( "\n" ), raw_lines[i] )
+        for i, ( line, raw_line ) in enumerate( izip( f, raw_file ) ):
+            assert line == raw_line, "%d: %r != %r" % ( i, line.rstrip( "\n" ), raw_line )
             pos += len( line )
             ftell = f.tell()
             assert ftell == pos, "%d != %d" % ( ftell, pos )

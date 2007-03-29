@@ -98,10 +98,16 @@ cdef class SeekBzip2:
                 desired = amount
             else:
                 desired = spaceleft
-            ## sys.stderr.write( "readline, amount: %d\n" % amount ); sys.stderr.flush()
+            ## sys.stderr.write( "readline, amount: %d\n" % amount )
+            ## sys.stderr.write( "buffer: %r" % rval[:100] )
+            ## sys.stderr.write( "\n" )
+            ## sys.stderr.flush()
             # ord( "\n" ) = 10
             status = read_bunzip_to_char( self.bd, p_rval, desired, &gotcount, 10 );
-            ## sys.stderr.write( "readline, desired: %d, gotcount: %d\n" % ( desired, gotcount ) ); sys.stderr.flush()
+            ## sys.stderr.write( "readline, desired: %d, gotcount: %d\n" % ( desired, gotcount ) ); 
+            ## sys.stderr.write( "buffer: %r" % rval[:100] )
+            ## sys.stderr.write( "\n" )
+            ## sys.stderr.flush()
             if status == -9: 
                 ## sys.stderr.write( "readline, STOP_CHAR\n" ); sys.stderr.flush()
                 # Reached the stop character (RETVAL_STOPCHAR == -9), so 
@@ -122,7 +128,10 @@ cdef class SeekBzip2:
                 spaceleft = 8192
             elif status == -8:
                 ## sys.stderr.write( "readline, END_OF_BLOCK\n" ); sys.stderr.flush()
-                # No more data in the decomp buffer (RETVAL_END_OF_BLOCK == -10), 
+                # No more data in the decomp buffer (RETVAL_END_OF_BLOCK == -10)
+                if gotcount and p_rval[ gotcount - 1 ] == 10:
+                    chunks.append( rval[:8192-spaceleft+gotcount] )
+                    break
                 # Update buffer info
                 p_rval = p_rval + gotcount
                 spaceleft = spaceleft - gotcount
@@ -136,7 +145,6 @@ cdef class SeekBzip2:
                     break
                 self.bd.writeCRC = 0xffffffff
                 self.bd.writeCopies = 0
-                
             else:
                 # Some other status
                 raise Exception( "read_bunzip error %d" % status )
