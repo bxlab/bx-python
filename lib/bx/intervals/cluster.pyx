@@ -64,6 +64,8 @@ cdef class ClusterTree:
     def getregions( self ):
         cdef treeitr * myitr
         cdef ClusterNode * node
+        cdef linelist* nums
+        cdef listitem* num
 
         myitr = NULL
         get_itr_in(self.root, &myitr)
@@ -72,7 +74,7 @@ cdef class ClusterTree:
             node = next(&myitr)
             if node.regions >= self.minregions:
                 lines = []
-                if node.linnums and node.linenums.head:
+                if node.linenums and node.linenums.head:
                     nums = node.linenums
                     num = nums.head
                     while num:
