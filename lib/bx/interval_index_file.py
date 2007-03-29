@@ -83,6 +83,9 @@ offset+16+B:  ...          (B bytes) value for interval 2
 
 from bisect import *
 from struct import *
+from bx.misc import seekbzip2
+
+import os.path
 
 __all__ = [ 'Indexes', 'Index' ]
 
@@ -108,6 +111,82 @@ def bin_for_range( start, end):
             start_bin >>= BIN_NEXT_SHIFT
             end_bin >>= BIN_NEXT_SHIFT
     raise "Interval (%d,%d) out of range"
+
+class AbstractMultiIndexedAccess( object ):
+    """
+    Allows accessing multiple indexes / files as if they were one
+    """
+    indexed_access_class = None
+    def __init__( self, filenames, index_filenames=None, keep_open=False, **kwargs ):
+        # TODO: Handle index_filenames argument
+        self.indexes = [ self.new_indexed_access( fname, keep_open=keep_open, **kwargs ) \
+            for fname in filenames ]
+    def new_indexed_access( self, data_filename, index_filename=None, keep_open=False, **kwargs ):
+        return self.indexed_access_class( data_filename, index_filename, keep_open, **kwargs )
+    def get( self, src, start, end ):
+        blocks = []
+        for index in self.indexes: blocks.extend( index.get( src, start, end ) )
+        return blocks
+    def close( self ):
+        for index in self.indexes:
+            index.close()
+
+class AbstractIndexedAccess( object ):
+    """Indexed access to a data using overlap queries, requires an index file"""
+
+    def __init__( self, data_filename, index_filename=None, keep_open=False, **kwargs ):
+        self.data_kwargs = kwargs
+        self.data_filename = data_filename
+        if data_filename.endswith( ".bz2" ):
+            table_filename = data_filename + "t"
+            self.table_filename = table_filename
+            if not os.path.exists( table_filename ):
+                raise Exception( "Cannot find bz2t file for: " + data_filename )
+            self.file_type = "bz2t"
+            # Strip .bz2 from the filename before adding ".index"
+            data_filename_root = data_filename[:-4]
+        else:
+            self.file_type = "plain"
+            data_filename_root = data_filename
+        # Open index
+        if index_filename is None: 
+            index_filename = data_filename_root + ".index"
+        self.indexes = Indexes( filename=index_filename )
+        # Open now?
+        if keep_open: 
+            self.f = self.open_data()
+        else:
+            self.f = None
+
+    def close( self ):
+        if self.f:
+            self.f.close()
+            self.f = None
+
+    def open_data( self ):
+        if self.file_type == "plain":
+            return open( self.data_filename )
+        elif self.file_type == "bz2t":
+            return seekbzip2.SeekableBzip2File( self.data_filename, self.table_filename )
+
+    def get( self, src, start, end ):
+        intersections = self.indexes.find( src, start, end )
+        return map( self.get_at_offset, [ val for start, end, val in intersections ] )
+
+    def get_at_offset( self, offset ):
+        if self.f:
+            self.f.seek( offset )
+            return self.read_at_current_offset( self.f, **self.data_kwargs )
+        else:
+            f = self.open_data()
+            try:
+                f.seek( offset )
+                return self.read_at_current_offset( f, **self.data_kwargs ) 
+            finally:
+                f.close()
+                
+    def read_at_current_offset( self, file, **kwargs ):
+        raise TypeError( "Abtract Method" )
 
 class Indexes:
     """A set of indexes, each identified by a unique name"""

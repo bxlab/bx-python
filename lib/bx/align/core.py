@@ -176,9 +176,19 @@ class Component( object ):
         self.index = None
 
     def __str__( self ):
-        return "s %s %d %d %s %d %s" % ( self.src, self.start, 
-                                           self.size, self.strand, 
-                                           self.src_size, self.text )
+        if self.empty:
+            rval = "e %s %d %d %s %d %s" % ( self.src, self.start, 
+                                             self.size, self.strand, 
+                                             self.src_size, self.synteny_empty )
+        else:
+            rval = "s %s %d %d %s %d %s" % ( self.src, self.start, 
+                                             self.size, self.strand, 
+                                             self.src_size, self.text )
+            if self.synteny_left and self.synteny_right:
+                rval += "\ni %s %s %d %s %d" % ( self.src, 
+                                                 self.synteny_left[0], self.synteny_left[1],
+                                                 self.synteny_right[0], self.synteny_right[1] )
+        return rval
 
     def get_end( self ):
         return self.start + self.size

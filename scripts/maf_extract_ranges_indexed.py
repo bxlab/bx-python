@@ -49,7 +49,8 @@ def __main__():
         doc_optparse.exit()
 
     # Open indexed access to mafs
-    index = bx.align.maf.MultiIndexed( maf_files, keep_open=True )
+    index = bx.align.maf.MultiIndexed( maf_files, keep_open=True,
+                                                  parse_e_rows=True )
 
     # Start MAF on stdout
 

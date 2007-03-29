@@ -15,7 +15,7 @@ F=None
 T=None
 
 #F="/Users/james/work/seek-bzip2/test_random.dat.bz2"
-T="/Users/james/cache/hg18/align/multiz28way/chr10.maf.bz2"
+#T="/Users/james/cache/hg18/align/multiz28way/chr10.maf.bz2"
 
 import sys
 

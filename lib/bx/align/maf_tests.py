@@ -97,6 +97,8 @@ s horse_hoxa 120 10 -   98892 ACAATTGCT
 
 """
 
+
+
 def test_slice():
 
     a = align.Alignment()
@@ -122,6 +124,35 @@ def test_with_synteny():
     rat = a.get_component_by_src_start( "rn3." )
     check_component( rat, "rn3.chr4", 29161032, 1524, "-", 187371129, None )
     assert rat.synteny_empty == maf.MAF_INSERT_STATUS
+    
+def test_write_with_synteny():
+    reader = maf.Reader( StringIO( test_maf_2 ), parse_e_rows=True )
+    a = reader.next()
+    val = StringIO()
+    writer = maf.Writer( val, { 'scoring':'foobar' } )
+    writer.write( a )
+    assert val.getvalue() == """##maf version=1 scoring=foobar
+a score=3656.000000
+s hg17.chr1                   2005   34 + 245522847 TGTAACTTAATACCACAACCAGGCATAGGGG--AAA------------- 
+s rheMac2.chr11            9625228   31 + 134511895 TGTAACCTCTTACTGCAACAAGGCACAGGGG------------------ 
+i rheMac2.chr11                                     C 0 I 1678                                        
+s panTro1.chr1                2014   34 + 229575298 TGTAACTTAATACCACAACCAGGCATGGGGG--AAA------------- 
+i panTro1.chr1                                      C 0 C 0                                           
+s bosTau2.chr5            64972365   47 +  76426644 TCCAGCCATGTGTTGTGATCAG--CCAGGGGCTAAAGCCATGGCGGTAG 
+i bosTau2.chr5                                      C 0 I 1462                                        
+s canFam2.chr27           45129665   31 +  48908698 TTTGACTCTGTGCTCTTATCAGGCCCAAGGG------------------ 
+i canFam2.chr27                                     C 0 I 1664                                        
+e danRer3.chr18            2360867  428 +  50308305 I                                                 
+e oryCun1.scaffold_139397      643 1271 -      4771 I                                                 
+e loxAfr1.scaffold_5603      58454 1915 +     68791 I                                                 
+e echTel1.scaffold_212365     4641 1430 +      9822 I                                                 
+e echTel1.scaffold_212365     4641 1430 +      9822 I                                                 
+e rn3.chr4                29161032 1524 - 187371129 I                                                 
+e mm7.chr6                28091695 3290 - 149646834 I                                                 
+
+"""
+    
+    
 
 def check_component( c, src, start, size, strand, src_size, text ):
     assert c.src == src

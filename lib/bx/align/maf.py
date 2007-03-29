@@ -25,76 +25,29 @@ MAF_MAYBE_NEW_STATUS = 'S'
 MAF_MAYBE_NEW_NESTED_STATUS = 's'
 MAF_MISSING_STATUS = 'M'
 
-# Tools for dealing with multiple alignments in MAF format
+class MAFIndexedAccess( interval_index_file.AbstractIndexedAccess ):
+    """
+    Indexed access to a MAF file.
+    """
+    def read_at_current_offset( self, file, **kwargs ):
+        """
+        Read the MAF block at the current position in `file` and return an
+        instance of `Alignment`.
+        """
+        return read_next_maf( file, **kwargs )
 
-class MultiIndexed( object ):
-    """Similar to 'indexed' but wraps more than one maf_file"""
-    def __init__( self, maf_filenames, keep_open=False, **kwargs ):
-        self.indexes = [ Indexed( maf_file, keep_open=keep_open ) for maf_file in maf_filenames ]
-    def get( self, src, start, end ):
-        blocks = []
-        for index in self.indexes: blocks.extend( index.get( src, start, end ) )
-        return blocks
-    def close( self ):
-        for index in self.indexes:
-            index.close()
-            
-class Indexed( object ):
-    """Indexed access to a maf using overlap queries, requires an index file"""
+class MAFMultiIndexedAccess( interval_index_file.AbstractMultiIndexedAccess ):
+    """
+    Indexed access to multiple MAF files.
+    """
+    indexed_access_class = MAFIndexedAccess
+      
+Indexed = MAFIndexedAccess
+"""Deprecated: `MAFMIndexedAccess` is also available under the name `Indexed`."""
 
-    def __init__( self, maf_filename, index_filename=None, keep_open=False, **kwargs ):
-        self.maf_kwargs = kwargs
-        self.maf_filename = maf_filename
-        if maf_filename.endswith( ".bz2" ):
-            table_filename = maf_filename + "t"
-            self.table_filename = table_filename
-            if not os.path.exists( table_filename ):
-                raise Exception( "Cannot find bz2t file for: " + maf_filename )
-            self.file_type = "bz2t"
-            # Strip .bz2 from the filename before adding ".index"
-            maf_filename_root = maf_filename[:-4]
-        else:
-            self.file_type = "plain"
-            maf_filename_root = maf_filename
-        # Open index
-        if index_filename is None: 
-            index_filename = maf_filename_root + ".index"
-        self.indexes = interval_index_file.Indexes( filename=index_filename )
-        # Species to lengths
-        self.species_to_lengths = kwargs.get("species_to_lengths", None)
-        # Open now?
-        if keep_open: 
-            self.f = self.open_maf()
-        else:
-            self.f = None
-            
-    def close( self ):
-        if self.f:
-            self.f.close()
-            self.f = None
-            
-    def open_maf( self ):
-        if self.file_type == "plain":
-            return open( self.maf_filename )
-        elif self.file_type == "bz2t":
-            return SeekableBzip2File( self.maf_filename, self.table_filename )
+MultiIndexed = MAFMultiIndexedAccess
+"""Deprecated: `MAFMultiIndexedAccess` is also available under the name `MultiIndexed`."""
 
-    def get( self, src, start, end ):
-        intersections = self.indexes.find( src, start, end )
-        return map( self.get_maf_at_offset, [ val for start, end, val in intersections ] )
-
-    def get_maf_at_offset( self, offset ):
-        if self.f:
-            self.f.seek( offset )
-            return read_next_maf( self.f, self.species_to_lengths )
-        else:
-            f = self.open_maf()
-            try:
-                f.seek( offset )
-                return read_next_maf( f, self.species_to_lengths ) 
-            finally:
-                f.close()
-            
 class Reader( object ):
     """
     Iterate over all maf blocks in a file in order
@@ -149,8 +102,16 @@ class Writer( object ):
         # Components
         rows = []
         for c in alignment.components:
+            # "Empty component" generates an 'e' row
+            if c.empty:
+                rows.append( ( "e", c.src, str( c.start ), str( c.size ), c.strand, str( c.src_size ), c.synteny_empty ) )
+                continue
+            # Regular component
             rows.append( ( "s", c.src, str( c.start ), str( c.size ), c.strand, str( c.src_size ), c.text ) )
-        self.file.write( format_tabular( rows, "llrrrrr" ) )
+            # If component has synteny follow up with an 'i' row
+            if c.synteny_left and c.synteny_right:
+                rows.append( ( "i", c.src, "", "", "", "", " ".join( map( str, c.synteny_left + c.synteny_right ) ) ) )
+        self.file.write( format_tabular( rows, "llrrrrl" ) )
         self.file.write( "\n" )
 
     def close( self ):
@@ -205,12 +166,13 @@ def read_next_maf( file, species_to_lengths=None, parse_e_rows=False ):
             # us something about the synteny 
             if parse_e_rows:
                 component = Component()
+                component.empty = True
                 component.src = fields[1]
                 component.start = int( fields[2] )
                 component.size = int( fields[3] )
                 component.strand = fields[4]
                 component.src_size = int( fields[5] )
-                component.text= None
+                component.text = None
                 synteny = fields[6].strip()
                 assert len( synteny ) == 1, \
                     "Synteny status in 'e' rows should be denoted with a single character code"
@@ -230,6 +192,7 @@ def readline( file, skip_blank=False ):
     """Read a line from provided file, skipping any blank or comment lines"""
     while 1:
         line = file.readline()
+        #print "every line: %r" % line
         if not line: return None 
         if line[0] != '#' and not ( skip_blank and line.isspace() ):
             return line
