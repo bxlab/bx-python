@@ -80,6 +80,9 @@ class Alignment( object ):
     def slice( self, start, end ):
         new = Alignment( score=self.score, attributes=self.attributes )
         for component in self.components:
+            # FIXME: Is this the right solution?
+            if component.empty:
+                continue
             new.components.append( component.slice( start, end ) )
         new.text_size = end - start
         return new
@@ -236,6 +239,10 @@ class Component( object ):
         new.start += start - self.text.count( '-', 0, start )
         new.size = len( new.text ) - new.text.count( '-' )
 
+        # FIXME: This annotation probably means nothing after slicing if
+        # one of the ends changes. In general the 'i' rows of a MAF only
+        # make sense in context (relative to the previous and next alignments
+        # in a stream, slicing breaks that).
         new.synteny_left = self.synteny_left
         new.synteny_right = self.synteny_right
 
