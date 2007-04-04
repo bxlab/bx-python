@@ -39,7 +39,7 @@ def main():
         ref_comp = block.components[0]
         ref_chrom = ref_comp.src.split('.')[1]
         for comp in block.components[1:]:
-            comp_species, comp_chrom = comp.src.split('.')
+            comp_species, comp_chrom = comp.src.split('.')[:2]
             if comp_species not in out_files:
                 f = open( "%s%s.bed" % ( out_prefix, comp_species ), "w" )
                 out_files[comp_species] = f
