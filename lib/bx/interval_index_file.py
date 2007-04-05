@@ -84,6 +84,7 @@ offset+16+B:  ...          (B bytes) value for interval 2
 from bisect import *
 from struct import *
 from bx.misc import seekbzip2
+from bx.misc import filecache
 
 import os.path
 
@@ -117,9 +118,9 @@ class AbstractMultiIndexedAccess( object ):
     Allows accessing multiple indexes / files as if they were one
     """
     indexed_access_class = None
-    def __init__( self, filenames, index_filenames=None, keep_open=False, **kwargs ):
+    def __init__( self, filenames, index_filenames=None, keep_open=False, use_cache=False, **kwargs ):
         # TODO: Handle index_filenames argument
-        self.indexes = [ self.new_indexed_access( fname, keep_open=keep_open, **kwargs ) \
+        self.indexes = [ self.new_indexed_access( fname, keep_open=keep_open, use_cache=use_cache, **kwargs ) \
             for fname in filenames ]
     def new_indexed_access( self, data_filename, index_filename=None, keep_open=False, **kwargs ):
         return self.indexed_access_class( data_filename, index_filename, keep_open, **kwargs )
@@ -134,7 +135,7 @@ class AbstractMultiIndexedAccess( object ):
 class AbstractIndexedAccess( object ):
     """Indexed access to a data using overlap queries, requires an index file"""
 
-    def __init__( self, data_filename, index_filename=None, keep_open=False, **kwargs ):
+    def __init__( self, data_filename, index_filename=None, keep_open=False, use_cache=False, **kwargs ):
         self.data_kwargs = kwargs
         self.data_filename = data_filename
         if data_filename.endswith( ".bz2" ):
@@ -152,6 +153,8 @@ class AbstractIndexedAccess( object ):
         if index_filename is None: 
             index_filename = data_filename_root + ".index"
         self.indexes = Indexes( filename=index_filename )
+        # Use a file cache?
+        self.use_cache = use_cache
         # Open now?
         if keep_open: 
             self.f = self.open_data()
@@ -167,7 +170,11 @@ class AbstractIndexedAccess( object ):
         if self.file_type == "plain":
             return open( self.data_filename )
         elif self.file_type == "bz2t":
-            return seekbzip2.SeekableBzip2File( self.data_filename, self.table_filename )
+            f = seekbzip2.SeekableBzip2File( self.data_filename, self.table_filename )
+            if self.use_cache:
+                return filecache.FileCache( f, f.size )
+            else:
+                return f
 
     def get( self, src, start, end ):
         intersections = self.indexes.find( src, start, end )

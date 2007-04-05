@@ -35,12 +35,17 @@ class SeekableBzip2File( object ):
             fields = line.split()
             # Position of the compressed block in the bz2 file
             bz2_pos = int( fields[0] )
+            # print >> sys.stderr, fields[0], bz2_pos
             # Length of the block when uncompressed
             length = int( fields[1] )
             self.table_positions.append( pos )
             self.table_bz2positions.append( bz2_pos )
+            old_pos = pos
             pos = pos + length
+            assert pos > old_pos
         self.size = pos
+        #print >> sys.stderr, self.size
+        #print >> sys.stderr, self.table_bz2positions
         
     def close( self ):
         self.seek_bz2.close()
@@ -53,6 +58,7 @@ class SeekableBzip2File( object ):
         chunk, offset = self.get_chunk_and_offset( self.pos )
         # Get the seek position for that chunk and seek to it
         bz2_seek_pos = self.table_bz2positions[chunk] 
+        # print >>sys.stderr, "bz2 seek pos:", bz2_seek_pos
         self.seek_bz2.seek( bz2_seek_pos )
         # Consume bytes to move to the correct position
         assert len( self.seek_bz2.read( offset ) ) == offset

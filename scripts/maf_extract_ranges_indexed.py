@@ -8,6 +8,9 @@ If index_file is not provided maf_file.index is used.
 
 NOTE: If two intervals overlap the same block it will be written twice. With
       non-overlapping intervals and --chop this is never a problem. 
+      
+WARNING: bz2/bz2t support and file cache support are new and not as well
+         tested. 
 
 usage: %prog maf_file index_file [options] < interval_file
    -m, --mincols=10: Minimum length (columns) required for alignment to be output
@@ -16,6 +19,7 @@ usage: %prog maf_file index_file [options] < interval_file
    -p, --prefix=p:   Prepend this to each src before lookup
    -d, --dir=d:      Write each interval as a separate file in this directory
    -S, --strand:     Strand is included as an additional column, and the blocks are reverse complemented so that they are always on the plus strand w/r/t the src species.
+   -C, --usecache:   Use a cache that keeps blocks of the MAF files in memory (requires ~20MB per MAF)
 """
 
 import psyco_full
@@ -45,12 +49,14 @@ def __main__():
         else: dir = None
         chop = bool( options.chop )
         do_strand = bool( options.strand )
+        use_cache = bool( options.usecache )
     except:
         doc_optparse.exit()
 
     # Open indexed access to mafs
     index = bx.align.maf.MultiIndexed( maf_files, keep_open=True,
-                                                  parse_e_rows=True )
+                                                  parse_e_rows=True,
+                                                  use_cache=use_cache )
 
     # Start MAF on stdout
 
