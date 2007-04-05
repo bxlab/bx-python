@@ -1,9 +1,13 @@
 #!/usr/bin/env python2.4
 
 """
+WARNING: bz2/bz2t support and file cache support are new and not as well
+         tested. 
+
 usage: %prog maf_files [options] < interval_file
     -s, --species=SPECIES: Comma separated list of species to include
     -p, --prefix=PREFIX: Prefix to add to each interval chrom (usually reference species)
+   -C, --usecache:   Use a cache that keeps blocks of the MAF files in memory (requires ~20MB per MAF)
 """
 
 from __future__ import division
@@ -26,14 +30,15 @@ def main():
         maf_files = args
         species = options.species.split( "," )
         prefix = options.prefix
+        use_cache = bool( options.usecache )
         if not prefix:
             prefix = ""
     except:
         doc_optparse.exit()
     # Open indexed access to mafs
     index = bx.align.maf.MultiIndexed( maf_files, 
-                                       keep_open=True, 
-                                       parse_e_rows=True )
+                                      parse_e_rows=True,
+                                      use_cache=use_cache )
     # Print header
     print "#chr", "start", "end",
     for s in species:
