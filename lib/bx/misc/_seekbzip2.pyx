@@ -26,7 +26,7 @@ cdef extern from "micro-bunzip.h":
     
 cdef extern from "unistd.h":
     # Not really
-    ctypedef int off_t
+    ctypedef unsigned long long off_t
     off_t lseek( int fildes, off_t offset, int whence )
     
 cdef extern from "stdlib.h":
@@ -52,7 +52,7 @@ cdef class SeekBzip2:
         free( self.bd )
         os.close( self.file_fd )
 
-    def seek( self, unsigned long position ):
+    def seek( self, unsigned long long position ):
         """
         Seek the bunzip_data to a specific chunk (position must correspond to
         that start of a compressed data block).
@@ -60,8 +60,12 @@ cdef class SeekBzip2:
         cdef off_t n_byte
         cdef int n_bit
         # Break position into bit and byte offsets
+        ## sys.stderr.write( "arg pos: %d\n" % position )
         n_byte = position / 8;
         n_bit = position % 8;
+        ## sys.stderr.write( "byte pos: %d\n" % n_byte )
+        ## sys.stderr.write( "bit pos: %d\n" % n_bit )
+        ## sys.stderr.flush()
         # Seek the underlying file descriptor
         if ( lseek( self.file_fd, n_byte, 0 ) != n_byte ):
             raise Exception( "lseek of underlying file failed" )
