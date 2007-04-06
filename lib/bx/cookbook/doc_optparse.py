@@ -59,7 +59,7 @@ def parse(docstring, arglist=None):
     if not match: raise ParsingError("Cannot find the option string")
     optlines = match.group(1).splitlines()
     try:
-        p = optparse.OptionParser(optlines[0])
+        p = optparse.OptionParser(optlines[0],conflict_handler="resolve")
         for line in optlines[1:]:
             opt, help=line.split(':')[:2]
             short,long=opt.split(',')[:2]
@@ -70,7 +70,14 @@ def parse(docstring, arglist=None):
                 action='store_true'
             p.add_option(short.strip(),long.strip(),
                          action = action, help = help.strip())
+        helpstring=docstring.replace("%prog",sys.argv[0])
+        p.add_option( "-h", "--help", action="callback", callback=help_callback, callback_args=(helpstring,) )
     except (IndexError,ValueError):
         raise ParsingError("Cannot parse the option string correctly")
     return p.parse_args(arglist)
 
+def help_callback( option, opt, value, parser, help ):
+    print >> sys.stderr, help
+    sys.exit( 1 )
+    
+    

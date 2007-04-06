@@ -13,7 +13,7 @@ import sys
 from bx.bitset import *
 from bx.bitset_builders import *
 
-import bx.cookbook import doc_optparse
+from bx.cookbook import doc_optparse
 
 def read_len( f ):
     """Read a 'LEN' file and return a mapping from chromosome to length"""
