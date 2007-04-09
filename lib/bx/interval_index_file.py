@@ -83,8 +83,7 @@ offset+16+B:  ...          (B bytes) value for interval 2
 
 from bisect import *
 from struct import *
-from bx.misc import seekbzip2
-from bx.misc import filecache
+from bx.misc import seekbzip2, seeklzop, filecache
 
 import os.path
 
@@ -146,6 +145,14 @@ class AbstractIndexedAccess( object ):
             self.file_type = "bz2t"
             # Strip .bz2 from the filename before adding ".index"
             data_filename_root = data_filename[:-4]
+        elif data_filename.endswith( ".lzo" ):
+            table_filename = data_filename + "t"
+            self.table_filename = table_filename
+            if not os.path.exists( table_filename ):
+                raise Exception( "Cannot find lzot file for: " + data_filename )
+            self.file_type = "lzot"
+            # Strip .lzo from the filename before adding ".index"
+            data_filename_root = data_filename[:-4]
         else:
             self.file_type = "plain"
             data_filename_root = data_filename
@@ -175,6 +182,15 @@ class AbstractIndexedAccess( object ):
                 return filecache.FileCache( f, f.size )
             else:
                 return f
+        elif self.file_type == "lzot":
+            if self.use_cache:
+                block_cache_size = 20
+            else:
+                block_cache_size = 0
+            f = seeklzop.SeekableLzopFile( self.data_filename, 
+                                           self.table_filename,
+                                           block_cache_size = block_cache_size )
+            return f
 
     def get( self, src, start, end ):
         intersections = self.indexes.find( src, start, end )
