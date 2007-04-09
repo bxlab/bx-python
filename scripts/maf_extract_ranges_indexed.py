@@ -4,7 +4,8 @@
 Reads a list of intervals and a maf. Produces a new maf containing the
 blocks or parts of blocks in the original that overlapped the intervals.
 
-If index_file is not provided maf_file.index is used.
+It is assumed that each file `maf_fname` has a corresponding `maf_fname`.index 
+file.
 
 NOTE: If two intervals overlap the same block it will be written twice. With
       non-overlapping intervals and --chop this is never a problem. 
@@ -12,7 +13,7 @@ NOTE: If two intervals overlap the same block it will be written twice. With
 WARNING: bz2/bz2t support and file cache support are new and not as well
          tested. 
 
-usage: %prog maf_file index_file [options] < interval_file
+usage: %prog maf_fname1 maf_fname2 ... [options] < interval_file
    -m, --mincols=10: Minimum length (columns) required for alignment to be output
    -c, --chop:       Should blocks be chopped to only portion overlapping (no by default)
    -s, --src=s:      Use this src for all intervals
@@ -31,12 +32,9 @@ from bx import misc
 import os
 import sys
 
-def __main__():
-
+def main():
     # Parse Command Line
-
     options, args = doc_optparse.parse( __doc__ )
-
     try:
         maf_files = args
         if options.mincols: mincols = int( options.mincols )
@@ -52,19 +50,14 @@ def __main__():
         use_cache = bool( options.usecache )
     except:
         doc_optparse.exit()
-
     # Open indexed access to mafs
     index = bx.align.maf.MultiIndexed( maf_files, keep_open=True,
                                                   parse_e_rows=True,
                                                   use_cache=use_cache )
-
     # Start MAF on stdout
-
     if dir is None: 
         out = bx.align.maf.Writer( sys.stdout )
-
     # Iterate over input ranges 
-
     for line in sys.stdin:
         strand = "+"
         fields = line.split()
@@ -104,10 +97,9 @@ def __main__():
                 out.write( block )
         if dir:
             out.close()
-         
     # Close output MAF
-    
     out.close()
     index.close()
 
-if __name__ == "__main__": __main__()
+if __name__ == "__main__": 
+    main()
