@@ -16,8 +16,8 @@ import psyco_full
 from bx.cookbook import doc_optparse
 
 import bx.align.maf
-import intervals
-import misc
+from bx import intervals
+from bx import misc
 import sys
 
 def __main__():

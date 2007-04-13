@@ -17,7 +17,7 @@ import bx.wiggle
 from bx.binned_array import BinnedArray
 from fpconst import isNaN
 from bx.cookbook import doc_optparse
-import misc
+from bx import misc
 
 def read_scores( f ):
     scores_by_chrom = dict()

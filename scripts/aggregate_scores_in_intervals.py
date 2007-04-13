@@ -24,7 +24,7 @@ from bx.bitset import *
 from bx.bitset_builders import *
 from fpconst import isNaN
 from bx.cookbook import doc_optparse
-import misc
+from bx import misc
 
 class FileBinnedArrayDir( DictMixin ):
     """
