@@ -77,6 +77,7 @@ class Reader( object ):
 
     def next( self ):
         line = self.file.readline()
+        if not line: raise StopIteration
         if line.startswith( "track" ) or line.startswith( "#" ) or line.isspace():
             return self.next()
         elif line.startswith( "variableStep" ):
