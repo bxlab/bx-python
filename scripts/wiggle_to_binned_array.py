@@ -14,7 +14,7 @@ import sys
 import psyco_full
 import bx.wiggle
 from bx.binned_array import BinnedArray
-from fpconst import isNaN
+from bx_extras.fpconst import isNaN
 from bx.cookbook import doc_optparse
 from bx import misc
 
