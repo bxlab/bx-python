@@ -80,7 +80,7 @@ cdef class ClusterTree:
                     while num:
                         lines.append( num.value )
                         num = num.next
-                regions.append( (node.start, node.end, lines) )
+                regions.append( ( node.start, node.end, lines ) )
 
         return regions
     
