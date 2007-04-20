@@ -83,7 +83,6 @@ offset+16+B:  ...          (B bytes) value for interval 2
 
 from bisect import *
 from struct import *
-from bx.misc import seekbzip2, seeklzop, filecache
 
 import os.path
 
@@ -138,6 +137,7 @@ class AbstractIndexedAccess( object ):
         self.data_kwargs = kwargs
         self.data_filename = data_filename
         if data_filename.endswith( ".bz2" ):
+            from bx.misc import seekbzip2, filecache
             table_filename = data_filename + "t"
             self.table_filename = table_filename
             if not os.path.exists( table_filename ):
@@ -146,6 +146,7 @@ class AbstractIndexedAccess( object ):
             # Strip .bz2 from the filename before adding ".index"
             data_filename_root = data_filename[:-4]
         elif data_filename.endswith( ".lzo" ):
+            from bx.misc import seeklzop, filecache
             table_filename = data_filename + "t"
             self.table_filename = table_filename
             if not os.path.exists( table_filename ):
