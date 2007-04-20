@@ -103,6 +103,9 @@ class SeekableLzopFile( object ):
         # move the position in the bzip2 file
         self.dirty = True
         
+    def tell( self ):
+        return self.file_pos
+        
     def readline( self ):
         if self.dirty:
             self.fix_dirty()

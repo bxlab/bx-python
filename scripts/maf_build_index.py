@@ -38,6 +38,16 @@ def main():
             maf_in = SeekableBzip2File( maf_file, table_file )
             # Strip .bz2 from the filename before adding ".index"
             maf_file = maf_file[:-4]
+        elif maf_file.endswith( ".lzo" ):
+            from bx.misc.seeklzop import SeekableLzopFile
+            table_file = maf_file + "t"
+            if not os.path.exists( table_file ):
+                doc_optparse.exit( "To index lzo compressed files first "
+                                   "create a lzot file with bzip-table." )
+            # Open with SeekableBzip2File so we have tell support
+            maf_in = SeekableLzopFile( maf_file, table_file )
+            # Strip .lzo from the filename before adding ".index"
+            maf_file = maf_file[:-4]
         else:
             maf_in = open( maf_file )
         # Determine the name of the index file
