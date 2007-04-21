@@ -114,6 +114,7 @@ class SeekableLzopFile( object ):
         rval = []
         while 1:
             line = self.current_block.readline()
+            self.file_pos += len( line )
             rval.append( line )
             if len( line ) > 0 and line[-1] == '\n':
                 break

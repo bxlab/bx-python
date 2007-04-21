@@ -4,7 +4,7 @@ import random
 import sys
 
 T="/Users/james/cache/hg18/align/multiz28way/chr10.maf"
-C="/Users/james/cache/hg18/align/multiz28way/chr10.maf.lzo7"
+C="/Users/james/cache/hg18/align/multiz28way/chr10.maf.lzo"
 
 def test():
     f = seeklzop.SeekableLzopFile( C, C + "t", block_cache_size=20 )
@@ -24,4 +24,5 @@ def test_random_seeking():
         l1 = f.readline()
         l2 = raw.readline()
         
-        assert l1 == l2
+        assert l1 == l2, "%r != %r" % ( l1, l2 )
+        assert raw.tell() == f.tell(), "tells not equal"
