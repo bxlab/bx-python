@@ -167,6 +167,7 @@ class Component( object ):
         self.strand = strand        # .. excluded, and minus strand counts from
         self._src_size = src_size   # .. end of sequence
         self.text = text
+        self.quality = None
         # Optional fields to keep track of synteny status (only makes sense
         # when the alignment is part of an ordered set)
         self.synteny_left = None

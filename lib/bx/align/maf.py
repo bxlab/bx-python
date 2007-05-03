@@ -108,6 +108,9 @@ class Writer( object ):
                 continue
             # Regular component
             rows.append( ( "s", c.src, str( c.start ), str( c.size ), c.strand, str( c.src_size ), c.text ) )
+            # If component has quality, write a q row
+            if c.quality is not None:
+                rows.append( ( "q", c.src, "", "", "", "", c.quality ) )
             # If component has synteny follow up with an 'i' row
             if c.synteny_left and c.synteny_right:
                 rows.append( ( "i", c.src, "", "", "", "", " ".join( map( str, c.synteny_left + c.synteny_right ) ) ) )
@@ -185,6 +188,10 @@ def read_next_maf( file, species_to_lengths=None, parse_e_rows=False ):
             assert fields[1] == last_component.src, "'i' row does not follow matching 's' row"
             last_component.synteny_left = ( fields[2], int( fields[3] ) )
             last_component.synteny_right = ( fields[4], int( fields[5] ) )
+        elif fields[0] == 'q':
+            assert fields[1] == last_component.src, "'q' row does not follow matching 's' row"
+            # TODO: Should convert this to an integer array?
+            last_component.quality = fields[2]
             
     return alignment
 
