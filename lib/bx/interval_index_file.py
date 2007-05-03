@@ -84,6 +84,18 @@ offset+16+B:  ...          (B bytes) value for interval 2
 from bisect import *
 from struct import *
 
+from bx.misc import filecache
+
+try:
+    from bx.misc import seekbzip2
+except:
+    seekbzip2 = None
+    
+try:
+    from bx.misc import seeklzop
+except:
+    seeklzop = None
+
 import os.path
 
 __all__ = [ 'Indexes', 'Index' ]
@@ -137,7 +149,8 @@ class AbstractIndexedAccess( object ):
         self.data_kwargs = kwargs
         self.data_filename = data_filename
         if data_filename.endswith( ".bz2" ):
-            from bx.misc import seekbzip2, filecache
+            if seekbzip2 is None:
+                raise Exception( "Trying to open .bz2 file but no seekbzip2 module found")
             table_filename = data_filename + "t"
             self.table_filename = table_filename
             if not os.path.exists( table_filename ):
@@ -146,7 +159,8 @@ class AbstractIndexedAccess( object ):
             # Strip .bz2 from the filename before adding ".index"
             data_filename_root = data_filename[:-4]
         elif data_filename.endswith( ".lzo" ):
-            from bx.misc import seeklzop, filecache
+            if seeklzop is None:
+                raise Exception( "Trying to open .lzo file but no seeklzop module found")
             table_filename = data_filename + "t"
             self.table_filename = table_filename
             if not os.path.exists( table_filename ):
