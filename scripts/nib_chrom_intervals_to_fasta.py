@@ -10,7 +10,7 @@ TODO: General sequence handling would be nice, as well as merging with
 usage: %prog nib_dir < range_file
 """
 
-import from bx.cookbook import doc_optparse
+from bx.cookbook import doc_optparse
 import bx.seq.nib
 import string
 import sys
