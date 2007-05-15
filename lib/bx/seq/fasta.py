@@ -5,8 +5,6 @@ Classes to support FASTA files.
 
 A FASTA file contains multiple sequences.  Each sequence is usually DNA.
 
-WARNING:  THIS MODULE CURRENTLY ONLY READS THE FIRST SEQUENCE
-
 A typical FASTA file::
 
    >mule
@@ -24,6 +22,13 @@ A typical FASTA file::
    GTACCGCAGCCGAAATTAAGCCGTGTCTTCTTCCCACTTCAAACGGGAAT
    CGTGTCGACTTTACAGGAACAGNNNNNNNNNNATAACGCCAGAG
     ... more sequences
+
+Typical use:
+
+	for seq in bx.seq.fasta.FastaReader(sys.stdin):
+		print seq.name
+		print seq.get(0,seq.length)
+
 """
 
 from bx.seq.seq import SeqFile,SeqReader
