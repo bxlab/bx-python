@@ -24,22 +24,23 @@ def concat(readers, comments=True, header=True, sameformat=True):
     start_col = readers[0].start_col
     end_col = readers[0].end_col
     strand_col = readers[0].strand_col
-    firsttime = True
+    nfields = None
+    firstdataset = True
+    output = False
     for intervals in readers:
         for interval in intervals:
             if type( interval ) is GenomicInterval:
+                if not nfields: nfields = interval.nfields
                 out_interval = interval.copy()
-                if sameformat or firsttime:
-                    if not firsttime:
-                        # everything except the first input has to be
-                        # trimmed or padded to match the first input
-                        if len(out_interval.fields) > nfields:
-                            out_interval.fields = out_interval.fields[0:(nfields - 1)]
+                if sameformat or firstdataset:
+                    # everything except the first input has to be
+                    # trimmed or padded to match the first input
+                    if len(out_interval.fields) > nfields:
+                        out_interval.fields = out_interval.fields[0:(nfields - 1)]
                         while len(out_interval.fields) < nfields:
                             out_interval.fields.append(".")
+                    output = True
                     yield out_interval
-                    if firsttime:
-                        nfields = interval.nfields
                 else:
                     chrom = out_interval.chrom
                     start = out_interval.start
@@ -57,5 +58,4 @@ def concat(readers, comments=True, header=True, sameformat=True):
                 yield interval
             elif type( interval ) is Comment and comments:
                 yield interval
-        # All other inputs will be mangled
-        firsttime=False
+        if output and firstdataset: firstdataset = False
