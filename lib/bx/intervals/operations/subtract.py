@@ -47,7 +47,7 @@ def subtract(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, 
             else:
                 start = int(interval.start)
                 end = int(interval.end)
-                if start > end: warn( "Interval start after end! on line '%d' of second input" % f.lineno() )
+                if start > end: warn( "Interval start after end!" )
                 out_intervals = []
                 # Find the intervals that meet the criteria (for the three sensible
                 # permutations of reverse and pieces)

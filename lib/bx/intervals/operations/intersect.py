@@ -42,7 +42,7 @@ def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True,
             start = int(interval.start)
             end = int(interval.end)
             if chrom not in bitsets: continue
-            if start > end: warn( "Interval start after end! on line '%d' of second input" % f.lineno() )
+            if start > end: warn( "Interval start after end!" )
             out_intervals = []
             # Intersect or Overlap
             if bitsets[ chrom ].count_range( start, end-start ) >= mincols:                
