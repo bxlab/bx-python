@@ -45,7 +45,8 @@ def coverage(readers, comments=True):
                 percent = 0.0
             else:
                 bases_covered = bitsets[ chrom ].count_range( start, end-start )
-                percent = float(bases_covered) / float(end - start)
+                if (end - start) == 0: percent = 0
+                else: percent = float(bases_covered) / float(end - start)
             interval.fields.append(str(bases_covered))
             interval.fields.append(str(percent))
             yield interval
