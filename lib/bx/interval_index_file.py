@@ -101,21 +101,44 @@ import os.path
 __all__ = [ 'Indexes', 'Index' ]
 
 MAGIC=0x2cff800a
-VERSION=1
+VERSION=2
 
 MIN=0
-MAX=512*1024*1024
+OLD_MAX=512*1024*1024
+DEFAULT_MAX=512*1024*1024
+MAX=2147483647
 
-BIN_OFFSETS = [ 512 + 64 + 8 + 1, 64 + 8 + 1, 8 + 1, 1, 0 ]
+BIN_OFFSETS = [ 4096 + 512 + 64 + 8 + 1, 512 + 64 + 8 + 1, 64 + 8 + 1, 8 + 1, 1, 0 ]
 BIN_FIRST_SHIFT = 17
 BIN_NEXT_SHIFT = 3
 
-def bin_for_range( start, end):
+# Size for each level
+size = ( 1 << BIN_FIRST_SHIFT )
+BIN_OFFSETS_MAX = [ size ]
+for i in range( len( BIN_OFFSETS ) - 1 ):
+    size <<= BIN_NEXT_SHIFT
+    BIN_OFFSETS_MAX.insert( 0, size )
+del size
+
+def offsets_for_max_size( max_size ):
+    """
+    Return the subset of offsets needed to contain intervals over (0,max_size)
+    """
+    for i, max in enumerate( reversed( BIN_OFFSETS_MAX ) ):
+        if max_size < max:
+            break
+    else:
+        raise Exception( "%d is larger than the maximum possible size (%d)" % ( max_size, BIN_OFFSETS_MAX[0] ) )
+    return BIN_OFFSETS[ ( len(BIN_OFFSETS) - i - 1 ) : ]
+
+def bin_for_range( start, end, offsets=None ):
     """Find the smallest bin that can contain interval (start,end)"""
+    if offsets is None:
+        offsets = BIN_OFFSETS
     start_bin, end_bin = start, end - 1
     start_bin >>= BIN_FIRST_SHIFT
     end_bin >>= BIN_FIRST_SHIFT
-    for offset in BIN_OFFSETS:
+    for offset in offsets:
         if start_bin == end_bin:
             return offset + start_bin
         else:
@@ -233,15 +256,15 @@ class Indexes:
         self.indexes = dict()
         if filename is not None: self.open( filename )
 
-    def add( self, name, start, end, val ):
+    def add( self, name, start, end, val, max=DEFAULT_MAX ):
         if name not in self.indexes:
-            self.indexes[name] = Index()
+            self.indexes[name] = Index( max=max )
         self.indexes[name].add( start, end, val )
 
     def get( self, name ):
         if self.indexes[name] is None:
             offset, value_size = self.offsets[name]
-            self.indexes[name] = Index( filename=self.filename, offset=offset, value_size=value_size )
+            self.indexes[name] = Index( filename=self.filename, offset=offset, value_size=value_size, version=self.version )
         return self.indexes[name]
 
     def find( self, name, start, end ):
@@ -259,6 +282,7 @@ class Indexes:
             raise "File does not have expected header"
         if version > VERSION:
             warn( "File claims version %d, I don't known anything about versions beyond %d. Attempting to continue", version, VERSION )
+        self.version = version
         for i in range( length ):
             key_len = read_packed( f, ">I" )
             key = f.read( key_len )
@@ -301,13 +325,13 @@ class Indexes:
 
 class Index:
 
-    def __init__( self, min=MIN, max=MAX, filename=None, offset=0, value_size=None ):
+    def __init__( self, min=MIN, max=DEFAULT_MAX, filename=None, offset=0, value_size=None, version=None ):
         self._value_size = value_size
         self.max_val = 1   # (1, rather than 0, to force value_size > 0)
         if filename is None:
             self.new( min, max )
         else:
-            self.open( filename, offset )
+            self.open( filename, offset, version )
 
     def get_value_size ( self ):
         if self._value_size != None:
@@ -322,12 +346,14 @@ class Index:
         assert MIN <= min <= max <= MAX
         self.min = min
         self.max = max
+        # Determine offsets to use
+        self.offsets = offsets_for_max_size( max )
         # Determine the largest bin we will actually use
-        self.bin_count = bin_for_range( max - 1, max ) + 1
+        self.bin_count = bin_for_range( max - 1, max, offsets = self.offsets ) + 1
         # Create empty bins
         self.bins = [ [] for i in range( self.bin_count ) ]
 
-    def open( self, filename, offset ):
+    def open( self, filename, offset, version ):
         self.filename = filename
         self.offset = offset
         # Open the file and seek to where we expect our header
@@ -336,6 +362,12 @@ class Index:
         # Read min/max
         min, max = read_packed( f, ">2I" )
         self.new( min, max )
+        # Decide how many levels of bins based on 'max'
+        if version < 2:
+            # Prior to version to all files used the bins for 512MB
+            self.offsets = offsets_for_max_size( OLD_MAX - 1 )
+        else:
+            self.offsets = offsets_for_max_size( max )
         # Read bin indexes
         self.bin_offsets = []
         self.bin_sizes = []
@@ -348,7 +380,7 @@ class Index:
 
     def add( self, start, end, val ):
         """Add the interval (start,end) with associated value val to the index"""
-        insort( self.bins[ bin_for_range( start, end ) ], ( start, end, val ) )
+        insort( self.bins[ bin_for_range( start, end, offsets=self.offsets ) ], ( start, end, val ) )
         assert val >= 0
         self.max_val = max(self.max_val,val)
 
@@ -356,7 +388,7 @@ class Index:
         rval = []
         start_bin = ( max( start, self.min ) ) >> BIN_FIRST_SHIFT
         end_bin = ( min( end, self.max ) - 1 ) >> BIN_FIRST_SHIFT
-        for offset in BIN_OFFSETS:
+        for offset in self.offsets:
             for i in range( start_bin + offset, end_bin + offset + 1 ):
                 if self.bins[i] is None: self.load_bin( i )
                 # Iterate over bin and insert any overlapping elements into return value

@@ -74,7 +74,7 @@ def main():
         for c in block.components:
             if species is not None and c.src.split('.')[0] not in species:
                 continue
-            indexes.add( c.src, c.forward_strand_start, c.forward_strand_end, pos )
+            indexes.add( c.src, c.forward_strand_start, c.forward_strand_end, pos, max=c.src_size )
 
     out = open( index_file, 'w' )
     indexes.write( out )
