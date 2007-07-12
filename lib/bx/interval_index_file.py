@@ -100,25 +100,29 @@ import os.path
 
 __all__ = [ 'Indexes', 'Index' ]
 
-MAGIC=0x2cff800a
-VERSION=2
+MAGIC = 0x2cff800a
+VERSION = 2
 
-MIN=0
-OLD_MAX=512*1024*1024
-DEFAULT_MAX=512*1024*1024
-MAX=2147483647
+# These three constants determine the structure of the default binning strategy
+BIN_LEVELS = 6        # Number of levels of bins to build
+BIN_FIRST_SHIFT = 17  # Number of bits for the bottom level bin 
+BIN_NEXT_SHIFT = 3    # Number of bits for each higher level bin
 
-BIN_OFFSETS = [ 4096 + 512 + 64 + 8 + 1, 512 + 64 + 8 + 1, 64 + 8 + 1, 8 + 1, 1, 0 ]
-BIN_FIRST_SHIFT = 17
-BIN_NEXT_SHIFT = 3
+# Build offset and max size arrays for each bin level
+BIN_OFFSETS = [ 1, 0 ]
+BIN_OFFSETS_MAX = [ ( 1 << BIN_FIRST_SHIFT << BIN_NEXT_SHIFT ), ( 1 << BIN_FIRST_SHIFT ) ]
+for i in range( BIN_LEVELS - 2 ):
+    BIN_OFFSETS.insert( 0, ( BIN_OFFSETS[0] << 3 ) + BIN_OFFSETS[0] )
+    BIN_OFFSETS_MAX.insert( 0, ( BIN_OFFSETS_MAX[0] << BIN_NEXT_SHIFT ) )
+# The maximum size for the top bin is actually bigger than the signed integers
+# we use to store positions in the file, so we'll change it to prevent confusion
+BIN_OFFSETS_MAX[ 0 ] = max
 
-# Size for each level
-size = ( 1 << BIN_FIRST_SHIFT )
-BIN_OFFSETS_MAX = [ size ]
-for i in range( len( BIN_OFFSETS ) - 1 ):
-    size <<= BIN_NEXT_SHIFT
-    BIN_OFFSETS_MAX.insert( 0, size )
-del size
+# Constants for the minimum and maximum size of the overall interval
+MIN = 0                     
+OLD_MAX = 512*1024*1024     # Maximum size supported by versions < 2 
+DEFAULT_MAX = 512*1024*1024 # Default max size to use when none is passed
+MAX = ( 2 ** 31 )           # Absolute max size (limited by file format)
 
 def offsets_for_max_size( max_size ):
     """
@@ -364,7 +368,7 @@ class Index:
         self.new( min, max )
         # Decide how many levels of bins based on 'max'
         if version < 2:
-            # Prior to version to all files used the bins for 512MB
+            # Prior to version 2 all files used the bins for 512MB
             self.offsets = offsets_for_max_size( OLD_MAX - 1 )
         else:
             self.offsets = offsets_for_max_size( max )
