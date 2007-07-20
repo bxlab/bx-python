@@ -30,6 +30,7 @@ NIB_MAGIC_NUMBER_SWAP = 0x3A3DE96B
 NIB_MAGIC_SIZE = 4
 NIB_LENGTH_SIZE = 4
 NIB_I2C_TABLE = "TCAGNXXXtcagnxxx"
+MAX_BASIC_CHUNK = 1024*1024
 
 class NibFile(SeqFile):
 
@@ -45,6 +46,21 @@ class NibFile(SeqFile):
         self.length = struct.unpack("%sL" % self.byte_order, file.read(NIB_LENGTH_SIZE))[0]
 
     def raw_fetch(self, start, length):
+        # form result from "small" blocks to reduce memory overhead of the
+        # translation to list in basic_fetch for very long sequences
+        result = []
+        while (length > 0):
+            chunkLen = MAX_BASIC_CHUNK
+            if   (length < chunkLen): chunkLen = length
+            elif ((start & 1) != 0):  chunkLen -= 1 # (get onto an even boundary)
+            result.append(self.basic_fetch(start,chunkLen))
+            start  += chunkLen
+            length -= chunkLen
+        s = string.join(result, '')
+        del result
+        return s
+
+    def basic_fetch(self, start, length):
         # Read block of bytes containing sequence
         block_start = int(math.floor(start / 2))
         block_end = int(math.floor((start + length - 1) / 2))
@@ -61,7 +77,9 @@ class NibFile(SeqFile):
         if start & 1: del result[ 0 ]
         if (start + length) & 1: del result[ -1 ]
         # Return as string
-        return string.join(result, '')
+        s = string.join(result, '')
+        del result
+        return s
 
 
 class NibReader(SeqReader):
