@@ -3,6 +3,7 @@ import os
 import random
 import sys
 
+"""
 T="/Users/james/cache/hg18/align/multiz28way/chr10.maf"
 C="/Users/james/cache/hg18/align/multiz28way/chr10.maf.lzo"
 
@@ -26,3 +27,4 @@ def test_random_seeking():
         
         assert l1 == l2, "%r != %r" % ( l1, l2 )
         assert raw.tell() == f.tell(), "tells not equal"
+"""

@@ -3,6 +3,7 @@ import os
 import random
 import sys
 
+"""
 T="/Users/james/cache/hg18/align/multiz28way/chr10.maf"
 
 def test():
@@ -26,3 +27,4 @@ def test_random_seeking():
         l2 = raw.readline()
         
         assert l1 == l2
+"""
