@@ -112,7 +112,7 @@ BIN_NEXT_SHIFT = 3    # Number of bits for each higher level bin
 BIN_OFFSETS = [ 1, 0 ]
 BIN_OFFSETS_MAX = [ ( 1 << BIN_FIRST_SHIFT << BIN_NEXT_SHIFT ), ( 1 << BIN_FIRST_SHIFT ) ]
 for i in range( BIN_LEVELS - 2 ):
-    BIN_OFFSETS.insert( 0, ( BIN_OFFSETS[0] << 3 ) + BIN_OFFSETS[0] )
+    BIN_OFFSETS.insert( 0, ( 2 ** (3*(i+1)) ) + BIN_OFFSETS[0] )
     BIN_OFFSETS_MAX.insert( 0, ( BIN_OFFSETS_MAX[0] << BIN_NEXT_SHIFT ) )
 # The maximum size for the top bin is actually bigger than the signed integers
 # we use to store positions in the file, so we'll change it to prevent confusion

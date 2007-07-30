@@ -3,6 +3,9 @@ from interval_index_file import Indexes
 from tempfile import mktemp
 import random
 
+def test_offsets():
+    assert interval_index_file.offsets_for_max_size( 512*1024*1024  - 1 ) == [ 512 + 64 + 8 + 1, 64 + 8 + 1, 8 + 1, 1, 0 ]
+
 def test():
     ix = Indexes()
     chrs = []
