@@ -43,7 +43,7 @@ class MAFMultiIndexedAccess( interval_index_file.AbstractMultiIndexedAccess ):
     indexed_access_class = MAFIndexedAccess
       
 Indexed = MAFIndexedAccess
-"""Deprecated: `MAFMIndexedAccess` is also available under the name `Indexed`."""
+"""Deprecated: `MAFIndexedAccess` is also available under the name `Indexed`."""
 
 MultiIndexed = MAFMultiIndexedAccess
 """Deprecated: `MAFMultiIndexedAccess` is also available under the name `MultiIndexed`."""

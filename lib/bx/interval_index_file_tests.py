@@ -10,7 +10,7 @@ def test():
         intervals = []
         name = "seq%d" % i
         max = random.randint( 0, interval_index_file.MAX )
-        print name, "size", max
+        # print name, "size", max
         for i in range( 500 ):
             start = random.randint( 0, max )
             end = random.randint( 0, max )
