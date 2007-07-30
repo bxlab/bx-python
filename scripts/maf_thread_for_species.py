@@ -39,7 +39,7 @@ def main():
     maf_writer = bx.align.maf.Writer( sys.stdout )
 
     if fuse: 
-        maf_writer = MafFuser( maf_writer )
+        maf_writer = FusingAlignmentWriter( maf_writer )
    
     for m in maf_reader:            
         new_components = get_components_for_species( m, species )	
