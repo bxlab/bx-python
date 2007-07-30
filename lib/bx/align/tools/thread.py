@@ -3,9 +3,9 @@ Tools for "threading" out specific species from aligments (removing other
 species and fixing alignment text).
 """
 
-import copy
 import sys
 from itertools import *
+from copy import copy
 
 def thread( mafs, species ):
     """
@@ -57,12 +57,13 @@ def thread( mafs, species ):
     """
     new = []
     for m in mafs:
+        new_maf = copy( m )
         new_components = get_components_for_species( m, species )	
         if new_components: 
             remove_all_gap_columns( new_components )          
-            m.components = new_components
-            m.score = 0.0
-            new.append( m )   
+            new_maf.components = new_components
+            new_maf.score = 0.0
+            new.append( new_maf )   
     return new
         
 def get_components_for_species( alignment, species ):
