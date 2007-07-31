@@ -14,21 +14,17 @@ from warnings import warn
 
 from bx.intervals.io import *
 from bx.intervals.operations import *
+from bx.intervals.quicksect import IntervalTree
 
 def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
     # Read rightSet into memory:
     rightlen = 0
     leftlen = 0
-    rightSorted = list()
+    rightTree = IntervalTree()
     for item in rightSet:
-        if rightlen == 0 and type( item ) is GenomicInterval:
-            rightlen = item.nfields
         if type( item ) is GenomicInterval:
-            rightSorted.append([item, False])
-
-    # We can't use bisect.insort because it wouldn't know how to
-    # handle our list properly
-    rightSorted.sort(cmp=interval_cmp)
+            rightTree.insert( item, rightSet.linenum, item.fields )
+            if rightlen == 0: rightlen = item.nfields
 
     for interval in leftSet:
         if leftlen == 0 and type( interval ) is GenomicInterval:
@@ -36,27 +32,29 @@ def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
         if not (type( interval ) is GenomicInterval):
             yield interval
         else:
-            lower, upper = findintersect(interval, rightSorted, mincols)
-            x = lower
-            while x <= upper:
+            result = []
+            rightTree.intersect( interval, lambda node: result.append( node ) )
+            for item in result:
                 outfields = list(interval)
-                map(outfields.append, rightSorted[x][0])
-                rightSorted[x][1] = True
+                map(outfields.append, item.other)
+                setattr( item, "visited", True )
                 yield outfields
-                x += 1
-            if lower > upper and rightfill:
-                # no intersection, and fill
+            if len(result) == 0 and rightfill:
                 outfields = list(interval)
                 for x in range(rightlen): outfields.append(".")
                 yield outfields
 
     if leftfill:
-        for item in rightSorted:
-            if not item[1]:
-                outfields = list()
-                for x in range(leftlen): outfields.append(".")
-                map(outfields.append, item[0])
-                yield outfields
+        def report_unvisited( node, results ):
+            if not hasattr(node, "visited"):
+                results.append( node )
+        results = []
+        rightTree.traverse( lambda x: report_unvisited( x, results ) )
+        for item in results:
+            outfields = list()
+            for x in range(leftlen): outfields.append(".")
+            map(outfields.append, item.other)
+            yield outfields
 
 
 def interval_cmp(a, b):
@@ -66,10 +64,9 @@ def interval_cmp(a, b):
         return 0
     # Both are intervals
     if interval1.chrom == interval2.chrom:
-        if interval1.start == interval2.start:
-            return interval1.end-interval2.end
-        else:
-            return interval1.start-interval2.start
+        center1 = interval1.start + ((interval1.end - interval1.start) / 2)
+        center2 = interval2.start + ((interval2.end - interval2.start) / 2)
+        return center1 - center2
     else:
         if interval1.chrom > interval2.chrom:
             return 1
@@ -85,8 +82,12 @@ def findintersect(interval, sortedlist, mincols):
     n = int(math.pow(2,math.ceil(math.log(len(sortedlist),2))))
 
     not_found = True
-    while not_found and n > 0:
+    not_done = True
+    while not_found and not_done:
         n = n / 2
+        if n == 0:
+            n = 1
+            not_done = False
         if x >= len(sortedlist):
             x -= n
         elif x < 0:
@@ -100,7 +101,9 @@ def findintersect(interval, sortedlist, mincols):
                     x -= n
                 else:
                     x += n
-        
+
+    print "\t".join(sortedlist[x][0].fields)
+    print "not_found = " + str(not_found)
     if not_found:
         return 0,-1
 
