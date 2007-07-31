@@ -24,7 +24,7 @@ class IntervalTree( object ):
         if chrom in self.chroms:
             self.chroms[chrom].intersect( start, end, report_func )
     def traverse( self, func ):
-        for item in self.chroms.iter_values():
+        for item in self.chroms.itervalues():
             item.traverse( func )
 
 class IntervalNode( object ):
