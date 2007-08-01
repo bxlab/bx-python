@@ -52,6 +52,9 @@ class GenomicInterval( TableRow ):
             self.end = int( fields[end_col] )
         except ValueError, e:
             raise FieldFormatError( "Could not parse end_col: " + str( e ), expected="integer" )
+        # Ensure start <= end
+        if self.end < self.start:
+            raise ParseError( "Start is greater than End. Interval length is < 1." )
         # Parse strand and ensure it is valid
         if strand_col >= nfields or strand_col < 0:
             # This should probable be immutable since the fields are 
