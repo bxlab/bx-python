@@ -11,13 +11,6 @@ test_lav = "test_data/lav_tests/apple_orange.lav"
 
 class lavTestCase(unittest.TestCase):
 
-    # def setUp(self):
-    #     sys.stdout = None # this causes an AttributeError if any of these
-    #                       # .. tests inadvertently print something
-    # 
-    # def tearDown(self):
-    #     sys.stdout = sys.__stdout__
-
     def testReader(self):
 
         reader = lav.Reader(file(test_lav))
