@@ -3,8 +3,10 @@ Intersects ... faster.  Suports GenomicInterval datatype and multiple
 chromosomes.
 """
 import math
-import random
 import time
+import sys
+import bx
+random = bx.std.random
 
 class IntervalTree( object ):
     def __init__( self ):
@@ -99,21 +101,18 @@ class IntervalNode( object ):
 def main():
     test = None
     intlist = []
-    intersect = intersection.Intersecter()
     for x in range(20000):
         start = random.randint(0,1000000)
         end = start + random.randint(1, 1000)
         if test: test = test.insert( start, end )
         else: test = IntervalNode( start, end )
         intlist.append( (start, end) )
-        intersect.add( start, end )
-    intersect.prepare()
     starttime = time.clock()
     for x in range(5000):
         start = random.randint(0, 10000000)
         end = start + random.randint(1, 1000)
         result = []
-        test.intersect( start, end, lambda x,y,z: result.append(z) )
+        test.intersect( start, end, lambda x: result.append(x.linenum) )
     print "%f for tree method" % (time.clock() - starttime)
     starttime = time.clock()
     for x in range(5000):
