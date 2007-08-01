@@ -14,7 +14,7 @@ from warnings import warn
 
 from bx.intervals.io import *
 from bx.intervals.operations import *
-from bx.intervals.quicksect import IntervalTree
+from quicksect import IntervalTree
 
 def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
     # Read rightSet into memory:

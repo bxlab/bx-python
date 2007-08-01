@@ -5,8 +5,7 @@ chromosomes.
 import math
 import time
 import sys
-import bx
-random = bx.std.random
+import random
 
 class IntervalTree( object ):
     def __init__( self ):
