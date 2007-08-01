@@ -63,13 +63,6 @@ aligns_for_asymm_scheme = [ ( "\x01\x01\x01\x01\x01\x01",
 
 class BasicTests( unittest.TestCase ):
 
-    # def setUp(self):
-    #     sys.stdout = None # this causes an AttributeError if any of these
-    #                       # .. tests inadvertently print something
-    # 
-    # def tearDown(self):
-    #     sys.stdout = sys.__stdout__
-
     def test_scoring_text( self ):
         ss = bx.align.score.hox70
         for t1, t2, score in aligns:
