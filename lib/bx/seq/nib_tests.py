@@ -36,6 +36,8 @@ class NIBTestCase( unittest.TestCase ):
         check_get( nibfile, valid_seq_len - 11, 11 )
 
 def check_get( nibfile, start, len ):
+    ## print "expect: |%r|" % valid_seq[start:start+len]
+    ## print "actual: |%r|" % nibfile.get( start, len )
     assert nibfile.get( start, len ) == valid_seq[start:start+len]
 
 test_classes = [ NIBTestCase ]

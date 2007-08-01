@@ -87,6 +87,8 @@ def get_extension_modules():
                                   include_dirs=["src/kent", "src"] ) )
     # Alignment object speedups
     extensions.append( Extension( "bx.align._core", [ "lib/bx/align/_core.pyx" ] ) )
+    # NIB reading speedups
+    extensions.append( Extension( "bx.seq._nib", [ "lib/bx/seq/_nib.pyx" ] ) )
     # Translation if character / integer strings 
     extensions.append( Extension( "bx._seqmapping", [ "lib/bx/_seqmapping.pyx" ] ) )
     # Position weight matrices
