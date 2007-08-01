@@ -25,13 +25,6 @@ valid2_fa = [("apple",      "GGCGCTGCGATAAGGTTGCGACAACACGGACCTTCTTTTGCCTACCTCTGT
 
 class SEQTestCase (unittest.TestCase):
 
-    def setUp(self):
-        sys.stdout = None # this causes an AttributeError if any of these
-                          # .. tests inadvertently print something
-
-    def tearDown(self):
-        sys.stdout = sys.__stdout__
-
     def test_get_fasta (self):
         fastafile = bx.seq.seq_file (file (test_fa, "rb"))
         check_get (fastafile, valid_fasta, 3, 40)

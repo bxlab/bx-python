@@ -24,13 +24,6 @@ valid_seq_len = len(valid_seq)
 
 class QDNATestCase(unittest.TestCase):
 
-    def setUp(self):
-        sys.stdout = None # this causes an AttributeError if any of these
-                          # .. tests inadvertently print something
-
-    def tearDown(self):
-        sys.stdout = sys.__stdout__
-
     def test_get(self):
         qdnafile = qdna.QdnaFile(file(test_qdna,"rb"))
         check_get(qdnafile, 0, valid_seq_len)
