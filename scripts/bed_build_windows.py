@@ -5,7 +5,7 @@ Build windows of length `window_size` over the sequences defined by
 `len_file` excluding regions in `gap_file`.
 
 After removing the gaps, windows of exactly `window_size` units will be
-placed in the remaining regions, with the extra space randomly placed
+placed in the remaining regions, with the extra space evenly placed
 between the windows.
 
 `len_file` is LEN format (name length) and `gap_file is BED (name start stop).
@@ -39,11 +39,12 @@ def do_windows( chr, start, end, window_size ):
     length = end - start
     window_count = length // window_size
     lost = length % window_size
-    skip_amounts = [0] * ( window_count + 1 )
-    for i in range( 0, lost ): skip_amounts[ random.randrange( 0, window_count + 1 ) ] += 1
+    skip_amount = lost // window_count
+    ## skip_amounts = [0] * ( window_count + 1 )
+    ## for i in range( 0, lost ): skip_amounts[ random.randrange( 0, window_count + 1 ) ] += 1
     s = 0
     for i in range( 0, window_count ):
-        s += skip_amounts[ i ]
+        s += skip_amount
         print chr, start + s, start + s + window_size        
         s += window_size
         
