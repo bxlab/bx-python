@@ -38,6 +38,8 @@ def main():
 def do_windows( chr, start, end, window_size ):
     length = end - start
     window_count = length // window_size
+    if window_count == 0:
+        return
     lost = length % window_size
     skip_amount = lost // window_count
     ## skip_amounts = [0] * ( window_count + 1 )
