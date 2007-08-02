@@ -30,9 +30,9 @@ def main():
             assert end < bits.size
             e = 0
             while 1:
-                s = bits.next_set( e )
+                s = bits.next_clear( e )
                 if s > end: break
-                e = bits.next_clear( s )
+                e = bits.next_set( s )
                 do_windows( chr, s, min( e, end ), window_size )
 
 def do_windows( chr, start, end, window_size ):
