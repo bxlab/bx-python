@@ -145,3 +145,32 @@ class GenomicIntervalReader( TableReader ):
                 end = min(int( interval[self.end_col]), size)
                 last_bitset.set_range( start, end-start )
         return bitsets
+
+class NiceReaderWrapper( GenomicIntervalReader ):
+    def __init__( self, reader, **kwargs ):
+        GenomicIntervalReader.__init__( self, reader, **kwargs )
+        self.outstream = kwargs.get("outstream", None)
+        self.print_delegate = kwargs.get("print_delegate", None)
+        self.skipped = 0
+        self.skipped_lines = []
+        self.input_wrapper = iter( self.input )
+        self.input_iter = self.iterwrapper()
+    def __iter__( self ):
+        return self
+    def next( self ):
+        while 1:
+            try:
+                nextitem = GenomicIntervalReader.next( self )
+                return nextitem
+            except ParseError, e:
+                if self.outstream:
+                    if self.print_delegate and hasattr(self.print_delegate,"__call__"):
+                        self.print_delegate( self.outstream, e, self )
+                self.skipped += 1
+                # no reason to stuff an entire bad file into memmory
+                if self.skipped < 10:
+                    self.skipped_lines.append( (self.linenum, self.current_line) )
+    def iterwrapper( self ):
+        while 1:
+            self.current_line = self.input_wrapper.next()
+            yield self.current_line
