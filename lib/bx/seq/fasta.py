@@ -38,7 +38,7 @@ class FastaFile(SeqFile):
 
     def __init__(self, file, revcomp=False, name="", gap=None, lookahead=None, contig=None):
         SeqFile.__init__(self,file,revcomp,name,gap)
-        self.lookahead = None
+        self.lookahead = lookahead
         if (contig == None): contig = 1
         assert (contig >= 1), "contig %d is not legal" % contig
 
@@ -46,8 +46,10 @@ class FastaFile(SeqFile):
 
         currContig = 1
         while (True):
-            if (lookahead != None): (line,lookahead) = (lookahead,None)
-            else:                    line = self.file.readline()
+            if (self.lookahead != None):
+                (line,self.lookahead) = (self.lookahead,None)
+            else:
+                line = self.file.readline()
             if (line == ""): break
             if (line.startswith(">")):
                 if (self.text != None):
