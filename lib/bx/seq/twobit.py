@@ -2,6 +2,7 @@ import sys
 import _twobit
 
 from struct import *
+from UserDict import DictMixin
 
 TWOBIT_MAGIC_NUMBER = 0x1A412743
 TWOBIT_MAGIC_NUMBER_SWAP = 0x4327411A
@@ -26,6 +27,9 @@ class TwoBitSequence( object ):
             return ""
         return _twobit.read( self.tbf.file, self, start, stop )
         
+    def __len__( self ):
+        return self.size
+        
     def get( self, start, end ):
         # Trim start / stop
         if start < 0:
@@ -40,7 +44,7 @@ class TwoBitSequence( object ):
         # Return
         return dna
         
-class TwoBitFile( object ):
+class TwoBitFile( DictMixin ):
     def __init__( self, file ):
         # Read magic and determine byte order
         self.byte_order = ">"
@@ -73,6 +77,9 @@ class TwoBitFile( object ):
         if not seq.loaded:
             self.load_sequence( name )
         return seq
+        
+    def keys( self ):
+        return self.index.keys()
         
     def load_sequence( self, name ):
         seq = self.index[name]
