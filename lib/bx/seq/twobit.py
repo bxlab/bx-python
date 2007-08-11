@@ -10,13 +10,35 @@ TWOBIT_MAGIC_SIZE = 4
 TWOBIT_VERSION = 0
 
 class TwoBitSequence( object ):
-    def __init__( self, header_offset=None ):
+    def __init__( self, tbf, header_offset=None ):
+        self.tbf = tbf
         self.header_offset = header_offset
         self.sequence_offset = None
         self.size = None
         self.n_blocks = None
         self.masked_blocks = None
         self.loaded = False
+        
+    def __getitem__( self, slice ):
+        start, stop, stride = slice.indices( self.size )
+        assert stride == 1, "Striding in slices not supported"
+        if stop - start < 1:
+            return ""
+        return _twobit.read( self.tbf.file, self, start, stop )
+        
+    def get( self, start, end ):
+        # Trim start / stop
+        if start < 0:
+            start = 0
+        if end > seq.size:
+            end = seq.size
+        out_size = end - start
+        if out_size < 1:
+            raise Exception( "end before start (%s,%s)" % ( start,end ) )
+        # Find position of packed portion
+        dna = _twobit.read( self.tbf.file, self, start, end )
+        # Return
+        return dna
         
 class TwoBitFile( object ):
     def __init__( self, file ):
@@ -43,27 +65,14 @@ class TwoBitFile( object ):
         for i in range( self.seq_count ):
             name = self.read_p_string()
             offset = self.read( "L" )
-            index[name] = TwoBitSequence( offset )
+            index[name] = TwoBitSequence( self, offset )
         self.index = index
 
-    def get( self, name, start, end ):
+    def __getitem__( self, name ):
         seq = self.index[name]
         if not seq.loaded:
             self.load_sequence( name )
-        # Trim start / stop
-        if start < 0:
-            start = 0
-        if end > seq.size:
-            end = seq.size
-        out_size = end - start
-        if out_size < 1:
-            raise Exception( "end before start (%s,%s)" % ( start,end ) )
-        # Find position of packed portion
-        dna = _twobit.read( self.file, seq, start, end )
-        #
-        
-        # Return
-        return dna
+        return seq
         
     def load_sequence( self, name ):
         seq = self.index[name]
