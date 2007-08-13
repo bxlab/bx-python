@@ -106,10 +106,10 @@ class Reader(object):
 			self.seq1_file = bx.seq.seq_file(f,revcomp=revcomp,contig=contig)
 			self.seq1_gap  = self.seq1_file.gap
 			try:
-				name1 = self.path_to_src_name(self.seq1_filename)
+				name1 = self.header_to_src_name(self.seq1_header)
 			except ValueError:
 				try:
-					name1 = self.header_to_src_name(self.seq1_header)
+					name1 = self.path_to_src_name(self.seq1_filename)
 				except ValueError:
 					name1 = "seq1"
 			(species1,chrom1) = src_split(name1)
@@ -132,10 +132,10 @@ class Reader(object):
 			self.seq2_file = bx.seq.seq_file(f,revcomp=revcomp,contig=contig)
 			self.seq2_gap  = self.seq2_file.gap
 			try:
-				name2 = self.path_to_src_name(self.seq2_filename)
+				name2 = self.header_to_src_name(self.seq2_header)
 			except ValueError:
 				try:
-					name2 = self.header_to_src_name(self.seq2_header)
+					name2 = self.path_to_src_name(self.seq2_filename)
 				except ValueError:
 					name2 = "seq2"
 			(species2,chrom2) = src_split(name2)
@@ -200,14 +200,14 @@ class Reader(object):
 		self.seq1_header = line
 		self.seq1_header_prefix = ""
 		if (line.startswith(">")):
-			self.seq1_header = line[1:]
+			self.seq1_header = line[1:].strip()
 			self.seq1_header_prefix = ">"
 
 		line = self.fetch_line(strip='"',report=" in h-stanza")
 		self.seq2_header = line
 		self.seq2_header_prefix = ""
 		if (line.startswith(">")):
-			self.seq2_header = line[1:]
+			self.seq2_header = line[1:].strip()
 			self.seq2_header_prefix = ">"
 
 		line = self.fetch_line(report=" in h-stanza")
@@ -358,12 +358,17 @@ class Reader(object):
 		if (slash != -1): path_name = path_name[slash+1:]
 		return path_name + "." + name
 
-	def header_to_src_name(header):
+	def header_to_src_name(self,header):
 		# converts, e.g. "hg18.chr13:115404472-117281897" to "hg18.chr13"
 		if (header == None) or (header == ""): raise ValueError
 		colon = header.rfind(":")
 		if (colon != -1): header = header[:colon]
-
+		if ("/" in header): raise ValueError
+		if (header.count(".") == 0):
+			return header
+		header = header.split(".")
+		if (header[0] == "") or (header[1] == ""): raise ValueError
+		return ".".join(header)
 
 class ReaderIter(object):
 	def __init__(self,reader):
