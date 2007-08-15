@@ -202,6 +202,7 @@ class Reader(object):
 		if (line.startswith(">")):
 			self.seq1_header = line[1:].strip()
 			self.seq1_header_prefix = ">"
+		self.seq1_header = self.seq1_header.split()[0]
 
 		line = self.fetch_line(strip='"',report=" in h-stanza")
 		self.seq2_header = line
@@ -209,6 +210,7 @@ class Reader(object):
 		if (line.startswith(">")):
 			self.seq2_header = line[1:].strip()
 			self.seq2_header_prefix = ">"
+		self.seq2_header = self.seq2_header.split()[0]
 
 		line = self.fetch_line(report=" in h-stanza")
 		assert (line == "}"), "improper h-stanza terminator (line %d, \"%s\")" \
