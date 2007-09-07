@@ -40,6 +40,19 @@ class Alignment( object ):
             elif self.text_size != len( component.text ): 
                 raise Exception( "Components must have same text length" )
 
+    def get_score( self ):
+    	return self.__score
+    def set_score( self,score ):
+        try:
+            score = int(score)
+        except:
+            try:
+                score = float(score)
+            except:
+                pass
+        self.__score = score
+    score = property( fget=get_score,fset=set_score )
+
     def __str__( self ):
         s = "a score=" + str( self.score )
         for key in self.attributes: 
