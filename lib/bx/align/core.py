@@ -43,13 +43,14 @@ class Alignment( object ):
     def get_score( self ):
     	return self.__score
     def set_score( self,score ):
-        try:
-            score = int(score)
-        except:
+        if type( score ) == str:
             try:
-                score = float(score)
+                score = int(score)
             except:
-                pass
+                try:
+                    score = float(score)
+                except:
+                    pass
         self.__score = score
     score = property( fget=get_score,fset=set_score )
 
