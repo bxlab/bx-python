@@ -114,6 +114,7 @@ class Reader(object):
 					name1 = "seq1"
 			(species1,chrom1) = src_split(name1)
 			self.seq1_src = src_merge(species1,chrom1,contig)
+			if (contig != None): chrom1 += "[%s]" % contig
 
 		if (self.seq2_file == None):
 			if (self.seq2_strand == "+"): revcomp = False
@@ -140,6 +141,7 @@ class Reader(object):
 					name2 = "seq2"
 			(species2,chrom2) = src_split(name2)
 			self.seq2_src = src_merge(species2,chrom2,contig)
+			if (contig != None): chrom2 += "[%s]" % contig
 
 		length1 = self.seq1_file.length
 		length2 = self.seq2_file.length
