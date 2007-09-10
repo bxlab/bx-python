@@ -85,13 +85,19 @@ def main():
                     slice_start = max( start, ref.start )
                     slice_end = min( end, ref.end )
                 sliced = block.slice_by_component( ref, slice_start, slice_end ) 
-                good = True
-                for c in sliced.components: 
-                    if c.size < 1: 
-                        good = False
-                if good and sliced.text_size > mincols:
-                    if strand != ref.strand: sliced = sliced.reverse_complement()
-                    out.write( sliced )
+                # If the block is shorter than the minimum allowed size, stop
+                if sliced.text_size < mincols:
+                    break
+                # If the reference component is empty, don't write the block
+                if sliced.get_component_by_src( src ).size < 1:
+                    continue
+                # Keep only components that are not empty
+                sliced.components = [ c for c in sliced.components if c.size > 0 ]
+                # Reverse complement if needed
+                if strand != ref.strand: 
+                    sliced = sliced.reverse_complement()
+                # Write the block
+                out.write( sliced )
         else:
             for block in blocks:
                 out.write( block )
