@@ -29,6 +29,7 @@ def main():
             if comp.src.split( '.' )[0] in species:
                 new_components.append( comp )
         m.components = new_components
+        m.remove_all_gap_columns()
         if len( m.components ) > 1:
             maf_writer.write( m )
         
