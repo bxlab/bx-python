@@ -720,6 +720,11 @@ class Reader (object):
             # if we're not collecting, skip this line
             if pwmRows == None: continue
             if len(line) < 1:   continue
+
+            # name, if present, added to ID
+            if line.startswith('NA'):
+                words = line.strip().split()
+                self.id = self.id + "\t" + " ".join(words[1:])
     
             # handle a P0 line
             if line.startswith("P0"):
