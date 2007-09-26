@@ -29,7 +29,7 @@ def main():
 
     # read weight matrices
     pwm = {}
-    for wm in pwmx.Reader(open( pwm_file )):
+    for wm in pwmx.Reader(open( pwm_file ), format='basic'):
         pwm[ wm.id ] = wm
 
     fbunch = {}

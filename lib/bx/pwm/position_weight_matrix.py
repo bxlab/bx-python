@@ -282,7 +282,7 @@ class PositionWeightMatrix (object):
         elif p > 0: width = max( len(other)+p, len(self) )
         elif q > 0: width = max( len(self)+q, len(other) )
 
-        sumx = zeros( (width,len(self.alphabet)))
+        sumx = zeros( (width,len(self.alphabet)),dtype='int')
         selfx = self.to_count_matrix()
         otherx = other.to_count_matrix()
 
@@ -352,7 +352,7 @@ class PositionWeightMatrix (object):
         return m
 
     def to_count_matrix(self):
-        m = zeros([len(self),len(self.alphabet)])
+        m = zeros([len(self),len(self.alphabet)],dtype='int')
         for i in range(len(self)):
             for j,a in enumerate(self.alphabet):
                 m[i][j] = self.counts[i][a]
