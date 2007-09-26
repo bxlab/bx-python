@@ -724,7 +724,7 @@ class Reader (object):
             # name, if present, added to ID
             if line.startswith('NA'):
                 words = line.strip().split()
-                self.id = self.id + "\t" + " ".join(words[1:])
+                tfId =  tfId + "\t" + " ".join(words[1:])
     
             # handle a P0 line
             if line.startswith("P0"):
