@@ -56,7 +56,7 @@ def throw_random_gap_list( lengths, mask, save_interval_func, allow_overlap=Fals
         for gap in gaps:
             if gap[0] >= length:
                 max_candidate += 1
-                candidate_bases += ( gap[0] - length )
+                candidate_bases += ( gap[0] - length + 1 )
             else: 
                 break
         if max_candidate == 0:
@@ -68,7 +68,7 @@ def throw_random_gap_list( lengths, mask, save_interval_func, allow_overlap=Fals
         for gap in gaps:
             gap_length, gap_start, gap_end = gap
             if s > ( gap_length - length ):
-                s -= ( gap_length - length )
+                s -= ( gap_length - length + 1)
                 chosen_index += 1
             else:
                 break
