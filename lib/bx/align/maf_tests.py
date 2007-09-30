@@ -56,14 +56,14 @@ def test_reader():
     assert reader.attributes["scoring"] == "humor.v4" 
 
     a = reader.next()
-    assert a.score == "0.128"
+    assert a.score == 0.128
     assert len( a.components ) == 3
     check_component( a.components[0], "human_hoxa", 100, 8,  "+", 100257, "ACA-TTACT" )
     check_component( a.components[1], "horse_hoxa", 120, 9, "-",  98892, "ACAATTGCT" )
     check_component( a.components[2], "fugu_hoxa",    88, 7,  "+",  90788, "ACA--TGCT" )
     
     a = reader.next()
-    assert a.score == "0.071"
+    assert a.score == 0.071
     assert len( a.components ) == 3
     check_component( a.components[0], "human_unc", 9077, 8, "+", 10998, "ACAGTATT" )
     check_component( a.components[1], "horse_unc", 4555, 6, "-",  5099, "ACA--ATT" )
@@ -80,7 +80,7 @@ def test_writer():
     writer = maf.Writer( val, { 'scoring':'foobar' } )
     
     a = align.Alignment()
-    a.score = "7009"
+    a.score = 7009
 
     a.components.append( align.Component( src="human_hoxa", start=100, size=9,  strand="+", src_size=1000257, text="ACA-TTACT" ) )
     a.components.append( align.Component( src="horse_hoxa", start=120, size=10, strand="-",   src_size=98892, text="ACAATTGCT" ) )
