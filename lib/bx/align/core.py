@@ -4,7 +4,7 @@ Classes that represent alignments between multiple sequences.
 
 import random
 import string
-#from bx import align
+from bx.misc.readlengths import read_lengths_file
 
 # DNA reverse complement table
 ## DNA_COMP = "                                             -                  " \
@@ -341,27 +341,6 @@ def src_merge( species,chrom,contig=None ): # creates src (inverse of src_split)
     else:               src = species + "." + chrom
     if contig != None: src += "[%s]" % contig
     return src
-
-# improvement: lengths file should probably be another class
-
-def read_lengths_file( name ):
-    chrom_to_length = {}
-    f = file ( name, "rt" )
-    for line in f:
-        line = line.strip()
-        if line == '' or line[0] == '#': continue
-        try:
-            fields = line.split()
-            if len(fields) != 2: raise
-            chrom = fields[0]
-            length = int( fields[1] )
-        except:
-            raise "bad length file line: %s" % line
-        if chrom in chrom_to_length and length != chrom_to_length[chrom]:
-            raise "%s has more than one length!" % chrom
-        chrom_to_length[chrom] = length
-    f.close()
-    return chrom_to_length
 
 # ---- Read C extension if available ---------------------------------------
 
