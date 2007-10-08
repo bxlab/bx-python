@@ -1,6 +1,6 @@
 """
 Read sequence lengths from a file.  Each line is of the form <name> <length>
-where <anme> is typically a chromsome name (e.g. chr12) and length is the
+where <name> is typically a chromsome name (e.g. chr12) and length is the
 number of bases the sequence.
 """
 
