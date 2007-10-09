@@ -16,7 +16,6 @@ options:
 import optparse, string, sys
 
 def main():
-
     # Parse command line    
     parser = optparse.OptionParser( usage="%prog [options] < gene_table.txt" )
     parser.add_option( "-r", "--region", dest="region", default="transcribed",
@@ -25,6 +24,8 @@ def main():
                        help="Only print intervals overlapping an exon" )
     parser.add_option( "-s", "--strand",  action="store_true", dest="strand",
                        help="Print strand after interval" )
+    parser.add_option( "-b", "--nobin",  action="store_false", dest="discard_first_column", default=True,
+                       help="file doesn't contain a 'bin' column (use this for pre-hg18 files)" )
     options, args = parser.parse_args()
     assert options.region in ( 'coding', 'utr3', 'utr5', 'transcribed' ), "Invalid region argument"
 
@@ -33,6 +34,7 @@ def main():
 
         # Parse fields from gene tabls
         fields = line.split( '\t' )
+        if (options.discard_first_column): fields.pop(0)
         chrom = fields[1]
         strand = fields[2]
         tx_start = int( fields[3] )
