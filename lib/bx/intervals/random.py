@@ -70,7 +70,8 @@ def throw_random_intervals( lengths, regions, save_interval_func=None, allow_ove
                           passed the (start,stop,region) for each generated 
                           interval, where region is an entry in the regions
                           list.  If this is None, the generated intervals will
-                          be returned in a list
+                          be returned as a list of elements copied from the
+                          region with start and end modified.
     """
     # Copy regions
     regions = [( x[1]-x[0], x[0], x ) for x in regions]
@@ -83,9 +84,16 @@ def throw_random_intervals( lengths, regions, save_interval_func=None, allow_ove
         return
     else:
         intervals = []
-        save_interval_func = lambda s, e, rgn: intervals.append( ( s, e, rgn ) )
+        save_interval_func = lambda s, e, rgn: intervals.append( overwrite_start_end ( s, e, rgn ) )
         throw_random_private( lengths, regions, save_interval_func, allow_overlap )
         return intervals
+
+def overwrite_start_end(s,e,rgn):
+	rgn = list(rgn)
+	rgn[0] = s
+	rgn[1] = e
+	return tuple(rgn)
+
 
 def throw_random_private( lengths, regions, save_interval_func, allow_overlap=False, three_args=True ):
     """
@@ -169,7 +177,7 @@ def throw_random_private( lengths, regions, save_interval_func, allow_overlap=Fa
         #..    if ix <= hi_rgn: print "%2s: %5s %5s %5s" % ( ix, region[1], region[0], cc[ix] )
         #..    else:            print "%2s: %5s %5s %5s" % ( ix, region[1], region[0], "X" )
         #..print "s = %s (of %s candidates)" % ( s, candidates )
-        # .Locate region containing that candidate, by binary search
+        # Locate region containing that candidate, by binary search
         lo = 0
         hi = hi_rgn
         while hi > lo:
@@ -179,7 +187,9 @@ def throw_random_private( lengths, regions, save_interval_func, allow_overlap=Fa
         s -= cc[lo]
         # If we are not allowing overlaps we will remove the placed interval
         # from the region list
-        if not allow_overlap:
+        if allow_overlap:
+            rgn_length, rgn_start, rgn_extra = regions[lo]
+        else:
             # Remove the chosen region and split
             rgn_length, rgn_start, rgn_extra = regions.pop( lo )
             rgn_end = rgn_start + rgn_length
