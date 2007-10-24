@@ -29,6 +29,11 @@ void *needLargeZeroedMem(size_t size)
         void *v;
         /*v = needLargeMem(size);*/
         v = malloc(size);
+	/* 
+	 * If you do memset(NULL,0,size), there will be a segfault. 
+	 * So check v for NULL 
+	 */
+	if( v != NULL )
         memset(v, 0, size);
         return v;
 }
@@ -43,10 +48,15 @@ void freez(void *vpt)
         freeMem(pt);
 }
 
-/* fill a specified area of memory with zeroes */
+/* fill a specified area of memory with zeroes 
+ * If you do zeroBytes(NULL,count), there will be a segfault. 
+ * So check pt for NULL 
+ */
 void zeroBytes(void *vpt, int count)
 {
         char *pt = (char*)vpt;
+	if(pt != NULL ){
         while (--count>=0)
                     *pt++=0;
+	}
 }

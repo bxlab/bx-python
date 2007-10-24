@@ -29,17 +29,44 @@ struct ClusterNode* clusterNodeAlloc( int start, int end)
    at to allow cn->lines to be changed. */
 struct ClusterNode* clusterNodeInsert( struct ClusterNode** cn, int start, int end, int linenum, int mincols)
 {
+  /* 
+     Crazy recursion occurs when 
+     1. start - mincols > root->end  && root->right == NULL && More than one ClusterNode with same start,end values has been allocated
+     2. end+mincols < root->start && root->left == NULL && More than one ClusterNode with same start,end values has been allocated
+
+     Hacky Bugfix:
+     same_cns_allocated will keep track of how many ClusterNodes with same value have been allocated.
+     return NULL and bail out if we encounter crazy recursion condition.
+     
+ */
+  static int same_cns_allocated = 0; 
+ 
+  
   if( (*cn) == NULL ) {
     (*cn) = clusterNodeAlloc( start, end );
   }
   struct ClusterNode* root = *cn;
   if( start - mincols > root->end ) {
+	 if(root->right == NULL && same_cns_allocated == 0){
+		 ++same_cns_allocated;
+	 }
+	  if(root->right == NULL && same_cns_allocated >= 1 ) {
+		  return NULL;
+	  }
+
     clusterNodeInsert( &(root->right), start, end, linenum, mincols );
     if( root->priority < root->right->priority ) {
       clusterRotateLeft( cn );
     }
     return root->right;
   } else if( end + mincols < root->start) {
+	  if(root->left == NULL && same_cns_allocated == 0){
+		  ++same_cns_allocated;
+	  }
+	  
+	  if(root->left == NULL && same_cns_allocated >= 1){
+		  return NULL;
+	  }
     clusterNodeInsert( &(root->left), start, end, linenum, mincols );
     if( root->priority < root->left->priority ) {
       clusterRotateRight( cn );

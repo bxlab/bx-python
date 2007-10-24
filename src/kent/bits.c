@@ -60,7 +60,12 @@ Bits *bitClone(Bits* orig, int bitCount)
 {
 int byteCount = ((bitCount+7)>>3);
 Bits* bits = needLargeZeroedMem(byteCount);
-memcpy(bits, orig, byteCount);
+/* bits is guaranteed to be non-null
+ * but orig might be NULL, so there may be
+ * a segfault. So check orig for NULL.
+ */ 
+ if(orig!=NULL)
+   memcpy(bits, orig, byteCount);
 return bits;
 }
 
