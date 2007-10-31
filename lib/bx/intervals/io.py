@@ -112,8 +112,8 @@ class GenomicIntervalReader( TableReader ):
     >>> assert type( elements[4] ) is GenomicInterval
     """
     def __init__( self, input, chrom_col=0, start_col=1, end_col=2, strand_col=5, 
-                  default_strand="+", return_header=True, return_comments=True, force_header=None, fix_strand=False ):
-        TableReader.__init__( self, input, return_header, return_comments, force_header )
+                  default_strand="+", return_header=True, return_comments=True, force_header=None, fix_strand=False, comment_lines_startswith = ["#", "track "] ):
+        TableReader.__init__( self, input, return_header, return_comments, force_header, comment_lines_startswith )
         self.chrom_col = chrom_col
         self.start_col = start_col
         self.end_col = end_col
