@@ -138,7 +138,10 @@ class Alignment( object ):
         Remove any columns containing only gaps from alignment components,
         text of components is modified IN PLACE.
         """
-        seqs = [ list( c.text ) for c in self.components ]
+        try:
+            seqs = [ list( c.text ) for c in self.components ]
+        except TypeError:
+            return
         i = 0
         text_size = self.text_size
         while i < text_size:
