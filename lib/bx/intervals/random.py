@@ -89,10 +89,10 @@ def throw_random_intervals( lengths, regions, save_interval_func=None, allow_ove
         return intervals
 
 def overwrite_start_end(s,e,rgn):
-	rgn = list(rgn)
-	rgn[0] = s
-	rgn[1] = e
-	return tuple(rgn)
+    rgn = list(rgn)
+    rgn[0] = s
+    rgn[1] = e
+    return tuple(rgn)
 
 
 def throw_random_private( lengths, regions, save_interval_func, allow_overlap=False, three_args=True ):
@@ -151,6 +151,7 @@ def throw_random_private( lengths, regions, save_interval_func, allow_overlap=Fa
     min_length = min( lengths )
     prev_length = None # (force initial cc array construction)
     cc = [0] * (len( regions ) + len(lengths) - 1)
+    num_thrown = 0
     for length in lengths:
         # construct cc array (only needed if length has changed or region list has
         # changed)
@@ -167,7 +168,8 @@ def throw_random_private( lengths, regions, save_interval_func, allow_overlap=Fa
                 candidates += rgn_len - length + 1
                 hi_rgn += 1
             if candidates == 0:
-                raise MaxtriesException( "No region can fit an interval of length %d" % length )
+                raise MaxtriesException( "No region can fit an interval of length %d (we threw %d of %d)" \
+                                       % ( length, num_thrown,len( lengths ) ) )
             hi_rgn -= 1
         # Select a candidate
         s = random.randrange( candidates )
@@ -207,3 +209,4 @@ def throw_random_private( lengths, regions, save_interval_func, allow_overlap=Fa
             save_interval_func( rgn_start + s, rgn_start + s + length, rgn_extra )
         else:
             save_interval_func( rgn_start + s, rgn_start + s + length )
+        num_thrown += 1
