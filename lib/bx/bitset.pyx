@@ -73,14 +73,8 @@ cdef class BitSet:
     def __new__( self, int bitCount ):
         self.bitCount = bitCount
         self.bits = bitAlloc( bitCount )
-        if self.bits == NULL:
-                sys.stderr.write("From BitSet, bitset.pyx, bitAlloc failed\n");sys.stderr.flush()
-                raise "Malloc Failed in BitSet, bitset.pyx"
 
     def __dealloc__( self ):
-        if self.bits == NULL:
-                sys.stderr.write("From BitSet, bitset.pyx, bitFree failed\n");sys.stderr.flush()
-                raise "Free Failed in BitSet, bitset.pyx\n"
         bitFree( & self.bits )
 
     ## def clone( self ):

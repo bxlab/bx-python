@@ -54,13 +54,8 @@ cdef class ClusterTree:
         self.mincols = mincols
         self.minregions = minregions
 
-
     def __dealloc__( self ):
-        if self.root == NULL:
-                sys.stderr.write("From ClusterTree, cluster.pyx, freetree failed\n");sys.stderr.flush()
-                raise "From ClusterTree, cluster.pyx. freetree failed\n"
-        else:
-                freetree( &self.root )
+        freetree( &self.root )
         
     def insert( self, int start, int end, int linenum):
         clusterNodeInsert( &self.root, start, end, linenum, self.mincols )
@@ -95,7 +90,6 @@ cdef class ClusterTree:
         cdef linelist* nums
         cdef listitem* num
         
-
         myitr = NULL
         get_itr_in(self.root, &myitr)
         lines = []

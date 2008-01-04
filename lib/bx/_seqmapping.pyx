@@ -107,18 +107,13 @@ cdef class IntToIntMapping:
     def __new__( self, int in_size ):
         self.in_size = in_size
         self.table = <int *> malloc( in_size * sizeof( int ) )
-        if self.table == NULL: 
-                sys.stderr.write("From IntToIntMapping, _seqmapping.pyx, malloc failed\n");sys.stderr.flush()
-                raise "Malloc Failed in IntToIntMapping, _seqmapping.pyx"
+        if self.table == NULL: raise "Malloc Failed"
         for i from 0 <= i < in_size: self.table[i] = -1
         self.out_size = 0
         
     def __dealloc__( self ):
         # sys.stderr.write( "freeing mapping_helper.IntToIntMapping\n" ); sys.stderr.flush()
-        if self.table == NULL:
-                raise "Free Failed in IntToIntMapping, _seqmapping.pyx"
-        else:
-                free( self.table )
+        free( self.table )
 
     def set_mapping( self, int index, int symbol ):
         assert ( -1 <= index < self.in_size ), "%d not between 0 and %s" % ( index, self.in_size )
