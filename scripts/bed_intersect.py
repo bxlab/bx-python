@@ -42,6 +42,8 @@ bitsets = binned_bitsets_from_file( open( in2_fname ) )
 # Read second BED and intersect
 
 for line in open( in_fname ):
+    if line.startswith("#") or line.isspace(): 
+        continue
     fields = line.split()
     start, end = int( fields[1] ), int( fields[2] )
     if start > end: 
