@@ -4,6 +4,7 @@ Classes that represent alignments between multiple sequences.
 
 import random
 import string
+import weakref
 from bx.misc.readlengths import read_lengths_file
 
 # DNA reverse complement table
@@ -32,7 +33,7 @@ class Alignment( object ):
         self.components = []
 
     def add_component( self, component ):
-        component.alignment = self
+        component._alignment = weakref.ref( self )
         self.components.append( component )
         if component.text is not None:
             if self.text_size == 0: 
@@ -180,10 +181,17 @@ class Alignment( object ):
     def __ne__( self, other ):
         return not( self.__eq__( other ) )
     
+    def __deepcopy__( self, memo ):
+        from copy import deepcopy
+        new = Alignment( score=self.score, attributes=deepcopy( self.attributes ), species_to_lengths=deepcopy( self.species_to_lengths ) )
+        for component in self.components:
+            new.add_component( deepcopy( component ) )
+        return new
+    
 class Component( object ):
 
     def __init__( self, src='', start=0, size=0, strand=None, src_size=None, text='' ):
-        self.alignment = None
+        self._alignment = None
         self.src = src
         self.start = start          # Nota Bene:  start,size,strand are as they
         self.size = size            # .. appear in a MAF file-- origin-zero, end
@@ -223,8 +231,8 @@ class Component( object ):
 
     def get_src_size( self ):
         if self._src_size == None:
-            if self.alignment == None: raise "component has no src_size"
-            self._src_size = self.alignment.src_size( self.src )
+            if self._alignment == None: raise "component has no src_size"
+            self._src_size = self._alignment().src_size( self.src )
         return self._src_size
     def set_src_size( self,src_size ):
         self._src_size = src_size
@@ -248,12 +256,12 @@ class Component( object ):
         comp.reverse()
         text = "".join(comp)
         new = Component( self.src, start, self.size, strand, self._src_size, text )
-        new.alignment = self.alignment
+        new._alignment = self._alignment
         return new
 
     def slice( self, start, end ):
         new = Component( src=self.src, start=self.start, strand=self.strand, src_size=self._src_size )
-        new.alignment = self.alignment
+        new._alignment = self._alignment
         new.text = self.text[start:end]
 
         #for i in range( 0, start ):
@@ -311,6 +319,17 @@ class Component( object ):
         
     def __ne__( self, other ):
         return not( self.__eq__( other ) )
+    
+    def __deepcopy__( self, memo ):
+        new = Component( src=self.src, start=self.start, size=self.size, strand=self.strand, src_size=self._src_size, text=self.text )
+        new._alignment = self._alignment
+        new.quality = self.quality
+        new.synteny_left = self.synteny_left
+        new.synteny_right = self.synteny_right
+        new.synteny_empty = self.synteny_empty
+        new.empty = self.empty
+        new.index = self.index
+        return new
 
 def get_reader( format, infile, species_to_lengths=None ):
     import bx.align.maf, bx.align.axt, bx.align.lav

@@ -163,8 +163,12 @@ class AbstractMultiIndexedAccess( object ):
         return self.indexed_access_class( data_filename, index_filename, keep_open, **kwargs )
     def get( self, src, start, end ):
         blocks = []
-        for index in self.indexes: blocks.extend( index.get( src, start, end ) )
+        for block in self.get_as_iterator( src, start, end ): blocks.extend( block )
         return blocks
+    def get_as_iterator( self, src, start, end ):
+        for index in self.indexes:
+            for block in index.get_as_iterator( src, start, end ):
+                yield block
     def close( self ):
         for index in self.indexes:
             index.close()
@@ -235,8 +239,10 @@ class AbstractIndexedAccess( object ):
             return f
 
     def get( self, src, start, end ):
-        intersections = self.indexes.find( src, start, end )
-        return map( self.get_at_offset, [ val for start, end, val in intersections ] )
+        return [ val for val in self.get_as_iterator( src, start, end ) ]
+    def get_as_iterator( self, src, start, end ):
+        for val_start, val_end, val in self.indexes.find( src, start, end ):
+            yield self.get_at_offset( val )
 
     def get_at_offset( self, offset ):
         if self.f:
