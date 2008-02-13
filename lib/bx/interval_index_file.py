@@ -162,9 +162,7 @@ class AbstractMultiIndexedAccess( object ):
     def new_indexed_access( self, data_filename, index_filename=None, keep_open=False, **kwargs ):
         return self.indexed_access_class( data_filename, index_filename, keep_open, **kwargs )
     def get( self, src, start, end ):
-        blocks = []
-        for block in self.get_as_iterator( src, start, end ): blocks.extend( block )
-        return blocks
+        return [block for block in self.get_as_iterator( src, start, end )]
     def get_as_iterator( self, src, start, end ):
         for index in self.indexes:
             for block in index.get_as_iterator( src, start, end ):
