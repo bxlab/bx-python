@@ -14,7 +14,7 @@ WARNING: bz2/bz2t support and file cache support are new and not as well
          tested. 
 
 usage: %prog maf_fname1 maf_fname2 ... [options] < interval_file
-   -m, --mincols=10: Minimum length (columns) required for alignment to be output
+   -m, --mincols=0: Minimum length (columns) required for alignment to be output
    -c, --chop:       Should blocks be chopped to only portion overlapping (no by default)
    -s, --src=s:      Use this src for all intervals
    -p, --prefix=p:   Prepend this to each src before lookup
@@ -38,7 +38,7 @@ def main():
     try:
         maf_files = args
         if options.mincols: mincols = int( options.mincols )
-        else: mincols = 10
+        else: mincols = 0
         if options.src: fixed_src = options.src
         else: fixed_src = None
         if options.prefix: prefix = options.prefix
@@ -86,7 +86,7 @@ def main():
                     slice_end = min( end, ref.end )
                 sliced = block.slice_by_component( ref, slice_start, slice_end ) 
                 # If the block is shorter than the minimum allowed size, stop
-                if sliced.text_size < mincols:
+                if mincols and ( sliced.text_size < mincols ):
                     continue
                 # If the reference component is empty, don't write the block
                 if sliced.get_component_by_src( src ).size < 1:
