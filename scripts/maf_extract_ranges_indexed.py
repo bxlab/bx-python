@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
 Reads a list of intervals and a maf. Produces a new maf containing the
@@ -87,7 +87,7 @@ def main():
                 sliced = block.slice_by_component( ref, slice_start, slice_end ) 
                 # If the block is shorter than the minimum allowed size, stop
                 if sliced.text_size < mincols:
-                    break
+                    continue
                 # If the reference component is empty, don't write the block
                 if sliced.get_component_by_src( src ).size < 1:
                     continue
