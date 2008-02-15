@@ -89,7 +89,10 @@ class TableReader( object ):
         # Catch blank lines (throw a warning?)
         # This will end up adding a '#' at the beginning of blank lines
         if line == '':
-            return Comment( line )
+            if self.return_comments:
+                return Comment( line )
+            else:
+                return self.next()
         # Is it a comment line?
         for comment_line_start in self.comment_lines_startswith:
             if line.startswith( comment_line_start ):
