@@ -97,6 +97,7 @@ class Reader( object ):
             if 'span' in header: self.current_span = int( header['span'] )
             else: self.current_span = 1
             self.mode = "fixedStep"
+            return self.next()
         elif self.mode == "bed":
             fields = line.split()
             if len( fields ) > 3:
