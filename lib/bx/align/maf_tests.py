@@ -131,7 +131,8 @@ def test_write_with_synteny():
     val = StringIO()
     writer = maf.Writer( val, { 'scoring':'foobar' } )
     writer.write( a )
-    assert val.getvalue() == """##maf version=1 scoring=foobar
+    actual = val.getvalue()
+    expected = """##maf version=1 scoring=foobar
 a score=3656.000000
 s hg17.chr1                   2005   34 + 245522847 TGTAACTTAATACCACAACCAGGCATAGGGG--AAA------------- 
 s rheMac2.chr11            9625228   31 + 134511895 TGTAACCTCTTACTGCAACAAGGCACAGGGG------------------ 
@@ -151,8 +152,7 @@ e rn3.chr4                29161032 1524 - 187371129 I
 e mm7.chr6                28091695 3290 - 149646834 I                                                 
 
 """
-    
-    
+    assert actual == expected
 
 def check_component( c, src, start, size, strand, src_size, text ):
     assert c.src == src
