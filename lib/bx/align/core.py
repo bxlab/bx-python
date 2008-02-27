@@ -360,9 +360,9 @@ def shuffle_columns( a ):
         c.text = ''.join( [ c.text[i] for i in mask ] )
 
 def src_split( src ): # splits src into species,chrom
-    dot = src.rfind( "." )
-    if dot == -1: return None,src
-    else:         return src[:dot],src[dot+1:]
+    fields = src.split( '.', 1 )
+    if len( fields ) < 2: return None, src
+    else: return fields[0], fields[1]
 
 def src_merge( species,chrom,contig=None ): # creates src (inverse of src_split)
     if species == None: src = chrom
