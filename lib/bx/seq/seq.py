@@ -2,25 +2,6 @@
 Classes to support "biological sequence" files.
 
 :Author: Bob Harris (rsharris@bx.psu.edu)
-
-A biological sequence is a sequence of bytes or characters.  Usually these
-represent DNA (A,C,G,T), proteins, or some variation of those.
-
-class attributes:
-
-  file:    file object containing the sequence
-  revcomp: whether gets from this sequence should be reverse-complemented
-             False => no reverse complement
-             True  => (same as "-5'")
-             "maf" => (same as "-5'")
-             "+5'" => minus strand is from plus strand's 5' end (same as "-3'")
-             "+3'" => minus strand is from plus strand's 3' end (same as "-5'")
-             "-5'" => minus strand is from its 5' end (as per MAF file format)
-             "-3'" => minus strand is from its 3' end (as per genome browser,
-                      but with origin-zero)
-  name:    usually a species and/or chromosome name (e.g. "mule.chr5");  if
-           the file contains a name, that overrides this one
-  gap:     gap character that aligners should use for gaps in this sequence
 """
 
 # DNA reverse complement table
@@ -30,10 +11,31 @@ DNA_COMP = "                                             -                  " \
            "                                                                " \
            "                                                                "
 
-
 class SeqFile(object):
+    """
+    A biological sequence is a sequence of bytes or characters.  Usually these
+    represent DNA (A,C,G,T), proteins, or some variation of those.
+
+    class attributes:
+
+        file:    file object containing the sequence
+        revcomp: whether gets from this sequence should be reverse-complemented
+                 False => no reverse complement
+                 True  => (same as "-5'")
+                 "maf" => (same as "-5'")
+                 "+5'" => minus strand is from plus strand's 5' end (same as "-3'")
+                 "+3'" => minus strand is from plus strand's 3' end (same as "-5'")
+                 "-5'" => minus strand is from its 5' end (as per MAF file format)
+                 "-3'" => minus strand is from its 3' end (as per genome browser,
+                          but with origin-zero)
+        name:    usually a species and/or chromosome name (e.g. "mule.chr5");  if
+                 the file contains a name, that overrides this one
+        gap:     gap character that aligners should use for gaps in this sequence
+    """
 
     def __init__(self, file=None, revcomp=False, name="", gap=None):
+        
+        
         self.file = file
         if   (revcomp == True):  self.revcomp = "-5'"
         elif (revcomp == "+3'"): self.revcomp = "-5'"
@@ -69,16 +71,24 @@ class SeqFile(object):
         return text
 
     def get(self, start, length):
-        assert (start >= 0), \
-            "attempt to fetch from sequence location %s" % start
-        assert (start + length - 1 < self.length), \
-            "attempt to fetch from beyond sequence end (%s..%s > %s)" \
-          % (start,start+length,self.length)
-        if (not self.revcomp):
-            return self.raw_fetch(start,length)
-        if (self.revcomp == "-3'"):
+        """
+        Fetch subsequence starting at position `start` with length `length`. 
+        This method is picky about parameters, the requested interval must 
+        have non-negative length and fit entirely inside the NIB sequence,
+        the returned string will contain exactly 'length' characters, or an
+        AssertionError will be generated.
+        """
+        # Check parameters
+        assert length >= 0, "Length must be non-negative (got %d)" % length 
+        assert start >= 0,"Start must be greater than 0 (got %d)" % start
+        assert start + length <= self.length, \
+            "Interval beyond end of sequence (%s..%s > %s)" % ( start, start + length, self.length )
+        # Fetch sequence and reverse complement if necesary
+        if not self.revcomp:
+            return self.raw_fetch( start, length )
+        if self.revcomp == "-3'":
             return self.reverse_complement(self.raw_fetch(start,length))
-        assert (self.revcomp == "-5'"), "unrecognized reverse complement scheme"
+        assert self.revcomp == "-5'", "unrecognized reverse complement scheme"
         start = self.length - (start+length)
         return self.reverse_complement(self.raw_fetch(start,length))
 

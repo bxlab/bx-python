@@ -46,12 +46,17 @@ class NibFile(SeqFile):
         self.length = struct.unpack("%sL" % self.byte_order, file.read(NIB_LENGTH_SIZE))[0]
 
     def raw_fetch(self, start, length):
+        # Check parameters
+        assert start >= 0, "Start must be greater than 0"
+        assert length >= 0, "Length must be greater than 0"
+        assert start + length <= self.length, "Interval beyond end of sequence"
         # Read block of bytes containing sequence
         block_start = int(math.floor(start / 2))
         block_end = int(math.floor((start + length - 1) / 2))
         block_len = block_end + 1 - block_start
         self.file.seek(NIB_MAGIC_SIZE + NIB_LENGTH_SIZE + block_start)
         raw = self.file.read(block_len)
+        # Unpack compressed block into a character string and return
         return _nib.translate_raw_data( raw, start, length  )
 
 class NibReader(SeqReader):

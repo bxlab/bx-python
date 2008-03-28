@@ -34,6 +34,13 @@ class NIBTestCase( unittest.TestCase ):
         # Test near end of file also
         check_get( nibfile, valid_seq_len - 10, 10 )
         check_get( nibfile, valid_seq_len - 11, 11 )
+        # Test really short gets
+        check_get( nibfile, 0, 0 )
+        check_get( nibfile, 1, 0 )
+        check_get( nibfile, 0, 1 )
+        check_get( nibfile, 1, 1 )
+        # Test negative length
+        self.assertRaises( AssertionError, nibfile.get, 20, -1 )
 
 def check_get( nibfile, start, len ):
     ## print "expect: |%r|" % valid_seq[start:start+len]
