@@ -10,7 +10,7 @@ NOTE: See maf_extract_ranges_indexed.py which works better / faster for many
 TODO: Combine with maf_extract_ranges, and possibly share some code with 
       maf_extract_ranges_indexed.
 
-usage: %prog interval_file refindex [options] < maf_file
+usage: %prog interval_file rename|refindex [options] < maf_file
    -m, --mincols=10: Minimum length (columns) required for alignment to be output
    -p, --prefix=PREFIX: Prefix
 """
@@ -32,7 +32,12 @@ def __main__():
 
     try:
         range_filename = args[ 0 ]
-        refindex = int( args[ 1 ] )
+        try: 
+            refindex = int( args[ 1 ] )
+            refname = None
+        except: 
+            refindex = None
+            refname = args[ 1 ]
         if options.mincols: mincols = int( options.mincols )
         else: mincols = 10
         if options.prefix: prefix = options.prefix
@@ -56,6 +61,12 @@ def __main__():
     # Iterate over input MAF
 
     for maf in bx.align.maf.Reader( sys.stdin ):
+        if refname: 
+            sourcenames = [ cmp.src.split('.')[0] for cmp in maf.components ]
+            try: refindex = sourcenames.index( refname )
+            except:
+                continue
+
         ref_component = maf.components[ refindex ]
         # Find overlap with reference component
         if not ( ref_component.src in intersecters ): continue
