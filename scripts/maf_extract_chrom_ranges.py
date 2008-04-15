@@ -10,7 +10,7 @@ NOTE: See maf_extract_ranges_indexed.py which works better / faster for many
 TODO: Combine with maf_extract_ranges, and possibly share some code with 
       maf_extract_ranges_indexed.
 
-usage: %prog interval_file rename|refindex [options] < maf_file
+usage: %prog interval_file refname|refindex [options] < maf_file
    -m, --mincols=10: Minimum length (columns) required for alignment to be output
    -p, --prefix=PREFIX: Prefix
 """
