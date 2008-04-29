@@ -38,6 +38,7 @@ class IntervalNode( object ):
         self.start = start
         self.end = end
         self.maxend = self.end
+        self.minend = self.end
         self.left = None
         self.right = None
         self.linenum = linenum
@@ -62,27 +63,45 @@ class IntervalNode( object ):
             # rebalance tree
             if self.priority < self.left.priority:
                 root = self.rotateright()
-        if root.right and root.left: root.maxend = max( root.end, root.right.maxend, root.left.maxend )
-        elif root.right: root.maxend = max( root.end, root.right.maxend )
-        elif root.left: root.maxend = max( root.end, root.left.maxend )
+        if root.right and root.left: 
+            root.maxend = max( root.end, root.right.maxend, root.left.maxend )
+            root.minend = min( root.end, root.right.minend, root.left.minend )
+        elif root.right: 
+            root.maxend = max( root.end, root.right.maxend )
+            root.minend = min( root.end, root.right.minend )
+        elif root.left:
+            root.maxend = max( root.end, root.left.maxend )
+            root.minend = min( root.end, root.left.minend )
         return root
 
     def rotateright( self ):
         root = self.left
         self.left = self.left.right
         root.right = self
-        if self.right and self.left: self.maxend = max(self.end, self.right.maxend, self.left.maxend)
-        elif self.right: self.maxend = max(self.end, self.right.maxend)
-        elif self.left: self.maxend = max(self.end, self.left.maxend)
+        if self.right and self.left: 
+            self.maxend = max(self.end, self.right.maxend, self.left.maxend)
+            self.minend = min(self.end, self.right.minend, self.left.minend )
+        elif self.right:
+            self.maxend = max(self.end, self.right.maxend)
+            self.minend = min(self.end, self.right.minend)
+        elif self.left:
+            self.maxend = max(self.end, self.left.maxend)
+            self.minend = min(self.end, self.left.minend )
         return root
         
     def rotateleft( self ):
         root = self.right
         self.right = self.right.left
         root.left = self
-        if self.right and self.left: self.maxend = max(self.end, self.right.maxend, self.left.maxend)
-        elif self.right: self.maxend = max(self.end, self.right.maxend)
-        elif self.left: self.maxend = max(self.end, self.left.maxend)
+        if self.right and self.left: 
+            self.maxend = max(self.end, self.right.maxend, self.left.maxend)
+            self.minend = min(self.end, self.right.minend, self.left.minend )
+        elif self.right:
+            self.maxend = max(self.end, self.right.maxend)
+            self.minend = min(self.end, self.right.minend)
+        elif self.left:
+            self.maxend = max(self.end, self.left.maxend)
+            self.minend = min(self.end, self.left.minend )
         return root
 
     def intersect( self, start, end, report_func ):
