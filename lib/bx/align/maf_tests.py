@@ -133,7 +133,7 @@ def test_write_with_synteny():
     writer.write( a )
     actual = val.getvalue()
     expected = """##maf version=1 scoring=foobar
-a score=3656.000000
+a score=3656.0
 s hg17.chr1                   2005   34 + 245522847 TGTAACTTAATACCACAACCAGGCATAGGGG--AAA------------- 
 s rheMac2.chr11            9625228   31 + 134511895 TGTAACCTCTTACTGCAACAAGGCACAGGGG------------------ 
 i rheMac2.chr11                                     C 0 I 1678                                        
@@ -152,6 +152,9 @@ e rn3.chr4                29161032 1524 - 187371129 I
 e mm7.chr6                28091695 3290 - 149646834 I                                                 
 
 """
+    print actual
+    print "---"
+    print expected
     assert actual == expected
 
 def check_component( c, src, start, size, strand, src_size, text ):
