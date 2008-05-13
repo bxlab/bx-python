@@ -51,6 +51,8 @@ class FastaFile(SeqFile):
             else:
                 line = self.file.readline()
             if (line == ""): break
+            if not line:
+                break
             if (line.startswith(">")):
                 if (self.text != None):
                     if (currContig == contig):
