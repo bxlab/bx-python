@@ -6,7 +6,7 @@
 #include "common.h"
 #include "bits.h"
 
-static char const rcsid[] = "$Id: bits.c,v 1.18 2005/06/30 16:49:03 angie Exp $";
+static char const rcsid[] = "$Id: bits.c,v 1.20 2008/03/25 16:32:31 angie Exp $";
 
 
 static Bits oneBit[8] = { 0x80, 0x40, 0x20, 0x10, 0x8, 0x4, 0x2, 0x1};
@@ -60,12 +60,8 @@ Bits *bitClone(Bits* orig, int bitCount)
 {
 int byteCount = ((bitCount+7)>>3);
 Bits* bits = needLargeZeroedMem(byteCount);
-/* bits is guaranteed to be non-null
- * but orig might be NULL, so there may be
- * a segfault. So check orig for NULL.
- */ 
- if(orig!=NULL)
-   memcpy(bits, orig, byteCount);
+if(orig!=NULL)
+    memcpy(bits, orig, byteCount);
 return bits;
 }
 
@@ -90,6 +86,8 @@ b[bitIx>>3] &= ~oneBit[bitIx&7];
 void bitSetRange(Bits *b, int startIx, int bitCount)
 /* Set a range of bits. */
 {
+if (bitCount <= 0)
+    return;
 int endIx = (startIx + bitCount - 1);
 int startByte = (startIx>>3);
 int endByte = (endIx>>3);
@@ -118,6 +116,8 @@ return (b[bitIx>>3] & oneBit[bitIx&7]) != 0;
 int bitCountRange(Bits *b, int startIx, int bitCount)
 /* Count number of bits set in range. */
 {
+if (bitCount <= 0)
+    return 0;
 int endIx = (startIx + bitCount - 1);
 int startByte = (startIx>>3);
 int endByte = (endIx>>3);
@@ -194,6 +194,8 @@ zeroBytes(b, byteCount);
 void bitClearRange(Bits *b, int startIx, int bitCount)
 /* Clear a range of bits. */
 {
+if (bitCount <= 0)
+    return;
 int endIx = (startIx + bitCount - 1);
 int startByte = (startIx>>3);
 int endByte = (endIx>>3);

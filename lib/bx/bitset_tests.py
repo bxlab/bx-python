@@ -12,6 +12,14 @@ class AbstractTests( object ):
         for i in range( bits.size ):
             self.assertEquals( bits[i], list[i] )
 
+    def test_overflow_create( self ):
+        self.assertRaises( ValueError, self.new_bits, 4000000000 )
+        
+    def test_overflow_access( self ):
+        bits = self.new_bits( 100 )
+        self.assertRaises( IndexError, bits.set, -5 )
+        self.assertRaises( IndexError, bits.set, 110 )
+
     def test_access( self ):
         # Create and assert empty
         bits = self.new_bits( 100 )
@@ -44,6 +52,7 @@ class AbstractTests( object ):
         # Set some positions
         for b, e in ( ( 11, 14 ), (20,75), (90,100) ):
             bits.set_range( b, e-b)
+        self.assertEquals( bits.count_range( 0, 0 ), 0 )
         self.assertEquals( bits.count_range( 0, 20 ), 3 )
         self.assertEquals( bits.count_range( 25, 25 ), 25 )
         self.assertEquals( bits.count_range( 80, 20 ), 10 )
@@ -93,15 +102,11 @@ class AbstractTests( object ):
         for i in range( 20, 60 ): l[i] = 0
         self.assert_bits( bits, l )
         
-class BitsetTests( AbstractTests, unittest.TestCase ):
+class BitSetTests( AbstractTests, unittest.TestCase ):
     def new_bits( self, size ):
         return bx.bitset.BitSet( size ) 
 
-class BinnedBitsetTests( AbstractTests, unittest.TestCase ):
+class BinnedBitSetTests( AbstractTests, unittest.TestCase ):
     def new_bits( self, size ):
         granularity = size % 11 
         return bx.bitset.BinnedBitSet( size, granularity ) 
-
-test_classes = [ BitsetTests, BinnedBitsetTests ]
-
-suite = unittest.TestSuite( [ unittest.makeSuite( c ) for c in test_classes ] )

@@ -5,14 +5,13 @@ identical bits compactly.
 
 Because the binned implementation avoids a lot of memory allocation and access
 when working with either small subregions of the total interval or setting /
-testing spans larger than the bin size, it an be much faster.
+testing spans larger than the bin size, it can be much faster.
 """
 
 cdef extern from "common.h":
     ctypedef int boolean
 
 cdef extern from "bits.h":
-
     ctypedef unsigned char Bits
     # Allocate bits. 
     Bits * bitAlloc( int bitCount )
@@ -66,108 +65,160 @@ cdef extern from "binBits.h":
     void binBitsOr( BinBits *bb1, BinBits *bb2 )
     void binBitsNot( BinBits *bb )
 
+## ---- Forward declerations ------------------------------------------------
+
+cdef class BitSet
+cdef class BinnedBitSet
+
+## ---- BitSet bounds checking ----------------------------------------------
+    
+cdef inline b_check_index( BitSet b, index ):
+    if index < 0:
+        raise IndexError( "BitSet index (%d) must be non-negative." % index )
+    if index >= b.bitCount:
+        raise IndexError( "%d is larger than the size of this BitSet (%d)." % ( index, b.bitCount ) )
+    
+cdef inline b_check_range( BitSet b, start, end ):
+    b_check_index( b, start )
+    if end < start:
+        raise IndexError( "Range end (%d) must be greater than range start(%d)." % ( end, start ) )
+    if end > b.bitCount:
+        raise IndexError( "End %d is larger than the size of this BitSet (%d)." % ( end, b.bitCount ) )
+        
+cdef inline b_check_range_count( BitSet b, start, count ):
+    b_check_index( b, start )
+    if count < 0:
+        raise IndexError( "Count (%d) must be non-negative." % count )
+    if start + count > b.bitCount:
+        raise IndexError( "End %d is larger than the size of this BitSet (%d)." % ( start + count, b.bitCount ) )
+
+cdef inline b_check_same_size( BitSet b, BitSet other ):
+    if b.bitCount != other.bitCount:
+        raise ValueError( "BitSets must have the same size" )
+
+## ---- BitSet --------------------------------------------------------------
+
+# Maximum value of a signed 32 bit integer ( 2**31 - 1 )
+cdef int MAX_INT = 2147483647
+
 cdef class BitSet:
     cdef Bits * bits
     cdef int bitCount
-    
-    def __new__( self, int bitCount ):
+    def __new__( self, bitCount ):
+        if bitCount > MAX_INT:
+            raise ValueError( "%d is larger than the maximum BitSet size of %d." % ( bitCount, MAX_INT ) )
         self.bitCount = bitCount
         self.bits = bitAlloc( bitCount )
-
     def __dealloc__( self ):
         bitFree( & self.bits )
-
-    ## def clone( self ):
-    ##     other = BitSet( self.bitCount )
-    ##     other.ior( self )
-    ##     return other
-
     property size:
         def __get__( self ):
             return self.bitCount
-
     def set( self, index ):
+        b_check_index( self, index )
         bitSetOne( self.bits, index )
-
     def clear( self, index ):
+        b_check_index( self, index )
         bitClearOne( self.bits, index )
-        
     def clone( self ):
         other = BitSet( self.bitCount )
         other.ior( self )
         return other
-
-    def set_range( self, start, count ):   
+    def set_range( self, start, count ):
+        b_check_range_count( self, start, count )
         bitSetRange( self.bits, start, count )
-
     def get( self, index ):
+        b_check_index( self, index )
         return bitReadOne( self.bits, index );
-    
     def count_range( self, start=0, count=None ):
-        if count == None: count = self.bitCount
+        if count == None: 
+            count = self.bitCount - start
+        b_check_range_count( self, start, count )
         return bitCountRange( self.bits, start, count )
-
     def next_set( self, start, end=None ):
-        if end == None: end = self.bitCount
+        if end == None: 
+            end = self.bitCount
+        b_check_range( self, start, end )
         return bitFindSet( self.bits, start, end )
-    
     def next_clear( self, start, end=None ):
-        if end == None: end = self.bitCount
+        if end == None: 
+            end = self.bitCount
+        b_check_range( self, start, end )
         return bitFindClear( self.bits, start, end )
-
     def iand( self, BitSet other ):
+        b_check_same_size( self, other )
         bitAnd( self.bits, other.bits, self.bitCount )
-        
     def ior( self, BitSet other ): 
+        b_check_same_size( self, other )
         bitOr( self.bits, other.bits, self.bitCount )
-
     def ixor( self, BitSet other ): 
+        b_check_same_size( self, other )
         bitXor( self.bits, other.bits, self.bitCount )
-
     def invert( self ):
         bitNot( self.bits, self.bitCount)
-
-    ## ---- Python "Operator Overloading" ----
-        
     def __getitem__( self, index ):
         return self.get( index )
-
     def __iand__( self, other ):
         self.iand( other )
         return self
-
     def __ior__( self, other ):
         self.ior( other )
         return self
-
     def __invert__( self ):
         self.invert()
         return self
 
-    def __contains__(self,pos):
-        return bitReadOne( self.bits, index ) == 1
+## ---- BinnedBitSet bounds checking ----------------------------------------
+
+cdef inline bb_check_index( BinnedBitSet bb, index ):
+    if index < 0:
+        raise IndexError( "BitSet index (%d) must be non-negative." % index )
+    if index >= bb.bb.size:
+        raise IndexError( "%d is larger than the size of this BitSet (%d)." % ( index, bb.bb.size ) )        
+cdef inline bb_check_start( BinnedBitSet bb, start ):
+    bb_check_index( bb, start )
+cdef inline bb_check_range_count( BinnedBitSet bb, start, count ):
+    bb_check_index( bb, start )
+    if count < 0:
+        raise IndexError( "Count (%d) must be non-negative." % count )
+    if start + count > bb.bb.size:
+        raise IndexError( "End (%d) is larger than the size of this BinnedBitSet (%d)." % ( start + count, bb.bb.size ) )
+cdef inline bb_check_same_size( BinnedBitSet bb, BinnedBitSet other ):
+    if bb.bb.size != other.bb.size:
+        raise ValueError( "BitSets must have the same size" )
+
+## ---- BinnedBitSet --------------------------------------------------------
 
 MAX=512*1024*1024 
 
 cdef class BinnedBitSet:
     cdef BinBits * bb
-    def __new__( self, int size=MAX, int granularity=1024 ):
+    def __new__( self, size=MAX, granularity=1024 ):
+        if size > MAX_INT:
+            raise ValueError( "%d is larger than the maximum BinnedBitSet size of %d." % ( size, MAX_INT ) )
         self.bb = binBitsAlloc( size, granularity )
     def __dealloc( self ):
         binBitsFree( self.bb );
-    def __getitem__( self, pos ):
-        return binBitsReadOne( self.bb, pos )
-    def set( self, pos ):
-        binBitsSetOne( self.bb, pos )
-    def clear( self, pos ):
-        binBitsClearOne( self.bb, pos )
-    def set_range( self, int start, size ):
-        binBitsSetRange( self.bb, start, size )
-    def count_range( self, start, size ):
-        return binBitsCountRange( self.bb, start, size )
+    def __getitem__( self, index ):
+        bb_check_index( self, index )
+        return binBitsReadOne( self.bb, index )
+    def set( self, index ):
+        bb_check_index( self, index )
+        binBitsSetOne( self.bb, index )
+    def clear( self, index ):
+        bb_check_index( self, index )
+        binBitsClearOne( self.bb, index )
+    def set_range( self, int start, count ):
+        bb_check_range_count( self, start, count )
+        binBitsSetRange( self.bb, start, count )
+    def count_range( self, start, count ):
+        bb_check_range_count( self, start, count )
+        return binBitsCountRange( self.bb, start, count )
     def next_set( self, start ):
+        bb_check_start( self, start )
         return binBitsFindSet( self.bb, start )
     def next_clear( self, start ):
+        bb_check_start( self, start )
         return binBitsFindClear( self.bb, start )
     property size:
         def __get__( self ):
@@ -176,13 +227,10 @@ cdef class BinnedBitSet:
         def __get__( self ):
             return self.bb.bin_size
     def iand( self, BinnedBitSet other ):
+        bb_check_same_size( self, other )
         binBitsAnd( self.bb, other.bb )
     def ior( self, BinnedBitSet other ):
+        bb_check_same_size( self, other )
         binBitsOr( self.bb, other.bb )
     def invert( self ):
         binBitsNot( self.bb )
-
-    ## ---- Python "Operator Overloading" ----
-
-    def __contains__(self,pos):
-        return binBitsReadOne( self.bb, pos ) == 1
