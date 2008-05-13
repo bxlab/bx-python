@@ -3,11 +3,6 @@ if sys.version_info[0] < 2 or sys.version_info[1] < 4:
     print >> sys.stderr, "ERROR: bx-python requires python 2.4 or greater"
     sys.exit()
 
-try:
-    import Cython
-except:
-    print >> sys.stderr, "ERROR: bx-python requires Cython to build"
-
 # Automatically download setuptools if not available
 from ez_setup import use_setuptools
 use_setuptools()
@@ -31,16 +26,24 @@ def main():
             url = "http://www.bx.psu.edu/miller_lab/",
             zip_safe = False,
             dependency_links = [],
-            cmdclass=extra_commands )
+            cmdclass=command_classes )
 
 # ---- Commands -------------------------------------------------------------
 
 from distutils.core import Command
 
-extra_commands = dict()
+# Use build_ext from Cython
+command_classes = {}
 
+# Use build_ext from Cython if found
 try:
-    # Attempt to import epydoc
+    import Cython.Distutils
+    command_classes['build_ext'] = Cython.Distutils.build_ext
+except:
+    pass
+
+# Use epydoc if found
+try:
     import pkg_resources
     pkg_resources.require( "epydoc" )
     import epydoc.cli, sys, os, os.path
@@ -69,7 +72,7 @@ try:
             sys.argv = old_argv
             os.chdir( old_cwd )
     # Add to extra_commands    
-    extra_commands['build_apidocs'] = BuildAPIDocs
+    command_classes['build_apidocs'] = BuildAPIDocs
 except:
     pass
 
