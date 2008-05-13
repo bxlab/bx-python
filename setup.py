@@ -3,6 +3,11 @@ if sys.version_info[0] < 2 or sys.version_info[1] < 4:
     print >> sys.stderr, "ERROR: bx-python requires python 2.4 or greater"
     sys.exit()
 
+try:
+    import Cython
+except:
+    print >> sys.stderr, "ERROR: bx-python requires Cython to build"
+
 # Automatically download setuptools if not available
 from ez_setup import use_setuptools
 use_setuptools()
