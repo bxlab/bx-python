@@ -16,7 +16,7 @@ from bisect import bisect
 cdef char* valToNt
 valToNt = "TCAG"
 
-def read( file, seq, int fragStart, int fragEnd ):
+def read( file, seq, int fragStart, int fragEnd, do_mask=False ):
     """
     Stolen directly from Jim Kent's twoBit.c
     """
@@ -103,20 +103,21 @@ def read( file, seq, int fragStart, int fragEnd ):
             if (s < e):
                 memset( dna + s - fragStart, 'N'[0], e - s)
     # Mask
-    m_block_count = len( seq.masked_block_starts )
-    if m_block_count > 0:
-        start_ix = bisect( seq.masked_block_starts, fragStart ) - 1
-        if start_ix < 0: start_ix = 0    
-        for i from start_ix <= i < m_block_count:
-            s = seq.masked_block_starts[i];
-            e = s + seq.masked_block_sizes[i];
-            if (s >= fragEnd):
-                break
-            if (s < fragStart):
-               s = fragStart
-            if (e > fragEnd):
-               e = fragEnd
-            if (s < e):
-                for j from s <= j < e:
-                    dna[j-fragStart] = tolower( dna[j-fragStart] )
+    if do_mask:
+        m_block_count = len( seq.masked_block_starts )
+        if m_block_count > 0:
+            start_ix = bisect( seq.masked_block_starts, fragStart ) - 1
+            if start_ix < 0: start_ix = 0    
+            for i from start_ix <= i < m_block_count:
+                s = seq.masked_block_starts[i];
+                e = s + seq.masked_block_sizes[i];
+                if (s >= fragEnd):
+                    break
+                if (s < fragStart):
+                   s = fragStart
+                if (e > fragEnd):
+                   e = fragEnd
+                if (s < e):
+                    for j from s <= j < e:
+                        dna[j-fragStart] = tolower( dna[j-fragStart] )
     return dna_py

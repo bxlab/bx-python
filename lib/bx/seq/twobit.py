@@ -25,7 +25,7 @@ class TwoBitSequence( object ):
         assert stride == 1, "Striding in slices not supported"
         if stop - start < 1:
             return ""
-        return _twobit.read( self.tbf.file, self, start, stop )
+        return _twobit.read( self.tbf.file, self, start, stop, self.tbf.do_mask  )
         
     def __len__( self ):
         return self.size
@@ -40,12 +40,13 @@ class TwoBitSequence( object ):
         if out_size < 1:
             raise Exception( "end before start (%s,%s)" % ( start,end ) )
         # Find position of packed portion
-        dna = _twobit.read( self.tbf.file, self, start, end )
+        dna = _twobit.read( self.tbf.file, self, start, end, self.tbf.do_mask )
         # Return
         return dna
         
 class TwoBitFile( DictMixin ):
-    def __init__( self, file ):
+    def __init__( self, file, do_mask=True ):
+        self.do_mask = do_mask
         # Read magic and determine byte order
         self.byte_order = ">"
         magic = unpack( ">L", file.read( TWOBIT_MAGIC_SIZE ) )[0]
