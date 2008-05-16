@@ -20,7 +20,18 @@ def merge(interval, mincols=1):
         bitset = bitsets[chrom]
         output = ["."] * (max(interval.chrom_col, interval.start_col, interval.end_col) + 1)
         output[interval.chrom_col] = chrom
-        for start, end in bits_set_in_range(bitset,0, MAX_END):
-            output[interval.start_col] = str(start)
-            output[interval.end_col] = str(end)
-            yield output
+        try:
+            for start, end in bits_set_in_range(bitset,0, MAX_END):
+                output[interval.start_col] = str(start)
+                output[interval.end_col] = str(end)
+                yield output
+        except IndexError, e:
+            try:
+                # This will work only if interval is a NiceReaderWrapper
+                interval.skipped += 1
+                # no reason to stuff an entire bad file into memmory
+                if interval.skipped < 10:
+                    interval.skipped_lines.append( ( interval.linenum, interval.current_line, str( e ) ) )
+            except:
+                pass
+            continue

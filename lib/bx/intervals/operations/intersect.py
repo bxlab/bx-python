@@ -39,17 +39,38 @@ def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True,
             yield interval
         elif type( interval ) == GenomicInterval:
             chrom = interval.chrom
-            start = int(interval.start)
-            end = int(interval.end)
-            if chrom not in bitsets: continue
-            if start > end: warn( "Interval start after end!" )
+            start = int( interval.start )
+            end = int( interval.end )
+            if chrom not in bitsets:
+                continue
+            if start > end:
+                try:
+                    # This will only work if primary is a NiceReaderWrapper
+                    primary.skipped += 1
+                    # no reason to stuff an entire bad file into memmory
+                    if primary.skipped < 10:
+                        primary.skipped_lines.append( ( primary.linenum, primary.current_line, "Interval start after end!" ) )
+                except:
+                    pass
+                continue
             out_intervals = []
             # Intersect or Overlap
-            if bitsets[ chrom ].count_range( start, end-start ) >= mincols:                
-                if pieces:
-                    out_intervals = bits_set_in_range( bitsets[chrom], start, end )
-                else:
-                    out_intervals = [ ( start, end ) ]
+            try:
+                if bitsets[ chrom ].count_range( start, end-start ) >= mincols:                
+                    if pieces:
+                        out_intervals = bits_set_in_range( bitsets[chrom], start, end )
+                    else:
+                        out_intervals = [ ( start, end ) ]
+            except IndexError, e:
+                try:
+                    # This will only work if primary is a NiceReaderWrapper
+                    primary.skipped += 1
+                    # no reason to stuff an entire bad file into memmory
+                    if primary.skipped < 10:
+                        primary.skipped_lines.append( ( primary.linenum, primary.current_line, str( e ) ) )
+                except:
+                    pass
+                continue
             # Write the intervals
             for start, end in out_intervals:
                 new_interval = interval.copy()

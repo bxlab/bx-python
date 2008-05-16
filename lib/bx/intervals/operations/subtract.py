@@ -51,14 +51,25 @@ def subtract(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, 
                 out_intervals = []
                 # Find the intervals that meet the criteria (for the three sensible
                 # permutations of reverse and pieces)
-                if bitsets[ chrom ].count_range( start, end-start ) >= mincols:                
-                    if pieces:
-                        out_intervals = bits_clear_in_range( bitsets[chrom], start, end )
-                else:
-                    out_intervals = [ ( start, end ) ]
-                # Write the intervals
-                for start, end in out_intervals:
-                    new_interval = interval.copy()
-                    new_interval.start = start
-                    new_interval.end = end
-                    yield new_interval
+                try:
+                    if bitsets[ chrom ].count_range( start, end-start ) >= mincols:                
+                        if pieces:
+                            out_intervals = bits_clear_in_range( bitsets[chrom], start, end )
+                    else:
+                        out_intervals = [ ( start, end ) ]
+                    # Write the intervals
+                    for start, end in out_intervals:
+                        new_interval = interval.copy()
+                        new_interval.start = start
+                        new_interval.end = end
+                        yield new_interval
+                except IndexError, e:
+                    try:
+                        # This will work only if primary is a NiceReaderWrapper
+                        primary.skipped += 1
+                        # no reason to stuff an entire bad file into memmory
+                        if primary.skipped < 10:
+                            primary.skipped_lines.append( ( primary.linenum, primary.current_line, str( e ) ) )
+                    except:
+                        pass
+                    continue

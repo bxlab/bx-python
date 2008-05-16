@@ -39,14 +39,36 @@ def coverage(readers, comments=True):
             chrom = interval.chrom
             start = int(interval.start)
             end = int(interval.end)
-            if start > end: warn( "Interval start after end!" )
+            if start > end:
+                try:
+                    # This will only work if primary is a NiceReaderWrapper
+                    primary.skipped += 1
+                    # no reason to stuff an entire bad file into memmory
+                    if primary.skipped < 10:
+                        primary.skipped_lines.append( ( primary.linenum, primary.current_line, "Interval start after end!" ) )
+                except:
+                    pass
+                continue
             if chrom not in bitsets:
                 bases_covered = 0
                 percent = 0.0
             else:
-                bases_covered = bitsets[ chrom ].count_range( start, end-start )
-                if (end - start) == 0: percent = 0
-                else: percent = float(bases_covered) / float(end - start)
+                try:
+                    bases_covered = bitsets[ chrom ].count_range( start, end-start )
+                except IndexError, e:
+                    try:
+                        # This will only work if primary is a NiceReaderWrapper
+                        primary.skipped += 1
+                        # no reason to stuff an entire bad file into memmory
+                        if primary.skipped < 10:
+                            primary.skipped_lines.append( ( primary.linenum, primary.current_line, str( e ) ) )
+                    except:
+                        pass
+                    continue
+                if (end - start) == 0:
+                    percent = 0
+                else:
+                    percent = float(bases_covered) / float(end - start)
             interval.fields.append(str(bases_covered))
             interval.fields.append(str(percent))
             yield interval

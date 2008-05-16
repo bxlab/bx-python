@@ -15,5 +15,16 @@ def base_coverage(reader):
     bitsets = reader.binned_bitsets()
     coverage = 0
     for chrom in bitsets:
-        coverage += bitsets[chrom].count_range(0, MAX_END)
+        try:
+            coverage += bitsets[chrom].count_range(0, MAX_END)
+        except IndexError, e:
+            try:
+                # This will work only if reader is a NiceReaderWrapper
+                reader.skipped += 1
+                # no reason to stuff an entire bad file into memmory
+                if reader.skipped < 10:
+                    reader.skipped_lines.append( ( reader.linenum, reader.current_line, str( e ) ) )
+            except:
+                pass
+            continue
     return coverage
