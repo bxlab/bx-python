@@ -19,12 +19,14 @@ from bx.intervals.io import *
 from bx.intervals.operations import *
 
 def subtract(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens={}, comments=True):
-
-    # Read all but first into bitsets and union to one (if confused,
-    # read DeMorgan's...)
+    # The incoming lens dictionary is a dictionary of chromosome lengths which are used to initialize the bitsets.
+    # Read all but first into bitsets and union to one (if confused, read DeMorgan's...)
     primary = readers[0]
     union = readers[1:]
-    bitsets = union[0].binned_bitsets(upstream_pad = upstream_pad, downstream_pad = downstream_pad, lens = lens)
+    # Handle any ValueError, IndexError and OverflowError exceptions that may be thrown when
+    # the bitsets are being created by skipping the problem lines
+    union[0] = BitsetSafeReaderWrapper( union[0], lens=lens )
+    bitsets = union[0].binned_bitsets( upstream_pad=upstream_pad, downstream_pad=downstream_pad, lens=lens )
     union = union[1:]
     for andset in union:
         bitset2 = andset.binned_bitsets(upstream_pad = upstream_pad, downstream_pad = downstream_pad, lens = lens)

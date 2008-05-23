@@ -17,9 +17,12 @@ from bx.intervals.io import *
 from bx.intervals.operations import *
 
 def coverage(readers, comments=True):
-    # Read all but first into bitsets and union to one
+    # The incoming lens dictionary is a dictionary of chromosome lengths which are used to initialize the bitsets.
     primary = readers[0]
     intersect = readers[1:]
+    # Handle any ValueError, IndexError and OverflowError exceptions that may be thrown when
+    # the bitsets are being created by skipping the problem lines
+    intersect[0] = BitsetSafeReaderWrapper( intersect[0], lens={} )
     bitsets = intersect[0].binned_bitsets()
     intersect = intersect[1:]
     for andset in intersect:

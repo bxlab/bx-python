@@ -126,6 +126,8 @@ class GenomicIntervalReader( TableReader ):
                                 self.strand_col, self.default_strand, fix_strand=self.fix_strand )
 
     def binned_bitsets( self , upstream_pad=0, downstream_pad=0, lens={} ):
+        # The incoming lens dictionary is a dictionary of chromosome lengths
+        # which are used to initialize the bitsets.
         last_chrom = None
         last_bitset = None
         bitsets = dict()
@@ -134,23 +136,19 @@ class GenomicIntervalReader( TableReader ):
                 chrom = interval[self.chrom_col]
                 if chrom != last_chrom:
                     if chrom not in bitsets:
-                        if chrom in lens:
-                            size = lens[chrom]
-                        else:
-                            size = MAX
+                        size = lens.get( chrom, MAX )
                         try:
                             bbs = BinnedBitSet( size )
                         except ValueError, e:
-                            continue
+                            # We will only reach here when constructing this bitset from the lens dict
+                            # since the value of MAX is always safe.
+                            raise Exception( "Invalid chrom length %s in 'lens' dictionary. %s" % ( str( size ), str( e ) ) )
                         bitsets[chrom] = bbs
                     last_chrom = chrom
                     last_bitset = bitsets[chrom]
-                start = max(int( interval[self.start_col]), 0 )
-                end = min(int( interval[self.end_col]), size)
-                try:
-                    last_bitset.set_range( start, end-start )
-                except OverflowError, e:
-                    continue
+                start = max( int( interval[self.start_col] ), 0 )
+                end = min( int( interval[self.end_col] ), size)
+                last_bitset.set_range( start, end-start )
         return bitsets
 
 class NiceReaderWrapper( GenomicIntervalReader ):
@@ -181,3 +179,26 @@ class NiceReaderWrapper( GenomicIntervalReader ):
         while 1:
             self.current_line = self.input_wrapper.next()
             yield self.current_line
+
+class BitsetSafeReaderWrapper( NiceReaderWrapper ):
+    def __init__( self, reader, lens={} ):
+        # This class handles any ValueError, IndexError and OverflowError exceptions that may be thrown when
+        # the bitsets are being created by skipping the problem lines.
+        # The incoming lens dictionary is a dictionary of chromosome lengths
+        # which are used to initialize the bitsets.
+        NiceReaderWrapper.__init__( self, reader.input )
+        self.lens = lens
+    def next( self ):
+        rval = NiceReaderWrapper.next( self )
+        if type( rval ) == GenomicInterval:
+            if rval.end > self.lens.get( rval.chrom, MAX ): # MAX_INT is defined in bx.bitset
+                try:
+                    # This will only work if reader is a NiceReaderWrapper
+                    self.skipped += 1
+                    # no reason to stuff an entire bad file into memmory
+                    if self.skipped < 10:
+                        self.skipped_lines.append( ( self.linenum, self.current_line, str( e ) ) )
+                except:
+                    pass
+                return self.next()
+        return rval

@@ -12,7 +12,10 @@ from bx.intervals.io import *
 from bx.intervals.operations import *
 
 # sorting could make this a less memory intensive operation(?)
-def merge(interval, mincols=1):
+def merge( interval, mincols=1 ):
+    # Handle any ValueError, IndexError and OverflowError exceptions that may be thrown when
+    # the bitsets are being created by skipping the problem lines
+    interval = BitsetSafeReaderWrapper( interval, lens={} )
     bitsets = interval.binned_bitsets()
     if interval.header:
         yield interval.header

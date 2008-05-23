@@ -18,11 +18,14 @@ from bx.intervals.io import *
 from bx.intervals.operations import *
 
 def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens={}, comments=True):
-
+    # The incoming lens dictionary is a dictionary of chromosome lengths which are used to initialize the bitsets.
     # Read all but first into bitsets and intersect to one
     primary = readers[0]
     intersect = readers[1:]
-    bitsets = intersect[0].binned_bitsets(upstream_pad = upstream_pad, downstream_pad = downstream_pad, lens = lens)
+    # Handle any ValueError, IndexError and OverflowError exceptions that may be thrown when
+    # the bitsets are being created by skipping the problem lines
+    intersect[0] = BitsetSafeReaderWrapper( intersect[0], lens=lens )
+    bitsets = intersect[0].binned_bitsets( upstream_pad=upstream_pad, downstream_pad=downstream_pad, lens=lens )
     intersect = intersect[1:]
     for andset in intersect:
         bitset2 = andset.binned_bitsets(upstream_pad = upstream_pad, downstream_pad = downstream_pad, lens = lens)
@@ -61,6 +64,12 @@ def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True,
                         out_intervals = bits_set_in_range( bitsets[chrom], start, end )
                     else:
                         out_intervals = [ ( start, end ) ]
+                # Write the intervals
+                for start, end in out_intervals:
+                    new_interval = interval.copy()
+                    new_interval.start = start
+                    new_interval.end = end
+                    yield new_interval
             except IndexError, e:
                 try:
                     # This will only work if primary is a NiceReaderWrapper
@@ -71,9 +80,3 @@ def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True,
                 except:
                     pass
                 continue
-            # Write the intervals
-            for start, end in out_intervals:
-                new_interval = interval.copy()
-                new_interval.start = start
-                new_interval.end = end
-                yield new_interval
