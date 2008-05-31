@@ -9,6 +9,8 @@ use_setuptools()
 
 from setuptools import *
 from glob import glob
+
+import numpy
        
 def main():                       
     setup(  name = "bx-python",
@@ -105,6 +107,8 @@ def get_extension_modules():
     extensions.append( Extension( "bx.pwm._position_weight_matrix",
                                   [ "lib/bx/pwm/_position_weight_matrix.pyx", "src/pwm_utils.c" ],
                                   include_dirs=["src"]  ) )
+    extensions.append( Extension( "bx.motif._pwm", [ "lib/bx/motif/_pwm.pyx" ], 
+                                  include_dirs=[numpy.get_include()] ) )
     # CpG masking
     extensions.append( Extension( "bx.align.sitemask._cpg", \
                                   [ "lib/bx/align/sitemask/_cpg.pyx", 
