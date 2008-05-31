@@ -9,9 +9,10 @@ Expressions can use column names as well as numbers. The -c options allows
 cutting, again using field name or numbers.
 
 usage: %prog expression < table 
-    -H, --header:    keep header in output
-    -C, --comments:  keep comments in output
-    -c, --cols=1,2:  names or indexes of columns to keep
+    -H, --header:       keep header in output
+    -C, --comments:     keep comments in output
+    --force-header:     assume the first line is a header even if it does not start with "#"
+    -c, --cols=1,2:     names or indexes of columns to keep
 """
 
 import psyco_full
@@ -41,13 +42,17 @@ def __main__():
             expr = args[0]
         else:
             expr = None
+        if options.force_header:
+            force_header = bx.tabular.io.FIRST_LINE_IS_HEADER
+        else:
+            force_header = None
     except:
         doc_optparse.exception()
 
     # Compile expression for SPEED
     if expr: expr = compile( expr, '<expr arg>', 'eval' )
 
-    for element in bx.tabular.io.TableReader( sys.stdin ):
+    for element in bx.tabular.io.TableReader( sys.stdin, force_header=force_header ):
         if type( element ) is bx.tabular.io.Header:
             if keep_header: 
                 if cols:
