@@ -26,6 +26,16 @@ class TransfacReader( object ):
         self.input = iter( input )
         self.input_exhausted = False
     
+    def as_dict( self, key="id" ):
+        """
+        Return a dictionary containing all remaining motifs, using `key`
+        as the dictionary key.
+        """
+        rval = {}
+        for motif in self:
+            rval[ getattr( motif, key ) ] = motif
+        return rval
+    
     def __iter__( self ):
         return self
     
@@ -118,7 +128,6 @@ class TransfacReader( object ):
                 # First line is alphabet
                 alphabet = rest.split()
                 alphabet_size = len( alphabet )
-                current_row = 0
                 rows = []
                 pattern = ""
                 current_line += 1
@@ -126,7 +135,7 @@ class TransfacReader( object ):
                 while current_line < len( lines ):
                     prefix, rest = lines[ current_line ]
                     # Prefix should be a two digit 0 padded row number
-                    if prefix != ( "%02d" % ( current_row + 1 ) ):
+                    if not prefix.isdigit():
                         break
                     # The first `alphabet_size` fields are the row values
                     values = rest.split()
@@ -135,7 +144,6 @@ class TransfacReader( object ):
                     if len( values ) > alphabet_size:
                         pattern += values[alphabet_size]
                     current_line += 1
-                    current_row += 1
                 # Only store the pattern if it is the correct length (meaning
                 # that every row had an extra field)
                 if len( pattern ) != len( rows ):

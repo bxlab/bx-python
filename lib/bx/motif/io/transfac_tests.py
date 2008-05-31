@@ -50,7 +50,7 @@ XX
 BF  T00207; E47; Species: human, Homo sapiens.
 XX
 P0      A      C      G      T
-01     400     400     300     0     N
+00     400     400     300     0     N
 02     200     500     400     0     S
 03     300     200     400     200     N
 04     200     0     900     0     G
