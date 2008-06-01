@@ -5,7 +5,7 @@ species and fixing alignment text).
 
 import sys
 from itertools import *
-from copy import copy
+from copy import deepcopy
 
 def thread( mafs, species ):
     """
@@ -57,8 +57,8 @@ def thread( mafs, species ):
     """
     new = []
     for m in mafs:
-        new_maf = copy( m )
-        new_components = get_components_for_species( m, species )	
+        new_maf = deepcopy( m )
+        new_components = get_components_for_species( new_maf, species )	
         if new_components: 
             remove_all_gap_columns( new_components )          
             new_maf.components = new_components
