@@ -128,7 +128,9 @@ class ScoringMatrix( BaseMatrix ):
     def score_string( self, string ):
         """
         Score each valid position in `string` using this scoring matrix. 
+        Positions which were not scored are set to nan.
         """
         rval = zeros( len( string ), float32 )
+        rval[:] = nan
         _pwm.score_string( self.values, self.char_to_index, string, rval )
         return rval
