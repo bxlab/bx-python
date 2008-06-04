@@ -1,5 +1,5 @@
 import pwm
-from numpy import allclose
+from numpy import allclose, isnan
 
 def test_create():
     m = pwm.FrequencyMatrix.from_rows( ['A','C','G','T'], get_ctcf_rows() )
@@ -30,6 +30,28 @@ def test_scoring():
     assert allclose( rc.score_string( "TGCCTGCCTCTGTAGGCTCC" )[0], 0.723828315735 )
     assert allclose( rc.score_string( "GTTGCCAGTTGGGGGAAGCA" )[0], -126.99407196 )
     assert allclose( rc.score_string( "GCAGACACCAGGTGGTTCAG" )[0], -86.9560623169 )
+    # Nothing valid
+    assert isnan( sm.score_string_with_gaps( "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" ) ).all()
+    # Too short
+    assert isnan( sm.score_string( "TTTT" ) ).all()
+
+def test_scoring_with_gaps():
+    m = pwm.FrequencyMatrix.from_rows( ['A','C','G','T'], get_ctcf_rows() )
+    # Stormo method
+    sm = m.to_stormo_scoring_matrix()
+    # Forward matches
+    assert allclose( sm.score_string_with_gaps( "GTTGCCAGT----TGGGGGAAGCATTT---AA" )[0], 4.65049839 )
+    assert allclose( sm.score_string_with_gaps( "GCAGA--CACCAGGTGG--TTCAG---" )[0], 1.60168743 )
+    assert allclose( sm.score_string_with_gaps( "----GTTGCCAGTTGGGGGAAGCA" )[4], 4.65049839 )
+    assert allclose( sm.score_string_with_gaps( "TTT--GTT--GCCA--GTTGGGG-G-A-A-G-C-A-" )[5], 4.65049839 )
+    assert isnan( sm.score_string_with_gaps( "TTT--GTT--GCCA--GTTGGGG-G-A-A-G-C-A-" )[4] )
+    # Nothing valid
+    assert isnan( sm.score_string_with_gaps( "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" ) ).all()
+    assert isnan( sm.score_string_with_gaps( "------------------------------------" ) ).all()
+    # Too short
+    assert isnan( sm.score_string_with_gaps( "TTTT" ) ).all()
+    assert isnan( sm.score_string_with_gaps( "TTTT----" ) ).all()
+
 
 def get_ctcf_rows():
     """

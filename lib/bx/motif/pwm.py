@@ -134,3 +134,14 @@ class ScoringMatrix( BaseMatrix ):
         rval[:] = nan
         _pwm.score_string( self.values, self.char_to_index, string, rval )
         return rval
+        
+    def score_string_with_gaps( self, string ):
+        """
+        Score each valid position in `string` using this scoring matrix. 
+        Positions which were not scored are set to nan. Gap characters are
+        ignored (matrices score across them).
+        """
+        rval = zeros( len( string ), float32 )
+        rval[:] = nan
+        _pwm.score_string_with_gaps( self.values, self.char_to_index, string, rval )
+        return rval
