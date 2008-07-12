@@ -11,7 +11,7 @@ cdef extern from "Python.h":
     int PyObject_AsWriteBuffer(object, void **, int *) except -1
     int PyString_AsStringAndSize(object, char **, int *) except -1
 
-from Numeric import zeros
+from numpy import zeros
 from math import floor
 import random
 import sys
@@ -32,8 +32,9 @@ cdef class CharToIntArrayMapping:
     def __init__( self ):
         self.reverse_table = dict()
 
-    def set_mapping( self, char char, int symbol ):
+    def set_mapping( self, c, int symbol ):
         """Modify mapping so 'chars' map to 'symbol'"""
+        char = ord( c )
         self.table[ char ] = symbol
         if self.out_size <= symbol:
             self.out_size = symbol + 1
@@ -135,6 +136,8 @@ cdef class IntToIntMapping:
         # Translate
         for i from 0 <= i < s_len:
             if s_buf[i] == -1:
+                t_buf[i] = -1
+            elif s_buf[i] >= self.in_size:
                 t_buf[i] = -1
             else:
                 t_buf[i] = self.table[ s_buf[ i ] ]

@@ -5,21 +5,21 @@ Tests for `bx.seqmapping`.
 import unittest
 import bx.seqmapping
 
-from numpy import array
+from numpy import array, allclose
 from StringIO import StringIO
 
 class CharMappingTests( unittest.TestCase ):
     def test_DNA( self ):
-        self.assertEqual( bx.seqmapping.DNA.translate( "ACGTacgt-?X" ),
-                          [ 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, -1 ] )
+        assert( allclose( bx.seqmapping.DNA.translate( "ACGTacgt-?X" ),
+                          [ 0, 1, 2, 3, 0, 1, 2, 3, 4, -1, -1 ] ) )
     def test_DNA_list( self ):
-        self.assertEqual( bx.seqmapping.DNA.translate_list( [ "ACGTA", "TGCAX" ] ),
-                          [ 0 + 3*6, 1 + 2*6, 2 + 1*6, 3 + 0*6, -1 ] )
+        assert( allclose( bx.seqmapping.DNA.translate_list( [ "ACGTA", "TGCAX" ] ),
+                          [ 0 + 3*6, 1 + 2*6, 2 + 1*6, 3 + 0*6, -1 ] ) )
     def test_other( self ):
         m = bx.seqmapping.CharToIntArrayMapping()
         m.set_mapping( "A", 0 )
         m.set_mapping( "B", 7 )
-        self.assertEqual( m.translate( "ABCBCA" ), [ 0, 7, -1, -1, 7, 0 ] )
+        assert( allclose( m.translate( "ABCCBA" ), [ 0, 7, -1, -1, 7, 0 ] ) )
         
 class IntMappingTests( unittest.TestCase ):
     def test_simple( self ):
@@ -28,7 +28,7 @@ class IntMappingTests( unittest.TestCase ):
         m.set_mapping( 2, 0 )
         m.set_mapping( 1, 1 )
         m.set_mapping( 3, 1 )
-        self.assertEqual( m.translate( array( [ 0, 1, 2, 3, 4 ], 'i' ) ), array( [ 0, 1, 0, 1, -1 ] ) ) 
+        assert( allclose( m.translate( array( [ 0, 1, 2, 3, 4 ], 'i' ) ), array( [ 0, 1, 0, 1, -1 ] ) ) )
    
 eight_species_mapping = """TTTTTTTT 0
 CCCCCCCC 4
