@@ -16,11 +16,30 @@ class TransfacMotif( object ):
         self.basis = None
         self.comment = None
         self.matrix = None
+        self.attributes = None
+        self.sites = None
+        
+transfac_actions = {
+    "AC": ( "store_single", "accession" ),
+    "ID": ( "store_single", "id" ),
+    "DT": ( "store_single_list", "dates" ),
+    "NA": ( "store_single", "name" ),
+    "DE": ( "store_block", "description" ),
+    "BF": ( "store_single_list", "binding_factors" ),
+    "BA": ( "store_block", "basis" ),
+    "CC": ( "store_block", "comment" ),
+    "P0": ( "store_matrix", "matrix" ),
+    # For CREAD format files
+    "AT": ( "store_single_key_value", "attributes" ),
+    "BS": ( "store_single_list", "sites" )
+}
         
 class TransfacReader( object ):
     """
     Reads motifs in TRANSFAC format.
     """
+    
+    parse_actions = transfac_actions
     
     def __init__( self, input ):
         self.input = iter( input )
@@ -64,18 +83,6 @@ class TransfacReader( object ):
         if lines:
             return self.parse_record( lines )
     
-    parse_actions = {
-        "AC": ( "store_single", "accession" ),
-        "ID": ( "store_single", "id" ),
-        "DT": ( "store_single_list", "dates" ),
-        "NA": ( "store_single", "name" ),
-        "DE": ( "store_block", "description" ),
-        "BF": ( "store_single_list", "binding_factors" ),
-        "BA": ( "store_block", "basis" ),
-        "CC": ( "store_block", "comment" ),
-        "P0": ( "store_matrix", "matrix" )
-    }
-    
     def parse_record( self, lines ):
         """
         Parse a TRANSFAC record out of `lines` and return a motif.
@@ -115,6 +122,14 @@ class TransfacReader( object ):
                     setattr( motif, key, [] )
                 getattr( motif, key ).append( rest )
                 current_line += 1
+            # Add a single line value to a dictionary
+            if action[0] == "store_single_key_value":
+                key = action[1]
+                k, v = rest.strip().split( '=', 1 )
+                if not getattr( motif, key ):
+                    setattr( motif, key, {} )
+                getattr( motif, key )[k] = v
+                current_line += 1
             # Store a block of text
             if action[0] == "store_block":
                 key = action[1]
@@ -153,3 +168,53 @@ class TransfacReader( object ):
         # Only return a motif if we saw at least ID or AC or NA
         if motif.id or motif.accession or motif.name:
             return motif
+            
+class TransfacWriter( object ):
+    """
+    Writes motifs in TRANSFAC format.
+    """
+
+    actions = transfac_actions
+
+    def __init__( self, output ):
+        self.output = output
+        
+    def write( self, motif ):
+        output = self.output
+        for prefix, actions in self.actions.iteritems():
+            action = actions[0]
+            if action == "store_single":
+                key = actions[1]
+                if getattr( motif, key ) is not None:
+                    print >> output, prefix, "  ", getattr( motif, key )
+                    print >> output, "XX"
+            elif action == "store_single_list":
+                key = actions[1]
+                if getattr( motif, key ) is not None:
+                    value = getattr( motif, key )
+                    for v in value:
+                        print >> output, prefix, "  ", v
+                    print >> output, "XX"
+            elif action == "store_single_key_value":
+                key = actions[1]
+                if getattr( motif, key ) is not None:
+                    value = getattr( motif, key )
+                    for k, v in value.iteritems():
+                        print >> output, prefix, "  ", "%s=%s" % ( k, v )
+                    print >> output, "XX"
+            elif action == "store_block":
+                key = actions[1]
+                if getattr( motif, key ) is not None:
+                    value = getattr( motif, key )
+                    for line in value.split( "\n" ):
+                        print >> output, prefix, "  ", line
+                    print >> output, "XX"
+            elif action == "store_matrix":
+                key = actions[1]
+                if getattr( motif, key ) is not None:
+                    matrix = getattr( motif, key )
+                    print >> output, prefix, "  ", " ".join( [ s.rjust(6) for s in matrix.alphabet ] )
+                    for i in range( matrix.width ):
+                        print >> output, "%02d" % ( i + 1 ), "  ", " ".join( [ str(matrix.values[i,matrix.char_to_index[ord(s)]]).rjust(6) for s in matrix.alphabet ] )
+                    print >> output, "XX"
+        print "//"

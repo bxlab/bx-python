@@ -11,11 +11,12 @@ class BaseMatrix( object ):
     """
     Base class for position specific matrices. 
     """
-    def __init__( self ):
-        self.alphabet = None
-        self.sorted_alphabet = None
-        self.char_to_index = None
-        self.values = None
+    def __init__( self, alphabet=None, sorted_alphabet=None, 
+                  char_to_index=None, values=None ):
+        self.alphabet = alphabet
+        self.sorted_alphabet = sorted_alphabet
+        self.char_to_index = char_to_index
+        self.values = values
 
     @classmethod
     def from_rows( Class, alphabet, rows ):
@@ -34,6 +35,7 @@ class BaseMatrix( object ):
         # Array
         values = zeros( ( len( rows) , len( alphabet ) ), float32 )
         for i, row in enumerate( rows ):
+            assert len( row ) == len( alphabet )
             for ch, val in zip( alphabet, row ):
                 values[i, char_to_index[ord(ch)]] = val
         # Matrix
