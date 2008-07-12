@@ -34,13 +34,14 @@ def freqs_to_heights( matrix ):
     # Height
     return transpose( f * ( log2( n ) - H ) )
     
-def logo( matrix, base_width, height, colors=DNA_DEFAULT_COLORS ):
+def eps_logo( matrix, base_width, height, colors=DNA_DEFAULT_COLORS ):
     """
     Return an EPS document containing a sequence logo for matrix where each
     bases is shown as a column of `base_width` points and the total logo
     height is `height` points. If `colors` is provided it is a mapping from
     characters to rgb color strings. 
     """
+    alphabet = matrix.sorted_alphabet
     rval = StringIO()
     # Read header ans substitute in width / height
     header = Template( pkg_resources.resource_string( __name__, "template.ps" ) )
@@ -48,13 +49,13 @@ def logo( matrix, base_width, height, colors=DNA_DEFAULT_COLORS ):
                                    bounding_box_height = ceil( height ) + PAD ) )
     # Determine heights
     heights = freqs_to_heights( matrix )
-    height_scale = height / log2( len( matrix.alphabet ) )
+    height_scale = height / log2( len( alphabet ) )
     # Draw each "row" of the matrix
     for i, row in enumerate( heights ):
         x = ( i * base_width )
         y = 0
         for j, base_height in enumerate( row ):
-            char = matrix.alphabet[j]
+            char = alphabet[j]
             page_height = height_scale * base_height
             # print matrix.alphabet[j], base_height, height_scale, page_height
             if page_height > 1:
