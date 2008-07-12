@@ -4,6 +4,22 @@
 #include "math.h"
 #include "stdio.h"
 
+static inline int min(int a, int b)
+{
+  if( a < b )
+    return a;
+  else
+    return b;
+}
+
+static inline int max(int a, int b)
+{
+  if( a > b )
+    return a;
+  else
+    return b;
+}
+
 /* Allocates a new clusternode.  Lines is an arbitrary pointer, and
    will hold a python list object most likely */
 struct ClusterNode* clusterNodeAlloc( int start, int end)
@@ -139,21 +155,6 @@ void clusterPushUp( struct ClusterNode **ln, struct ClusterNode **cn, int mincol
   }
 }
 
-inline int min(int a, int b)
-{
-  if( a < b )
-    return a;
-  else
-    return b;
-}
-
-inline int max(int a, int b)
-{
-  if( a > b )
-    return a;
-  else
-    return b;
-}
 
 /* Tree iterator.  Dump references into a single-linked list on
    get_itr(ClusterNode), walk the list with next(treeitr) and

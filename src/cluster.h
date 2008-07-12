@@ -37,9 +37,6 @@ void clusterRotateRight( struct ClusterNode **cn );
 void clusterRotateLeft( struct ClusterNode **cn );
 struct ClusterNode* clusterNodeFind( struct ClusterNode *cn, int position );
 
-inline int max(int a, int b);
-inline int min(int a, int b);
-
 void get_itr_pre(struct ClusterNode*, struct treeitr**);
 void get_itr_in(struct ClusterNode*, struct treeitr**);
 void get_itr_post(struct ClusterNode*, struct treeitr**);

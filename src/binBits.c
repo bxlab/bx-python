@@ -29,12 +29,12 @@ void binBitsFree( struct BinBits *bb )
     freeMem( bb );
 }
     
-inline int binBitsGetBin( struct BinBits * bb, int pos )
+static inline int binBitsGetBin( struct BinBits * bb, int pos )
 {
     return pos / bb->bin_size;
 }
 
-inline int binBitsGetOffset( struct BinBits * bb, int pos )
+static inline int binBitsGetOffset( struct BinBits * bb, int pos )
 {
     return pos % bb->bin_size;
 }

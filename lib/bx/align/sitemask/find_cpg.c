@@ -10,7 +10,7 @@
   It looks as if CpG's are typically not next to gaps.
 */
 
-inline int is_cpg( char * sp1, char * sp2, int pos)
+static inline int is_cpg( char * sp1, char * sp2, int pos)
 {
   if ( pos < 1 ) return 0;
   if ( sp1[pos + 1] == '\0' ) return 0;
@@ -23,7 +23,7 @@ inline int is_cpg( char * sp1, char * sp2, int pos)
   return 0;
 }
 
-inline int is_non_cpg( char * sp1, char * sp2, int pos)
+static inline int is_non_cpg( char * sp1, char * sp2, int pos)
 {
   // first one can't assuredly be cpg
   if ( pos < 1 ) return 1;
@@ -33,7 +33,7 @@ inline int is_non_cpg( char * sp1, char * sp2, int pos)
       sp1[pos + 1] != 'G' && sp2[pos + 1] != 'G' );
 }
 
-inline int is_cpg_restricted( char * sp1, char * sp2, int pos )
+static inline int is_cpg_restricted( char * sp1, char * sp2, int pos )
 {
   return !is_non_cpg( sp1, sp2, pos );
 }
