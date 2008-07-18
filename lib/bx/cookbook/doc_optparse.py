@@ -62,16 +62,19 @@ def parse(docstring, arglist=None):
         p = optparse.OptionParser(optlines[0],conflict_handler="resolve")
         for line in optlines[1:]:
             opt, help=line.split(':')[:2]
-            short,long=opt.split(',')[:2]
-            if '=' in opt:
-                action='store'
-                long=long.split('=')[0]
-            else:
-                action='store_true'
-            p.add_option(short.strip(),long.strip(),
-                         action = action, help = help.strip())
-        helpstring=docstring.replace("%prog",sys.argv[0])
-        p.add_option( "-h", "--help", action="callback", callback=help_callback, callback_args=(helpstring,) )
+            # Make both short and long optional (but at least one)
+            ## Old: short,long=opt.split(',')[:2]
+            opt_strings = []
+            action = "store_true"
+            for k in opt.split( ', ' ):
+                k = k.strip()
+                if k.startswith( "--" ) and "=" in k:
+                    action = "store"
+                    k = k.split( "=" )[0]
+                opt_strings.append( k )
+            p.add_option( *opt_strings, **dict( action = action, help = help.strip() ) )
+        helpstring = docstring.replace("%prog",sys.argv[0])
+        # p.add_option( "-h", "--help", action="callback", callback=help_callback, callback_args=(helpstring,) )
     except (IndexError,ValueError):
         raise ParsingError("Cannot parse the option string correctly")
     return p.parse_args(arglist)
