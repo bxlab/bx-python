@@ -30,6 +30,7 @@ transfac_actions = {
     "CC": ( "store_block", "comment" ),
     "P0": ( "store_matrix", "matrix" ),
     # For CREAD format files
+    "TY": ( "store_single", "type" ),
     "AT": ( "store_single_key_value", "attributes" ),
     "BS": ( "store_single_list", "sites" )
 }
