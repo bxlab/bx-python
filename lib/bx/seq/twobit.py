@@ -109,7 +109,7 @@ class TwoBitFile( DictMixin ):
         
     def read( self, pattern, untuple=True ):
         rval = unpack( self.byte_order + pattern, 
-                       self.file.read( calcsize( pattern ) ) )
+                       self.file.read( calcsize( self.byte_order + pattern ) ) )
         if untuple and len( rval ) == 1: 
             return rval[0]
         return rval
