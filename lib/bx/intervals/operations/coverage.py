@@ -4,11 +4,6 @@ another set. Adds two columns to the first input, giving number of bases
 covered and percent coverage on the second input.
 """
 
-import pkg_resources
-pkg_resources.require( "bx-python" )
-
-import psyco_full
-
 import traceback
 import fileinput
 from warnings import warn
