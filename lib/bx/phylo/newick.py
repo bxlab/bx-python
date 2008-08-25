@@ -70,18 +70,13 @@ def create_parser():
     quoted_label = QuotedString( "'", None, "''" ).setParseAction( lambda s, l, t: t[0] )
     simple_label = Word( alphas + nums + "_." ).setParseAction( lambda s, l, t: t[0].replace( "_", " " ) )
     label = quoted_label | simple_label
-    # Branch length is a real number (note though exponents are not in the spec!)
+    # Branch length is a real number (note though that exponents are not in the spec!)
     branch_length = real.setParseAction( lambda s, l, t: float( t[0] ) )
     # Need to forward declare this due to circularity
     node_list = Forward()
-    # A leaf node must have a label
-    leaf = ( label + Optional( colon + branch_length, None ) ) \
-        .setParseAction( lambda s, l, t: Edge( t[1], Tree( t[0] ) ) )
-    # But a subtree doesn't but must have edges
-    subtree = ( node_list + Optional( label, "" ) + Optional( colon + branch_length, None ) )\
+    # A node might have an list of edges (for a subtree), a label, and/or a branch length
+    node = ( Optional( node_list, None ) + Optional( label, "" ) + Optional( colon + branch_length, None ) ) \
         .setParseAction( lambda s, l, t: Edge( t[2], Tree( t[1] or None, t[0] ) ) )
-    # A tree is then a nested set of leaves and subtrees
-    node = leaf | subtree
     node_list << ( lpar + delimitedList( node ) + rpar ) \
         .setParseAction( lambda s, l, t: [ t.asList() ] )
     # The root cannot have a branch length
