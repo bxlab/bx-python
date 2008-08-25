@@ -25,7 +25,10 @@ class Tree( object ):
         else:
             return "Tree( '%s' )" % self.label
     def __cmp__( self, other ):
-        return cmp( self.__dict__, other.__dict__ )
+        if isinstance( other, Tree ):
+            return cmp( self.__dict__, other.__dict__ )
+        else:
+            return 1
     def __repr__( self ):
         return "Tree( %s, %s )" % ( repr( self.label ), repr( self.edges ) )
 
@@ -36,7 +39,10 @@ class Edge( object ):
     def pretty( self ):
         return "Edge( %s, \n%s\n)" % ( repr( self.length ), indent( repr( self.tip ) ) )
     def __cmp__( self, other ):
-        return cmp( self.__dict__, other.__dict__ )
+        if isinstance( other, Edge ):
+            return cmp( self.__dict__, other.__dict__ )
+        else:
+            return 1
     def __repr__( self ):
         return "Edge( %s, %s )" % ( repr( self.length ), repr( self.tip ) )
 
