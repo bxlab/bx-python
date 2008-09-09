@@ -189,9 +189,9 @@ class BitsetSafeReaderWrapper( NiceReaderWrapper ):
         NiceReaderWrapper.__init__( self, reader.input )
         self.lens = lens
     def next( self ):
-        rval = NiceReaderWrapper.next( self )
-        if type( rval ) == GenomicInterval:
-            if rval.end > self.lens.get( rval.chrom, MAX ): # MAX_INT is defined in bx.bitset
+        while True:
+            rval = NiceReaderWrapper.next( self )
+            if type( rval ) == GenomicInterval and rval.end > self.lens.get( rval.chrom, MAX ): # MAX_INT is defined in bx.bitset
                 try:
                     # This will only work if reader is a NiceReaderWrapper
                     self.skipped += 1
@@ -200,5 +200,5 @@ class BitsetSafeReaderWrapper( NiceReaderWrapper ):
                         self.skipped_lines.append( ( self.linenum, self.current_line, str( e ) ) )
                 except:
                     pass
-                return self.next()
-        return rval
+            else:
+                return rval
