@@ -10,7 +10,11 @@ use_setuptools()
 from setuptools import *
 from glob import glob
 
-import numpy
+try:
+    import numpy
+    have_numpy = True
+except:
+    have_numpy = False
        
 def main():                       
     setup(  name = "bx-python",
@@ -108,8 +112,9 @@ def get_extension_modules():
     extensions.append( Extension( "bx.pwm._position_weight_matrix",
                                   [ "lib/bx/pwm/_position_weight_matrix.pyx", "src/pwm_utils.c" ],
                                   include_dirs=["src"]  ) )
-    extensions.append( Extension( "bx.motif._pwm", [ "lib/bx/motif/_pwm.pyx" ], 
-                                  include_dirs=[numpy.get_include()] ) )
+    if have_numpy:
+        extensions.append( Extension( "bx.motif._pwm", [ "lib/bx/motif/_pwm.pyx" ], 
+                                      include_dirs=[numpy.get_include()] ) )
     # CpG masking
     extensions.append( Extension( "bx.align.sitemask._cpg", \
                                   [ "lib/bx/align/sitemask/_cpg.pyx", 
@@ -165,5 +170,6 @@ def monkey_patch_numpy():
         
 if __name__ == "__main__":
     monkey_patch_doctest()
-    monkey_patch_numpy()
+    if have_numpy:
+        monkey_patch_numpy()
     main()
