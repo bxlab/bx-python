@@ -164,9 +164,12 @@ class AbstractMultiIndexedAccess( object ):
     def get( self, src, start, end ):
         return [block for block in self.get_as_iterator( src, start, end )]
     def get_as_iterator( self, src, start, end ):
+        for block, index, offset in self.get_as_iterator_with_index_and_offset( src, start, end ):
+            yield block
+    def get_as_iterator_with_index_and_offset( self, src, start, end ):
         for index in self.indexes:
-            for block in index.get_as_iterator( src, start, end ):
-                yield block
+            for block, idx, offset in index.get_as_iterator_with_index_and_offset( src, start, end ):
+                yield block, idx, offset
     def close( self ):
         for index in self.indexes:
             index.close()
@@ -239,8 +242,11 @@ class AbstractIndexedAccess( object ):
     def get( self, src, start, end ):
         return [ val for val in self.get_as_iterator( src, start, end ) ]
     def get_as_iterator( self, src, start, end ):
+        for val, index, offset in self.get_as_iterator_with_index_and_offset( src, start, end ):
+            yield val
+    def get_as_iterator_with_index_and_offset( self, src, start, end ):
         for val_start, val_end, val in self.indexes.find( src, start, end ):
-            yield self.get_at_offset( val )
+            yield self.get_at_offset( val ), self, val
 
     def get_at_offset( self, offset ):
         if self.f:
