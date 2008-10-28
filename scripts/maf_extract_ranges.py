@@ -51,6 +51,9 @@ def __main__():
 
     for maf in bx.align.maf.Reader( sys.stdin ):
         ref_component = maf.components[ refindex ]
+        if ref_component.strand == '-':
+            maf = block.reverse_complement()
+            ref_component = maf.components[ refindex ]
         # Find overlap with reference component
         intersections = intersecter.find( ref_component.start, ref_component.end )
         # Keep output maf ordered
