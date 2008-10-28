@@ -77,13 +77,11 @@ def main():
         if chop:
             for block in blocks: 
                 ref = block.get_component_by_src( src )
-                # If the reference component is on the '-' strand we should complement the interval
                 if ref.strand == '-':
-                    slice_start = max( ref.src_size - end, ref.start )
-                    slice_end = max( ref.src_size - start, ref.end )
-                else:
-                    slice_start = max( start, ref.start )
-                    slice_end = min( end, ref.end )
+                    block = block.reverse_complement()
+                    ref = block.get_component_by_src( src )
+                slice_start = max( start, ref.start )
+                slice_end = min( end, ref.end )
                 sliced = block.slice_by_component( ref, slice_start, slice_end ) 
                 # If the block is shorter than the minimum allowed size, stop
                 if mincols and ( sliced.text_size < mincols ):

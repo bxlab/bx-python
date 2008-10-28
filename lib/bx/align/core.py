@@ -42,7 +42,7 @@ class Alignment( object ):
                 raise Exception( "Components must have same text length" )
 
     def get_score( self ):
-    	return self.__score
+        return self.__score
     def set_score( self,score ):
         if type( score ) == str:
             try:
@@ -110,6 +110,17 @@ class Alignment( object ):
         return new
     
     def slice_by_component( self, component_index, start, end ):
+        """
+        Return a slice of the alignment, corresponding to an coordinate interval in a specific component.
+
+        component_index is one of
+            an integer offset into the components list
+            a string indicating the src of the desired component
+            a component
+
+        start and end are relative to the + strand, regardless of the component's strand.
+
+        """
         if type( component_index ) == type( 0 ):
             ref = self.components[ component_index ]
         elif type( component_index ) == type( "" ):
@@ -207,7 +218,7 @@ class Component( object ):
         # If true, this component actually represents a non-aligning region,
         # and has no text.
         self.empty = False
-        # Index coord -> col
+        # Index maps a coordinate (distance along + strand from + start) to alignment column
         self.index = None
 
     def __str__( self ):
@@ -281,27 +292,40 @@ class Component( object ):
         return new
 
     def slice_by_coord( self, start, end ):
+        """
+        Return the slice of the component corresponding to a coordinate interval.
+
+        start and end are relative to the + strand, regardless of the component's strand.
+
+        """
         start_col = self.coord_to_col( start )  
         end_col = self.coord_to_col( end )  
         return self.slice( start_col, end_col )
     
     def coord_to_col( self, pos ):
+        """
+        Return the alignment column index corresponding to coordinate pos.
+
+        pos is relative to the + strand, regardless of the component's strand.
+
+        """
+        assert (self.strand != '-')
         if not self.index:
             self.index = list()
             for x in range( len(self.text) ):
                 if not self.text[x] == '-':
                     self.index.append(x)
             self.index.append( len(self.text) )
-        if pos < self.get_forward_strand_start() or pos > self.get_forward_strand_end():
-            raise "Range error: %d not in %d-%d" % ( pos, self.start, self.get_end() )
+        start,end = self.get_forward_strand_start(),self.get_forward_strand_end()
+        if pos < start or pos > end:
+            raise "Range error: %d not in %d-%d" % ( pos, start, end )
         x = None
         try:
-            x = self.index[ pos - self.get_forward_strand_start() ]
+            x = self.index[ pos - start ]
         except:
             raise "Error in index."
         return x
     
-    # return coord_to_col( self.get_forward_strand_start(), self.text, pos )
     
     def __eq__( self, other ):
         if other is None or type( other ) != type( self ):
@@ -360,9 +384,9 @@ def shuffle_columns( a ):
         c.text = ''.join( [ c.text[i] for i in mask ] )
 
 def src_split( src ): # splits src into species,chrom
-    fields = src.split( '.', 1 )
-    if len( fields ) < 2: return None, src
-    else: return fields[0], fields[1]
+    dot = src.rfind( "." )
+    if dot == -1: return None,src
+    else:         return src[:dot],src[dot+1:]
 
 def src_merge( species,chrom,contig=None ): # creates src (inverse of src_split)
     if species == None: src = chrom
