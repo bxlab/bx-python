@@ -43,7 +43,7 @@ def main():
             table_file = maf_file + "t"
             if not os.path.exists( table_file ):
                 doc_optparse.exit( "To index lzo compressed files first "
-                                   "create a lzot file with bzip-table." )
+                                   "create a lzot file with lzop_build_offset_table." )
             # Open with SeekableBzip2File so we have tell support
             maf_in = SeekableLzopFile( maf_file, table_file )
             # Strip .lzo from the filename before adding ".index"
