@@ -10,6 +10,10 @@ file.
 NOTE: If two intervals overlap the same block it will be written twice. With
       non-overlapping intervals and --chop this is never a problem. 
       
+NOTE: Intervals are relative to the + strand, regardless of the strands in
+      the alignments.
+
+      
 WARNING: bz2/bz2t support and file cache support are new and not as well
          tested. 
 
@@ -19,7 +23,7 @@ usage: %prog maf_fname1 maf_fname2 ... [options] < interval_file
    -s, --src=s:      Use this src for all intervals
    -p, --prefix=p:   Prepend this to each src before lookup
    -d, --dir=d:      Write each interval as a separate file in this directory
-   -S, --strand:     Strand is included as an additional column, and the blocks are reverse complemented so that they are always on the plus strand w/r/t the src species.
+   -S, --strand:     Strand is included as an additional column, and the blocks are reverse complemented (if necessary) so that they are always on that strand w/r/t the src species.
    -C, --usecache:   Use a cache that keeps blocks of the MAF files in memory (requires ~20MB per MAF)
 """
 
@@ -59,7 +63,7 @@ def main():
         out = bx.align.maf.Writer( sys.stdout )
     # Iterate over input ranges 
     for line in sys.stdin:
-        strand = "+"
+        strand = None
         fields = line.split()
         if fixed_src:
             src, start, end = fixed_src, int( fields[0] ), int( fields[1] )
@@ -77,11 +81,8 @@ def main():
         if chop:
             for block in blocks: 
                 ref = block.get_component_by_src( src )
-                if ref.strand == '-':
-                    block = block.reverse_complement()
-                    ref = block.get_component_by_src( src )
-                slice_start = max( start, ref.start )
-                slice_end = min( end, ref.end )
+                slice_start = max( start, ref.get_forward_strand_start() )
+                slice_end = min( end, ref.get_forward_strand_end() )
                 sliced = block.slice_by_component( ref, slice_start, slice_end ) 
                 # If the block is shorter than the minimum allowed size, stop
                 if mincols and ( sliced.text_size < mincols ):
@@ -92,7 +93,7 @@ def main():
                 # Keep only components that are not empty
                 sliced.components = [ c for c in sliced.components if c.size > 0 ]
                 # Reverse complement if needed
-                if strand != ref.strand: 
+                if ( strand != None ) and ( ref.strand != strand ): 
                     sliced = sliced.reverse_complement()
                 # Write the block
                 out.write( sliced )

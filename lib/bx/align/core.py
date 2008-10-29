@@ -309,16 +309,21 @@ class Component( object ):
         pos is relative to the + strand, regardless of the component's strand.
 
         """
-        assert (self.strand != '-')
-        if not self.index:
-            self.index = list()
-            for x in range( len(self.text) ):
-                if not self.text[x] == '-':
-                    self.index.append(x)
-            self.index.append( len(self.text) )
         start,end = self.get_forward_strand_start(),self.get_forward_strand_end()
         if pos < start or pos > end:
             raise "Range error: %d not in %d-%d" % ( pos, start, end )
+        if not self.index:
+            self.index = list()
+            if (self.strand == '-'):
+                for x in range( len(self.text)-1,-1,-1 ):
+                    if not self.text[x] == '-':
+                        self.index.append(len(self.text)-1-x)
+                self.index.append( len(self.text) )
+            else:
+                for x in range( len(self.text) ):
+                    if not self.text[x] == '-':
+                        self.index.append(x)
+                self.index.append( len(self.text) )
         x = None
         try:
             x = self.index[ pos - start ]

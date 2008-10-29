@@ -50,18 +50,15 @@ def __main__():
     # Iterate over input MAF
 
     for maf in bx.align.maf.Reader( sys.stdin ):
-        ref_component = maf.components[ refindex ]
-        if ref_component.strand == '-':
-            maf = maf.reverse_complement()
-            ref_component = maf.components[ refindex ]
+        ref = maf.components[ refindex ]
         # Find overlap with reference component
-        intersections = intersecter.find( ref_component.start, ref_component.end )
+        intersections = intersecter.find( ref.get_forward_strand_start(), ref.get_forward_strand_end() )
         # Keep output maf ordered
         intersections.sort()
         # Write each intersecting block
         for interval in intersections: 
-            start = max( interval.start, ref_component.start )
-            end = min( interval.end, ref_component.end )
+            start = max( interval.start, ref.get_forward_strand_start() )
+            end = min( interval.end, ref.get_forward_strand_end() )
             sliced = maf.slice_by_component( refindex, start, end ) 
             good = True
             for c in sliced.components: 
