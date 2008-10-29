@@ -186,7 +186,8 @@ class BitsetSafeReaderWrapper( NiceReaderWrapper ):
         # the bitsets are being created by skipping the problem lines.
         # The incoming lens dictionary is a dictionary of chromosome lengths
         # which are used to initialize the bitsets.
-        NiceReaderWrapper.__init__( self, reader.input )
+        # It is assumed that the reader is an interval reader, i.e. it has chr_col, start_col, end_col and strand_col attributes. 
+        NiceReaderWrapper.__init__( self, reader.input, chrom_col=reader.chrom_col, start_col=reader.start_col, end_col=reader.end_col, strand_col=reader.strand_col)
         self.lens = lens
     def next( self ):
         while True:
