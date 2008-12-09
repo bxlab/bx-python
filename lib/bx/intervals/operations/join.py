@@ -34,12 +34,22 @@ def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
         else:
             result = []
             rightTree.intersect( interval, lambda node: result.append( node ) )
+            overlap_not_met = 0
             for item in result:
+                if item.start in range(interval.start,interval.end+1) and item.end not in range(interval.start,interval.end+1):
+                    overlap = interval.end-item.start
+                elif item.end in range(interval.start,interval.end+1) and item.start not in range(interval.start,interval.end+1):
+                    overlap = item.end-interval.start
+                elif item.start in range(interval.start,interval.end+1) and item.end in range(interval.start,interval.end+1):
+                    overlap = item.end-item.start
+                if overlap < mincols:
+                    overlap_not_met += 1
+                    continue
                 outfields = list(interval)
                 map(outfields.append, item.other)
                 setattr( item, "visited", True )
                 yield outfields
-            if len(result) == 0 and rightfill:
+            if (len(result) == 0 or overlap_not_met == len(result)) and rightfill:
                 outfields = list(interval)
                 for x in range(rightlen): outfields.append(".")
                 yield outfields
