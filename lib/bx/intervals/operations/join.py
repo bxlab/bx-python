@@ -42,6 +42,8 @@ def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
                     overlap = item.end-interval.start
                 elif item.start in range(interval.start,interval.end+1) and item.end in range(interval.start,interval.end+1):
                     overlap = item.end-item.start
+                else:   #the intersecting item's start and end are outside the interval range
+                    overlap = interval.end-interval.start
                 if overlap < mincols:
                     overlap_not_met += 1
                     continue
