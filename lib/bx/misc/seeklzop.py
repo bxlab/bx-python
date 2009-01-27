@@ -5,6 +5,11 @@ Semi-random access to bz2 compressed data.
 import os
 import bisect
 import sys
+try:
+    import pkg_resources
+    pkg_resources.require( 'python_lzo' )
+except:
+    pass
 import lzo
 import struct
 
