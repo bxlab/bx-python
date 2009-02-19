@@ -28,13 +28,19 @@ void binBitsFree( struct BinBits *bb )
     }
     freeMem( bb );
 }
-    
-static inline int binBitsGetBin( struct BinBits * bb, int pos )
+
+#ifdef _MSC_VER
+    #define INLINE static __inline
+#else
+    #define INLINE static inline
+#endif
+
+INLINE int binBitsGetBin( struct BinBits * bb, int pos )
 {
     return pos / bb->bin_size;
 }
 
-static inline int binBitsGetOffset( struct BinBits * bb, int pos )
+INLINE int binBitsGetOffset( struct BinBits * bb, int pos )
 {
     return pos % bb->bin_size;
 }

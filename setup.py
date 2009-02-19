@@ -1,4 +1,5 @@
-import sys
+import sys, platform
+
 if sys.version_info[0] < 2 or sys.version_info[1] < 4:
     print >> sys.stderr, "ERROR: bx-python requires python 2.4 or greater"
     sys.exit()
@@ -94,12 +95,6 @@ def get_extension_modules():
                                     "src/kent/bits.c",
                                     "src/kent/common.c" ],
                                   include_dirs=[ "src/kent", "src"] ) )
-    # Interval clustering                
-    extensions.append( Extension( "bx.intervals.cluster",
-                                  [ "lib/bx/intervals/cluster.pyx", 
-                                    "src/cluster.c", 
-                                    "src/kent/common.c"],
-                                  include_dirs=["src/kent", "src"] ) )
     # Interval intersection
     extensions.append( Extension( "bx.intervals.intersection", [ "lib/bx/intervals/intersection.pyx" ] ) )
     # Alignment object speedups
@@ -110,24 +105,39 @@ def get_extension_modules():
     extensions.append( Extension( "bx.seq._twobit", [ "lib/bx/seq/_twobit.pyx" ] ) )
     # Translation if character / integer strings 
     extensions.append( Extension( "bx._seqmapping", [ "lib/bx/_seqmapping.pyx" ] ) )
-    # Position weight matrices
-    extensions.append( Extension( "bx.pwm._position_weight_matrix",
+    
+    
+    # The following extensions won't (currently) compile on windows
+    if platform.system() not in ( 'Microsoft', 'Windows' ):
+        
+        # Interval clustering                
+        extensions.append( Extension( "bx.intervals.cluster",
+                                  [ "lib/bx/intervals/cluster.pyx", 
+                                    "src/cluster.c", 
+                                    "src/kent/common.c"],
+                                  include_dirs=["src/kent", "src"] ) )
+        # Position weight matrices
+        extensions.append( Extension( "bx.pwm._position_weight_matrix",
                                   [ "lib/bx/pwm/_position_weight_matrix.pyx", "src/pwm_utils.c" ],
                                   include_dirs=["src"]  ) )
-    if have_numpy:
-        extensions.append( Extension( "bx.motif._pwm", [ "lib/bx/motif/_pwm.pyx" ], 
+ 
+        if have_numpy:
+            extensions.append( Extension( "bx.motif._pwm", [ "lib/bx/motif/_pwm.pyx" ], 
                                       include_dirs=[numpy.get_include()] ) )
-    # CpG masking
-    extensions.append( Extension( "bx.align.sitemask._cpg", \
-                                  [ "lib/bx/align/sitemask/_cpg.pyx", 
-                                    "lib/bx/align/sitemask/find_cpg.c" ] ) )
-    # Counting n-grams in inteber strings
-    extensions.append( Extension( "bx.intseq.ngramcount", [ "lib/bx/intseq/ngramcount.pyx" ] ) )
-    # Seekable access to bzip2 files
-    extensions.append( Extension( "bx.misc._seekbzip2", 
-                                  [ "lib/bx/misc/_seekbzip2.pyx",
-                                    "src/bunzip/micro-bunzip.c" ],
-                                  include_dirs=[ "src/bunzip" ] ) )   
+
+        # CpG masking
+        extensions.append( Extension( "bx.align.sitemask._cpg", \
+                                      [ "lib/bx/align/sitemask/_cpg.pyx", 
+                                        "lib/bx/align/sitemask/find_cpg.c" ] ) )
+        
+        # Counting n-grams in inteber strings
+        extensions.append( Extension( "bx.intseq.ngramcount", [ "lib/bx/intseq/ngramcount.pyx" ] ) )
+
+        # Seekable access to bzip2 files
+        extensions.append( Extension( "bx.misc._seekbzip2", 
+                                      [ "lib/bx/misc/_seekbzip2.pyx",
+                                        "src/bunzip/micro-bunzip.c" ],
+                                      include_dirs=[ "src/bunzip" ] ) )   
     return extensions     
      
 # ---- Monkey patches -------------------------------------------------------

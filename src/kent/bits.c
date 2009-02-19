@@ -86,14 +86,16 @@ b[bitIx>>3] &= ~oneBit[bitIx&7];
 void bitSetRange(Bits *b, int startIx, int bitCount)
 /* Set a range of bits. */
 {
-if (bitCount <= 0)
-    return;
+
 int endIx = (startIx + bitCount - 1);
 int startByte = (startIx>>3);
 int endByte = (endIx>>3);
 int startBits = (startIx&7);
 int endBits = (endIx&7);
 int i;
+
+if (bitCount <= 0)
+    return;
 
 if (startByte == endByte)
     {
@@ -116,8 +118,7 @@ return (b[bitIx>>3] & oneBit[bitIx&7]) != 0;
 int bitCountRange(Bits *b, int startIx, int bitCount)
 /* Count number of bits set in range. */
 {
-if (bitCount <= 0)
-    return 0;
+
 int endIx = (startIx + bitCount - 1);
 int startByte = (startIx>>3);
 int endByte = (endIx>>3);
@@ -125,6 +126,9 @@ int startBits = (startIx&7);
 int endBits = (endIx&7);
 int i;
 int count = 0;
+
+if (bitCount <= 0)
+    return;
 
 if (!inittedBitsInByte)
     bitsInByteInit();
@@ -194,14 +198,16 @@ zeroBytes(b, byteCount);
 void bitClearRange(Bits *b, int startIx, int bitCount)
 /* Clear a range of bits. */
 {
-if (bitCount <= 0)
-    return;
+
 int endIx = (startIx + bitCount - 1);
 int startByte = (startIx>>3);
 int endByte = (endIx>>3);
 int startBits = (startIx&7);
 int endBits = (endIx&7);
 int i;
+
+if (bitCount <= 0)
+    return;
 
 if (startByte == endByte)
     {
