@@ -46,7 +46,7 @@ def count_ngrams( object ints, int n, int radix ):
     assert ints_desc.flags & ALIGNED > 0, "Input array must be aligned"
     assert ints_desc.flags & NOTSWAPPED > 0, "Input array must not be byteswapped"
     # Create numpy array for return value, get array interface and validate
-    rval = numpy.zeros( ( radix ** n ), dtype=numpy.int32 )
+    rval = numpy.zeros( <int> ( ( <float> radix ) ** n ), dtype=numpy.int32 )
     assert ints_desc.two == 2, "Array interface sanity check failed, got %d" % ints_desc.two
     rval_desc_obj = rval.__array_struct__
     rval_desc = <PyArrayInterface *> PyCObject_AsVoidPtr( rval_desc_obj )

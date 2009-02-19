@@ -16,7 +16,7 @@ from bisect import bisect
 cdef char* valToNt
 valToNt = "TCAG"
 
-def read( file, seq, int fragStart, int fragEnd, do_mask=False ):
+def read( file, seq, int fragStart, int fragEnd, bint do_mask ):
     """
     Stolen directly from Jim Kent's twoBit.c
     """
@@ -101,7 +101,7 @@ def read( file, seq, int fragStart, int fragEnd, do_mask=False ):
             if (e > fragEnd):
                e = fragEnd
             if (s < e):
-                memset( dna + s - fragStart, 'N'[0], e - s)
+                memset( dna + s - fragStart, c'N', e - s)
     # Mask
     if do_mask:
         m_block_count = len( seq.masked_block_starts )

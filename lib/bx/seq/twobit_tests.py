@@ -42,6 +42,6 @@ def check_random_subseq_matches( test_fa, test_twobit ):
         length = len(s)
         for i in range( 100 ):
             start = random.randint( 0, length-2 )
-            end = random.randint( start+1, length )         
+            end = random.randint( start+1, length )
             assert t[k][start:end] == s[start:end], \
                 "seq: %s, start: %d, end: %d\nExpected:\n%s\nActual:\n%s\n" % ( k, start, end, s[start:end], t.get( k, start, end ) )
