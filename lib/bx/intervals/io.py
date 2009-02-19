@@ -147,7 +147,7 @@ class GenomicIntervalReader( TableReader ):
                     last_chrom = chrom
                     last_bitset = bitsets[chrom]
                 start = max( int( interval[self.start_col] ), 0 )
-                end = min( int( interval[self.end_col] ), size)
+                end = min( int( interval[self.end_col] ), last_bitset.size )
                 last_bitset.set_range( start, end-start )
         return bitsets
 
