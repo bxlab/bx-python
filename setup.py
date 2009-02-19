@@ -26,11 +26,11 @@ def main():
             scripts = glob( "scripts/*.py" ),
             ext_modules = get_extension_modules(),
             test_suite = 'nose.collector',
-            setup_requires = 'nose',
-            author = "James Taylor, Bob Harris, David King, and others in Webb Miller's Lab",
-            author_email = "james@bx.psu.edu",
+            setup_requires = ['nose>=0.10.4'],
+            author = "James Taylor, Bob Harris, David King, Brent Pederson, and others",
+            author_email = "james@jamestaylor.org",
             description = "Tools for manipulating biological data, particularly multiple sequence alignments",
-            url = "http://www.bx.psu.edu/miller_lab/",
+            url = "http://bx-python.trac.bx.psu.edu",
             zip_safe = False,
             dependency_links = [],
             cmdclass=command_classes )
@@ -100,6 +100,8 @@ def get_extension_modules():
                                     "src/cluster.c", 
                                     "src/kent/common.c"],
                                   include_dirs=["src/kent", "src"] ) )
+    # Interval intersection
+    extensions.append( Extension( "bx.intervals.intersection", [ "lib/bx/intervals/intersection.pyx" ] ) )
     # Alignment object speedups
     extensions.append( Extension( "bx.align._core", [ "lib/bx/align/_core.pyx" ] ) )
     # NIB reading speedups
