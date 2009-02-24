@@ -1,0 +1,16 @@
+syntax: glob
+
+# Build directory
+build
+
+# Python bytecode
+*.pyc
+
+# Object files
+*.so
+
+# egg-info for inplace builds
+bx_python.egg-info
+
+# IDE project files
+*.kpf
