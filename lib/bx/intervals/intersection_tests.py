@@ -11,7 +11,7 @@ from bx.intervals.intersection import IntervalNode
 class NeighborTestCase(unittest.TestCase):
 
     def setUp(self):
-        iv = IntervalNode(Interval(50, 59))
+        iv = IntervalNode( 50, 59, Interval(50, 59))
         for i in range(0, 110, 10):
             if i == 50: continue
             f = Interval(i, i + 9)
@@ -88,7 +88,7 @@ class NeighborTestCase(unittest.TestCase):
 class LotsaTestCase(unittest.TestCase):
     """ put lotsa data in the tree and make sure it works"""
     def setUp(self):
-        iv = IntervalNode(Interval(1, 2))
+        iv = IntervalNode(1, 2, Interval(1, 2))
         self.max = 1000000
         for i in range(0, self.max, 10):
             f = Interval(i, i)
