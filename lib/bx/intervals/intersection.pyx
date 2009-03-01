@@ -59,51 +59,10 @@ cdef float nlog = -1.0 / log(0.5)
 
 cdef class IntervalNode:
     """
-    Data structure for performing intersect and neighbor queries on a 
-    set of intervals. Algorithm uses a segment/interval tree to perform
-    efficient queries. 
-
-    Usage
-    =====
-    >>> from bx.intervals.intersection import IntervalNode, Interval
-    >>> tree = IntervalNode( 0, 10, Interval(0, 10))
-
-    Add intervals, the only requirement is that the interval have integer
-    start and end attributes. Optional arguments are strand, name, and info.
-
-    >>> Interval(1, 22, value={'chr':12, 'anno': 'anything'})
-    Interval(1, 22, value={'anno': 'anything', 'chr': 12})
-
-
-    >>> tree = tree.insert( 3, 7, Interval(3, 7) )
-    >>> tree = tree.insert( 3, 40, Interval(3, 40) )
-    >>> tree = tree.insert( 13, 50, Interval(13, 50) )
-
-    Queries
-    -------
-
-    find
-    ++++
-
-    >>> tree.find(2, 5)
-    [Interval(0, 10), Interval(3, 7), Interval(3, 40)]
-    >>> tree.find(7, 5)
-    [Interval(0, 10), Interval(3, 40)]
-    >>> tree.find(11, 100)
-    [Interval(3, 40), Interval(13, 50)]
-    >>> tree.find(100, 200)
-    []
-
-    left/right
-    ++++++++++
-    the left method finds features that are strictly to the left of
-    the query feature. overlapping features are not considered:
-
-    >>> tree.left( 0 )
-    []
-    >>> tree.left( 11 )
-    [Interval(0, 10)]
-
+    A single node of an `IntervalTree`.
+    
+    NOTE: Unless you really know what you are doing, you probably should us
+          `IntervalTree` rather than using this directly. 
     """
     cdef float priority
     cdef object interval 
@@ -141,6 +100,11 @@ cdef class IntervalNode:
         self.croot       = EmptyNode
         
     cpdef IntervalNode insert(IntervalNode self, int start, int end, object interval):
+        """
+        Insert a new IntervalNode into the tree of which this node is
+        currently the root. The return value is the new root of the tree (which
+        may or may not be this node!)
+        """
         cdef IntervalNode croot = self
         # If starts are the same, decide which to add interval to based on
         # end, thus maintaining sortedness relative to start/end
