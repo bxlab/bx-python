@@ -75,9 +75,9 @@ cdef class IntervalNode:
     Interval(1, 22, value={'anno': 'anything', 'chr': 12})
 
 
-    >>> tree = tree.insert(Interval(3, 7))
-    >>> tree = tree.insert(Interval(3, 40))
-    >>> tree = tree.insert(Interval(13, 50))
+    >>> tree = tree.insert( 3, 7, Interval(3, 7) )
+    >>> tree = tree.insert( 3, 40, Interval(3, 40) )
+    >>> tree = tree.insert( 13, 50, Interval(13, 50) )
 
     Queries
     -------
@@ -99,27 +99,10 @@ cdef class IntervalNode:
     the left method finds features that are strictly to the left of
     the query feature. overlapping features are not considered:
 
-    >>> tree.left(Interval(0, 1))
+    >>> tree.left( 0 )
     []
-    >>> tree.left(Interval(11, 12))
+    >>> tree.left( 11 )
     [Interval(0, 10)]
-
-
-    up/downstream
-    +++++++++++++
-    up/downstream method behave exactly like left/right, except that
-    the direction is determined by the strand of the query feature. 
-    If the strand is 1, then upstream is left, downstream is right.
-
-    If the strand is -1, then upstream is right, downstream is left.
-    >>> tree.upstream(Interval(11, 12))
-    [Interval(0, 10)]
-    >>> tree.upstream(Interval(11, 12))
-    [Interval(13, 50)]
-
-    all of these method take an argument 'n' for the number of results desired.
-    >>> tree.upstream(Interval(1, 2), n=3)
-    [Interval(3, 7), Interval(3, 40), Interval(13, 50)]
 
     """
     cdef float priority
@@ -156,11 +139,8 @@ cdef class IntervalNode:
         self.cleft       = EmptyNode
         self.cright      = EmptyNode
         self.croot       = EmptyNode
-
-    def insert( self, interval ):
-        return self._insert( interval.start, interval.end, interval)
-
-    cdef IntervalNode _insert(IntervalNode self, int start, int end, object interval):
+        
+    cpdef IntervalNode insert(IntervalNode self, int start, int end, object interval):
         cdef IntervalNode croot = self
         # If starts are the same, decide which to add interval to based on
         # end, thus maintaining sortedness relative to start/end
@@ -171,7 +151,7 @@ cdef class IntervalNode:
         if decision_endpoint > self.start:
             # insert to cright tree
             if self.cright is not EmptyNode:
-                self.cright = self.cright._insert( start, end, interval )
+                self.cright = self.cright.insert( start, end, interval )
             else:
                 self.cright = IntervalNode( start, end, interval )
             # rebalance tree
@@ -180,7 +160,7 @@ cdef class IntervalNode:
         else:
             # insert to cleft tree
             if self.cleft is not EmptyNode:
-                self.cleft = self.cleft._insert( start, end, interval)
+                self.cleft = self.cleft.insert( start, end, interval)
             else:
                 self.cleft = IntervalNode( start, end, interval)
             # rebalance tree
@@ -297,63 +277,36 @@ cdef class IntervalNode:
     ##     while left.cright is not EmptyNode:
     ##         left = left.cright
     ##     return [left, right]
-
-    cpdef left(self, f, int n=1, int max_dist=2500):
+    
+    cpdef left(self, position, int n=1, int max_dist=2500):
         """
-        find n features with a start > than f.end
+        find n features with a start > than `position`
         f: a Interval object (or anything with an `end` attribute)
         n: the number of features to return
         max_dist: the maximum distance to look before giving up.
         """
         cdef list results = []
         # use start - 1 becuase .left() assumes strictly left-of
-        self._seek_left(f.start - 1, results, n, max_dist)
+        self._seek_left( position - 1, results, n, max_dist )
         if len(results) == n: return results
         r = results
         r.sort(key=operator.attrgetter('end'), reverse=True)
         return r[:n]
 
-    cpdef right(self, f, int n=1, int max_dist=2500):
-        """find n features with a end < than f.start
+    cpdef right(self, position, int n=1, int max_dist=2500):
+        """
+        find n features with a end < than position
         f: a Interval object (or anything with a `start` attribute)
         n: the number of features to return
         max_dist: the maximum distance to look before giving up.
         """
         cdef list results = []
         # use end + 1 becuase .right() assumes strictly right-of
-        self._seek_right(f.end + 1, results, n, max_dist)
+        self._seek_right(position + 1, results, n, max_dist)
         if len(results) == n: return results
         r = results
         r.sort(key=operator.attrgetter('start'))
         return r[:n]
-
-    def upstream(self, f, int n=1, int max_dist=2500):
-        """
-        find n upstream features where upstream is determined by
-        the strand of the query Interval f
-        Overlapping features are not considered.
-
-        f: a Interval object (or anything with start, end, and strand)
-        n: the number of features to return
-        max_dist: the maximum distance to look before giving up.
-        """
-        if f.strand == -1 or f.strand == "-":
-            return self.right(f, n, max_dist)
-        return self.left(f, n, max_dist)
-
-    def downstream(self, f, int n=1, int max_dist=2500):
-        """
-        find n downstream features where downstream is determined by
-        the strand of the query Interval f
-        Overlapping features are not considered.
-
-        f: a Interval object (or anything with start, end, and strand)
-        n: the number of features to return
-        max_dist: the maximum distance to look before giving up.
-        """
-        if f.strand == -1 or f.strand == "-":
-            return self.left(f, n, max_dist)
-        return self.right(f, n, max_dist)
 
     def traverse(self, func):
         self._traverse(func)
@@ -381,10 +334,10 @@ cdef class Interval:
     Interval(34, 48, value={'anno': 'transposon', 'chr': 12})
 
     """
-    cdef public int start, end, strand
-    cdef public object value
+    cdef public int start, end
+    cdef public object value, strand
 
-    def __init__(self, int start, int end, object value=None, int strand=0 ):
+    def __init__(self, int start, int end, object value=None, object strand=None ):
         assert start <= end, "start must be less than end"
         self.start  = start
         self.end   = end      
@@ -401,53 +354,154 @@ cdef class Interval:
     def __cmp__(self, other):
         return cmp( self.start, other.start ) or cmp( self.end, other.end )
 
-cdef class Intersecter:
-    cdef IntervalNode intervals
+cdef class IntervalTree:
     """
     Data structure for performing window intersect queries on a set of 
-    intervals. Now a wrapper to IntervalNode
-
+    of possibly overlapping 1d intervals.
+    
     Usage
     =====
-
-    >>> from bx.intervals.intersection import Intersecter, Interval
-    >>> intersecter = Intersecter()
-
-    Add intervals, the only requirement is that the interval have integer
-    start and end attributes:
-
-    >>> intersecter.add_interval( Interval( 0,  10 ) )
-    >>> intersecter.add_interval( Interval( 3,  7 ) )
-    >>> intersecter.add_interval( Interval( 3,  40 ) )
-    >>> intersecter.add_interval( Interval( 10, 50 ) )
-
-    Perform queries:
-
+    
+    Create an empry IntervalTree
+    
+    >>> from bx.intervals.intersection import Interval, IntervalTree
+    >>> intersecter = IntervalTree()
+    
+    An interval is a start and end position and a value (possibly None).
+    You can add any object as an interval:
+    
+    >>> intersecter.insert( 0, 10, "food" )
+    >>> intersecter.insert( 3, 7, dict(foo='bar') )
+    
     >>> intersecter.find( 2, 5 )
-    [Interval(0, 10), Interval(3, 7), Interval(3, 40)]
-    >>> intersecter.find( 10, 100 )
-    [Interval(3, 40), Interval(10, 50)]
+    ['food', {'foo': 'bar'}]
+    
+    If the object has start and end attributes (like the Interval class) there
+    is are some shortcuts:
+    
+    >>> intersecter = IntervalTree()
+    >>> intersecter.insert_interval( Interval( 0, 10 ) )
+    >>> intersecter.insert_interval( Interval( 3, 7 ) )
+    >>> intersecter.insert_interval( Interval( 3, 40 ) )
+    >>> intersecter.insert_interval( Interval( 13, 50 ) )
+    
+    >>> intersecter.find( 30, 50 )
+    [Interval(3, 40), Interval(13, 50)]
     >>> intersecter.find( 100, 200 )
     []
     
+    Before/after for intervals
+    
+    >>> intersecter.before_interval( Interval( 10, 20 ) )
+    [Interval(3, 7)]
+    >>> intersecter.before_interval( Interval( 5, 20 ) )
+    []
+    
+    Upstream/downstread
+    
+    >>> intersecter.upstream_of_interval(Interval(11, 12))
+    [Interval(0, 10)]
+    >>> intersecter.upstream_of_interval(Interval(11, 12, strand="-"))
+    [Interval(13, 50)]
+
+    >>> intersecter.upstream_of_interval(Interval(1, 2, strand="-"), num_intervals=3)
+    [Interval(3, 7), Interval(3, 40), Interval(13, 50)]
+
+    
     """
-
+    
+    cdef IntervalNode root
+    
     def __cinit__( self ):
-        """Initialize"""
-        self.intervals = None
-
-    cpdef add_interval( self, interval ):
-        """Add an interval to the stored set"""
-        ## assert interval.start < interval.end, "Intervals must have length >= 1"
-        if self.intervals is None:
-            self.intervals = IntervalNode( interval.start, interval.end, interval )
+        root = None
+    
+    # ---- Position based interfaces -----------------------------------------
+    
+    def insert( self, int start, int end, object value=None ):
+        """
+        Insert the interval [start,end) associated with value `value`.
+        """
+        if self.root:
+            self.root = self.root.insert( start, end, value )
         else:
-            self.intervals = self.intervals.insert( interval.start, interval.end, interval )
-
-    cpdef add( self, start, end, value=None ):    
-        self.add_interval( Interval( start, end, value ) )
+            self.root = IntervalNode( start, end, value )
         
-    cpdef find( self, start, end ):
-        """Return a list of all stored intervals intersecting [start,end)"""
-        rval = self.intervals.find( start, end )
-        return rval
+    def find( self, start, end ):
+        """
+        Return a sorted list of all intervals overlapping [start,end).
+        """
+        return self.root.find( start, end )
+    
+    def before( self, position, num_intervals=1, max_dist=2500 ):
+        """
+        Find `num_intervals` intervals that lie before `position` and are no
+        further than `max_dist` positions aways
+        """
+        return self.root.left( position, num_intervals, max_dist )
+
+    def after( self, position, num_intervals=1, max_dist=2500 ):
+        """
+        Find `num_intervals` intervals that lie after `position` and are no
+        further than `max_dist` positions aways
+        """
+        return self.root.right( position, num_intervals, max_dist )
+
+    # ---- Interval-like object based interfaces -----------------------------
+
+    def insert_interval( self, interval ):
+        """
+        Insert an "interval" like object (one with at least start and end
+        attributes)
+        """
+        self.insert( interval.start, interval.end, interval )
+
+    def before_interval( self, interval, num_intervals=1, max_dist=2500 ):
+        """
+        Find `num_intervals` intervals that lie completely before `interval`
+        and are no further than `max_dist` positions aways
+        """
+        return self.root.left( interval.start, num_intervals, max_dist )
+
+    def after_interval( self, interval, num_intervals=1, max_dist=2500 ):
+        """
+        Find `num_intervals` intervals that lie comletey after `interval` and
+        are no further than `max_dist` positions aways
+        """
+        return self.root.right( interval.end, num_intervals, max_dist )
+
+    def upstream_of_interval( self, interval, num_intervals=1, max_dist=2500 ):
+        """
+        Find `num_intervals` intervals that lie completely upstream of
+        `interval` and are no further than `max_dist` positions aways
+        """
+        if interval.strand == -1 or interval.strand == "-":
+            return self.root.right( interval.end, num_intervals, max_dist )
+        else:
+            return self.root.left( interval.start, num_intervals, max_dist )
+
+    def downstream_of_interval( self, interval, num_intervals=1, max_dist=2500 ):
+        """
+        Find `num_intervals` intervals that lie completely downstream of
+        `interval` and are no further than `max_dist` positions aways
+        """
+        if interval.strand == -1 or interval.strand == "-":
+            return self.root.left( interval.start, num_intervals, max_dist )
+        else:
+            return self.root.right( interval.end, num_intervals, max_dist )
+    
+    # ---- Old 'Intersecter' interface ----------------------------------------
+
+    def add( self, start, end, value=None ):
+        """
+        Synonym for `insert`.
+        """
+        self.insert( start, end, value )
+    
+    def add_interval( self, interval ):
+        """
+        Synonym for `insert_interval`.
+        """
+        self.insert( interval )
+    
+# For backward compatibility
+Intersecter = IntervalTree
