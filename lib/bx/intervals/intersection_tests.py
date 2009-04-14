@@ -7,6 +7,7 @@ except:
 
 from bx.intervals.intersection import Interval
 from bx.intervals.intersection import IntervalNode
+from bx.intervals.intersection import IntervalTree
 
 class NeighborTestCase(unittest.TestCase):
 
@@ -19,7 +20,7 @@ class NeighborTestCase(unittest.TestCase):
         self.intervals = iv
 
     def test_left(self):
-        iv = self.intervals 
+        iv = self.intervals
         self.assertEqual(str(iv.left(60, n=2)), str([Interval(50, 59), Interval(40, 49)]))
 
         for i in range(10, 100, 10):
@@ -27,12 +28,12 @@ class NeighborTestCase(unittest.TestCase):
             self.assertEqual(r[0].end,  i - 1)
 
     def test_toomany(self):
-        iv = self.intervals 
+        iv = self.intervals
         self.assertEqual(len(iv.left(60, n=200)) , 6)
 
 
     def test_right(self):
-        iv = self.intervals 
+        iv = self.intervals
         self.assertEqual(str(iv.left(60, n=2)), str([Interval(50, 59), Interval(40, 49)]))
 
         def get_right_start(b10):
@@ -48,37 +49,57 @@ class NeighborTestCase(unittest.TestCase):
             print r
             self.assertEqual(r[0].start, i)
 
-    #def test_upstream(self):
-    #    iv = self.intervals 
-    #    upstreams = iv.upstream(Interval(59, 60), n=200)
-    #    for u in upstreams:
-    #        self.assertTrue(u.end < 59)
-    #
-    #    upstreams = iv.upstream(Interval(60, 70, strand=-1), n=200)
-    #    for u in upstreams:
-    #        self.assertTrue(u.start > 70)
-    #
-    #
-    #    upstreams = iv.upstream(Interval(58, 58, strand=-1), n=200)
-    #    for u in upstreams:
-    #        self.assertTrue(u.start > 59)
-    #
-    #
-    #def test_downstream(self):
-    #    iv = self.intervals 
-    #    downstreams = iv.downstream(Interval(59, 60), n=200)
-    #    for d in downstreams:
-    #        self.assertTrue(d.start > 60)
-    #
-    #    downstreams = iv.downstream(Interval(59, 60, strand=-1), n=200)
-    #    for d in downstreams:
-    #        self.assertTrue(d.start < 59)
+class UpDownStreamTestCase(unittest.TestCase):
+
+    def setUp(self):
+        iv = IntervalTree()
+        iv.add_interval(Interval(50, 59))
+        for i in range(0, 110, 10):
+            if i == 50: continue
+            f = Interval(i, i + 9)
+            iv.add_interval(f)
+        self.intervals = iv
+
+
+    def test_upstream(self):
+        iv = self.intervals 
+        upstreams = iv.upstream_of_interval(Interval(59, 60), num_intervals=200)
+        for u in upstreams:
+            self.assertTrue(u.end < 59)
+    
+        upstreams = iv.upstream_of_interval(Interval(60, 70, strand=-1),
+                num_intervals=200)
+        for u in upstreams:
+            self.assertTrue(u.start > 70)
+    
+    
+        upstreams = iv.upstream_of_interval(Interval(58, 58, strand=-1),
+                num_intervals=200)
+        for u in upstreams:
+            self.assertTrue(u.start > 59)
+    
+    
+    def test_downstream(self):
+        iv = self.intervals
+        downstreams = iv.downstream_of_interval(Interval(59, 60),
+                num_intervals=200)
+        for d in downstreams:
+            self.assertTrue(d.start > 60)
+    
+        downstreams = iv.downstream_of_interval(Interval(59, 60, strand=-1),
+                num_intervals=200)
+        for d in downstreams:
+            self.assertTrue(d.start < 59)
         
 
     def test_n(self):
         iv = self.intervals
         for i in range(0, 90, 10):
-            r = iv.right(i+1, max_dist=20, n=2)
+            r = iv.after(i, max_dist=20, num_intervals=2)
+            self.assertEqual(r[0].start, i + 10)
+            self.assertEqual(r[1].start, i + 20)
+
+            r = iv.after_interval(Interval(i, i), max_dist=20, num_intervals=2)
             self.assertEqual(r[0].start, i + 10)
             self.assertEqual(r[1].start, i + 20)
 
@@ -115,7 +136,7 @@ class LotsaTestCase(unittest.TestCase):
         self.assertEqual(len(u), 9999)
 
 
-    def test_max_dist(self):        
+    def test_max_dist(self):
         iv = self.intervals
         r = iv.right(1, max_dist=0, n=10)
         self.assertEqual(len(r), 0)
@@ -140,5 +161,45 @@ class LotsaTestCase(unittest.TestCase):
                         )
 
 
+class IntervalTreeTest(unittest.TestCase):
+    def setUp(self):
+
+        iv = IntervalTree()
+        n = 0
+        for i in range(1, 1000, 80):
+            iv.insert(i, i + 10, dict(value=i*i))
+            # add is synonym for insert.
+            iv.add(i + 20, i + 30, dict(astr=str(i*i)))
+
+            # or insert/add an interval object with start, end attrs.
+            iv.insert_interval(Interval(i + 40, i + 50,
+                value=dict(astr=str(i*i))))
+            iv.add_interval(Interval(i + 60, i + 70,
+                value=dict(astr=str(i*i))))
+
+            n += 4 
+        self.intervals = self.iv = iv
+        self.nintervals = n
+
+    
+    def test_find(self):
+
+        r = self.iv.find(100, 200)
+        self.assertEqual(len(r), 5)
+
+    def test_traverse(self):
+        a = []
+        fn = a.append
+
+        self.iv.traverse(fn)
+        self.assertEqual(len(a), self.nintervals)
+
+
+    def test_public_interval(self):
+
+        fn = lambda ival: self.assert_(ival.interval)
+        self.iv.traverse(fn)
+
 if __name__ == "__main__":
+
     unittest.main()

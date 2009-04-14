@@ -65,7 +65,7 @@ cdef class IntervalNode:
           `IntervalTree` rather than using this directly. 
     """
     cdef float priority
-    cdef object interval 
+    cdef public object interval 
     cdef public int start, end
     cdef int minend, maxend, minstart
     cdef IntervalNode cleft, cright, croot
@@ -465,7 +465,13 @@ cdef class IntervalTree:
         """
         Synonym for `insert_interval`.
         """
-        self.insert( interval )
+        self.insert_interval( interval )
     
+    def traverse(self, fn):
+        """
+        call fn for each element in the tree
+        """
+        return self.root.traverse(fn)
+
 # For backward compatibility
 Intersecter = IntervalTree
