@@ -4,7 +4,7 @@ preserves all information about the intervals (unlike bitset projection methods)
 
 :Authors: James Taylor (james@jamestaylor.org),
           Ian Schenk (ian.schenck@gmail.com),
-          Brent Pederson (bpederse@gmail.com)
+          Brent Pedersen (bpederse@gmail.com)
 """
 
 # Historical note:
@@ -34,7 +34,7 @@ cdef inline int imax2(int a, int b):
     return a
 
 cdef inline int imax3(int a, int b, int c):
-    if b > a: 
+    if b > a:
         if c > b:
             return c
         return b
@@ -43,7 +43,7 @@ cdef inline int imax3(int a, int b, int c):
     return c
 
 cdef inline int imin3(int a, int b, int c):
-    if b < a: 
+    if b < a:
         if c < b:
             return c
         return b
@@ -65,7 +65,7 @@ cdef class IntervalNode:
           `IntervalTree` rather than using this directly. 
     """
     cdef float priority
-    cdef public object interval 
+    cdef public object interval
     cdef public int start, end
     cdef int minend, maxend, minstart
     cdef IntervalNode cleft, cright, croot
@@ -88,16 +88,16 @@ cdef class IntervalNode:
         # uniform into a binomial because it naturally scales with
         # tree size.  Also, python's uniform is perfect since the
         # upper limit is not inclusive, which gives us undefined here.
-        self.priority   = ceil(nlog * log(-1.0/(1.0 * rand()/RAND_MAX - 1)))
-        self.start      = start
-        self.end       = end
-        self.interval   = interval
-        self.maxend    = end
-        self.minstart   = start
-        self.minend    = end
-        self.cleft       = EmptyNode
-        self.cright      = EmptyNode
-        self.croot       = EmptyNode
+        self.priority = ceil(nlog * log(-1.0/(1.0 * rand()/RAND_MAX - 1)))
+        self.start    = start
+        self.end      = end
+        self.interval = interval
+        self.maxend   = end
+        self.minstart = start
+        self.minend   = end
+        self.cleft    = EmptyNode
+        self.cright   = EmptyNode
+        self.croot    = EmptyNode
         
     cpdef IntervalNode insert(IntervalNode self, int start, int end, object interval):
         """
@@ -228,20 +228,6 @@ cdef class IntervalNode:
                 self.cright._seek_right(position, results, n, max_dist)
 
     
-    ## This doesn't appear to use any of its arguments, something not right?
-    ## 
-    ## def neighbors(self, Interval f, int n=1, int max_dist=2500):
-    ##     cdef list neighbors = []
-    ## 
-    ##     cdef IntervalNode right = self.cright
-    ##     while right.cleft is not EmptyNode:
-    ##         right = right.cleft
-    ## 
-    ##     cdef IntervalNode left = self.cleft
-    ##     while left.cright is not EmptyNode:
-    ##         left = left.cright
-    ##     return [left, right]
-    
     cpdef left(self, position, int n=1, int max_dist=2500):
         """
         find n features with a start > than `position`
@@ -304,7 +290,7 @@ cdef class Interval:
     def __init__(self, int start, int end, object value=None, object strand=None ):
         assert start <= end, "start must be less than end"
         self.start  = start
-        self.end   = end      
+        self.end   = end
         self.value = value
         self.strand = strand
 
@@ -385,11 +371,14 @@ cdef class IntervalTree:
         """
         Insert the interval [start,end) associated with value `value`.
         """
-        if self.root:
-            self.root = self.root.insert( start, end, value )
-        else:
+        if self.root is None:
             self.root = IntervalNode( start, end, value )
+        else:
+            self.root = self.root.insert( start, end, value )
         
+    add = insert
+
+
     def find( self, start, end ):
         """
         Return a sorted list of all intervals overlapping [start,end).
@@ -418,6 +407,8 @@ cdef class IntervalTree:
         attributes)
         """
         self.insert( interval.start, interval.end, interval )
+
+    add_interval = insert_interval
 
     def before_interval( self, interval, num_intervals=1, max_dist=2500 ):
         """
@@ -452,20 +443,6 @@ cdef class IntervalTree:
             return self.root.left( interval.start, num_intervals, max_dist )
         else:
             return self.root.right( interval.end, num_intervals, max_dist )
-    
-    # ---- Old 'Intersecter' interface ----------------------------------------
-
-    def add( self, start, end, value=None ):
-        """
-        Synonym for `insert`.
-        """
-        self.insert( start, end, value )
-    
-    def add_interval( self, interval ):
-        """
-        Synonym for `insert_interval`.
-        """
-        self.insert_interval( interval )
     
     def traverse(self, fn):
         """

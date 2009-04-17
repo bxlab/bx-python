@@ -17,7 +17,7 @@ try:
 except:
     have_numpy = False
        
-def main():                       
+def main():
     setup(  name = "bx-python",
             version = "0.5.0",
             py_modules = [ 'psyco_full' ],
@@ -28,7 +28,7 @@ def main():
             ext_modules = get_extension_modules(),
             test_suite = 'nose.collector',
             setup_requires = ['nose>=0.10.4'],
-            author = "James Taylor, Bob Harris, David King, Brent Pederson, and others",
+            author = "James Taylor, Bob Harris, David King, Brent Pedersen, and others",
             author_email = "james@jamestaylor.org",
             description = "Tools for manipulating biological data, particularly multiple sequence alignments",
             url = "http://bx-python.trac.bx.psu.edu",
