@@ -48,6 +48,27 @@ class Inclusive( Masker ):
             
         return block
 
+#Mak nonCpG sites
+class nonCpG( Masker ):
+    def __init__( self, mask = '?' ):
+        self.mask = mask
+        self.masked = 0
+        self.total = 0
+        
+    def __call__( self, block ):
+        if not block: return block
+        noncpglist = list_non_cpg( \
+            string.upper(block.components[0].text), \
+            string.upper(block.components[1].text) )
+
+        # now we have a fast list of non-CpG columns, iterate/mask
+        self.masked += len(noncpglist)
+        self.total += len(block.components[0].text)
+        for component in block.components:
+            component.text = mask_columns( noncpglist, component.text, self.mask )
+            
+        return block
+    
 def mask_columns( masklist, text, mask ):
     templist = list()
     for position in masklist:
