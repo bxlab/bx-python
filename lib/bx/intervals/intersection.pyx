@@ -285,13 +285,14 @@ cdef class Interval:
 
     """
     cdef public int start, end
-    cdef public object value, strand
+    cdef public object value, chrom, strand
 
-    def __init__(self, int start, int end, object value=None, object strand=None ):
+    def __init__(self, int start, int end, object value=None, object chrom=None, object strand=None ):
         assert start <= end, "start must be less than end"
         self.start  = start
         self.end   = end
         self.value = value
+        self.chrom = chrom
         self.strand = strand
 
     def __repr__(self):
