@@ -106,7 +106,6 @@ def get_extension_modules():
     # Translation if character / integer strings 
     extensions.append( Extension( "bx._seqmapping", [ "lib/bx/_seqmapping.pyx" ] ) )
     
-    
     # The following extensions won't (currently) compile on windows
     if platform.system() not in ( 'Microsoft', 'Windows' ):
         
@@ -123,7 +122,10 @@ def get_extension_modules():
  
         if have_numpy:
             extensions.append( Extension( "bx.motif._pwm", [ "lib/bx/motif/_pwm.pyx" ], 
-                                      include_dirs=[numpy.get_include()] ) )
+                                          include_dirs=[numpy.get_include()] ) )
+            # Sparse arrays with summaries organized as trees on disk
+            extensions.append( Extension( "bx.arrays.array_tree", [ "lib/bx/arrays/array_tree.pyx" ],
+                                          include_dirs=[numpy.get_include()] ) )  
 
         # CpG masking
         extensions.append( Extension( "bx.align.sitemask._cpg", \
