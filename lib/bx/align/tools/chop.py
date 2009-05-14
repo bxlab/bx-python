@@ -1,4 +1,14 @@
+"""
+Support for chopping a list of alignment blocks to only the portion that
+intersects a particular interval.
+"""
+
 def chop_list( blocks, src, start, end ):
+    """
+    For each alignment block in the sequence `blocks`, chop out the portion
+    of the block that overlaps the interval [`start`,`end`) in the
+    component/species named `src`.
+    """
     new_blocks = []
     for block in blocks: 
         ref = block.get_component_by_src( src )
