@@ -67,11 +67,11 @@ try:
             old_argv = sys.argv
             old_cwd = os.getcwd()
             # Build command line for Epydoc
-            sys.argv = """epydoc.py bx --html --output=../apidocs/lib --verbose
+            sys.argv = """epydoc.py bx --html --output=../doc/docbuild/html/apidoc --verbose
                           --simple-term --docformat=reStructuredText""".split()
             # Make output directory
-            if not os.path.exists( "./apidocs" ):
-                os.mkdir( "./apidocs" )
+            if not os.path.exists( "./doc/docbuild/html/apidoc" ):
+                os.mkdir( "./doc/docbuild/html/apidoc" )
             # Move to lib directory (so bx package is in current directory)
             os.chdir( "./lib" )
             # Invoke epydoc

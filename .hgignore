@@ -8,9 +8,13 @@ build
 
 # Object files
 *.so
+*.pyd
 
 # egg-info for inplace builds
 bx_python.egg-info
 
 # IDE project files
 *.kpf
+
+# windows shortcuts
+*.lnk

@@ -1,0 +1,51 @@
+{% extends "!layout.html" %}
+
+{%- block document %}
+    <div id="main">
+        <div class="inner">
+            <div id="title" class="content">
+                <h1 class="pageheader">
+                    <a href="{{pathto('index')}}">bx-python</a>
+                </h1>
+            </div>	
+            <div id="right">
+                <div class="content secondary sidebar">
+                    {{ relbar() }}
+                    {{ sidebar() }}
+                </div>
+            </div>
+            <div id="left" class="document">
+                <div class="documentwrapper">
+                    {%- if builder != 'htmlhelp' %}
+                      <div class="bodywrapper">
+                    {%- endif %}
+                    <div class="body content">
+                        {% block body %} {% endblock %}
+                    </div>
+                    {%- if builder != 'htmlhelp' %}
+                      </div>
+                    {%- endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{%- endblock %}
+
+{% block doctype %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+{% endblock %}
+
+{% block rootrellink %}
+        <li><a href="{{ pathto('index') }}">bx-python home</a></li>
+        <li><a href="{{ pathto('contents') }}">Table of contents</a></li>
+{% endblock %}
+
+{# Sidebar and already handled #}
+
+{% block relbar1 %}{% endblock %}
+{% block relbar2 %}{% endblock %}
+
+{% block sidebar1 %}{% endblock %}
+{% block sidebar2 %}{% endblock %}
+
+{% block footer %}{% endblock %}

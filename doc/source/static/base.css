@@ -1,0 +1,152 @@
+@import url(tripoli.base.css);
+
+html {
+    font-family: 'Verdana', sans-serif;
+    color: #333333;
+}
+body {
+    padding: 3em 3em;
+}
+
+h1.pageheader {
+    font-variant: small-caps;
+    margin-top: 0;
+    border-top: solid 1px;
+    padding-top: 2px;
+    border-bottom: solid 1px;
+    border-color: #CCCCCC;
+    margin-bottom: 1em;
+}
+
+h1.pageheader a {
+    color: inherit;
+    text-decoration: inherit;
+    border: none;
+}
+
+.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+    font-family: 'Hoefler Text', 'Georgia', serif;
+    font-weight: normal;
+    color: #666666;
+    /* border-bottom: solid #666666 1px; */
+}
+
+.content h1.pagetitle {
+    color: #c33;
+}
+
+#main {
+}
+
+.colpad {
+    padding: 0 2em;
+}
+
+#main > .inner {
+    min-width: 70em;
+    max-width: 90em;
+    margin: auto;
+    height: 100%;
+}
+
+#left {
+    background: white;
+    margin-right: 36%; /* 31em; */
+    padding-right: 3%;
+    height: 100%;
+}
+
+#right {
+    float: right;
+    width: 33%; /* 28em; */
+    padding-left: 3%; 
+    border-left: solid #CCCCCC 1px;
+}
+
+.sidebar {
+    font-size: 1em;
+}
+
+.sidebar ul {
+    margin-left: 0;
+}
+
+.sidebar ul li {
+    list-style-type: none;
+    margin-bottom: 0.6em;
+}
+
+.sidebar ul.pages {
+    margin-left: 5px;
+    margin-top: 0.6em;
+}
+
+.sidebar ul.pages li {
+    background: url(hbullet.png) 0 0.4em no-repeat;
+    padding-left: 25px;
+    list-style-type: none;
+}
+
+.sidebar ul.pages li {
+}
+
+.sidebar h1 {
+    clear: both;
+}
+
+.sidebar .publications .info {
+    color: #666666;
+}
+
+.postinfo {
+    color: #666666;
+    font-size: 92%;
+    margin-top: -1em;
+}
+
+.postreadlink {
+    margin-top: -1em;
+}
+
+.sidebar .posts .info {
+    color: #666666;
+}
+
+.comments_title {
+    margin-top: 2em;
+}
+
+label {
+    display: block;
+}
+
+#footer {
+    clear: both;
+}
+
+a, a:link, a:visited {
+    text-decoration: none;
+    border-bottom: dotted #666666 1px;
+    color: black;
+}
+
+a:hover {
+ color: #CC3333;
+}
+
+li {
+    list-style: square;
+}
+
+table.layout td {
+    vertical-align: top;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: solid #999999 1px
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background: #999999; 
+}	

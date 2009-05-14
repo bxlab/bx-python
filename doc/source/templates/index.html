@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% set title = 'bx python' %}
+{% block body %}
+  <h1>Welcome</h1>
+
+  <p>
+    
+    The <b>bx-python</b> project is a python library and associated set of scripts to allow for rapid implementation of genome scale analyses. The library contains a variety of useful modules, but the particular strengths are:
+
+    <ul>
+      <li>Classes for reading and working with genome-scale multiple local alignments (in MAF, AXT, and LAV formats)</li>
+     <li>Generic data structure for indexing on disk files that contain blocks of data associated with intervals on various sequences (used, for example, to provide random access to individual alignments in huge files; optomized for use over network filesystems)
+     </li>
+     <li>Data structures for working with intervals on sequences</li>
+     <li>"Binned bitsets" which act just like chromosome sized bit arrays, but lazily allocate regions and allow large blocks of all set or all unset bits to be stored compactly</li>
+     <li>"Intersecter" for performing fast intersection tests that preserve both query and target intervals and associated annotation </li>
+
+      These tools have been used in a variety of published research, and are a fundamental part of the ongoing Galaxy and ESPERR projects.
+      
+    </ul>
+    
+  </p>
+
+  <p> 
+    Browse the Python <a href="apidoc/index.html">API documentation</a>
+  </p>
+
+{% endblock %}
