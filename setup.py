@@ -67,8 +67,11 @@ try:
             old_argv = sys.argv
             old_cwd = os.getcwd()
             # Build command line for Epydoc
-            sys.argv = """epydoc.py bx --html --output=../doc/docbuild/html/apidoc --verbose
-                          --simple-term --docformat=reStructuredText""".split()
+            sys.argv = """epydoc.py bx --verbose --html --simple-term
+                                       --exclude=._
+                                       --exclude=_tests
+                                       --docformat=reStructuredText
+                                       --output=../doc/docbuild/html/apidoc""".split()
             # Make output directory
             if not os.path.exists( "./doc/docbuild/html/apidoc" ):
                 os.mkdir( "./doc/docbuild/html/apidoc" )
