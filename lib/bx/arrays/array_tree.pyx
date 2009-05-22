@@ -73,13 +73,14 @@ cdef class ArrayTree:
     """
     Stores a sparse array of data as a tree.
     
-    An array of `max` values is stored in a tree in which each leaf contains
-    `block_size` values and each internal node contains `block_size` children.
+    An array of `self.max` values is stored in a tree in which each leaf
+    contains `self.block_size` values and each internal node contains
+    `self.block_size` children.
     
     Entirely empty subtrees are not stored. Thus, the storage is efficient for
-    data that is block sparse -- having contiguous chunks of `block_size` or
+    data that is block sparse -- having contiguous chunks of `self.block_size` or
     larger data. Currently it is not efficient if the data is strided (e.g.
-    one or two data points in every interval of length `block_size`).
+    one or two data points in every interval of length `self.block_size`).
     
     Internal nodes store `Summary` instances for their subtrees. 
     """
