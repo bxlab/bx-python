@@ -111,6 +111,11 @@ cdef class ArrayTree:
     def __setitem__( self, int index, value ):
         self.root.set( index, value )
         
+    def set_range( self, int start, int end, value ):
+        cdef int index
+        for index in range( start, end ):
+            self.root.set( index, value )
+        
     def __getitem__( self, int index ):
         return self.root.get( index )
         
