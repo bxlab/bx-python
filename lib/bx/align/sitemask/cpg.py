@@ -16,6 +16,8 @@ class Restricted( Masker ):
         
     def __call__( self, block ):
         if not block: return block
+        if len(block.components) < 2:
+            return
         cpglist = list_cpg_restricted( \
             string.upper(block.components[0].text), \
             string.upper(block.components[1].text) )
@@ -37,6 +39,8 @@ class Inclusive( Masker ):
         
     def __call__( self, block ):
         if not block: return block
+        if len(block.components) < 2:
+            return
         cpglist = list_cpg( \
             string.upper(block.components[0].text), \
             string.upper(block.components[1].text) )
@@ -57,6 +61,8 @@ class nonCpG( Masker ):
         
     def __call__( self, block ):
         if not block: return block
+        if len(block.components) < 2:
+            return
         noncpglist = list_non_cpg( \
             string.upper(block.components[0].text), \
             string.upper(block.components[1].text) )
