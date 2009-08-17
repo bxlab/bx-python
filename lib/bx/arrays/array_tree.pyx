@@ -1,12 +1,13 @@
 from __future__ import division
 
-__all__ = [ 'ArrayTree' ]
+__all__ = [ 'ArrayTree', 'FileArrayTreeDict' ]
 
 import numpy
 from numpy import *
 cimport numpy
 
 from bx.misc.binary_file import BinaryFileWriter, BinaryFileReader
+from bx.misc.cdb import FileCDBDict
 
 """
 Classes for storing binary data on disk in a tree structure that allows for
@@ -31,16 +32,16 @@ reading  if neccesary. File contents:
 - array type: 4 chars (numpy typecode, currently only simple types represented by one char are supported)
 
 - Internal nodes in level order
-  - Summary
-      - count of valid values in each subtree : sizeof( dtype ) * block_size
-      - min of valid values in each subtree : sizeof( dtype ) * block_size
-      - max of valid values in each subtree : sizeof( dtype ) * block_size
-      - sum of valid values in each subtree : sizeof( dtype ) * block_size
-      - sum of squares of  of valid values in each subtree : sizeof( dtype ) * block_size
-  - File offsets of each child node: uint64 * block_size
+    - Summary
+        - count of valid values in each subtree : sizeof( dtype ) * block_size
+        - min of valid values in each subtree : sizeof( dtype ) * block_size
+        - max of valid values in each subtree : sizeof( dtype ) * block_size
+        - sum of valid values in each subtree : sizeof( dtype ) * block_size
+        - sum of squares of  of valid values in each subtree : sizeof( dtype ) * block_size
+    - File offsets of each child node: uint64 * block_size
   
 - Leaf nodes
-  - data points: sizeof( dtype ) * block_size
+    - data points: sizeof( dtype ) * block_size
 
 """
 
@@ -55,7 +56,97 @@ reading  if neccesary. File contents:
 MAGIC = 0x310ec7dc
 VERSION = 0
 
-cdef class Summary( object ):
+cdef class FileArrayTreeDict:
+    """
+    Access to a file containing multiple array trees indexed by a string key.
+    """
+    cdef object io
+    cdef object cdb_dict
+    def __init__( self, file ):
+        self.io = io = BinaryFileReader( file, MAGIC )
+        assert io.read_uint32() == VERSION
+        self.cdb_dict = FileCDBDict( file, is_little_endian=io.is_little_endian )
+    def __getitem__( self, key ):
+        offset = self.cdb_dict[key]
+        offset = self.io.unpack( "L", offset )[0]
+        self.io.seek( offset )
+        return FileArrayTree( self.io.file, self.io.is_little_endian )
+    
+    @classmethod
+    def dict_to_file( Class, dict, file, is_little_endian=True ):
+        """
+        Writes a dictionary of array trees to a file that can then be
+        read efficiently using this class.
+        """
+        io = BinaryFileWriter( file, is_little_endian=is_little_endian )
+        # Write magic number and version
+        io.write_uint32( MAGIC )
+        io.write_uint32( VERSION )
+        # Write cdb index with fake values just to fill space
+        cdb_dict = {}
+        for key in dict.iterkeys():
+            cdb_dict[ key ] = io.pack( "L", 0 )
+        cdb_offset = io.tell()
+        FileCDBDict.to_file( cdb_dict, file, is_little_endian=is_little_endian )
+        # Write each tree and save offset
+        for key, value in dict.iteritems():
+            offset = io.tell()
+            cdb_dict[ key ] = io.pack( "L", offset )
+            value.to_file( file, is_little_endian=is_little_endian )
+        # Go back and write the index again
+        io.seek( cdb_offset )
+        FileCDBDict.to_file( cdb_dict, file, is_little_endian=is_little_endian )
+        
+cdef class FileArrayTree:
+    """
+    Wrapper for ArrayTree stored in file that reads as little as possible
+    """
+    cdef int max
+    cdef int block_size
+    cdef object dtype
+    cdef int levels
+    cdef int offset
+    cdef int root_offset
+    cdef object io
+    def __init__( self, file, is_little_endian=True ):
+        self.io = BinaryFileReader( file, is_little_endian=is_little_endian )
+        self.offset = self.io.tell()
+        # Read basic info about the tree
+        self.max = self.io.read_uint32()
+        self.block_size = self.io.read_uint32()
+        # Read dtype and canonicalize
+        dt = self.io.read( 1 )
+        self.dtype = numpy.dtype( dt )
+        self.io.skip( 3 )
+        # How many levels are needed to cover the entire range?
+        self.levels = 0
+        while self.block_size ** ( self.levels + 1 ) < self.max:
+            self.levels += 1
+        # Not yet dealing with the case where the root is a Leaf
+        assert self.levels > 0, "max < block_size not yet handled"
+        # Save offset of root
+        self.root_offset = self.io.tell()
+    def __getitem__( self, index ):
+        return self.r_get_helper( index, 0, self.root_offset, self.levels )
+    cdef r_get_helper( self, int index, int min, long long offset, int level ):
+        cdef int child_size, bin_index, child_min
+        self.io.seek( offset )
+        if level > 0:
+            child_size = self.block_size ** level
+            bin_index = ( index - min ) // ( child_size ) 
+            child_min = min + ( bin_index * child_size )
+            # Skip summary arrays -- 5 arrays * itemsize * block_size
+            self.io.skip( 5 * self.dtype.itemsize * self.block_size )
+            # Skip to offset of correct child -- offsets are 8 bytes
+            self.io.skip( 8 * bin_index )
+            # Read offset of child
+            child_offset = self.io.read_uint64()
+            return self.r_get_helper( index, child_min, child_offset, level - 1 )
+        else:
+            self.io.skip( self.dtype.itemsize * ( index - min ) )
+            return self.io.read_raw_array( self.dtype, 1 )[0]    
+
+cdef class Summary:
     """
     Summary for a non-leaf level of the tree, contains arrays of the min, max,
     valid count, sum, and sum-of-squares for each child.
@@ -119,9 +210,9 @@ cdef class ArrayTree:
     def __getitem__( self, int index ):
         return self.root.get( index )
         
-    def to_file( self, f ):
-        io = BinaryFileWriter( f, magic=MAGIC )
-        io.write_uint32( VERSION )
+    def to_file( self, f, is_little_endian=True ):
+        io = BinaryFileWriter( f, is_little_endian=is_little_endian )
+        ## io.write_uint32( VERSION )
         io.write_uint32( self.max )
         io.write_uint32( self.block_size )
         io.write( self.dtype.char )
@@ -133,9 +224,9 @@ cdef class ArrayTree:
         self.root.to_file_offset_pass( io )
         
     @classmethod
-    def from_file( Class, f ):        
-        io = BinaryFileReader( f, magic=MAGIC )
-        assert io.read_uint32() == VERSION
+    def from_file( Class, f, is_little_endian=True ):        
+        io = BinaryFileReader( f, is_little_endian=is_little_endian )
+        ## assert io.read_uint32() == VERSION
         max = io.read_uint32()
         block_size = io.read_uint32()
         dt = io.read( 1 )
@@ -308,6 +399,13 @@ cdef class ArrayTreeNode:
                 self.init_bin( i )
                 io.seek( child_offsets[i] )
                 self.children[i].from_file( io )
+                
+    def get_from_file( self, io, index ):
+        cdef int bin_index = ( index - self.min ) //( self.child_size ) 
+        if self.children[ bin_index ] is None:
+            return nan
+        else:
+            return self.children[ bin_index ].get( index )
         
 cdef class ArrayTreeLeaf:
     """

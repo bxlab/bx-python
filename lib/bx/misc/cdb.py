@@ -96,10 +96,13 @@ class FileCDBDict( DictMixin ):
                     io.write_uint32( hash )
                     io.write_uint32( pair_offset )
         # Go back and write the header
+        end_offset = io.tell()
         io.seek( start_offset )
         index = subtable_offset
         for subtable in subtables:
             io.write_uint32( index )
             io.write_uint32( len( subtable * 2 ) )
             # For each cell in the subtable, a hash and a pointer to a value
-            index += ( len( subtable ) * 2 ) * 8    
+            index += ( len( subtable ) * 2 ) * 8
+        # Leave fp at end of cdb
+        io.seek( end_offset )

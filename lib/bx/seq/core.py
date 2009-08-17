@@ -9,6 +9,17 @@ See seq.py for more information
 import struct
 import fasta, nib, qdna
 
+# DNA reverse complement table
+
+DNA_COMP = "                                             -                  " \
+           " TVGH  CD  M KN   YSA BWXR       tvgh  cd  m kn   ysa bwxr      " \
+           "                                                                " \
+           "                                                                "
+
+def reverse_complement( text ):
+    return text.translate(DNA_COMP)[::-1]
+
+
 def seq_file (file, format=None, revcomp=False, name="", gap=None, contig=None):
     if (format == None): format = infer_format(file)
     if (contig != None) and (format not in ["fasta",None]):

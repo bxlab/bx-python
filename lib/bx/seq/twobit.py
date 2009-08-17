@@ -1,3 +1,7 @@
+"""
+Access to files containing sequence data in 'twobit' format.
+"""
+
 import sys
 import _twobit
 

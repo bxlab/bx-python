@@ -22,6 +22,12 @@ def test():
     for key, value in d.iteritems():
         assert cdb[key] == value
     
+    try:
+        cdb['notin']
+        assert False, "KeyError was not raised"
+    except KeyError, e:
+        pass
+    
     # Close everything (deletes the temporary file)
     file2.close()
     file.close()

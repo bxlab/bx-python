@@ -82,6 +82,9 @@ class BinaryFileReader( object ):
     def tell( self ):
         return self.file.tell()
         
+    def skip( self, count ):
+        self.file.seek( count, 1 )
+        
     def seek( self, pos, whence=0 ):
         return self.file.seek( pos, whence )
 
