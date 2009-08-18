@@ -115,9 +115,8 @@ def get_extension_modules():
         # Interval clustering                
         extensions.append( Extension( "bx.intervals.cluster",
                                   [ "lib/bx/intervals/cluster.pyx", 
-                                    "src/cluster.c", 
-                                    "src/kent/common.c"],
-                                  include_dirs=["src/kent", "src"] ) )
+                                    "src/cluster.c"],
+                                  include_dirs=["src"] ) )
         # Position weight matrices
         extensions.append( Extension( "bx.pwm._position_weight_matrix",
                                   [ "lib/bx/pwm/_position_weight_matrix.pyx", "src/pwm_utils.c" ],
