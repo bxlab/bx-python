@@ -1,53 +1,38 @@
-#ifndef CLUSTER_H
-#define CLUSTER_H
+typedef struct struct_interval {
+    int start;
+    int end;
+    int id;
+    
+    struct struct_interval *next;
+} interval;
 
-struct ClusterNode
-{
-  int start;
-  int end;
-  int priority;
-  int regions;
-  struct ClusterNode *left;
-  struct ClusterNode *right;
-  struct linelist *linenums;
-};
+typedef struct struct_clusternode {
+    int start;
+    int end;
+    int priority;
+    
+    struct struct_interval *interval_head;
+    struct struct_interval *interval_tail;
+    int num_ivals;
+    
+    struct struct_clusternode *left;
+    struct struct_clusternode *right;
+} clusternode;
 
-struct listitem
-{
-  int value;
-  struct listitem *next;
-};
+typedef struct {
+    int max_dist;
+    int min_intervals;
+    
+    clusternode *root;
+} clustertree;
 
-struct linelist
-{
-  struct listitem *head;
-  struct listitem *tail;
-};
+typedef struct struct_treeitr {
+    struct struct_treeitr *next;
+    struct struct_clusternode *node;
+} treeitr;
 
-struct treeitr
-{
-  struct treeitr * next;
-  struct ClusterNode * value;
-};
 
-struct ClusterNode* clusterNodeAlloc( int start, int end );
-struct ClusterNode* clusterNodeInsert( struct ClusterNode** cn, int start, int end, int linenum, int mincols);
-void clusterPushUp( struct ClusterNode **ln, struct ClusterNode **cn, int mincols );
-void clusterRotateRight( struct ClusterNode **cn );
-void clusterRotateLeft( struct ClusterNode **cn );
-struct ClusterNode* clusterNodeFind( struct ClusterNode *cn, int position );
-
-void get_itr_pre(struct ClusterNode*, struct treeitr**);
-void get_itr_in(struct ClusterNode*, struct treeitr**);
-void get_itr_post(struct ClusterNode*, struct treeitr**);
-struct ClusterNode* next(struct treeitr**);
-int has_next(struct treeitr**);
-
-void append(struct linelist** ptr, int value);
-void merge(struct linelist* left, struct linelist* right);
-void freelist(struct linelist** ptr);
-void freetree(struct ClusterNode** cn);
-
-void dumpTree(struct ClusterNode *cn);
-
-#endif
+clusternode* clusternode_insert(clustertree *tree, clusternode *node, int start, int end, int id);
+clustertree* create_clustertree(int max_dist, int min_intervals);
+treeitr* clusteritr(clustertree *tree);
+void free_tree(clustertree *tree);
