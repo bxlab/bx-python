@@ -7,7 +7,7 @@ clusters of intervals that are within a certain distance apart.
 
 This clustering algorithm uses a binary tree structure. Nodes correspond to 
 non-overlapping intervals, where overlapping means that the distance between
-two	intervals is less or equal to the max separation.
+two intervals is less or equal to the max separation.
 
 The tree self-balances using rotations based on the binomial sequence. Merges
 among nodes are performed whenever a node is changed/added that will cause other
@@ -67,10 +67,18 @@ cdef class ClusterTree:
         free_tree(self.tree)
     
     def insert(self, s, e, id):
+        ''' Insert an interval with start, end, id as parameters'''
         if s > e: raise ValueError("Interval start must be before end")
         self.tree.root = clusternode_insert(self.tree, self.tree.root, s, e, id)
                 
     def getregions(self):
+        ''' Returns a list clusters in ascending order of starting position.
+            Each cluster is a tuple of (start, end, [sorted ids of intervals in cluster])
+        
+        tree = ClusterTree(0, 0)
+        Insert (6, 7, 1), (1, 2, 3), (9, 10, 2), (3, 4, 0), (3, 8, 4)
+        tree.getregions() returns [(1, 2, [3]), (3, 8, [0, 1, 4]), (9, 10, [2])]
+        '''
         cdef treeitr *itr
         cdef interval *ival
         
@@ -89,6 +97,9 @@ cdef class ClusterTree:
         return regions
         
     def getlines(self):
+        ''' Similar to getregions except it just returns a list of ids of intervals
+            The above example would return [3, 0, 1, 4, 2]
+         '''
         cdef treeitr *itr
         cdef interval *ival
         
