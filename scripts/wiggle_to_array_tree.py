@@ -10,26 +10,27 @@ from __future__ import division
 
 import sys
 
-from bx.arrays.array_tree import ArrayTree
+from bx.arrays.array_tree import *
 from bx.arrays.wiggle import IntervalReader
 
 def main():
    
-    max = int( sys.argv[1] )
+    sizes_fname = sys.argv[1]
     out_fname = sys.argv[2]
     
-    scores = ArrayTree( max, 1000 )
-
+    sizes = {}
+    for line in open( sizes_fname ):
+        fields = line.split()
+        sizes[ fields[0] ] = int( fields[1] )
+    
     # Fill array from wiggle
-    for i, ( chrom, start, end, _, val ) in enumerate( IntervalReader( sys.stdin ) ):
-        scores.set_range( start, end, val )
-        if i % 100000 == 0: 
-            print i, "scores processed -- last value:", scores[end-1]
-
-    scores.root.build_summary()
+    d = array_tree_dict_from_wiggle_reader( IntervalReader( sys.stdin ), sizes )
+    
+    for value in d.itervalues():
+        value.root.build_summary()
     
     f = open( out_fname, "w" )
-    scores.to_file( f )
+    FileArrayTreeDict.dict_to_file( d, f )
     f.close()
 
 if __name__ == "__main__": 

@@ -1,10 +1,12 @@
 from __future__ import division
 
-__all__ = [ 'ArrayTree', 'FileArrayTreeDict' ]
+__all__ = [ 'ArrayTree', 'FileArrayTreeDict', 'array_tree_dict_from_wiggle_reader' ]
 
 import numpy
 from numpy import *
 cimport numpy
+
+cimport bx.arrays.wiggle
 
 from bx.misc.binary_file import BinaryFileWriter, BinaryFileReader
 from bx.misc.cdb import FileCDBDict
@@ -55,6 +57,23 @@ reading  if neccesary. File contents:
 
 MAGIC = 0x310ec7dc
 VERSION = 0
+
+def array_tree_dict_from_wiggle_reader( bx.arrays.wiggle.IntervalReader reader, sizes, default_size=2147483647, block_size=1000 ):
+    # Create empty array trees
+    rval = {}
+    ## for key, size in sizes.iteritems():
+    ##    rval[ key ] = ArrayTree( size, 1000 )
+    # Fill
+    last_chrom = None
+    last_array_tree = None
+    for chrom, start, end, _, val in reader:
+        if chrom != last_chrom:
+            if chrom not in rval:
+                rval[chrom] = ArrayTree( sizes.get( chrom, default_size ), block_size )
+            last_array_tree = rval[chrom]
+        last_array_tree.set_range( start, end, val )
+    return rval
+                
 
 cdef class FileArrayTreeDict:
     """
@@ -108,6 +127,7 @@ cdef class FileArrayTree:
     cdef int offset
     cdef int root_offset
     cdef object io
+    
     def __init__( self, file, is_little_endian=True ):
         self.io = BinaryFileReader( file, is_little_endian=is_little_endian )
         self.offset = self.io.tell()
@@ -120,18 +140,46 @@ cdef class FileArrayTree:
         self.io.skip( 3 )
         # How many levels are needed to cover the entire range?
         self.levels = 0
-        while self.block_size ** ( self.levels + 1 ) < self.max:
+        while ( <long long> self.block_size ) ** ( self.levels + 1 ) < self.max:
             self.levels += 1
         # Not yet dealing with the case where the root is a Leaf
         assert self.levels > 0, "max < block_size not yet handled"
         # Save offset of root
         self.root_offset = self.io.tell()
+    
     def __getitem__( self, index ):
-        return self.r_get_helper( index, 0, self.root_offset, self.levels )
-    cdef r_get_helper( self, int index, int min, long long offset, int level ):
+        min = self.r_seek_to_node( index, 0, self.root_offset, self.levels, 0 )
+        if min < 0:
+            return nan
+        self.io.skip( self.dtype.itemsize * ( index - min ) )
+        return self.io.read_raw_array( self.dtype, 1 )[0]
+            
+    def get_summary( self, index, level ):
+        if self.r_seek_to_node( index, 0, self.root_offset, self.levels, level ) < 0:
+            return None
+        # Read summary arrays
+        s = Summary()
+        s.counts = self.io.read_raw_array( self.dtype, self.block_size )
+        s.sums = self.io.read_raw_array( self.dtype, self.block_size )
+        s.mins = self.io.read_raw_array( self.dtype, self.block_size)
+        s.maxs = self.io.read_raw_array( self.dtype, self.block_size )
+        s.sumsquares = self.io.read_raw_array( self.dtype, self.block_size )
+        return s
+            
+    def get_leaf( self, index ):
+        if self.r_seek_to_node( index, 0, self.root_offset, self.levels, 1 ) < 0:
+            return None
+        return self.io.read_raw_array( self.dtype, self.block_size )
+            
+    cdef int r_seek_to_node( self, int index, int min, long long offset, int level, int desired_level ):
+        """
+        Seek to the start of the node at `desired_level` that contains `index`.
+        Returns the minimum value represented in that node.
+        """
+        print "~~~~~>", index, min, offset, level, desired_level
         cdef int child_size, bin_index, child_min
         self.io.seek( offset )
-        if level > 0:
+        if level > desired_level:
             child_size = self.block_size ** level
             bin_index = ( index - min ) // ( child_size ) 
             child_min = min + ( bin_index * child_size )
@@ -141,10 +189,13 @@ cdef class FileArrayTree:
             self.io.skip( 8 * bin_index )
             # Read offset of child
             child_offset = self.io.read_uint64()
-            return self.r_get_helper( index, child_min, child_offset, level - 1 )
+            print "!!!", self.io.tell(), child_offset, child_size, child_min, self.dtype.itemsize, self.block_size, bin_index
+            if child_offset == 0:
+                return -1
+            return self.r_seek_to_node( index, child_min, child_offset, level - 1, desired_level )
         else:
-            self.io.skip( self.dtype.itemsize * ( index - min ) )
-            return self.io.read_raw_array( self.dtype, 1 )[0]    
+            # The file pointer is at the start of the desired node, do nothing
+            return min
 
 cdef class Summary:
     """
@@ -192,7 +243,7 @@ cdef class ArrayTree:
         self.dtype = numpy.dtype( dtype )
         # How many levels are needed to cover the entire range?
         self.levels = 0
-        while self.block_size ** ( self.levels + 1 ) < self.max:
+        while ( <long long> self.block_size ) ** ( self.levels + 1 ) < self.max:
             self.levels += 1
         # Not yet dealing with the case where the root is a Leaf
         assert self.levels > 0, "max < block_size not yet handled"
@@ -203,9 +254,8 @@ cdef class ArrayTree:
         self.root.set( index, value )
         
     def set_range( self, int start, int end, value ):
-        cdef int index
-        for index in range( start, end ):
-            self.root.set( index, value )
+        for i from start <= i < end:
+            self.root.set( i, value )
         
     def __getitem__( self, int index ):
         return self.root.get( index )

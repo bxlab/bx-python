@@ -11,23 +11,18 @@ the positions returned match the BED/interval format which is zero-based, half-o
 def parse_header( line ):
     return dict( [ field.split( '=' ) for field in line.split()[1:] ] )
 
-cdef enum linemode:
-    MODE_BED
-    MODE_FIXED
-    MODE_VARIABLE
-
 cdef class IntervalReader:
     """
     Iterator yielding chrom, start, end, strand, value.
     Values are zero-based, half-open.
     Regions which lack a score are ignored.
     """
-    cdef object file
-    cdef object current_chrom
-    cdef long current_pos
-    cdef long current_step
-    cdef long current_span
-    cdef linemode mode
+    #cdef object file
+    #cdef object current_chrom
+    #cdef long current_pos
+    #cdef long current_step
+    #cdef long current_span
+    #cdef linemode mode
     def __init__( self, file ):
         self.file = file
         self.current_chrom = None
@@ -57,9 +52,9 @@ cdef class IntervalReader:
                     self.current_pos = -1
                     self.current_step = -1
                     if 'span' in header:
-                        current_span = int( header['span'] )
+                        self.current_span = int( header['span'] )
                     else:
-                        current_span = 1
+                        self.current_span = 1
                     self.mode = MODE_VARIABLE
                     continue
                 elif line.startswith( "fixedStep" ):
