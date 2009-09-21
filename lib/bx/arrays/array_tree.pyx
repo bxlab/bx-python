@@ -120,12 +120,12 @@ cdef class FileArrayTree:
     """
     Wrapper for ArrayTree stored in file that reads as little as possible
     """
-    cdef int max
-    cdef int block_size
-    cdef object dtype
-    cdef int levels
-    cdef int offset
-    cdef int root_offset
+    cdef public int max
+    cdef public int block_size
+    cdef public object dtype
+    cdef public int levels
+    cdef public int offset
+    cdef public int root_offset
     cdef object io
     
     def __init__( self, file, is_little_endian=True ):
@@ -155,6 +155,7 @@ cdef class FileArrayTree:
         return self.io.read_raw_array( self.dtype, 1 )[0]
             
     def get_summary( self, index, level ):
+        assert 0 < level <= self.levels
         if self.r_seek_to_node( index, 0, self.root_offset, self.levels, level ) < 0:
             return None
         # Read summary arrays
@@ -167,7 +168,7 @@ cdef class FileArrayTree:
         return s
             
     def get_leaf( self, index ):
-        if self.r_seek_to_node( index, 0, self.root_offset, self.levels, 1 ) < 0:
+        if self.r_seek_to_node( index, 0, self.root_offset, self.levels, 0 ) < 0:
             return None
         return self.io.read_raw_array( self.dtype, self.block_size )
             
@@ -176,7 +177,6 @@ cdef class FileArrayTree:
         Seek to the start of the node at `desired_level` that contains `index`.
         Returns the minimum value represented in that node.
         """
-        print "~~~~~>", index, min, offset, level, desired_level
         cdef int child_size, bin_index, child_min
         self.io.seek( offset )
         if level > desired_level:
@@ -189,7 +189,6 @@ cdef class FileArrayTree:
             self.io.skip( 8 * bin_index )
             # Read offset of child
             child_offset = self.io.read_uint64()
-            print "!!!", self.io.tell(), child_offset, child_size, child_min, self.dtype.itemsize, self.block_size, bin_index
             if child_offset == 0:
                 return -1
             return self.r_seek_to_node( index, child_min, child_offset, level - 1, desired_level )
@@ -227,10 +226,10 @@ cdef class ArrayTree:
     Internal nodes store `Summary` instances for their subtrees. 
     """
 
-    cdef int max
-    cdef int block_size
-    cdef object dtype
-    cdef int levels
+    cdef public int max
+    cdef public int block_size
+    cdef public object dtype
+    cdef public int levels
     cdef public ArrayTreeNode root
 
     def __init__( self, int max, int block_size, dtype=float32 ):
@@ -339,7 +338,7 @@ cdef class ArrayTreeNode:
         self.children[ bin_index ].set( index, value )
         
     def get( self, int index ):
-        cdef int bin_index = ( index - self.min ) //( self.child_size ) 
+        cdef int bin_index = ( index - self.min ) // ( self.child_size ) 
         if self.children[ bin_index ] is None:
             return nan
         else:
