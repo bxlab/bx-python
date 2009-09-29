@@ -53,7 +53,7 @@ array is 1+binForRange(maxEnd-1,maxEnd), where maxEnd is the maximum
 interval end.
 
 ============ ===========   =================================================
-offset:      xx xx xx xx   minimun interval start
+offset:      xx xx xx xx   minimum interval start
 offset+4:    xx xx xx xx   maximum interval end
 offset+8:    xx xx xx xx   offset (in this file) to bin 0
 offset+12:   xx xx xx xx   number of intervals in bin 0
@@ -261,7 +261,7 @@ class AbstractIndexedAccess( object ):
                 f.close()
                 
     def read_at_current_offset( self, file, **kwargs ):
-        raise TypeError( "Abtract Method" )
+        raise TypeError( "Abstract Method" )
 
 class Indexes:
     """A set of indexes, each identified by a unique name"""

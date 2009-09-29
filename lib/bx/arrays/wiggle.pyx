@@ -77,10 +77,19 @@ cdef class IntervalReader:
                         return fields[0], int( fields[1] ), int( fields[2] ), "+", float( fields[3] )
             elif self.mode == MODE_VARIABLE: 
                 fields = line.split()
-                pos = int( fields[0] ) - 1
-                return self.current_chrom, pos, pos + self.current_span, "+", float( fields[1] )
+                try:
+                    pos = int( fields[0] ) - 1
+                    val = float( fields[1] )
+                except ValueError:
+                    continue
+                return self.current_chrom, pos, pos + self.current_span, "+", val
             elif self.mode == MODE_FIXED:
-                return self.current_chrom, self.current_pos, self.current_pos + self.current_span, "+", float( line.split()[0] )
+                fields = line.split()
+                try:
+                    val = float( fields[0] )
+                except ValueError:
+                    continue
+                return self.current_chrom, self.current_pos, self.current_pos + self.current_span, "+", val
                 self.current_pos += self.current_step
             else:
                 raise "Unexpected input line: %s" % line.strip()

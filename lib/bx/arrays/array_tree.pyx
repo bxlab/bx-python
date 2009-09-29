@@ -23,9 +23,9 @@ NOTE: This is still a work in progress, the file format for the first version
 On disk format
 --------------
 
-Blocks are stored contigously on disk in level-order. Contents should always be
+Blocks are stored contiguously on disk in level-order. Contents should always be
 network byte order (big endian), however this implementation will byte-swap when
-reading  if neccesary. File contents:
+reading  if necessary. File contents:
 
 - magic:      uint32
 - version:    unit32
