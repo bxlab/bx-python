@@ -36,7 +36,7 @@ def concat(readers, comments=True, header=True, sameformat=True):
                     # everything except the first input has to be
                     # trimmed or padded to match the first input
                     if len(out_interval.fields) > nfields:
-                        out_interval.fields = out_interval.fields[0:(nfields - 1)]
+                        out_interval.fields = out_interval.fields[0:nfields]
                         while len(out_interval.fields) < nfields:
                             out_interval.fields.append(".")
                     output = True
