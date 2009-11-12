@@ -17,9 +17,6 @@ efficient sparse storage (when the data occurs in contiguous blocks), fast
 access to a specific block of data, and fast access to summaries at different
 resolutions.
 
-NOTE: This is still a work in progress, the file format for the first version
-      is not yet finalized, once it is the version will be incremented to 1.
-
 On disk format
 --------------
 
@@ -56,7 +53,7 @@ reading  if necessary. File contents:
 ##   - Compression for blocks?
 
 MAGIC = 0x310ec7dc
-VERSION = 0
+VERSION = 1
 
 def array_tree_dict_from_wiggle_reader( bx.arrays.wiggle.IntervalReader reader, sizes, default_size=2147483647, block_size=1000 ):
     # Create empty array trees
@@ -146,16 +143,17 @@ cdef class FileArrayTree:
         assert self.levels > 0, "max < block_size not yet handled"
         # Save offset of root
         self.root_offset = self.io.tell()
-    
+        
     def __getitem__( self, index ):
         min = self.r_seek_to_node( index, 0, self.root_offset, self.levels, 0 )
         if min < 0:
             return nan
         self.io.skip( self.dtype.itemsize * ( index - min ) )
         return self.io.read_raw_array( self.dtype, 1 )[0]
-            
+        
     def get_summary( self, index, level ):
-        assert 0 < level <= self.levels
+        if level <= 0 or level > self.levels:
+            raise ValueError, "level must be <= self.levels"
         if self.r_seek_to_node( index, 0, self.root_offset, self.levels, level ) < 0:
             return None
         # Read summary arrays
@@ -166,12 +164,12 @@ cdef class FileArrayTree:
         s.maxs = self.io.read_raw_array( self.dtype, self.block_size )
         s.sumsquares = self.io.read_raw_array( self.dtype, self.block_size )
         return s
-            
+        
     def get_leaf( self, index ):
         if self.r_seek_to_node( index, 0, self.root_offset, self.levels, 0 ) < 0:
-            return None
+            return []
         return self.io.read_raw_array( self.dtype, self.block_size )
-            
+        
     cdef int r_seek_to_node( self, int index, int min, long long offset, int level, int desired_level ):
         """
         Seek to the start of the node at `desired_level` that contains `index`.
