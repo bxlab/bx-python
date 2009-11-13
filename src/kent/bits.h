@@ -65,7 +65,7 @@ void bitPrint(Bits *a, int startIx, int bitCount, FILE* out);
 extern int bitsInByte[256];
 /* Lookup table for how many bits are set in a byte. */
 
-void bitsInByteInit();
+void bitsInByteInit(void);
 /* Initialize bitsInByte array. */
 
 #endif /* BITS_H */
