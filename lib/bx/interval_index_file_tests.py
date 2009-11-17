@@ -6,7 +6,7 @@ import random
 def test_offsets():
     assert interval_index_file.offsets_for_max_size( 512*1024*1024  - 1 ) == [ 512 + 64 + 8 + 1, 64 + 8 + 1, 8 + 1, 1, 0 ]
 
-def test():
+def test_interval_index_file():
     ix = Indexes()
     chrs = []
     for i in range( 5 ):
@@ -19,7 +19,7 @@ def test():
             end = random.randint( 0, max )
             if end < start:
                 end, start = start, end
-            ix.add( name, start, end, i )
+            ix.add( name, start, end, i, max=interval_index_file.MAX )
             intervals.append( ( start, end, i ) )
         chrs.append( intervals )
     fname = mktemp()
