@@ -41,6 +41,8 @@ reading  if necessary. File contents:
   
 - Leaf nodes
     - data points: sizeof( dtype ) * block_size
+    
+- Version 1 reads version 0 and version 1
 
 """
 
@@ -80,7 +82,7 @@ cdef class FileArrayTreeDict:
     cdef object cdb_dict
     def __init__( self, file ):
         self.io = io = BinaryFileReader( file, MAGIC )
-        assert io.read_uint32() == VERSION
+        assert (0 <= io.read_uint32() <= 1) # Check for version 0 or 1
         self.cdb_dict = FileCDBDict( file, is_little_endian=io.is_little_endian )
     def __getitem__( self, key ):
         offset = self.cdb_dict[key]
