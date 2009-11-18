@@ -193,7 +193,17 @@ class IntervalTreeTest(unittest.TestCase):
 
         self.iv.traverse(fn)
         self.assertEqual(len(a), self.nintervals)
-
+    
+    def test_empty(self):
+        iv = IntervalTree()
+        self.assertEqual([], iv.find(100, 300))
+        self.assertEqual([], iv.after(100))
+        self.assertEqual([], iv.before(100))
+        self.assertEqual([], iv.after_interval(100))
+        self.assertEqual([], iv.before_interval(100))
+        self.assertEqual([], iv.upstream_of_interval(100))
+        self.assertEqual([], iv.downstream_of_interval(100))
+        self.assertEqual(None, iv.traverse(lambda x: x.append(1)))
 
     def test_public_interval(self):
 

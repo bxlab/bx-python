@@ -15,7 +15,7 @@ preserves all information about the intervals (unlike bitset projection methods)
 #    converted to Cython by Brent, who also added support for
 #    upstream/downstream/neighbor queries. This was modified by James to
 #    handle half-open intervals strictly, to maintain sort order, and to
-#    implement the same interface as the origianl Intersecter.
+#    implement the same interface as the original Intersecter.
 
 import operator
 
@@ -273,7 +273,7 @@ cdef IntervalNode EmptyNode = IntervalNode( 0, 0, Interval(0, 0))
 cdef class Interval:
     """
     Basic feature, with required integer start and end properties.
-    Also accpets optional strand as +1 or -1 (used for up/downstream queries),
+    Also accepts optional strand as +1 or -1 (used for up/downstream queries),
     a name, and any arbitrary data is sent in on the info keyword argument
 
     >>> from bx.intervals.intersection import Interval
@@ -313,7 +313,7 @@ cdef class IntervalTree:
     Usage
     =====
     
-    Create an empry IntervalTree
+    Create an empty IntervalTree
     
     >>> from bx.intervals.intersection import Interval, IntervalTree
     >>> intersecter = IntervalTree()
@@ -384,20 +384,26 @@ cdef class IntervalTree:
         """
         Return a sorted list of all intervals overlapping [start,end).
         """
+        if self.root is None:
+            return []
         return self.root.find( start, end )
     
     def before( self, position, num_intervals=1, max_dist=2500 ):
         """
         Find `num_intervals` intervals that lie before `position` and are no
-        further than `max_dist` positions aways
+        further than `max_dist` positions away
         """
+        if self.root is None:
+            return []
         return self.root.left( position, num_intervals, max_dist )
 
     def after( self, position, num_intervals=1, max_dist=2500 ):
         """
         Find `num_intervals` intervals that lie after `position` and are no
-        further than `max_dist` positions aways
+        further than `max_dist` positions away
         """
+        if self.root is None:
+            return []
         return self.root.right( position, num_intervals, max_dist )
 
     # ---- Interval-like object based interfaces -----------------------------
@@ -414,22 +420,28 @@ cdef class IntervalTree:
     def before_interval( self, interval, num_intervals=1, max_dist=2500 ):
         """
         Find `num_intervals` intervals that lie completely before `interval`
-        and are no further than `max_dist` positions aways
+        and are no further than `max_dist` positions away
         """
+        if self.root is None:
+            return []
         return self.root.left( interval.start, num_intervals, max_dist )
 
     def after_interval( self, interval, num_intervals=1, max_dist=2500 ):
         """
-        Find `num_intervals` intervals that lie comletey after `interval` and
-        are no further than `max_dist` positions aways
+        Find `num_intervals` intervals that lie completely after `interval` and
+        are no further than `max_dist` positions away
         """
+        if self.root is None:
+            return []
         return self.root.right( interval.end, num_intervals, max_dist )
 
     def upstream_of_interval( self, interval, num_intervals=1, max_dist=2500 ):
         """
         Find `num_intervals` intervals that lie completely upstream of
-        `interval` and are no further than `max_dist` positions aways
+        `interval` and are no further than `max_dist` positions away
         """
+        if self.root is None:
+            return []
         if interval.strand == -1 or interval.strand == "-":
             return self.root.right( interval.end, num_intervals, max_dist )
         else:
@@ -438,8 +450,10 @@ cdef class IntervalTree:
     def downstream_of_interval( self, interval, num_intervals=1, max_dist=2500 ):
         """
         Find `num_intervals` intervals that lie completely downstream of
-        `interval` and are no further than `max_dist` positions aways
+        `interval` and are no further than `max_dist` positions away
         """
+        if self.root is None:
+            return []
         if interval.strand == -1 or interval.strand == "-":
             return self.root.left( interval.start, num_intervals, max_dist )
         else:
@@ -449,6 +463,8 @@ cdef class IntervalTree:
         """
         call fn for each element in the tree
         """
+        if self.root is None:
+            return None
         return self.root.traverse(fn)
 
 # For backward compatibility
