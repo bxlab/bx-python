@@ -108,6 +108,12 @@ def get_extension_modules():
     extensions.append( Extension( "bx.seq._twobit", [ "lib/bx/seq/_twobit.pyx" ] ) )
     # Translation if character / integer strings 
     extensions.append( Extension( "bx._seqmapping", [ "lib/bx/_seqmapping.pyx" ] ) )
+    # BGZF
+    extensions.append( Extension( "bx.misc.bgzf",
+                                  [ "lib/bx/misc/bgzf.pyx", "src/samtools/bgzf.c" ],
+                                  include_dirs=[ "src/samtools"],
+                                  libraries=['z'] ) )
+
     
     # The following extensions won't (currently) compile on windows
     if platform.system() not in ( 'Microsoft', 'Windows' ):
