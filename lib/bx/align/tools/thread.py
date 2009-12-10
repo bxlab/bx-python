@@ -55,7 +55,6 @@ def thread( mafs, species ):
     <BLANKLINE>
     
     """
-    new = []
     for m in mafs:
         new_maf = deepcopy( m )
         new_components = get_components_for_species( new_maf, species )	
@@ -63,8 +62,8 @@ def thread( mafs, species ):
             remove_all_gap_columns( new_components )          
             new_maf.components = new_components
             new_maf.score = 0.0
-            new.append( new_maf )   
-    return new
+            new_maf.text_size = len(new_components[0].text)
+            yield new_maf
         
 def get_components_for_species( alignment, species ):
     """Return the component for each species in the list `species` or None"""

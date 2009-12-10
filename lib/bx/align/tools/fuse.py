@@ -9,7 +9,6 @@ def fuse_list( mafs ):
     """
     Try to fuse a list of blocks by progressively fusing each adjacent pair.
     """
-    rval = []
     last = None
     for m in mafs:
         if last is None:
@@ -19,10 +18,10 @@ def fuse_list( mafs ):
             if fused:
                 last = fused
             else:
-                rval.append( last )
+                yield last
                 last = m
-    if last: rval.append( last )
-    return rval
+    if last:
+        yield last
 
 def fuse( m1, m2 ):
     """
