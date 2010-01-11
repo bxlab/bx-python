@@ -108,12 +108,6 @@ def get_extension_modules():
     extensions.append( Extension( "bx.seq._twobit", [ "lib/bx/seq/_twobit.pyx" ] ) )
     # Translation if character / integer strings 
     extensions.append( Extension( "bx._seqmapping", [ "lib/bx/_seqmapping.pyx" ] ) )
-    # BGZF
-    extensions.append( Extension( "bx.misc.bgzf",
-                                  [ "lib/bx/misc/bgzf.pyx", "src/samtools/bgzf.c" ],
-                                  include_dirs=[ "src/samtools"],
-                                  libraries=['z'] ) )
-
     
     # The following extensions won't (currently) compile on windows
     if platform.system() not in ( 'Microsoft', 'Windows' ):
@@ -142,7 +136,7 @@ def get_extension_modules():
                                       [ "lib/bx/align/sitemask/_cpg.pyx", 
                                         "lib/bx/align/sitemask/find_cpg.c" ] ) )
         
-        # Counting n-grams in inteber strings
+        # Counting n-grams in integer strings
         extensions.append( Extension( "bx.intseq.ngramcount", [ "lib/bx/intseq/ngramcount.pyx" ] ) )
 
         # Seekable access to bzip2 files
