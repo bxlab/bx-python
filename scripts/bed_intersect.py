@@ -4,6 +4,8 @@
 Find regions of first bed file that overlap regions in a second bed file. The
 output preserves all fields from the input. 
 
+NOTE: -u and -d options are currently not functional!
+
 usage: %prog bed_file_1 bed_file_2
     -m, --mincols=N: Require this much overlap (default 1bp)
     -u, --upstream_pad=N: upstream interval padding (default 0bp)
