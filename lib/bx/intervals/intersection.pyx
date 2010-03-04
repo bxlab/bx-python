@@ -27,8 +27,6 @@ cdef extern from "stdlib.h":
     int strlen(char *)
     int iabs(int)
 
-ctypedef char * char_star
-
 cdef inline int imax2(int a, int b):
     if b > a: return b
     return a
