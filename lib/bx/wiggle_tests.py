@@ -77,11 +77,14 @@ position_reader_result = [
 "chr19,59308001,800.0",
 "chr19,59308002,800.0"
 ]
-
-def test_reader():
-    #Test position reader
-    assert position_reader_result == [ ",".join( map( str, value ) ) for value in wiggle.Reader( StringIO( test_wig ) ) ]
-
-def test_interval_reader():
-    #Test interval reader reader
-    assert interval_reader_result == [ ",".join( map( str, value ) ) for value in wiggle.IntervalReader( StringIO( test_wig ) ) ]
+class TestWiggleReader(unittest.TestCase):
+    def test_reader(self):
+        #Test position reader
+        assert position_reader_result == [ ",".join( map( str, value ) ) for value in wiggle.Reader( StringIO( test_wig ) ) ]
+    
+    def test_interval_reader(self):
+        #Test interval reader reader
+        assert interval_reader_result == [ ",".join( map( str, value ) ) for value in wiggle.IntervalReader( StringIO( test_wig ) ) ]
+    
+if __name__ == '__main__':
+    unittest.main()

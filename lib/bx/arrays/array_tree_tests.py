@@ -6,12 +6,18 @@ try:
 except:
     sys.path.insert(0, os.path.dirname(os.path.abspath(".")))
 
-from bx.arrays.array_tree import ArrayTree, FileArrayTree, FileArrayTreeDict
+from bx.arrays.array_tree import ArrayTree, FileArrayTree, FileArrayTreeDict, array_tree_dict_from_reader
+from bx.arrays.bed import BedReader
+from bx.arrays.wiggle import WiggleReader
 
 class TestArrayTree(unittest.TestCase):
     def setUp(self):
         tree = ArrayTree(10000, 10) # max value of 10000, each block has 10 numbers
         for i in range(5000):
+            tree[i] = i
+        
+        # Insert extra copies to test frequency
+        for i in range(3000):
             tree[i] = i
         
         tree.set_range(5000, 9001, 100)
@@ -47,6 +53,56 @@ class TestArrayTree(unittest.TestCase):
         
         from_start = [int(i) for i in f.get_leaf(9600)]
         self.assertEqual(from_start, [])
+        
+    def test_big(self):
+        tree = ArrayTree(2147483647, 1000) # What we use for tracks
+        for i in range(5000):
+            tree[i] = i
+        
+        # Insert extra copies to test frequency
+        for i in range(3000):
+            tree[i] = i
+        
+        tree.set_range(5000, 9001, 100)
+        tree.set_range(14000000, 15000000, 200)
+        tree.root.build_summary()
+        
+        d = {'test': tree}
+        f = tempfile.TemporaryFile()
+        FileArrayTreeDict.dict_to_file( d, f )
+        f.seek(0)
+        at = FileArrayTreeDict(f)['test']
+        
+        lvl1 = at.get_summary(14000000, 1)
+        avgs = map(float, lvl1.sums/lvl1.counts)
+        self.assertEqual( len(avgs), 1000 )
+        self.assertEqual( avgs, [ 200 for i in range(0, 1000)] )
+    
+    
+#    def create_bed(self):
+#        reader = BedReader( open( "22.bed.txt" ) )
+#        temp = tempfile.TemporaryFile()
+#        
+#        d = array_tree_dict_from_reader( reader, {}, block_size = 1000 )
+#
+#        for array_tree in d.itervalues():
+#            array_tree.root.build_summary()
+#
+#        FileArrayTreeDict.dict_to_file( d, open("tree.at", "w"), no_leaves=True ) # just summaries
+#        
+#    def test_bed(self):
+#        # self.create_bed()
+#        print "bed"
+#        at = FileArrayTreeDict( open( "tree.at" ) )['chr22']
+#        print map(, at.get_summary(14000000, 1).frequencies)
+        
+    
+    def test_get_frequencies(self):
+        f = self.filearraytree
+        self.assertEqual( map(float, f.get_summary(0, 1).frequencies), ([20] * 10) )
+        self.assertEqual( map(float, f.get_summary(4000, 1).frequencies), ([10] * 10) )
+        self.assertEqual( map(float, f.get_summary(0, 2).frequencies), ([200] * 10) )
+        self.assertEqual( map(int, f.get_summary(0, 3).frequencies), [2000, 2000, 2000, 1000, 1000, 1000, 1000, 1000, 1000, 1] )
     
     def test_wrong_dictkey(self):
         self.assertRaises(KeyError, self.filearraytreedict.__getitem__, "non-existing")

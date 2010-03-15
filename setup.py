@@ -125,11 +125,15 @@ def get_extension_modules():
         if have_numpy:
             extensions.append( Extension( "bx.motif._pwm", [ "lib/bx/motif/_pwm.pyx" ], 
                                           include_dirs=[numpy.get_include()] ) )
+            
             # Sparse arrays with summaries organized as trees on disk
             extensions.append( Extension( "bx.arrays.array_tree", [ "lib/bx/arrays/array_tree.pyx" ], include_dirs=[numpy.get_include()] ) )  
 
-            # Reading UCSC wiggle format
-            extensions.append( Extension( "bx.arrays.wiggle", [ "lib/bx/arrays/wiggle.pyx" ], include_dirs=[numpy.get_include()] ) )  
+        # Reading UCSC wiggle format
+        extensions.append( Extension( "bx.arrays.bed", [ "lib/bx/arrays/bed.pyx" ] ) )
+
+        # Reading UCSC wiggle format
+        extensions.append( Extension( "bx.arrays.wiggle", [ "lib/bx/arrays/wiggle.pyx" ] ) )
 
         # CpG masking
         extensions.append( Extension( "bx.align.sitemask._cpg", \

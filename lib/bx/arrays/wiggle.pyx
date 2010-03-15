@@ -11,7 +11,7 @@ the positions returned match the BED/interval format which is zero-based, half-o
 def parse_header( line ):
     return dict( [ field.split( '=' ) for field in line.split()[1:] ] )
 
-cdef class IntervalReader:
+cdef class WiggleReader:
     """
     Iterator yielding chrom, start, end, strand, value.
     Values are zero-based, half-open.
@@ -35,7 +35,7 @@ cdef class IntervalReader:
         return self
 
     def __next__( self ):
-        while 1:
+        while True:
             line = self.file.readline()
             if not line:
                 raise StopIteration()
@@ -95,16 +95,3 @@ cdef class IntervalReader:
                 raise "Unexpected input line: %s" % line.strip()
 
 
-#class Reader( object ):
-#    """
-#    Iterator yielding chrom, position, value.
-#    Values are zero-based.
-#    Regions which lack a score are ignored.
-#    """
-#    def __init__( self, f ):
-#        self.file = f
-#        
-#    def __iter__( self ):
-#        for chrom, start, end, strand, val in IntervalReader( self.file ):
-#            for pos in xrange( start, end ):
-#                yield chrom, pos, val

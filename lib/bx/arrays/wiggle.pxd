@@ -3,7 +3,7 @@ cdef enum linemode:
     MODE_FIXED
     MODE_VARIABLE
 
-cdef class IntervalReader:
+cdef class WiggleReader:
     cdef object file
     cdef object current_chrom
     cdef long current_pos

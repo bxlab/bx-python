@@ -11,7 +11,7 @@ from __future__ import division
 import sys
 
 from bx.arrays.array_tree import *
-from bx.arrays.wiggle import IntervalReader
+from bx.arrays.wiggle import WiggleReader
 
 def main():
    
@@ -24,7 +24,7 @@ def main():
         sizes[ fields[0] ] = int( fields[1] )
     
     # Fill array from wiggle
-    d = array_tree_dict_from_wiggle_reader( IntervalReader( sys.stdin ), sizes )
+    d = array_tree_dict_from_reader( WiggleReader( sys.stdin ), sizes )
     
     for value in d.itervalues():
         value.root.build_summary()

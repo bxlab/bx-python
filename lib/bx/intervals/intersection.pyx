@@ -346,7 +346,7 @@ cdef class IntervalTree:
     >>> intersecter.before_interval( Interval( 5, 20 ) )
     []
     
-    Upstream/downstread
+    Upstream/downstream
     
     >>> intersecter.upstream_of_interval(Interval(11, 12))
     [Interval(0, 10)]

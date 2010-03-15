@@ -1,5 +1,5 @@
 """
-Tools for "threading" out specific species from aligments (removing other
+Tools for "threading" out specific species from alignments (removing other
 species and fixing alignment text).
 """
 
@@ -37,7 +37,7 @@ def thread( mafs, species ):
     
     >>> mafs = [ block1, block2 ]
     
-    >>> threaded = thread( mafs, [ "hg18", "panTro1" ] )
+    >>> threaded = [ t for t in thread( mafs, [ "hg18", "panTro1" ] ) ]
     
     >>> len( threaded )
     2

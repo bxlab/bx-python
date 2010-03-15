@@ -1,6 +1,6 @@
 from __future__ import division
 
-__all__ = [ 'ArrayTree', 'FileArrayTreeDict', 'array_tree_dict_from_wiggle_reader' ]
+__all__ = [ 'ArrayTree', 'FileArrayTreeDict', 'array_tree_dict_from_reader' ]
 
 import numpy
 from numpy import *
@@ -33,10 +33,11 @@ reading  if necessary. File contents:
 - Internal nodes in level order
     - Summary
         - count of valid values in each subtree : sizeof( dtype ) * block_size
+        - frequencies: sizeof ( int32 ) * block_size
         - min of valid values in each subtree : sizeof( dtype ) * block_size
         - max of valid values in each subtree : sizeof( dtype ) * block_size
         - sum of valid values in each subtree : sizeof( dtype ) * block_size
-        - sum of squares of  of valid values in each subtree : sizeof( dtype ) * block_size
+        - sum of squares of valid values in each subtree : sizeof( dtype ) * block_size
     - File offsets of each child node: uint64 * block_size
   
 - Leaf nodes
@@ -56,8 +57,9 @@ reading  if necessary. File contents:
 
 MAGIC = 0x310ec7dc
 VERSION = 1
+NUM_SUMMARY_ARRAYS = 6
 
-def array_tree_dict_from_wiggle_reader( bx.arrays.wiggle.IntervalReader reader, sizes, default_size=2147483647, block_size=1000 ):
+def array_tree_dict_from_reader( reader, sizes, default_size=2147483647, block_size=1000, no_leaves=False ):
     # Create empty array trees
     rval = {}
     ## for key, size in sizes.iteritems():
@@ -68,7 +70,7 @@ def array_tree_dict_from_wiggle_reader( bx.arrays.wiggle.IntervalReader reader, 
     for chrom, start, end, _, val in reader:
         if chrom != last_chrom:
             if chrom not in rval:
-                rval[chrom] = ArrayTree( sizes.get( chrom, default_size ), block_size )
+                rval[chrom] = ArrayTree( sizes.get( chrom, default_size ), block_size, no_leaves=no_leaves )
             last_array_tree = rval[chrom]
         last_array_tree.set_range( start, end, val )
     return rval
@@ -91,7 +93,7 @@ cdef class FileArrayTreeDict:
         return FileArrayTree( self.io.file, self.io.is_little_endian )
     
     @classmethod
-    def dict_to_file( Class, dict, file, is_little_endian=True ):
+    def dict_to_file( Class, dict, file, is_little_endian=True, no_leaves=False ):
         """
         Writes a dictionary of array trees to a file that can then be
         read efficiently using this class.
@@ -110,7 +112,7 @@ cdef class FileArrayTreeDict:
         for key, value in dict.iteritems():
             offset = io.tell()
             cdb_dict[ key ] = io.pack( "L", offset )
-            value.to_file( file, is_little_endian=is_little_endian )
+            value.to_file( file, is_little_endian=is_little_endian, no_leaves=no_leaves )
         # Go back and write the index again
         io.seek( cdb_offset )
         FileCDBDict.to_file( cdb_dict, file, is_little_endian=is_little_endian )
@@ -161,6 +163,7 @@ cdef class FileArrayTree:
         # Read summary arrays
         s = Summary()
         s.counts = self.io.read_raw_array( self.dtype, self.block_size )
+        s.frequencies = self.io.read_raw_array( self.dtype, self.block_size )
         s.sums = self.io.read_raw_array( self.dtype, self.block_size )
         s.mins = self.io.read_raw_array( self.dtype, self.block_size)
         s.maxs = self.io.read_raw_array( self.dtype, self.block_size )
@@ -183,12 +186,13 @@ cdef class FileArrayTree:
             child_size = self.block_size ** level
             bin_index = ( index - min ) // ( child_size ) 
             child_min = min + ( bin_index * child_size )
-            # Skip summary arrays -- 5 arrays * itemsize * block_size
-            self.io.skip( 5 * self.dtype.itemsize * self.block_size )
+            # Skip summary arrays -- # arrays * itemsize * block_size
+            self.io.skip( NUM_SUMMARY_ARRAYS * self.dtype.itemsize * self.block_size )
             # Skip to offset of correct child -- offsets are 8 bytes
             self.io.skip( 8 * bin_index )
             # Read offset of child
             child_offset = self.io.read_uint64()
+            # print "co: %s\tbi: %s\tcm: %s\n" % (child_offset, bin_index, child_min)
             if child_offset == 0:
                 return -1
             return self.r_seek_to_node( index, child_min, child_offset, level - 1, desired_level )
@@ -202,6 +206,7 @@ cdef class Summary:
     valid count, sum, and sum-of-squares for each child.
     """
     cdef public object counts
+    cdef public object frequencies
     cdef public object mins
     cdef public object maxs
     cdef public object sums
@@ -230,14 +235,16 @@ cdef class ArrayTree:
     cdef public int block_size
     cdef public object dtype
     cdef public int levels
+    cdef public int no_leaves
     cdef public ArrayTreeNode root
 
-    def __init__( self, int max, int block_size, dtype=float32 ):
+    def __init__( self, int max, int block_size, dtype=float32, no_leaves=False ):
         """
         Create a new array tree of size `max` 
         """
         self.max = max
         self.block_size = block_size
+        self.no_leaves = no_leaves
         # Force the dtype argument to its canonical dtype object
         self.dtype = numpy.dtype( dtype )
         # How many levels are needed to cover the entire range?
@@ -246,7 +253,7 @@ cdef class ArrayTree:
             self.levels += 1
         # Not yet dealing with the case where the root is a Leaf
         assert self.levels > 0, "max < block_size not yet handled"
-        # Create the root node
+        # Create the root node`
         self.root = ArrayTreeNode( self, 0, max, block_size, self.levels )
         
     def __setitem__( self, int index, value ):
@@ -259,7 +266,7 @@ cdef class ArrayTree:
     def __getitem__( self, int index ):
         return self.root.get( index )
         
-    def to_file( self, f, is_little_endian=True ):
+    def to_file( self, f, is_little_endian=True, no_leaves=False ):
         io = BinaryFileWriter( f, is_little_endian=is_little_endian )
         ## io.write_uint32( VERSION )
         io.write_uint32( self.max )
@@ -267,7 +274,11 @@ cdef class ArrayTree:
         io.write( self.dtype.char )
         io.write( "\0\0\0" )
         # Data pass, level order
-        for level in range( self.levels, -1, -1 ):
+        if no_leaves:
+            bottom_level = 0
+        else:
+            bottom_level = -1
+        for level in range( self.levels, bottom_level, -1 ):
             self.root.to_file_data_pass( io, level )
         # Offset pass to fix up indexes
         self.root.to_file_offset_pass( io )
@@ -349,6 +360,7 @@ cdef class ArrayTreeNode:
         Build summary of children. 
         """
         counts = empty( self.tree.block_size, self.tree.dtype )
+        frequencies = empty( self.tree.block_size, self.tree.dtype )
         mins = empty( self.tree.block_size, self.tree.dtype )
         maxs = empty( self.tree.block_size, self.tree.dtype )
         sums = empty( self.tree.block_size, self.tree.dtype )
@@ -358,6 +370,7 @@ cdef class ArrayTreeNode:
                 if self.level == 1:
                     v = self.children[i].values
                     counts[i] = sum( ~isnan( v ) )
+                    frequencies[i] = self.children[i].frequency
                     mins[i] = nanmin( v )
                     maxs[i] = nanmax( v )
                     sums[i] = nansum( v )
@@ -366,18 +379,21 @@ cdef class ArrayTreeNode:
                     c = self.children[i]
                     c.build_summary()
                     counts[i] = sum( c.summary.counts )
+                    frequencies[i] = sum( c.summary.frequencies )
                     mins[i] = nanmin( c.summary.mins )
                     maxs[i] = nanmax( c.summary.maxs )
                     sums[i] = nansum( c.summary.sums )
                     sumsquares[i] = nansum( c.summary.sumsquares )
             else:
                 counts[i] = 0
+                frequencies[i] = 0
                 mins[i] = nan
                 maxs[i] = nan
                 sums[i] = nan
                 sumsquares[i] = nan
         s = Summary()
         s.counts = counts
+        s.frequencies = frequencies
         s.mins = mins
         s.maxs = maxs
         s.sums = sums
@@ -395,6 +411,7 @@ cdef class ArrayTreeNode:
             self.start_offset = io.tell()
             # Write out summary data
             io.write_raw_array( self.summary.counts )
+            io.write_raw_array( self.summary.frequencies )
             io.write_raw_array( self.summary.sums )
             io.write_raw_array( self.summary.mins )
             io.write_raw_array( self.summary.maxs )
@@ -413,8 +430,8 @@ cdef class ArrayTreeNode:
         Second pass of writing to file, seek to appropriate position and write
         offsets of children.
         """
-        # Seek to location of child offfsets (skip over 5 summary arrays)
-        skip_amount = 5 * self.tree.dtype.itemsize * self.block_size
+        # Seek to location of child offfsets (skip over # summary arrays)
+        skip_amount = NUM_SUMMARY_ARRAYS * self.tree.dtype.itemsize * self.block_size
         io.seek( self.start_offset + skip_amount )
         # Write the file offset of each child into the index
         for child in self.children:
@@ -436,6 +453,7 @@ cdef class ArrayTreeNode:
         # Read summary arrays
         s = Summary()
         s.counts = io.read_raw_array( dtype, block_size )
+        s.frequencies = io.read_raw_array( int32, block_size )
         s.sums = io.read_raw_array( dtype, block_size )
         s.mins = io.read_raw_array( dtype, block_size)
         s.maxs = io.read_raw_array( dtype, block_size )
@@ -464,6 +482,7 @@ cdef class ArrayTreeLeaf:
     cdef ArrayTree tree
     cdef int min
     cdef int max
+    cdef public int frequency
     cdef public numpy.ndarray values
     cdef public long start_offset
     
@@ -471,11 +490,13 @@ cdef class ArrayTreeLeaf:
         self.tree = tree
         self.min = min
         self.max = max
+        self.frequency = 0
         self.values = empty( max - min, self.tree.dtype )
         self.values[:] = nan
         self.start_offset = 0
         
     def set( self, index, value ):
+        self.frequency += 1
         self.values[ index - self.min ] = value
         
     def get( self, index ):
