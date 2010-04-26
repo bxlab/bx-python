@@ -80,23 +80,24 @@ def main():
         # Write each intersecting block
         if chop:
             for block in blocks: 
-                ref = block.get_component_by_src( src )
-                slice_start = max( start, ref.get_forward_strand_start() )
-                slice_end = min( end, ref.get_forward_strand_end() )
-                sliced = block.slice_by_component( ref, slice_start, slice_end ) 
-                # If the block is shorter than the minimum allowed size, stop
-                if mincols and ( sliced.text_size < mincols ):
-                    continue
-                # If the reference component is empty, don't write the block
-                if sliced.get_component_by_src( src ).size < 1:
-                    continue
-                # Keep only components that are not empty
-                sliced.components = [ c for c in sliced.components if c.size > 0 ]
-                # Reverse complement if needed
-                if ( strand != None ) and ( ref.strand != strand ): 
-                    sliced = sliced.reverse_complement()
-                # Write the block
-                out.write( sliced )
+                for ref in block.get_components_by_src( src ):
+                    slice_start = max( start, ref.get_forward_strand_start() )
+                    slice_end = min( end, ref.get_forward_strand_end() )
+                    if (slice_end <= slice_start): continue
+                    sliced = block.slice_by_component( ref, slice_start, slice_end ) 
+                    # If the block is shorter than the minimum allowed size, stop
+                    if mincols and ( sliced.text_size < mincols ):
+                        continue
+                    # If the reference component is empty, don't write the block
+                    if sliced.get_component_by_src( src ).size < 1:
+                        continue
+                    # Keep only components that are not empty
+                    sliced.components = [ c for c in sliced.components if c.size > 0 ]
+                    # Reverse complement if needed
+                    if ( strand != None ) and ( ref.strand != strand ): 
+                        sliced = sliced.reverse_complement()
+                    # Write the block
+                    out.write( sliced )
         else:
             for block in blocks:
                 out.write( block )

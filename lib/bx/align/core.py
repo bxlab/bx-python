@@ -87,6 +87,10 @@ class Alignment( object ):
             if c.src == src: return c
         return None
 
+    def get_components_by_src( self, src ):
+        for c in self.components:
+            if c.src == src: yield c
+
     def get_component_by_src_start( self, src ):
         for c in self.components:
             if c.src.startswith( src ): return c
