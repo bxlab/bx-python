@@ -10,6 +10,9 @@ file.
 NOTE: If two intervals overlap the same block it will be written twice. With
       non-overlapping intervals and --chop this is never a problem. 
       
+NOTE: Intervals are origin-zero, half-open.  For example, the interval 100,150
+      is 50 bases long, and there are 100 bases to its left in the sequence.
+      
 NOTE: Intervals are relative to the + strand, regardless of the strands in
       the alignments.
 
