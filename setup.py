@@ -5,7 +5,7 @@ if sys.version_info[0] < 2 or sys.version_info[1] < 4:
     sys.exit()
 
 # Automatically download setuptools if not available
-from ez_setup import use_setuptools
+from distribute_setup import use_setuptools
 use_setuptools()
 
 from setuptools import *
@@ -19,7 +19,7 @@ except:
        
 def main():
     setup(  name = "bx-python",
-            version = "0.5.0",
+            version = "0.6.0",
             py_modules = [ 'psyco_full' ],
             packages = find_packages( 'lib' ),
             package_dir = { '': 'lib' },
