@@ -139,7 +139,7 @@ def bin_for_range( start, end, offsets=None ):
     """Find the smallest bin that can contain interval (start,end)"""
     if offsets is None:
         offsets = BIN_OFFSETS
-    start_bin, end_bin = start, end - 1
+    start_bin, end_bin = start, max(start, end - 1)
     start_bin >>= BIN_FIRST_SHIFT
     end_bin >>= BIN_FIRST_SHIFT
     for offset in offsets:
@@ -148,7 +148,7 @@ def bin_for_range( start, end, offsets=None ):
         else:
             start_bin >>= BIN_NEXT_SHIFT
             end_bin >>= BIN_NEXT_SHIFT
-    raise "Interval (%d,%d) out of range"
+    raise Exceptionn("Interval (%d,%d) out of range")
 
 class AbstractMultiIndexedAccess( object ):
     """

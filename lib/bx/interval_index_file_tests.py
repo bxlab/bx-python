@@ -44,13 +44,7 @@ def test_interval_index_file():
             result = ix.find( name, start, end )
             for inter in result:
                 assert inter in query_intervals
-                
-            
-    
-    
 
-
-
-
-
-
+def test_zero():
+    ix = Indexes()
+    ix.add("t.idx", 0, 0, 1, 123)
