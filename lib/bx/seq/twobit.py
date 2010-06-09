@@ -38,8 +38,8 @@ class TwoBitSequence( object ):
         # Trim start / stop
         if start < 0:
             start = 0
-        if end > seq.size:
-            end = seq.size
+        if end > self.size:
+            end = self.size
         out_size = end - start
         if out_size < 1:
             raise Exception( "end before start (%s,%s)" % ( start,end ) )
