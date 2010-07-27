@@ -17,6 +17,8 @@ preserves all information about the intervals (unlike bitset projection methods)
 #    handle half-open intervals strictly, to maintain sort order, and to
 #    implement the same interface as the original Intersecter.
 
+#cython: cdivision=True
+
 import operator
 
 cdef extern from "stdlib.h":
@@ -174,7 +176,7 @@ cdef class IntervalNode:
 
     find = intersect
         
-    cdef void _intersect( IntervalNode self, int start, int end, list results ):
+    cdef void _intersect( IntervalNode self, int start, int end, list results):
         # Left subtree
         if self.cleft is not EmptyNode and self.cleft.maxend > start:
             self.cleft._intersect( start, end, results )
