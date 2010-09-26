@@ -135,7 +135,7 @@ def get_extension_modules():
 
         # Reading UCSC "big binary index" files
         extensions.append( Extension( "bx.bbi.bpt_file", [ "lib/bx/bbi/bpt_file.pyx" ] ) )
-        extensions.append( Extension( "bx.bbi.cir_tree", [ "lib/bx/bbi/cir_tree.pyx" ] ) )
+        extensions.append( Extension( "bx.bbi.cirtree_file", [ "lib/bx/bbi/cirtree_file.pyx" ] ) )
         extensions.append( Extension( "bx.bbi.bbi_file", [ "lib/bx/bbi/bbi_file.pyx" ] ) )
 
         # CpG masking

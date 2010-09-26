@@ -6,7 +6,7 @@ mirrors Jim Kent's 'bbiRead.c' mostly.
 """
 
 from bpt_file cimport BPTFile
-from cir_tree cimport CIRTreeFile
+from cirtree_file cimport CIRTreeFile
 from types cimport *
 
 from bx.misc.binary_file import BinaryFileReader
