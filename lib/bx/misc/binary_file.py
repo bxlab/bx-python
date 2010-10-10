@@ -33,7 +33,7 @@ class BinaryFileReader( object ):
                 self.is_little_endian = True
             else:
                 raise BadMagicNumber( "File does not have expected magic number: %x != %x or %x" \
-                        % ( magic,struct.unpack( ">I", bytes )[0], struct.unpack( "<I", bytes )[0] ) )
+                        % ( magic, struct.unpack( ">I", bytes )[0], struct.unpack( "<I", bytes )[0] ) )
         # Set endian code
         if self.is_little_endian:
             self.endian_code = "<"
