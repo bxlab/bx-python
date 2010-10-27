@@ -74,6 +74,7 @@ cdef class BBIFile:
         Initialize from an existing bbi file, signature (magic) must be passed
         in since this is generic. 
         """
+        assert expected_sig is not None
         self.file = file
         # Open the file in a BinaryFileReader, handles magic and byteswapping
         self.reader = reader = BinaryFileReader( file, expected_sig )
@@ -113,6 +114,7 @@ cdef class BBIFile:
         bytes = self.chrom_bpt.find( chrom )
         if bytes is not None:
             # The value is two 32 bit uints, use the BPT's reader for checking byteswapping
+            assert len( bytes ) == 8
             chrom_id, chrom_size = self.chrom_bpt.reader.unpack( "II", bytes )
             return chrom_id, chrom_size
         else:

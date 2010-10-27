@@ -3,6 +3,7 @@ from types cimport *
 cdef class CIRTreeFile:
     cdef object file
     cdef object reader
+    cdef boolean is_byteswapped
     cdef bits64 root_offset
     cdef bits32 block_size
     cdef bits64 item_count
