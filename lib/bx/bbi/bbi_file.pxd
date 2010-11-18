@@ -9,11 +9,14 @@ cdef class SummaryBlock:
     """
     A block of summary data from disk
     """
-    cdef bits64 valid_count
-    cdef double min_val
-    cdef double max_val
-    cdef double sum_data
-    cdef double sum_squares
+    cdef public bits32 chrom_id
+    cdef public bits32 start
+    cdef public bits32 end
+    cdef public bits32 valid_count
+    cdef public double min_val
+    cdef public double max_val
+    cdef public double sum_data
+    cdef public double sum_squares
 
 cdef class SummarizedData:
     """
@@ -66,8 +69,10 @@ cdef class BBIFile:
     cdef public object level_list
 
 
-    cpdef _get_chrom_id_and_size( self, char * chrom )
-    cpdef _best_zoom_level( self, int desired_reduction )
+    cdef _get_chrom_id_and_size( self, char * chrom )
+    cdef _best_zoom_level( self, int desired_reduction )
     cpdef summarize( self, char * chrom, bits32 start, bits32 end, int summary_size )
+    cpdef query( self, char * chrom, bits32 start, bits32 end, int summary_size )
     cdef _summarize_from_full( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size )
+    cdef _get_interval_slice( self, bits32 base_start, bits32 base_end, intervals )
 
