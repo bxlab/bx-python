@@ -23,10 +23,6 @@ import zlib, math
 cdef public int big_wig_sig = 0x888FFC26
 cdef public int big_bed_sig = 0x8789F2EB
 
-DEF bwg_bed_graph = 1
-DEF bwg_variable_step = 2
-DEF bwg_fixed_step = 3
-
 # Some record sizes for parsing
 DEF summary_on_disk_size = 32
 
@@ -139,7 +135,12 @@ cdef class BBIFile:
         """
         Return dictionary with keys: mean, max, min, coverage, std_dev
         """
+        if end > 2147483647 or start < 0:
+            raise ValueError
         results = self.summarize(chrom, start, end, summary_size)
+        if not results:
+            return None
+        
         rval = []
         for i in range(summary_size):
             sum_data = results.sum_data[i]
@@ -147,7 +148,7 @@ cdef class BBIFile:
             mean = sum_data / valid_count
             coverage = <double> summary_size / (end - start) * valid_count
             
-            print results.sum_squares[i], sum_data, valid_count
+            # print results.sum_squares[i], sum_data, valid_count
             variance = results.sum_squares[i] - sum_data * sum_data / valid_count
             if valid_count > 1:
                 variance /= valid_count - 1
@@ -184,143 +185,6 @@ cdef class BBIFile:
                 closest_diff = diff
                 closest_level = level
         return closest_level
-        
-    cdef _get_interval_slice( self, bits32 base_start, bits32 base_end, intervals ):
-        cdef float valid_count = 0.0
-        cdef float sum_data = 0.0
-        cdef float sum_squares = 0.0
-        cdef float min_val = 0.0
-        cdef float max_val = 0.0
-        cdef int s, e, overlap
-        cdef float val, overlap_factor
-        
-        if len(intervals) > 0:
-            min_val = intervals[0][2]
-            max_val = intervals[0][2]
-
-            for interval in intervals:
-                s, e, val = interval
-                
-                if s >= base_end:
-                    break
-
-                overlap = range_intersection( base_start, base_end, s, e )
-                if overlap > 0:
-                    interval_size = e - s
-                    overlap_factor = <double> overlap / interval_size
-                    interval_weight = interval_size * overlap_factor
-
-                    valid_count += interval_weight
-                    sum_data += val * interval_weight
-                    sum_squares += val * val * interval_weight
-
-                    if max_val < val:
-                        max_val = val
-                    if min_val > val:
-                        min_val = val
-
-        return round(valid_count), sum_data, sum_squares, min_val, max_val
-
-    cdef _summarize_from_full( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size ):
-        """
-        Create summary from full data.
-        """
-        cdef CIRTreeFile ctf
-        cdef int item_count
-        cdef bits32 b_chrom_id, b_start, b_end, b_valid_count
-        cdef bits32 b_item_step, b_item_span
-        cdef bits16 b_item_count
-        cdef UBYTE b_type
-        cdef bits32 base_start, base_end, end1
-        cdef int s, e
-        cdef float val
-        # Factor to map base positions to array indexes, also size in bases of 
-        # a single summary value
-        cdef float base_to_index_factor = ( end - start ) / <float> summary_size
-        # We locally cdef the arrays so all indexing will be at C speeds
-        cdef numpy.ndarray[numpy.uint64_t] valid_count
-        cdef numpy.ndarray[numpy.float64_t] min_val
-        cdef numpy.ndarray[numpy.float64_t] max_val
-        cdef numpy.ndarray[numpy.float64_t] sum_data
-        cdef numpy.ndarray[numpy.float64_t] sum_squares
-        cdef list intervals = []
-        # What we will load into
-        rval = SummarizedData( summary_size )
-        valid_count = rval.valid_count
-
-        min_val = rval.min_val
-        for i in range(summary_size):
-            min_val[i] = +numpy.inf
-
-        max_val = rval.max_val
-        for i in range(summary_size):
-            max_val[i] = -numpy.inf
-
-        sum_data = rval.sum_data
-        sum_squares = rval.sum_squares
-        # First, load up summaries
-        reader = self.reader
-        reader.seek( self.unzoomed_index_offset )
-        ctf = CIRTreeFile( reader.file )
-        block_list = ctf.find_overlapping_blocks( chrom_id, start, end )
-        for offset, size in block_list:
-            # Seek to and read all data for the block
-            reader.seek( offset )
-            block_data = reader.read( size )
-            # Might need to uncompress
-            if self.uncompress_buf_size > 0:
-                block_data = zlib.decompress( block_data )
-            block_size = len( block_data )
-            # Now we parse the block, first the header
-            block_reader = BinaryFileReader( StringIO( block_data ), is_little_endian=reader.is_little_endian )
-            b_chrom_id = block_reader.read_uint32()
-            b_start = block_reader.read_uint32()
-            b_end = block_reader.read_uint32()
-            b_item_step = block_reader.read_uint32()
-            b_item_span = block_reader.read_uint32()
-            b_type = block_reader.read_uint8()
-            block_reader.skip(1)
-            b_item_count = block_reader.read_uint16()
-            for i from 0 <= i < b_item_count:
-                # Depending on the type, s and e are either read or 
-                # generate using header, val is always read
-                if b_type == bwg_bed_graph: 
-                    s = block_reader.read_uint32()
-                    e = block_reader.read_uint32()
-                    val = block_reader.read_float()
-                elif b_type == bwg_variable_step:
-                    s = block_reader.read_uint32()
-                    e = s + b_item_span
-                    val = block_reader.read_float()
-                elif b_type == bwg_variable_step:
-                    s = b_start + i
-                    e = s + b_item_span
-                    val = block_reader.read_float()
-
-                if s < start: 
-                    s = start
-                if e > end: 
-                    e = end
-                if s >= e: 
-                    continue
-
-                intervals.append([s, e, val])
-
-        base_start = start
-        baseCount = end - start
-
-        for i in range(summary_size):
-            base_end = start + baseCount*(i+1)/summary_size
-            end1 = base_end
-            if (end1 == base_start):
-                end1 = base_start + 1
-
-            intervals = [interval for interval in intervals if interval[1] > base_start]
-            valid_count[i], sum_data[i], sum_squares[i], max_val[i], min_val[i] = self._get_interval_slice(base_start, end1, intervals)
-            base_start = base_end
-
-        return rval 
-
 
 cdef class ZoomLevel:
     cdef BBIFile bbi_file
@@ -375,27 +239,32 @@ cdef class ZoomLevel:
         cdef float valid_count = 0
         cdef float sum_data = 0.0
         cdef float sum_squares = 0.0
-        cdef float min_val = summaries[0].min_val
-        cdef float max_val = summaries[0].max_val
+        cdef float min_val = numpy.nan
+        cdef float max_val = numpy.nan
         cdef float overlap_factor
         cdef int overlap
         
-        for summary in summaries:
-            if summary.start >= base_end:
-                break
+        if summaries:
             
-            overlap = range_intersection( base_start, base_end, summary.start, summary.end )
-            if overlap > 0:
-                overlap_factor = <double> overlap / (summary.end - summary.start)
+            min_val = summaries[0].min_val
+            max_val = summaries[0].max_val
+            
+            for summary in summaries:
+                if summary.start >= base_end:
+                    break
+            
+                overlap = range_intersection( base_start, base_end, summary.start, summary.end )
+                if overlap > 0:
+                    overlap_factor = <double> overlap / (summary.end - summary.start)
                 
-                valid_count += summary.valid_count * overlap_factor
-                sum_data += summary.sum_data * overlap_factor
-                sum_squares += summary.sum_squares * overlap_factor
+                    valid_count += summary.valid_count * overlap_factor
+                    sum_data += summary.sum_data * overlap_factor
+                    sum_squares += summary.sum_squares * overlap_factor
 
-                if max_val < summary.max_val:
-                    max_val = summary.max_val
-                if min_val > summary.min_val:
-                    min_val = summary.min_val
+                    if max_val < summary.max_val:
+                        max_val = summary.max_val
+                    if min_val > summary.min_val:
+                        min_val = summary.min_val
         
         return valid_count, sum_data, sum_squares, min_val, max_val
         
