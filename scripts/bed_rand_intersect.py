@@ -2,7 +2,7 @@
 
 """
 From a set of regions and two sets of intervals inside those regions
-compute (for each region seperately) the overlap between the two sets
+compute (for each region separately) the overlap between the two sets
 of intervals and the overlap in `nsamples` random coverings of the 
 regions with intervals having the same lengths. Prints the z-score relative
 to the mean and sample stdev of the random coverings.
@@ -11,7 +11,7 @@ Currently intervals must be in bed 3+ format.
 
 TODO: There are a few versions of this floating around, including a 
       better/faster one using gap lists instead of bitsets. Need to track 
-      that down and merge as neccesary.
+      that down and merge as necessary.
 
 usage: %prog bounding_region_file intervals1 intervals2 nsamples
 """
@@ -23,7 +23,7 @@ import bisect
 from bx_extras import stats
 from Numeric import *
 from bx.bitset import *
-from bx.intervals.random import *
+from bx.intervals.random_intervals import *
 
 maxtries = 10
 
