@@ -157,7 +157,7 @@ cdef class BigWigFile( BBIFile ):
                 end1 = base_start + 1
 
             intervals = [interval for interval in intervals if interval[1] > base_start]
-            valid_count[i], sum_data[i], sum_squares[i], max_val[i], min_val[i] = self._get_interval_slice(base_start, end1, intervals)
+            valid_count[i], sum_data[i], sum_squares[i], min_val[i], max_val[i] = self._get_interval_slice(base_start, end1, intervals)
             base_start = base_end
 
         return rval

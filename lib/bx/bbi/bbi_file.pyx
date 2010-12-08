@@ -171,7 +171,13 @@ cdef class BBIFile:
             return chrom_id, chrom_size
         else:
             return None, None
-
+    
+    cdef _summarize_from_full( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size ):
+        """
+        Create summary from full data. This is data specific so must be overridden.
+        """
+        pass
+        
     cdef _best_zoom_level( self, int desired_reduction ):
         if desired_reduction <= 1:
             return None
@@ -313,7 +319,7 @@ cdef class ZoomLevel:
             base_end = start + baseCount*(i+1)/summary_size
             
             summaries = [summary for summary in summaries if summary.end > base_start]
-            valid_count[i], sum_data[i], sum_squares[i], max_val[i], min_val[i] = self._get_summary_slice(base_start, base_end, summaries)
+            valid_count[i], sum_data[i], sum_squares[i], min_val[i], max_val[i] = self._get_summary_slice(base_start, base_end, summaries)
             base_start = base_end
         
         return rval

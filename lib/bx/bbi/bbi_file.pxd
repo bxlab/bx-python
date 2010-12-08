@@ -73,6 +73,6 @@ cdef class BBIFile:
     cdef _best_zoom_level( self, int desired_reduction )
     cpdef summarize( self, char * chrom, bits32 start, bits32 end, int summary_size )
     cpdef query( self, char * chrom, bits32 start, bits32 end, int summary_size )
-    # cdef _summarize_from_full( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size )
-    # cdef _get_interval_slice( self, bits32 base_start, bits32 base_end, intervals )
+    cdef _summarize_from_full( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size )    
+
 
