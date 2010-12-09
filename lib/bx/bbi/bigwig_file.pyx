@@ -68,23 +68,21 @@ cdef class BigWigFile( BBIFile ):
         Create summary from full data.
         """
         cdef CIRTreeFile ctf
-        cdef int item_count
         cdef bits32 b_chrom_id, b_start, b_end, b_valid_count
         cdef bits32 b_item_step, b_item_span
         cdef bits16 b_item_count
         cdef UBYTE b_type
-        cdef bits32 base_start, base_end, end1
+        cdef bits32 base_start, base_end, base_step, end1
         cdef int s, e
         cdef float val
-        # Factor to map base positions to array indexes, also size in bases of 
-        # a single summary value
-        cdef float base_to_index_factor = ( end - start ) / <float> summary_size
+
         # We locally cdef the arrays so all indexing will be at C speeds
         cdef numpy.ndarray[numpy.uint64_t] valid_count
         cdef numpy.ndarray[numpy.float64_t] min_val
         cdef numpy.ndarray[numpy.float64_t] max_val
         cdef numpy.ndarray[numpy.float64_t] sum_data
         cdef numpy.ndarray[numpy.float64_t] sum_squares
+
         intervals = deque()
         # What we will load into
         rval = SummarizedData( summary_size )
@@ -148,11 +146,12 @@ cdef class BigWigFile( BBIFile ):
 
                 intervals.append([s, e, val])
 
+        base_step = (end - start) / summary_size
         base_start = start
-        baseCount = end - start
+        base_end = start
 
         for i in range(summary_size):
-            base_end = start + baseCount*(i+1)/summary_size
+            base_end += base_step
             end1 = base_end
             if (end1 == base_start):
                 end1 = base_start + 1

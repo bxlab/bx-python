@@ -285,22 +285,15 @@ cdef class ZoomLevel:
           - bbiSummarySlice is then used to aggregate over the subset of those 
             summaries that overlap a single summary element
         """
-        cdef CIRTreeFile ctf
-        cdef bits32 b_chrom_id, b_start, b_end, b_valid_count
-        cdef bits32 s_start, s_end, s_valid_count
-        cdef bits32 p_start, p_end
-        cdef float b_min_val, b_max_val, b_sum_data, b_sum_squares
-        # Factor to map base positions to array indexes, also size in bases of 
-        # a single summary value
-        cdef float base_to_index_factor = ( end - start ) / <float> summary_size
-        cdef int overlap
-        cdef double overlap_factor
+        cdef bits32 base_start, base_end, base_step
+        
         # We locally cdef the arrays so all indexing will be at C speeds
         cdef numpy.ndarray[numpy.uint64_t] valid_count
         cdef numpy.ndarray[numpy.float64_t] min_val
         cdef numpy.ndarray[numpy.float64_t] max_val
         cdef numpy.ndarray[numpy.float64_t] sum_data
         cdef numpy.ndarray[numpy.float64_t] sum_squares
+        
         # What we will load into
         rval = SummarizedData( summary_size )
         valid_count = rval.valid_count
@@ -313,12 +306,12 @@ cdef class ZoomLevel:
         reader.seek( self.index_offset )
         summaries = self._summary_blocks_in_region(chrom_id, start, end)
         
+        base_step = (end - start) / summary_size
         base_start = start
-        baseCount = end - start
+        base_end = start
         
         for i in range(summary_size):
-            print i
-            base_end = start + baseCount*(i+1)/summary_size
+            base_end += base_step
             
             while summaries and summaries[0].end <= base_start:
                 summaries.popleft()
