@@ -2,6 +2,7 @@
 BigWig file.
 """
 
+from collections import deque
 from bbi_file cimport *
 from cirtree_file cimport CIRTreeFile
 import numpy
@@ -84,7 +85,7 @@ cdef class BigWigFile( BBIFile ):
         cdef numpy.ndarray[numpy.float64_t] max_val
         cdef numpy.ndarray[numpy.float64_t] sum_data
         cdef numpy.ndarray[numpy.float64_t] sum_squares
-        cdef list intervals = []
+        intervals = deque()
         # What we will load into
         rval = SummarizedData( summary_size )
         valid_count = rval.valid_count
@@ -155,8 +156,10 @@ cdef class BigWigFile( BBIFile ):
             end1 = base_end
             if (end1 == base_start):
                 end1 = base_start + 1
-
-            intervals = [interval for interval in intervals if interval[1] > base_start]
+            
+            while intervals and intervals[0][1] <= base_start:
+                intervals.popleft()
+            
             valid_count[i], sum_data[i], sum_squares[i], min_val[i], max_val[i] = self._get_interval_slice(base_start, end1, intervals)
             base_start = base_end
 

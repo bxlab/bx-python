@@ -5,6 +5,7 @@ There isn't really any specification for the format beyond the code, so this
 mirrors Jim Kent's 'bbiRead.c' mostly. 
 """
 
+from collections import deque
 from bpt_file cimport BPTFile
 from cirtree_file cimport CIRTreeFile
 from types cimport *
@@ -206,7 +207,7 @@ cdef class ZoomLevel:
         `chrom_id`:`start`-`end`
         """
         cdef CIRTreeFile ctf
-        rval = []
+        rval = deque()
         reader = self.bbi_file.reader
         reader.seek( self.index_offset )
         ctf = CIRTreeFile( reader.file )
@@ -316,9 +317,12 @@ cdef class ZoomLevel:
         baseCount = end - start
         
         for i in range(summary_size):
+            print i
             base_end = start + baseCount*(i+1)/summary_size
             
-            summaries = [summary for summary in summaries if summary.end > base_start]
+            while summaries and summaries[0].end <= base_start:
+                summaries.popleft()
+                
             valid_count[i], sum_data[i], sum_squares[i], min_val[i], max_val[i] = self._get_summary_slice(base_start, base_end, summaries)
             base_start = base_end
         
