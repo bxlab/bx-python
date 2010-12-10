@@ -53,7 +53,7 @@ cdef class SummarizedData:
     """
     def __init__( self, int size ):
         self.size = size
-        self.valid_count = numpy.zeros( self.size, dtype=numpy.uint64 )
+        self.valid_count = numpy.zeros( self.size, dtype=numpy.float64 )
         self.min_val = numpy.zeros( self.size, dtype=numpy.float64 )
         self.max_val = numpy.zeros( self.size, dtype=numpy.float64 )
         self.sum_data = numpy.zeros( self.size, dtype=numpy.float64 )
@@ -243,7 +243,7 @@ cdef class ZoomLevel:
         return rval
     
     cdef _get_summary_slice( self, bits32 base_start, bits32 base_end, summaries ):
-        cdef float valid_count = 0
+        cdef float valid_count = 0.0
         cdef float sum_data = 0.0
         cdef float sum_squares = 0.0
         cdef float min_val = numpy.nan
@@ -288,7 +288,7 @@ cdef class ZoomLevel:
         cdef bits32 base_start, base_end, base_step
         
         # We locally cdef the arrays so all indexing will be at C speeds
-        cdef numpy.ndarray[numpy.uint64_t] valid_count
+        cdef numpy.ndarray[numpy.float64_t] valid_count
         cdef numpy.ndarray[numpy.float64_t] min_val
         cdef numpy.ndarray[numpy.float64_t] max_val
         cdef numpy.ndarray[numpy.float64_t] sum_data

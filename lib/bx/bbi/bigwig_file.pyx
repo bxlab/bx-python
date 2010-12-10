@@ -77,7 +77,7 @@ cdef class BigWigFile( BBIFile ):
         cdef float val
 
         # We locally cdef the arrays so all indexing will be at C speeds
-        cdef numpy.ndarray[numpy.uint64_t] valid_count
+        cdef numpy.ndarray[numpy.float64_t] valid_count
         cdef numpy.ndarray[numpy.float64_t] min_val
         cdef numpy.ndarray[numpy.float64_t] max_val
         cdef numpy.ndarray[numpy.float64_t] sum_data

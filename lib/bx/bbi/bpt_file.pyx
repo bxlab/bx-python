@@ -67,10 +67,10 @@ cdef class BPTFile:
         value as a bytestring if found, or None
         """
         # Key is greater than key_size, must not be a match
-        if len( key ) > self.key_size:
+        if len(key) > self.key_size:
             return None
         # Key is less than key_size, right pad with 0 bytes
-        if len( key ) < self.key_size:
-            key += ( '\0' * self.key_size - len( key ) )
+        if len(key) < self.key_size:
+            key += ( '\0' * ( self.key_size - len(key) ) )
         # Call the recursive finder
         return self.r_find( self.root_offset, key )
