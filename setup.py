@@ -19,7 +19,7 @@ except:
        
 def main():
     setup(  name = "bx-python",
-            version = "0.6.0",
+            version = "0.7.0",
             py_modules = [ 'psyco_full' ],
             packages = find_packages( 'lib' ),
             package_dir = { '': 'lib' },
@@ -28,10 +28,10 @@ def main():
             ext_modules = get_extension_modules(),
             test_suite = 'nose.collector',
             setup_requires = ['nose>=0.10.4'],
-            author = "James Taylor, Bob Harris, David King, Brent Pedersen, and others",
+            author = "James Taylor, Bob Harris, David King, Brent Pedersen, Kanwei Li, and others",
             author_email = "james@jamestaylor.org",
             description = "Tools for manipulating biological data, particularly multiple sequence alignments",
-            url = "http://bx-python.trac.bx.psu.edu",
+            url = "http://bitbucket.org/james_taylor/bx-python/wiki/Home",
             zip_safe = False,
             dependency_links = [],
             cmdclass=command_classes )
