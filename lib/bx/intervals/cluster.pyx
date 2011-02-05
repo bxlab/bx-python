@@ -51,6 +51,7 @@ cdef extern from "cluster.h":
     clusternode* clusternode_insert(clustertree *tree, clusternode *node, int start, int end, int id)
     clustertree* create_clustertree(int max_dist, int min_intervals)
     treeitr* clusteritr(clustertree *tree)
+    void freeclusteritr(treeitr *itr)
     void free_tree(clustertree *tree)
 
 cdef class ClusterTree:
@@ -94,6 +95,7 @@ cdef class ClusterTree:
 
             regions.append( (itr.node.start, itr.node.end, sorted(ids)) )
             itr = itr.next
+        freeclusteritr(itr)
         return regions
         
     def getlines(self):
@@ -115,5 +117,6 @@ cdef class ClusterTree:
             
             lines.extend(sorted(ids))
             itr = itr.next
+        freeclusteritr(itr)
         return lines
         

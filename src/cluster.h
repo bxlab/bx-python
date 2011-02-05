@@ -35,4 +35,5 @@ typedef struct struct_treeitr {
 clusternode* clusternode_insert(clustertree *tree, clusternode *node, int start, int end, int id);
 clustertree* create_clustertree(int max_dist, int min_intervals);
 treeitr* clusteritr(clustertree *tree);
+void freeclusteritr(treeitr *itr);
 void free_tree(clustertree *tree);
