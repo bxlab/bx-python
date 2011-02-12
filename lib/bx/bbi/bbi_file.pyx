@@ -132,6 +132,20 @@ cdef class BBIFile:
         else:
             return self._summarize_from_full( chrom_id, start, end, summary_size )
 
+    cpdef summarize_from_full( self, char * chrom, bits32 start, bits32 end, int summary_size ):
+        """
+        Gets `summary_size` data points over the regions `chrom`:`start`-`end`, 
+        always using the raw data points
+        """
+        if start >= end:
+            return None
+        chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
+        if chrom_id is None:
+            return None
+        # Return value will be a structured array (rather than an array
+        # of summary element structures
+        return self._summarize_from_full( chrom_id, start, end, summary_size )
+
     cpdef query( self, char * chrom, bits32 start, bits32 end, int summary_size ):
         """
         Return dictionary with keys: mean, max, min, coverage, std_dev

@@ -132,8 +132,8 @@ cdef class BigWigFile( BBIFile ):
                     s = block_reader.read_uint32()
                     e = s + b_item_span
                     val = block_reader.read_float()
-                elif b_type == bwg_variable_step:
-                    s = b_start + i
+                elif b_type == bwg_fixed_step:
+                    s = b_start + ( i * b_item_span )
                     e = s + b_item_span
                     val = block_reader.read_float()
 
