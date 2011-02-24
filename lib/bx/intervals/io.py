@@ -37,7 +37,7 @@ class GenomicInterval( TableRow ):
         # Parse chrom/source column
         if chrom_col >= nfields:
             raise MissingFieldError( "No field for chrom_col (%d)" % chrom_col )
-        self.chrom = fields[chrom_col]
+        self.chrom = fields[chrom_col].strip()
         # Parse start column and ensure it is an integer
         if start_col >= nfields:
             raise MissingFieldError( "No field for start_col (%d)" % start_col )
