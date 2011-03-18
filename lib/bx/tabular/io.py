@@ -6,6 +6,8 @@ import sys
 from itertools import *
 from UserDict import DictMixin
 
+FIRST_LINE_IS_HEADER = object()
+
 class ParseError( Exception ):
     def __init__( self, *args, **kwargs ):
         Exception.__init__( self, *args )
@@ -91,6 +93,13 @@ class TableReader( object ):
         if line == '':
             if self.return_comments:
                 return Comment( line )
+            else:
+                return self.next()
+        # Force header?
+        if self.header is FIRST_LINE_IS_HEADER and self.linenum == 1:
+            self.header = self.parse_header( line )
+            if self.return_header:
+                return self.header
             else:
                 return self.next()
         # Is it a comment line?
