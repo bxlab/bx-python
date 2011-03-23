@@ -10,7 +10,7 @@ cimport numpy
 from types cimport *
 from bx.misc.binary_file import BinaryFileReader
 from cStringIO import StringIO
-import zlib, math
+import zlib
 
 DEF big_wig_sig = 0x888FFC26
 DEF bwg_bed_graph = 1
@@ -20,146 +20,91 @@ DEF bwg_fixed_step = 3
 cdef inline int range_intersection( int start1, int end1, int start2, int end2 ):
     return min( end1, end2 ) - max( start1, start2 )
 
+cdef class BigWigBlockHandler( BlockHandler ):
+    """
+    BlockHandler that parses the block into a series of wiggle records, and calls `handle_interval_value` for each.
+    """
+    cdef handle_block( self, str block_data, BBIFile bbi_file ):
+        cdef bits32 b_chrom_id, b_start, b_end, b_valid_count
+        cdef bits32 b_item_step, b_item_span
+        cdef bits16 b_item_count
+        cdef UBYTE b_type
+        cdef int s, e
+        cdef float val
+        # Now we parse the block, first the header
+        block_reader = BinaryFileReader( StringIO( block_data ), is_little_endian=bbi_file.reader.is_little_endian )
+        b_chrom_id = block_reader.read_uint32()
+        b_start = block_reader.read_uint32()
+        b_end = block_reader.read_uint32()
+        b_item_step = block_reader.read_uint32()
+        b_item_span = block_reader.read_uint32()
+        b_type = block_reader.read_uint8()
+        block_reader.skip(1)
+        b_item_count = block_reader.read_uint16()
+        for i from 0 <= i < b_item_count:
+            # Depending on the type, s and e are either read or 
+            # generate using header, val is always read
+            if b_type == bwg_bed_graph: 
+                s = block_reader.read_uint32()
+                e = block_reader.read_uint32()
+                val = block_reader.read_float()
+            elif b_type == bwg_variable_step:
+                s = block_reader.read_uint32()
+                e = s + b_item_span
+                val = block_reader.read_float()
+            elif b_type == bwg_fixed_step:
+                s = b_start + ( i * b_item_span )
+                e = s + b_item_span
+                val = block_reader.read_float()
+            self.handle_interval_value( s, e, val )
+
+    cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
+        pass
+
+cdef class SummarizingBigWigBlockHandler( BigWigBlockHandler ):
+    """
+    Accumulates intervals into a SummarizedData
+    """
+    cdef SummarizedData sd
+    def __init__( self, bits32 start, bits32 end, int summary_size ):
+        BlockHandler.__init__( self )
+        # What we will load into
+        self.sd = SummarizedData( start, end, summary_size )
+        for i in range(summary_size):
+            self.sd.min_val[i] = +numpy.inf
+        for i in range(summary_size):
+            self.sd.max_val[i] = -numpy.inf
+
+    cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
+         self.sd.accumulate_interval_value( s, e, val )
+
 cdef class BigWigFile( BBIFile ): 
     """
     A "big binary indexed" file whose raw data is in wiggle format.
     """
     def __init__( self, file=None ):
         BBIFile.__init__( self, file, big_wig_sig, "bigwig" )
-    
-    cdef _get_interval_slice( self, bits32 base_start, bits32 base_end, intervals ):
-        cdef float valid_count = 0.0
-        cdef float sum_data = 0.0
-        cdef float sum_squares = 0.0
-        cdef float min_val = 0.0
-        cdef float max_val = 0.0
-        cdef int s, e, overlap
-        cdef float val, overlap_factor
-
-        if len(intervals) > 0:
-            min_val = intervals[0][2]
-            max_val = intervals[0][2]
-
-            for interval in intervals:
-                s, e, val = interval
-
-                if s >= base_end:
-                    break
-
-                overlap = range_intersection( base_start, base_end, s, e )
-                if overlap > 0:
-                    interval_size = e - s
-                    overlap_factor = <double> overlap / interval_size
-                    interval_weight = interval_size * overlap_factor
-
-                    valid_count += interval_weight
-                    sum_data += val * interval_weight
-                    sum_squares += val * val * interval_weight
-
-                    if max_val < val:
-                        max_val = val
-                    if min_val > val:
-                        min_val = val
-
-        return round(valid_count), sum_data, sum_squares, min_val, max_val
 
     cdef _summarize_from_full( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size ):
         """
         Create summary from full data.
         """
-        cdef CIRTreeFile ctf
-        cdef bits32 b_chrom_id, b_start, b_end, b_valid_count
-        cdef bits32 b_item_step, b_item_span
-        cdef bits16 b_item_count
-        cdef UBYTE b_type
-        cdef bits32 base_start, base_end, base_step, end1
-        cdef int s, e
-        cdef float val
+        self.reader.seek( self.unzoomed_index_offset )
+        v = SummarizingBigWigBlockHandler( start, end, summary_size )
+        self.visit_blocks_in_region( chrom_id, start, end, v )
+        # Round valid count, in place
+        for i from 0 <= i < summary_size:
+            v.sd.valid_count[i] = round( v.sd.valid_count[i] )
+        return v.sd
+        
+    cpdef get( self, char * chrom, bits32 start, bits32 end ):
+        """
+        Gets all data points over the regions `chrom`:`start`-`end`.
+        """
+        if start >= end:
+            return None
+        chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
+        if chrom_id is None:
+            return None
 
-        # We locally cdef the arrays so all indexing will be at C speeds
-        cdef numpy.ndarray[numpy.float64_t] valid_count
-        cdef numpy.ndarray[numpy.float64_t] min_val
-        cdef numpy.ndarray[numpy.float64_t] max_val
-        cdef numpy.ndarray[numpy.float64_t] sum_data
-        cdef numpy.ndarray[numpy.float64_t] sum_squares
 
-        intervals = deque()
-        # What we will load into
-        rval = SummarizedData( summary_size )
-        valid_count = rval.valid_count
-
-        min_val = rval.min_val
-        for i in range(summary_size):
-            min_val[i] = +numpy.inf
-
-        max_val = rval.max_val
-        for i in range(summary_size):
-            max_val[i] = -numpy.inf
-
-        sum_data = rval.sum_data
-        sum_squares = rval.sum_squares
-        # First, load up summaries
-        reader = self.reader
-        reader.seek( self.unzoomed_index_offset )
-        ctf = CIRTreeFile( reader.file )
-        block_list = ctf.find_overlapping_blocks( chrom_id, start, end )
-        for offset, size in block_list:
-            # Seek to and read all data for the block
-            reader.seek( offset )
-            block_data = reader.read( size )
-            # Might need to uncompress
-            if self.uncompress_buf_size > 0:
-                block_data = zlib.decompress( block_data )
-            block_size = len( block_data )
-            # Now we parse the block, first the header
-            block_reader = BinaryFileReader( StringIO( block_data ), is_little_endian=reader.is_little_endian )
-            b_chrom_id = block_reader.read_uint32()
-            b_start = block_reader.read_uint32()
-            b_end = block_reader.read_uint32()
-            b_item_step = block_reader.read_uint32()
-            b_item_span = block_reader.read_uint32()
-            b_type = block_reader.read_uint8()
-            block_reader.skip(1)
-            b_item_count = block_reader.read_uint16()
-            for i from 0 <= i < b_item_count:
-                # Depending on the type, s and e are either read or 
-                # generate using header, val is always read
-                if b_type == bwg_bed_graph: 
-                    s = block_reader.read_uint32()
-                    e = block_reader.read_uint32()
-                    val = block_reader.read_float()
-                elif b_type == bwg_variable_step:
-                    s = block_reader.read_uint32()
-                    e = s + b_item_span
-                    val = block_reader.read_float()
-                elif b_type == bwg_fixed_step:
-                    s = b_start + ( i * b_item_span )
-                    e = s + b_item_span
-                    val = block_reader.read_float()
-
-                if s < start: 
-                    s = start
-                if e > end: 
-                    e = end
-                if s >= e: 
-                    continue
-
-                intervals.append([s, e, val])
-
-        base_step = (end - start) / summary_size
-        base_start = start
-        base_end = start
-
-        for i in range(summary_size):
-            base_end += base_step
-            end1 = base_end
-            if (end1 == base_start):
-                end1 = base_start + 1
-            
-            while intervals and intervals[0][1] <= base_start:
-                intervals.popleft()
-            
-            valid_count[i], sum_data[i], sum_squares[i], min_val[i], max_val[i] = self._get_interval_slice(base_start, end1, intervals)
-            base_start = base_end
-
-        return rval

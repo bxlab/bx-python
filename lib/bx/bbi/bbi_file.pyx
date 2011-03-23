@@ -51,13 +51,46 @@ cdef class SummarizedData:
     The result of using SummaryBlocks read from the file to produce a 
     aggregation over a particular range and resolution
     """
-    def __init__( self, int size ):
+    def __init__( self, bits32 start, bits32 end, int size ):
+        self.start = start
+        self.end = end
         self.size = size
         self.valid_count = numpy.zeros( self.size, dtype=numpy.float64 )
         self.min_val = numpy.zeros( self.size, dtype=numpy.float64 )
         self.max_val = numpy.zeros( self.size, dtype=numpy.float64 )
         self.sum_data = numpy.zeros( self.size, dtype=numpy.float64 )
         self.sum_squares = numpy.zeros( self.size, dtype=numpy.float64 )
+    def accumulate_interval_value( self, bits32 s, bits32 e, float val ):
+        # Trim interval down to region of interest
+        if s < self.start: 
+            s = self.start
+        if e > self.end: 
+            e = self.end
+        if s >= e: 
+            return
+        base_step = ( self.end - self.start ) / self.size
+        for j from 0 <= j < self.size:
+            base_start = self.start + ( base_step * j )
+            base_end = base_start + base_step
+            overlap = range_intersection( base_start, base_end, s, e )
+            if overlap > 0:
+                interval_size = e - s
+                overlap_factor = <double> overlap / interval_size
+                interval_weight = interval_size * overlap_factor
+                self.valid_count[j] += interval_weight
+                self.sum_data[j] += val * interval_weight
+                self.sum_squares[j] += val * val * interval_weight
+                if self.max_val[j] < val:
+                    self.max_val[j] = val
+                if self.min_val[j] > val:
+                    self.min_val[j] = val 
+
+cdef class BlockHandler:
+    """
+    Callback for `BBIFile.visit_blocks_in_region`
+    """
+    cdef handle_block( self, str block_data, BBIFile bbi_file ):
+        pass
 
 cdef class BBIFile:
     """
@@ -107,6 +140,23 @@ cdef class BBIFile:
         # Initialize and attach embedded BPTFile containing chromosome names and ids
         reader.seek( self.chrom_tree_offset )
         self.chrom_bpt = BPTFile( file=self.file )
+
+    cdef visit_blocks_in_region( self, bits32 chrom_id, bits32 start, bits32 end, BlockHandler handler ):
+        """
+        Visit each block from the full data that overlaps a specific region
+        """
+        cdef CIRTreeFile ctf
+        reader = self.reader
+        ctf = CIRTreeFile( reader.file )
+        block_list = ctf.find_overlapping_blocks( chrom_id, start, end )
+        for offset, size in block_list:
+            # Seek to and read all data for the block
+            reader.seek( offset )
+            block_data = reader.read( size )
+            # Might need to uncompress
+            if self.uncompress_buf_size > 0:
+                block_data = zlib.decompress( block_data )
+            handler.handle_block( block_data, self )
         
     cpdef summarize( self, char * chrom, bits32 start, bits32 end, int summary_size ):
         """
@@ -148,7 +198,8 @@ cdef class BBIFile:
 
     cpdef query( self, char * chrom, bits32 start, bits32 end, int summary_size ):
         """
-        Return dictionary with keys: mean, max, min, coverage, std_dev
+        Provides a different view of summary for region, a list of dictionaries
+        with keys: mean, max, min, coverage, std_dev
         """
         if end > 2147483647 or start < 0:
             raise ValueError
@@ -309,7 +360,7 @@ cdef class ZoomLevel:
         cdef numpy.ndarray[numpy.float64_t] sum_squares
         
         # What we will load into
-        rval = SummarizedData( summary_size )
+        rval = SummarizedData( start, end, summary_size )
         valid_count = rval.valid_count
         min_val = rval.min_val
         max_val = rval.max_val
