@@ -147,6 +147,7 @@ cdef class BBIFile:
         """
         cdef CIRTreeFile ctf
         reader = self.reader
+        reader.seek( self.unzoomed_index_offset )
         ctf = CIRTreeFile( reader.file )
         block_list = ctf.find_overlapping_blocks( chrom_id, start, end )
         for offset, size in block_list:

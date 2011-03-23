@@ -24,6 +24,12 @@ cdef class BigWigBlockHandler( BlockHandler ):
     """
     BlockHandler that parses the block into a series of wiggle records, and calls `handle_interval_value` for each.
     """
+    cdef bits32 start
+    cdef bits32 end
+    def __init__( self, bits32 start, bits32 end ):
+        BlockHandler.__init__( self )
+        self.start = start
+        self.end = end
     cdef handle_block( self, str block_data, BBIFile bbi_file ):
         cdef bits32 b_chrom_id, b_start, b_end, b_valid_count
         cdef bits32 b_item_step, b_item_span
@@ -56,18 +62,24 @@ cdef class BigWigBlockHandler( BlockHandler ):
                 s = b_start + ( i * b_item_span )
                 e = s + b_item_span
                 val = block_reader.read_float()
+            if s < self.start: 
+                s = self.start
+            if e > self.end: 
+                e = self.end
+            if s >= e: 
+                continue
             self.handle_interval_value( s, e, val )
 
     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
         pass
 
-cdef class SummarizingBigWigBlockHandler( BigWigBlockHandler ):
+cdef class SummarizingBlockHandler( BigWigBlockHandler ):
     """
     Accumulates intervals into a SummarizedData
     """
     cdef SummarizedData sd
     def __init__( self, bits32 start, bits32 end, int summary_size ):
-        BlockHandler.__init__( self )
+        BigWigBlockHandler.__init__( self, start, end )
         # What we will load into
         self.sd = SummarizedData( start, end, summary_size )
         for i in range(summary_size):
@@ -76,7 +88,31 @@ cdef class SummarizingBigWigBlockHandler( BigWigBlockHandler ):
             self.sd.max_val[i] = -numpy.inf
 
     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
-         self.sd.accumulate_interval_value( s, e, val )
+        self.sd.accumulate_interval_value( s, e, val )
+
+cdef class IntervalAccumulatingBlockHandler( BigWigBlockHandler ):
+    cdef list intervals
+    """
+    Accumulates intervals into a list of intervals with values
+    """
+    def __init__( self, bits32 start, bits32 end ):
+        BigWigBlockHandler.__init__( self, start, end )
+        self.intervals = []
+
+    cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
+        self.intervals.append( ( s, e, val ) )
+
+cdef class ArrayAccumulatingBlockHandler( BigWigBlockHandler ):
+    """
+    Accumulates intervals into a list of intervals with values
+    """
+    cdef numpy.ndarray array
+    def __init__( self, bits32 start, bits32 end, numpy.ndarray array ):
+        BigWigBlockHandler.__init__( self, start, end )
+        self.array = array
+
+    cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
+        self.array[ s-self.start : e-self.start ] = val
 
 cdef class BigWigFile( BBIFile ): 
     """
@@ -89,8 +125,7 @@ cdef class BigWigFile( BBIFile ):
         """
         Create summary from full data.
         """
-        self.reader.seek( self.unzoomed_index_offset )
-        v = SummarizingBigWigBlockHandler( start, end, summary_size )
+        v = SummarizingBlockHandler( start, end, summary_size )
         self.visit_blocks_in_region( chrom_id, start, end, v )
         # Round valid count, in place
         for i from 0 <= i < summary_size:
@@ -106,5 +141,28 @@ cdef class BigWigFile( BBIFile ):
         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
         if chrom_id is None:
             return None
+        v = IntervalAccumulatingBlockHandler( start, end )
+        self.visit_blocks_in_region( chrom_id, start, end, v )
+        return v.intervals
+
+    cpdef get_as_array( self, char * chrom, bits32 start, bits32 end ):
+        """
+        Gets all data points over the regions `chrom`:`start`-`end`.
+        """
+        if start >= end:
+            return None
+        chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
+        if chrom_id is None:
+            return None
+        a = numpy.zeros( end - start )
+        a[...] = numpy.nan
+        v = ArrayAccumulatingBlockHandler( start, end, a )
+        self.visit_blocks_in_region( chrom_id, start, end, v )
+        return a
+
+
+
+
+
 
 
