@@ -107,12 +107,17 @@ cdef class ArrayAccumulatingBlockHandler( BigWigBlockHandler ):
     Accumulates intervals into a list of intervals with values
     """
     cdef numpy.ndarray array
-    def __init__( self, bits32 start, bits32 end, numpy.ndarray array ):
+    def __init__( self, bits32 start, bits32 end ):
         BigWigBlockHandler.__init__( self, start, end )
-        self.array = array
+        self.array = numpy.zeros( end - start, dtype=numpy.float32 )
+        self.array[...] = numpy.nan
 
     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
-        self.array[ s-self.start : e-self.start ] = val
+        cdef numpy.ndarray[ numpy.float32_t, ndim=1 ] array = self.array
+        cdef int i
+        # Slicing is not optimized by Cython
+        for i from s - self.start <= i < e - self.start:
+            array[ i ] = val
 
 cdef class BigWigFile( BBIFile ): 
     """
@@ -154,11 +159,9 @@ cdef class BigWigFile( BBIFile ):
         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
         if chrom_id is None:
             return None
-        a = numpy.zeros( end - start )
-        a[...] = numpy.nan
-        v = ArrayAccumulatingBlockHandler( start, end, a )
+        v = ArrayAccumulatingBlockHandler( start, end )
         self.visit_blocks_in_region( chrom_id, start, end, v )
-        return a
+        return v.array
 
 
 
