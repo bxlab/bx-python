@@ -18,6 +18,3 @@ bx_python.egg-info
 
 # windows shortcuts
 *.lnk
-
-# nose egg
-nose*.egg
