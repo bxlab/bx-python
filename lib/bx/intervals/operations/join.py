@@ -22,14 +22,14 @@ def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
     leftlen = 0
     rightTree = IntervalTree()
     for item in rightSet:
-        if type( item ) is GenomicInterval:
+        if isinstance(item, GenomicInterval):
             rightTree.insert( item, rightSet.linenum, item.fields )
             if rightlen == 0: rightlen = item.nfields
 
     for interval in leftSet:
-        if leftlen == 0 and type( interval ) is GenomicInterval:
+        if leftlen == 0 and isinstance(interval, GenomicInterval):
             leftlen = interval.nfields
-        if not (type( interval ) is GenomicInterval):
+        if not isinstance(interval, GenomicInterval):
             yield interval
         else:
             result = []
@@ -72,7 +72,7 @@ def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
 def interval_cmp(a, b):
     interval1 = a[0]
     interval2 = b[0]
-    if not (type( interval1 ) is GenomicInterval and type( interval2 ) is GenomicInterval):
+    if not (isinstance(interval1, GenomicInterval) and isinstance(interval2, GenomicInterval)):
         return 0
     # Both are intervals
     if interval1.chrom == interval2.chrom:

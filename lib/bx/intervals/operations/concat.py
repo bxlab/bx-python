@@ -29,7 +29,7 @@ def concat(readers, comments=True, header=True, sameformat=True):
     output = False
     for intervals in readers:
         for interval in intervals:
-            if type( interval ) is GenomicInterval:
+            if isinstance(interval, GenomicInterval):
                 if not nfields: nfields = interval.nfields
                 out_interval = interval.copy()
                 if sameformat or firstdataset:
@@ -54,8 +54,8 @@ def concat(readers, comments=True, header=True, sameformat=True):
                     if strand_col < len( out_interval.fields ):
                         out_interval.fields[strand_col] = strand
                     yield out_interval
-            elif type( interval ) is Header and header:
+            elif isinstance(interval, Header) and header:
                 yield interval
-            elif type( interval ) is Comment and comments:
+            elif isinstance(interval, Comment) and comments:
                 yield interval
         if output and firstdataset: firstdataset = False

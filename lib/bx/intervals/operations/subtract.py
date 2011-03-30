@@ -33,11 +33,11 @@ def subtract(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, 
     
     # Read remaining intervals and subtract
     for interval in primary:
-        if type( interval ) is Header:
+        if isinstance(interval, Header):
             yield interval
-        if type( interval ) is Comment and comments:
+        if isinstance(interval, Comment) and comments:
             yield interval
-        elif type( interval ) == GenomicInterval:
+        elif isinstance(interval, GenomicInterval):
             chrom = interval.chrom
             if chrom not in bitsets:
                 yield interval

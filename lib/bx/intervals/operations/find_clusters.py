@@ -28,7 +28,7 @@ def find_clusters(reader, mincols=1, minregions=2):
     linenum = -1
     for interval in reader:
         linenum += 1
-        if not type( interval ) is GenomicInterval:
+        if not isinstance(interval, GenomicInterval):
             extra[linenum] = interval
         else:
             if interval.chrom not in chroms:

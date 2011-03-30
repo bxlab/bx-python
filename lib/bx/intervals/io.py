@@ -132,7 +132,7 @@ class GenomicIntervalReader( TableReader ):
         last_bitset = None
         bitsets = dict()
         for interval in self:
-            if type( interval ) == GenomicInterval:
+            if isinstance(interval, GenomicInterval):
                 chrom = interval[self.chrom_col]
                 if chrom != last_chrom:
                     if chrom not in bitsets:
@@ -192,7 +192,7 @@ class BitsetSafeReaderWrapper( NiceReaderWrapper ):
     def next( self ):
         while True:
             rval = NiceReaderWrapper.next( self )
-            if type( rval ) == GenomicInterval and rval.end > self.lens.get( rval.chrom, MAX ): # MAX_INT is defined in bx.bitset
+            if isinstance(rval, GenomicInterval) and rval.end > self.lens.get( rval.chrom, MAX ): # MAX_INT is defined in bx.bitset
                 try:
                     # This will only work if reader is a NiceReaderWrapper
                     self.skipped += 1
