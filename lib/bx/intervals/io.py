@@ -112,7 +112,7 @@ class GenomicIntervalReader( TableReader ):
     >>> assert type( elements[4] ) is GenomicInterval
     """
     def __init__( self, input, chrom_col=0, start_col=1, end_col=2, strand_col=5, 
-                  default_strand="+", return_header=True, return_comments=True, force_header=None, fix_strand=False, comment_lines_startswith = ["#", "track "] ):
+                  default_strand="+", return_header=True, return_comments=True, force_header=None, fix_strand=False, comment_lines_startswith = ["#", "track "], allow_spaces=False ):
         TableReader.__init__( self, input, return_header, return_comments, force_header, comment_lines_startswith )
         self.chrom_col = chrom_col
         self.start_col = start_col
@@ -120,10 +120,26 @@ class GenomicIntervalReader( TableReader ):
         self.strand_col = strand_col
         self.default_strand = default_strand
         self.fix_strand = fix_strand
+        self.allow_spaces = allow_spaces
     def parse_row( self, line ):
-        return GenomicInterval( self, line.split( "\t" ), self.chrom_col, 
-                                self.start_col, self.end_col,
-                                self.strand_col, self.default_strand, fix_strand=self.fix_strand )
+        # Try multiple separators. First tab, our expected splitter, than
+        # just whitespace in the case of problematic files with space instead of
+        # tab separation
+        seps = ["\t"]
+        if self.allow_spaces:
+            seps.append(None)
+        for i, sep in enumerate(seps):
+            try:
+                return GenomicInterval( self, line.split( sep ), self.chrom_col,
+                                        self.start_col, self.end_col,
+                                        self.strand_col, self.default_strand,
+                                        fix_strand=self.fix_strand )
+            except Exception, e:
+                # Catch and store the initial error
+                if i == 0:
+                    err = e
+        # Ran out of separators and still have errors, raise our problem
+        raise err
 
     def binned_bitsets( self , upstream_pad=0, downstream_pad=0, lens={} ):
         # The incoming lens dictionary is a dictionary of chromosome lengths
