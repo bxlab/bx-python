@@ -24,7 +24,7 @@ class TestFile( object ):
         else:
             self.tempfile = False
     def check( self, other_fname ):
-        assert filecmp.cmp( self.filename, other_fname ), "Files do no match (%s, %s)" % ( self.filename, other_fname )
+        assert filecmp.cmp( self.filename, other_fname ), "Files do not match (%s, %s)" % ( self.filename, other_fname )
     def __del__( self ):
         if self.tempfile:
             os.remove( self.filename )
