@@ -57,7 +57,7 @@ cdef class SummarizingBlockHandler( BigBedBlockHandler ):
     """
     cdef SummarizedData sd
     def __init__( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size ):
-        BigBedBlockHandler.__init__( self, start, end )
+        BigBedBlockHandler.__init__( self, chrom_id, start, end )
         # What we will load into
         self.sd = SummarizedData( start, end, summary_size )
         for i in range(summary_size):
