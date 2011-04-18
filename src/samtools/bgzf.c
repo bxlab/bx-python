@@ -173,8 +173,13 @@ open_write(int fd, bool is_uncompressed)
     return fp;
 }
 
+#ifdef __SUNPRO_C
+BGZF*
+bgzf_open(const char* path, const char* mode)
+#else
 BGZF*
 bgzf_open(const char* __restrict path, const char* __restrict mode)
+#endif
 {
     BGZF* fp = NULL;
     if (mode[0] == 'r' || mode[0] == 'R') { /* The reading mode is preferred. */
@@ -209,8 +214,13 @@ bgzf_open(const char* __restrict path, const char* __restrict mode)
     return fp;
 }
 
+#ifdef __SUNPRO_C
+BGZF*
+bgzf_fdopen(int fd, const char * mode)
+#else
 BGZF*
 bgzf_fdopen(int fd, const char * __restrict mode)
+#endif
 {
 	if (fd == -1) return 0;
     if (mode[0] == 'r' || mode[0] == 'R') {
