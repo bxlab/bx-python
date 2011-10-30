@@ -32,6 +32,8 @@ cdef class SummarizedData:
     cdef public numpy.ndarray sum_data
     cdef public numpy.ndarray sum_squares
 
+    cdef accumulate_interval_value( self, bits32 s, bits32 e, float val )
+
 cdef class BBIFile
 
 cdef class BlockHandler:

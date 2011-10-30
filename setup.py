@@ -19,7 +19,7 @@ except:
        
 def main():
     setup(  name = "bx-python",
-            version = "0.7.0",
+            version = "0.7.1",
             py_modules = [ 'psyco_full' ],
             packages = find_packages( 'lib' ),
             package_dir = { '': 'lib' },

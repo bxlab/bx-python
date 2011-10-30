@@ -1,9 +1,13 @@
+# cython: profile=False
+
 """
 Core implementation for reading UCSC "big binary indexed" files.
 
 There isn't really any specification for the format beyond the code, so this
 mirrors Jim Kent's 'bbiRead.c' mostly. 
 """
+
+cimport cython
 
 from collections import deque
 from bpt_file cimport BPTFile
@@ -27,10 +31,13 @@ cdef public int big_bed_sig = 0x8789F2EB
 # Some record sizes for parsing
 DEF summary_on_disk_size = 32
 
+@cython.profile(False)
 cdef inline int range_intersection( int start1, int end1, int start2, int end2 ):
     return min( end1, end2 ) - max( start1, start2 )
 
+@cython.profile(False)
 cdef inline int imax(int a, int b): return a if a >= b else b
+@cython.profile(False)
 cdef inline int imin(int a, int b): return a if a <= b else b
 
 cdef enum summary_type:
@@ -60,7 +67,15 @@ cdef class SummarizedData:
         self.max_val = numpy.zeros( self.size, dtype=numpy.float64 )
         self.sum_data = numpy.zeros( self.size, dtype=numpy.float64 )
         self.sum_squares = numpy.zeros( self.size, dtype=numpy.float64 )
-    def accumulate_interval_value( self, bits32 s, bits32 e, float val ):
+    cdef accumulate_interval_value( self, bits32 s, bits32 e, float val ):
+        cdef int base_start, base_end, base_step, overlap, j, interval_size
+        cdef double overlap_factor, interval_weight
+        # We locally cdef the arrays so all indexing will be at C speeds
+        cdef numpy.ndarray[numpy.float64_t] valid_count = self.valid_count
+        cdef numpy.ndarray[numpy.float64_t] min_val = self.min_val
+        cdef numpy.ndarray[numpy.float64_t] max_val = self.max_val
+        cdef numpy.ndarray[numpy.float64_t] sum_data = self.sum_data
+        cdef numpy.ndarray[numpy.float64_t] sum_squares = self.sum_squares
         # Trim interval down to region of interest
         if s < self.start: 
             s = self.start
@@ -77,13 +92,13 @@ cdef class SummarizedData:
                 interval_size = e - s
                 overlap_factor = <double> overlap / interval_size
                 interval_weight = interval_size * overlap_factor
-                self.valid_count[j] += interval_weight
-                self.sum_data[j] += val * interval_weight
-                self.sum_squares[j] += val * val * interval_weight
-                if self.max_val[j] < val:
-                    self.max_val[j] = val
-                if self.min_val[j] > val:
-                    self.min_val[j] = val 
+                valid_count[j] += interval_weight
+                sum_data[j] += val * interval_weight
+                sum_squares[j] += val * val * interval_weight
+                if max_val[j] < val:
+                    max_val[j] = val
+                if min_val[j] > val:
+                    min_val[j] = val 
 
 cdef class BlockHandler:
     """
