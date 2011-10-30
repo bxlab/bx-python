@@ -252,6 +252,7 @@ cdef class BBIFile:
         cdef ZoomLevel level, closest_level
         cdef int diff, closest_diff = limits.INT_MAX
         
+        closest_level = None
         for level in self.level_list:
             diff = desired_reduction - level.reduction_level
             if diff >= 0 and diff < closest_diff:
@@ -305,7 +306,9 @@ cdef class ZoomLevel:
                 summary.max_val = block_reader.read_float()
                 summary.sum_data = block_reader.read_float()
                 summary.sum_squares = block_reader.read_float()
-                rval.append( summary )
+                # A block can contain summaries from more that one chrom_id
+                if summary.chrom_id == chrom_id:
+                    rval.append( summary )
         return rval
     
     cdef _get_summary_slice( self, bits32 base_start, bits32 base_end, summaries ):
@@ -338,7 +341,7 @@ cdef class ZoomLevel:
                         max_val = summary.max_val
                     if min_val > summary.min_val:
                         min_val = summary.min_val
-        
+
         return valid_count, sum_data, sum_squares, min_val, max_val
         
     cdef _summarize( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size ):
@@ -371,7 +374,7 @@ cdef class ZoomLevel:
         reader = self.bbi_file.reader
         reader.seek( self.index_offset )
         summaries = self._summary_blocks_in_region(chrom_id, start, end)
-        
+
         base_step = (end - start) / summary_size
         base_start = start
         base_end = start
@@ -381,7 +384,7 @@ cdef class ZoomLevel:
             
             while summaries and summaries[0].end <= base_start:
                 summaries.popleft()
-                
+
             valid_count[i], sum_data[i], sum_squares[i], min_val[i], max_val[i] = self._get_summary_slice(base_start, base_end, summaries)
             base_start = base_end
         
