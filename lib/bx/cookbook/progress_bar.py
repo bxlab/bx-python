@@ -10,7 +10,7 @@ http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/168639
 import sys
 
 class ProgressBar:
-    def __init__(self, minValue = 0, maxValue = 10, totalWidth=12):
+    def __init__(self, minValue = 0, maxValue = 10, totalWidth=72):
         self.progBar = "[]"   # This holds the progress bar string
         self.min = minValue
         self.max = maxValue
@@ -56,6 +56,15 @@ class ProgressBar:
 
     def __str__(self):
         return str(self.progBar)
+
+def iterprogress( sized_iterable ):
+    """
+    Iterate something printing progress bar to stdout
+    """
+    pb = ProgressBar( 0, len( sized_iterable ) )
+    for i, value in enumerate( sized_iterable ):
+        yield value
+        pb.update_and_print( i, sys.stderr )
 
 if __name__ == "__main__":
     import time
