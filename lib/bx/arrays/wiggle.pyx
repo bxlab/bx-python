@@ -90,6 +90,7 @@ cdef class WiggleReader:
                 except ValueError:
                     continue
                 return self.current_chrom, self.current_pos, self.current_pos + self.current_span, "+", val
+                # FIXME: unreachable! need to test this and fix!
                 self.current_pos += self.current_step
             else:
                 raise "Unexpected input line: %s" % line.strip()

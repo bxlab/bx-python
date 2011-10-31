@@ -2,6 +2,8 @@
 Tests for `bx.seqmapping`.
 """
 
+import sys
+
 import unittest
 import bx.seqmapping
 
@@ -71,13 +73,16 @@ rows = [ "AAATTGT-----ATGTCCATCCTTTAAAGGTCATTCCTTTAATGGTCTTTTCTGGACACCACTAGGGGTC
          "-TATTAT-----ATGGCCATGTTCAAAAGGTTGTTTCTCTAATGATTCCTTC-TGATACCAGTAGGGGTCAGAAGTGGTCCATTGATT---------------------CTTTTCCTC-TGATTC-AAG",
          "AAATTGA--AAGATCTCACTCTTTGCCAGGTAGTCCATCTAAGGGTCACATATGGATACCAGCAGGGCCT-GAAGAAGCCCATTGAAT------------------------TTTCCC-ATCTTCAAGG",
          "AAATTCATGATAGTGTCACTCTTAAATAGATGATTC--------TTCACAT---GATGCCAGCAGGGGGC-AGAGCAGGCTGTGAAAT------------------------TTTCCCTTTCTTCAAAG" ]
-        
+
+"""
 class AlignmentMappingTests( unittest.TestCase ):
     def test_largescale( self ):
        f = StringIO( eight_species_mapping )
        n, m = bx.seqmapping.alignment_mapping_from_file( f )
        t = bx.seqmapping.DNA.translate_list( rows )
+       print >> sys.stderr, t, m, m.get_in_size(), m.get_out_size()
        i = m.translate( t )
+"""
         
         
 test_classes = [ AlignmentMappingTests, CharMappingTests, IntMappingTests ]

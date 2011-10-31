@@ -23,7 +23,7 @@ cdef class CharToIntArrayMapping:
     cdef int out_size
     cdef object reverse_table
     
-    def __new__( self ):
+    def __cinit__( self ):
         """Init empty mapping (all characters map to -1)"""
         cdef int i
         for i from 0 <= i < 256: self.table[i] = -1
@@ -105,7 +105,7 @@ cdef class IntToIntMapping:
     cdef int in_size
     cdef int out_size
     
-    def __new__( self, int in_size ):
+    def __cinit__( self, int in_size ):
         self.in_size = in_size
         self.table = <int *> malloc( in_size * sizeof( int ) )
         if self.table == NULL: raise "Malloc Failed"

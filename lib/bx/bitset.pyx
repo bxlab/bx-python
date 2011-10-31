@@ -104,7 +104,7 @@ cdef int MAX_INT = 2147483647
 cdef class BitSet:
     cdef Bits * bits
     cdef int bitCount
-    def __new__( self, bitCount ):
+    def __cinit__( self, bitCount ):
         if bitCount > MAX_INT:
             raise ValueError( "%d is larger than the maximum BitSet size of %d." % ( bitCount, MAX_INT ) )
         self.bitCount = bitCount
@@ -193,7 +193,7 @@ MAX=512*1024*1024
 
 cdef class BinnedBitSet:
     cdef BinBits * bb
-    def __new__( self, size=MAX, granularity=1024 ):
+    def __cinit__( self, size=MAX, granularity=1024 ):
         if size > MAX_INT:
             raise ValueError( "%d is larger than the maximum BinnedBitSet size of %d." % ( size, MAX_INT ) )
         self.bb = binBitsAlloc( size, granularity )

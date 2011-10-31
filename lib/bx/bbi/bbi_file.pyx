@@ -71,11 +71,11 @@ cdef class SummarizedData:
         cdef int base_start, base_end, base_step, overlap, j, interval_size
         cdef double overlap_factor, interval_weight
         # We locally cdef the arrays so all indexing will be at C speeds
-        cdef numpy.ndarray[numpy.float64_t] valid_count = self.valid_count
-        cdef numpy.ndarray[numpy.float64_t] min_val = self.min_val
-        cdef numpy.ndarray[numpy.float64_t] max_val = self.max_val
-        cdef numpy.ndarray[numpy.float64_t] sum_data = self.sum_data
-        cdef numpy.ndarray[numpy.float64_t] sum_squares = self.sum_squares
+        cdef numpy.ndarray[numpy.float64_t, ndim=1] valid_count = self.valid_count
+        cdef numpy.ndarray[numpy.float64_t, ndim=1] min_val = self.min_val
+        cdef numpy.ndarray[numpy.float64_t, ndim=1] max_val = self.max_val
+        cdef numpy.ndarray[numpy.float64_t, ndim=1] sum_data = self.sum_data
+        cdef numpy.ndarray[numpy.float64_t, ndim=1] sum_squares = self.sum_squares
         # Trim interval down to region of interest
         if s < self.start: 
             s = self.start

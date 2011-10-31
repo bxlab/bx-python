@@ -149,7 +149,8 @@ class LotsaTestCase(unittest.TestCase):
         iv = self.intervals
         path = sys.path[:]
         sys.path = sys.path[2:]
-        import random
+        ## import random
+        random = __import__("random")
         sys.path = path
         for t in range(25):
             start = random.randint(0, self.max - 10000)
