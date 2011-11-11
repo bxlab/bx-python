@@ -1,6 +1,6 @@
 import sys, platform
 
-if sys.version_info[0] < 2 or sys.version_info[1] < 4:
+if sys.version_info < (2, 4):
     print >> sys.stderr, "ERROR: bx-python requires python 2.4 or greater"
     sys.exit()
 
