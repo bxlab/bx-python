@@ -20,8 +20,8 @@ def GeneReader( fh, format='gff' ):
     known_formats = ( 'gff', 'gtf', 'bed')
     if format not in known_formats: 
         print >>sys.stderr,  '%s format not in %s' % (format, ",".join( known_formats ))
-        raise '?'
-    
+        raise Exception('?')
+
     if format == 'bed':
         for line in fh:    
             f = line.strip().split()
@@ -82,8 +82,8 @@ def CDSReader( fh, format='gff' ):
     known_formats = ( 'gff', 'gtf', 'bed')
     if format not in known_formats: 
         print >>sys.stderr,  '%s format not in %s' % (format, ",".join( known_formats ))
-        raise '?'
-    
+        raise Exception('?')
+
     if format == 'bed':
         for line in fh:    
             f = line.strip().split()
@@ -166,8 +166,8 @@ def FeatureReader( fh, format='gff', alt_introns_subtract="exons", gtf_parse=Non
     known_formats = ( 'gff', 'gtf', 'bed')
     if format not in known_formats: 
         print >>sys.stderr,  '%s format not in %s' % (format, ",".join( known_formats ))
-        raise '?'
-    
+        raise Exception('?')
+
     if format == 'bed':
         for line in fh:    
             f = line.strip().split()

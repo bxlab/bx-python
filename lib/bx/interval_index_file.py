@@ -293,7 +293,7 @@ class Indexes:
         f = open( filename )
         magic, version, length = read_packed( f, ">3I" )
         if magic != MAGIC:
-            raise "File does not have expected header"
+            raise Exception("File does not have expected header")
         if version > VERSION:
             warn( "File claims version %d, I don't known anything about versions beyond %d. Attempting to continue", version, VERSION )
         self.version = version

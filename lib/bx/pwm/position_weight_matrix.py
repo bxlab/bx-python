@@ -28,7 +28,7 @@ class Align(object):
                     raise "Align: __init__:alignment block:row %d does not have %d columns, it has %d" % (rownum,ncol,len(row))
             except:
                 print row
-                raise ''
+                raise Exception('')
         self.ncols = ncol
         self.dims = (self.nrows,self.ncols)
         self.headers = headers
@@ -833,7 +833,7 @@ def consensus_symbol( pattern ):
                 return degenSymbol
     else: return 'N'
     print >>sys.stderr,pattern
-    raise '?'
+    raise Exception('?')
 
 # import C extensions
 try:

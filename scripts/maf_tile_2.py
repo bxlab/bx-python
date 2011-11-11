@@ -97,8 +97,8 @@ def get_fill_char( maf_status ):
     elif maf_status == maf.MAF_MISSING_STATUS:
         return "X"
     else:
-        raise "Unknwon maf status"
-        
+        raise ValueError("Unknwon maf status")
+
 def guess_fill_char( left_comp, right_comp ):
     """
     For the case where there is no annotated synteny we will try to guess it

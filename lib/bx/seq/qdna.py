@@ -109,7 +109,7 @@ class QdnaFile(SeqFile):
         if (name == "codebook"):
             self.codebook = QdnaCodebook(StringIO(value))
         else:
-            raise "named properties as instance variables are not implemented yet"
+            raise Exception("named properties as instance variables are not implemented yet")
             # $$$ do this by adding a properties dict and __getitem__/__setitem__
             # $$$ also need to write properties in QdnaWriter.write()
 

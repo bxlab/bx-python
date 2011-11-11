@@ -24,7 +24,7 @@ def __main__():
     maf_reader = maf.Reader( sys.stdin )
     maf_writer = maf.Writer( sys.stdout )
 
-    if not options.cols: raise "Cols argument is required"
+    if not options.cols: raise Exception("Cols argument is required")
     cols = int( options.cols )
 
     count = 0

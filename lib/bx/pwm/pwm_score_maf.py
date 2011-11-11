@@ -75,7 +75,7 @@ def MafScorer(pwm,species,inmaf):
 def MafMotifSelect(mafblock,pwm,motif=None,threshold=0):
 
     if motif != None and len(motif) != len(pwm): 
-        raise "pwm and motif must be the same length"
+        raise Exception("pwm and motif must be the same length")
     # generic alignment
     alignlist = [ c.text for c in mafblock.components ]
     align = pwmx.Align( alignlist )

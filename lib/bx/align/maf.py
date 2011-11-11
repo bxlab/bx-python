@@ -57,7 +57,7 @@ class Reader( object ):
         self.maf_kwargs = kwargs
         # Read and verify maf header, store any attributes
         fields = self.file.readline().split()
-        if fields[0] != '##maf': raise "File does not have MAF header"
+        if fields[0] != '##maf': raise Exception("File does not have MAF header")
         self.attributes = parse_attributes( fields[1:] )
 
     def next( self ):
@@ -136,7 +136,7 @@ def read_next_maf( file, species_to_lengths=None, parse_e_rows=False ):
     line = readline( file, skip_blank=True )
     if not line: return None
     fields = line.split() 
-    if fields[0] != 'a': raise "Expected 'a ...' line"
+    if fields[0] != 'a': raise Exception("Expected 'a ...' line")
     alignment.attributes = parse_attributes( fields[1:] )
     if 'score' in alignment.attributes:
         alignment.score = alignment.attributes['score']

@@ -248,7 +248,8 @@ class Component( object ):
 
     def get_src_size( self ):
         if self._src_size == None:
-            if self._alignment == None: raise "component has no src_size"
+            if self._alignment == None:
+                raise Exception("component has no src_size")
             self._src_size = self._alignment().src_size( self.src )
         return self._src_size
     def set_src_size( self,src_size ):
@@ -340,7 +341,7 @@ class Component( object ):
         try:
             x = self.index[ pos - start ]
         except:
-            raise "Error in index."
+            raise Exception("Error in index.")
         return x
     
     
@@ -390,7 +391,7 @@ def get_indexed( format, filename, index_filename=None, keep_open=False, species
     import bx.align.maf, bx.align.axt, bx.align.lav
     if format == "maf": return bx.align.maf.Indexed( filename, index_filename, keep_open, species_to_lengths )
     elif format == "axt": return bx.align.axt.Indexed( filename, index_filename, keep_open, species_to_lengths )
-    elif format == "lav": raise "LAV support for Indexed has not been implemented"
+    elif format == "lav": raise Exception("LAV support for Indexed has not been implemented")
     else: raise "Unknown alignment format %s" % format
 
 def shuffle_columns( a ):

@@ -41,7 +41,7 @@ class NibFile(SeqFile):
         magic = struct.unpack(">L", file.read(NIB_MAGIC_SIZE))[0]
         if (magic != NIB_MAGIC_NUMBER):
             if magic == NIB_MAGIC_NUMBER_SWAP: self.byte_order = "<"
-            else: raise "Not a NIB file"
+            else: raise Exception("Not a NIB file")
         self.magic = magic
         self.length = struct.unpack("%sL" % self.byte_order, file.read(NIB_LENGTH_SIZE))[0]
 
