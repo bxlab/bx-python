@@ -302,8 +302,25 @@ cdef class Interval:
         fstr += ")"
         return fstr
 
-    def __cmp__(self, other):
-        return cmp( self.start, other.start ) or cmp( self.end, other.end )
+    def __richcmp__(self, other, op):
+        if op == 0:
+            # <
+            return self.start < other.start or self.end < other.end
+        elif op == 1:
+            # <=
+            return self == other or self < other
+        elif op == 2:
+            # ==
+            return self.start == other.start and self.end == other.end
+        elif op == 3:
+            # !=
+            return self.start != other.start or self.end != other.end
+        elif op == 4:
+            # >
+            return self.start > other.start or self.end > other.end
+        elif op == 5:
+            # >=
+            return self == other or self > other
 
 cdef class IntervalTree:
     """
