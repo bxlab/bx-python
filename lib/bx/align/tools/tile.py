@@ -14,8 +14,8 @@ def tile_interval( sources, index, ref_src, start, end, seq_db=None ):
     """
     Tile maf blocks onto an interval. The resulting block will span the interval
     exactly and contain the column from the highest scoring alignment at each
-    position. 
-    
+    position.
+
     `sources`: list of sequence source names to include in final block
     `index`: an instnace that can return maf blocks overlapping intervals
     `ref_src`: source name of the interval (ie, hg17.chr7)
@@ -29,7 +29,7 @@ def tile_interval( sources, index, ref_src, start, end, seq_db=None ):
     base_len = end - start
     blocks = index.get( ref_src, start, end )
     # From low to high score
-    blocks.sort( lambda a, b: cmp( a.score, b.score ) )
+    blocks.sort(key=lambda t: t.score)
     mask = [ -1 ] * base_len
     ref_src_size = None
     for i, block in enumerate( blocks ):
@@ -41,7 +41,7 @@ def tile_interval( sources, index, ref_src, start, end, seq_db=None ):
         for j in range( slice_start, slice_end ):
             mask[j-start] = i
     tiled = []
-    for i in range( len( sources ) ): 
+    for i in range( len( sources ) ):
         tiled.append( [] )
     for ss, ee, index in intervals_from_mask( mask ):
         # Interval with no covering alignments
@@ -59,7 +59,7 @@ def tile_interval( sources, index, ref_src, start, end, seq_db=None ):
             slice_end = start + ee
             block = blocks[index]
             ref = block.get_component_by_src_start( ref_src )
-            sliced = block.slice_by_component( ref, slice_start, slice_end ) 
+            sliced = block.slice_by_component( ref, slice_start, slice_end )
             sliced = sliced.limit_to_species( sources )
             sliced.remove_all_gap_columns()
             for i, src in enumerate( sources ):
@@ -67,7 +67,7 @@ def tile_interval( sources, index, ref_src, start, end, seq_db=None ):
                 if comp:
                     tiled[i].append( comp.text )
                 else:
-                    tiled[i].append( "-" * sliced.text_size )        
+                    tiled[i].append( "-" * sliced.text_size )
     return [ "".join( t ) for t in tiled ]
 
 def intervals_from_mask( mask ):

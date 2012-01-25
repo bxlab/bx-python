@@ -445,9 +445,7 @@ def _extractall(self, path=".", members=None):
 
     # Reverse sort directories.
     if sys.version_info < (2, 4):
-        def sorter(dir1, dir2):
-            return cmp(dir1.name, dir2.name)
-        directories.sort(sorter)
+        directories.sort(key=lambda dir: dir.name)
         directories.reverse()
     else:
         directories.sort(key=operator.attrgetter('name'), reverse=True)
