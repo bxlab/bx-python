@@ -6,7 +6,7 @@
 # using this module constitutes acceptance of the terms of this License.
 #
 # Disclaimer
-# 
+#
 # This software is provided "as-is".  There are no expressed or implied
 # warranties of any kind, including, but not limited to, the warranties
 # of merchantability and fittness for a given application.  In no event
@@ -20,7 +20,7 @@
 #
 # Comments and/or additions are welcome (send e-mail to:
 # strang@nmr.mgh.harvard.edu).
-# 
+#
 """
 pstat.py module
 
@@ -43,7 +43,7 @@ functions include:
       linexand (listoflists,columnlist,valuelist)
       linexor (listoflists,columnlist,valuelist)
       linedelimited (inlist,delimiter)
-      lineincols (inlist,colsize) 
+      lineincols (inlist,colsize)
       lineincustcols (inlist,colsizes)
       list2string (inlist)
       makelol(inlist)
@@ -99,7 +99,7 @@ functions/methods.  Their inclusion here is for function name consistency.
 ## 12/05/98 ... updated doc-strings
 ##              added features to collapse() function
 ##              added flat() function for lists
-##              fixed a broken asortrows() 
+##              fixed a broken asortrows()
 ## 11/16/98 ... fixed minor bug in aput for 1D arrays
 ##
 ## 11/08/98 ... fixed aput to output large arrays correctly
@@ -608,7 +608,7 @@ def remap (listoflists,criterion):
     """
 Remaps values in a given column of a 2D list (listoflists).  This requires
 a criterion as a function of 'x' so that the result of the following is
-returned ... map(lambda x: 'criterion',listoflists).  
+returned ... map(lambda x: 'criterion',listoflists).
 
 Usage:   remap(listoflists,criterion)    criterion=string
 Returns: remapped version of listoflists
@@ -950,18 +950,13 @@ Returns: a version of array a where listmap[i][0] = (instead) listmap[i][1]
 
  def arowcompare(row1, row2):
     """
-Compares two rows from an array, regardless of whether it is an
-array of numbers or of python objects (which requires the cmp function).
+Compares two numeric rows from an array,
 
 Usage:   arowcompare(row1,row2)
 Returns: an array of equal length containing 1s where the two rows had
          identical elements and 0 otherwise
 """
-    if row1.typecode()=='O' or row2.typecode=='O':
-        cmpvect = N.logical_not(abs(N.array(map(cmp,row1,row2)))) # cmp fcn gives -1,0,1
-    else:
-        cmpvect = N.equal(row1,row2)
-    return cmpvect
+    return N.equal(row1,row2)
 
 
  def arowsame(row1, row2):
@@ -1025,6 +1020,7 @@ Usage:   aunique (inarray)
             for item in inarray[1:]:
                 newflag = 1
                 for unq in uniques:  # NOTE: cmp --> 0=same, -1=<, 1=>
+                    # TODO fix this
                     test = N.sum(abs(N.array(map(cmp,item,unq))))
                     if test == 0:   # if item identical to any 1 row in uniques
                         newflag = 0 # then not a novel item to add
