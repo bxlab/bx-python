@@ -3,6 +3,7 @@ Support for parsing phylogenetic tree's in newick format.
 
 TODO: Tree/Edge should be a generic data structure, not newick specific.
 """
+from functools import total_ordering
 
 from bx_extras.pyparsing import *
 
@@ -15,6 +16,7 @@ def print_( p, s ):
     print p, type(s), s
     return s
 
+@total_ordering
 class Tree( object ):
     def __init__( self, label, edges=None ):
         self.label = label
@@ -24,44 +26,43 @@ class Tree( object ):
             return "Tree( '%s',\n%s\n)" % ( self.label, indent( "\n".join( repr( edge ) for edge in self.edges ) ) )
         else:
             return "Tree( '%s' )" % self.label
-    def __cmp__( self, other ):
-        if isinstance( other, Tree ):
-            return cmp( self.__dict__, other.__dict__ )
-        else:
-            return 1
+    def __lt__(self, other):
+        return self.__dict__ < other.__dict__
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
     def __repr__( self ):
         return "Tree( %s, %s )" % ( repr( self.label ), repr( self.edges ) )
 
+@total_ordering
 class Edge( object ):
     def __init__( self, length, tip ):
         self.length = length
         self.tip = tip
     def pretty( self ):
         return "Edge( %s, \n%s\n)" % ( repr( self.length ), indent( repr( self.tip ) ) )
-    def __cmp__( self, other ):
-        if isinstance( other, Edge ):
-            return cmp( self.__dict__, other.__dict__ )
-        else:
-            return 1
+    def __lt__(self, other):
+        return self.__dict__ < other.__dict__
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
     def __repr__( self ):
         return "Edge( %s, %s )" % ( repr( self.length ), repr( self.tip ) )
 
 def create_parser():
     """
     Create a 'pyparsing' parser for newick format trees roughly based on the
-    grammer here:
+    grammar here:
         http://evolution.genetics.washington.edu/phylip/newick_doc.html
-        
+
     Problems:
         - Is a single leaf a valid tree?
         - Branch length on root? Doesn't make sense to me, and forces the root
           to be an edge.
     """
     # Basic tokens
-    real = Combine( Word( "+-" + nums, nums ) + 
+    real = Combine( Word( "+-" + nums, nums ) +
                     Optional( "." + Optional( Word( nums ) ) ) +
                     Optional( CaselessLiteral( "E" ) + Word( "+-" + nums, nums ) ) )
-    lpar = Suppress( "(" ) 
+    lpar = Suppress( "(" )
     rpar = Suppress( ")" )
     colon = Suppress( ":" )
     semi = Suppress( ";" )
