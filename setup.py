@@ -50,6 +50,15 @@ try:
 except:
     pass
 
+# Run 2to3 builder if we're on Python 3.x, from
+#   http://wiki.python.org/moin/PortingPythonToPy3k
+try:
+    from distutils.command.build_py import build_py_2to3 as build_py
+except ImportError:
+    # 2.x
+    from distutils.command.build_py import build_py
+command_classes['build_py'] = build_py
+
 # Use epydoc if found
 try:
     import pkg_resources
