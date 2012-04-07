@@ -217,6 +217,7 @@ cdef class BBIFile:
         Provides a different view of summary for region, a list of dictionaries
         with keys: mean, max, min, coverage, std_dev
         """
+        
         if end > 2147483647 or start < 0:
             raise ValueError
         results = self.summarize(chrom, start, end, summary_size)
@@ -289,6 +290,7 @@ cdef class ZoomLevel:
         `chrom_id`:`start`-`end`
         """
         cdef CIRTreeFile ctf
+        cdef SummaryBlock summary
         rval = deque()
         reader = self.bbi_file.reader
         reader.seek( self.index_offset )
@@ -312,8 +314,15 @@ cdef class ZoomLevel:
                 ## NOTE: Look carefully at bbiRead again to be sure the endian
                 ##       conversion here is all correct. It looks like it is 
                 ##       just pushing raw data into memory and not swapping
+                
+                sum_chrom_id = block_reader.read_uint32()
+                # A block can contain summaries from more that one chrom_id
+                if sum_chrom_id != chrom_id:
+                    block_reader.skip(7*4)
+                    continue
+                       
                 summary = SummaryBlock()
-                summary.chrom_id = block_reader.read_uint32()
+                summary.chrom_id = sum_chrom_id
                 summary.start = block_reader.read_uint32()
                 summary.end = block_reader.read_uint32()
                 summary.valid_count = block_reader.read_uint32()
@@ -321,9 +330,9 @@ cdef class ZoomLevel:
                 summary.max_val = block_reader.read_float()
                 summary.sum_data = block_reader.read_float()
                 summary.sum_squares = block_reader.read_float()
-                # A block can contain summaries from more that one chrom_id
-                if summary.chrom_id == chrom_id:
-                    rval.append( summary )
+                rval.append( summary )
+                
+
         return rval
     
     cdef _get_summary_slice( self, bits32 base_start, bits32 base_end, summaries ):
