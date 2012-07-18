@@ -35,7 +35,7 @@ html:
 
 apidoc:
 	mkdir -p build/html/apidoc
-	epydoc --docformat restructuredtext ../lib/bx -o docbuild/html/apidoc
+	epydoc-2.6 --docformat restructuredtext ../lib/bx -o docbuild/html/apidoc
 	@echo
 	@echo "Epydoc finished. The pages are in docbuild/html/apidoc."
 
