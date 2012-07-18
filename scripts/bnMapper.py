@@ -1,5 +1,10 @@
 #!/usr/bin/env python -O
 
+"""Map features from the target species to the query species of a chain alignment file.
+This is intended for mapping relatively short features such as Chip-Seq
+peaks on TF binding events. Features that get mapped on different chromosomes
+or that span multiple chains are silently filtered out."""
+
 
 import sys, os, logging, pdb
 import numpy as np
@@ -109,17 +114,16 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
 
     for from_elem in from_elem_list:
         matching_block_ids = map(attrgetter("value"), tree.find(chrom, from_elem['start'], from_elem['end']))
-        assert set( matching_block_ids ) <= set( all_epo.keys() )
-        matching_blocks = map(lambda b: all_epo[b], matching_block_ids)
 
-        if opt.gap >= 0: #mapped elements must end up in the same chromosome
-            if len( set( map(lambda b: b[0].qName, matching_blocks) ) ) > 1:
-                log.debug("%s in different chromosomes" % (str(from_elem)))
-                continue
+        #mapped elements must end up in the same chain and chromosome
+        if len(matching_block_ids) == 0 or len(matching_block_ids) > 1:
+            log.debug("%s in different chain/chromosomes" % (str(from_elem)))
+            continue
 
         # do the actual mapping
-        log.debug("%s %d:%s" % (str(from_elem), len(matching_block_ids), str(matching_block_ids)))
-        to_elem_slices = reduce(concat, map(lambda b: transform(from_elem, b, opt.gap), matching_blocks), [])
+        matching_block = all_epo[matching_block_ids[0]]
+        to_elem_slices = transform(from_elem, matching_block, opt.gap)
+        #to_elem_slices = reduce(concat, map(lambda b: transform(from_elem, b, opt.gap), matching_blocks), [])
 
         # apply threshold
         if (from_elem[2] - from_elem[1]) * opt.threshold > reduce(lambda b,a: a[2]-a[1] + b, to_elem_slices, 0):
@@ -132,7 +136,6 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
             log.debug("\tjoined to %d elements" % (len(to_elem_list)))
             if opt.format == "BED4":
                 map(lambda tel: out_fd.write(BED4_FRM % tel), to_elem_list)
-                #print >>out_fd, "\n".join( map(lambda tel: "\t".join( map(str, tel) ), to_elem_list) )
             else:
                 start = to_elem_list[0][1]
                 end = to_elem_list[-1][2]
@@ -195,8 +198,7 @@ def loadFeatures(path):
     return np.array(data, dtype=elem_t)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="""Map features from target to query species of the alignment file.""",
-            epilog="Olgert Denas (Taylor Lab)",
+    parser = argparse.ArgumentParser(description=__doc__, epilog="Olgert Denas (Taylor Lab)",
             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument("input", help="Input to process. If this is a directory, all files in it will be mapped and placed on --output, which should be a directory.")
@@ -213,6 +215,7 @@ if __name__ == "__main__":
             help="Only report elements in the alignment (without mapping). -t has not effect here (TODO)")
     parser.add_argument('-g', '--gap', type=int, default=-1,
             help="Ignore elements with an insertion/deletion of this or bigger size.")
+
 
     opt = parser.parse_args()
 
