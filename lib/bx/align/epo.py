@@ -27,7 +27,7 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
     def _strfactory(cls, line):
         """factory class method for Chain
 
-        @param line: header of a chain (in .chain format)
+        :param line: header of a chain (in .chain format)
         """
 
         assert type(line) == str, "this is a factory from string"
@@ -47,15 +47,15 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
         chain header will have tStrand=+, qStrand=+ (resp. -). No strand
         changes on the other cases.
 
-        @param trg_comp: target (i.e, the first) component
-        @type trg_comp: L{EPOitem}
-        @param qr_comp: query (i.e, the second) component
-        @type qr_comp: L{EPOitem}
-        @param trg_chrom_sizes: chromosome sizes of the target
-        @type trg_chrom_sizes: dictionary of the type (chrom) --> size
-        @param qr_chrom_sizes: chromosome sizes of the query
-        @type qr_chrom_sizes: dictionary of the type (chrom) --> size
-        @return: A L{Chain} instance"""
+        :param trg_comp: target (i.e, the first) component
+        :type trg_comp: L{EPOitem}
+        :param qr_comp: query (i.e, the second) component
+        :type qr_comp: L{EPOitem}
+        :param trg_chrom_sizes: chromosome sizes of the target
+        :type trg_chrom_sizes: dictionary of the type (chrom) --> size
+        :param qr_chrom_sizes: chromosome sizes of the query
+        :type qr_chrom_sizes: dictionary of the type (chrom) --> size
+        :return: A L{Chain} instance"""
 
         # size, target, query arrays
         S, T, Q = [], [], []
@@ -149,7 +149,7 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
     def _parse_file(cls, fname, pickle=False):
         """parse a .chain file into a list of the type [(L{Chain}, arr, arr, arr) ...]
 
-        @param fname: name of the file"""
+        :param fname: name of the file"""
 
         if fname.endswith('.pkl'):
             log.debug("loading pickled file %s ..." % fname)
@@ -182,7 +182,7 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
     def _strfactory(cls, line):
         """factory method for an EPOitem
 
-        @param line: a line of input"""
+        :param line: a line of input"""
 
         cmp = line.rstrip().split()
         chrom = cmp[2]
@@ -203,7 +203,7 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
     def _parse_epo(cls, fname):
         """Load an entire file in the EPO format into a dictionary of the type {gab_id => [Epoitem, ...]}
 
-        @param fname: file name"""
+        :param fname: file name"""
 
         data = {}
         with open(fname) as fd:
@@ -216,10 +216,10 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
     def cigar_iter(self, reverse):
         """self.cigar => [(length, type) ... ] iterate the cigar
 
-        @param reverse: whether to iterate in the reverse direction (right-to-left)
-        @type reverse: boolean
+        :param reverse: whether to iterate in the reverse direction (right-to-left)
+        :type reverse: boolean
 
-        @return a list of pairs of the type [(length, M/D) ..]
+        :return a list of pairs of the type [(length, M/D) ..]
         """
 
         l = 0
@@ -242,12 +242,12 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
         for example 4MD4M2DM with reverse=False will produce [(0,4), (5,9), (11,12)]
         4MD4M2DM with reverse=True will produce [(0,1), (3,7), (8,12)] (= 12 - previous interval)
 
-        @param reverse: whether to iterate in the reverse direction (right-to-left) (this is passed as is to self.cigar_iter)
-        @type reverse: boolean
-        @param thr: shift all intervals by this much
-        @type thr: integer
+        :param reverse: whether to iterate in the reverse direction (right-to-left) (this is passed as is to self.cigar_iter)
+        :type reverse: boolean
+        :param thr: shift all intervals by this much
+        :type thr: integer
 
-        @return: list of pairs"""
+        :return: list of pairs"""
 
         d = [(thr,thr)]
         dl = 0

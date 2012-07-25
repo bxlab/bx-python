@@ -15,9 +15,10 @@ from bx.cookbook import argparse
 from bx.align import epo
 from bx.align.epo import bed_union as elem_u
 
-elem_t = np.dtype([('chrom', np.str_, 5), ('start', np.int64), ('end', np.int64), ('id', np.str_, 100)])
+elem_t = np.dtype([('chrom', np.str_, 30), ('start', np.int64), ('end', np.int64), ('id', np.str_, 100)])
+LOG_LEVELS = {"info" : logging.INFO, "debug" : logging.DEBUG, "silent" : logging.CRITICAL}
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig()
 log = logging.getLogger()
 
 class GIntervalTree( IntervalTree ):
@@ -30,9 +31,9 @@ class GIntervalTree( IntervalTree ):
         """insert an element. use this method as the IntervalTree one.
         this will simply call the IntervalTree.add method on the right tree
 
-        @param chrom: chromosome
-        @param element: the argument of IntervalTree.insert_interval
-        @return: None
+        :param chrom: chromosome
+        :param element: the argument of IntervalTree.insert_interval
+        :return: None
         """
 
         self._trees.setdefault(chrom, IntervalTree()).insert_interval( element )
@@ -40,10 +41,10 @@ class GIntervalTree( IntervalTree ):
     def find(self, chrom, start, end):
         """find the intersecting elements
 
-        @param chrom: chromosome
-        @param start: start
-        @param end: end
-        @return: a list of intersecting elements"""
+        :param chrom: chromosome
+        :param start: start
+        :param end: end
+        :return: a list of intersecting elements"""
 
         tree = self._trees.get( chrom, None )
         if tree:
@@ -55,7 +56,7 @@ def transform(elem, (chain, CT, CQ), max_gap):
     """transform the coordinates of this elem into the other species.
 
     elem intersects this chain's ginterval.
-    return a lisit of the type [(to_chr, start, end, elem[id]) ... ]"""
+    :return: a list of the type [(to_chr, start, end, elem[id]) ... ]"""
 
     start, end = max(elem['start'], chain.tStart) - chain.tStart, min(elem['end'], chain.tEnd) - chain.tStart
 
@@ -117,7 +118,7 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
 
         #mapped elements must end up in the same chain and chromosome
         if len(matching_block_ids) == 0 or len(matching_block_ids) > 1:
-            log.debug("%s in different chain/chromosomes" % (str(from_elem)))
+            log.debug("%s no match or in different chain/chromosomes" % (str(from_elem)))
             continue
 
         # do the actual mapping
@@ -201,27 +202,31 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__, epilog="Olgert Denas (Taylor Lab)",
             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument("input", help="Input to process. If this is a directory, all files in it will be mapped and placed on --output, which should be a directory.")
+    parser.add_argument("input", nargs='*',
+            help="Input to process. If more than a file is specified, all files will be mapped and placed on --output, which should be a directory.")
     parser.add_argument("alignment", help="Alignment file (.chain or .pkl)")
 
     parser.add_argument("-f", '--format', choices=("BED4", "BED12"), default="BED4",
             help="Output format.")
     parser.add_argument("-o", '--output', metavar="FILE", default='stdout',
             type=lambda s: ((s in ('stdout', '-') and "/dev/stdout") or s),
-            help="Output file. Mandatory if input is a directory.")
+            help="Output file. Mandatory if more than on file in input.")
     parser.add_argument("-t", '--threshold', metavar="FLOAT", default=0., type=float,
             help="Mapping threshold i.e., |elem| * threshold <= |mapped_elem|")
     parser.add_argument("-s", '--screen', default=False, action='store_true',
             help="Only report elements in the alignment (without mapping). -t has not effect here (TODO)")
     parser.add_argument('-g', '--gap', type=int, default=-1,
             help="Ignore elements with an insertion/deletion of this or bigger size.")
+    parser.add_argument('-v', '--verbose', type=str, choices=LOG_LEVELS.keys(), default='info',
+            help='Verbosity level')
 
 
     opt = parser.parse_args()
+    log.setLevel(LOG_LEVELS[opt.verbose])
 
     #check for output if input is a directory arguments
-    if os.path.isdir(opt.input) and (not os.path.isdir(opt.output)):
-        parser.error("If input is a dir, output is mandatory and should be a dir as well")
+    if len(opt.input) > 1 and (not os.path.isdir(opt.output)):
+        parser.error("For multiple inputs, output is mandatory and should be a dir.")
 
 
     #loading alignments from opt.alignment
@@ -236,15 +241,17 @@ if __name__ == "__main__":
         TREE.add(chain.tName, Interval(chain.tStart, chain.tEnd, chain.id))
 
     # transform elements
-    if os.path.isdir(opt.input):
-        for infn in os.listdir(opt.input):
-            inpath = os.path.join(opt.input, infn)
-            outpath = os.path.join(opt.output, infn)
+    if len(opt.input) > 1:
+        for inpath in opt.input:
+            if not os.path.isfile(inpath):
+                log.warning("skipping %s (not a file) ..." % inpath)
+                continue
+            outpath = os.path.join(opt.output, os.path.basename(inpath))
             if os.path.isfile(outpath):
                 log.warning("overwriting %s ..." % outpath)
             transform_file(loadFeatures(inpath), outpath, EPO, TREE, opt)
     else:
-        transform_file(loadFeatures( opt.input ), opt.output, EPO, TREE, opt)
+        transform_file(loadFeatures( opt.input[0] ), opt.output, EPO, TREE, opt)
 
 
 

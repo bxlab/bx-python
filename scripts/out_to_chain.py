@@ -41,11 +41,11 @@ if __name__ == '__main__':
             epilog="Olgert Denas (Taylor Lab)",
             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument("input", help="File to process")
+    parser.add_argument("input", help="File to process.")
     parser.add_argument("--species", nargs=2, default=["homo_sapiens", "mus_musculus"],
-            help="Names of target and query species (respectively) in the alignment")
-    parser.add_argument("--chrsizes", nargs=2,
-            help="Chromosome sizes for the given species. For human and mouse, these are provided, so you can leave it empty.")
+            help="Names of target and query species (respectively) in the alignment.")
+    parser.add_argument("--chrsizes", nargs=2, required=True,
+            help="Chromosome sizes for the given species.")
     parser.add_argument("-o", '--output', metavar="FILE", default='stdout', type=outFile, help="Output file")
 
     opt = parser.parse_args()
