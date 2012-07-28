@@ -16,7 +16,7 @@ from bx.align import epo
 from bx.align.epo import bed_union as elem_u
 
 elem_t = np.dtype([('chrom', np.str_, 30), ('start', np.int64), ('end', np.int64), ('id', np.str_, 100)])
-LOG_LEVELS = {"info" : logging.INFO, "debug" : logging.DEBUG, "silent" : logging.CRITICAL}
+LOG_LEVELS = {"info" : logging.INFO, "debug" : logging.DEBUG, "silent" : logging.ERROR}
 
 logging.basicConfig()
 log = logging.getLogger()
@@ -202,7 +202,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__, epilog="Olgert Denas (Taylor Lab)",
             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument("input", nargs='*',
+    parser.add_argument("input", nargs='+',
             help="Input to process. If more than a file is specified, all files will be mapped and placed on --output, which should be a directory.")
     parser.add_argument("alignment", help="Alignment file (.chain or .pkl)")
 

@@ -21,7 +21,7 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
     __slots__ = ()
 
     def __str__(self):
-        return "chain 0 {tName} {tSize} {tStrand} {tStart} {tEnd} {qName} {qSize} {qStrand} {qStart} {qEnd} {id}".format(**self._asdict())
+        return "chain {score} {tName} {tSize} {tStrand} {tStart} {tEnd} {qName} {qSize} {qStrand} {qStart} {qEnd} {id}".format(**self._asdict())
 
     @classmethod
     def _strfactory(cls, line):
@@ -34,7 +34,7 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
 
         line = line.rstrip().split()[1:] # the first component is the keyword "chain"
         tup = map(lambda t: t[0](t[1]),
-                zip([float, str, int, str, int, int, str, int, str, int, int, str], line))
+                zip([int, str, int, str, int, int, str, int, str, int, int, str], line))
         return tuple.__new__(cls, tup)
 
     @classmethod
@@ -155,7 +155,9 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
             log.debug("loading pickled file %s ..." % fname)
             return cPickle.load( open(fname) )
         elif os.path.isfile("%s.pkl" % fname):
-            log.warning("loading pickled file %s.pkl ..." % fname)
+            log.info("loading pickled file %s.pkl ..." % fname)
+            if os.stat(fname).st_mtime > os.stat("%s.pkl" % fname).st_mtime:
+                log.critical("*** pickled file %s.pkl is not up to date ***" % (fname))
             return cPickle.load( open("%s.pkl" % fname) )
 
         data = fastLoadChain(fname, cls._strfactory)
