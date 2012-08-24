@@ -113,6 +113,7 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
     BED12_FRM = "%s\t%d\t%d\t%s\t1000\t+\t%d\t%d\t0,0,0\t%d\t%s\t%s\n"
     assert len( set(from_elem_list['chrom']) ) <= 1
 
+    mapped_elem_count = 0
     for from_elem in from_elem_list:
         matching_block_ids = map(attrgetter("value"), tree.find(chrom, from_elem['start'], from_elem['end']))
 
@@ -134,6 +135,7 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
         # if to_species had insertions you can join elements
         to_elem_list = sorted(union_elements(to_elem_slices), key=lambda a: a[1])
         if to_elem_list:
+            mapped_elem_count += 1
             log.debug("\tjoined to %d elements" % (len(to_elem_list)))
             if opt.format == "BED4":
                 map(lambda tel: out_fd.write(BED4_FRM % tel), to_elem_list)
@@ -145,6 +147,7 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
                         ",".join( map(lambda e: "%d" % (e[2]-e[1]), to_elem_list) ),
                         ",".join( map(lambda e: "%d" % (e[1]-start), to_elem_list) ) )
                         )
+    log.info("%s %d of %d elements mapped" % (chrom, mapped_elem_count, from_elem_list.shape[0]))
 
 def transform_file(ELEMS, ofname, EPO, TREE, opt):
     "transform/map the elements of this file and dump the output on 'ofname'"
