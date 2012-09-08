@@ -15,8 +15,7 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
     """A Chain header as in http://genome.ucsc.edu/goldenPath/help/chain.html
 
     chain coordinates are with respect to the strand, so for example tStart on the + strand is the
-    distance from the 0th position from the left; tStart on the - strand is the distance from
-    the last position from the right."""
+    distance from the leftmost position; tStart on the - strand is the distance from the rightmost position."""
 
     __slots__ = ()
 
@@ -152,9 +151,11 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
         :param fname: name of the file"""
 
         if fname.endswith('.pkl'):
+            #you asked for the pickled file. I'll give it to you
             log.debug("loading pickled file %s ..." % fname)
             return cPickle.load( open(fname) )
         elif os.path.isfile("%s.pkl" % fname):
+            #there is a cached version I can give to you
             log.info("loading pickled file %s.pkl ..." % fname)
             if os.stat(fname).st_mtime > os.stat("%s.pkl" % fname).st_mtime:
                 log.critical("*** pickled file %s.pkl is not up to date ***" % (fname))
@@ -268,4 +269,5 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
         assert self.end - self.start + 1 == d_sum, "[ (%d, %d) = %d ] != %d" % (self.start, self.end,
                 self.end-self.start+1, d_sum)
         return d[1:] #clip the (thr, thr) entry
+
 

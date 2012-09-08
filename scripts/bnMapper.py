@@ -3,7 +3,9 @@
 """Map features from the target species to the query species of a chain alignment file.
 This is intended for mapping relatively short features such as Chip-Seq
 peaks on TF binding events. Features that get mapped on different chromosomes
-or that span multiple chains are silently filtered out."""
+or that span multiple chains are silently filtered out. TODO:
+(1)for narrowPeak input, map the predicted peak position.
+"""
 
 
 import sys, os, logging, pdb
@@ -152,6 +154,7 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
 def transform_file(ELEMS, ofname, EPO, TREE, opt):
     "transform/map the elements of this file and dump the output on 'ofname'"
 
+    BED4_FRM = "%s\t%d\t%d\t%s\n"
     log.info("%s (%d) elements ..." % (opt.screen and "screening" or "transforming", ELEMS.shape[0]))
     with open(ofname, 'w') as out_fd:
         if opt.screen:
