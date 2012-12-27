@@ -31,9 +31,8 @@ discarded. [1]_
 
 """
 
-from __future__ import generators
-
-# TODO: Remove this in favor of functools.lru_cache
+# TODO: Remove this file in favor of functools.lru_cache
+# when the minimum Python version is high enough
 
 import time
 from heapq import heappush, heappop, heapify
