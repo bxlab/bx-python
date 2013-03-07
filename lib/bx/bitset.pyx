@@ -8,6 +8,8 @@ when working with either small subregions of the total interval or setting /
 testing spans larger than the bin size, it can be much faster.
 """
 
+import sys
+
 cdef extern from "common.h":
     ctypedef int boolean
 
@@ -110,7 +112,8 @@ cdef class BitSet:
         self.bitCount = bitCount
         self.bits = bitAlloc( bitCount )
     def __dealloc__( self ):
-        bitFree( & self.bits )
+        if self.bits:
+            bitFree( & self.bits )
     property size:
         def __get__( self ):
             return self.bitCount
@@ -198,7 +201,8 @@ cdef class BinnedBitSet:
             raise ValueError( "%d is larger than the maximum BinnedBitSet size of %d." % ( size, MAX_INT ) )
         self.bb = binBitsAlloc( size, granularity )
     def __dealloc__( self ):
-        binBitsFree( self.bb );
+        if self.bb:
+            binBitsFree( self.bb );
     def __getitem__( self, index ):
         bb_check_index( self, index )
         return binBitsReadOne( self.bb, index )
