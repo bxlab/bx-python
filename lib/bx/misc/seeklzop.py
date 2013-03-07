@@ -8,9 +8,10 @@ import sys
 try:
     import pkg_resources
     pkg_resources.require( 'python_lzo' )
+    import lzo
 except:
     pass
-import lzo
+
 import struct
 
 from bx_extras import lrucache   
