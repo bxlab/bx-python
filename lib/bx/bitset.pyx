@@ -197,7 +197,7 @@ cdef class BinnedBitSet:
         if size > MAX_INT:
             raise ValueError( "%d is larger than the maximum BinnedBitSet size of %d." % ( size, MAX_INT ) )
         self.bb = binBitsAlloc( size, granularity )
-    def __dealloc( self ):
+    def __dealloc__( self ):
         binBitsFree( self.bb );
     def __getitem__( self, index ):
         bb_check_index( self, index )

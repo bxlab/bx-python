@@ -26,6 +26,7 @@ void binBitsFree( struct BinBits *bb )
             bitFree( &(bb->bins[i]) );
         }
     }
+    freeMem( bb->bins );
     freeMem( bb );
 }
 
