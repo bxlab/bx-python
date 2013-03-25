@@ -52,13 +52,13 @@ cdef class BPTFile:
         else:
             # Read and discard first key, store offset
             self.reader.read( self.key_size )
-            offset = self.reader.read_bits64()
+            offset = self.reader.read_uint64()
             # Loop until correct subtree is found
             for i from 0 <= i < child_count:
                 node_key = self.reader.read( self.key_size )
                 if node_key > key:
                     break
-                offset = self.reader.read_bits64()
+                offset = self.reader.read_uint64()
             return self.r_find( offset, key )
 
     def find( self, key ):
