@@ -136,6 +136,10 @@ def do_interval( sources, index, out, ref_src, start, end, ref_2bit, missing_dat
     # Make sure the reference component is also the first in the source list
     assert sources[0].split('.')[0] == ref_src.split('.')[0], "%s != %s" \
         % ( sources[0].split('.')[0], ref_src.split('.')[0] )
+    # Extract non-species part from ref_src for grabbing sequence
+    ref_chr = ref_src
+    if "." in ref_src:
+        ref_chr = ref_src[ref_src.index(".")+1:]
     # Determine the overall length of the interval
     base_len = end - start
     # Counter for the last reference species base we have processed
@@ -178,7 +182,7 @@ def do_interval( sources, index, out, ref_src, start, end, ref_2bit, missing_dat
         if ref.start > last_stop:
             # Need to fill in some reference sequence
             chunk_len = ref.start - last_stop
-            text = ref_2bit[ ref_src ].get( last_stop, last_stop + chunk_len ) 
+            text = ref_2bit[ ref_chr ].get( last_stop, last_stop + chunk_len ) 
             tiled_rows[0] += text
             for source in sources[1:]:
                 cols_needing_fill[ source_to_index[ source ] ] += chunk_len
@@ -226,7 +230,7 @@ def do_interval( sources, index, out, ref_src, start, end, ref_2bit, missing_dat
     if last_stop < end:
         # Need to fill in some reference sequence
         chunk_len = end - last_stop
-        tiled_rows[0] += ref_2bit[ ref_src ].get( last_stop, last_stop + chunk_len ) 
+        tiled_rows[0] += ref_2bit[ ref_chr ].get( last_stop, last_stop + chunk_len ) 
         for source in sources[1:]:
             cols_needing_fill[ source_to_index[ source ] ] += chunk_len
     # Any final filling that needs to be done?
@@ -252,7 +256,7 @@ def do_interval( sources, index, out, ref_src, start, end, ref_2bit, missing_dat
         text = "".join( tiled_rows[i] )
         size = len( text ) - text.count( "-" )
         if i == 0:
-            if ref_src_size is None: ref_src_size = ref_2bit[ ref_src ].length
+            if ref_src_size is None: ref_src_size = ref_2bit[ ref_chr ].length
             c = align.Component( ref_src, start, end-start, "+", ref_src_size, text )
         else:
             c = align.Component( name + ".fake", 0, size, "?", size, text )
