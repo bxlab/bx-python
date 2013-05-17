@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import with_statement
 
 import sys, os, logging, pdb
 from itertools import product, izip, imap

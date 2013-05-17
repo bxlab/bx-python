@@ -7,6 +7,7 @@ or that span multiple chains are silently filtered out. TODO:
 (1)for narrowPeak input, map the predicted peak position.
 """
 
+from __future__ import with_statement
 
 import sys, os, logging, pdb
 import numpy as np
@@ -16,6 +17,7 @@ from bx.intervals.intersection import IntervalTree, Interval
 from bx.cookbook import argparse
 from bx.align import epo
 from bx.align.epo import bed_union as elem_u
+
 
 elem_t = np.dtype([('chrom', np.str_, 30), ('start', np.int64), ('end', np.int64), ('id', np.str_, 100)])
 LOG_LEVELS = {"info" : logging.INFO, "debug" : logging.DEBUG, "silent" : logging.ERROR}
@@ -119,15 +121,12 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
     for from_elem in from_elem_list:
         matching_block_ids = map(attrgetter("value"), tree.find(chrom, from_elem['start'], from_elem['end']))
 
-        #mapped elements must end up in the same chain and chromosome
-        if len(matching_block_ids) == 0 or len(matching_block_ids) > 1:
+        # do the actual mapping
+        to_elem_slices = filter(bool, map(lambda i: transform(from_elem, all_epo[i], opt.gap), matching_block_ids))
+        if len(to_elem_slices) > 1 or len(to_elem_slices) == 0:
             log.debug("%s no match or in different chain/chromosomes" % (str(from_elem)))
             continue
-
-        # do the actual mapping
-        matching_block = all_epo[matching_block_ids[0]]
-        to_elem_slices = transform(from_elem, matching_block, opt.gap)
-        #to_elem_slices = reduce(concat, map(lambda b: transform(from_elem, b, opt.gap), matching_blocks), [])
+        to_elem_slices = to_elem_slices[0]
 
         # apply threshold
         if (from_elem[2] - from_elem[1]) * opt.threshold > reduce(lambda b,a: a[2]-a[1] + b, to_elem_slices, 0):

@@ -1,6 +1,7 @@
 
 """Classes and utilities for mutliple alignments from the EPO pipeline"""
 
+from __future__ import with_statement
 
 import logging, re, cPickle, os
 from collections import namedtuple
@@ -145,10 +146,14 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
             return (self.qName, st, en, self.id, self.score, self.qStrand)
 
     @classmethod
-    def _parse_file(cls, fname, pickle=False):
+    def _parse_file(cls, path, pickle=False):
         """parse a .chain file into a list of the type [(L{Chain}, arr, arr, arr) ...]
 
         :param fname: name of the file"""
+
+        fname = path
+        if fname.endswith(".gz"):
+            fname = path[:-3]
 
         if fname.endswith('.pkl'):
             #you asked for the pickled file. I'll give it to you
@@ -157,11 +162,11 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
         elif os.path.isfile("%s.pkl" % fname):
             #there is a cached version I can give to you
             log.info("loading pickled file %s.pkl ..." % fname)
-            if os.stat(fname).st_mtime > os.stat("%s.pkl" % fname).st_mtime:
-                log.critical("*** pickled file %s.pkl is not up to date ***" % (fname))
+            if os.stat(path).st_mtime > os.stat("%s.pkl" % fname).st_mtime:
+                log.critical("*** pickled file %s.pkl is not up to date ***" % (path))
             return cPickle.load( open("%s.pkl" % fname) )
 
-        data = fastLoadChain(fname, cls._strfactory)
+        data = fastLoadChain(path, cls._strfactory)
         if pickle and not os.path.isfile('%s.pkl' % fname):
             log.info("pckling to %s.pkl" % (fname))
             with open('%s.pkl' % fname, 'wb') as fd:

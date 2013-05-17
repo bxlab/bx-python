@@ -26,5 +26,9 @@ class Test6( base.BaseScriptTest, unittest.TestCase ):
     command_line = "./scripts/bnMapper.py -g9 -t0.7 ./test_data/epo_tests/hpeaks.bed ./test_data/epo_tests/epo_547_hs_mm_12way_mammals_65.chain"
     output_stdout = base.TestFile( filename="./test_data/epo_tests/hpeaks.mapped.nopeak2.bed4" )
 
+class Test6( base.BaseScriptTest, unittest.TestCase ):
+    command_line = "./scripts/bnMapper.py ./test_data/epo_tests/hg19_one_peak.bed ./test_data/epo_tests/hg19.mm9.rBest.chain.gz"
+    output_stdout = base.TestFile( filename="./test_data/epo_tests/hg19_one_peak.mapped.bed" )
+
 unittest.main()
 

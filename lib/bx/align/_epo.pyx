@@ -1,6 +1,6 @@
 
 
-import logging
+import logging, gzip
 from collections import namedtuple
 import numpy
 cimport numpy
@@ -92,7 +92,8 @@ def rem_dash(p, q):
 
 def fastLoadChain(fname, hf):
     data = []
-    with open(fname) as fd:
+    open_f = (fname.endswith(".gz") and gzip.open or open)
+    with open_f(fname) as fd:
         while True:
             line = fd.readline()
             if line == "":
