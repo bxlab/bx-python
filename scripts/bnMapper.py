@@ -2,8 +2,8 @@
 
 """Map features from the target species to the query species of a chain alignment file.
 This is intended for mapping relatively short features such as Chip-Seq
-peaks on TF binding events. Features that get mapped on different chromosomes
-or that span multiple chains are silently filtered out. TODO:
+peaks on TF binding events. Features that when mapped
+span multiple chains or multiple chromosomes are silently filtered out. TODO:
 (1)for narrowPeak input, map the predicted peak position.
 """
 
