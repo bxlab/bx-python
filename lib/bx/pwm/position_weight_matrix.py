@@ -25,7 +25,7 @@ class Align(object):
             try:
                 if ncol == None: ncol = len(row)
                 elif ncol != len(row):
-                    raise "Align: __init__:alignment block:row %d does not have %d columns, it has %d" % (rownum,ncol,len(row))
+                    raise ValueError("Align: __init__:alignment block:row %d does not have %d columns, it has %d" % (rownum,ncol,len(row)))
             except:
                 print row
                 raise Exception('')
@@ -40,7 +40,7 @@ class AlignScoreMatrix (object):
         nan = float('nan')
 
         matrix = zeros((align.nrows,align.ncols),float32)
-        
+
         # set to nans
         for ir in range( len(matrix) ):
             for ic in range(len( matrix[ir] )):
@@ -197,7 +197,7 @@ class PositionWeightMatrix (object):
                 try:
                     (w,s) = self.parse_weight(count)
                 except ValueError:
-                    raise "pwm row %s has bad weight %s" % (" ".join(fields),t)
+                    raise ValueError("pwm row %s has bad weight %s" % (" ".join(fields),t))
 
                 # replace row counts with (values,scale)
                 rows[i][x] = (w,s)
@@ -477,7 +477,7 @@ class PositionWeightMatrix (object):
     def score_seq(self,seq):
         if (type(seq[0]) == dict):
             return self.score_quantum_seq(seq)
- 
+
         scores = []
         for start in range( len(seq)):
             if start + len(self) > len(seq): break
@@ -655,12 +655,12 @@ class Reader (object):
         elif self.format == 'transfac':
             return self.read_as_transfac()
         else:
-            raise "unknown weight matrix file format: '%s'" % self.format
+            raise ValueError("unknown weight matrix file format: '%s'" % self.format)
 
     def read_as_basic(self):
         tfId    = None
         pwmRows = None
-    
+
         alphabet = ['A','C','G','T']
         while (True):
             line = self.file.readline()
@@ -684,12 +684,12 @@ class Reader (object):
                 pwmRows.append( tokens )
         if pwmRows != None: # we've finished collecting a desired matrix
             yield PositionWeightMatrix(tfId,pwmRows,alphabet,background=self.background,score_correction=self.score_correction)
-    
+
     def read_as_transfac(self):
         self.tfToPwm = {}
         tfId    = None
         pwmRows = None
-    
+
         while (True):
             line = self.file.readline()
             if (not line): break
@@ -704,7 +704,7 @@ class Reader (object):
                         print >>sys.stderr, "Failed to read", tfId
                     tfId    = None
                     pwmRows = None
-    
+
                 tokens = line.split (None, 2)
                 if len(tokens) != 2:
                     raise ValueError, "bad line, need two fields (%s)" % self.where()
@@ -716,7 +716,7 @@ class Reader (object):
                         % (tfId,self.where())
                 pwmRows = []          # start collecting a desired matrix
                 continue
-    
+
             # if we're not collecting, skip this line
             if pwmRows == None: continue
             if len(line) < 1:   continue
@@ -725,14 +725,14 @@ class Reader (object):
             if line.startswith('NA'):
                 words = line.strip().split()
                 tfId =  tfId + "\t" + " ".join(words[1:])
-    
+
             # handle a P0 line
             if line.startswith("P0"):
                 alphabet = line.split()[1:]
                 if len(alphabet) < 2:
                     raise ValueError, "bad line, need more dna (%s)" % self.where()
                 continue
-    
+
             # handle a 01,02,etc. line
             if line[0].isdigit():
                 tokens = line.split ()

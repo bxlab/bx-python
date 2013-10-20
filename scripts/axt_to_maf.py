@@ -1,19 +1,19 @@
 #!/usr/bin/env python
 
 """
-Application to convert AXT file to MAF file. Reads an AXT file from standard 
-input and writes a MAF file to standard out;  some statistics are written to 
+Application to convert AXT file to MAF file. Reads an AXT file from standard
+input and writes a MAF file to standard out;  some statistics are written to
 standard error.
 
 axt_to_maf primary:lengths_file secondary:lengths_file < axt_file > maf_file
   --silent: prevents stats report
-  
+
   Lengths files provide the length of each chromosome (maf format needs this
   information but axt file does not contain it).  The format is a series of
   lines of the form:
-  
+
     <chromosome name> <length>
-  
+
   The chromosome field in each axt block must match some <chromosome name> in
   the lengths file.
 """
@@ -138,17 +138,17 @@ def read_lengths (fileName):
 
 		fields = line.split ()
 		if (len(fields) != 2):
-			raise "bad lengths line (%s:%d): %s" % (fileName,lineNumber,line)
+			raise ValueError("bad lengths line (%s:%d): %s" % (fileName,lineNumber,line))
 
 		chrom = fields[0]
 		try:
 			length = int(fields[1])
 		except:
-			raise "bad lengths line (%s:%d): %s" % (fileName,lineNumber,line)
+			raise ValueError("bad lengths line (%s:%d): %s" % (fileName,lineNumber,line))
 
 		if (chrom in chromToLength):
-			raise "%s appears more than once (%s:%d): %s" \
-			    % (chrom,fileName,lineNumber)
+			raise ValueError("%s appears more than once (%s:%d): %s" \
+			    % (chrom,fileName,lineNumber))
 
 		chromToLength[chrom] = length
 

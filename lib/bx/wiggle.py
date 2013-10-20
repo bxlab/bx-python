@@ -1,5 +1,5 @@
 """
-Support for scores in the `wiggle`_ file format used by the UCSC Genome 
+Support for scores in the `wiggle`_ file format used by the UCSC Genome
 Browser.
 
 The positions in the wiggle format are 1-relative, however,
@@ -52,7 +52,7 @@ def IntervalReader( f ):
                     yield fields[0], int( fields[1] ), int( fields[2] ), fields[5], float( fields[3] )
                 else:
                     yield fields[0], int( fields[1] ), int( fields[2] ), strand, float( fields[3] )
-        elif mode == "variableStep": 
+        elif mode == "variableStep":
             fields = line.split()
             pos = int( fields[0] ) - 1
             yield current_chrom, pos, pos + current_span, strand, float( fields[1] )
@@ -60,7 +60,7 @@ def IntervalReader( f ):
             yield current_chrom, current_pos, current_pos + current_span, strand, float( line.split()[0] )
             current_pos += current_step
         else:
-            raise "Unexpected input line: %s" % line.strip()
+            raise ValueError("Unexpected input line: %s" % line.strip())
 
 
 class Reader( object ):
@@ -71,7 +71,7 @@ class Reader( object ):
     """
     def __init__( self, f ):
         self.file = f
-        
+
     def __iter__( self ):
         for chrom, start, end, strand, val in IntervalReader( self.file ):
             for pos in xrange( start, end ):

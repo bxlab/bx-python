@@ -8,7 +8,7 @@ def read_lengths_file( name ):
     """
     Returns a hash from sequence name to length.
     """
-    
+
     chrom_to_length = {}
     f = file ( name, "rt" )
     for line in f:
@@ -20,9 +20,9 @@ def read_lengths_file( name ):
             chrom = fields[0]
             length = int( fields[1] )
         except:
-            raise "bad length file line: %s" % line
+            raise ValueError("bad length file line: %s" % line)
         if chrom in chrom_to_length and length != chrom_to_length[chrom]:
-            raise "%s has more than one length!" % chrom
+            raise ValueError("%s has more than one length!" % chrom)
         chrom_to_length[chrom] = length
     f.close()
     return chrom_to_length

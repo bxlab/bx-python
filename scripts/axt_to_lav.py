@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 """
-Application to convert AXT file to LAV file. Reads an AXT file from standard 
-input and writes a LAV file to standard out; some statistics are written to 
+Application to convert AXT file to LAV file. Reads an AXT file from standard
+input and writes a LAV file to standard out; some statistics are written to
 standard error.
 
 usage: %prog primary_spec secondary_spec [--silent] < axt_file > lav_file
@@ -10,11 +10,11 @@ usage: %prog primary_spec secondary_spec [--silent] < axt_file > lav_file
 Each spec is of the form seq_file[:species_name]:lengths_file.
 
 - seq_file should be a format string for the file names for the individual
-  sequences, with %s to be replaced by the alignment's src field.  For 
-  example, "hg18/%s.nib" would prescribe files named "hg18/chr1.nib", 
+  sequences, with %s to be replaced by the alignment's src field.  For
+  example, "hg18/%s.nib" would prescribe files named "hg18/chr1.nib",
   "hg18/chr2.nib", etc.
 
-- species_name is optional.  If present, it is prepended to the alignment's 
+- species_name is optional.  If present, it is prepended to the alignment's
   src field.
 
 - Lengths files provide the length of each chromosome (lav format needs this
@@ -135,17 +135,17 @@ def read_lengths (fileName):
 
 		fields = line.split ()
 		if (len(fields) != 2):
-			raise "bad lengths line (%s:%d): %s" % (fileName,lineNumber,line)
+			raise ValueError("bad lengths line (%s:%d): %s" % (fileName,lineNumber,line))
 
 		chrom = fields[0]
 		try:
 			length = int(fields[1])
 		except:
-			raise "bad lengths line (%s:%d): %s" % (fileName,lineNumber,line)
+			raise ValueError("bad lengths line (%s:%d): %s" % (fileName,lineNumber,line))
 
 		if (chrom in chromToLength):
-			raise "%s appears more than once (%s:%d): %s" \
-			    % (chrom,fileName,lineNumber)
+			raise ValueError("%s appears more than once (%s:%d): %s" \
+			    % (chrom,fileName,lineNumber))
 
 		chromToLength[chrom] = length
 

@@ -61,7 +61,7 @@ class QdnaFile(SeqFile):
             if (magic == qdnaMagicSwap):
                 self.byte_order = "<"
             else:
-                raise "not a quantum-dna file (magic=%08X)" % magic
+                raise ValueError("not a quantum-dna file (magic=%08X)" % magic)
 
         self.magic = magic
 
@@ -70,14 +70,14 @@ class QdnaFile(SeqFile):
         self.version = struct.unpack("%sL" % self.byte_order,
                                      self.file.read(4))[0]
         if (self.version not in [0x100,0x200]):
-            raise "unsupported quantum-dna (version=%08X)" % self.version
+            raise ValueError("unsupported quantum-dna (version=%08X)" % self.version)
 
         self.headerLength = struct.unpack("%sL" % self.byte_order,
                                           self.file.read(4))[0]
         if (self.headerLength < 0x10):
-            raise "unsupported quantum-dna (header len=%08X)" % self.headerLength
+            raise ValueError("unsupported quantum-dna (header len=%08X)" % self.headerLength)
         if (self.version == 0x100) and (self.headerLength != 0x10):
-            raise "unsupported quantum-dna (version 1.0 header len=%08X)" % self.headerLength
+            raise ValueError("unsupported quantum-dna (version 1.0 header len=%08X)" % self.headerLength)
 
         self.seqOffset  = struct.unpack("%sL" % self.byte_order,
                                         self.file.read(4))[0]
@@ -210,21 +210,21 @@ class QdnaCodebook(object):
 
             fields = line.split(None)
             if (len(fields) != 5):
-                raise "wrong vector size (line %d)" % lineNum
+                raise ValueError("wrong vector size (line %d)" % lineNum)
 
             try:
                 codeNum = int(fields[0],16)
             except:
-                raise "bad character code %s (line %d)" \
-                    % (fields[0],lineNum)
+                raise ValueError("bad character code %s (line %d)" \
+                    % (fields[0],lineNum))
 
             if (not 0 <= codeNum <= 255):
-                raise "character code %s is outside the valid range (line %d)" \
-                     % (fields[0],lineNum)
+                raise ValueError("character code %s is outside the valid range (line %d)" \
+                     % (fields[0],lineNum))
 
             if (chr(codeNum) in codeToProbs):
-                raise "character code %s appears more than once (line %d)" \
-                     % (fields[0],lineNum)
+                raise ValueError("character code %s appears more than once (line %d)" \
+                     % (fields[0],lineNum))
 
             try:
                 vec = {}
@@ -233,8 +233,8 @@ class QdnaCodebook(object):
                     if (p < 0) or (p > 1): raise ValueError
                     vec[alphabet[ix-1]] = p
             except:
-                raise "%s is a bad probability value (line %d)" \
-                     % (fields[ix],lineNum)
+                raise ValueError("%s is a bad probability value (line %d)" \
+                     % (fields[ix],lineNum))
 
             codeToProbs[chr(codeNum)] = vec
 

@@ -1,6 +1,6 @@
 """
 Support for reading and writing the LAV format produced by the `blastz`_
-pairwise aligner. 
+pairwise aligner.
 
 .. _blastz: http://www.bx.psu.edu/miller_lab/
 """
@@ -423,8 +423,8 @@ class Writer(object):
 
 	def write(self,alignment):
 		if (len(alignment.components) != 2):
-			raise "%d-component alignment is not compatible with lav" % \
-				   len(alignment.components)
+			raise ValueError("%d-component alignment is not compatible with lav" % \
+				   len(alignment.components))
 
 		c1 = alignment.components[0]
 		c2 = alignment.components[1]

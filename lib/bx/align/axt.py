@@ -1,5 +1,5 @@
 """
-Support for reading and writing the `AXT`_ format used for pairwise 
+Support for reading and writing the `AXT`_ format used for pairwise
 alignments.
 
 .. _AXT: http://genome.ucsc.edu/goldenPath/help/axt.html
@@ -59,7 +59,7 @@ class Indexed( object ):
 
 class Reader( object ):
     """Iterate over all axt blocks in a file in order"""
-    
+
     def __init__( self, file, species1 = None, species2=None, species_to_lengths=None, support_ids=False ):
         self.file = file
         # nota bene: (self.species1 = species1 or "species1") is incorrect if species1=""
@@ -83,7 +83,7 @@ class Reader( object ):
 class ReaderIter( object ):
     def __init__( self, reader ):
         self.reader = reader
-    def __iter__( self ): 
+    def __iter__( self ):
         return self
     def next( self ):
         v = self.reader.next()
@@ -101,8 +101,8 @@ class Writer( object ):
 
     def write( self, alignment ):
         if (len(alignment.components) != 2):
-            raise "%d-component alignment is not compatible with axt" % \
-                   len(alignment.components)
+            raise ValueError("%d-component alignment is not compatible with axt" % \
+                   len(alignment.components))
         c1 = alignment.components[0]
         c2 = alignment.components[1]
 
@@ -143,14 +143,14 @@ def read_next_axt( file, species1, species2, species_to_lengths=None, support_id
     if not line: return
     fields = line.split()
     if (len(fields) < 9) or ((not support_ids) and (len(fields) > 9)):
-        raise "bad axt-block header: %s" % line
+        raise ValueError("bad axt-block header: %s" % line)
     attributes = {}
     if (len(fields) > 9):
         attributes["id"] = "_".join(fields[9:])
     seq1 = readline( file )
-    if not line or line.isspace(): raise "incomplete axt-block; header: %s" % line
+    if not line or line.isspace(): raise ValueError("incomplete axt-block; header: %s" % line)
     seq2 = readline( file )
-    if not line or line.isspace(): raise "incomplete axt-block; header: %s" % line
+    if not line or line.isspace(): raise ValueError("incomplete axt-block; header: %s" % line)
     # Build 2 component alignment
     alignment = Alignment(attributes=attributes,species_to_lengths=species_to_lengths)
     # Build component for species 1

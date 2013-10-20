@@ -36,9 +36,9 @@ class Alignment( object ):
         component._alignment = weakref.ref( self )
         self.components.append( component )
         if component.text is not None:
-            if self.text_size == 0: 
+            if self.text_size == 0:
                 self.text_size = len( component.text )
-            elif self.text_size != len( component.text ): 
+            elif self.text_size != len( component.text ):
                 raise Exception( "Components must have same text length" )
 
     def get_score( self ):
@@ -57,11 +57,11 @@ class Alignment( object ):
 
     def __str__( self ):
         s = "a score=" + str( self.score )
-        for key in self.attributes: 
+        for key in self.attributes:
             s += " %s=%s" % ( key, self.attributes[key] )
         s += "\n"
         # Components
-        for c in self.components: 
+        for c in self.components:
             s += str( c )
             s += "\n"
         return s
@@ -73,13 +73,13 @@ class Alignment( object ):
         elif chrom in self.species_to_lengths:
             chrom_to_length = self.species_to_lengths
         else:
-            raise "no src_size (no length file for %s)" % species
+            raise ValueError("no src_size (no length file for %s)" % species)
         if type( chrom_to_length ) == int:         # (if it's a single length)
             return chrom_to_length
         if type( chrom_to_length ) == type( "" ):  # (if it's a file name)
             chrom_to_length = read_lengths_file( chrom_to_length )
             self.species_to_lengths[species] = chrom_to_length
-        if chrom not in chrom_to_length: raise "no src_size (%s has no length for %s)" % ( species, chrom )
+        if chrom not in chrom_to_length: raise ValueError("no src_size (%s has no length for %s)" % ( species, chrom ))
         return chrom_to_length[chrom]
 
     def get_component_by_src( self, src ):
@@ -94,7 +94,7 @@ class Alignment( object ):
     def get_component_by_src_start( self, src ):
         for c in self.components:
             if c.src.startswith( src ): return c
-        return None    
+        return None
 
     def slice( self, start, end ):
         new = Alignment( score=self.score, attributes=self.attributes )
@@ -105,14 +105,14 @@ class Alignment( object ):
             new.components.append( component.slice( start, end ) )
         new.text_size = end - start
         return new
-    
+
     def reverse_complement( self ):
         new = Alignment( score=self.score, attributes=self.attributes )
         for component in self.components:
             new.components.append( component.reverse_complement() )
         new.text_size = self.text_size
         return new
-    
+
     def slice_by_component( self, component_index, start, end ):
         """
         Return a slice of the alignment, corresponding to an coordinate interval in a specific component.
@@ -133,12 +133,12 @@ class Alignment( object ):
             ref = component_index
         else:
             raise ValueError( "can't figure out what to do" )
-        start_col = ref.coord_to_col( start )  
-        end_col = ref.coord_to_col( end )  
+        start_col = ref.coord_to_col( start )
+        end_col = ref.coord_to_col( end )
         if (ref.strand == '-'):
             (start_col,end_col) = (end_col,start_col)
         return self.slice( start_col, end_col )
-        
+
     def column_iter( self ):
         for i in range( self.text_size ):
             yield [ c.text[i] for c in self.components ]
@@ -180,7 +180,7 @@ class Alignment( object ):
             if seqs[i] is None: continue
             self.components[i].text = ''.join( seqs[i] )
         self.text_size = text_size
-        
+
     def __eq__( self, other ):
         if other is None or type( other ) != type( self ):
             return False
@@ -194,17 +194,17 @@ class Alignment( object ):
             if c1 != c2:
                 return False
         return True
-        
+
     def __ne__( self, other ):
         return not( self.__eq__( other ) )
-    
+
     def __deepcopy__( self, memo ):
         from copy import deepcopy
         new = Alignment( score=self.score, attributes=deepcopy( self.attributes ), species_to_lengths=deepcopy( self.species_to_lengths ) )
         for component in self.components:
             new.add_component( deepcopy( component ) )
         return new
-    
+
 class Component( object ):
 
     def __init__( self, src='', start=0, size=0, strand=None, src_size=None, text='' ):
@@ -229,15 +229,15 @@ class Component( object ):
 
     def __str__( self ):
         if self.empty:
-            rval = "e %s %d %d %s %d %s" % ( self.src, self.start, 
-                                             self.size, self.strand, 
+            rval = "e %s %d %d %s %d %s" % ( self.src, self.start,
+                                             self.size, self.strand,
                                              self.src_size, self.synteny_empty )
         else:
-            rval = "s %s %d %d %s %d %s" % ( self.src, self.start, 
-                                             self.size, self.strand, 
+            rval = "s %s %d %d %s %d %s" % ( self.src, self.start,
+                                             self.size, self.strand,
                                              self.src_size, self.text )
             if self.synteny_left and self.synteny_right:
-                rval += "\ni %s %s %d %s %d" % ( self.src, 
+                rval += "\ni %s %s %d %s %d" % ( self.src,
                                                  self.synteny_left[0], self.synteny_left[1],
                                                  self.synteny_right[0], self.synteny_right[1] )
         return rval
@@ -260,14 +260,14 @@ class Component( object ):
         if self.strand == '-': return self.src_size - self.end
         else: return self.start
     forward_strand_start = property( fget=get_forward_strand_start )
-        
+
     def get_forward_strand_end( self ):
         if self.strand == '-': return self.src_size - self.start
         else: return self.end
     forward_strand_end = property( fget=get_forward_strand_end)
 
     def reverse_complement( self ):
-        start = self.src_size - self.end 
+        start = self.src_size - self.end
         if self.strand == "+": strand = "-"
         else: strand = "+"
         comp = [ch for ch in self.text.translate(DNA_COMP)]
@@ -305,12 +305,12 @@ class Component( object ):
         start and end are relative to the + strand, regardless of the component's strand.
 
         """
-        start_col = self.coord_to_col( start )  
-        end_col = self.coord_to_col( end )  
+        start_col = self.coord_to_col( start )
+        end_col = self.coord_to_col( end )
         if (self.strand == '-'):
             (start_col,end_col) = (end_col,start_col)
         return self.slice( start_col, end_col )
-    
+
     def coord_to_col( self, pos ):
         """
         Return the alignment column index corresponding to coordinate pos.
@@ -320,7 +320,7 @@ class Component( object ):
         """
         start,end = self.get_forward_strand_start(),self.get_forward_strand_end()
         if pos < start or pos > end:
-            raise "Range error: %d not in %d-%d" % ( pos, start, end )
+            raise ValueError("Range error: %d not in %d-%d" % ( pos, start, end ))
         if not self.index:
             self.index = list()
             if (self.strand == '-'):
@@ -343,25 +343,25 @@ class Component( object ):
         except:
             raise Exception("Error in index.")
         return x
-    
-    
+
+
     def __eq__( self, other ):
         if other is None or type( other ) != type( self ):
             return False
         return ( self.src == other.src
                  and self.start == other.start
-                 and self.size == other.size            
-                 and self.strand == other.strand        
-                 and self._src_size == other._src_size   
+                 and self.size == other.size
+                 and self.strand == other.strand
+                 and self._src_size == other._src_size
                  and self.text == other.text
                  and self.synteny_left == other.synteny_left
                  and self.synteny_right == other.synteny_right
                  and self.synteny_empty == other.synteny_empty
                  and self.empty == other.empty )
-        
+
     def __ne__( self, other ):
         return not( self.__eq__( other ) )
-    
+
     def __deepcopy__( self, memo ):
         new = Component( src=self.src, start=self.start, size=self.size, strand=self.strand, src_size=self._src_size, text=self.text )
         new._alignment = self._alignment
@@ -378,21 +378,21 @@ def get_reader( format, infile, species_to_lengths=None ):
     if format == "maf": return bx.align.maf.Reader( infile, species_to_lengths )
     elif format == "axt": return bx.align.axt.Reader( infile, species_to_lengths )
     elif format == "lav": return bx.align.lav.Reader( infile )
-    else: raise "Unknown alignment format %s" % format
+    else: raise ValueError("Unknown alignment format %s" % format)
 
 def get_writer( format, outfile, attributes={} ):
     import bx.align.maf, bx.align.axt, bx.align.lav
     if format == "maf": return bx.align.maf.Writer( outfile, attributes )
     elif format == "axt": return bx.align.axt.Writer( outfile, attributes )
     elif format == "lav": return bx.align.lav.Writer( outfile, attributes )
-    else: raise "Unknown alignment format %s" % format
+    else: raise ValueError("Unknown alignment format %s" % format)
 
 def get_indexed( format, filename, index_filename=None, keep_open=False, species_to_lengths=None ):
     import bx.align.maf, bx.align.axt, bx.align.lav
     if format == "maf": return bx.align.maf.Indexed( filename, index_filename, keep_open, species_to_lengths )
     elif format == "axt": return bx.align.axt.Indexed( filename, index_filename, keep_open, species_to_lengths )
     elif format == "lav": raise Exception("LAV support for Indexed has not been implemented")
-    else: raise "Unknown alignment format %s" % format
+    else: raise ValueError("Unknown alignment format %s" % format)
 
 def shuffle_columns( a ):
     """Randomize the columns of an alignment"""
@@ -420,7 +420,7 @@ except:
     def coord_to_col( start, text, pos ):
         col = 0
         while start < pos:
-            if text[col] != '-': 
+            if text[col] != '-':
                 start += 1
-            col += 1 
+            col += 1
         return col
