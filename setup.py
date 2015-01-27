@@ -32,6 +32,17 @@ def main():
             author_email = "james@jamestaylor.org",
             description = "Tools for manipulating biological data, particularly multiple sequence alignments",
             url = "http://bitbucket.org/james_taylor/bx-python/wiki/Home",
+            license = "MIT",
+            clssifiers = [
+                "Development Status :: 5 - Production/Stable",
+                "Intended Audience :: Developers",
+                "Intended Audience :: Science/Research",
+                "License :: OSI Approved :: MIT License",
+                "Operating System :: POSIX",
+                "Programming Language :: Python :: 2",
+                "Topic :: Scientific/Engineering :: Bio-Informatics",
+                "Topic :: Software Development :: Libraries :: Python Modules"
+            ],
             zip_safe = False,
             dependency_links = [],
             cmdclass=command_classes )
