@@ -5,8 +5,11 @@ if sys.version_info < (2, 4):
     sys.exit()
 
 # Automatically download setuptools if not available
-from distribute_setup import use_setuptools
-use_setuptools()
+try:
+    from setuptools import setup, find_packages
+except ImportError:
+    from ez_setup import use_setuptools
+    use_setuptools()
 
 from setuptools import *
 from glob import glob
