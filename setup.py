@@ -33,7 +33,7 @@ def main():
             description = "Tools for manipulating biological data, particularly multiple sequence alignments",
             url = "http://bitbucket.org/james_taylor/bx-python/wiki/Home",
             license = "MIT",
-            clssifiers = [
+            classifiers = [
                 "Development Status :: 5 - Production/Stable",
                 "Intended Audience :: Developers",
                 "Intended Audience :: Science/Research",
