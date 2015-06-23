@@ -18,6 +18,8 @@ from libc cimport limits
 
 import numpy
 cimport numpy
+cimport numpy as np
+import numpy as np
 
 from bx.misc.binary_file import BinaryFileReader
 from cStringIO import StringIO
@@ -296,6 +298,16 @@ cdef class ZoomLevel:
         reader.seek( self.index_offset )
         ctf = CIRTreeFile( reader.file )
         block_list = ctf.find_overlapping_blocks( chrom_id, start, end )
+
+        sum_dtype = np.dtype([('chrom_id', np.uint32),
+                              ('start', np.uint32),
+                              ('end', np.uint32),
+                              ('valid_count', np.uint32),
+                              ('min_val', np.float32),
+                              ('max_val', np.float32),
+                              ('sum_data', np.float32),
+                              ('sum_squares', np.float32)])
+
         for offset, size in block_list:
             # Seek to and read all data for the block
             reader.seek( offset )
@@ -308,7 +320,14 @@ cdef class ZoomLevel:
             # The block should be a bunch of summaries. 
             assert block_size % summary_on_disk_size == 0
             item_count = block_size / summary_on_disk_size
-            # Create another reader just for the block, shouldn't be too expensive
+
+            arr = np.fromstring(block_data, sum_dtype, item_count)
+            # covert to dict to match old implementation:
+            d = [dict(zip(arr.dtype.names, x)) for x in arr]
+            rval.extend(d)
+
+
+            """
             block_reader = BinaryFileReader( StringIO( block_data ), is_little_endian=reader.is_little_endian )
             for i from 0 <= i < item_count:
                 ## NOTE: Look carefully at bbiRead again to be sure the endian
@@ -332,7 +351,7 @@ cdef class ZoomLevel:
                 summary.sum_squares = block_reader.read_float()
                 rval.append( summary )
                 
-
+            """
         return rval
     
     cdef _get_summary_slice( self, bits32 base_start, bits32 base_end, summaries ):
@@ -346,70 +365,29 @@ cdef class ZoomLevel:
         
         if summaries:
             
-            min_val = summaries[0].min_val
-            max_val = summaries[0].max_val
+            # TODO: if we keep this a an array from summary_blocks in region,
+            # this will be much faster.
+            min_val = summaries[0]['min_val']
+            max_val = summaries[0]['max_val']
             
             for summary in summaries:
-                if summary.start >= base_end:
+                if summary['start'] >= base_end:
                     break
             
-                overlap = range_intersection( base_start, base_end, summary.start, summary.end )
+                overlap = range_intersection( base_start, base_end, summary['start'], summary['end'] )
                 if overlap > 0:
-                    overlap_factor = <double> overlap / (summary.end - summary.start)
+                    overlap_factor = <double> overlap / (summary['end'] - summary['start'])
                 
-                    valid_count += summary.valid_count * overlap_factor
-                    sum_data += summary.sum_data * overlap_factor
-                    sum_squares += summary.sum_squares * overlap_factor
+                    valid_count += summary['valid_count'] * overlap_factor
+                    sum_data += summary['sum_data'] * overlap_factor
+                    sum_squares += summary['sum_squares'] * overlap_factor
 
-                    if max_val < summary.max_val:
-                        max_val = summary.max_val
-                    if min_val > summary.min_val:
-                        min_val = summary.min_val
+                    if max_val < summary['max_val']:
+                        max_val = summary['max_val']
+                    if min_val > summary['min_val']:
+                        min_val = summary['min_val']
 
         return valid_count, sum_data, sum_squares, min_val, max_val
         
     cdef _summarize( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size ):
-        """
-        Summarize directly from file. 
-
-        Looking at Jim's code, it appears that 
-          - bbiSummariesInRegion returns all summaries that span start-end in 
-            sorted order
-          - bbiSummarySlice is then used to aggregate over the subset of those 
-            summaries that overlap a single summary element
-        """
-        cdef bits32 base_start, base_end, base_step
-        
-        # We locally cdef the arrays so all indexing will be at C speeds
-        cdef numpy.ndarray[numpy.float64_t] valid_count
-        cdef numpy.ndarray[numpy.float64_t] min_val
-        cdef numpy.ndarray[numpy.float64_t] max_val
-        cdef numpy.ndarray[numpy.float64_t] sum_data
-        cdef numpy.ndarray[numpy.float64_t] sum_squares
-        
-        # What we will load into
-        rval = SummarizedData( start, end, summary_size )
-        valid_count = rval.valid_count
-        min_val = rval.min_val
-        max_val = rval.max_val
-        sum_data = rval.sum_data
-        sum_squares = rval.sum_squares
-        # First, load up summaries
-        reader = self.bbi_file.reader
-        reader.seek( self.index_offset )
-        summaries = self._summary_blocks_in_region(chrom_id, start, end)
-
-        base_step = (end - start) / summary_size
-        base_start = start
-        base_end = start
-        
-        for i in range(summary_size):
-            base_end += base_step
-            
-            while summaries and summaries[0].end <= base_start:
-                summaries.popleft()
-
-            valid_count[i], sum_data[i], sum_squares[i], min_val[i], max_val[i] = self._get_summary_slice(base_start, base_end, summaries)
-            base_start = base_end
-        
-        return rval
+        return SummarizedData( start, end, summary_size )
