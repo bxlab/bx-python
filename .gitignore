@@ -1,5 +1,3 @@
-syntax: glob
-
 # Build directory
 build
 
@@ -21,3 +19,6 @@ bx_python.egg-info
 
 # nose egg
 nose*.egg
+
+# .eggs directory
+.eggs
