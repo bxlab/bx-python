@@ -1,4 +1,3 @@
-#cython: profile=False
 """
 BigWig file.
 """
@@ -21,10 +20,6 @@ DEF bwg_fixed_step = 3
 cdef inline int range_intersection( int start1, int end1, int start2, int end2 ):
     return min( end1, end2 ) - max( start1, start2 )
 
-def chunks(l, n):
-    n = max(1, n)
-    return [l[i:i + n] for i in range(0, len(l), n)]
-
 cdef class BigWigBlockHandler( BlockHandler ):
     """
     BlockHandler that parses the block into a series of wiggle records, and calls `handle_interval_value` for each.
@@ -44,22 +39,29 @@ cdef class BigWigBlockHandler( BlockHandler ):
         cdef float val
         # Now we parse the block, first the header
         block_reader = BinaryFileReader( StringIO( block_data ), is_little_endian=bbi_file.reader.is_little_endian )
-        # _ is skipped byte
-        b_chrom_id, b_start, b_end, b_item_step, b_item_span, b_type, _, b_item_count = block_reader.read_and_unpack("LLLLLBBH", 5*4+1+1+2)
-
-        if b_type == bwg_bed_graph: 
-            # [(start, end, val), ...]
-            sevs = chunks(block_reader.read_and_unpack("LLf" * b_item_count, (2 * 4 + 4) * b_item_count), 3)
-        elif b_type == bwg_variable_step:
-            svs = chunks(block_reader.read_and_unpack("Lf" * b_item_count, (4 + 4) * b_item_count), 2)
-            sevs = [(s, s + b_item_span, v) for s, v in svs]
-        elif b_type == bwg_fixed_step:
-            vs = block_reader.read_and_unpack("f" * b_item_count, 4 * b_item_count)
-            sevs = [(b_start + (i * b_item_span), b_start + (i * b_item_span) + b_item_span, v) for i, v in enumerate(vs)]
-
-        # TODO: change handle_interval to take a numpy array and this will be
-        # much faster.
-        for s, e, val in sevs:
+        b_chrom_id = block_reader.read_uint32()
+        b_start = block_reader.read_uint32()
+        b_end = block_reader.read_uint32()
+        b_item_step = block_reader.read_uint32()
+        b_item_span = block_reader.read_uint32()
+        b_type = block_reader.read_uint8()
+        block_reader.skip(1)
+        b_item_count = block_reader.read_uint16()
+        for i from 0 <= i < b_item_count:
+            # Depending on the type, s and e are either read or 
+            # generate using header, val is always read
+            if b_type == bwg_bed_graph: 
+                s = block_reader.read_uint32()
+                e = block_reader.read_uint32()
+                val = block_reader.read_float()
+            elif b_type == bwg_variable_step:
+                s = block_reader.read_uint32()
+                e = s + b_item_span
+                val = block_reader.read_float()
+            elif b_type == bwg_fixed_step:
+                s = b_start + ( i * b_item_span )
+                e = s + b_item_span
+                val = block_reader.read_float()
             if s < self.start: 
                 s = self.start
             if e > self.end: 
@@ -80,10 +82,12 @@ cdef class SummarizingBlockHandler( BigWigBlockHandler ):
         BigWigBlockHandler.__init__( self, start, end )
         # What we will load into
         self.sd = SummarizedData( start, end, summary_size )
-        self.sd.min_val[:] = numpy.inf
-        self.sd.max_val[:] = -numpy.inf
+        for i in range(summary_size):
+            self.sd.min_val[i] = +numpy.inf
+        for i in range(summary_size):
+            self.sd.max_val[i] = -numpy.inf
 
-    cdef inline handle_interval_value( self, bits32 s, bits32 e, float val ):
+    cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
         self.sd.accumulate_interval_value( s, e, val )
 
 cdef class IntervalAccumulatingBlockHandler( BigWigBlockHandler ):
@@ -109,9 +113,11 @@ cdef class ArrayAccumulatingBlockHandler( BigWigBlockHandler ):
         self.array[...] = numpy.nan
 
     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
-        #cdef numpy.ndarray[ numpy.float32_t, ndim=1 ] array = self.array
-        # Slicing is optimized by Cython
-        self.array[s - self.start:e - self.start] = val
+        cdef numpy.ndarray[ numpy.float32_t, ndim=1 ] array = self.array
+        cdef int i
+        # Slicing is not optimized by Cython
+        for i from s - self.start <= i < e - self.start:
+            array[ i ] = val
 
 cdef class BigWigFile( BBIFile ): 
     """
