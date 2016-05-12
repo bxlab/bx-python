@@ -11,6 +11,7 @@ from numpy import array, allclose
 from StringIO import StringIO
 
 class CharMappingTests( unittest.TestCase ):
+    __test__ = False
     def test_DNA( self ):
         assert( allclose( bx.seqmapping.DNA.translate( "ACGTacgt-?X" ),
                           [ 0, 1, 2, 3, 0, 1, 2, 3, 4, -1, -1 ] ) )
@@ -24,6 +25,7 @@ class CharMappingTests( unittest.TestCase ):
         assert( allclose( m.translate( "ABCCBA" ), [ 0, 7, -1, -1, 7, 0 ] ) )
         
 class IntMappingTests( unittest.TestCase ):
+    __test__ = False
     def test_simple( self ):
         m = bx.seqmapping.IntToIntMapping( 4 )
         m.set_mapping( 0, 0 )
@@ -75,12 +77,9 @@ rows = [ "AAATTGT-----ATGTCCATCCTTTAAAGGTCATTCCTTTAATGGTCTTTTCTGGACACCACTAGGGGTC
          "AAATTCATGATAGTGTCACTCTTAAATAGATGATTC--------TTCACAT---GATGCCAGCAGGGGGC-AGAGCAGGCTGTGAAAT------------------------TTTCCCTTTCTTCAAAG" ]
 
 class AlignmentMappingTests( unittest.TestCase ):
+    __test__ = False
     def test_largescale( self ):
-       f = StringIO( eight_species_mapping )
-       n, m = bx.seqmapping.alignment_mapping_from_file( f )
-       t = bx.seqmapping.DNA.translate_list( rows )
-       i = m.translate( t )
-        
-        
-test_classes = [ AlignmentMappingTests, CharMappingTests, IntMappingTests ]
-suite = unittest.TestSuite( [ unittest.makeSuite( c ) for c in test_classes ] )
+        f = StringIO( eight_species_mapping )
+        n, m = bx.seqmapping.alignment_mapping_from_file( f )
+        t = bx.seqmapping.DNA.translate_list( rows )
+        i = m.translate( t )

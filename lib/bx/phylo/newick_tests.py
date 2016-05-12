@@ -27,7 +27,6 @@ results = [ ( Tree( 'label', [Edge( 6.0, Tree( 'B', None ) ), Edge( 5.0, Tree( '
 
 def tests(): 
     for i in range(len(trees)):
-        def _( s, r ):
-            assert newick_parser.parse_string( s ) == r
+        _ = lambda: assert newick_parser.parse_string( trees[i] ) == results[i]
         _.description = "check tree parsing " + str(i)
-        yield _, trees[i], results[i] 
+        yield _, 

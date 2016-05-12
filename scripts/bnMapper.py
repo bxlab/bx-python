@@ -1,4 +1,4 @@
-#!/usr/bin/env python -O
+#!/usr/bin/env python
 
 """Map features from the target species to the query species of a chain alignment file.
 This is intended for mapping relatively short features such as Chip-Seq

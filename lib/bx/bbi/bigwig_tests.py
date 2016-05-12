@@ -1,6 +1,7 @@
 import sys, os
 import unittest
 import numpy
+from functools import partial
 
 try:
     sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -24,6 +25,7 @@ class TestBigWig(unittest.TestCase):
     def test_get_summary(self):
         data = self.bw.query("chr1", 10000, 20000, 10)
         means = [ x['mean'] for x in data ]
+        print means
         assert numpy.allclose( map(float, means), [-0.17557571594973645, -0.054009292602539061, -0.056892242431640622, -0.03650328826904297, 0.036112907409667966, 0.0064466032981872557, 0.036949024200439454, 0.076638259887695306, 0.043518108367919923, 0.01554749584197998] )
         
         # Summarize variant
@@ -75,8 +77,10 @@ def test_summaries_from_file():
             assert allclose( sd.max_val, values )
         #elif t == 'std':
         #    assert numpy.allclose( sd.max_val, values )
-    for line in open( "test_data/bbi_tests/test.expectation" ):
-        yield check_summary, line
+    for i, line in enumerate( open( "test_data/bbi_tests/test.expectation" ) ):
+        f = partial( check_summary, line )
+        f.description = "Test summaries line %d: %s" % ( i, line[:40] )
+        yield ( f, )
 
         
 if __name__ == '__main__':

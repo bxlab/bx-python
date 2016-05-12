@@ -13,23 +13,25 @@ except ImportError:
 from setuptools import *
 from glob import glob
 
-try:
-    import numpy
-    have_numpy = True
-except:
-    have_numpy = False
-       
 def main():
-    setup(  name = "bx-python",
+
+    numpy = None
+    build_requires = []
+    try:
+        import numpy
+    except:
+        build_requires.append( 'numpy' )
+
+    metadata = \
+      dict( name = "bx-python",
             version = "0.7.3",
+            install_requires=build_requires,
             py_modules = [ 'psyco_full' ],
-            packages = find_packages( 'lib' ),
             package_dir = { '': 'lib' },
             package_data = { '': ['*.ps'] },
             scripts = glob( "scripts/*.py" ),
-            ext_modules = get_extension_modules(),
             test_suite = 'nose.collector',
-            setup_requires = ['nose>=0.10.4'],
+            tests_require = ['nose', 'python-lzo'],
             author = "James Taylor, Bob Harris, David King, Brent Pedersen, Kanwei Li, and others",
             author_email = "james@jamestaylor.org",
             description = "Tools for manipulating biological data, particularly multiple sequence alignments",
@@ -48,6 +50,23 @@ def main():
             zip_safe = False,
             dependency_links = [],
             cmdclass=command_classes )
+    
+    if len(sys.argv) >= 2 and ('--help' in sys.argv[1:] or
+            sys.argv[1] in ('--help-commands', 'egg_info', '--version', 'clean')):
+        # For these actions, NumPy is not required.
+        #
+        # They are required to succeed without Numpy for example when
+        # pip is used to install when Numpy is not yet present in
+        # the system.
+        pass
+    else:
+        if numpy is None:
+            raise Exception( "numpy must be installed to build" )
+        metadata['packages'] = find_packages( 'lib' )
+        metadata['ext_modules'] = get_extension_modules( numpy_include=numpy.get_include() )
+
+    setup(**metadata)
+
 
 # ---- Commands -------------------------------------------------------------
 
@@ -111,7 +130,7 @@ except:
 
 # ---- Extension Modules ----------------------------------------------------
 
-def get_extension_modules():
+def get_extension_modules( numpy_include=None ):
     extensions = []
     # Bitsets
     extensions.append( Extension( "bx.bitset",
@@ -150,21 +169,21 @@ def get_extension_modules():
                                   [ "lib/bx/pwm/_position_weight_matrix.pyx", "src/pwm_utils.c" ],
                                   include_dirs=["src"]  ) )
  
-        if have_numpy:
-            extensions.append( Extension( "bx.motif._pwm", [ "lib/bx/motif/_pwm.pyx" ], 
-                                          include_dirs=[numpy.get_include()] ) )
+        extensions.append( Extension( "bx.motif._pwm", [ "lib/bx/motif/_pwm.pyx" ], 
+                                      include_dirs=[numpy_include] ) )
             
-            # Sparse arrays with summaries organized as trees on disk
-            extensions.append( Extension( "bx.arrays.array_tree", [ "lib/bx/arrays/array_tree.pyx" ], include_dirs=[numpy.get_include()] ) )  
+        # Sparse arrays with summaries organized as trees on disk
+        extensions.append( Extension( "bx.arrays.array_tree", [ "lib/bx/arrays/array_tree.pyx" ], include_dirs=[numpy_include] ) )  
         
-            # Reading UCSC "big binary index" files
-            extensions.append( Extension( "bx.bbi.bpt_file", [ "lib/bx/bbi/bpt_file.pyx" ] ) )
-            extensions.append( Extension( "bx.bbi.cirtree_file", [ "lib/bx/bbi/cirtree_file.pyx" ] ) )
-            extensions.append( Extension( "bx.bbi.bbi_file", [ "lib/bx/bbi/bbi_file.pyx" ], include_dirs=[numpy.get_include()] ) )
-            extensions.append( Extension( "bx.bbi.bigwig_file", [ "lib/bx/bbi/bigwig_file.pyx" ], include_dirs=[numpy.get_include()] ) )
-            extensions.append( Extension( "bx.bbi.bigbed_file", [ "lib/bx/bbi/bigbed_file.pyx" ], include_dirs=[numpy.get_include()] ) )
-            # EPO and Chain arithmetics and IO speedups
-            extensions.append( Extension( "bx.align._epo", [ "lib/bx/align/_epo.pyx" ], include_dirs=[numpy.get_include()] ) )
+        # Reading UCSC "big binary index" files
+        extensions.append( Extension( "bx.bbi.bpt_file", [ "lib/bx/bbi/bpt_file.pyx" ] ) )
+        extensions.append( Extension( "bx.bbi.cirtree_file", [ "lib/bx/bbi/cirtree_file.pyx" ] ) )
+        extensions.append( Extension( "bx.bbi.bbi_file", [ "lib/bx/bbi/bbi_file.pyx" ], include_dirs=[numpy_include] ) )
+        extensions.append( Extension( "bx.bbi.bigwig_file", [ "lib/bx/bbi/bigwig_file.pyx" ], include_dirs=[numpy_include] ) )
+        extensions.append( Extension( "bx.bbi.bigbed_file", [ "lib/bx/bbi/bigbed_file.pyx" ], include_dirs=[numpy_include] ) )
+
+        # EPO and Chain arithmetics and IO speedups
+        extensions.append( Extension( "bx.align._epo", [ "lib/bx/align/_epo.pyx" ], include_dirs=[numpy_include] ) )
 
         # Reading UCSC bed and wiggle formats
         extensions.append( Extension( "bx.arrays.bed", [ "lib/bx/arrays/bed.pyx" ] ) )
@@ -228,6 +247,5 @@ def monkey_patch_numpy():
         
 if __name__ == "__main__":
     monkey_patch_doctest()
-    if have_numpy:
-        monkey_patch_numpy()
+    monkey_patch_numpy()
     main()
