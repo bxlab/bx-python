@@ -3,7 +3,7 @@ Tests for `bx.phylo.newick`.
 """
 
 from bx.phylo.newick import *
-import unittest
+from nose.tools import ok_
 
 trees = [ r"(B:6.0,(A:5.0,C:3.0,'Foo ''bar':4.0)Q_X:5.0,D:11.0)label;",
           "((raccoon:19.19959,bear:6.80041):0.84600,((sea_lion:11.99700, seal:12.00300):7.52973,(( monkey:100.85930,cat:47.14069):20.59201, weasel:18.87953):2.09460):3.87382,dog:25.46154);",
@@ -27,6 +27,6 @@ results = [ ( Tree( 'label', [Edge( 6.0, Tree( 'B', None ) ), Edge( 5.0, Tree( '
 
 def tests(): 
     for i in range(len(trees)):
-        _ = lambda: assert newick_parser.parse_string( trees[i] ) == results[i]
+        _ = lambda: ok_( newick_parser.parse_string( trees[i] ) == results[i] )
         _.description = "check tree parsing " + str(i)
         yield _, 
