@@ -6,8 +6,6 @@ os:
 python:
     - 2.7
 before_install:
-    ## # osx builders don't come with python
-    ## - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; brew install python; fi
     # Use miniconda for dependencies, pip is too slow -- https://gist.github.com/zonca/9958333
     - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
     - chmod +x miniconda.sh
