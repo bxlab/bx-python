@@ -7,3 +7,5 @@ The bx-python project is a python library and associated set of scripts to allow
   * Data structures for working with intervals on sequences
     * "Binned bitsets" which act just like chromosome sized bit arrays, but lazily allocate regions and allow large blocks of all set or all unset bits to be stored compactly
     * "Intersecter" for performing fast intersection tests that preserve both query and target intervals and associated annotation
+
+...
