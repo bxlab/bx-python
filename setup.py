@@ -16,7 +16,7 @@ from glob import glob
 def main():
 
     numpy = None
-    build_requires = []
+    build_requires = [ 'python-lzo' ]
     try:
         import numpy
     except:
@@ -31,7 +31,7 @@ def main():
             package_data = { '': ['*.ps'] },
             scripts = glob( "scripts/*.py" ),
             test_suite = 'nose.collector',
-            tests_require = ['nose', 'python-lzo'],
+            tests_require = ['nose'],
             author = "James Taylor, Bob Harris, David King, Brent Pedersen, Kanwei Li, and others",
             author_email = "james@jamestaylor.org",
             description = "Tools for manipulating biological data, particularly multiple sequence alignments",

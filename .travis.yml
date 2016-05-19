@@ -5,6 +5,10 @@ os:
     ## - osx
 python:
     - 2.7
+addons:
+    apt:
+        packages:
+            - liblzo2-dev
 before_install:
     # Use miniconda for dependencies, pip is too slow -- https://gist.github.com/zonca/9958333
     - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
