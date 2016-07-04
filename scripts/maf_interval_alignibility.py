@@ -9,19 +9,18 @@ usage: %prog maf_files [options] < interval_file
     -p, --prefix=PREFIX: Prefix to add to each interval chrom (usually reference species)
    -C, --usecache:   Use a cache that keeps blocks of the MAF files in memory (requires ~20MB per MAF)
 """
+from __future__ import division, print_function
 
-from __future__ import division
-
-import psyco_full
-
-from bx.cookbook import doc_optparse
-
-import bx.align.maf
-from bx import misc
 import os
 import sys
 
 from numpy import *
+
+import bx.align.maf
+import psyco_full
+from bx import misc
+from bx.cookbook import doc_optparse
+
 
 def main():
     # Parse Command Line
@@ -40,10 +39,10 @@ def main():
                                       parse_e_rows=True,
                                       use_cache=use_cache )
     # Print header
-    print "#chr", "start", "end",
+    print("#chr", "start", "end", end=' ')
     for s in species:
-        print s,
-    print
+        print(s, end=' ')
+    print()
     # Iterate over input ranges 
     for line in sys.stdin:
         fields = line.split()
@@ -87,7 +86,7 @@ def main():
                 else:
                     aligned_bits[i][rel_start:rel_end] = True
         # Now determine the total alignment coverage of each interval
-        print chr, start, end,
+        print(chr, start, end, end=' ')
         for i, s in enumerate( species ):
             aligned = sum( aligned_bits[i] )
             missing = sum( missing_bits[i] )
@@ -96,13 +95,13 @@ def main():
             # arbitrary)
             is_missing = False
             if length < 100 and missing > ( length / 2 ):
-                print "NA",
+                print("NA", end=' ')
             elif length >= 100 and missing > 50:
-                print "NA",
+                print("NA", end=' ')
             else:
-                print aligned / ( length - missing ),
+                print(aligned / ( length - missing ), end=' ')
                 
-        print
+        print()
          
     # Close MAF files
     index.close()

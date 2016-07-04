@@ -1,7 +1,11 @@
 #!/usr/bin/python2.4
-import sys,os
-from bx.align import maf as align_maf
+from __future__ import print_function
+
+import os
+import sys
+
 import bx.pwm.position_weight_matrix as pwmx
+from bx.align import maf as align_maf
 
 def isnan(x):
     #return ieeespecial.isnan(x)
@@ -39,12 +43,12 @@ def main():
             fname = k + '.mx'
             if fname not in fbunch:
                 fbunch[fname] = open(fname,'w')
-                print >>sys.stderr,"Writing",fname
+                print("Writing",fname, file=sys.stderr)
 
             for i in range( len(matrix)):
                 for j in range( len(matrix[i])):
-                    print >>fbunch[fname], "%.2f" % matrix[i][j],
-                print >>fbunch[fname]
+                    print("%.2f" % matrix[i][j], end=' ', file=fbunch[fname])
+                print(file=fbunch[fname])
 
     for file in fbunch.values():
         file.close()
@@ -61,12 +65,12 @@ def MafScorer(pwm,species,inmaf):
             #scoremax,width,headers = MafBlockScorer(pwm,species,maf)
         try: pass
         except:
-            print >>sys.stderr, "Failed on:"
+            print("Failed on:", file=sys.stderr)
             syserr = align_maf.Writer( sys.stderr )
             syserr.write( maf )
             #print >>sys.stderr,headers
-            if width: print >>sys.stderr,width
-            if scoremax: print >>sys.stderr,len(scoremax)
+            if width: print(width, file=sys.stderr)
+            if scoremax: print(len(scoremax), file=sys.stderr)
             syserr.close()
             sys.exit(1)
         index += width
@@ -112,8 +116,8 @@ def MafMotifSelect(mafblock,pwm,motif=None,threshold=0):
             assert not isnan(max(pwm_score_vec) )
             assert not isnan(max(motif_score_vec) )
         except:
-            print >>sys.stderr, pwm_score_vec, motif_score_vec
-            print >>sys.stderr, len(subseq), len(pwm)
+            print(pwm_score_vec, motif_score_vec, file=sys.stderr)
+            print(len(subseq), len(pwm), file=sys.stderr)
         if max(pwm_score_vec) < threshold: continue
         if max(motif_score_vec) < threshold: continue
         # chop block

@@ -11,17 +11,19 @@ usage: %prog nibdir genefile [options]
     -a, --allpositions: 1st, 2nd and 3rd positions are evaluated for degeneracy given the sequence at the other two positions.  Many 1d sites in 1st codon positions become 2d sites when considered this way.
     -n, --include_name: include the 'name' or 'id' field from the source file on every line of output
 """
+from __future__ import print_function
 
-import re
-import sys
 import os
+import re
 import string
-from bx.seq import nib
+import sys
+
 from bx.bitset import *
 from bx.bitset_builders import *
 from bx.bitset_utils import *
-from bx.gene_reader import *
 from bx.cookbook import doc_optparse
+from bx.gene_reader import *
+from bx.seq import nib
 
 GENETIC_CODE = """
 TTT (Phe/F)Phenylalanine
@@ -131,7 +133,7 @@ def codon_degeneracy( codon, position=3 ):
     elif position==2:
         degeneracy2 = [GEN_CODE[ codon[0] ][ k ][ codon[2] ] for k in all].count(aa)
     elif position==3:
-        degeneracy = GEN_CODE[ codon[0] ][ codon[1] ].values().count(aa)
+        degeneracy = list(GEN_CODE[ codon[0] ][ codon[1] ].values()).count(aa)
     return degeneracy
 
 def main():
@@ -189,11 +191,11 @@ def main():
             try:
                 assert c3 < len(cds_seq)
             except AssertionError:
-                print >>sys.stderr, "out of sequence at %d for %s, %d" % (c3, chrom, genome_seq_index[ first_pos ])
+                print("out of sequence at %d for %s, %d" % (c3, chrom, genome_seq_index[ first_pos ]), file=sys.stderr)
                 continue
             codon = cds_seq[c1], cds_seq[c2], cds_seq[c3]
             aa = translate( codon, GEN_CODE )
-            degeneracy3 = str(GEN_CODE[ codon[0] ][ codon[1] ].values().count(aa)) + "d"
+            degeneracy3 = str(list(GEN_CODE[ codon[0] ][ codon[1] ].values()).count(aa)) + "d"
 
             if not include_name: name_text = ''
             else: 
@@ -203,27 +205,27 @@ def main():
                 try:
                     degeneracy1 = str([GEN_CODE[ k ][ codon[1] ][ codon[2] ] for k in all].count(aa)) + "d"
                     degeneracy2 = str([GEN_CODE[ codon[0] ][ k ][ codon[2] ] for k in all].count(aa)) + "d"
-                except TypeError, s:
-                    print >>sys.stderr, GEN_CODE.values()
-                    raise TypeError, s
+                except TypeError as s:
+                    print(list(GEN_CODE.values()), file=sys.stderr)
+                    raise TypeError(s)
 
                 if strand == '+':
-                    print >>out, chrom, genome_seq_index[c1], genome_seq_index[c1] + 1, cds_seq[c1], degeneracy1, aa, name_text
-                    print >>out, chrom, genome_seq_index[c2], genome_seq_index[c2] + 1, cds_seq[c2], degeneracy2, aa, name_text
-                    print >>out, chrom, genome_seq_index[c3], genome_seq_index[c3] + 1, cds_seq[c3], degeneracy3, aa, name_text
+                    print(chrom, genome_seq_index[c1], genome_seq_index[c1] + 1, cds_seq[c1], degeneracy1, aa, name_text, file=out)
+                    print(chrom, genome_seq_index[c2], genome_seq_index[c2] + 1, cds_seq[c2], degeneracy2, aa, name_text, file=out)
+                    print(chrom, genome_seq_index[c3], genome_seq_index[c3] + 1, cds_seq[c3], degeneracy3, aa, name_text, file=out)
                 else:
-                    print >>out, chrom, genome_seq_index[c3], genome_seq_index[c3] + 1, cds_seq[c3], degeneracy3, aa, name_text
-                    print >>out, chrom, genome_seq_index[c2], genome_seq_index[c2] + 1, cds_seq[c2], degeneracy2, aa, name_text
-                    print >>out, chrom, genome_seq_index[c1], genome_seq_index[c1] + 1, cds_seq[c1], degeneracy1, aa, name_text
+                    print(chrom, genome_seq_index[c3], genome_seq_index[c3] + 1, cds_seq[c3], degeneracy3, aa, name_text, file=out)
+                    print(chrom, genome_seq_index[c2], genome_seq_index[c2] + 1, cds_seq[c2], degeneracy2, aa, name_text, file=out)
+                    print(chrom, genome_seq_index[c1], genome_seq_index[c1] + 1, cds_seq[c1], degeneracy1, aa, name_text, file=out)
             else:
                 if strand == '+':
                     for b in c1,c2:
-                        print >>out, chrom, genome_seq_index[b], genome_seq_index[b] + 1, cds_seq[b], "1d", aa, name_text
-                    print >>out, chrom, genome_seq_index[c3], genome_seq_index[c3] + 1, cds_seq[c3], degeneracy3, aa, name_text
+                        print(chrom, genome_seq_index[b], genome_seq_index[b] + 1, cds_seq[b], "1d", aa, name_text, file=out)
+                    print(chrom, genome_seq_index[c3], genome_seq_index[c3] + 1, cds_seq[c3], degeneracy3, aa, name_text, file=out)
                 else:
-                    print >>out, chrom, genome_seq_index[c3], genome_seq_index[c3] + 1, cds_seq[c3], degeneracy3, aa, name_text
+                    print(chrom, genome_seq_index[c3], genome_seq_index[c3] + 1, cds_seq[c3], degeneracy3, aa, name_text, file=out)
                     for b in c2,c1:
-                        print >>out, chrom, genome_seq_index[b], genome_seq_index[b] + 1, cds_seq[b], "1d", aa, name_text
+                        print(chrom, genome_seq_index[b], genome_seq_index[b] + 1, cds_seq[b], "1d", aa, name_text, file=out)
     out.close()
 
 if __name__ == '__main__': 

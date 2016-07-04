@@ -1,13 +1,16 @@
-from UserDict import DictMixin
-
-from bx.misc.binary_file import BinaryFileReader, BinaryFileWriter
-import numpy
 import sys
 
-def cdbhash( s ):
-    return reduce( lambda h, c: (((h << 5) + h) ^ ord(c)) & 0xffffffffL, s, 5381 )
+import numpy
 
-class FileCDBDict( DictMixin ):
+from collections import Mapping
+
+from bx.misc.binary_file import BinaryFileReader, BinaryFileWriter
+from six.moves import reduce
+
+def cdbhash( s ):
+    return reduce( lambda h, c: (((h << 5) + h) ^ ord(c)) & 0xffffffff, s, 5381 )
+
+class FileCDBDict( Mapping ):
     """
     For accessing a CDB structure on disk. Read only. Currently only supports
     access by key (getitem).
@@ -19,9 +22,8 @@ class FileCDBDict( DictMixin ):
         self.io = BinaryFileReader( file, is_little_endian=is_little_endian )
         self.header_offset = self.io.tell()
         # Read the whole header (only 2k)
-        self.header = []
-        for i in range( 256 ):
-            self.header.append( ( self.io.read_uint32(), self.io.read_uint32() ) )
+        self.header = [( self.io.read_uint32(), self.io.read_uint32() ) for _ in range( 256 )]
+
     def __getitem__( self, key ):
         hash = cdbhash( key )
         # Find position of subtable using 8 LSBs of hash
@@ -44,15 +46,21 @@ class FileCDBDict( DictMixin ):
                 self.io.seek( p )
                 klen = self.io.read_uint32()
                 vlen = self.io.read_uint32()
-                k = self.io.read( klen )
+                k = self.io.read( klen ).decode()
                 if k == key:
-                    v = self.io.read( vlen )
+                    v = self.io.read( vlen ).decode()
                     return v
         else:
             # Visited every slot and no match (should never happen since
             # there are empty slots by contruction)
             raise KeyError
-        
+
+    def __iter__(self):
+        raise NotImplementedError()
+
+    def __len__(self):
+        raise NotImplementedError()
+
     @classmethod
     def to_file( Class, dict, file, is_little_endian=True ):
         """
@@ -69,7 +77,7 @@ class FileCDBDict( DictMixin ):
         #       dealing with encoding specific value types should be
         #       added to this wrapper
         subtables = [ [] for i in range(256) ]
-        for key, value in dict.iteritems():
+        for key, value in dict.items():
             pair_offset = io.tell()
             io.write_uint32( len( key ) )
             io.write_uint32( len( value ) )

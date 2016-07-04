@@ -94,8 +94,8 @@ cigar_pairs = [
 
 def toCigar(species, id, s):
     I = [(0,0)]
-    L = map(len, s.split("-"))
-    NZ = filter(lambda _: _, L)
+    L = [len(_) for _ in s.split("-")]
+    NZ = [_ for _ in L if _]
 
     if L[0] > 0:
         I.append( (0, L[0]) )
@@ -125,7 +125,7 @@ def toCigar(species, id, s):
             mc = (ml > 1 and str(ml) or "") + "M"
 
         C.append( dc+mc )
-    MSUM = sum(map(lambda i: i[1]-i[0], I))
+    MSUM = sum(i[1]-i[0] for i in I)
     start = random.randint(50, 10000)
     return "%s\t%d\t1\t%d\t%d\t%d\t%s" % (species, id, start, start+MSUM-1,
             random.choice((-1,1)), "".join(C))

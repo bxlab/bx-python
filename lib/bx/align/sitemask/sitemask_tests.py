@@ -1,12 +1,15 @@
 """
 Tests for `bx.align.maf.sitemask`.
 """
-
-import sys,tempfile
+import sys
+import tempfile
 import unittest
-from StringIO import StringIO
-import cpg
+
+from six import StringIO
+
 import bx.align.maf
+
+from . import cpg
 
 test_maf_cpg = """##maf version=1 scoring=none
 a score=0

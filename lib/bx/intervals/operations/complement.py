@@ -36,7 +36,7 @@ def complement( reader, lens ):
                 fields[complement_reader.end_col] = end
                 new_interval = GenomicInterval(complement_reader, fields, complement_reader.chrom_col, complement_reader.start_col, complement_reader.end_col, complement_reader.strand_col, "+")
                 yield new_interval
-        except IndexError, e:
+        except IndexError as e:
             complement_reader.skipped += 1
             # no reason to stuff an entire bad file into memmory
             if complement_reader.skipped < 10:

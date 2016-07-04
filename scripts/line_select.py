@@ -9,10 +9,12 @@ TODO: no need to read the feature_file into memory here, just iterate in
 
 usage: %prog feature_file < ...
 """
+from __future__ import print_function
+
+import sys
 
 import psyco_full
 
-import sys
 
 def __main__():
 
@@ -26,6 +28,7 @@ def __main__():
     feature_vector = [ int( line ) for line in file( feature_file ) ]
 
     for index, line in enumerate( sys.stdin ):
-        if feature_vector[ index ] == match: print line,
+        if feature_vector[ index ] == match: print(line, end=' ')
 
-if __name__ == "__main__": __main__()
+if __name__ == "__main__":
+    __main__()

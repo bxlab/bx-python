@@ -16,19 +16,18 @@ def test():
     file.flush()
     
     # Open on disk
-    file2 = open( file_name )
+    file2 = open( file_name, 'rb' )
     cdb = FileCDBDict( file2 )
     
-    for key, value in d.iteritems():
+    for key, value in d.items():
         assert cdb[key] == value
     
     try:
         cdb['notin']
         assert False, "KeyError was not raised"
-    except KeyError, e:
+    except KeyError as e:
         pass
     
     # Close everything (deletes the temporary file)
     file2.close()
     file.close()
-    

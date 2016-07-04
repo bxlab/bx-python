@@ -20,7 +20,7 @@ def base_coverage( reader ):
     for chrom in bitsets:
         try:
             coverage += bitsets[chrom].count_range(0, MAX_END)
-        except IndexError, e:
+        except IndexError as e:
             base_reader.skipped += 1
             # no reason to stuff an entire bad file into memmory
             if base_reader.skipped < 10:

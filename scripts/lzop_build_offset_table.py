@@ -7,20 +7,22 @@ compressed block.
 
 usage: %prog < FILENAME.lzo > FILENAME.lzot
 """
+from __future__ import print_function
 
-import struct, sys
+import struct
+import sys
 
 MAGIC="\x89\x4c\x5a\x4f\x00\x0d\x0a\x1a\x0a"
 
-F_ADLER32_D     = 0x00000001L
-F_ADLER32_C     = 0x00000002L
-F_H_EXTRA_FIELD = 0x00000040L
-F_H_GMTDIFF     = 0x00000080L
-F_CRC32_D       = 0x00000100L
-F_CRC32_C       = 0x00000200L
-F_MULTIPART     = 0x00000400L
-F_H_FILTER      = 0x00000800L
-F_H_CRC32       = 0x00001000L
+F_ADLER32_D     = 0x00000001
+F_ADLER32_C     = 0x00000002
+F_H_EXTRA_FIELD = 0x00000040
+F_H_GMTDIFF     = 0x00000080
+F_CRC32_D       = 0x00000100
+F_CRC32_C       = 0x00000200
+F_MULTIPART     = 0x00000400
+F_H_FILTER      = 0x00000800
+F_H_CRC32       = 0x00001000
 
 assert struct.calcsize( "!H" ) == 2
 assert struct.calcsize( "!I" ) == 4
@@ -71,7 +73,7 @@ def main():
         assert not( expect_no_more ), \
             "Encountered an undersized block that was not the last block"
         if block_size is None:
-            print "s", size
+            print("s", size)
             block_size = size
         else:
             if size < block_size:
@@ -81,7 +83,7 @@ def main():
             crc = f.get( "!I" )
         if has_compressed_crc:
             compressed_crc = f.get( "!I" )
-        print "o", f.file.tell(), compressed_size, size
+        print("o", f.file.tell(), compressed_size, size)
         compressed_data = f.read( compressed_size )
         assert len( compressed_data ) == compressed_size, \
             "EOF reading compressed data"

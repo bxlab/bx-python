@@ -8,12 +8,14 @@ usage %prog [options] species1,species2,... < maf_file > fasta_file
     --fill="expression": Insert this between blocks
     --wrap=columns: Wrap FASTA to this many columns
 """
+from __future__ import print_function
 
+import sys
+import textwrap
 from optparse import OptionParser
 
-import textwrap
-import sys
 from bx.align import maf
+
 
 def __main__():
     # Parse command line arguments
@@ -46,16 +48,17 @@ def __main__():
             if c: texts[s].append( c.text )
             else: texts[s].append( "-" * m.text_size )
     for s in species:
-        print ">" + s
+        print(">" + s)
         print_n( fill.join( texts[s] ), wrap )
 
 def print_n( s, n, f = sys.stdout ):
     if (n <= 0):
-        print >> f, s
+        print(s, file=f)
     else:
         p = 0
         while p < len( s ):
-            print >> f, s[p:min(p+n,len(s))]
+            print(s[p:min(p+n,len(s))], file=f)
             p += n
 
-if __name__ == "__main__": __main__()
+if __name__ == "__main__":
+    __main__()

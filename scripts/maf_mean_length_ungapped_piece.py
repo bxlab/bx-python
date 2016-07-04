@@ -6,11 +6,12 @@ in each block.
 
 usage: %prog < maf > out
 """
-
-from __future__ import division
+from __future__ import division, print_function
 
 import sys
+
 import bx.align.maf
+
 
 def main():
     
@@ -28,7 +29,8 @@ def main():
             in_ungapped = not is_gap
         if in_ungapped: ungapped_runs += 1
 
-        print ungapped_columns / ungapped_runs
+        print(ungapped_columns / ungapped_runs)
 
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()

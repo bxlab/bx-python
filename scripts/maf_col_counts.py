@@ -9,11 +9,12 @@ Note: all blocks must have exactly the same number of species.
 
 usage: %prog < maf > column_counts
 """
+from __future__ import print_function
+
+import sys
+from itertools import *
 
 import bx.align.maf
-import sys
-
-from itertools import *
 
 counts = {}
 
@@ -24,15 +25,15 @@ for block in bx.align.maf.Reader( sys.stdin ):
     if nspecies: assert len( block.components ) == nspecies
     else: nspecies = len( block.components )
     # Increment count for each column
-    for col in izip( * [ iter( comp.text.upper() ) for comp in block.components ] ):
+    for col in zip( * [ iter( comp.text.upper() ) for comp in block.components ] ):
         try: counts[ col ] += 1
         except: counts[ col ] = 1
 
-counts = [ ( value, key ) for key, value in counts.iteritems() ]
+counts = [ ( value, key ) for key, value in counts.items() ]
 counts.sort()
 counts.reverse()
 
 # print len( counts )
 
 for count, col in counts:
-    print "".join(col), count
+    print("".join(col), count)

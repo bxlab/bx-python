@@ -1,7 +1,8 @@
-import pkg_resources
-from StringIO import StringIO
 from string import Template
+
+import pkg_resources
 from numpy import *
+from six import StringIO
 
 PAD = 2
 

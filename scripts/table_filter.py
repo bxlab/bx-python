@@ -14,14 +14,14 @@ usage: %prog expression < table
     --force-header:     assume the first line is a header even if it does not start with "#"
     -c, --cols=1,2:     names or indexes of columns to keep
 """
-
-import psyco_full
-
-import sys
+from __future__ import print_function
 
 import sys
+
 import bx.tabular.io
+import psyco_full
 from bx.cookbook import doc_optparse
+
 
 def __main__():
 
@@ -56,17 +56,18 @@ def __main__():
         if type( element ) is bx.tabular.io.Header:
             if keep_header: 
                 if cols:
-                    print "#" + "\t".join( element[c] for c in cols )
+                    print("#" + "\t".join( element[c] for c in cols ))
                 else:
-                    print element
+                    print(element)
         elif type( element ) is bx.tabular.io.Comment:
             if keep_comments: 
-                print element
+                print(element)
         else:
             if expr is None or bool( eval( expr, dict( row=element ) ) ):
                 if cols:
-                    print "\t".join( [ element[c] for c in cols ] )
+                    print("\t".join( element[c] for c in cols ))
                 else:
-                    print element
+                    print(element)
 
-if __name__ == "__main__": __main__()
+if __name__ == "__main__":
+    __main__()

@@ -9,11 +9,14 @@ TODO: General sequence handling would be nice, as well as merging with
 
 usage: %prog nib_dir < range_file
 """
+from __future__ import print_function
 
-from bx.cookbook import doc_optparse
-import bx.seq.nib
 import string
 import sys
+
+import bx.seq.nib
+from bx.cookbook import doc_optparse
+
 
 def __main__():
 
@@ -29,7 +32,7 @@ def __main__():
     for line in sys.stdin: 
         fields = line.split()
         chrom, start, end = fields[0], int( fields[1] ), int( fields[2] ) 
-        print ">", chrom, start, end 
+        print(">", chrom, start, end)
         if chrom in nibs:
             nib = nibs[chrom]
         else:
@@ -41,7 +44,8 @@ def print_wrapped( s ):
     c = 0
     while c < l:
         b = min( c + 50, l )
-        print s[c:b]
+        print(s[c:b])
         c = b
 
-if __name__ == "__main__": __main__()
+if __name__ == "__main__":
+    __main__()

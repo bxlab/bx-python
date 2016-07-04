@@ -4,8 +4,10 @@
 Read some whitespace separated data from stdin and pretty print it so that
 the columns line up.
 """
+from __future__ import print_function
 
 import sys
+
 
 def main():
     pad = "\t"
@@ -39,6 +41,6 @@ def print_tabular( rows, pad, align=None ):
             else:
                 rval += row[ i ].rjust( lengths[ i ] )
             rval += pad
-        print rval
+        print(rval)
 
 main()

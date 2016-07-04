@@ -6,6 +6,7 @@ not work as well).
 
 http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/168639
 """
+from __future__ import print_function
 
 import sys
 
@@ -50,7 +51,7 @@ class ProgressBar:
 
     def update_and_print( self, newAmount = 0, f = sys.stdout ):
         self.update( newAmount )
-        print >> f, "\r", self,
+        print("\r", self, end=' ', file=f)
         f.flush()
 
 
@@ -73,8 +74,8 @@ if __name__ == "__main__":
 
     for i in range(1000):
         bar.update( i )
-        print "\r", bar,
+        print("\r", bar, end=' ')
         sys.stdout.flush()
         
 
-    print
+    print()

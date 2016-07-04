@@ -1,13 +1,15 @@
 #!/usr/bin/env python2.4
+from __future__ import print_function
 
 import sys
+from itertools import *
+from optparse import OptionParser
+
+from rpy import *
 
 import bx.align.maf
 import bx.bitset
 from bx.bitset_builders import *
-from itertools import *
-from optparse import OptionParser
-from rpy import *
 
 def main():
 
@@ -64,7 +66,7 @@ def main():
 			
 		# Iterate over text and set diverged bit
 		pos = start
-		for ch1, ch2 in izip( comp1.text.upper(), comp2.text.upper() ):
+		for ch1, ch2 in zip( comp1.text.upper(), comp2.text.upper() ):
 			if ch1 == '-': continue
 			if ch2 == '-':
 				pos += 1
@@ -127,7 +129,7 @@ def main():
 			if options.outfile != None:
 				out_file.write("%s\t%d\t%d\t%d\t%d\t%d\t%d\t%1.15f\n" % (chr, window, window+window_size, nonAR_snp, nonAR_div, AR_snp, AR_div, MK_pval))
 			else:
-				print "%s\t%d\t%d\t%d\t%d\t%d\t%d\t%1.15f" % (chr, window, window+window_size, nonAR_snp, nonAR_div, AR_snp, AR_div, MK_pval)
+				print("%s\t%d\t%d\t%d\t%d\t%d\t%d\t%1.15f" % (chr, window, window+window_size, nonAR_snp, nonAR_div, AR_snp, AR_div, MK_pval))
 	
 	if options.outfile != None:
 		out_file.close()

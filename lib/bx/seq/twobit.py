@@ -1,12 +1,12 @@
 """
 Access to files containing sequence data in 'twobit' format.
 """
-
 import sys
-import _twobit
 
 from struct import *
-from UserDict import DictMixin
+from collections import Mapping
+
+from . import _twobit
 
 TWOBIT_MAGIC_NUMBER = 0x1A412743
 TWOBIT_MAGIC_NUMBER_SWAP = 0x4327411A
@@ -48,7 +48,7 @@ class TwoBitSequence( object ):
         # Return
         return dna
         
-class TwoBitFile( DictMixin ):
+class TwoBitFile( Mapping ):
     def __init__( self, file, do_mask=True ):
         self.do_mask = do_mask
         # Read magic and determine byte order
@@ -82,9 +82,12 @@ class TwoBitFile( DictMixin ):
         if not seq.loaded:
             self.load_sequence( name )
         return seq
-        
-    def keys( self ):
-        return self.index.keys()
+
+    def __iter__(self):
+        return iter(self.index.keys())
+
+    def __len__(self):
+        return len(self.index)
         
     def load_sequence( self, name ):
         seq = self.index[name]

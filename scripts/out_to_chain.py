@@ -1,12 +1,15 @@
 #!/usr/bin/env python
+from __future__ import print_function
 
-from __future__ import with_statement
+import logging
+import os
+import sys
+from itertools import product
 
-import sys, os, logging, pdb
-from itertools import product, izip, imap
+import numpy as np
+
 from bx.align.epo import Chain, EPOitem
 from bx.cookbook import argparse
-import numpy as np
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()
@@ -19,7 +22,7 @@ def outFile(s):
 def loadChrSizes(path):
     data = {}
     with open(path) as fd:
-        for ch,s in imap(lambda l: l.split(), fd):
+        for ch, s in (l.split(_) for _ in fd):
             data[ch] = int(s)
     return data
 
@@ -31,9 +34,9 @@ def convert_action(trg_comp, qr_comp, ts, qs, opt):
                 log.info("insignificant genomic alignment block %s ..." % ch.id)
                 continue
             new_id = "%si%d" % (ch.id, i)
-            print >>opt.output, str(ch._replace(id=new_id))
-            map(lambda tup: opt.output.write("%d %d %d\n" % tup), izip(S,T,Q))
-            print >>opt.output, "%d\n" % S[-1]
+            print(str(ch._replace(id=new_id)), file=opt.output)
+            map(lambda tup: opt.output.write("%d %d %d\n" % tup), zip(S, T, Q))
+            print("%d\n" % S[-1], file=opt.output)
         except KeyError:
             log.warning("skipping chromosome/contig (%s, %s)" % (a.chrom, b.chrom))
 
@@ -61,10 +64,7 @@ if __name__ == '__main__':
     log.info("dumping ...")
     for k in data:
         components = data[k]
-        trg_comp = filter(lambda c: c.species == opt.species[0], components)
-        qr_comp = filter(lambda c: c.species == opt.species[1], components)
+        trg_comp = [c for c in components if c.species == opt.species[0]]
+        qr_comp = [c for c in components if c.species == opt.species[1]]
 
         convert_action(trg_comp, qr_comp, tsizes, qsizes, opt)
-
-
-

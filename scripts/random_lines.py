@@ -6,11 +6,12 @@ memory!
 
 TODO: Replace this with a more elegant implementation.
 """
+from __future__ import print_function
 
-import sys
 import random
+import sys
 
 ndesired = int( sys.argv[1] )
 
 for line in random.sample( sys.stdin.readlines(), ndesired ):
-    print line,
+    print(line, end=' ')

@@ -13,12 +13,13 @@ usage: %prog [options] < maf > column_counts
     -w, --wildcard: include wildcards
     -m, --maxwildcards=N: only allow N missing species
 """
+from __future__ import print_function
+
+import sys
+from itertools import *
 
 import bx.align.maf
-import sys
 from bx.cookbook import doc_optparse, cross_lists
-
-from itertools import *
 
 counts = {}
 
@@ -29,7 +30,7 @@ for block in bx.align.maf.Reader( sys.stdin ):
     if nspecies: assert len( block.components ) == nspecies
     else: nspecies = len( block.components )
     # Increment count for each column
-    for col in izip( * [ iter( comp.text.upper() ) for comp in block.components ] ):
+    for col in zip( * [ iter( comp.text.upper() ) for comp in block.components ] ):
         col = ''.join( col )
         try: counts[ col ] += 1
         except: counts[ col ] = 1
@@ -61,4 +62,4 @@ for col in cross_lists( *( [ nucs ] * nspecies ) ):
         continue
     if col.count( "-" ) == nspecies:
         continue
-    print col, counts.get( col, 0 )
+    print(col, counts.get( col, 0 ))

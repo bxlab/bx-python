@@ -10,15 +10,15 @@ this number of species will be ignored.
 
 usage: %prog mapping_file
 """
+from __future__ import division, print_function
 
-from __future__ import division
-
-import psyco_full
-
-import bx.align.maf
-from bx import seqmapping
 import string
 import sys
+
+import bx.align.maf
+import psyco_full
+from bx import seqmapping
+
 
 def main():
 
@@ -34,7 +34,9 @@ def main():
         if alpha_map:
             int_seq = alpha_map.translate( int_seq )
         # Write ints separated by spaces
-        for i in int_seq: print i,
-        print
+        for i in int_seq:
+            print(i, end=' ')
+        print()
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()

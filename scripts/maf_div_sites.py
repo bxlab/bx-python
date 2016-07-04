@@ -5,12 +5,15 @@ in a maf.
 
 usage: %prog maf_file reference_species_name other_species_name
 """
+from __future__ import print_function
 
 import sys
+from itertools import *
+
 import bx.align.maf
 import bx.bitset
 from bx.bitset_builders import *
-from itertools import *
+
 
 def main():
 	bitsets = {}
@@ -30,7 +33,7 @@ def main():
 		if ref_chrom not in bitsets: bitsets[ ref_chrom ] = bx.bitset.BinnedBitSet( chrom_size )
 
 		pos = ref_start
-		for i,j in izip( ref.text.upper(), other.text.upper() ):
+		for i,j in zip( ref.text.upper(), other.text.upper() ):
 			if i != '-':
 				if i != j: # mismatch
 					if i != 'N' and j != 'N' and j != '-': 
@@ -47,7 +50,7 @@ def main():
 			start = bits.next_set( end )
 			if start == bits.size: break
 			end = bits.next_clear( start )
-			print "%s\t%d\t%d" % ( chrom, start, end )
+			print("%s\t%d\t%d" % ( chrom, start, end ))
 
 
 main()

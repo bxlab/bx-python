@@ -1,11 +1,13 @@
-import tempfile
-import subprocess
 import filecmp
 import os
-import sys
 import string
-import StringIO
+import subprocess
+import sys
+import tempfile
 import unittest
+
+from six import StringIO
+
 
 class TestFile( object ):
     def __init__( self, text=None, filename=None ):
@@ -15,9 +17,9 @@ class TestFile( object ):
         if self.filename is None:
             _, tf_name = tempfile.mkstemp()
             tf = open( tf_name, "w" )
-            sio = StringIO.StringIO( self.text )
+            sio = StringIO( self.text )
             for line in sio:
-                print >> tf, line.lstrip( " " ).rstrip( "\r\n" )
+                print(line.lstrip( " " ).rstrip( "\r\n" ), file=tf)
             tf.close()
             self.tempfile = True
             self.filename = tf_name
@@ -55,12 +57,12 @@ class BaseScriptTest( object ):
         input_fnames = dict()
         output_fnames = dict()
         all_fnames = dict()
-        for key, value in input_files.iteritems():
+        for key, value in input_files.items():
             input_fnames[ key ] = value.filename
             all_fnames[ key ] = input_fnames[ key ]
             if key == 'stdin':
                 stdin = open( input_fnames[ key ], 'r' )
-        for key, value in output_files.iteritems():
+        for key, value in output_files.items():
             _, tf_name = tempfile.mkstemp()
             output_fnames[ key ] = tf_name
             all_fnames[ key ] = output_fnames[ key ]
@@ -80,7 +82,7 @@ class BaseScriptTest( object ):
         # Run the command
         assert subprocess.call( real_command, stdin=stdin, stdout=stdout, stderr=stderr, shell=True, env=env ) == 0
         # Check the outputs
-        for key, value in output_files.iteritems():
+        for key, value in output_files.items():
             value.check( output_fnames[key] )
         # Cleanup
         for value in output_fnames.values():

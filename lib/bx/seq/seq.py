@@ -3,6 +3,7 @@ Classes to support "biological sequence" files.
 
 :Author: Bob Harris (rsharris@bx.psu.edu)
 """
+from six import Iterator
 
 # DNA reverse complement table
 
@@ -101,7 +102,7 @@ class SeqFile(object):
         return "".join(comp)
 
 
-class SeqReader(object):
+class SeqReader(Iterator):
     """Iterate over all sequences in a file in order"""
     
     def __init__(self, file, revcomp=False, name="", gap=None):
@@ -117,18 +118,18 @@ class SeqReader(object):
     def __iter__(self):
         return SeqReaderIter(self)
 
-    def next(self):  # subclasses should override this method and return the
+    def __next__(self):  # subclasses should override this method and return the
         return       # .. next sequence (of type SeqFile or a subclass) read
                      # .. from self.file
 
 
-class SeqReaderIter(object):
+class SeqReaderIter(Iterator):
     def __init__(self,reader):
         self.reader = reader
     def __iter__(self): 
         return self
-    def next(self):
-        v = self.reader.next()
+    def __next__(self):
+        v = next(self.reader)
         if not v: raise StopIteration
         return v
 

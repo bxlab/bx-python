@@ -88,7 +88,7 @@ cdef class FileArrayTreeDict:
         self.cdb_dict = FileCDBDict( file, is_little_endian=io.is_little_endian )
     def __getitem__( self, key ):
         offset = self.cdb_dict[key]
-        offset = self.io.unpack( "L", offset )[0]
+        offset = self.io.unpack( "L", offset.encode() )[0]
         self.io.seek( offset )
         return FileArrayTree( self.io.file, self.io.is_little_endian )
     

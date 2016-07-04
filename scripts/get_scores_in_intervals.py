@@ -8,16 +8,17 @@ TODO: Support binned array format scores also.
 
 usage: %prog score_file interval_file [out_file] 
 """
-
-from __future__ import division
+from __future__ import division, print_function
 
 import sys
-import psyco_full
+
 import bx.wiggle
-from bx.binned_array import BinnedArray
-from fpconst import isNaN
-from bx.cookbook import doc_optparse
+import psyco_full
 from bx import misc
+from bx.binned_array import BinnedArray
+from bx.cookbook import doc_optparse
+from fpconst import isNaN
+
 
 def read_scores( f ):
     scores_by_chrom = dict()
@@ -50,7 +51,7 @@ def main():
             scores = [ ba[i] for i in range( start, stop ) ]
         else:
             scores = []
-        print >> out_file, " ".join( fields ), " ".join( map( str, scores ) )
+        print(" ".join( fields ), " ".join( map( str, scores ) ), file=out_file)
 
     score_file.close()
     interval_file.close()

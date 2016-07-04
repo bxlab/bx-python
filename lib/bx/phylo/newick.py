@@ -3,6 +3,8 @@ Support for parsing phylogenetic tree's in newick format.
 
 TODO: Tree/Edge should be a generic data structure, not newick specific.
 """
+from __future__ import print_function
+
 from functools import total_ordering
 
 from bx_extras.pyparsing import *
@@ -13,7 +15,7 @@ def indent( s ):
     return "\n".join( "    " + line for line in s.split( "\n" ) )
 
 def print_( p, s ):
-    print p, type(s), s
+    print(p, type(s), s)
     return s
 
 @total_ordering

@@ -1,6 +1,7 @@
-from StringIO import StringIO
-import transfac
 from numpy import allclose
+from six import StringIO
+
+from . import transfac
 
 sample = """
 VV  TRANSFAC MATRIX TABLE, Rel.3.2 26-06-1997

@@ -9,12 +9,13 @@ TODO: Can this be generalized to be made more useful?
 
 usage: %prog bed_outfile_prefix < maf
 """
+from __future__ import division, print_function
 
-from __future__ import division
-
-import psyco_full
-import bx.align.maf
 import sys
+
+import bx.align.maf
+import psyco_full
+
 
 def block_pid( comp1, comp2 ):
     match = 0
@@ -33,7 +34,7 @@ def block_pid( comp1, comp2 ):
 
 def main():
     out_prefix = sys.argv[1]
-    print out_prefix
+    print(out_prefix)
     out_files = dict()
     for block in bx.align.maf.Reader( sys.stdin ):
         ref_comp = block.components[0]
@@ -53,4 +54,5 @@ def main():
         f.close()
     
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()

@@ -74,5 +74,5 @@ class Reader( object ):
 
     def __iter__( self ):
         for chrom, start, end, strand, val in IntervalReader( self.file ):
-            for pos in xrange( start, end ):
+            for pos in range( start, end ):
                 yield chrom, pos, val

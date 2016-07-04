@@ -1,7 +1,9 @@
-import unittest
 import sys
+import unittest
+
+from six import StringIO
+
 import bx.pwm.position_weight_matrix as pwm
-from StringIO import StringIO
 
 basicPwm = \
 """>MA0101 c-REL REL

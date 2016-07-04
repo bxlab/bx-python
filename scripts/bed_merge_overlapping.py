@@ -7,17 +7,18 @@ strand, and any fields beyond chrom/start/stop are lost.
 
 usage: %prog bed files ...
 """
+from __future__ import print_function
 
-import psyco_full
 import sys
 
+import psyco_full
 from bx.bitset import *
 from bx.bitset_builders import *
-from itertools import *
+from itertools import chain
 
 bed_filenames = sys.argv[1:]
 if bed_filenames:
-    input = chain( * imap( open, bed_filenames ) )
+    input = chain( * ( open(_) for _ in bed_filenames ) )
 else:
     input = sys.stdin
 
@@ -30,4 +31,4 @@ for chrom in bitsets:
         start = bits.next_set( end )
         if start == bits.size: break
         end = bits.next_clear( start )
-        print "%s\t%d\t%d" % ( chrom, start, end )
+        print("%s\t%d\t%d" % ( chrom, start, end ))

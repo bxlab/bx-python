@@ -30,9 +30,12 @@ Typical use:
 		print seq.get(0,seq.length)
 
 """
+from __future__ import print_function
+
+import string
+import sys
 
 from bx.seq.seq import SeqFile,SeqReader
-import sys, string
 
 class FastaFile(SeqFile):
 
@@ -77,7 +80,7 @@ class FastaReader(SeqReader):
         SeqReader.__init__(self,file,revcomp,name,gap)
         self.lookahead = None
 
-    def next(self):
+    def __next__(self):
         seq = FastaFile(self.file,self.revcomp,self.name,self.gap,self.lookahead)
         if (seq.text == None): return
         self.lookahead = seq.lookahead
@@ -92,12 +95,12 @@ class FastaWriter(object):
         self.columns = columns
 
     def write(self,seq):
-        print >>self.file,">%s" % seq.name
+        print(">%s" % seq.name, file=self.file)
         text = seq.text
         if (self.columns != None) and (self.columns > 0):
             text = "\n".join([text[ix:ix+self.columns] \
                               for ix in range(0,len(text),self.columns)])
-        print >>self.file,text
+        print(text, file=self.file)
 
     def close(self):
         assert (self.file != None)

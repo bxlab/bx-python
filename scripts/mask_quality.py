@@ -14,14 +14,17 @@ usage: %prog input output
     -t, --type=N: base_pair or nqs
     -l, --list=N: colon seperated list of species,len_file[,qualityfile].
 """
+from __future__ import print_function
 
+import fileinput
 import sys
+
 import bx.align.axt
 import bx.align.maf
 import bx.binned_array
-from bx.cookbook import doc_optparse
-import fileinput
 from bx.align.sitemask.quality import *
+from bx.cookbook import doc_optparse
+
 
 def main():
     
@@ -58,7 +61,7 @@ def main():
         if len(fields) >= 3:
             qualfiles[fields[0]] = fields[2]
 
-    specieslist = map( lambda(a): a.split(":")[0], specieslist )
+    specieslist = [a.split(":")[0] for a in specieslist]
     
     # open quality binned_arrays
     reader = None
@@ -67,7 +70,7 @@ def main():
     if inputformat == "axt":
         # load axt
         if len(specieslist) != 2:
-            print "AXT is pairwise only."
+            print("AXT is pairwise only.")
             sys.exit()
         reader = bx.align.axt.Reader(instream, species1=specieslist[0], \
                                      species2=specieslist[1], \
@@ -79,7 +82,7 @@ def main():
     if outputformat == "axt":
         # setup axt
         if len(specieslist) != 2:
-            print "AXT is pairwise only."
+            print("AXT is pairwise only.")
             sys.exit()
         writer = bx.align.axt.Writer(outstream, attributes=reader.attributes)
     elif outputformat == "maf":
@@ -91,8 +94,8 @@ def main():
 
     qualfilter.run( reader, writer.write )
 
-    print "For "+str(qualfilter.total)+" base pairs, "+str(qualfilter.masked)+" base pairs were masked."
-    print str(float(qualfilter.masked)/float(qualfilter.total) * 100)+"%"
+    print("For "+str(qualfilter.total)+" base pairs, "+str(qualfilter.masked)+" base pairs were masked.")
+    print(str(float(qualfilter.masked)/float(qualfilter.total) * 100)+"%")
     
 if __name__ == "__main__":
     main()

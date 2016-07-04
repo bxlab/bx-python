@@ -1,5 +1,5 @@
 import sys
-import twobit
+from . import twobit
 import random
 
 def quick_fasta_iter( f ):
@@ -36,7 +36,7 @@ def check_random_subseq_matches( test_fa, test_twobit ):
         expected[h] = s
     # Open 2bit
     t = twobit.TwoBitFile( open( test_twobit ) )
-    for k, s in expected.iteritems():
+    for k, s in expected.items():
         assert k in t.index
         # assert t.index[k].size == len(s)
         length = len(s)

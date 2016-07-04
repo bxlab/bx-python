@@ -28,7 +28,7 @@ def merge( interval, mincols=1 ):
                 output[interval.start_col] = str(start)
                 output[interval.end_col] = str(end)
                 yield output
-        except IndexError, e:
+        except IndexError as e:
             try:
                 # This will work only if interval is a NiceReaderWrapper
                 interval.skipped += 1

@@ -213,9 +213,14 @@ SUPPORT FUNCTIONS:  writecc
 ##              changed name of skewness and askewness to skew and askew
 ##              fixed (a)histogram (which sometimes counted points <lowerlimit)
 
-import pstat               # required 3rd party module
+from __future__ import print_function
+
 import math, string, copy  # required python modules
 from types import *
+
+from six.moves import input
+
+from . import pstat               # required 3rd party module
 
 __version__ = 0.6
 
@@ -237,14 +242,14 @@ print stats.amean.__doc__ or whatever.
         for func, types in tuples:
             for t in types:
                 if t in self._dispatch.keys():
-                    raise ValueError, "can't have two dispatches on "+str(t)
+                    raise ValueError("can't have two dispatches on "+str(t))
                 self._dispatch[t] = func
-        self._types = self._dispatch.keys()
+        self._types = list(self._dispatch.keys())
 
     def __call__(self, arg1, *args, **kw):
         if type(arg1) not in self._types:
-            raise TypeError, "don't know how to dispatch %s arguments" %  type(arg1)
-        return apply(self._dispatch[type(arg1)], (arg1,) + args, kw)
+            raise TypeError("don't know how to dispatch %s arguments" %  type(arg1))
+        return self._dispatch[type(arg1)](*(arg1,) + args, **kw)
 
 
 ##########################################################################
@@ -464,7 +469,7 @@ given by inlist.
 Usage:   lscoreatpercentile(inlist,percent)
 """
     if percent > 1:
-        print "\nDividing percent>1 by 100 in lscoreatpercentile().\n"
+        print("\nDividing percent>1 by 100 in lscoreatpercentile().\n")
         percent = percent / 100.0
     targetcf = percent*len(inlist)
     h, lrl, binsize, extras = histogram(inlist)
@@ -502,7 +507,7 @@ spanning all the numbers in the inlist.
 Usage:   lhistogram (inlist, numbins=10, defaultreallimits=None,suppressoutput=0)
 Returns: list of bin values, lowerreallimit, binsize, extrapoints
 """
-    if (defaultreallimits <> None):
+    if (defaultreallimits != None):
         if type(defaultreallimits) not in [ListType,TupleType] or len(defaultreallimits)==1: # only one limit given, assumed to be lower one & upper is calc'd
             lowerreallimit = defaultreallimits
             upperreallimit = 1.0001 * max(inlist)
@@ -526,7 +531,7 @@ Returns: list of bin values, lowerreallimit, binsize, extrapoints
         except:
             extrapoints = extrapoints + 1
     if (extrapoints > 0 and printextras == 1):
-        print '\nPoints outside given histogram range =',extrapoints
+        print('\nPoints outside given histogram range =',extrapoints)
     return (bins, lowerreallimit, binsize, extrapoints)
 
 
@@ -589,8 +594,8 @@ Returns: transformed data for use in an ANOVA
     for j in range(k):
         if v[j] - mean(nargs[j]) > TINY:
             check = 0
-    if check <> 1:
-        raise ValueError, 'Problem in obrientransform.'
+    if check != 1:
+        raise ValueError('Problem in obrientransform.')
     else:
         return nargs
 
@@ -743,11 +748,11 @@ Returns: appropriate statistic name, value, and probability
 """
     samples = ''
     while samples not in ['i','r','I','R','c','C']:
-        print '\nIndependent or related samples, or correlation (i,r,c): ',
-        samples = raw_input()
+        print('\nIndependent or related samples, or correlation (i,r,c): ', end=' ')
+        samples = input()
 
     if samples in ['i','I','r','R']:
-        print '\nComparing variances ...',
+        print('\nComparing variances ...', end=' ')
 # USE O'BRIEN'S TEST FOR HOMOGENEITY OF VARIANCE, Maxwell & delaney, p.112
         r = obrientransform(x,y)
         f,p = F_oneway(pstat.colex(r,0),pstat.colex(r,1))
@@ -755,45 +760,45 @@ Returns: appropriate statistic name, value, and probability
             vartype='unequal, p='+str(round(p,4))
         else:
             vartype='equal'
-        print vartype
+        print(vartype)
         if samples in ['i','I']:
             if vartype[0]=='e':
                 t,p = ttest_ind(x,y,0)
-                print '\nIndependent samples t-test:  ', round(t,4),round(p,4)
+                print('\nIndependent samples t-test:  ', round(t,4),round(p,4))
             else:
                 if len(x)>20 or len(y)>20:
                     z,p = ranksums(x,y)
-                    print '\nRank Sums test (NONparametric, n>20):  ', round(z,4),round(p,4)
+                    print('\nRank Sums test (NONparametric, n>20):  ', round(z,4),round(p,4))
                 else:
                     u,p = mannwhitneyu(x,y)
-                    print '\nMann-Whitney U-test (NONparametric, ns<20):  ', round(u,4),round(p,4)
+                    print('\nMann-Whitney U-test (NONparametric, ns<20):  ', round(u,4),round(p,4))
 
         else:  # RELATED SAMPLES
             if vartype[0]=='e':
                 t,p = ttest_rel(x,y,0)
-                print '\nRelated samples t-test:  ', round(t,4),round(p,4)
+                print('\nRelated samples t-test:  ', round(t,4),round(p,4))
             else:
                 t,p = ranksums(x,y)
-                print '\nWilcoxon T-test (NONparametric):  ', round(t,4),round(p,4)
+                print('\nWilcoxon T-test (NONparametric):  ', round(t,4),round(p,4))
     else:  # CORRELATION ANALYSIS
         corrtype = ''
         while corrtype not in ['c','C','r','R','d','D']:
-            print '\nIs the data Continuous, Ranked, or Dichotomous (c,r,d): ',
-            corrtype = raw_input()
+            print('\nIs the data Continuous, Ranked, or Dichotomous (c,r,d): ', end=' ')
+            corrtype = input()
         if corrtype in ['c','C']:
             m,b,r,p,see = linregress(x,y)
-            print '\nLinear regression for continuous variables ...'
+            print('\nLinear regression for continuous variables ...')
             lol = [['Slope','Intercept','r','Prob','SEestimate'],[round(m,4),round(b,4),round(r,4),round(p,4),round(see,4)]]
             pstat.printcc(lol)
         elif corrtype in ['r','R']:
             r,p = spearmanr(x,y)
-            print '\nCorrelation for ranked variables ...'
-            print "Spearman's r: ",round(r,4),round(p,4)
+            print('\nCorrelation for ranked variables ...')
+            print("Spearman's r: ",round(r,4),round(p,4))
         else: # DICHOTOMOUS
             r,p = pointbiserialr(x,y)
-            print '\nAssuming x contains a dichotomous variable ...'
-            print 'Point Biserial r: ',round(r,4),round(p,4)
-    print '\n\n'
+            print('\nAssuming x contains a dichotomous variable ...')
+            print('Point Biserial r: ',round(r,4),round(p,4))
+    print('\n\n')
     return None
 
 
@@ -807,11 +812,11 @@ Usage:   lpearsonr(x,y)      where x and y are equal-length lists
 Returns: Pearson's r value, two-tailed p-value
 """
     TINY = 1.0e-30
-    if len(x) <> len(y):
-        raise ValueError, 'Input values not paired in pearsonr.  Aborting.'
+    if len(x) != len(y):
+        raise ValueError('Input values not paired in pearsonr.  Aborting.')
     n = len(x)
-    x = map(float,x)
-    y = map(float,y)
+    x = [float(_) for _ in x]
+    y = [float(_) for _ in y]
     xmean = mean(x)
     ymean = mean(y)
     r_num = n*(summult(x,y)) - sum(x)*sum(y)
@@ -832,8 +837,8 @@ Usage:   lspearmanr(x,y)      where x and y are equal-length lists
 Returns: Spearman's r, two-tailed p-value
 """
     TINY = 1e-30
-    if len(x) <> len(y):
-        raise ValueError, 'Input values not paired in spearmanr.  Aborting.'
+    if len(x) != len(y):
+        raise ValueError('Input values not paired in spearmanr.  Aborting.')
     n = len(x)
     rankx = rankdata(x)
     ranky = rankdata(y)
@@ -857,12 +862,12 @@ Usage:   lpointbiserialr(x,y)      where x,y are equal-length lists
 Returns: Point-biserial r, two-tailed p-value
 """
     TINY = 1e-30
-    if len(x) <> len(y):
-        raise ValueError, 'INPUT VALUES NOT PAIRED IN pointbiserialr.  ABORTING.'
+    if len(x) != len(y):
+        raise ValueError('INPUT VALUES NOT PAIRED IN pointbiserialr.  ABORTING.')
     data = pstat.abut(x,y)
     categories = pstat.unique(x)
-    if len(categories) <> 2:
-        raise ValueError, "Exactly 2 categories required for pointbiserialr()."
+    if len(categories) != 2:
+        raise ValueError("Exactly 2 categories required for pointbiserialr().")
     else:   # there are 2 categories, continue
         codemap = pstat.abut(categories,range(2))
         recoded = pstat.recode(data,codemap,0)
@@ -922,11 +927,11 @@ Usage:   llinregress(x,y)      x,y are equal-length lists of x-y coordinates
 Returns: slope, intercept, r, two-tailed prob, sterr-of-estimate
 """
     TINY = 1.0e-20
-    if len(x) <> len(y):
-        raise ValueError, 'Input values not paired in linregress.  Aborting.'
+    if len(x) != len(y):
+        raise ValueError('Input values not paired in linregress.  Aborting.')
     n = len(x)
-    x = map(float,x)
-    y = map(float,y)
+    x = [float(_) for _ in x]
+    y = [float(_) for _ in y]
     xmean = mean(x)
     ymean = mean(y)
     r_num = float(n*(summult(x,y)) - sum(x)*sum(y))
@@ -964,7 +969,7 @@ Returns: t-value, two-tailed prob
     t = (x-popmean)/math.sqrt(svar*(1.0/n))
     prob = betai(0.5*df,0.5,float(df)/(df+t*t))
 
-    if printit <> 0:
+    if printit != 0:
         statname = 'Single-sample T-test.'
         outputpairedstats(printit,writemode,
                           'Population','--',popmean,0,0,0,
@@ -995,7 +1000,7 @@ Returns: t-value, two-tailed prob
     t = (x1-x2)/math.sqrt(svar*(1.0/n1 + 1.0/n2))
     prob = betai(0.5*df,0.5,df/(df+t*t))
 
-    if printit <> 0:
+    if printit != 0:
         statname = 'Independent samples T-test.'
         outputpairedstats(printit,writemode,
                           name1,n1,x1,v1,min(a),max(a),
@@ -1015,8 +1020,8 @@ and prob.
 Usage:   lttest_rel(a,b,printit=0,name1='Sample1',name2='Sample2',writemode='a')
 Returns: t-value, two-tailed prob
 """
-    if len(a)<>len(b):
-        raise ValueError, 'Unequal length lists in ttest_rel.'
+    if len(a)!=len(b):
+        raise ValueError('Unequal length lists in ttest_rel.')
     x1 = mean(a)
     x2 = mean(b)
     v1 = var(a)
@@ -1031,7 +1036,7 @@ Returns: t-value, two-tailed prob
     t = (x1-x2)/sd
     prob = betai(0.5*df,0.5,df/(df+t*t))
 
-    if printit <> 0:
+    if printit != 0:
         statname = 'Related samples T-test.'
         outputpairedstats(printit,writemode,
                           name1,n,x1,v1,min(a),max(a),
@@ -1120,7 +1125,7 @@ Returns: u-statistic, one-tailed p-value (i.e., p(z(U)))
     smallu = min(u1,u2)
     T = math.sqrt(tiecorrect(ranked))  # correction factor for tied scores
     if T == 0:
-        raise ValueError, 'All numbers are identical in lmannwhitneyu'
+        raise ValueError('All numbers are identical in lmannwhitneyu')
     sd = math.sqrt(T*n1*n2*(n1+n2+1)/12.0)
     z = abs((bigu-n1*n2/2.0) / sd)  # normal approximation for prob calc
     return smallu, 1.0 - zprob(z)
@@ -1181,15 +1186,15 @@ result.  A non-parametric T-test.
 Usage:   lwilcoxont(x,y)
 Returns: a t-statistic, two-tail probability estimate
 """
-    if len(x) <> len(y):
-        raise ValueError, 'Unequal N in wilcoxont.  Aborting.'
+    if len(x) != len(y):
+        raise ValueError('Unequal N in wilcoxont.  Aborting.')
     d=[]
     for i in range(len(x)):
         diff = x[i] - y[i]
-        if diff <> 0:
+        if diff != 0:
             d.append(diff)
     count = len(d)
-    absd = map(abs,d)
+    absd = [abs(_) for _ in d]
     absranked = rankdata(absd)
     r_plus = 0.0
     r_minus = 0.0
@@ -1219,7 +1224,7 @@ Returns: H-statistic (corrected for ties), associated p-value
     args = list(args)
     n = [0]*len(args)
     all = []
-    n = map(len,args)
+    n = [len(_) for _ in args]
     for i in range(len(args)):
         all = all + args[i]
     ranked = rankdata(all)
@@ -1236,7 +1241,7 @@ Returns: H-statistic (corrected for ties), associated p-value
     h = 12.0 / (totaln*(totaln+1)) * ssbn - 3*(totaln+1)
     df = len(args) - 1
     if T == 0:
-        raise ValueError, 'All numbers are identical in lkruskalwallish'
+        raise ValueError('All numbers are identical in lkruskalwallish')
     h = h / float(T)
     return h, chisqprob(h,df)
 
@@ -1255,9 +1260,9 @@ Returns: chi-square statistic, associated p-value
 """
     k = len(args)
     if k < 3:
-        raise ValueError, 'Less than 3 levels.  Friedman test not appropriate.'
+        raise ValueError('Less than 3 levels.  Friedman test not appropriate.')
     n = len(args[0])
-    data = apply(pstat.abut,tuple(args))
+    data = pstat.abut(*tuple(args))
     for i in range(len(data)):
         data[i] = rankdata(data[i])
     ssbn = 0
@@ -1453,7 +1458,7 @@ Usage:   lbetacf(a,b,x)
         bz = 1.0
         if (abs(az-aold)<(EPS*abs(az))):
             return az
-    print 'a or b too big, or ITMAX too small in Betacf.'
+    print('a or b too big, or ITMAX too small in Betacf.')
 
 
 def lgammln(xx):
@@ -1490,7 +1495,7 @@ using the betacf function.  (Adapted from: Numerical Recipies in C.)
 Usage:   lbetai(a,b,x)
 """
     if (x<0.0 or x>1.0):
-        raise ValueError, 'Bad x in lbetai'
+        raise ValueError('Bad x in lbetai')
     if (x==0.0 or x==1.0):
         bt = 0.0
     else:
@@ -1520,10 +1525,10 @@ Returns: F value, one-tailed p-value
     vars = [0]*a
     ns = [0]*a
     alldata = []
-    tmp = map(N.array,lists)
-    means = map(amean,tmp)
-    vars = map(avar,tmp)
-    ns = map(len,lists)
+    tmp = [N.array(_) for _ in lists]
+    means = [amean(_) for _ in tmp]
+    vars = [avar(_) for _ in tmp]
+    ns = [len(_) for _ in lists]
     for i in range(len(lists)):
         alldata = alldata + lists[i]
     alldata = N.array(alldata)
@@ -1583,7 +1588,7 @@ Returns: None
     maxsize = [0]*len(list2print[0])
     for col in range(len(list2print[0])):
         items = pstat.colex(list2print,col)
-        items = map(pstat.makestr,items)
+        items = [pstat.makestr(_) for _ in items]
         maxsize[col] = max(map(len,items)) + extra
     for row in listoflists:
         if row == ['\n'] or row == '\n':
@@ -1663,8 +1668,8 @@ length lists.
 
 Usage:   lsummult(list1,list2)
 """
-    if len(list1) <> len(list2):
-        raise ValueError, "Lists not equal length in summult."
+    if len(list1) != len(list2):
+        raise ValueError("Lists not equal length in summult.")
     s = 0
     for item1,item2 in pstat.abut(list1,list2):
         s = s + item1*item2
@@ -1706,7 +1711,7 @@ Returns: sorted-inlist, sorting-index-vector (for original list)
 """
     n = len(inlist)
     svec = copy.deepcopy(inlist)
-    ivec = range(n)
+    ivec = list(range(n))
     gap = n/2   # integer division needed
     while gap >0:
         for i in range(gap,n):
@@ -1739,7 +1744,7 @@ Returns: a list of length equal to inlist, containing rank scores
     for i in range(n):
         sumranks = sumranks + i
         dupcount = dupcount + 1
-        if i==n-1 or svec[i] <> svec[i+1]:
+        if i==n-1 or svec[i] != svec[i+1]:
             averank = sumranks / float(dupcount) + 1
             for j in range(i-dupcount+1,i+1):
                 newlist[ivec[j]] = averank
@@ -1772,12 +1777,12 @@ Returns: None
     title = [['Name','N','Mean','SD','Min','Max']]
     lofl = title+[[name1,n1,round(m1,3),round(math.sqrt(se1),3),min1,max1],
                   [name2,n2,round(m2,3),round(math.sqrt(se2),3),min2,max2]]
-    if type(fname)<>StringType or len(fname)==0:
-        print
-        print statname
-        print
+    if type(fname)!=StringType or len(fname)==0:
+        print()
+        print(statname)
+        print()
         pstat.printcc(lofl)
-        print
+        print()
         try:
             if stat.shape == ():
                 stat = stat[0]
@@ -1785,8 +1790,8 @@ Returns: None
                 prob = prob[0]
         except:
             pass
-        print 'Test statistic = ',round(stat,3),'   p = ',round(prob,3),suffix
-        print
+        print('Test statistic = ',round(stat,3),'   p = ',round(prob,3),suffix)
+        print()
     else:
         file = open(fname,writemode)
         file.write('\n'+statname+'\n\n')
@@ -2039,7 +2044,7 @@ Returns: harmonic mean computed over dim(s) in dimension
             idx[0] = -1
             loopcap = N.array(tinarray.shape[0:len(nondims)]) -1
             s = N.zeros(loopcap+1,N.Float)
-            while incr(idx,loopcap) <> -1:
+            while incr(idx,loopcap) != -1:
                 s[idx] = asum(1.0/tinarray[idx])
             size = N.multiply.reduce(N.take(inarray.shape,dims))
             if keepdims == 1:
@@ -2189,12 +2194,12 @@ Usage:   atmean(a,limits=None,inclusive=(1,1))
      if inclusive[1]:         upperfcn = N.less_equal
      else:               upperfcn = N.less
      if limits[0] > N.maximum.reduce(N.ravel(a)) or limits[1] < N.minimum.reduce(N.ravel(a)):
-         raise ValueError, "No array values within given limits (atmean)."
-     elif limits[0]==None and limits[1]<>None:
+         raise ValueError("No array values within given limits (atmean).")
+     elif limits[0]==None and limits[1]!=None:
          mask = upperfcn(a,limits[1])
-     elif limits[0]<>None and limits[1]==None:
+     elif limits[0]!=None and limits[1]==None:
          mask = lowerfcn(a,limits[0])
-     elif limits[0]<>None and limits[1]<>None:
+     elif limits[0]!=None and limits[1]!=None:
          mask = lowerfcn(a,limits[0])*upperfcn(a,limits[1])
      s = float(N.add.reduce(N.ravel(a*mask)))
      n = float(N.add.reduce(N.ravel(mask)))
@@ -2217,7 +2222,7 @@ Usage:   atvar(a,limits=None,inclusive=(1,1))
          term1 = N.add.reduce(N.ravel(a*a))
          n = float(len(N.ravel(a))) - 1
          term2 = N.add.reduce(N.ravel(a))**2 / n
-         print term1, term2, n
+         print(term1, term2, n)
          return (term1 - term2) / n
      assert type(limits) in [ListType,TupleType,N.ArrayType], "Wrong type for limits in atvar"
      if inclusive[0]:         lowerfcn = N.greater_equal
@@ -2225,17 +2230,17 @@ Usage:   atvar(a,limits=None,inclusive=(1,1))
      if inclusive[1]:         upperfcn = N.less_equal
      else:               upperfcn = N.less
      if limits[0] > N.maximum.reduce(N.ravel(a)) or limits[1] < N.minimum.reduce(N.ravel(a)):
-         raise ValueError, "No array values within given limits (atvar)."
-     elif limits[0]==None and limits[1]<>None:
+         raise ValueError("No array values within given limits (atvar).")
+     elif limits[0]==None and limits[1]!=None:
          mask = upperfcn(a,limits[1])
-     elif limits[0]<>None and limits[1]==None:
+     elif limits[0]!=None and limits[1]==None:
          mask = lowerfcn(a,limits[0])
-     elif limits[0]<>None and limits[1]<>None:
+     elif limits[0]!=None and limits[1]!=None:
          mask = lowerfcn(a,limits[0])*upperfcn(a,limits[1])
      term1 = N.add.reduce(N.ravel(a*a*mask))
      n = float(N.add.reduce(N.ravel(mask))) - 1
      term2 = N.add.reduce(N.ravel(a*mask))**2 / n
-     print term1, term2, n
+     print(term1, term2, n)
      return (term1 - term2) / n
 
 
@@ -2312,12 +2317,12 @@ Usage:   atsem(a,limits=None,inclusive=(1,1))
      if inclusive[1]:         upperfcn = N.less_equal
      else:               upperfcn = N.less
      if limits[0] > N.maximum.reduce(N.ravel(a)) or limits[1] < N.minimum.reduce(N.ravel(a)):
-         raise ValueError, "No array values within given limits (atsem)."
-     elif limits[0]==None and limits[1]<>None:
+         raise ValueError("No array values within given limits (atsem).")
+     elif limits[0]==None and limits[1]!=None:
          mask = upperfcn(a,limits[1])
-     elif limits[0]<>None and limits[1]==None:
+     elif limits[0]!=None and limits[1]==None:
          mask = lowerfcn(a,limits[0])
-     elif limits[0]<>None and limits[1]<>None:
+     elif limits[0]!=None and limits[1]!=None:
          mask = lowerfcn(a,limits[0])*upperfcn(a,limits[1])
      term1 = N.add.reduce(N.ravel(a*a*mask))
      n = float(N.add.reduce(N.ravel(mask)))
@@ -2375,8 +2380,8 @@ Returns: skew of vals in a along dimension, returning ZERO where all vals equal
 """
     denom = N.power(amoment(a,2,dimension),1.5)
     zero = N.equal(denom,0)
-    if type(denom) == N.ArrayType and asum(zero) <> 0:
-        print "Number of zeros in askew: ",asum(zero)
+    if type(denom) == N.ArrayType and asum(zero) != 0:
+        print("Number of zeros in askew: ",asum(zero))
     denom = denom + zero  # prevent divide-by-zero
     return N.where(zero, 0, amoment(a,3,dimension)/denom)
 
@@ -2394,8 +2399,8 @@ Returns: kurtosis of values in a along dimension, and ZERO where all vals equal
 """
     denom = N.power(amoment(a,2,dimension),2)
     zero = N.equal(denom,0)
-    if type(denom) == N.ArrayType and asum(zero) <> 0:
-        print "Number of zeros in akurtosis: ",asum(zero)
+    if type(denom) == N.ArrayType and asum(zero) != 0:
+        print("Number of zeros in akurtosis: ",asum(zero))
     denom = denom + zero  # prevent divide-by-zero
     return N.where(zero,0,amoment(a,4,dimension)/denom)
 
@@ -2465,7 +2470,7 @@ Returns: z-score and 2-tail z-probability, returns 0 for bad pixels
         dimension = 0
     n = float(a.shape[dimension])
     if n<20:
-        print "akurtosistest only valid for n>=20 ... continuing anyway, n=",n
+        print("akurtosistest only valid for n>=20 ... continuing anyway, n=",n)
     b2 = akurtosis(a,dimension)
     E = 3.0*(n-1) /(n+1)
     varb2 = 24.0*n*(n-2)*(n-3) / ((n+1)*(n+1)*(n+3)*(n+5))
@@ -2565,7 +2570,7 @@ Usage:   ahistogram(inarray,numbins=10,defaultlimits=None,printextras=1)
 Returns: (array of bin counts, bin-minimum, min-width, #-points-outside-range)
 """
     inarray = N.ravel(inarray)               # flatten any >1D arrays
-    if (defaultlimits <> None):
+    if (defaultlimits != None):
         lowerreallimit = defaultlimits[0]
         upperreallimit = defaultlimits[1]
         binsize = (upperreallimit-lowerreallimit) / float(numbins)
@@ -2587,7 +2592,7 @@ Returns: (array of bin counts, bin-minimum, min-width, #-points-outside-range)
         except:                           # point outside lower/upper limits
             extrapoints = extrapoints + 1
     if (extrapoints > 0 and printextras == 1):
-        print '\nPoints outside given histogram range =',extrapoints
+        print('\nPoints outside given histogram range =',extrapoints)
     return (bins, lowerreallimit, binsize, extrapoints)
 
 
@@ -2655,8 +2660,8 @@ Returns: transformed data for use in an ANOVA
     for j in range(k):
         if v[j] - mean(nargs[j]) > TINY:
             check = 0
-    if check <> 1:
-        raise ValueError, 'Lack of convergence in obrientransform.'
+    if check != 1:
+        raise ValueError('Lack of convergence in obrientransform.')
     else:
         return N.array(nargs)
 
@@ -2846,7 +2851,7 @@ Returns: a, where each value is rounded to 'digits' decimals
      def ar(x,d=digits):
          return round(x,d)
 
-     if type(a) <> N.ArrayType:
+     if type(a) != N.ArrayType:
          try:
              a = N.array(a)
          except:
@@ -2854,7 +2859,7 @@ Returns: a, where each value is rounded to 'digits' decimals
      shp = a.shape
      if a.typecode() in ['f','F','d','D']:
          b = N.ravel(a)
-         b = N.array(map(ar,b))
+         b = N.array([ar(_) for _ in b])
          b.shape = shp
      elif a.typecode() in ['o','O']:
          b = N.ravel(a)*1
@@ -2876,9 +2881,9 @@ Usage:   athreshold(a,threshmin=None,threshmax=None,newval=0)
 Returns: a, with values <threshmin or >threshmax replaced with newval
 """
     mask = N.zeros(a.shape)
-    if threshmin <> None:
+    if threshmin != None:
         mask = mask + N.where(N.less(a,threshmin),1,0)
-    if threshmax <> None:
+    if threshmax != None:
         mask = mask + N.where(N.greater(a,threshmax),1,0)
     mask = N.clip(mask,0,1)
     return N.where(mask,newval,a)
@@ -2931,8 +2936,8 @@ Computes the covariance matrix of a matrix X.  Requires a 2D matrix input.
 Usage:   acovariance(X)
 Returns: covariance matrix of X
 """
-    if len(X.shape) <> 2:
-        raise TypeError, "acovariance requires 2D matrices"
+    if len(X.shape) != 2:
+        raise TypeError("acovariance requires 2D matrices")
     n = X.shape[0]
     mX = amean(X,0)
     return N.dot(N.transpose(X),X) / float(n) - N.multiply.outer(mX,mX)
@@ -2960,11 +2965,11 @@ Returns: appropriate statistic name, value, and probability
 """
     samples = ''
     while samples not in ['i','r','I','R','c','C']:
-        print '\nIndependent or related samples, or correlation (i,r,c): ',
-        samples = raw_input()
+        print('\nIndependent or related samples, or correlation (i,r,c): ', end=' ')
+        samples = input()
 
     if samples in ['i','I','r','R']:
-        print '\nComparing variances ...',
+        print('\nComparing variances ...', end=' ')
 # USE O'BRIEN'S TEST FOR HOMOGENEITY OF VARIANCE, Maxwell & delaney, p.112
         r = obrientransform(x,y)
         f,p = F_oneway(pstat.colex(r,0),pstat.colex(r,1))
@@ -2972,45 +2977,45 @@ Returns: appropriate statistic name, value, and probability
             vartype='unequal, p='+str(round(p,4))
         else:
             vartype='equal'
-        print vartype
+        print(vartype)
         if samples in ['i','I']:
             if vartype[0]=='e':
                 t,p = ttest_ind(x,y,None,0)
-                print '\nIndependent samples t-test:  ', round(t,4),round(p,4)
+                print('\nIndependent samples t-test:  ', round(t,4),round(p,4))
             else:
                 if len(x)>20 or len(y)>20:
                     z,p = ranksums(x,y)
-                    print '\nRank Sums test (NONparametric, n>20):  ', round(z,4),round(p,4)
+                    print('\nRank Sums test (NONparametric, n>20):  ', round(z,4),round(p,4))
                 else:
                     u,p = mannwhitneyu(x,y)
-                    print '\nMann-Whitney U-test (NONparametric, ns<20):  ', round(u,4),round(p,4)
+                    print('\nMann-Whitney U-test (NONparametric, ns<20):  ', round(u,4),round(p,4))
 
         else:  # RELATED SAMPLES
             if vartype[0]=='e':
                 t,p = ttest_rel(x,y,0)
-                print '\nRelated samples t-test:  ', round(t,4),round(p,4)
+                print('\nRelated samples t-test:  ', round(t,4),round(p,4))
             else:
                 t,p = ranksums(x,y)
-                print '\nWilcoxon T-test (NONparametric):  ', round(t,4),round(p,4)
+                print('\nWilcoxon T-test (NONparametric):  ', round(t,4),round(p,4))
     else:  # CORRELATION ANALYSIS
         corrtype = ''
         while corrtype not in ['c','C','r','R','d','D']:
-            print '\nIs the data Continuous, Ranked, or Dichotomous (c,r,d): ',
-            corrtype = raw_input()
+            print('\nIs the data Continuous, Ranked, or Dichotomous (c,r,d): ', end=' ')
+            corrtype = input()
         if corrtype in ['c','C']:
             m,b,r,p,see = linregress(x,y)
-            print '\nLinear regression for continuous variables ...'
+            print('\nLinear regression for continuous variables ...')
             lol = [['Slope','Intercept','r','Prob','SEestimate'],[round(m,4),round(b,4),round(r,4),round(p,4),round(see,4)]]
             pstat.printcc(lol)
         elif corrtype in ['r','R']:
             r,p = spearmanr(x,y)
-            print '\nCorrelation for ranked variables ...'
-            print "Spearman's r: ",round(r,4),round(p,4)
+            print('\nCorrelation for ranked variables ...')
+            print("Spearman's r: ",round(r,4),round(p,4))
         else: # DICHOTOMOUS
             r,p = pointbiserialr(x,y)
-            print '\nAssuming x contains a dichotomous variable ...'
-            print 'Point Biserial r: ',round(r,4),round(p,4)
-    print '\n\n'
+            print('\nAssuming x contains a dichotomous variable ...')
+            print('Point Biserial r: ',round(r,4),round(p,4))
+    print('\n\n')
     return None
 
 
@@ -3069,8 +3074,8 @@ Returns: Point-biserial r, two-tailed p-value
     TINY = 1e-30
     categories = pstat.aunique(x)
     data = pstat.aabut(x,y)
-    if len(categories) <> 2:
-        raise ValueError, "Exactly 2 categories required (in x) for pointbiserialr()."
+    if len(categories) != 2:
+        raise ValueError("Exactly 2 categories required (in x) for pointbiserialr().")
     else:   # there are 2 categories, continue
         codemap = pstat.aabut(categories,N.arange(2))
         recoded = pstat.arecode(data,codemap,0)
@@ -3183,7 +3188,7 @@ Returns: t-value, two-tailed prob
     t = (x-popmean)/math.sqrt(svar*(1.0/n))
     prob = abetai(0.5*df,0.5,df/(df+t*t))
 
-    if printit <> 0:
+    if printit != 0:
         statname = 'Single-sample T-test.'
         outputpairedstats(printit,writemode,
                           'Population','--',popmean,0,0,0,
@@ -3229,7 +3234,7 @@ Returns: t-value, two-tailed p-value
     if len(probs) == 1:
         probs = probs[0]
         
-    if printit <> 0:
+    if printit != 0:
         if type(t) == N.ArrayType:
             t = t[0]
         if type(probs) == N.ArrayType:
@@ -3262,8 +3267,8 @@ Returns: t-value, two-tailed p-value
         a = N.ravel(a)
         b = N.ravel(b)
         dimension = 0
-    if len(a)<>len(b):
-        raise ValueError, 'Unequal length arrays.'
+    if len(a)!=len(b):
+        raise ValueError('Unequal length arrays.')
     x1 = amean(a,dimension)
     x2 = amean(b,dimension)
     v1 = avar(a,dimension)
@@ -3283,7 +3288,7 @@ Returns: t-value, two-tailed p-value
     if len(probs) == 1:
         probs = probs[0]
 
-    if printit <> 0:
+    if printit != 0:
         statname = 'Related samples T-test.'
         outputpairedstats(printit,writemode,
                           name1,n,x1,v1,N.minimum.reduce(N.ravel(a)),
@@ -3375,7 +3380,7 @@ Returns: u-statistic, one-tailed p-value (i.e., p(z(U)))
     smallu = min(u1,u2)
     T = math.sqrt(tiecorrect(ranked))  # correction factor for tied scores
     if T == 0:
-        raise ValueError, 'All numbers are identical in amannwhitneyu'
+        raise ValueError('All numbers are identical in amannwhitneyu')
     sd = math.sqrt(T*n1*n2*(n1+n2+1)/12.0)
     z = abs((bigu-n1*n2/2.0) / sd)  # normal approximation for prob calc
     return smallu, 1.0 - zprob(z)
@@ -3436,8 +3441,8 @@ result.  A non-parametric T-test.
 Usage:   awilcoxont(x,y)     where x,y are equal-length arrays for 2 conditions
 Returns: t-statistic, two-tailed p-value
 """
-    if len(x) <> len(y):
-        raise ValueError, 'Unequal N in awilcoxont.  Aborting.'
+    if len(x) != len(y):
+        raise ValueError('Unequal N in awilcoxont.  Aborting.')
     d = x-y
     d = N.compress(N.not_equal(d,0),d) # Keep all non-zero differences
     count = len(d)
@@ -3472,7 +3477,7 @@ Returns: H-statistic (corrected for ties), associated p-value
     assert len(args) == 3, "Need at least 3 groups in stats.akruskalwallish()"
     args = list(args)
     n = [0]*len(args)
-    n = map(len,args)
+    n = [len(_) for _ in args]
     all = []
     for i in range(len(args)):
         all = all + args[i].tolist()
@@ -3490,7 +3495,7 @@ Returns: H-statistic (corrected for ties), associated p-value
     h = 12.0 / (totaln*(totaln+1)) * ssbn - 3*(totaln+1)
     df = len(args) - 1
     if T == 0:
-        raise ValueError, 'All numbers are identical in akruskalwallish'
+        raise ValueError('All numbers are identical in akruskalwallish')
     h = h / float(T)
     return h, chisqprob(h,df)
 
@@ -3509,9 +3514,9 @@ Returns: chi-square statistic, associated p-value
 """
     k = len(args)
     if k < 3:
-        raise ValueError, '\nLess than 3 levels.  Friedman test not appropriate.\n'
+        raise ValueError('\nLess than 3 levels.  Friedman test not appropriate.\n')
     n = len(args[0])
-    data = apply(pstat.aabut,args)
+    data = pstat.aabut(*args)
     data = data.astype(N.Float)
     for i in range(len(data)):
         data[i] = arankdata(data[i])
@@ -3573,7 +3578,7 @@ Usage:   achisqprob(chisq,df)    chisq=chisquare stat., df=degrees of freedom
         a_big = N.greater(a,BIG)
         a_big_frozen = -1 *N.ones(probs.shape,N.Float)
         totalelements = N.multiply.reduce(N.array(probs.shape))
-        while asum(mask)<>totalelements:
+        while asum(mask)!=totalelements:
             e = N.log(z) + e
             s = s + ex(c*z-a-e)
             z = z + 1.0
@@ -3590,7 +3595,7 @@ Usage:   achisqprob(chisq,df)    chisq=chisquare stat., df=degrees of freedom
         c = 0.0
         mask = N.zeros(probs.shape)
         a_notbig_frozen = -1 *N.ones(probs.shape,N.Float)
-        while asum(mask)<>totalelements:
+        while asum(mask)!=totalelements:
             e = e * (a/z.astype(N.Float))
             c = c + e
             z = z + 1.0
@@ -3758,8 +3763,8 @@ Usage:   abetacf(a,b,x,verbose=1)
         frozen = N.where(newmask*N.equal(mask,0), az, frozen)
         mask = N.clip(mask+newmask,0,1)
     noconverge = asum(N.equal(frozen,-1))
-    if noconverge <> 0 and verbose:
-        print 'a or b too big, or ITMAX too small in Betacf for ',noconverge,' elements'
+    if noconverge != 0 and verbose:
+        print('a or b too big, or ITMAX too small in Betacf for ',noconverge,' elements')
     if arrayflag:
         return frozen
     else:
@@ -3802,8 +3807,8 @@ Usage:   abetai(a,b,x,verbose=1)
 """
     TINY = 1e-15
     if type(a) == N.ArrayType:
-        if asum(N.less(x,0)+N.greater(x,1)) <> 0:
-            raise ValueError, 'Bad x in abetai'
+        if asum(N.less(x,0)+N.greater(x,1)) != 0:
+            raise ValueError('Bad x in abetai')
     x = N.where(N.equal(x,0),TINY,x)
     x = N.where(N.equal(x,1.0),1-TINY,x)
 
@@ -3843,8 +3848,8 @@ from:
 Usage:   aglm(data,para)
 Returns: statistic, p-value ???
 """
-    if len(para) <> len(data):
-        print "data and para must be same length in aglm"
+    if len(para) != len(data):
+        print("data and para must be same length in aglm")
         return
     n = len(para)
     p = pstat.aunique(para)
@@ -3880,10 +3885,10 @@ Returns: f-value, probability
     vars = [0]*na
     ns = [0]*na
     alldata = []
-    tmp = map(N.array,args)
-    means = map(amean,tmp)
-    vars = map(avar,tmp)
-    ns = map(len,args)
+    tmp = [N.array(_) for _ in args]
+    means = [amean(_) for _ in tmp]
+    vars = [avar(_) for _ in tmp]
+    ns = [len(_) for _ in args]
     alldata = N.concatenate(args)
     bign = len(alldata)
     sstot = ass(alldata)-(asquare_of_sums(alldata)/float(bign))
@@ -4107,7 +4112,7 @@ Returns: sorted-inarray, sorting-index-vector (for original array)
 """
     n = len(inarray)
     svec = inarray *1.0
-    ivec = range(n)
+    ivec = list(range(n))
     gap = n/2   # integer division needed
     while gap >0:
         for i in range(gap,n):
@@ -4140,7 +4145,7 @@ Returns: array of length equal to inarray, containing rank scores
     for i in range(n):
         sumranks = sumranks + i
         dupcount = dupcount + 1
-        if i==n-1 or svec[i] <> svec[i+1]:
+        if i==n-1 or svec[i] != svec[i+1]:
             averank = sumranks / float(dupcount) + 1
             for j in range(i-dupcount+1,i+1):
                 newarray[ivec[j]] = averank

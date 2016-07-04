@@ -9,8 +9,12 @@ usage: %prog < axt_file > fasta_file
 
 __author__ = "Bob Harris (rsharris@bx.psu.edu)"
 
+from __future__ import print_function
+
 import sys
+
 import bx.align.axt
+
 
 def usage(s=None):
 	message = """
@@ -37,7 +41,7 @@ def main():
 		else:                      id = None
 		print_component_as_fasta(a.components[0],id)
 		print_component_as_fasta(a.components[1],id)
-		print
+		print()
 
 
 # $$$ this should be moved to a bx.align.fasta module
@@ -45,8 +49,8 @@ def main():
 def print_component_as_fasta(c,id=None):
 	header = ">%s_%s_%s" % (c.src,c.start,c.start+c.size)
 	if (id != None): header += " " + id
-	print header
-	print c.text
+	print(header)
+	print(c.text)
 
 
 if __name__ == "__main__": main()

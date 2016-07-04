@@ -10,6 +10,7 @@ TODO: The finder class might actually be useful, it strides through a file
       
 usage: %prog start_pos stop_pos
 """
+from __future__ import print_function
 
 import sys
 
@@ -74,4 +75,4 @@ else:
 
 for score in scores:
     if score[0] % stride == 0:
-        print score[0], score[1]
+        print(score[0], score[1])

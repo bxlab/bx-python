@@ -5,16 +5,16 @@ Writes compressed data from a wiggle file by chromosome.
 
 usage: %prog score_file < wiggle_data
 """
-
-from __future__ import division
+from __future__ import division, print_function
 
 import sys
-import psyco_full
+
 import bx.wiggle
-from bx.binned_array import BinnedArray
-from fpconst import isNaN
-from bx.cookbook import doc_optparse
+import psyco_full
 from bx import misc
+from bx.binned_array import BinnedArray
+from bx.cookbook import doc_optparse
+from fpconst import isNaN
 
 
 def main():
@@ -32,11 +32,13 @@ def main():
         scores[chrom][pos] = val
 
         # Status
-        if i % 10000 == 0: print i, "scores processed"
+        if i % 10000 == 0:
+            print(i, "scores processed")
 
     for chr in scores.keys():
         out = open( chr, "w" )
         scores[chr].to_file( out )
         out.close()
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()

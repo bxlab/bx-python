@@ -37,6 +37,6 @@ class TreeModel:
             if line.startswith( "RATE_MAT:" ):
                 matrix = zeros( (tm.radix,tm.radix), float )
                 for i in range( len( tm.alphabet ) ):
-                    matrix[i] = map( float, input.next().split() )
+                    matrix[i] = [ float(_) for _ in next(input).split() ]
                 tm.matrix = matrix
         return tm

@@ -1,5 +1,5 @@
-import interval_index_file
-from interval_index_file import Indexes
+from . import interval_index_file
+from .interval_index_file import Indexes
 from tempfile import mktemp
 import random
 
@@ -23,7 +23,7 @@ def test_interval_index_file():
             intervals.append( ( start, end, i ) )
         chrs.append( intervals )
     fname = mktemp()
-    f = open( fname, "w" )
+    f = open( fname, "wb" )
     ix.write( f )
     f.close()
     del ix

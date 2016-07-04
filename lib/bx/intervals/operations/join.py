@@ -4,17 +4,18 @@ intervals MUST be sorted by chrom(lexicographically),
 start(arithmetically) and end(arithmetically).  This works by simply
 walking through the inputs in O(n) time.
 """
+from __future__ import print_function
 
-import psyco_full
-
+import fileinput
 import math
 import traceback
-import fileinput
 from warnings import warn
 
+import psyco_full
 from bx.intervals.io import *
 from bx.intervals.operations import *
-from quicksect import IntervalTree
+
+from .quicksect import IntervalTree
 
 def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
     # Read rightSet into memory:
@@ -64,7 +65,8 @@ def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
         rightTree.traverse( lambda x: report_unvisited( x, results ) )
         for item in results:
             outfields = list()
-            for x in range(leftlen): outfields.append(".")
+            for x in range(leftlen):
+                outfields.append(".")
             map(outfields.append, item.other)
             yield outfields
 
@@ -114,8 +116,8 @@ def findintersect(interval, sortedlist, mincols):
                 else:
                     x += n
 
-    print "\t".join(sortedlist[x][0].fields)
-    print "not_found = " + str(not_found)
+    print("\t".join(sortedlist[x][0].fields))
+    print("not_found = " + str(not_found))
     if not_found:
         return 0,-1
 

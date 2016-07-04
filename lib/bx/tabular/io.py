@@ -1,12 +1,13 @@
 """
 Reading and writing delimited data files (with headers and comments).
 """
-
 import sys
 from itertools import *
-from UserDict import DictMixin
+
+from six import Iterator
 
 FIRST_LINE_IS_HEADER = object()
+
 
 class ParseError( Exception ):
     def __init__( self, *args, **kwargs ):
@@ -70,7 +71,7 @@ class Comment( object ):
             return self.line
         return "#" + self.line
 
-class TableReader( object ):
+class TableReader( Iterator ):
     """
     Reader for iterating tabular data
     """
@@ -84,8 +85,8 @@ class TableReader( object ):
         self.comment_lines_startswith = comment_lines_startswith
     def __iter__( self ):
         return self
-    def next( self ):
-        line = self.input_iter.next()
+    def __next__( self ):
+        line = next(self.input_iter)
         self.linenum += 1
         line = line.rstrip( "\r\n" )
         # Catch blank lines (throw a warning?)
@@ -94,14 +95,14 @@ class TableReader( object ):
             if self.return_comments:
                 return Comment( line )
             else:
-                return self.next()
+                return next(self)
         # Force header?
         if self.header is FIRST_LINE_IS_HEADER and self.linenum == 1:
             self.header = self.parse_header( line )
             if self.return_header:
                 return self.header
             else:
-                return self.next()
+                return next(self)
         # Is it a comment line?
         for comment_line_start in self.comment_lines_startswith:
             if line.startswith( comment_line_start ):
@@ -111,16 +112,16 @@ class TableReader( object ):
                     if self.return_header:
                         return self.header
                     else:
-                        return self.next()
+                        return next(self)
                 else:
                     if self.return_comments:
                         return self.parse_comment( line )
                     else:
-                        return self.next()
+                        return next(self)
         # Not a comment, must be an interval
         try:
             return self.parse_row( line )
-        except ParseError, e:
+        except ParseError as e:
             e.linenum = self.linenum
             raise e
     def parse_header( self, line ):

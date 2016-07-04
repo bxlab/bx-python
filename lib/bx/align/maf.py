@@ -4,15 +4,13 @@ Support for the `MAF`_ multiple sequence alignment format used by `multiz`_.
 .. _MAF: http://genome.ucsc.edu/FAQ/FAQformat.html#format5
 .. _multiz: http://www.bx.psu.edu/miller_lab/
 """
-
-from bx.align import *
-
-from StringIO import StringIO
+import itertools
 import os
 
-import itertools
-from bx import interval_index_file
+from six import Iterator, StringIO
 
+from bx import interval_index_file
+from bx.align import *
 from bx.misc.seekbzip2 import SeekableBzip2File
 
 MAF_INVERSE_STATUS = 'V'
@@ -48,7 +46,7 @@ Indexed = MAFIndexedAccess
 MultiIndexed = MAFMultiIndexedAccess
 """Deprecated: `MAFMultiIndexedAccess` is also available under the name `MultiIndexed`."""
 
-class Reader( object ):
+class Reader( Iterator ):
     """
     Iterate over all maf blocks in a file in order
     """
@@ -60,7 +58,7 @@ class Reader( object ):
         if fields[0] != '##maf': raise Exception("File does not have MAF header")
         self.attributes = parse_attributes( fields[1:] )
 
-    def next( self ):
+    def __next__( self ):
         return read_next_maf( self.file, **self.maf_kwargs )
 
     def __iter__( self ):
@@ -69,7 +67,7 @@ class Reader( object ):
     def close( self ):
         self.file.close()
 
-class ReaderIter( object ):
+class ReaderIter( Iterator ):
     """
     Adapts a `Reader` to the iterator protocol.
     """
@@ -77,8 +75,8 @@ class ReaderIter( object ):
         self.reader = reader
     def __iter__( self ): 
         return self
-    def next( self ):
-        v = self.reader.next()
+    def __next__( self ):
+        v = next(self.reader)
         if not v: raise StopIteration
         return v
 
@@ -87,7 +85,7 @@ class Writer( object ):
     def __init__( self, file, attributes={} ):
         self.file = file
         # Write header, Webb's maf code wants version first, we accomodate
-        if not attributes.has_key('version'): attributes['version'] = 1
+        if 'version' not in attributes: attributes['version'] = 1
         self.file.write( "##maf version=%s" % attributes['version'] )
         for key in attributes: 
             if key == 'version': continue

@@ -11,22 +11,24 @@ usage: %prog score_file interval_file [out_file] [options]
     -b, --binned: 'score_file' is actually a directory of binned array files
     -m, --mask=FILE: bed file containing regions not to consider valid
 """
+from __future__ import division, print_function
 
-from __future__ import division
-
-import psyco_full
+import os
+import os.path
 import sys
-import os, os.path
-from UserDict import DictMixin
+from collections import Mapping
+
 import bx.wiggle
+import psyco_full
+from bx import misc
 from bx.binned_array import BinnedArray, FileBinnedArray
 from bx.bitset import *
 from bx.bitset_builders import *
-from bx_extras.fpconst import isNaN
 from bx.cookbook import doc_optparse
-from bx import misc
+from bx_extras.fpconst import isNaN
 
-class FileBinnedArrayDir( DictMixin ):
+
+class FileBinnedArrayDir( Mapping ):
     """
     Adapter that makes a directory of FileBinnedArray files look like
     a regular dict of BinnedArray objects. 
@@ -34,6 +36,7 @@ class FileBinnedArrayDir( DictMixin ):
     def __init__( self, dir ):
         self.dir = dir
         self.cache = dict()
+
     def __getitem__( self, key ):
         value = None
         if key in self.cache:
@@ -46,6 +49,13 @@ class FileBinnedArrayDir( DictMixin ):
         if value is None:
             raise KeyError( "File does not exist: " + fname )
         return value
+
+    def __iter__(self):
+        raise NotImplementedError()
+
+    def __len__(self):
+        raise NotImplementedError()
+
 
 def load_scores_wiggle( fname ):
     """
@@ -119,7 +129,7 @@ def main():
             min_score = "nan"
             max_score = "nan"
             
-        print >> out_file, "\t".join( map( str, [ chrom, start, stop, avg, min_score, max_score ] ) )
+        print("\t".join( map( str, [ chrom, start, stop, avg, min_score, max_score ] ) ), file=out_file)
 
     out_file.close()
 

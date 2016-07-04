@@ -13,7 +13,7 @@ class Filter( object ):
             if block: writer( block )
 
     def step( self, reader, writer ):
-        block = reader.next()
+        block = next(reader)
         if not block: raise StopIteration
         block = self( block )
         if block: writer( block )
@@ -29,13 +29,13 @@ class Pipeline( Filter ):
         for function in pipeline:
             if not block: return block
             try: f = function.__call__
-            except: raise TypeError, "'" + function.__class__.__name__ + "' is not callable."
+            except: raise TypeError("'" + function.__class__.__name__ + "' is not callable.")
             block = f( block )
         return block
 
     def append( self, function ):
         try: f = function.__call__
-        except: raise TypeError, "'" + function.__class__.__name__ + "' is not callable."
+        except: raise TypeError("'" + function.__class__.__name__ + "' is not callable.")
         return self.pipeline.append( function )
     def remove( self, function ):
         return self.pipeline.remove( function )
@@ -47,7 +47,7 @@ class Pipeline( Filter ):
     def __getitem__( self, key ): return self.pipeline[key]
     def __setitem__( self, key, value ):
         try: f = value.__call__
-        except: raise TypeError, "'" + value.__class__.__name__ + "' is not callable."
+        except: raise TypeError("'" + value.__class__.__name__ + "' is not callable.")
         return self.pipeline.__setitem__( key, value )
     def __delitem__( self, key ): return self.pipeline.__delitem__( key )
     def __iter__( self ): return self.pipeline.__iter__()

@@ -1,11 +1,12 @@
 """
 Tests for `bx.phylo.phast`.
 """
-
 import unittest
-from StringIO import StringIO
-from bx.phylo.phast import TreeModel
+
 from numpy import *
+from six import StringIO
+
+from bx.phylo.phast import TreeModel
 
 test_data = """ALPHABET: A C G T - 
 ORDER: 0
