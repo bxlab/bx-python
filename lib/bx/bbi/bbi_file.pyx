@@ -20,7 +20,7 @@ import numpy
 cimport numpy
 
 from bx.misc.binary_file import BinaryFileReader
-from cStringIO import StringIO
+from six.moves import cStringIO as StringIO
 import zlib, math
 
 # Signatures for bbi related file types

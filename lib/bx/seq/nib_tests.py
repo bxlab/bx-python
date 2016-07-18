@@ -5,7 +5,7 @@ Tests for `bx.seq.nib`.
 import unittest
 import sys
 import os.path
-import nib
+from . import nib
 
 test_nib = "test_data/seq_tests/test.nib"
 

@@ -15,19 +15,19 @@ class lavTestCase(unittest.TestCase):
 
         reader = lav.Reader(file(test_lav))
 
-        a = reader.next()
+        a = next(reader)
         assert a.score == 10286, "a.score is wrong: %s" % a.score
         assert len(a.components) == 2
         check_component(a.components[0], "apple",            106, 252, "+", 411, "GTCCGGCCGGCTGAGAGCTACAATACACATGCACGCAGTTTGGCCACTCACATTAAGTATATGAGGAAGGGTTAGCATGAGTTGTACTATAAGGCAGCGGATAGCAGGTTGTGGAAAAATATCCTCCCGATTCAAATCCCCAGGTGCCTAAA----------------GTAGGGCCGGTAGTTGAATGCTTGCCTGTCAGACTGGATGACCAAGTTCAGTATCAACACAATATAGTGCCAGGAGCTAATTGTTCCCCAGCAGCGTGAC")
         check_component(a.components[1], "lav_tests.orange",  53, 252, "+", 361, "GTCCGGCCGGCTGTGTGCTACAATACACGTTCACGCAGTTTGGCCAATCACTTTAAGTATATACGAAATGGTTACCATGAGTTGTACTGTAAGGCAGCGGAAAGC---TTGTTAA--------CTCCTGGGCGACATT----GGGGCTGCAACATCGTTTATCCTCCTCTACAACCAATAGCTG-TTGCTTCTTGGTTCAAGTATATCCCATGGATTAGTATCAACACGATATAGTGTCAGGAGCTAATTGTTCCCCAGCAGCGTGAC")
 
-        a = reader.next()
+        a = next(reader)
         assert a.score == 3586, "a.score is wrong: %s" % a.score
         assert len(a.components) == 2
         check_component(a.components[0], "apple",             52,  72, "+", 411, "TGCATATCGACTATTACAGCCACGCGAGTTACATTCCTCTTTTTTTTTGCTGGCGTCCGGCCGGCTGAGAGC")
         check_component(a.components[1], "lav_tests.orange",   2,  72, "-", 361, "TGCATATCGACTAGTACAGCCTCTCGAGTTACCCCCCCCATTCCTCTTGCTGACGTCACGCTGCTGGGGAAC")
 
-        a = reader.next()
+        a = next(reader)
         assert a is None
 
         reader.close()

@@ -11,12 +11,13 @@ read only access to an on disk binned array.
 from __future__ import division
 
 import math
+import sys
 
+from six import binary_type
 from numpy import *
 from struct import *
 from bx_extras.lrucache import LRUCache
 
-import sys
 platform_is_little_endian = ( sys.byteorder == 'little' )
 
 MAGIC=0x4AB04612
@@ -49,8 +50,15 @@ try:
 except:
     pass
 
-
 MAX=512*1024*1024 
+
+
+def bytesify(s):
+    if isinstance(s, binary_type):
+        return s
+    else:
+        return s.encode()
+
 
 class BinnedArray( object ):
     def __init__( self, bin_size=512*1024, default=NaN, max_size=MAX, typecode="f" ):
@@ -116,9 +124,9 @@ class BinnedArray( object ):
         # Write header
         write_packed( f, ">5I", MAGIC, VERSION, self.max_size, self.bin_size, self.nbins )
         # save type code
-        f.write( pack('c',self.typecode ) )
+        f.write( pack('c', bytesify(self.typecode) ) )
         # save compression type
-        f.write( comp_type[0:4].ljust( 4 ) )
+        f.write( bytesify(comp_type[0:4].ljust( 4 )) )
         # write default value
         a = array( self.default, self.typecode ) 
         # Struct module can't deal with NaN and endian conversion, we'll hack 
@@ -164,12 +172,12 @@ class FileBinnedArray( object ):
         self.bins = LRUCache(size=cache)
         # Read typecode
         if V >= 1:
-            self.typecode = unpack( 'c', f.read(1) )[0]
+            self.typecode = (unpack( 'c', f.read(1) )[0]).decode()
         else:
             self.typecode = 'f'
         # Read compression type
         if V >= 2:
-            self.comp_type = f.read( 4 ).strip()
+            self.comp_type = f.read( 4 ).strip().decode()
         else:
             self.comp_type = 'zlib'
         self.decompress = comp_types[self.comp_type][1]
@@ -267,11 +275,11 @@ class BinnedArrayWriter( object ):
         # Write header
         write_packed( self.f, ">5I", MAGIC, VERSION, self.max_size, self.bin_size, self.nbins )
         # save type code
-        self.f.write( pack('c',self.typecode ) )
+        self.f.write( pack('c', bytesify(self.typecode) ) )
         # write default value
         a = array( self.default, self.typecode ) 
         # write comp type
-        self.f.write( self.comp_type[0:4].ljust(4) )
+        self.f.write( bytesify(self.comp_type[0:4].ljust(4)) )
         # write default
         # Struct module can't deal with NaN and endian conversion, we'll hack 
         # around that by byteswapping the array

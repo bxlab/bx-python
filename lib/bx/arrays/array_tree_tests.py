@@ -33,23 +33,23 @@ class TestArrayTree(unittest.TestCase):
     def test_get_summary(self):
         f = self.filearraytree
         lvl1 = f.get_summary(0, 1)
-        self.assertEqual( map(float, lvl1.sums/lvl1.counts), [4.5, 14.5, 24.5, 34.5, 44.5, 54.5, 64.5, 74.5, 84.5, 94.5])
+        self.assertEqual( [float(_) for _ in lvl1.sums/lvl1.counts], [4.5, 14.5, 24.5, 34.5, 44.5, 54.5, 64.5, 74.5, 84.5, 94.5])
         lvl2 = f.get_summary(0, 2)
-        self.assertEqual( map(float, lvl2.sums/lvl2.counts), [49.5, 149.5, 249.5, 349.5, 449.5, 549.5, 649.5, 749.5, 849.5, 949.5])
+        self.assertEqual( [float(_) for _ in lvl2.sums/lvl2.counts], [49.5, 149.5, 249.5, 349.5, 449.5, 549.5, 649.5, 749.5, 849.5, 949.5])
         lvl3 = f.get_summary(0, 3)
-        self.assertEqual( map(float, lvl3.sums/lvl3.counts), [499.5, 1499.5, 2499.5, 3499.5, 4499.5, 100.0, 100.0, 100.0, 100.0, 100.0])
+        self.assertEqual( [float(_) for _ in lvl3.sums/lvl3.counts], [499.5, 1499.5, 2499.5, 3499.5, 4499.5, 100.0, 100.0, 100.0, 100.0, 100.0])
         lvl2_2 = f.get_summary(3000, 2)
-        self.assertEqual( map(float, lvl2_2.sums/lvl2_2.counts), [3049.5, 3149.5, 3249.5, 3349.5, 3449.5, 3549.5, 3649.5, 3749.5, 3849.5, 3949.5])
+        self.assertEqual( [float(_) for _ in lvl2_2.sums/lvl2_2.counts], [3049.5, 3149.5, 3249.5, 3349.5, 3449.5, 3549.5, 3649.5, 3749.5, 3849.5, 3949.5])
         
     def test_get_leaf(self):
         f = self.filearraytree
         from_start = [int(i) for i in f.get_leaf(0)]
         from_middle = [int(i) for i in f.get_leaf(5)]
         self.assertEqual(from_start, from_middle)
-        self.assertEqual(from_start, range(10))
+        self.assertEqual(from_start, list(range(10)))
         
         from_start = [int(i) for i in f.get_leaf(4999)]
-        self.assertEqual(from_start, range(4990, 5000))
+        self.assertEqual(from_start, list(range(4990, 5000)))
         
         from_start = [int(i) for i in f.get_leaf(9600)]
         self.assertEqual(from_start, [])
@@ -74,7 +74,7 @@ class TestArrayTree(unittest.TestCase):
         at = FileArrayTreeDict(f)['test']
         
         lvl1 = at.get_summary(14000000, 1)
-        avgs = map(float, lvl1.sums/lvl1.counts)
+        avgs = [float(_) for _ in lvl1.sums/lvl1.counts]
         self.assertEqual( len(avgs), 1000 )
         self.assertEqual( avgs, [ 200 for i in range(0, 1000)] )
     
@@ -99,10 +99,10 @@ class TestArrayTree(unittest.TestCase):
     
     def test_get_frequencies(self):
         f = self.filearraytree
-        self.assertEqual( map(float, f.get_summary(0, 1).frequencies), ([20] * 10) )
-        self.assertEqual( map(float, f.get_summary(4000, 1).frequencies), ([10] * 10) )
-        self.assertEqual( map(float, f.get_summary(0, 2).frequencies), ([200] * 10) )
-        self.assertEqual( map(int, f.get_summary(0, 3).frequencies), [2000, 2000, 2000, 1000, 1000, 1000, 1000, 1000, 1000, 1] )
+        self.assertEqual( [float(_) for _ in f.get_summary(0, 1).frequencies], ([20] * 10) )
+        self.assertEqual( [float(_) for _ in f.get_summary(4000, 1).frequencies], ([10] * 10) )
+        self.assertEqual( [float(_) for _ in f.get_summary(0, 2).frequencies], ([200] * 10) )
+        self.assertEqual( [int(_) for _ in f.get_summary(0, 3).frequencies], [2000, 2000, 2000, 1000, 1000, 1000, 1000, 1000, 1000, 1] )
     
     def test_wrong_dictkey(self):
         self.assertRaises(KeyError, self.filearraytreedict.__getitem__, "non-existing")

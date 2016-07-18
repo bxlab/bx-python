@@ -12,8 +12,12 @@ options:
                         Limit to region: one of coding, utr3, utr5, transcribed [default]
   -e, --exons           Only print intervals overlapping an exon
 """
+from __future__ import print_function
 
-import optparse, string, sys
+import optparse
+import string
+import sys
+
 
 def main():
     # Parse command line    
@@ -57,8 +61,8 @@ def main():
         # If only interested in exons, print the portion of each exon overlapping
         # the region of interest, otherwise print the span of the region
         if options.exons:
-            exon_starts = map( int, fields[8].rstrip( ',\n' ).split( ',' ) )
-            exon_ends = map( int, fields[9].rstrip( ',\n' ).split( ',' ) )
+            exon_starts = [int(_) for _ in fields[8].rstrip( ',\n' ).split( ',' )]
+            exon_ends = [int(_) for _ in fields[9].rstrip( ',\n' ).split( ',' ) ))]
             for start, end in zip( exon_starts, exon_ends ):
                 start = max( start, region_start )
                 end = min( end, region_end )
@@ -71,6 +75,7 @@ def main():
 
 def print_tab_sep( *args ):
     """Print items in `l` to stdout separated by tabs"""
-    print string.join( [ str( f ) for f in args ], '\t' )
+    print(string.join( ( str( f ) for f in args ), '\t' ))
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()

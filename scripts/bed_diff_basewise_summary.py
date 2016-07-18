@@ -6,8 +6,11 @@ the first, and 3) only by the second.
 
 usage: %prog bed_file_1 bed_file_2
 """
+from __future__ import print_function
+
 import sys
 from warnings import warn
+
 from bx.bitset import BinnedBitSet
 from bx.bitset_builders import *
 from bx.cookbook import doc_optparse
@@ -39,6 +42,6 @@ for key in bits1:
 
 both_covered = coverage( bitsets )
 
-print "in both:  \t%d" % both_covered
-print "only in %s:\t%d" % ( in_fname, bits1_covered - both_covered )
-print "only in %s:\t%d" % ( in2_fname, bits2_covered - both_covered )
+print("in both:  \t%d" % both_covered)
+print("only in %s:\t%d" % ( in_fname, bits1_covered - both_covered ))
+print("only in %s:\t%d" % ( in2_fname, bits2_covered - both_covered ))

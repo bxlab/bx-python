@@ -1,13 +1,16 @@
 from __future__ import division
 
 import sys
+
+from six import Iterator
+from six.moves import cStringIO as StringIO
+
 from bx_extras.lrucache import LRUCache
-from cStringIO import StringIO
 
 DEFAULT_CACHE_SIZE=10
 DEFAULT_BLOCK_SIZE=1024*1024*2
 
-class FileCache( object ):
+class FileCache( Iterator ):
     """
     Wrapper for a file that cache blocks of data in memory. 
     
@@ -95,7 +98,7 @@ class FileCache( object ):
                 self.current_block_index += 1
                 self.current_block = StringIO( self.load_block( self.current_block_index ) )      
         return "".join( rval )     
-    def next( self ):
+    def __next__( self ):
         line = self.readline()
         if line == "":
             raise StopIteration

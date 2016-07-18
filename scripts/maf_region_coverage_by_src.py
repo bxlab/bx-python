@@ -8,17 +8,15 @@ usage: %prog maf_files  [options] < interval_file
    -s, --src=s:      Use this src for all intervals
    -p, --prefix=p:   Prepend this to each src before lookup
 """
+from __future__ import division, print_function
 
-from __future__ import division
-
-import psyco_full
-
-from bx.cookbook import doc_optparse
+import sys
 
 import bx.align.maf
-from bx import intervals
-from bx import misc
-import sys
+import psyco_full
+from bx import intervals, misc
+from bx.cookbook import doc_optparse
+
 
 def __main__():
 
@@ -60,9 +58,10 @@ def __main__():
                 try: coverage[ species ] += length
                 except: coverage[ species ] = length
 
-        print line,
-        for key, value in coverage.iteritems():
-            print "   ", key.ljust(10), "%0.2f" % ( value / total_length )
+        print(line, end=' ')
+        for key, value in coverage.items():
+            print("   ", key.ljust(10), "%0.2f" % ( value / total_length ))
 
 
-if __name__ == "__main__": __main__()
+if __name__ == "__main__":
+    __main__()

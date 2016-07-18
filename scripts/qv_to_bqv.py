@@ -9,13 +9,16 @@ whitespace separated integers.
 
 usage: %prog qual_file output_file
 """
+from __future__ import print_function
 
+import fileinput
 import string
-import psyco_full
 import sys
+
+import psyco_full
 from binned_array import *
 from bx.cookbook import *
-import fileinput
+
 
 def main():
     args = sys.argv[1:]
@@ -23,7 +26,7 @@ def main():
         qual_file = args[ 0 ]
         output_file = args[ 1 ]
     except:
-        print "usage: qual_file output_file"
+        print("usage: qual_file output_file")
         sys.exit()
 
     qual = fileinput.FileInput( qual_file )
@@ -37,13 +40,13 @@ def main():
         if line.startswith(">"):
             # close old
             if outbin and outfile:
-                print "\nFinished region " + region + " at " + str(base_count) + " base pairs."
+                print("\nFinished region " + region + " at " + str(base_count) + " base pairs.")
                 outbin.finish()
                 outfile.close()
             # start new file
             region = line.lstrip(">")
             outfname = output_file + "." + region + ".bqv"
-            print "Writing region " + region + " to file " + outfname
+            print("Writing region " + region + " to file " + outfname)
             outfile = open( outfname , "wb")
             outbin = BinnedArrayWriter(outfile, typecode='b', default=0)
             base_count = 0
@@ -61,7 +64,7 @@ def main():
                     sys.stdout.flush()
                     mega_count = base_count // 1000000 + 1
     if outbin and outfile:
-        print "\nFinished region " + region + " at " + str(base_count) + " base pairs."
+        print("\nFinished region " + region + " at " + str(base_count) + " base pairs.")
         outbin.finish()
         outfile.close()
 

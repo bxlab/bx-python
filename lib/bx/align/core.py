@@ -1,10 +1,12 @@
 """
 Classes that represent alignments between multiple sequences.
 """
-
 import random
 import string
 import weakref
+
+import six
+
 from bx.misc.readlengths import read_lengths_file
 
 # DNA reverse complement table
@@ -13,7 +15,11 @@ from bx.misc.readlengths import read_lengths_file
 ##            "                                                                " \
 ##            "                                                                "
 
-DNA_COMP = string.maketrans( "ACGTacgt", "TGCAtgca" )
+if six.PY2:
+    DNA_COMP = string.maketrans( "ACGTacgt", "TGCAtgca" )
+else:
+    DNA_COMP = str.maketrans("ACGTacgt", "TGCAtgca")
+
 
 class Alignment( object ):
 
@@ -415,7 +421,7 @@ def src_merge( species,chrom,contig=None ): # creates src (inverse of src_split)
 # ---- Read C extension if available ---------------------------------------
 
 try:
-    from _core import coord_to_col
+    from ._core import coord_to_col
 except:
     def coord_to_col( start, text, pos ):
         col = 0

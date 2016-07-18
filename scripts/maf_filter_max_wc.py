@@ -9,16 +9,14 @@ TODO: Allow specifying the character of the wildcard base.
 
 usage: %prog min_good min_species < maf > maf
 """
-
 from __future__ import division
 
-import psyco_full
-
 import sys
-
-import sys
-from bx.align import maf
 from optparse import OptionParser
+
+import psyco_full
+from bx.align import maf
+
 
 def main():
 

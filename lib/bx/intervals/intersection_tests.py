@@ -1,5 +1,9 @@
-import sys, os
+from __future__ import print_function
+
+import os
+import sys
 import unittest
+
 try:
     sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 except:
@@ -46,7 +50,7 @@ class NeighborTestCase(unittest.TestCase):
 
         for i in range(0, 100, 10):
             r = iv.right(i-1, max_dist=10, n=1)
-            print r
+            print(r)
             self.assertEqual(r[0].start, i)
 
 class UpDownStreamTestCase(unittest.TestCase):

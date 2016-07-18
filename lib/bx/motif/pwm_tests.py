@@ -1,4 +1,4 @@
-import pwm
+from . import pwm
 from numpy import allclose, isnan
 
 def test_create():

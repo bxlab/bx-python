@@ -35,7 +35,7 @@ def find_clusters(reader, mincols=1, minregions=2):
                 chroms[interval.chrom] = ClusterTree( mincols, minregions )
             try:
                 chroms[interval.chrom].insert( interval.start, interval.end, linenum )
-            except OverflowError, e:
+            except OverflowError as e:
                 try:
                     # This will work only if reader is a NiceReaderWrapper
                     reader.skipped += 1

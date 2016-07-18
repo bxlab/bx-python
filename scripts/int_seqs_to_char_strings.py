@@ -7,18 +7,19 @@ learning algorithms that only take string input.
 
 usage: %prog < int_seqs > strings
 """
-
-from itertools import *
+from __future__ import print_function
 
 import sys
+from itertools import *
 
 table = "012345678ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
 
 def main():
     for line in sys.stdin:
         ints = [ int( f ) for f in line.split() ]
         if max( ints ) > len( table ):
             raise ValueError("Alphabet size too large!")
-        print str.join( '', [ table[i] for i in ints ] )
+        print(str.join( '', [ table[i] for i in ints ] ))
 
 if __name__ == "__main__": main()

@@ -28,7 +28,7 @@ problem like this slow in pure python).
 .. _ESPERR: http://www.bx.psu.edu/projects/esperr/
 """
 
-from _seqmapping import *
+from ._seqmapping import *
 
 # Char->Int mapping for DNA characters with missing data
                 

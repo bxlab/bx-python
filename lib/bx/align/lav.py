@@ -4,15 +4,20 @@ pairwise aligner.
 
 .. _blastz: http://www.bx.psu.edu/miller_lab/
 """
+from __future__ import print_function
 
-from bx.align import *
-import bx.seq
-
-import sys,math,StringIO
 import itertools
-from bx import interval_index_file
+import math
+import sys
 
-class Reader(object):
+from six import Iterator, StringIO
+
+import bx.seq
+from bx import interval_index_file
+from bx.align import *
+
+
+class Reader(Iterator):
 	"""Iterate over all lav blocks in a file in order"""
 
 	def __init__(self,file,path_subs=None,fail_to_ns=False):
@@ -46,7 +51,7 @@ class Reader(object):
 		self.seq2_src      = None
 		self.seq2_gap      = None
 
-	def next(self):
+	def __next__(self):
 		while (True):
 			line = self.fetch_line(strip=None,requireLine=False)
 			assert (line), "unexpected end of file (missing #:eof)"
@@ -98,7 +103,7 @@ class Reader(object):
 				f = file(self.seq1_filename,"rb")
 			except:
 				if (self.fail_to_ns):
-					f = StringIO.StringIO(">seq1\n" + ("n" * (self.seq1_end - self.seq1_start)))
+					f = StringIO(">seq1\n" + ("n" * (self.seq1_end - self.seq1_start)))
 					revcomp = False
 					contig  = 1
 				else:
@@ -125,7 +130,7 @@ class Reader(object):
 				f = file(self.seq2_filename,"rb")
 			except:
 				if (self.fail_to_ns):
-					f = StringIO.StringIO(">seq2\n" + ("n" * (self.seq2_end - self.seq2_start)))
+					f = StringIO(">seq2\n" + ("n" * (self.seq2_end - self.seq2_start)))
 					revcomp = False
 					contig  = 1
 				else:
@@ -378,13 +383,13 @@ class Reader(object):
 		if (header[0] == "") or (header[1] == ""): raise ValueError
 		return ".".join(header)
 
-class ReaderIter(object):
+class ReaderIter(Iterator):
 	def __init__(self,reader):
 		self.reader = reader
 	def __iter__(self):
 		return self
-	def next(self):
-		v = self.reader.next()
+	def __next__(self):
+		v = next(self.reader)
 		if (not v): raise StopIteration
 		return v
 
@@ -417,9 +422,9 @@ class Writer(object):
 
 		if ("d_stanza" in attributes):
 			write_lav_marker(self)
-			print >>self.file,"d {"
-			print >>self.file,attributes["d_stanza"]
-			print >>self.file,"}"
+			print("d {", file=self.file)
+			print(attributes["d_stanza"], file=self.file)
+			print("}", file=self.file)
 
 	def write(self,alignment):
 		if (len(alignment.components) != 2):
@@ -459,20 +464,20 @@ class Writer(object):
 		(strand2,flag2) = minus_or_nothing(self.strand2)
 		fname1 = build_filename(self.fname1,self.src1)
 		fname2 = build_filename(self.fname2,self.src2)
-		print >>self.file,"s {"
-		print >>self.file,"  \"%s%s\" 1 %d %d 1" \
-		                % (fname1,strand1,self.length1,flag1)
-		print >>self.file,"  \"%s%s\" 1 %d %d 1" \
-		                % (fname2,strand2,self.length2,flag2)
-		print >>self.file,"}"
+		print("s {", file=self.file)
+		print("  \"%s%s\" 1 %d %d 1" \
+		                % (fname1,strand1,self.length1,flag1), file=self.file)
+		print("  \"%s%s\" 1 %d %d 1" \
+		                % (fname2,strand2,self.length2,flag2), file=self.file)
+		print("}", file=self.file)
 
 	def write_h_stanza(self):
 		strand1 = rc_or_nothing(self.strand1)
 		strand2 = rc_or_nothing(self.strand2)
-		print >>self.file,"h {"
-		print >>self.file,"  \"> %s%s\"" % (self.src1,strand1)
-		print >>self.file,"  \"> %s%s\"" % (self.src2,strand2)
-		print >>self.file,"}"
+		print("h {", file=self.file)
+		print("  \"> %s%s\"" % (self.src1,strand1), file=self.file)
+		print("  \"> %s%s\"" % (self.src2,strand2), file=self.file)
+		print("}", file=self.file)
 
 	def write_a_stanza(self,alignment):
 		c1 = alignment.components[0]
@@ -520,20 +525,19 @@ class Writer(object):
 
 		score = int(round(alignment.score))
 
-		print >>self.file,"a {"
-		print >>self.file,"  s %s"    % score
-		print >>self.file,"  b %d %d" % (start1+1,start2+1)
-		print >>self.file,"  e %d %d" % (end1,    end2)
+		print("a {", file=self.file)
+		print("  s %s" % score, file=self.file)
+		print("  b %d %d" % (start1 + 1,start2 + 1), file=self.file)
+		print("  e %d %d" % (end1, end2), file=self.file)
 		for (start1,start2,size,pctId) in pieces:
-			print >>self.file,"  l %d %d %d %d %d" \
-							% (start1+1,start2+1,start1+size,start2+size,pctId)
-		print >>self.file,"}"
+			print("  l %d %d %d %d %d" % (start1 + 1, start2 + 1, start1 + size, start2 + size, pctId), file=self.file)
+		print("}", file=self.file)
 
 	def write_lav_marker(self):
-		print >>self.file,"#:lav"
+		print("#:lav", file=self.file)
 
 	def write_trailer(self):
-		print >>self.file,"#:eof"
+		print("#:eof", file=self.file)
 
 def	sort_keys_by_chrom (keys):
 	decorated = [(chrom_key(src1),strand1,chrom_key(src2),strand2,(src1,strand1,src2,strand2)) \

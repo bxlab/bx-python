@@ -69,7 +69,7 @@ def main():
     # Need to be a bit tricky in our iteration here to get the 'tells' right
     while 1:
         pos = maf_reader.file.tell()
-        block = maf_reader.next()
+        block = next(maf_reader)
         if block is None: break
         for c in block.components:
             if species is not None and c.src.split('.')[0] not in species:

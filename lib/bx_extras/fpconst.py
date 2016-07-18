@@ -24,7 +24,10 @@ Copyright: (c) 2003, Pfizer, Inc.
 __version__ = "0.7.0"
 ident = "$Id: fpconst.py,v 1.12 2004/05/22 04:38:17 warnes Exp $"
 
-import struct, operator
+import operator
+import struct
+
+from six.moves import reduce
 
 # check endianess
 _big_endian = struct.pack('i',1)[0] != '\x01'

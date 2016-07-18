@@ -3,13 +3,16 @@
 Returns all positions of a maf with any pwm score > threshold
 The positions are projected onto human coordinates
 """
+from __future__ import print_function
+
+import sys
 
 import psyco_full
-from bx.align import maf as align_maf
-import position_weight_matrix as pwmx
-from bx.pwm.pwm_score_maf import MafBlockScorer
-import sys
 from bx import intervals
+from bx.align import maf as align_maf
+from bx.pwm.pwm_score_maf import MafBlockScorer
+
+from . import position_weight_matrix as pwmx
 import Numeric
 
 def isnan(x):
@@ -18,7 +21,7 @@ def isnan(x):
 def main():
 
     if len(sys.argv) < 5:
-        print >>sys.stderr, "%s bedfile inmaf spec1,spec2,... motif_file " % sys.argv[0]
+        print("%s bedfile inmaf spec1,spec2,... motif_file " % sys.argv[0], file=sys.stderr)
         sys.exit(0)
 
     # read in intervals
@@ -37,7 +40,7 @@ def main():
     pwm = {}
     for wm in pwmx.Reader(open( sys.argv[4] )):
         pwm[ wm.id] = wm
-        print >>sys.stderr, wm.id, len(wm)
+        print(wm.id, len(wm), file=sys.stderr)
 
     inmaf = open(sys.argv[2])
     threshold = 0.5
@@ -81,7 +84,7 @@ def main():
                                 #region_label = 0
                                 continue
                             v_name = mx_name.replace(' ','_')
-                            print mafchrom,refstart,refend,region_label,v_name,data
+                            print(mafchrom,refstart,refend,region_label,v_name,data)
                             break
 
 if __name__ == '__main__': main()

@@ -10,13 +10,14 @@ NOTE: See 'align_print_template.py' for a more general variation of this
 
 usage: %prog refindex [options]
 """
-
-from __future__ import division
+from __future__ import division, print_function
 
 import sys
-from bx.cookbook import doc_optparse
-from bx.align import maf
 from optparse import OptionParser
+
+from bx.align import maf
+from bx.cookbook import doc_optparse
+
 
 def __main__():
 
@@ -32,6 +33,7 @@ def __main__():
 
     for m in maf_reader: 
 		c = m.components[ refindex ].src
-		print c[ c.rfind( "chr" ) + 3 : ]
+		print(c[ c.rfind( "chr" ) + 3 : ])
 
-if __name__ == "__main__": __main__()
+if __name__ == "__main__":
+    __main__()

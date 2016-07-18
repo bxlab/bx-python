@@ -3,6 +3,7 @@
 Returns all positions of a maf with any pwm score > threshold
 The positions are projected onto human coordinates
 """
+from __future__ import print_function
 
 import psyco_full
 from bx.align import maf as align_maf
@@ -17,11 +18,11 @@ def isnan(x):
 def main():
 
     if len(sys.argv) < 5:
-        print >>sys.stderr, "%s transfac|basic pwmfile inmaf threshold [motif]" % sys.argv[0]
+        print("%s transfac|basic pwmfile inmaf threshold [motif]" % sys.argv[0], file=sys.stderr)
         sys.exit(2)
 
     r = pwmx.Reader(open(sys.argv[2]),format=sys.argv[1])
-    pwm = iter(r).next()
+    pwm = next(iter(r))
     inmaf = open(sys.argv[3])
     threshold = float(sys.argv[4])
     if len(sys.argv) > 5: motif = sys.argv[5]
@@ -30,8 +31,8 @@ def main():
     for maf in align_maf.Reader(inmaf):
         for mafmotif,pwm_score,motif_score in MafMotifSelect(maf, pwm, motif, threshold):
             #mafwrite( mafmotif,pwm_score,motif_score)
-            print mafmotif, pwm_score, motif_score
-            print 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzz'
+            print(mafmotif, pwm_score, motif_score)
+            print('zzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
 
 def mafwrite(alignment,kvec=None,jvec=None,file=sys.stdout):
     file.write( "a score=" + str( alignment.score ) )

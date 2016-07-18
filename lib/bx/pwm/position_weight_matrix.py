@@ -1,10 +1,12 @@
 #!/usr/bin/env python
+from __future__ import print_function
 
-import sys
 import math
 import string
-from numpy import *
-from sets import *
+import sys
+
+import six
+from numpy import float32, putmask, shape, zeros
 
 # This is the average of all species in the alignment outside of exons
 #        > mean(r)
@@ -27,7 +29,7 @@ class Align(object):
                 elif ncol != len(row):
                     raise ValueError("Align: __init__:alignment block:row %d does not have %d columns, it has %d" % (rownum,ncol,len(row)))
             except:
-                print row
+                print(row)
                 raise Exception('')
         self.ncols = ncol
         self.dims = (self.nrows,self.ncols)
@@ -51,7 +53,7 @@ class AlignScoreMatrix (object):
         return shape(self.matrix)[1]
 
     def __str__(self):
-        print self.matrix
+        print(self.matrix)
 
 def score_align_motif (align,motif,gapmask=None,byPosition=True):
 
@@ -137,24 +139,27 @@ def score_align_motif (align,motif,gapmask=None,byPosition=True):
 
 class PositionWeightMatrix (object):
 
-    complementMap = string.maketrans("ACGTacgt","TGCAtgca")
+    if six.PY2:
+        complementMap = string.maketrans("ACGTacgt","TGCAtgca")
+    else:
+        complementMap = str.maketrans("ACGTacgt","TGCAtgca")
 
     # IUPAC-IUB
     symbols = {
-        'A':Set(['A']),
-        'C':Set(['C']),
-        'G':Set(['G']),
-        'T':Set(['T']),
-        'R':Set(['A','G']),
-        'Y':Set(['C','T']),
-        'M':Set(['A','C']),
-        'K':Set(['G','T']),
-        'S':Set(['G','C']),
-        'W':Set(['A','T']),
-        'H':Set(['A','C','T']),
-        'B':Set(['G','T','C']),
-        'V':Set(['G','C','A']),
-        'D':Set(['G','T','A'])}
+        'A': frozenset(['A']),
+        'C': frozenset(['C']),
+        'G': frozenset(['G']),
+        'T': frozenset(['T']),
+        'R': frozenset(['A','G']),
+        'Y': frozenset(['C','T']),
+        'M': frozenset(['A','C']),
+        'K': frozenset(['G','T']),
+        'S': frozenset(['G','C']),
+        'W': frozenset(['A','T']),
+        'H': frozenset(['A','C','T']),
+        'B': frozenset(['G','T','C']),
+        'V': frozenset(['G','C','A']),
+        'D': frozenset(['G','T','A'])}
 
     def __init__ (self, id, rows, alphabet, background=None, score_correction=True):
 
@@ -197,7 +202,7 @@ class PositionWeightMatrix (object):
                 try:
                     (w,s) = self.parse_weight(count)
                 except ValueError:
-                    raise ValueError("pwm row %s has bad weight %s" % (" ".join(fields),t))
+                    raise ValueError("pwm row %s has bad weight %s" % (" ".join(fields), w))
 
                 # replace row counts with (values,scale)
                 rows[i][x] = (w,s)
@@ -505,9 +510,9 @@ class PositionWeightMatrix (object):
                 scaled = self.scaled(raw)
             except KeyError:
                 raw,scaled = float('nan'),float('nan')
-            except OverflowError,e:
+            except OverflowError as e:
                 raw,scaled = float('nan'),float('nan')
-            except ValueError,e:
+            except ValueError as e:
                 raw,scaled = float('nan'),float('nan')
             scores.append((raw,scaled))
         return scores
@@ -561,16 +566,16 @@ class PositionWeightMatrix (object):
         b = background[ base ]
         try:
             return math.log( p/b, 2)
-        except OverflowError,e:
+        except OverflowError as e:
             ## print >>sys.stderr,"base=%c, math.log(%.3f / %.3f)" % (base,p,b)
             ## print >>sys.stderr,self.id
             return float('nan')
-        except ValueError,e:
+        except ValueError as e:
             ## print >>sys.stderr,"base=%c, math.log(%.3f / %.3f)" % (base,p,b)
             ## print >>sys.stderr,self.id
             return float('nan')
 
-    def parse_weight (self, weightString):
+    def parse_weight(self, weightString):
 
         fields = weightString.split(".")
         if (len(fields) > 2): raise ValueError
@@ -701,19 +706,19 @@ class Reader (object):
                     try:
                         yield PositionWeightMatrix(tfId,pwmRows,alphabet,background=self.background,score_correction=self.score_correction)
                     except:
-                        print >>sys.stderr, "Failed to read", tfId
+                        print("Failed to read", tfId, file=sys.stderr)
                     tfId    = None
                     pwmRows = None
 
                 tokens = line.split (None, 2)
                 if len(tokens) != 2:
-                    raise ValueError, "bad line, need two fields (%s)" % self.where()
+                    raise ValueError("bad line, need two fields (%s)" % self.where())
                 tfId = tokens[1]
                 if self.tfIds != None and (not tfId in self.tfIds):
                     continue          # ignore it, this isn't a desired matrix
                 if tfId in self.tfToPwm:
-                    raise ValueError, "transcription factor %s appears twice (%s)" \
-                        % (tfId,self.where())
+                    raise ValueError("transcription factor %s appears twice (%s)" \
+                        % (tfId,self.where()))
                 pwmRows = []          # start collecting a desired matrix
                 continue
 
@@ -730,7 +735,7 @@ class Reader (object):
             if line.startswith("P0"):
                 alphabet = line.split()[1:]
                 if len(alphabet) < 2:
-                    raise ValueError, "bad line, need more dna (%s)" % self.where()
+                    raise ValueError("bad line, need more dna (%s)" % self.where())
                 continue
 
             # handle a 01,02,etc. line
@@ -740,12 +745,12 @@ class Reader (object):
                     index = int(tokens[0])
                     if index != len(pwmRows)+1: raise ValueError
                 except:
-                    raise ValueError,"bad line, bad index (%s)" % self.where()
+                    raise ValueError("bad line, bad index (%s)" % self.where())
                 pwmRows.append(tokens[1:])
                 continue
             # skip low quality entries
             if line.startswith("CC  TRANSFAC Sites of quality"):
-                print >>sys.stderr, line.strip(), tfId
+                print(line.strip(), tfId, file=sys.stderr)
                 pwmRows = None
                 continue
         if pwmRows != None: # we've finished collecting a desired matrix
@@ -790,22 +795,22 @@ def consensus_symbol( pattern ):
     if type(pattern)==type(""):
         try:
             pattern = [int(x) for x in pattern.split()]
-        except ValueError,e:
-            print >>sys.stderr, pattern
-            raise ValueError,e
+        except ValueError as e:
+            print(pattern, file=sys.stderr)
+            raise ValueError(e)
 
     # IUPAC-IUB nomenclature for wobblers
     wobblers = {
-        'R':Set(['A','G']),
-        'Y':Set(['C','T']),
-        'M':Set(['A','C']),
-        'K':Set(['G','T']),
-        'S':Set(['G','C']),
-        'W':Set(['A','T']),
-        'H':Set(['A','C','T']),
-        'B':Set(['G','T','C']),
-        'V':Set(['G','C','A']),
-        'D':Set(['G','T','A'])}
+        'R': frozenset(['A','G']),
+        'Y': frozenset(['C','T']),
+        'M': frozenset(['A','C']),
+        'K': frozenset(['G','T']),
+        'S': frozenset(['G','C']),
+        'W': frozenset(['A','T']),
+        'H': frozenset(['A','C','T']),
+        'B': frozenset(['G','T','C']),
+        'V': frozenset(['G','C','A']),
+        'D': frozenset(['G','T','A'])}
 
     symbols = ['A','C','G','T']
 
@@ -826,18 +831,18 @@ def consensus_symbol( pattern ):
     tops = copy[-2:]
     if tops[1] > 0.5 and tops[1] >= 2 * tops[0]: return symbols[f.index(tops[1])]
     elif tops[0] < 0.5 and sum(tops) >= 0.75:
-        degen = Set([ symbols[f.index(v)] for v in tops ])
+        degen = frozenset([ symbols[f.index(v)] for v in tops ])
         for degenSymbol,wobbles in wobblers.items():
             #print >>sys.stderr,wobbles
             if degen == wobbles:
                 return degenSymbol
     else: return 'N'
-    print >>sys.stderr,pattern
+    print(pattern, file=sys.stderr)
     raise Exception('?')
 
 # import C extensions
 try:
-    from _position_weight_matrix import c_match_consensus
+    from ._position_weight_matrix import c_match_consensus
     ## print >>sys.stderr, "C match_consensus used"
 except:
     ## print >>sys.stderr, "python match_consensus used"

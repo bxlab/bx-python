@@ -8,14 +8,14 @@ TODO: reconcile this and maf_mapping_word_frequency.py
 
 usage: %prog n < maf_file
 """
+from __future__ import division, print_function
 
-from __future__ import division
+import string
+import sys
 
 import psyco; psyco.profile()
 
 from bx.cookbook import doc_optparse
-import string
-import sys
 
 from align import maf
 
@@ -33,15 +33,18 @@ def __main__():
         texts = [ c.text.upper() for c in m.components ]
         for i in range( m.text_size - motif_len ):
             motif = string.join( [ text[ i : i + motif_len ] for text in texts ] )
-            if big_map.has_key( motif ): big_map[ motif ] += 1
-            else: big_map[ motif ] = 1
+            if motif in big_map:
+                big_map[ motif ] += 1
+            else:
+                big_map[ motif ] = 1
             total += 1
 
-    items = zip( big_map.values(), big_map.keys() )
+    items = list(zip( big_map.values(), big_map.keys() ))
     items.sort()
     items.reverse()
 
     for count, motif in items: 
-        print "%d\t%0.10f\t%s" % ( count, count / total, motif )
+        print("%d\t%0.10f\t%s" % ( count, count / total, motif ))
 
-if __name__ == "__main__": __main__()
+if __name__ == "__main__":
+    __main__()

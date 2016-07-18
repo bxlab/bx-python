@@ -5,7 +5,10 @@ For each interval in `bed1` count the number of intersecting regions in `bed2`.
 usage: %prog bed1 bed2 
 """
 
+from __future__ import print_function
+
 import sys
+
 from bx.intervals import *
 
 bed1,bed2 = sys.argv[1:3]
@@ -23,7 +26,7 @@ for line in open( bed1 ):
     other = " ".join(fields[3:])
     out = " ".join(fields[:3] +[other])
     if chrom in ranges: 
-        print out, len( ranges[chrom].find( start, end ) )
+        print(out, len( ranges[chrom].find( start, end ) ))
     else:
-        print out, 0
+        print(out, 0)
 

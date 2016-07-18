@@ -1,4 +1,4 @@
-import seeklzop
+from . import seeklzop
 import os
 import random
 import sys

@@ -1,10 +1,18 @@
 """
 Wrappers for doing binary IO on file-like objects
 """
-
-import numpy
 import struct
 import sys
+
+import numpy
+from six import binary_type
+
+
+def bytesify(s):
+    if isinstance(s, binary_type):
+        return s
+    else:
+        return s.encode()
 
 ## Standard size:
 ## short is 8 bits
@@ -145,7 +153,7 @@ class BinaryFileWriter( object ):
         value.tofile( self.file )
     
     def write( self, value ):
-        return self.file.write( value )
+        return self.file.write( bytesify(value) )
         
     def skip( self, count ):
         self.file.seek( count, 1 )

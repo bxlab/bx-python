@@ -2,10 +2,12 @@
 Intersects ... faster.  Suports GenomicInterval datatype and multiple
 chromosomes.
 """
+from __future__ import print_function
+
 import math
-import time
-import sys
 import random
+import sys
+import time
 
 class IntervalTree( object ):
     def __init__( self ):
@@ -25,7 +27,7 @@ class IntervalTree( object ):
         if chrom in self.chroms:
             self.chroms[chrom].intersect( start, end, report_func )
     def traverse( self, func ):
-        for item in self.chroms.itervalues():
+        for item in self.chroms.values():
             item.traverse( func )
 
 class IntervalNode( object ):
@@ -131,16 +133,16 @@ def main():
         end = start + random.randint(1, 1000)
         result = []
         test.intersect( start, end, lambda x: result.append(x.linenum) )
-    print "%f for tree method" % (time.clock() - starttime)
+    print("%f for tree method" % (time.clock() - starttime))
     starttime = time.clock()
     for x in range(5000):
         start = random.randint(0, 10000000)
         end = start + random.randint(1, 1000)
         bad_sect( intlist, start, end)
-    print "%f for linear (bad) method" % (time.clock() - starttime)
+    print("%f for linear (bad) method" % (time.clock() - starttime))
 
 def test_func( node ):
-    print "[%d, %d), %d" % (node.start, node.end, node.maxend)
+    print("[%d, %d), %d" % (node.start, node.end, node.maxend))
 
 def bad_sect( lst, int_start, int_end ):
     intersection = []

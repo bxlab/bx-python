@@ -9,15 +9,15 @@ TODO: This could use bitsets rather than the intervals package, would it be
 
 usage: %prog bed1 bed2 > out
 """
+from __future__ import division, print_function
 
-from __future__ import division
-
-import psyco_full
-
-from bx import intervals
-from bx import misc
 import string
 import sys
+
+import psyco_full
+from bx import intervals
+from bx import misc
+
 
 def main():
 
@@ -26,7 +26,7 @@ def main():
     # Read ranges
 
     for chr, start, end in read_intervals( misc.open_compressed( sys.argv[1] ) ):
-        if not intersecters.has_key( chr ): intersecters[ chr ] = intervals.Intersecter()
+        if chr not in intersecters: intersecters[ chr ] = intervals.Intersecter()
         intersecters[ chr ].add_interval( intervals.Interval( start, end ) )
 
     # Count intersection
@@ -34,13 +34,13 @@ def main():
     total = 0
 
     for chr, start, end in read_intervals( misc.open_compressed( sys.argv[2] ) ):
-        if intersecters.has_key( chr ):
+        if chr in intersecters:
             intersection = intersecters[ chr ].find( start, end )
             if intersection: 
                 #print chr, intersection
                 total += 1
 
-    print total
+    print(total)
 
 def read_intervals( input ):
     for line in input:

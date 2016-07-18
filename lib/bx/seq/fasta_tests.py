@@ -5,7 +5,7 @@ Tests for `bx.seq.fasta`.
 import unittest
 import sys
 import os.path
-import fasta
+from . import fasta
 
 test_fa = "test_data/seq_tests/test.fa"
 

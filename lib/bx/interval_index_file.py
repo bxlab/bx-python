@@ -80,9 +80,12 @@ offset+16+B:  ...          (B bytes) value for interval 2
 ...          ...           ...
 ============ ===========   =================================================
 """
-
+import os.path
+import sys
 from bisect import *
 from struct import *
+
+import six
 
 from bx.misc import filecache
 
@@ -95,8 +98,6 @@ try:
     from bx.misc import seeklzop
 except:
     seeklzop = None
-
-import os.path
 
 __all__ = [ 'Indexes', 'Index' ]
 
@@ -116,7 +117,7 @@ for i in range( BIN_LEVELS - 2 ):
     BIN_OFFSETS_MAX.insert( 0, ( BIN_OFFSETS_MAX[0] << BIN_NEXT_SHIFT ) )
 # The maximum size for the top bin is actually bigger than the signed integers
 # we use to store positions in the file, so we'll change it to prevent confusion
-BIN_OFFSETS_MAX[ 0 ] = max
+BIN_OFFSETS_MAX[ 0 ] = sys.maxsize
 
 # Constants for the minimum and maximum size of the overall interval
 MIN = 0                     
@@ -222,7 +223,7 @@ class AbstractIndexedAccess( object ):
 
     def open_data( self ):
         if self.file_type == "plain":
-            return open( self.data_filename )
+            return open( self.data_filename, 'rb' )
         elif self.file_type == "bz2t":
             f = seekbzip2.SeekableBzip2File( self.data_filename, self.table_filename )
             if self.use_cache:
@@ -290,7 +291,7 @@ class Indexes:
     def open( self, filename ):
         self.filename = filename
         self.offsets = dict()  # (will map key to (offset,value_size))
-        f = open( filename )
+        f = open( filename, 'rb' )
         magic, version, length = read_packed( f, ">3I" )
         if magic != MAGIC:
             raise Exception("File does not have expected header")
@@ -299,7 +300,7 @@ class Indexes:
         self.version = version
         for i in range( length ):
             key_len = read_packed( f, ">I" )
-            key = f.read( key_len )
+            key = f.read( key_len ).decode()
             offset = read_packed( f, ">I" )
             if version == 0:
                 value_size = 4
@@ -311,8 +312,7 @@ class Indexes:
         f.close()
 
     def write( self, f ):
-        keys = self.indexes.keys()
-        keys.sort()
+        keys = sorted(self.indexes.keys())
         # First determine the size of the header
         base = calcsize( ">3I" )
         for key in keys:
@@ -327,7 +327,7 @@ class Indexes:
             key = str( key )
             # Write the string prefixed by its length (pascal!)
             write_packed( f, ">I", len( key ) )
-            f.write( key )
+            f.write( six.b(key) )
             # Write offset
             write_packed( f, ">I", base )
             base += self.indexes[key].bytes_required()
@@ -371,7 +371,7 @@ class Index:
         self.filename = filename
         self.offset = offset
         # Open the file and seek to where we expect our header
-        f = open( filename )
+        f = open( filename, 'rb' )
         f.seek( offset )
         # Read min/max
         min, max = read_packed( f, ">2I" )
@@ -423,7 +423,7 @@ class Index:
         if self.bin_sizes[index] == 0:
             self.bins[index] = bin
             return
-        f = open( self.filename )
+        f = open( self.filename, 'rb' )
         f.seek( self.bin_offsets[index] )
         # One big read for happy NFS
         item_size = self.value_size + calcsize( ">2I" )
@@ -473,7 +473,7 @@ def write_packed_uints( f, v, num_bytes ):
     else:
         parts = []
         while num_bytes > 0:
-            parts.append( v & 0xFFFFFFFFL )
+            parts.append( v & 0xFFFFFFFF )
             v >>= 32
             num_bytes -= 4
         parts.reverse() # (write most-significant chunk first)

@@ -3,7 +3,7 @@ Tests for `bx.binned_array`.
 """
 
 from numpy import *
-from binned_array import *
+from .binned_array import *
 
 random = random.random
  
@@ -46,12 +46,12 @@ def test_simple():
  
 def test_file():
     # With a file (zlib)
-    target.to_file( open( "/tmp/foo", "w" ) )
-    target2 = FileBinnedArray( open( "/tmp/foo" ) )
+    target.to_file( open( "/tmp/foo", "wb" ) )
+    target2 = FileBinnedArray( open( "/tmp/foo", 'rb' ) )
     for i in range( len( source ) ):
         assert source[i] == target2[i], "No match, index: %d, source: %d, target: %d" % ( i, source[i], target2[i] )
     # Verify with slices
-    target2 = FileBinnedArray( open( "/tmp/foo" ) )
+    target2 = FileBinnedArray( open( "/tmp/foo", 'rb' ) )
     for i in range( 10 ):
         a = int( random() * len( source ) )
         b = int( random() * len( source ) )
@@ -61,13 +61,13 @@ def test_file():
             
 def test_file_lzo():
     # With a file (lzo)
-    target.to_file( open( "/tmp/foo3", "w" ), comp_type="lzo" )
-    target3 = FileBinnedArray( open( "/tmp/foo3" ) )
+    target.to_file( open( "/tmp/foo3", "wb" ), comp_type="lzo" )
+    target3 = FileBinnedArray( open( "/tmp/foo3", 'rb' ) )
     # Verify
     for i in range( len( source ) ):
         assert source[i] == target3[i], "No match, index: %d, source: %d, target: %d" % ( i, source[i], target3[i] )
     # Verify with slices
-    target3 = FileBinnedArray( open( "/tmp/foo3" ) )
+    target3 = FileBinnedArray( open( "/tmp/foo3", 'rb' ) )
     for i in range( 10 ):
         a = int( random() * len( source ) )
         b = int( random() * len( source ) )
@@ -77,17 +77,13 @@ def test_file_lzo():
             
 def test_binned_array_writer():
     # Test with ba writer
-    o = open( "/tmp/foo4", "w" )
+    o = open( "/tmp/foo4", "wb" )
     w = BinnedArrayWriter( o, 128, comp_type='lzo' )
     for val in source:
         w.write( val )
     w.finish()
     o.close()
     # Verify
-    target4 = FileBinnedArray( open( "/tmp/foo4" ) )
+    target4 = FileBinnedArray( open( "/tmp/foo4", 'rb' ) )
     for i in range( len( source ) ):
         assert allclose( source[i], target4[i] ), "No match, index: %d, source: %d, target: %d" % ( i, source[i], target4[i] )
-            
-            
-            
-            

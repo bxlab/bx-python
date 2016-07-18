@@ -1,8 +1,10 @@
-import sys, platform
+import platform
+import sys
 
-if sys.version_info < (2, 4):
-    print >> sys.stderr, "ERROR: bx-python requires python 2.4 or greater"
-    sys.exit()
+if sys.version_info < (2, 6):
+    sys.exit("ERROR: bx-python requires Python 2.6 or greater")
+elif sys.version_info > (3, ) and sys.version_info < (3, 3):
+    sys.exit("ERROR: bx-python requires Python 3.3 or greater")
 
 try:
     from setuptools import setup, find_packages
@@ -24,8 +26,8 @@ def main():
 
     metadata = \
       dict( name = "bx-python",
-            version = "0.7.4",
-            install_requires=build_requires,
+            version = "0.8.0",
+            install_requires=build_requires + ['six'],
             py_modules = [ 'psyco_full' ],
             package_dir = { '': 'lib' },
             package_data = { '': ['*.ps'] },
@@ -44,6 +46,12 @@ def main():
                 "License :: OSI Approved :: MIT License",
                 "Operating System :: POSIX",
                 "Programming Language :: Python :: 2",
+                "Programming Language :: Python :: 2.6",
+                "Programming Language :: Python :: 2.7",
+                "Programming Language :: Python :: 3",
+                "Programming Language :: Python :: 3.3",
+                "Programming Language :: Python :: 3.4",
+                "Programming Language :: Python :: 3.5",
                 "Topic :: Scientific/Engineering :: Bio-Informatics",
                 "Topic :: Software Development :: Libraries :: Python Modules"
             ],

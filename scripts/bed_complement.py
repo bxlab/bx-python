@@ -8,12 +8,14 @@ a source name followed by a size, separated by whitespace).
 usage: %prog bed_file chrom_length_file
 """
 
+from __future__ import print_function
+
 import sys
 
 from bx.bitset import *
 from bx.bitset_builders import *
-
 from bx.cookbook import doc_optparse
+
 
 def read_len( f ):
     """Read a 'LEN' file and return a mapping from chromosome to length"""
@@ -44,7 +46,7 @@ for chrom in lens:
             if start == bits.size: break
             end = bits.next_clear( start )
             if end > len: end = len
-            print "%s\t%d\t%d" % ( chrom, start, end )
+            print("%s\t%d\t%d" % ( chrom, start, end ))
             if end == len: break
     else:
-        print "%s\t%d\t%d" % ( chrom, 0, lens[chrom] )
+        print("%s\t%d\t%d" % ( chrom, 0, lens[chrom] ))

@@ -1,11 +1,14 @@
 """
 Support for reading and writing genomic intervals from delimited text files.
 """
+from __future__ import print_function
 
 import sys
 from itertools import *
-from bx.tabular.io import *
+
 from bx.bitset import *
+from bx.tabular.io import *
+
 
 class MissingFieldError( ParseError ):
     pass
@@ -43,14 +46,14 @@ class GenomicInterval( TableRow ):
             raise MissingFieldError( "No field for start_col (%d)" % start_col )
         try:
             self.start = int( fields[start_col] )
-        except ValueError, e:
+        except ValueError as e:
             raise FieldFormatError( "Could not parse start_col: " + str( e ), expected="integer" )
         # Parse end column and ensure it is an integer
         if end_col >= nfields:
             raise MissingFieldError( "No field for end_col (%d)" % end_col )
         try:
             self.end = int( fields[end_col] )
-        except ValueError, e:
+        except ValueError as e:
             raise FieldFormatError( "Could not parse end_col: " + str( e ), expected="integer" )
         # Ensure start <= end
         if self.end < self.start:
@@ -101,12 +104,12 @@ class GenomicIntervalReader( TableReader ):
     >>> str( elements[0] )
     '#chrom\\tname\\tstart\\tend\\textra'
     >>> assert type( elements[1] ) is GenomicInterval
-    >>> print elements[1].start, elements[1].end
+    >>> print(elements[1].start, elements[1].end)
     1 100
     >>> str( elements[1] )
     'chr1\\tfoo\\t1\\t100\\txxx'
     >>> elements[1].start = 30
-    >>> print elements[1].start, elements[1].end
+    >>> print(elements[1].start, elements[1].end)
     30 100
     >>> str( elements[1] )
     'chr1\\tfoo\\t30\\t100\\txxx'
@@ -137,7 +140,7 @@ class GenomicIntervalReader( TableReader ):
                                         self.start_col, self.end_col,
                                         self.strand_col, self.default_strand,
                                         fix_strand=self.fix_strand )
-            except Exception, e:
+            except Exception as e:
                 # Catch and store the initial error
                 if i == 0:
                     err = e
@@ -158,7 +161,7 @@ class GenomicIntervalReader( TableReader ):
                         size = lens.get( chrom, MAX )
                         try:
                             bbs = BinnedBitSet( size )
-                        except ValueError, e:
+                        except ValueError as e:
                             # We will only reach here when constructing this bitset from the lens dict
                             # since the value of MAX is always safe.
                             raise Exception( "Invalid chrom length %s in 'lens' dictionary. %s" % ( str( size ), str( e ) ) )
@@ -181,12 +184,12 @@ class NiceReaderWrapper( GenomicIntervalReader ):
         self.skipped_lines = []
     def __iter__( self ):
         return self
-    def next( self ):
+    def __next__( self ):
         while 1:
             try:
                 nextitem = GenomicIntervalReader.next( self )
                 return nextitem
-            except ParseError, e:
+            except ParseError as e:
                 if self.outstream:
                     if self.print_delegate and hasattr(self.print_delegate,"__call__"):
                         self.print_delegate( self.outstream, e, self )
@@ -196,7 +199,7 @@ class NiceReaderWrapper( GenomicIntervalReader ):
                     self.skipped_lines.append( ( self.linenum, self.current_line, str( e ) ) )
     def iterwrapper( self ):
         while 1:
-            self.current_line = self.input_wrapper.next()
+            self.current_line = next(self.input_wrapper)
             yield self.current_line
 
 class BitsetSafeReaderWrapper( NiceReaderWrapper ):
@@ -208,7 +211,7 @@ class BitsetSafeReaderWrapper( NiceReaderWrapper ):
         # It is assumed that the reader is an interval reader, i.e. it has chr_col, start_col, end_col and strand_col attributes. 
         NiceReaderWrapper.__init__( self, reader.input, chrom_col=reader.chrom_col, start_col=reader.start_col, end_col=reader.end_col, strand_col=reader.strand_col)
         self.lens = lens
-    def next( self ):
+    def __next__( self ):
         while True:
             rval = NiceReaderWrapper.next( self )
             if isinstance(rval, GenomicInterval) and rval.end > self.lens.get( rval.chrom, MAX ): # MAX_INT is defined in bx.bitset

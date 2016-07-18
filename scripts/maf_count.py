@@ -11,11 +11,13 @@ usage: %prog [options]
    -e, --each: print a count for each alignment rather than whole file
    -r, --ref=N: reference sequence (first by default, 0..n)
 """
+from __future__ import print_function
 
-from bx.cookbook import doc_optparse
 import sys
 
 import bx.align.maf
+from bx.cookbook import doc_optparse
+
 
 def __main__():
 
@@ -50,9 +52,9 @@ def __main__():
                 count += m.components[ref].size
 
         if print_each: 
-            print count
+            print(count)
             count = 0
 
-    if not print_each: print count
+    if not print_each: print(count)
 
 if __name__ == "__main__": __main__()

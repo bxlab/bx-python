@@ -5,7 +5,7 @@ Tests for `bx.seq.qdna`.
 import unittest
 import sys
 import os.path
-import qdna
+from . import qdna
 
 test_qdna = "test_data/seq_tests/test.qdna"
 

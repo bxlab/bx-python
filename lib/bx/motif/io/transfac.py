@@ -1,6 +1,9 @@
 """
 Classes for reading and writing motif data.
 """
+from __future__ import print_function
+
+from six import Iterator
 
 from bx.motif.pwm import FrequencyMatrix
 
@@ -35,7 +38,7 @@ transfac_actions = {
     "BS": ( "store_single_list", "sites" )
 }
         
-class TransfacReader( object ):
+class TransfacReader( Iterator ):
     """
     Reads motifs in TRANSFAC format.
     """
@@ -59,7 +62,7 @@ class TransfacReader( object ):
     def __iter__( self ):
         return self
     
-    def next( self ):
+    def __next__( self ):
         rval = self.next_motif()
         while rval is None:
             rval = self.next_motif()
@@ -73,8 +76,8 @@ class TransfacReader( object ):
         lines = []
         while 1:
             try:
-                line = self.input.next()
-            except StopIteration, e:
+                line = next(self.input)
+            except StopIteration as e:
                 self.input_exhausted = True
                 break
             if line.startswith( "//" ):
@@ -155,7 +158,7 @@ class TransfacReader( object ):
                         break
                     # The first `alphabet_size` fields are the row values
                     values = rest.split()
-                    rows.append( map( float, values[:alphabet_size] ) )
+                    rows.append( [ float(_) for _ in values[:alphabet_size] ] )
                     # TRANSFAC includes an extra column with the IUPAC code
                     if len( values ) > alphabet_size:
                         pattern += values[alphabet_size]
@@ -182,40 +185,40 @@ class TransfacWriter( object ):
         
     def write( self, motif ):
         output = self.output
-        for prefix, actions in self.actions.iteritems():
+        for prefix, actions in self.actions.items():
             action = actions[0]
             if action == "store_single":
                 key = actions[1]
                 if getattr( motif, key ) is not None:
-                    print >> output, prefix, "  ", getattr( motif, key )
-                    print >> output, "XX"
+                    print(prefix, "  ", getattr( motif, key ), file=output)
+                    print("XX", file=output)
             elif action == "store_single_list":
                 key = actions[1]
                 if getattr( motif, key ) is not None:
                     value = getattr( motif, key )
                     for v in value:
-                        print >> output, prefix, "  ", v
-                    print >> output, "XX"
+                        print(prefix, "  ", v, file=output)
+                    print("XX", file=output)
             elif action == "store_single_key_value":
                 key = actions[1]
                 if getattr( motif, key ) is not None:
                     value = getattr( motif, key )
-                    for k, v in value.iteritems():
-                        print >> output, prefix, "  ", "%s=%s" % ( k, v )
-                    print >> output, "XX"
+                    for k, v in value.items():
+                        print(prefix, "  ", "%s=%s" % ( k, v ), file=output)
+                    print("XX", file=output)
             elif action == "store_block":
                 key = actions[1]
                 if getattr( motif, key ) is not None:
                     value = getattr( motif, key )
                     for line in value.split( "\n" ):
-                        print >> output, prefix, "  ", line
-                    print >> output, "XX"
+                        print(prefix, "  ", line, file=output)
+                    print("XX", file=output)
             elif action == "store_matrix":
                 key = actions[1]
                 if getattr( motif, key ) is not None:
                     matrix = getattr( motif, key )
-                    print >> output, prefix, "  ", " ".join( [ s.rjust(6) for s in matrix.alphabet ] )
+                    print(prefix, "  ", " ".join( s.rjust(6) for s in matrix.alphabet ), file=output)
                     for i in range( matrix.width ):
-                        print >> output, "%02d" % ( i + 1 ), "  ", " ".join( [ str(matrix.values[i,matrix.char_to_index[ord(s)]]).rjust(6) for s in matrix.alphabet ] )
-                    print >> output, "XX"
-        print "//"
+                        print("%02d" % ( i + 1 ), "  ", " ".join( str(matrix.values[i,matrix.char_to_index[ord(s)]]).rjust(6) for s in matrix.alphabet ), file=output)
+                    print("XX", file=output)
+        print("//")

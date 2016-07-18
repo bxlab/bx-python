@@ -6,18 +6,19 @@ peaks on TF binding events. Features that when mapped
 span multiple chains or multiple chromosomes are silently filtered out. TODO:
 (1)for narrowPeak input, map the predicted peak position.
 """
-
-from __future__ import with_statement
-
-import sys, os, logging, pdb
-import numpy as np
-from operator import concat, attrgetter, itemgetter
+import logging
+import os
+import sys
 from itertools import groupby
-from bx.intervals.intersection import IntervalTree, Interval
-from bx.cookbook import argparse
+from operator import attrgetter, concat, itemgetter
+
+import numpy as np
+from six.moves import reduce
+
 from bx.align import epo
 from bx.align.epo import bed_union as elem_u
-
+from bx.cookbook import argparse
+from bx.intervals.intersection import IntervalTree, Interval
 
 elem_t = np.dtype([('chrom', np.str_, 30), ('start', np.int64), ('end', np.int64), ('id', np.str_, 100)])
 LOG_LEVELS = {"info" : logging.INFO, "debug" : logging.DEBUG, "silent" : logging.ERROR}
@@ -56,12 +57,12 @@ class GIntervalTree( IntervalTree ):
         #return always a list
         return []
 
-def transform(elem, (chain, CT, CQ), max_gap):
+def transform(elem, chain_CT_CQ, max_gap):
     """transform the coordinates of this elem into the other species.
 
     elem intersects this chain's ginterval.
     :return: a list of the type [(to_chr, start, end, elem[id]) ... ]"""
-
+    (chain, CT, CQ) = chain_CT_CQ
     start, end = max(elem['start'], chain.tStart) - chain.tStart, min(elem['end'], chain.tEnd) - chain.tStart
 
     assert np.all( (CT[:,1] - CT[:,0]) == (CQ[:,1] - CQ[:,0]) )
@@ -88,12 +89,12 @@ def transform(elem, (chain, CT, CQ), max_gap):
         slices = [(to_start, to_end)]
     else:
         slices = [(to_start, CQ[start_idx,1])]
-        slices += map(lambda i: (CQ[i,0], CQ[i,1]), range(start_idx+1, end_idx))
+        slices += [(CQ[i,0], CQ[i,1]) for i in range(start_idx+1, end_idx)]
         slices.append( (CQ[end_idx,0], to_end) )
     if chain.qStrand == '-':
         Sz = chain.qEnd - chain.qStart
-        slices =  map(lambda t: (Sz-t[1], Sz-t[0]), slices)
-    return map(lambda t: (to_chrom, to_gab_start + t[0], to_gab_start + t[1], elem['id']), slices)
+        slices =  [(Sz-t[1], Sz-t[0]) for t in slices]
+    return [(to_chrom, to_gab_start + t[0], to_gab_start + t[1], elem['id']) for t in slices]
 
 def union_elements(elements):
     """elements = [(chr, s, e, id), ...], this is to join elements that have a
@@ -101,12 +102,12 @@ def union_elements(elements):
     """
 
     if len(elements) < 2: return elements
-    assert set( map(lambda e: e[3], elements) ) == set( [elements[0][3]] ), "more than one id"
+    assert set( [e[3] for e in elements] ) == set( [elements[0][3]] ), "more than one id"
     el_id = elements[0][3]
 
     unioned_elements = []
     for ch, chgrp in groupby(elements, key=itemgetter(0)):
-        for (s,e) in elem_u( np.array(map(itemgetter(1,2), chgrp), dtype=np.uint) ):
+        for (s, e) in elem_u( np.array([itemgetter(1, 2)(_) for _ in chgrp], dtype=np.uint) ):
             if (s < e):
                 unioned_elements.append( (ch, s, e, el_id) )
     assert len(unioned_elements) <= len(elements)
@@ -119,10 +120,10 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
 
     mapped_elem_count = 0
     for from_elem in from_elem_list:
-        matching_block_ids = map(attrgetter("value"), tree.find(chrom, from_elem['start'], from_elem['end']))
+        matching_block_ids = [attrgetter("value")(_) for _ in tree.find(chrom, from_elem['start'], from_elem['end'])]
 
         # do the actual mapping
-        to_elem_slices = filter(bool, map(lambda i: transform(from_elem, all_epo[i], opt.gap), matching_block_ids))
+        to_elem_slices = [_ for _ in (transform(from_elem, all_epo[i], opt.gap) for i in matching_block_ids) if _]
         if len(to_elem_slices) > 1 or len(to_elem_slices) == 0:
             log.debug("%s no match or in different chain/chromosomes" % (str(from_elem)))
             continue
@@ -145,8 +146,8 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
                 end = to_elem_list[-1][2]
                 out_fd.write(BED12_FRM % (to_elem_list[0][0], start, end, from_elem['id'],
                         start, end, len(to_elem_list),
-                        ",".join( map(lambda e: "%d" % (e[2]-e[1]), to_elem_list) ),
-                        ",".join( map(lambda e: "%d" % (e[1]-start), to_elem_list) ) )
+                        ",".join( "%d" % (e[2]-e[1]) for e in to_elem_list ),
+                        ",".join( "%d" % (e[1]-start) for e in to_elem_list ) )
                         )
     log.info("%s %d of %d elements mapped" % (chrom, mapped_elem_count, from_elem_list.shape[0]))
 
@@ -158,8 +159,7 @@ def transform_file(ELEMS, ofname, EPO, TREE, opt):
     with open(ofname, 'w') as out_fd:
         if opt.screen:
             for elem in ELEMS.flat:
-                matching_blocks = map(attrgetter("value"),
-                        TREE.find(elem['chrom'], elem['start'], elem['end']))
+                matching_blocks = [attrgetter("value")(_) for _ in TREE.find(elem['chrom'], elem['start'], elem['end'])]
                 assert set( matching_blocks ) <= set( EPO.keys() )
                 if matching_blocks:
                     out_fd.write(BED4_FRM % elem)
@@ -189,7 +189,7 @@ def loadChains(path):
                 epo.cummulative_intervals(S, Q)
                 )
     ##now each element of epo is (chain_header, target_intervals, query_intervals)
-    assert all( map(lambda t: t[0].tStrand == '+', EPO) ), "all target strands should be +"
+    assert all( t[0].tStrand == '+' for t in EPO ), "all target strands should be +"
     return EPO
 
 def loadFeatures(path):
@@ -222,7 +222,7 @@ if __name__ == "__main__":
             help="Only report elements in the alignment (without mapping). -t has not effect here (TODO)")
     parser.add_argument('-g', '--gap', type=int, default=-1,
             help="Ignore elements with an insertion/deletion of this or bigger size.")
-    parser.add_argument('-v', '--verbose', type=str, choices=LOG_LEVELS.keys(), default='info',
+    parser.add_argument('-v', '--verbose', type=str, choices=list(LOG_LEVELS.keys()), default='info',
             help='Verbosity level')
 
 
@@ -235,7 +235,7 @@ if __name__ == "__main__":
 
 
     #loading alignments from opt.alignment
-    EPO = dict( map(lambda ch: (ch[0].id, ch), loadChains(opt.alignment)) )
+    EPO = dict( (ch[0].id, ch) for ch in loadChains(opt.alignment) )
 
     ## create an interval tree based on chain headers (from_species side)
     ## for fast feature-to-chain_header searching

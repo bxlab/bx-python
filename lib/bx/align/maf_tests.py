@@ -1,13 +1,15 @@
 """
 Tests for `bx.align.maf`.
 """
+from __future__ import print_function
 
-import unittest
 import sys
+import unittest
+
+from six import StringIO
+
 import bx.align as align
 import bx.align.maf as maf
-
-from StringIO import StringIO
 
 # A simple MAF from the rat paper days
 test_maf = """##maf version=1 scoring=humor.v4
@@ -63,21 +65,21 @@ def test_reader():
     assert reader.attributes["version"] == "1" 
     assert reader.attributes["scoring"] == "humor.v4" 
 
-    a = reader.next()
+    a = next(reader)
     assert a.score == 0.128
     assert len( a.components ) == 3
     check_component( a.components[0], "human_hoxa", 100, 8,  "+", 100257, "ACA-TTACT" )
     check_component( a.components[1], "horse_hoxa", 120, 9, "-",  98892, "ACAATTGCT" )
     check_component( a.components[2], "fugu_hoxa",    88, 7,  "+",  90788, "ACA--TGCT" )
     
-    a = reader.next()
+    a = next(reader)
     assert a.score == 0.071
     assert len( a.components ) == 3
     check_component( a.components[0], "human_unc", 9077, 8, "+", 10998, "ACAGTATT" )
     check_component( a.components[1], "horse_unc", 4555, 6, "-",  5099, "ACA--ATT" )
     check_component( a.components[2], "fugu_unc",   4000, 4, "+",  4038, "AC----TT" )
 
-    a = reader.next()
+    a = next(reader)
     assert a is None
 
     reader.close()
@@ -121,7 +123,7 @@ def test_slice():
 
 	# test slicing with + strand src
     reader = maf.Reader( StringIO( test_maf_3 ) )
-    a = reader.next()
+    a = next(reader)
     b = a.slice_by_component( 0, 40, 62 )
     check_component( b.components[0], src="apple",  start=40, size=22, strand="+", src_size=110, text="TTCGTCACT------GTCGTAAGGGTTC" )
     check_component( b.components[1], src="orange", start=28, size=22, strand="-", src_size=100, text="TT--TCACTGCTATCGTCGTA----TTC" )
@@ -131,17 +133,17 @@ def test_slice():
     check_component( b.components[0], src="apple",  start=46, size=41, strand="+", src_size=110, text="ACT------GTCGTAAGGGTTCAGA--CTGTCTATGTATACACAAGTTG" )
     check_component( b.components[1], src="orange", start=32, size=38, strand="-", src_size=100, text="ACTGCTATCGTCGTA----TTCAGACTTCG-CTATCT------GAGTTG" )
 
-    a = reader.next()
+    a = next(reader)
     assert a is None
 
 
 def test_with_synteny():
     reader = maf.Reader( StringIO( test_maf_2 ), parse_e_rows=True )
     
-    a = reader.next()
+    a = next(reader)
     check_component( a.components[0], "hg17.chr1", 2005, 34, "+", 245522847, "TGTAACTTAATACCACAACCAGGCATAGGGG--AAA-------------")
     check_component( a.components[1], "rheMac2.chr11", 9625228, 31, "+", 134511895, "TGTAACCTCTTACTGCAACAAGGCACAGGGG------------------")
-    print a.components[1].synteny_left
+    print(a.components[1].synteny_left)
     assert a.components[1].synteny_left == ( maf.MAF_CONTIG_STATUS, 0 )
     assert a.components[1].synteny_right == ( maf.MAF_INSERT_STATUS, 1678 )
 
@@ -151,7 +153,7 @@ def test_with_synteny():
     
 def test_write_with_synteny():
     reader = maf.Reader( StringIO( test_maf_2 ), parse_e_rows=True )
-    a = reader.next()
+    a = next(reader)
     val = StringIO()
     writer = maf.Writer( val, { 'scoring':'foobar' } )
     writer.write( a )
@@ -176,9 +178,9 @@ e rn3.chr4                29161032 1524 - 187371129 I
 e mm7.chr6                28091695 3290 - 149646834 I                                                 
 
 """
-    print actual
-    print "---"
-    print expected
+    print(actual)
+    print("---")
+    print(expected)
     assert actual == expected
 
 def check_component( c, src, start, size, strand, src_size, text ):

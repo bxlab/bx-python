@@ -5,12 +5,13 @@ Read a maf and print the text as a fasta file.
 
 usage: %prog < maf > fasta
 """
+from __future__ import division, print_function
 
-from __future__ import division
-
-import textwrap
 import sys
+import textwrap
+
 from bx.align import maf
+
 
 def __main__():
 
@@ -29,14 +30,15 @@ def __main__():
         if comps: l = [ m.components[i] for i in comps ]
         else: l = m.components
         for c in l:
-            print ">%s:%d-%d" % ( c.src, c.start, c.end )
-            print c.text
+            print(">%s:%d-%d" % ( c.src, c.start, c.end ))
+            print(c.text)
             #print_n( c.text, 50 )
 
 def print_n( s, n, f = sys.stdout ):
     p = 0
     while p < len( s ):
-        print >> f, s[p:min(p+n,len(s))]
+        print(s[p:min(p+n,len(s))], file=f)
         p += n
 
-if __name__ == "__main__": __main__()
+if __name__ == "__main__":
+    __main__()

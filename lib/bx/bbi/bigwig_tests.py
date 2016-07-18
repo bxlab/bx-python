@@ -1,7 +1,11 @@
-import sys, os
+from __future__ import print_function
+
+import os
+import sys
 import unittest
-import numpy
 from functools import partial
+
+import numpy
 
 try:
     sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -19,14 +23,14 @@ def allclose( a, b, tol=0.00001 ):
 
 class TestBigWig(unittest.TestCase):
     def setUp(self):
-        f = open( "test_data/bbi_tests/test.bw" )
+        f = open( "test_data/bbi_tests/test.bw", 'rb' )
         self.bw = BigWigFile(file=f)
         
     def test_get_summary(self):
         data = self.bw.query("chr1", 10000, 20000, 10)
         means = [ x['mean'] for x in data ]
-        print means
-        assert numpy.allclose( map(float, means), [-0.17557571594973645, -0.054009292602539061, -0.056892242431640622, -0.03650328826904297, 0.036112907409667966, 0.0064466032981872557, 0.036949024200439454, 0.076638259887695306, 0.043518108367919923, 0.01554749584197998] )
+        print(means)
+        assert numpy.allclose( [float(_) for _ in means], [-0.17557571594973645, -0.054009292602539061, -0.056892242431640622, -0.03650328826904297, 0.036112907409667966, 0.0064466032981872557, 0.036949024200439454, 0.076638259887695306, 0.043518108367919923, 0.01554749584197998] )
         
         # Summarize variant
         sd = self.bw.summarize( "chr1", 10000, 20000, 10)
@@ -36,20 +40,20 @@ class TestBigWig(unittest.TestCase):
         data = self.bw.query("chr1", 10000, 20000, 1)
         maxs = [ x['max'] for x in data ]
         mins = [ x['min'] for x in data ]
-        self.assertEqual( map(float, maxs), [0.289000004529953] )
-        self.assertEqual( map(float, mins), [-3.9100000858306885] )
+        self.assertEqual( [float(_) for _ in maxs], [0.289000004529953] )
+        self.assertEqual( [float(_) for _ in mins], [-3.9100000858306885] )
         
     def test_get_leaf(self):
         data = self.bw.query("chr1", 11000, 11005, 5)
         means = [ x['mean'] for x in data ]
-        assert numpy.allclose( map(float, means), [0.050842501223087311, -2.4589500427246094, 0.050842501223087311, 0.050842501223087311, 0.050842501223087311] )
+        assert numpy.allclose( [float(_) for _ in means], [0.050842501223087311, -2.4589500427246094, 0.050842501223087311, 0.050842501223087311, 0.050842501223087311] )
         
         # Test min and max for this entire leaf region
         data = self.bw.query("chr1", 11000, 11005, 1)
         maxs = [ x['max'] for x in data ]
         mins = [ x['min'] for x in data ]
-        self.assertEqual( map(float, maxs), [0.050842501223087311] )
-        self.assertEqual( map(float, mins), [-2.4589500427246094] )
+        self.assertEqual( [float(_) for _ in maxs], [0.050842501223087311] )
+        self.assertEqual( [float(_) for _ in mins], [-2.4589500427246094] )
         
     def test_wrong_nochrom(self):
         data = self.bw.query("chr2", 0, 10000, 10)
@@ -57,7 +61,7 @@ class TestBigWig(unittest.TestCase):
 
 # Nose test generator
 def test_summaries_from_file():
-    bw = BigWigFile( file=open( "test_data/bbi_tests/test.bw" ) )
+    bw = BigWigFile( file=open( "test_data/bbi_tests/test.bw", 'rb' ) )
     def check_summary( line ):
         fields = line.split()
         chrom = fields[0]
@@ -68,8 +72,8 @@ def test_summaries_from_file():
         values = [ float( v.replace( 'n/a', 'NaN' ) ) for v in fields[5:] ]
         sd = bw.summarize( chrom, start, end, n )
         if t == 'mean':
-            print sd.sum_data / sd.valid_count
-            print values
+            print(sd.sum_data / sd.valid_count)
+            print(values)
             assert allclose( sd.sum_data / sd.valid_count, values )
         elif t == 'min':
             assert allclose( sd.min_val, values )

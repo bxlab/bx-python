@@ -3,14 +3,14 @@
 """
 usage: %prog species1,species2,... nrequired < maf 
 """
+from __future__ import print_function
 
-import psyco_full
-
-import bx.align.maf
 import copy
 import sys
-
 from itertools import *
+
+import bx.align.maf
+import psyco_full
 from bx.cookbook import doc_optparse
 
 SPAN = 100
@@ -42,11 +42,13 @@ def main():
                 if ref.start - interval_end < SPAN:
                     interval_end = ref.end
                 else:
-                    if interval_end - interval_start >= MIN: print ref.src.split('.')[1], interval_start, interval_end
+                    if interval_end - interval_start >= MIN:
+                        print(ref.src.split('.')[1], interval_start, interval_end)
                     interval_start = ref.start
                     interval_end = ref.end    
         else:
-            if interval_start != None and interval_end - interval_start >= MIN: print ref.src.split('.')[1],interval_start,interval_end
+            if interval_start != None and interval_end - interval_start >= MIN:
+                print(ref.src.split('.')[1], interval_start, interval_end)
             interval_start = None
             interval_end = None
 

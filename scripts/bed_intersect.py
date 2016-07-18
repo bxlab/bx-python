@@ -13,6 +13,7 @@ usage: %prog bed_file_1 bed_file_2
     -v, --reverse: Print regions that DO NOT overlap
     -b, --booleans: Just print '1' if interval overlaps or '0' otherwise
 """
+from __future__ import print_function
 
 import sys
 from warnings import warn
@@ -53,16 +54,16 @@ for line in open( in_fname ):
     if fields[0] in bitsets and bitsets[fields[0]].count_range( start, end-start ) >= mincols:
         if booleans:
             if reverse: 
-                print 0
+                print(0)
             else:
-                print 1
+                print(1)
         elif not reverse:
-            print line,
+            print(line, end=' ')
     else:
         if booleans:
             if reverse:
-                print 1
+                print(1)
             else:
-                print 0
+                print(0)
         elif reverse:
-            print line,
+            print(line, end=' ')

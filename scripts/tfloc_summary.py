@@ -6,6 +6,7 @@ contains the number of sites found in the nth alignment of the input.
 
 TODO: This is very special case, should it be here?
 """
+from __future__ import print_function
 
 import sys
 
@@ -24,4 +25,4 @@ for line in sys.stdin:
         raise ValueError("Invalid input line " + line)
 
 for i in range( max_index + 1 ):
-    print counts.get( i, 0 )
+    print(counts.get( i, 0 ))

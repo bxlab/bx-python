@@ -4,11 +4,12 @@ alignments.
 
 .. _AXT: http://genome.ucsc.edu/goldenPath/help/axt.html
 """
-
-from bx.align import *
-
 import itertools
+
+from six import Iterator
+
 from bx import interval_index_file
+from bx.align import *
 
 # Tools for dealing with pairwise alignments in AXT format
 
@@ -43,7 +44,7 @@ class Indexed( object ):
 
     def get( self, src, start, end ):
         intersections = self.indexes.find( src, start, end )
-        return itertools.imap( self.get_axt_at_offset, [ val for start, end, val in intersections ] )
+        return ( self.get_axt_at_offset( val ) for start, end, val in intersections )
 
     def get_axt_at_offset( self, offset ):
         if self.f:
@@ -57,7 +58,7 @@ class Indexed( object ):
             finally:
                 f.close()
 
-class Reader( object ):
+class Reader( Iterator ):
     """Iterate over all axt blocks in a file in order"""
 
     def __init__( self, file, species1 = None, species2=None, species_to_lengths=None, support_ids=False ):
@@ -71,7 +72,7 @@ class Reader( object ):
         self.support_ids        = support_ids            # for extra text at end of axt header lines
         self.attributes = {}
 
-    def next( self ):
+    def __next__( self ):
         return read_next_axt( self.file, self.species1, self.species2, self.species_to_lengths, self.support_ids )
 
     def __iter__( self ):
@@ -80,13 +81,13 @@ class Reader( object ):
     def close( self ):
         self.file.close()
 
-class ReaderIter( object ):
+class ReaderIter( Iterator ):
     def __init__( self, reader ):
         self.reader = reader
     def __iter__( self ):
         return self
-    def next( self ):
-        v = self.reader.next()
+    def __next__( self ):
+        v = next(self.reader)
         if not v: raise StopIteration
         return v
 

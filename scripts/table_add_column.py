@@ -8,14 +8,14 @@ usage: %prog expression colname < table
     -H, --header:    keep header in output
     -C, --comments:  keep comments in output
 """
-
-import psyco_full
-
-import sys
+from __future__ import print_function
 
 import sys
+
 import bx.tabular.io
+import psyco_full
 from bx.cookbook import doc_optparse
+
 
 def __main__():
 
@@ -35,12 +35,13 @@ def __main__():
     for element in bx.tabular.io.Reader( sys.stdin ):
         if type( element ) is bx.tabular.io.Header:
             if keep_header: 
-                print str( element ) + "\t" + colname
+                print(str( element ) + "\t" + colname)
         elif type( element ) is bx.tabular.io.Comment:
             if keep_comments: 
-                print element
+                print(element)
         else:
             val = eval( expr, dict( row=element ) )
-            print str( element ) + "\t" + str( val )
+            print(str( element ) + "\t" + str( val ))
 
-if __name__ == "__main__": __main__()
+if __name__ == "__main__":
+    __main__()

@@ -9,16 +9,16 @@ that word occurs in the block.
 
 usage: %prog motif_len mapping_file < maf_file > counts
 """
+from __future__ import division, print_function
 
-from __future__ import division
-
-import psyco_full
-
-import bx.align.maf
-from bx import seqmapping
 import string
 import sys
 from Numeric import *
+
+import bx.align.maf
+import psyco_full
+from bx import seqmapping
+
 
 def main():
 
@@ -53,6 +53,7 @@ def main():
                 counts[ index ] += 1
                 total += 1
         # Write ints separated by tabs
-        print '\t'.join( [ str( total ) ] + map( str, counts ) )
+        print('\t'.join( [ str( total ) ] + [str(_) for _ in counts] ))
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()

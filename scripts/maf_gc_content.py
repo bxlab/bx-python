@@ -5,8 +5,7 @@ Read a MAF from standard input and print average GC content of each alignment
 
 usage: %prog < maf > out
 """
-
-from __future__ import division
+from __future__ import division, print_function
 
 import sys
 
@@ -27,6 +26,7 @@ def __main__():
           gc += c.text.count( 'c' )
           bases += ( len( c.text ) - c.text.count( '-' ) )
 
-        print gc / bases
+        print(gc / bases)
 
-if __name__ == "__main__": __main__()
+if __name__ == "__main__":
+    __main__()

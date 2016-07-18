@@ -26,7 +26,7 @@ def main():
     # Fill array from wiggle
     d = array_tree_dict_from_reader( WiggleReader( sys.stdin ), sizes )
     
-    for value in d.itervalues():
+    for value in d.values():
         value.root.build_summary()
     
     f = open( out_fname, "w" )

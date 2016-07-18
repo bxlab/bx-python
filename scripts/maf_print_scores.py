@@ -11,14 +11,14 @@ usage: %prog [options]
    -r, --recalculate: don't use the score from the maf, recalculate (using hox70 matrix)
    -l, --lnorm: divide (normalize) score by alignment text length
 """
-
-from __future__ import division
+from __future__ import division, print_function
 
 import sys
-from bx.cookbook import doc_optparse
-from bx.align import maf
-from bx.align import score
 from optparse import OptionParser
+
+from bx.align import maf, score
+from bx.cookbook import doc_optparse
+
 
 def main():
 
@@ -41,7 +41,7 @@ def main():
 
     for m in maf_reader: 
         if m.text_size == 0:
-            print "NA"
+            print("NA")
             continue
         s = m.score
         # Recalculate?
@@ -51,7 +51,7 @@ def main():
         if lnorm:
             s = s / m.text_size
         # Print
-        print s
+        print(s)
 
 if __name__ == "__main__": 
     main()

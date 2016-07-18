@@ -1,10 +1,11 @@
 """
 Tests for `bx.wiggle`.
 """
-
 import unittest
+
+from six import StringIO
+
 from bx import wiggle
-from StringIO import StringIO
 
 # A modified version of UCSC's example wiggle, taken from http://genome.ucsc.edu/goldenPath/help/wiggleExample.txt
 test_wig = """browser position chr19:59302001-59311000

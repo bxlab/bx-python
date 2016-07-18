@@ -46,7 +46,7 @@ def __main__():
         else:
             writer_key = m.components[ comp ].src
 
-        if not writers.has_key( writer_key ):
+        if writer_key not in writers:
             writer = bx.align.maf.Writer( file( "%s%s.maf" % ( out_prefix, writer_key ), "w" ) )
             writers[ writer_key ] = writer
         else:

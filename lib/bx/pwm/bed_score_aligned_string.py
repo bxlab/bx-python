@@ -3,10 +3,11 @@
 Returns all positions of a maf with any pwm score > threshold
 The positions are projected onto human coordinates
 """
+from __future__ import print_function
 
 import psyco_full
 from bx.align import maf as align_maf
-import position_weight_matrix as pwmx
+from . import position_weight_matrix as pwmx
 from bx.pwm.pwm_score_maf import MafMotifScorer
 import sys
 from bx import intervals
@@ -18,7 +19,7 @@ def isnan(x):
 def main():
 
     if len(sys.argv) < 5:
-        print >>sys.stderr, "%s bedfile inmaf spec1,spec2,... string [string2,...]" % sys.argv[0]
+        print("%s bedfile inmaf spec1,spec2,... string [string2,...]" % sys.argv[0], file=sys.stderr)
         sys.exit(0)
 
     # read in intervals
@@ -60,7 +61,7 @@ def main():
             mafchrom = mafsrc.split('.')[1]
 
             # lists of scores for each position in scoremax
-            for mx_name,mx in scoremax.items():
+            for mx_name, mx in scoremax.items():
                 #print >>sys.stderr, mx_name, len(pwm[mx_name])
 
                 for offset in range(blocklength):
@@ -80,7 +81,7 @@ def main():
                                 #region_label = 0
                                 continue
                             v_name = mx_name.replace(' ','_')
-                            print mafchrom,refstart,refend,region_label,v_name,data
+                            print(mafchrom,refstart,refend,region_label,v_name,data)
                             break
 
 if __name__ == '__main__': main()

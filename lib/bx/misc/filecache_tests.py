@@ -1,4 +1,4 @@
-import filecache
+from . import filecache
 import os
 import random
 import sys

@@ -39,13 +39,16 @@ variable (in which case it is an error).
 Recognized properties (at present only one):
   - codebook: A string in qdna code file format (see QdnaCodebook class for details).
 """
+import string
+import struct
+import sys
+
+from six import StringIO
 
 from bx.seq.seq import SeqFile,SeqReader
-import sys, struct, string
-from StringIO import StringIO
 
-qdnaMagic     = 0xC4B47197L    # big endian magic number for qdna files
-qdnaMagicSwap = 0x9771B4C4L
+qdnaMagic     = 0xC4B47197    # big endian magic number for qdna files
+qdnaMagicSwap = 0x9771B4C4
 
 class QdnaFile(SeqFile):
 
@@ -140,7 +143,7 @@ class QdnaReader(SeqReader):
         SeqReader.__init__(self,file,revcomp,name,gap)
         self.codebook = codebook
 
-    def next(self):
+    def __next__(self):
         if (self.seqs_read != 0): return  # qdna files have just one sequence
         seq = QdnaFile(self.file,self.revcomp,self.name,self.gap,self.codebook)
         self.seqs_read += 1

@@ -6,9 +6,10 @@ stdout.
 
 TODO: is this really that useful?
 """
+from __future__ import print_function
 
 import sys
 
 for line in sys.stdin:
     for field in line.split():
-        print field
+        print(field)

@@ -9,7 +9,7 @@ import numpy
 cimport numpy
 from types cimport *
 from bx.misc.binary_file import BinaryFileReader
-from cStringIO import StringIO
+from six.moves import cStringIO as StringIO
 import zlib
 
 DEF big_wig_sig = 0x888FFC26

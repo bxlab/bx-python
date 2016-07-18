@@ -6,11 +6,14 @@ those ranges to stdout
 
 usage: %prog range_file nib_file
 """
+from __future__ import print_function
 
-from bx.cookbook import doc_optparse
-import bx.seq.nib
 import string
 import sys
+
+import bx.seq.nib
+from bx.cookbook import doc_optparse
+
 
 def __main__():
 
@@ -27,7 +30,7 @@ def __main__():
     for line in range_file: 
         fields = line.split()
         start, end = int( fields[0] ), int( fields[1] ) 
-        print ">", start, end 
+        print(">", start, end)
         print_wrapped( nib.get( start, end - start ) )
 
 def print_wrapped( s ):
@@ -35,7 +38,8 @@ def print_wrapped( s ):
     c = 0
     while c < l:
         b = min( c + 50, l )
-        print s[c:b]
+        print(s[c:b])
         c = b
 
-if __name__ == "__main__": __main__()
+if __name__ == "__main__":
+    __main__()

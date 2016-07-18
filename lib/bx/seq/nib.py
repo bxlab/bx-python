@@ -19,18 +19,22 @@ offset 0x08:  ...        data sequence;  most significant nybble in each
                          byte is first in sequence
 ============ =========== ======================================================
 """
-
 from __future__ import division
 
-from bx.seq.seq import SeqFile,SeqReader
-import sys, struct, string, math
+import math
+import string
+import struct
+import sys
 
-import _nib
+from bx.seq.seq import SeqFile,SeqReader
+
+from . import _nib
 
 NIB_MAGIC_NUMBER = 0x6BE93D3A
 NIB_MAGIC_NUMBER_SWAP = 0x3A3DE96B
 NIB_MAGIC_SIZE = 4
 NIB_LENGTH_SIZE = 4
+
 
 class NibFile(SeqFile):
 
@@ -64,7 +68,7 @@ class NibReader(SeqReader):
     def __init__(self, file, revcomp=False, name="", gap=None):
         SeqReader.__init__(self,file,revcomp,name,gap)
 
-    def next(self):
+    def __next__(self):
         if (self.seqs_read != 0): return  # nib files have just one sequence
         seq = NibFile(self.file,self.revcomp,self.name,self.gap)
         self.seqs_read += 1

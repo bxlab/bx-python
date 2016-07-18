@@ -54,13 +54,13 @@ def fuse( m1, m2 ):
     """
     # Check if the blocks are adjacent, return none if not.
     if len( m1.components ) != len( m2.components ): return None
-    for c1, c2 in izip( m1.components, m2.components ):
+    for c1, c2 in zip( m1.components, m2.components ):
         if c1.src != c2.src: return None
         if c1.strand != c2.strand: return None
         if c1.end != c2.start: return None
     # Try to fuse:
     n = deepcopy( m1 )
-    for c1, c2 in izip( n.components, m2.components ):
+    for c1, c2 in zip( n.components, m2.components ):
         c1.text += c2.text
         c1.size += c2.size
     n.text_size = len( n.components[0].text )

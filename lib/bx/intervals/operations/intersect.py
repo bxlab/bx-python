@@ -65,7 +65,7 @@ def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True,
                     new_interval.start = start
                     new_interval.end = end
                     yield new_interval
-            except IndexError, e:
+            except IndexError as e:
                 try:
                     # This will only work if primary is a NiceReaderWrapper
                     primary.skipped += 1

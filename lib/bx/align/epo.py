@@ -3,14 +3,17 @@
 
 from __future__ import with_statement
 
-import logging, re, cPickle, os
+import logging
+import re
+import os
 from collections import namedtuple
-from itertools import imap
 
-from _epo import rem_dash, fastLoadChain, bed_union, cummulative_intervals
+from six.moves import cPickle
 
+from ._epo import rem_dash, fastLoadChain, bed_union, cummulative_intervals
 
 log = logging.getLogger(__name__)
+
 
 class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qSize qStrand qStart qEnd id') ):
     """A Chain header as in http://genome.ucsc.edu/goldenPath/help/chain.html
@@ -33,8 +36,7 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
         assert type(line) == str, "this is a factory from string"
 
         line = line.rstrip().split()[1:] # the first component is the keyword "chain"
-        tup = map(lambda t: t[0](t[1]),
-                zip([int, str, int, str, int, int, str, int, str, int, int, str], line))
+        tup = [t[0](t[1]) for t in zip([int, str, int, str, int, int, str, int, str, int, int, str], line)]
         return tuple.__new__(cls, tup)
 
     @classmethod
@@ -201,7 +203,7 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
                     chrom, int(cmp[3]), int(cmp[4]),
                     {'1' : '+', '-1' : '-'}[cmp[5]], cmp[6]))
         span = instance.end - instance.start + 1
-        m_num = sum( map(lambda t: (t[1] == "M" and [t[0]] or [0])[0] , instance.cigar_iter(False)) )
+        m_num = sum( (t[1] == "M" and [t[0]] or [0])[0] for t in instance.cigar_iter(False) )
         if span != m_num:
             log.warning("[{gabid}] {species}.{chrom}:{start}-{end}.".format(**instance._asdict()) + "(span) %d != %d (matches)" % (span, m_num))
             return None
@@ -215,7 +217,7 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
 
         data = {}
         with open(fname) as fd:
-            for el in imap(cls._strfactory, fd):
+            for el in (cls._strfactory(_) for _ in fd):
                 if el:
                     data.setdefault(el.gabid, []).append( el )
         log.info("parsed %d elements from %s" % (len(data), fname))
@@ -268,9 +270,9 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
 
         assert d[0] == (thr, thr)
         # assert that nr. of Ms in the interval == sum of produced intervals
-        assert sum( map(lambda t: t[0], filter(lambda t: t[1] == "M", self.cigar_iter(False))) ) == sum( map(lambda t: t[1]-t[0], d) )
+        assert sum( t[0] for t in self.cigar_iter(False) if t[1] == "M" ) == sum( t[1]-t[0] for t in d )
 
-        d_sum = sum( map(lambda t: t[1]-t[0], d) )
+        d_sum = sum( t[1]-t[0] for t in d )
         assert self.end - self.start + 1 == d_sum, "[ (%d, %d) = %d ] != %d" % (self.start, self.end,
                 self.end-self.start+1, d_sum)
         return d[1:] #clip the (thr, thr) entry

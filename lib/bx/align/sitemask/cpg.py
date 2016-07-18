@@ -1,11 +1,13 @@
 """
 Support for masking potential CpG sites in *pairwise* alignments. 
 """
+import string
 
-from _cpg import *
 from bx.align.sitemask import Masker
 from bx.filter import *
-import string
+
+from ._cpg import *
+
 
 # Restricted.  Only mask out sites that are defitely CpG
 class Restricted( Masker ):

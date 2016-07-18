@@ -6,10 +6,10 @@ each block.
 
 usage: %prog < maf > out
 """
-
-from __future__ import division
+from __future__ import division, print_function
 
 import sys
+
 import bx.align.maf
 
 
@@ -18,6 +18,7 @@ def main():
         gaps = 0        
         for col in m.column_iter():
             if ( '-' in col ): gaps += 1          
-        print gaps / m.text_size
+        print(gaps / m.text_size)
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()

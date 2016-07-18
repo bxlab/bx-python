@@ -2,15 +2,16 @@
 High level operations on genomic intervals. Most accept and produce iterables
 of `bx.io.inervals.io.GenomicInterval` objects. 
 """
+from __future__ import print_function
 
 from bx.bitset import *
 from bx.filter import *
 
 def warn( msg ):
-    print >> sys.stderr, msg
+    print(msg, file=sys.stderr)
 
 def fail( msg ):
-    print >> sys.stderr, msg
+    print(msg, file=sys.stderr)
     sys.exit(1)
 
 BED_DEFAULT_COLS = 0, 1, 2, 5

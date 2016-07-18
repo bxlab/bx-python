@@ -53,7 +53,7 @@ def coverage(readers, comments=True):
             else:
                 try:
                     bases_covered = bitsets[ chrom ].count_range( start, end-start )
-                except IndexError, e:
+                except IndexError as e:
                     try:
                         # This will only work if primary is a NiceReaderWrapper
                         primary.skipped += 1

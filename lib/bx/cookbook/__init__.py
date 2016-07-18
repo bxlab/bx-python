@@ -15,17 +15,17 @@ def flatten( *args ):
 
 def cross_lists(*sets):
     """Return the cross product of the arguments"""
-    wheels = map(iter, sets) 
-    digits = [it.next() for it in wheels]
+    wheels = [iter(_) for _ in sets]
+    digits = [next(it) for it in wheels]
     while True:
         yield digits[:]
         for i in range(len(digits)-1, -1, -1):
             try:
-                digits[i] = wheels[i].next()
+                digits[i] = next(wheels[i])
                 break
             except StopIteration:
                 wheels[i] = iter(sets[i])
-                digits[i] = wheels[i].next()
+                digits[i] = next(wheels[i])
         else:
             break
 
@@ -83,16 +83,16 @@ class ImmutableDict(dict):
     def __init__(self,*args,**kwds):
         dict.__init__(self,*args,**kwds)
     def __setitem__(self,key,value):
-        raise NotImplementedError, "dict is immutable"
+        raise NotImplementedError("dict is immutable")
     def __delitem__(self,key):
-        raise NotImplementedError, "dict is immutable"
+        raise NotImplementedError("dict is immutable")
     def clear(self):
-        raise NotImplementedError, "dict is immutable"
+        raise NotImplementedError("dict is immutable")
     def setdefault(self,k,default=None):
-        raise NotImplementedError, "dict is immutable"
+        raise NotImplementedError("dict is immutable")
     def popitem(self):
-        raise NotImplementedError, "dict is immutable"
+        raise NotImplementedError("dict is immutable")
     def update(self,other):
-        raise NotImplementedError, "dict is immutable"
+        raise NotImplementedError("dict is immutable")
     def __hash__(self):
-        return hash(tuple(self.iteritems()))
+        return hash(tuple(self.items()))

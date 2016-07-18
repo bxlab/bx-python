@@ -7,7 +7,7 @@ See seq.py for more information
 """
 
 import struct
-import fasta, nib, qdna
+from . import fasta, nib, qdna
 
 # DNA reverse complement table
 

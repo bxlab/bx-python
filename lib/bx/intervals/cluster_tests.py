@@ -6,7 +6,7 @@ except:
     sys.path.insert(0, os.path.dirname(os.path.abspath(".")))
 
 # from bx.intervals.cluster import ClusterTree
-from cluster import ClusterTree
+from .cluster import ClusterTree
 
 class TestCluster(unittest.TestCase):
     def setUp(self):

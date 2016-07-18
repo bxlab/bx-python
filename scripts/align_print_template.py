@@ -10,7 +10,7 @@ usage: %prog template [options]
     -f, --format = maf: Input format, maf (default) or axt
 """
 
-from __future__ import division
+from __future__ import division, print_function
 
 import psyco_full
 
@@ -21,7 +21,7 @@ from bx import align
 try:
     from Cheetah.Template import Template
 except:
-    print >> sys.stderr, "This script requires the Cheetah template modules"
+    print("This script requires the Cheetah template modules", file=sys.stderr)
     sys.exit( -1 )
 
 def main():
@@ -41,7 +41,7 @@ def main():
     for a in reader: 
         template.a = a
         template.c = a.components
-        print template
+        print(template)
 
 if __name__ == "__main__": 
 	main()

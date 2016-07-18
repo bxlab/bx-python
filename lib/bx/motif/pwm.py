@@ -1,11 +1,12 @@
 """
 Classes for working with position specific matrices.
 """
-
-from numpy import *
 from copy import copy
 
-import _pwm
+import numpy
+from numpy import float32, log2, int16, maximum, nan, newaxis, ones, zeros
+
+from . import _pwm
 
 class BaseMatrix( object ):
     """
@@ -99,7 +100,7 @@ class FrequencyMatrix( BaseMatrix ):
         if background is None:
             background = ones( alphabet_size, float32 ) / alphabet_size
         # Row totals as a one column array
-        totals = sum( self.values, 1 )[:,newaxis]
+        totals = numpy.sum( self.values, 1 )[:,newaxis]
         values = log2( maximum( self.values, correction ) ) \
                - log2( totals ) \
                - log2( maximum( background, correction ) )
@@ -116,7 +117,7 @@ class FrequencyMatrix( BaseMatrix ):
         if background is None:
             background = ones( alphabet_size, float32 ) / alphabet_size
         # Row totals as a one column array
-        totals = sum( self.values, 1 )[:,newaxis]
+        totals = numpy.sum( self.values, 1 )[:,newaxis]
         values = log2( self.values + background ) \
                - log2( totals + 1 ) - log2( background )
         return ScoringMatrix.create_from_other( self, values.astype( float32 ) )

@@ -15,13 +15,15 @@ TODO: There are a few versions of this floating around, including a
 
 usage: %prog bounding_region_file intervals1 intervals2 nsamples
 """
+from __future__ import division, print_function
 
-from __future__ import division 
-
-import sys, random
 import bisect
-from bx_extras import stats
+import random
+import sys
+
 from Numeric import *
+
+from bx_extras import stats
 from bx.bitset import *
 from bx.intervals.random_intervals import *
 
@@ -46,7 +48,7 @@ def throw_random( lengths, mask ):
     for i in range( maxtries ):
         try:
             return throw_random_bits( lengths, mask )
-        except MaxtriesException, e:
+        except MaxtriesException as e:
             saved = e
             continue
     raise e
@@ -111,7 +113,7 @@ def main():
     for line in open( region_fname ):
         # Load lengths for all intervals overlapping region
         fields = line.split()
-        print >>sys.stderr, "Processing region:", fields[3]
+        print("Processing region:", fields[3], file=sys.stderr)
         r_chr, r_start, r_stop = fields[0], int( fields[1] ), int( fields[2] )
         r_length = r_stop - r_start
         # Load the mask
@@ -127,7 +129,7 @@ def main():
         assert count_overlap( bits1, bits_mask ) == 0
         # For each data set
         for featnum, intervals2_fname in enumerate( intervals2_fnames ):
-            print >>sys.stderr, intervals2_fname
+            print(intervals2_fname, file=sys.stderr)
             intervals2 = overlapping_in_bed( intervals2_fname, r_chr, r_start, r_stop )
             bits2 = as_bits( r_start, r_length, intervals2 )
             bits2.iand( bits_not_masked )
@@ -145,16 +147,16 @@ def main():
                 random2 &= bits1
                 # Print amount intersecting
                 total_samples[ i, featnum ] += random2.count_range( 0, random2.size )
-                print >>sys.stderr, total_samples[ i, featnum ]
+                print(total_samples[ i, featnum ], file=sys.stderr)
     fraction_overlap = total_samples / total_lengths2
-    print "\t".join( intervals2_fnames )
-    print "\t".join( map( str, total_actual/total_lengths2 ) )
+    print("\t".join( intervals2_fnames ))
+    print("\t".join( map( str, total_actual/total_lengths2 ) ))
     for row in fraction_overlap:
-        print "\t".join( map( str, row ) )
+        print("\t".join( map( str, row ) ))
     #print "total covered by first: %d, second: %d, overlap: %d" % ( total_lengths1, total_lengths2, total_actual )
-    print "observed overlap: %d, sample mean: %d, sample stdev: %d" % ( total_actual, stats.amean( total_samples ), stats.asamplestdev( total_samples ) )
-    print "z-score:", ( total_actual - stats.amean( total_samples ) ) / stats.asamplestdev( total_samples )
-    print "percentile:", sum( total_actual > total_samples ) / nsamples
+    print("observed overlap: %d, sample mean: %d, sample stdev: %d" % ( total_actual, stats.amean( total_samples ), stats.asamplestdev( total_samples ) ))
+    print("z-score:", ( total_actual - stats.amean( total_samples ) ) / stats.asamplestdev( total_samples ))
+    print("percentile:", sum( total_actual > total_samples ) / nsamples)
     
 if __name__ == "__main__": 
     main()

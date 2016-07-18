@@ -1,15 +1,13 @@
 """
 Tests for `bx.misc.seekbzip2`.
 """
-
-import tempfile
-import commands
+import bz2
 import os
 import random
+import tempfile
 from itertools import *
 
-import seekbzip2
-import bz2
+from . import seekbzip2
 
 F=None
 T=None
@@ -60,7 +58,7 @@ if T and os.path.exists( T ):
         raw_file = bz2.BZ2File( T )
         f = seekbzip2.SeekableBzip2File( T, T + "t" )
         pos = 0
-        for i, ( line, raw_line ) in enumerate( izip( f, raw_file ) ):
+        for i, ( line, raw_line ) in enumerate( zip( f, raw_file ) ):
             assert line == raw_line, "%d: %r != %r" % ( i, line.rstrip( "\n" ), raw_line )
             pos += len( line )
             ftell = f.tell()

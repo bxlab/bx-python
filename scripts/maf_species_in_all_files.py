@@ -6,9 +6,13 @@ list of the species that occur in all of the mafs.
 
 usage %prog maf1 maf2 ...
 """
+from __future__ import print_function
 
 import operator
 import sys
+
+from six.moves import reduce
+
 import bx.align.maf
 
 files = sys.argv[1:]
@@ -23,4 +27,4 @@ for file in files:
     sets.append( s )
 
 inter = reduce( operator.and_, sets )
-print ",".join( inter )
+print(",".join( inter ))

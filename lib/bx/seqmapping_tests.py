@@ -1,14 +1,14 @@
 """
 Tests for `bx.seqmapping`.
 """
-
 import sys
-
 import unittest
-import bx.seqmapping
 
 from numpy import array, allclose
-from StringIO import StringIO
+from six import StringIO
+
+import bx.seqmapping
+
 
 class CharMappingTests( unittest.TestCase ):
     __test__ = False

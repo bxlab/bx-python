@@ -7,16 +7,17 @@ single chromosome and does no sanity checks!
 usage: %prog score_file out_file < wiggle_data
     -c, --comp=type: compression type (none, zlib, lzo)
 """
-
-from __future__ import division
+from __future__ import division, print_function
 
 import sys
-import psyco_full
+
 import bx.wiggle
-from bx.binned_array import BinnedArray
-from bx_extras.fpconst import isNaN
-from bx.cookbook import doc_optparse
+import psyco_full
 from bx import misc
+from bx.binned_array import BinnedArray
+from bx.cookbook import doc_optparse
+from bx_extras.fpconst import isNaN
+
 
 def main():
     
@@ -42,7 +43,8 @@ def main():
         #    assert chrom == last_chrom, "This script expects a 'wiggle' input on only one chromosome"
         scores[pos] = val
         # Status
-        if i % 10000 == 0: print i, "scores processed"
+        if i % 10000 == 0:
+            print(i, "scores processed")
 
     out = open( out_fname, "w" )
     if comp_type:
@@ -51,4 +53,5 @@ def main():
         scores.to_file( out )
     out.close()
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()

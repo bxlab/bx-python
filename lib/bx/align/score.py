@@ -23,9 +23,11 @@ class ScoringScheme( object ):
         self.alphabet2 = alphabet2
 	# private _set_score and _get_score allow subclasses to override them to
 	# implement a different underlying table object
-    def _set_score(self,(a,b),val):
+    def _set_score(self, a_b_pair,val):
+        (a,b) = a_b_pair
         self.table[a,b] = val
-    def _get_score(self,(a,b)):
+    def _get_score(self, a_b_pair):
+        (a,b) = a_b_pair
         return self.table[a,b]
     def set_score( self, a, b, val, foldcase1=False, foldcase2=False ):
         self._set_score((a,b),val)

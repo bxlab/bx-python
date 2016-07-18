@@ -8,13 +8,11 @@ TODO: generalize for more than two speceis.
 
 usage: %prog < maf > out
 """
-
-from __future__ import division
+from __future__ import division, print_function
 
 import sys
 
 import psyco_full
-
 from bx.align import maf
 
 
@@ -32,7 +30,8 @@ def __main__():
                 match += 1
             total += 1
 
-        print match / total
+        print(match / total)
 
 
-if __name__ == "__main__": __main__()
+if __name__ == "__main__":
+    __main__()

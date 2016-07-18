@@ -1,14 +1,14 @@
 """
 Tests for `bx.align.score`.
 """
-
-import bx.align.score
-import bx.align.maf
-import StringIO
-import unittest
 import sys
+import unittest
 
 from numpy import array, cumsum, allclose
+from six import StringIO
+
+import bx.align.maf
+import bx.align.score
 
 aligns = [ ( "CCACTAGTTTTTAAATAATCTACTATCAAATAAAAGATTTGTTAATAATAAATTTTAAATCATTAACACTT",
              "CCATTTGGGTTCAAAAATTGATCTATCA----------TGGTGGATTATTATTTAGCCATTAAGGACAAAT", 
@@ -70,7 +70,7 @@ class BasicTests( unittest.TestCase ):
             
     def test_align( self ):
         ss = bx.align.score.hox70
-        for block in bx.align.maf.Reader( StringIO.StringIO( mafs ) ):
+        for block in bx.align.maf.Reader( StringIO( mafs ) ):
             self.assertEquals( bx.align.score.score_alignment( ss, block ), float( block.score ) )
             
     def test_accumulate( self ):

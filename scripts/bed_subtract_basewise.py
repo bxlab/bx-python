@@ -6,9 +6,11 @@ but not by the second bed file (`bed_file_2`)
 
 usage: %prog bed_file_1 bed_file_2
 """
+from __future__ import print_function
 
 import sys
 from warnings import warn
+
 from bx.bitset_builders import binned_bitsets_from_file
 from bx.cookbook import doc_optparse
 
@@ -18,7 +20,7 @@ def print_bits_as_bed( bits ):
         start = bits.next_set( end )
         if start == bits.size: break
         end = bits.next_clear( start )
-        print "%s\t%d\t%d" % ( chrom, start, end )
+        print("%s\t%d\t%d" % ( chrom, start, end ))
 
 options, args = doc_optparse.parse( __doc__ )
 try:

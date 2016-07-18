@@ -12,10 +12,13 @@ between the windows.
 
 usage: %prog len_file gap_file window_size
 """
+from __future__ import print_function
 
-import sys
-from bx.bitset_builders import binned_bitsets_from_file
 import random
+import sys
+
+from bx.bitset_builders import binned_bitsets_from_file
+
 
 def main():
     region_fname, exclude_fname, window_size = sys.argv[1], sys.argv[2], int( sys.argv[3] ) 
@@ -47,7 +50,7 @@ def do_windows( chr, start, end, window_size ):
     s = 0
     for i in range( 0, window_count ):
         s += skip_amount
-        print chr, start + s, start + s + window_size        
+        print(chr, start + s, start + s + window_size)
         s += window_size
         
 if __name__ == "__main__":

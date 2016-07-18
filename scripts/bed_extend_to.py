@@ -6,8 +6,10 @@ size information is provided trim extended intervals.
 
 usage: %prog amount [ chrom_file ] < bed_file
 """
+from __future__ import print_function
 
 import sys
+
 from bx.intervals.io import GenomicIntervalReader
 
 length = int( sys.argv[1] )
@@ -33,4 +35,4 @@ for interval in GenomicIntervalReader( sys.stdin ):
         interval.start = start
         interval.end = end
     # Output possibly adjusted interval
-    print interval
+    print(interval)

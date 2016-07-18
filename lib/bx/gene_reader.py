@@ -8,18 +8,20 @@ formats.
 
 For gff/gtf, the start_codon stop_codon line types are merged with CDSs.
 """
+from __future__ import print_function
 
 import sys
+
 from bx.bitset import *
-from bx.bitset_utils import *
 from bx.bitset_builders import *
+from bx.bitset_utils import *
 
 def GeneReader( fh, format='gff' ):
     """ yield chrom, strand, gene_exons, name """
 
     known_formats = ( 'gff', 'gtf', 'bed')
     if format not in known_formats: 
-        print >>sys.stderr,  '%s format not in %s' % (format, ",".join( known_formats ))
+        print('%s format not in %s' % (format, ",".join( known_formats )), file=sys.stderr)
         raise Exception('?')
 
     if format == 'bed':
@@ -81,7 +83,7 @@ def CDSReader( fh, format='gff' ):
 
     known_formats = ( 'gff', 'gtf', 'bed')
     if format not in known_formats: 
-        print >>sys.stderr,  '%s format not in %s' % (format, ",".join( known_formats ))
+        print('%s format not in %s' % (format, ",".join( known_formats )), file=sys.stderr)
         raise Exception('?')
 
     if format == 'bed':
@@ -165,7 +167,7 @@ def FeatureReader( fh, format='gff', alt_introns_subtract="exons", gtf_parse=Non
 
     known_formats = ( 'gff', 'gtf', 'bed')
     if format not in known_formats: 
-        print >>sys.stderr,  '%s format not in %s' % (format, ",".join( known_formats ))
+        print('%s format not in %s' % (format, ",".join( known_formats )), file=sys.stderr)
         raise Exception('?')
 
     if format == 'bed':
