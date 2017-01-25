@@ -120,7 +120,7 @@ class QdnaFile(SeqFile):
     def read_string(self):
         s = ""
         while (True):
-            ch = self.file.read(1)
+            ch = self.file.read(1).decode()
             if (ch == chr(0)): break
             s += ch
         return s
@@ -128,7 +128,7 @@ class QdnaFile(SeqFile):
 
     def raw_fetch(self, start, length):
         self.file.seek(self.seqOffset + start)
-        return self.file.read(length)
+        return self.file.read(length).decode()
 
 
     def get_quantum(self, start, length):
