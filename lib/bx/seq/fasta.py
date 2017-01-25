@@ -52,7 +52,7 @@ class FastaFile(SeqFile):
             if (self.lookahead != None):
                 (line,self.lookahead) = (self.lookahead,None)
             else:
-                line = self.file.readline()
+                line = self.file.readline().decode()
             if (line == ""): break
             if not line:
                 break
