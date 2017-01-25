@@ -899,7 +899,7 @@ static PyObject *__pyx_codeobj__11;
 static PyObject *__pyx_codeobj__13;
 static PyObject *__pyx_codeobj__15;
 
-/* "bx/align/sitemask/_cpg.pyx":11
+/* "bx/align/sitemask/_cpg.pyx":14
  *     int next_non_cpg( char * sp1, char * sp2, int start)
  * 
  * def find_cpg( sp1, sp2, start ):             # <<<<<<<<<<<<<<
@@ -938,16 +938,16 @@ static PyObject *__pyx_pw_2bx_5align_8sitemask_4_cpg_1find_cpg(PyObject *__pyx_s
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sp2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("find_cpg", 1, 3, 3, 1); __PYX_ERR(0, 11, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("find_cpg", 1, 3, 3, 1); __PYX_ERR(0, 14, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("find_cpg", 1, 3, 3, 2); __PYX_ERR(0, 11, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("find_cpg", 1, 3, 3, 2); __PYX_ERR(0, 14, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_cpg") < 0)) __PYX_ERR(0, 11, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_cpg") < 0)) __PYX_ERR(0, 14, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -962,7 +962,7 @@ static PyObject *__pyx_pw_2bx_5align_8sitemask_4_cpg_1find_cpg(PyObject *__pyx_s
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("find_cpg", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 11, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("find_cpg", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 14, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.align.sitemask._cpg.find_cpg", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -981,60 +981,57 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_find_cpg(CYTHON_UNUSED PyOb
   int __pyx_v_pos;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  char *__pyx_t_1;
-  int __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-  int __pyx_t_4;
-  PyObject *__pyx_t_5 = NULL;
+  int __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("find_cpg", 0);
 
-  /* "bx/align/sitemask/_cpg.pyx":15
+  /* "bx/align/sitemask/_cpg.pyx":18
  *     cdef char* b
  *     cdef int pos
- *     a = sp1             # <<<<<<<<<<<<<<
- *     b = sp2
+ *     a = PyUnicode_AsUTF8(sp1)             # <<<<<<<<<<<<<<
+ *     b = PyUnicode_AsUTF8(sp2)
  *     pos = start
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_sp1); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 15, __pyx_L1_error)
-  __pyx_v_a = __pyx_t_1;
+  __pyx_v_a = PyUnicode_AsUTF8(__pyx_v_sp1);
 
-  /* "bx/align/sitemask/_cpg.pyx":16
+  /* "bx/align/sitemask/_cpg.pyx":19
  *     cdef int pos
- *     a = sp1
- *     b = sp2             # <<<<<<<<<<<<<<
+ *     a = PyUnicode_AsUTF8(sp1)
+ *     b = PyUnicode_AsUTF8(sp2)             # <<<<<<<<<<<<<<
  *     pos = start
  *     if pos > len(sp1): return -1
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_sp2); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L1_error)
-  __pyx_v_b = __pyx_t_1;
+  __pyx_v_b = PyUnicode_AsUTF8(__pyx_v_sp2);
 
-  /* "bx/align/sitemask/_cpg.pyx":17
- *     a = sp1
- *     b = sp2
+  /* "bx/align/sitemask/_cpg.pyx":20
+ *     a = PyUnicode_AsUTF8(sp1)
+ *     b = PyUnicode_AsUTF8(sp2)
  *     pos = start             # <<<<<<<<<<<<<<
  *     if pos > len(sp1): return -1
  *     return next_cpg( a, b, pos )
  */
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_start); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L1_error)
-  __pyx_v_pos = __pyx_t_2;
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_start); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_v_pos = __pyx_t_1;
 
-  /* "bx/align/sitemask/_cpg.pyx":18
- *     b = sp2
+  /* "bx/align/sitemask/_cpg.pyx":21
+ *     b = PyUnicode_AsUTF8(sp2)
  *     pos = start
  *     if pos > len(sp1): return -1             # <<<<<<<<<<<<<<
  *     return next_cpg( a, b, pos )
  * 
  */
-  __pyx_t_3 = PyObject_Length(__pyx_v_sp1); if (unlikely(__pyx_t_3 == -1)) __PYX_ERR(0, 18, __pyx_L1_error)
-  __pyx_t_4 = ((__pyx_v_pos > __pyx_t_3) != 0);
-  if (__pyx_t_4) {
+  __pyx_t_2 = PyObject_Length(__pyx_v_sp1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_3 = ((__pyx_v_pos > __pyx_t_2) != 0);
+  if (__pyx_t_3) {
     __Pyx_XDECREF(__pyx_r);
     __Pyx_INCREF(__pyx_int_neg_1);
     __pyx_r = __pyx_int_neg_1;
     goto __pyx_L0;
   }
 
-  /* "bx/align/sitemask/_cpg.pyx":19
+  /* "bx/align/sitemask/_cpg.pyx":22
  *     pos = start
  *     if pos > len(sp1): return -1
  *     return next_cpg( a, b, pos )             # <<<<<<<<<<<<<<
@@ -1042,13 +1039,13 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_find_cpg(CYTHON_UNUSED PyOb
  * def find_cpg_restricted( sp1, sp2, start ):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_5 = __Pyx_PyInt_From_int(next_cpg(__pyx_v_a, __pyx_v_b, __pyx_v_pos)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 19, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_r = __pyx_t_5;
-  __pyx_t_5 = 0;
+  __pyx_t_4 = __Pyx_PyInt_From_int(next_cpg(__pyx_v_a, __pyx_v_b, __pyx_v_pos)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_r = __pyx_t_4;
+  __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "bx/align/sitemask/_cpg.pyx":11
+  /* "bx/align/sitemask/_cpg.pyx":14
  *     int next_non_cpg( char * sp1, char * sp2, int start)
  * 
  * def find_cpg( sp1, sp2, start ):             # <<<<<<<<<<<<<<
@@ -1058,7 +1055,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_find_cpg(CYTHON_UNUSED PyOb
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("bx.align.sitemask._cpg.find_cpg", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -1067,7 +1064,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_find_cpg(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "bx/align/sitemask/_cpg.pyx":21
+/* "bx/align/sitemask/_cpg.pyx":24
  *     return next_cpg( a, b, pos )
  * 
  * def find_cpg_restricted( sp1, sp2, start ):             # <<<<<<<<<<<<<<
@@ -1106,16 +1103,16 @@ static PyObject *__pyx_pw_2bx_5align_8sitemask_4_cpg_3find_cpg_restricted(PyObje
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sp2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("find_cpg_restricted", 1, 3, 3, 1); __PYX_ERR(0, 21, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("find_cpg_restricted", 1, 3, 3, 1); __PYX_ERR(0, 24, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("find_cpg_restricted", 1, 3, 3, 2); __PYX_ERR(0, 21, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("find_cpg_restricted", 1, 3, 3, 2); __PYX_ERR(0, 24, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_cpg_restricted") < 0)) __PYX_ERR(0, 21, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_cpg_restricted") < 0)) __PYX_ERR(0, 24, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -1130,7 +1127,7 @@ static PyObject *__pyx_pw_2bx_5align_8sitemask_4_cpg_3find_cpg_restricted(PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("find_cpg_restricted", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 21, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("find_cpg_restricted", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 24, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.align.sitemask._cpg.find_cpg_restricted", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1149,60 +1146,57 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_2find_cpg_restricted(CYTHON
   int __pyx_v_pos;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  char *__pyx_t_1;
-  int __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-  int __pyx_t_4;
-  PyObject *__pyx_t_5 = NULL;
+  int __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("find_cpg_restricted", 0);
 
-  /* "bx/align/sitemask/_cpg.pyx":25
+  /* "bx/align/sitemask/_cpg.pyx":28
  *     cdef char* b
  *     cdef int pos
- *     a = sp1             # <<<<<<<<<<<<<<
- *     b = sp2
+ *     a = PyUnicode_AsUTF8(sp1)             # <<<<<<<<<<<<<<
+ *     b = PyUnicode_AsUTF8(sp2)
  *     pos = start
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_sp1); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L1_error)
-  __pyx_v_a = __pyx_t_1;
+  __pyx_v_a = PyUnicode_AsUTF8(__pyx_v_sp1);
 
-  /* "bx/align/sitemask/_cpg.pyx":26
+  /* "bx/align/sitemask/_cpg.pyx":29
  *     cdef int pos
- *     a = sp1
- *     b = sp2             # <<<<<<<<<<<<<<
+ *     a = PyUnicode_AsUTF8(sp1)
+ *     b = PyUnicode_AsUTF8(sp2)             # <<<<<<<<<<<<<<
  *     pos = start
  *     if pos > len(sp1): return -1
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_sp2); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 26, __pyx_L1_error)
-  __pyx_v_b = __pyx_t_1;
+  __pyx_v_b = PyUnicode_AsUTF8(__pyx_v_sp2);
 
-  /* "bx/align/sitemask/_cpg.pyx":27
- *     a = sp1
- *     b = sp2
+  /* "bx/align/sitemask/_cpg.pyx":30
+ *     a = PyUnicode_AsUTF8(sp1)
+ *     b = PyUnicode_AsUTF8(sp2)
  *     pos = start             # <<<<<<<<<<<<<<
  *     if pos > len(sp1): return -1
  *     return next_cpg_restricted( a, b, pos )
  */
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_start); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 27, __pyx_L1_error)
-  __pyx_v_pos = __pyx_t_2;
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_start); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_v_pos = __pyx_t_1;
 
-  /* "bx/align/sitemask/_cpg.pyx":28
- *     b = sp2
+  /* "bx/align/sitemask/_cpg.pyx":31
+ *     b = PyUnicode_AsUTF8(sp2)
  *     pos = start
  *     if pos > len(sp1): return -1             # <<<<<<<<<<<<<<
  *     return next_cpg_restricted( a, b, pos )
  * 
  */
-  __pyx_t_3 = PyObject_Length(__pyx_v_sp1); if (unlikely(__pyx_t_3 == -1)) __PYX_ERR(0, 28, __pyx_L1_error)
-  __pyx_t_4 = ((__pyx_v_pos > __pyx_t_3) != 0);
-  if (__pyx_t_4) {
+  __pyx_t_2 = PyObject_Length(__pyx_v_sp1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_3 = ((__pyx_v_pos > __pyx_t_2) != 0);
+  if (__pyx_t_3) {
     __Pyx_XDECREF(__pyx_r);
     __Pyx_INCREF(__pyx_int_neg_1);
     __pyx_r = __pyx_int_neg_1;
     goto __pyx_L0;
   }
 
-  /* "bx/align/sitemask/_cpg.pyx":29
+  /* "bx/align/sitemask/_cpg.pyx":32
  *     pos = start
  *     if pos > len(sp1): return -1
  *     return next_cpg_restricted( a, b, pos )             # <<<<<<<<<<<<<<
@@ -1210,13 +1204,13 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_2find_cpg_restricted(CYTHON
  * def find_non_cpg( sp1, sp2, start ):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_5 = __Pyx_PyInt_From_int(next_cpg_restricted(__pyx_v_a, __pyx_v_b, __pyx_v_pos)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 29, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_r = __pyx_t_5;
-  __pyx_t_5 = 0;
+  __pyx_t_4 = __Pyx_PyInt_From_int(next_cpg_restricted(__pyx_v_a, __pyx_v_b, __pyx_v_pos)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_r = __pyx_t_4;
+  __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "bx/align/sitemask/_cpg.pyx":21
+  /* "bx/align/sitemask/_cpg.pyx":24
  *     return next_cpg( a, b, pos )
  * 
  * def find_cpg_restricted( sp1, sp2, start ):             # <<<<<<<<<<<<<<
@@ -1226,7 +1220,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_2find_cpg_restricted(CYTHON
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("bx.align.sitemask._cpg.find_cpg_restricted", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -1235,7 +1229,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_2find_cpg_restricted(CYTHON
   return __pyx_r;
 }
 
-/* "bx/align/sitemask/_cpg.pyx":31
+/* "bx/align/sitemask/_cpg.pyx":34
  *     return next_cpg_restricted( a, b, pos )
  * 
  * def find_non_cpg( sp1, sp2, start ):             # <<<<<<<<<<<<<<
@@ -1274,16 +1268,16 @@ static PyObject *__pyx_pw_2bx_5align_8sitemask_4_cpg_5find_non_cpg(PyObject *__p
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sp2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("find_non_cpg", 1, 3, 3, 1); __PYX_ERR(0, 31, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("find_non_cpg", 1, 3, 3, 1); __PYX_ERR(0, 34, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("find_non_cpg", 1, 3, 3, 2); __PYX_ERR(0, 31, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("find_non_cpg", 1, 3, 3, 2); __PYX_ERR(0, 34, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_non_cpg") < 0)) __PYX_ERR(0, 31, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_non_cpg") < 0)) __PYX_ERR(0, 34, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -1298,7 +1292,7 @@ static PyObject *__pyx_pw_2bx_5align_8sitemask_4_cpg_5find_non_cpg(PyObject *__p
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("find_non_cpg", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 31, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("find_non_cpg", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 34, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.align.sitemask._cpg.find_non_cpg", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1317,60 +1311,57 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_4find_non_cpg(CYTHON_UNUSED
   int __pyx_v_pos;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  char *__pyx_t_1;
-  int __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-  int __pyx_t_4;
-  PyObject *__pyx_t_5 = NULL;
+  int __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("find_non_cpg", 0);
 
-  /* "bx/align/sitemask/_cpg.pyx":35
+  /* "bx/align/sitemask/_cpg.pyx":38
  *     cdef char* b
  *     cdef int pos
- *     a = sp1             # <<<<<<<<<<<<<<
- *     b = sp2
+ *     a = PyUnicode_AsUTF8(sp1)             # <<<<<<<<<<<<<<
+ *     b = PyUnicode_AsUTF8(sp2)
  *     pos = start
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_sp1); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 35, __pyx_L1_error)
-  __pyx_v_a = __pyx_t_1;
+  __pyx_v_a = PyUnicode_AsUTF8(__pyx_v_sp1);
 
-  /* "bx/align/sitemask/_cpg.pyx":36
+  /* "bx/align/sitemask/_cpg.pyx":39
  *     cdef int pos
- *     a = sp1
- *     b = sp2             # <<<<<<<<<<<<<<
+ *     a = PyUnicode_AsUTF8(sp1)
+ *     b = PyUnicode_AsUTF8(sp2)             # <<<<<<<<<<<<<<
  *     pos = start
  *     if pos > len(sp1): return -1
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_sp2); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 36, __pyx_L1_error)
-  __pyx_v_b = __pyx_t_1;
+  __pyx_v_b = PyUnicode_AsUTF8(__pyx_v_sp2);
 
-  /* "bx/align/sitemask/_cpg.pyx":37
- *     a = sp1
- *     b = sp2
+  /* "bx/align/sitemask/_cpg.pyx":40
+ *     a = PyUnicode_AsUTF8(sp1)
+ *     b = PyUnicode_AsUTF8(sp2)
  *     pos = start             # <<<<<<<<<<<<<<
  *     if pos > len(sp1): return -1
  *     return next_non_cpg( a, b, pos )
  */
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_start); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 37, __pyx_L1_error)
-  __pyx_v_pos = __pyx_t_2;
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_start); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_v_pos = __pyx_t_1;
 
-  /* "bx/align/sitemask/_cpg.pyx":38
- *     b = sp2
+  /* "bx/align/sitemask/_cpg.pyx":41
+ *     b = PyUnicode_AsUTF8(sp2)
  *     pos = start
  *     if pos > len(sp1): return -1             # <<<<<<<<<<<<<<
  *     return next_non_cpg( a, b, pos )
  * 
  */
-  __pyx_t_3 = PyObject_Length(__pyx_v_sp1); if (unlikely(__pyx_t_3 == -1)) __PYX_ERR(0, 38, __pyx_L1_error)
-  __pyx_t_4 = ((__pyx_v_pos > __pyx_t_3) != 0);
-  if (__pyx_t_4) {
+  __pyx_t_2 = PyObject_Length(__pyx_v_sp1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_3 = ((__pyx_v_pos > __pyx_t_2) != 0);
+  if (__pyx_t_3) {
     __Pyx_XDECREF(__pyx_r);
     __Pyx_INCREF(__pyx_int_neg_1);
     __pyx_r = __pyx_int_neg_1;
     goto __pyx_L0;
   }
 
-  /* "bx/align/sitemask/_cpg.pyx":39
+  /* "bx/align/sitemask/_cpg.pyx":42
  *     pos = start
  *     if pos > len(sp1): return -1
  *     return next_non_cpg( a, b, pos )             # <<<<<<<<<<<<<<
@@ -1378,13 +1369,13 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_4find_non_cpg(CYTHON_UNUSED
  * def list_cpg( sp1, sp2 ):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_5 = __Pyx_PyInt_From_int(next_non_cpg(__pyx_v_a, __pyx_v_b, __pyx_v_pos)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_r = __pyx_t_5;
-  __pyx_t_5 = 0;
+  __pyx_t_4 = __Pyx_PyInt_From_int(next_non_cpg(__pyx_v_a, __pyx_v_b, __pyx_v_pos)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_r = __pyx_t_4;
+  __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "bx/align/sitemask/_cpg.pyx":31
+  /* "bx/align/sitemask/_cpg.pyx":34
  *     return next_cpg_restricted( a, b, pos )
  * 
  * def find_non_cpg( sp1, sp2, start ):             # <<<<<<<<<<<<<<
@@ -1394,7 +1385,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_4find_non_cpg(CYTHON_UNUSED
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("bx.align.sitemask._cpg.find_non_cpg", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -1403,7 +1394,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_4find_non_cpg(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "bx/align/sitemask/_cpg.pyx":41
+/* "bx/align/sitemask/_cpg.pyx":44
  *     return next_non_cpg( a, b, pos )
  * 
  * def list_cpg( sp1, sp2 ):             # <<<<<<<<<<<<<<
@@ -1440,11 +1431,11 @@ static PyObject *__pyx_pw_2bx_5align_8sitemask_4_cpg_7list_cpg(PyObject *__pyx_s
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sp2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("list_cpg", 1, 2, 2, 1); __PYX_ERR(0, 41, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("list_cpg", 1, 2, 2, 1); __PYX_ERR(0, 44, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "list_cpg") < 0)) __PYX_ERR(0, 41, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "list_cpg") < 0)) __PYX_ERR(0, 44, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1457,7 +1448,7 @@ static PyObject *__pyx_pw_2bx_5align_8sitemask_4_cpg_7list_cpg(PyObject *__pyx_s
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("list_cpg", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 41, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("list_cpg", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 44, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.align.sitemask._cpg.list_cpg", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1477,56 +1468,53 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_6list_cpg(CYTHON_UNUSED PyO
   PyObject *__pyx_v_cpglist = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  char *__pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
   int __pyx_t_3;
-  int __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
-  int __pyx_t_6;
+  Py_ssize_t __pyx_t_4;
+  int __pyx_t_5;
   __Pyx_RefNannySetupContext("list_cpg", 0);
 
-  /* "bx/align/sitemask/_cpg.pyx":45
+  /* "bx/align/sitemask/_cpg.pyx":48
  *     cdef char * b
  *     cdef int start
- *     a = sp1             # <<<<<<<<<<<<<<
- *     b = sp2
+ *     a = PyUnicode_AsUTF8(sp1)             # <<<<<<<<<<<<<<
+ *     b = PyUnicode_AsUTF8(sp2)
  *     start = 0
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_sp1); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L1_error)
-  __pyx_v_a = __pyx_t_1;
+  __pyx_v_a = PyUnicode_AsUTF8(__pyx_v_sp1);
 
-  /* "bx/align/sitemask/_cpg.pyx":46
+  /* "bx/align/sitemask/_cpg.pyx":49
  *     cdef int start
- *     a = sp1
- *     b = sp2             # <<<<<<<<<<<<<<
+ *     a = PyUnicode_AsUTF8(sp1)
+ *     b = PyUnicode_AsUTF8(sp2)             # <<<<<<<<<<<<<<
  *     start = 0
  *     cpglist = list()
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_sp2); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L1_error)
-  __pyx_v_b = __pyx_t_1;
+  __pyx_v_b = PyUnicode_AsUTF8(__pyx_v_sp2);
 
-  /* "bx/align/sitemask/_cpg.pyx":47
- *     a = sp1
- *     b = sp2
+  /* "bx/align/sitemask/_cpg.pyx":50
+ *     a = PyUnicode_AsUTF8(sp1)
+ *     b = PyUnicode_AsUTF8(sp2)
  *     start = 0             # <<<<<<<<<<<<<<
  *     cpglist = list()
  *     while start > -1 and start < len(sp1):
  */
   __pyx_v_start = 0;
 
-  /* "bx/align/sitemask/_cpg.pyx":48
- *     b = sp2
+  /* "bx/align/sitemask/_cpg.pyx":51
+ *     b = PyUnicode_AsUTF8(sp2)
  *     start = 0
  *     cpglist = list()             # <<<<<<<<<<<<<<
  *     while start > -1 and start < len(sp1):
  *         start = next_cpg( a, b, start )
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_v_cpglist = ((PyObject*)__pyx_t_2);
-  __pyx_t_2 = 0;
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_cpglist = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
 
-  /* "bx/align/sitemask/_cpg.pyx":49
+  /* "bx/align/sitemask/_cpg.pyx":52
  *     start = 0
  *     cpglist = list()
  *     while start > -1 and start < len(sp1):             # <<<<<<<<<<<<<<
@@ -1534,19 +1522,19 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_6list_cpg(CYTHON_UNUSED PyO
  *         if start == -1: break
  */
   while (1) {
-    __pyx_t_4 = ((__pyx_v_start > -1L) != 0);
-    if (__pyx_t_4) {
+    __pyx_t_3 = ((__pyx_v_start > -1L) != 0);
+    if (__pyx_t_3) {
     } else {
-      __pyx_t_3 = __pyx_t_4;
+      __pyx_t_2 = __pyx_t_3;
       goto __pyx_L5_bool_binop_done;
     }
-    __pyx_t_5 = PyObject_Length(__pyx_v_sp1); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 49, __pyx_L1_error)
-    __pyx_t_4 = ((__pyx_v_start < __pyx_t_5) != 0);
-    __pyx_t_3 = __pyx_t_4;
+    __pyx_t_4 = PyObject_Length(__pyx_v_sp1); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_3 = ((__pyx_v_start < __pyx_t_4) != 0);
+    __pyx_t_2 = __pyx_t_3;
     __pyx_L5_bool_binop_done:;
-    if (!__pyx_t_3) break;
+    if (!__pyx_t_2) break;
 
-    /* "bx/align/sitemask/_cpg.pyx":50
+    /* "bx/align/sitemask/_cpg.pyx":53
  *     cpglist = list()
  *     while start > -1 and start < len(sp1):
  *         start = next_cpg( a, b, start )             # <<<<<<<<<<<<<<
@@ -1555,31 +1543,31 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_6list_cpg(CYTHON_UNUSED PyO
  */
     __pyx_v_start = next_cpg(__pyx_v_a, __pyx_v_b, __pyx_v_start);
 
-    /* "bx/align/sitemask/_cpg.pyx":51
+    /* "bx/align/sitemask/_cpg.pyx":54
  *     while start > -1 and start < len(sp1):
  *         start = next_cpg( a, b, start )
  *         if start == -1: break             # <<<<<<<<<<<<<<
  *         cpglist.append(start)
  *         start = start + 1
  */
-    __pyx_t_3 = ((__pyx_v_start == -1L) != 0);
-    if (__pyx_t_3) {
+    __pyx_t_2 = ((__pyx_v_start == -1L) != 0);
+    if (__pyx_t_2) {
       goto __pyx_L4_break;
     }
 
-    /* "bx/align/sitemask/_cpg.pyx":52
+    /* "bx/align/sitemask/_cpg.pyx":55
  *         start = next_cpg( a, b, start )
  *         if start == -1: break
  *         cpglist.append(start)             # <<<<<<<<<<<<<<
  *         start = start + 1
  *     return cpglist
  */
-    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_cpglist, __pyx_t_2); if (unlikely(__pyx_t_6 == -1)) __PYX_ERR(0, 52, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_cpglist, __pyx_t_1); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "bx/align/sitemask/_cpg.pyx":53
+    /* "bx/align/sitemask/_cpg.pyx":56
  *         if start == -1: break
  *         cpglist.append(start)
  *         start = start + 1             # <<<<<<<<<<<<<<
@@ -1590,7 +1578,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_6list_cpg(CYTHON_UNUSED PyO
   }
   __pyx_L4_break:;
 
-  /* "bx/align/sitemask/_cpg.pyx":54
+  /* "bx/align/sitemask/_cpg.pyx":57
  *         cpglist.append(start)
  *         start = start + 1
  *     return cpglist             # <<<<<<<<<<<<<<
@@ -1602,7 +1590,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_6list_cpg(CYTHON_UNUSED PyO
   __pyx_r = __pyx_v_cpglist;
   goto __pyx_L0;
 
-  /* "bx/align/sitemask/_cpg.pyx":41
+  /* "bx/align/sitemask/_cpg.pyx":44
  *     return next_non_cpg( a, b, pos )
  * 
  * def list_cpg( sp1, sp2 ):             # <<<<<<<<<<<<<<
@@ -1612,7 +1600,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_6list_cpg(CYTHON_UNUSED PyO
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_1);
   __Pyx_AddTraceback("bx.align.sitemask._cpg.list_cpg", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -1622,7 +1610,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_6list_cpg(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "bx/align/sitemask/_cpg.pyx":56
+/* "bx/align/sitemask/_cpg.pyx":59
  *     return cpglist
  * 
  * def list_cpg_restricted( sp1, sp2 ):             # <<<<<<<<<<<<<<
@@ -1659,11 +1647,11 @@ static PyObject *__pyx_pw_2bx_5align_8sitemask_4_cpg_9list_cpg_restricted(PyObje
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sp2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("list_cpg_restricted", 1, 2, 2, 1); __PYX_ERR(0, 56, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("list_cpg_restricted", 1, 2, 2, 1); __PYX_ERR(0, 59, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "list_cpg_restricted") < 0)) __PYX_ERR(0, 56, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "list_cpg_restricted") < 0)) __PYX_ERR(0, 59, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1676,7 +1664,7 @@ static PyObject *__pyx_pw_2bx_5align_8sitemask_4_cpg_9list_cpg_restricted(PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("list_cpg_restricted", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 56, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("list_cpg_restricted", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 59, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.align.sitemask._cpg.list_cpg_restricted", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1696,56 +1684,53 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_8list_cpg_restricted(CYTHON
   PyObject *__pyx_v_cpglist = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  char *__pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
   int __pyx_t_3;
-  int __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
-  int __pyx_t_6;
+  Py_ssize_t __pyx_t_4;
+  int __pyx_t_5;
   __Pyx_RefNannySetupContext("list_cpg_restricted", 0);
 
-  /* "bx/align/sitemask/_cpg.pyx":60
+  /* "bx/align/sitemask/_cpg.pyx":63
  *     cdef char * b
  *     cdef int start
- *     a = sp1             # <<<<<<<<<<<<<<
- *     b = sp2
+ *     a = PyUnicode_AsUTF8(sp1)             # <<<<<<<<<<<<<<
+ *     b = PyUnicode_AsUTF8(sp2)
  *     start = 0
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_sp1); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 60, __pyx_L1_error)
-  __pyx_v_a = __pyx_t_1;
+  __pyx_v_a = PyUnicode_AsUTF8(__pyx_v_sp1);
 
-  /* "bx/align/sitemask/_cpg.pyx":61
+  /* "bx/align/sitemask/_cpg.pyx":64
  *     cdef int start
- *     a = sp1
- *     b = sp2             # <<<<<<<<<<<<<<
+ *     a = PyUnicode_AsUTF8(sp1)
+ *     b = PyUnicode_AsUTF8(sp2)             # <<<<<<<<<<<<<<
  *     start = 0
  *     cpglist = list()
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_sp2); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L1_error)
-  __pyx_v_b = __pyx_t_1;
+  __pyx_v_b = PyUnicode_AsUTF8(__pyx_v_sp2);
 
-  /* "bx/align/sitemask/_cpg.pyx":62
- *     a = sp1
- *     b = sp2
+  /* "bx/align/sitemask/_cpg.pyx":65
+ *     a = PyUnicode_AsUTF8(sp1)
+ *     b = PyUnicode_AsUTF8(sp2)
  *     start = 0             # <<<<<<<<<<<<<<
  *     cpglist = list()
  *     while start > -1 and start < len(sp1):
  */
   __pyx_v_start = 0;
 
-  /* "bx/align/sitemask/_cpg.pyx":63
- *     b = sp2
+  /* "bx/align/sitemask/_cpg.pyx":66
+ *     b = PyUnicode_AsUTF8(sp2)
  *     start = 0
  *     cpglist = list()             # <<<<<<<<<<<<<<
  *     while start > -1 and start < len(sp1):
  *         start = next_cpg_restricted( a, b, start )
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_v_cpglist = ((PyObject*)__pyx_t_2);
-  __pyx_t_2 = 0;
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_cpglist = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
 
-  /* "bx/align/sitemask/_cpg.pyx":64
+  /* "bx/align/sitemask/_cpg.pyx":67
  *     start = 0
  *     cpglist = list()
  *     while start > -1 and start < len(sp1):             # <<<<<<<<<<<<<<
@@ -1753,19 +1738,19 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_8list_cpg_restricted(CYTHON
  *         if start == -1: break
  */
   while (1) {
-    __pyx_t_4 = ((__pyx_v_start > -1L) != 0);
-    if (__pyx_t_4) {
+    __pyx_t_3 = ((__pyx_v_start > -1L) != 0);
+    if (__pyx_t_3) {
     } else {
-      __pyx_t_3 = __pyx_t_4;
+      __pyx_t_2 = __pyx_t_3;
       goto __pyx_L5_bool_binop_done;
     }
-    __pyx_t_5 = PyObject_Length(__pyx_v_sp1); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 64, __pyx_L1_error)
-    __pyx_t_4 = ((__pyx_v_start < __pyx_t_5) != 0);
-    __pyx_t_3 = __pyx_t_4;
+    __pyx_t_4 = PyObject_Length(__pyx_v_sp1); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_3 = ((__pyx_v_start < __pyx_t_4) != 0);
+    __pyx_t_2 = __pyx_t_3;
     __pyx_L5_bool_binop_done:;
-    if (!__pyx_t_3) break;
+    if (!__pyx_t_2) break;
 
-    /* "bx/align/sitemask/_cpg.pyx":65
+    /* "bx/align/sitemask/_cpg.pyx":68
  *     cpglist = list()
  *     while start > -1 and start < len(sp1):
  *         start = next_cpg_restricted( a, b, start )             # <<<<<<<<<<<<<<
@@ -1774,31 +1759,31 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_8list_cpg_restricted(CYTHON
  */
     __pyx_v_start = next_cpg_restricted(__pyx_v_a, __pyx_v_b, __pyx_v_start);
 
-    /* "bx/align/sitemask/_cpg.pyx":66
+    /* "bx/align/sitemask/_cpg.pyx":69
  *     while start > -1 and start < len(sp1):
  *         start = next_cpg_restricted( a, b, start )
  *         if start == -1: break             # <<<<<<<<<<<<<<
  *         cpglist.append(start)
  *         start = start + 1
  */
-    __pyx_t_3 = ((__pyx_v_start == -1L) != 0);
-    if (__pyx_t_3) {
+    __pyx_t_2 = ((__pyx_v_start == -1L) != 0);
+    if (__pyx_t_2) {
       goto __pyx_L4_break;
     }
 
-    /* "bx/align/sitemask/_cpg.pyx":67
+    /* "bx/align/sitemask/_cpg.pyx":70
  *         start = next_cpg_restricted( a, b, start )
  *         if start == -1: break
  *         cpglist.append(start)             # <<<<<<<<<<<<<<
  *         start = start + 1
  *     return cpglist
  */
-    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_cpglist, __pyx_t_2); if (unlikely(__pyx_t_6 == -1)) __PYX_ERR(0, 67, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_cpglist, __pyx_t_1); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "bx/align/sitemask/_cpg.pyx":68
+    /* "bx/align/sitemask/_cpg.pyx":71
  *         if start == -1: break
  *         cpglist.append(start)
  *         start = start + 1             # <<<<<<<<<<<<<<
@@ -1809,7 +1794,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_8list_cpg_restricted(CYTHON
   }
   __pyx_L4_break:;
 
-  /* "bx/align/sitemask/_cpg.pyx":69
+  /* "bx/align/sitemask/_cpg.pyx":72
  *         cpglist.append(start)
  *         start = start + 1
  *     return cpglist             # <<<<<<<<<<<<<<
@@ -1821,7 +1806,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_8list_cpg_restricted(CYTHON
   __pyx_r = __pyx_v_cpglist;
   goto __pyx_L0;
 
-  /* "bx/align/sitemask/_cpg.pyx":56
+  /* "bx/align/sitemask/_cpg.pyx":59
  *     return cpglist
  * 
  * def list_cpg_restricted( sp1, sp2 ):             # <<<<<<<<<<<<<<
@@ -1831,7 +1816,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_8list_cpg_restricted(CYTHON
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_1);
   __Pyx_AddTraceback("bx.align.sitemask._cpg.list_cpg_restricted", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -1841,7 +1826,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_8list_cpg_restricted(CYTHON
   return __pyx_r;
 }
 
-/* "bx/align/sitemask/_cpg.pyx":71
+/* "bx/align/sitemask/_cpg.pyx":74
  *     return cpglist
  * 
  * def list_non_cpg( sp1, sp2 ):             # <<<<<<<<<<<<<<
@@ -1878,11 +1863,11 @@ static PyObject *__pyx_pw_2bx_5align_8sitemask_4_cpg_11list_non_cpg(PyObject *__
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sp2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("list_non_cpg", 1, 2, 2, 1); __PYX_ERR(0, 71, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("list_non_cpg", 1, 2, 2, 1); __PYX_ERR(0, 74, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "list_non_cpg") < 0)) __PYX_ERR(0, 71, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "list_non_cpg") < 0)) __PYX_ERR(0, 74, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1895,7 +1880,7 @@ static PyObject *__pyx_pw_2bx_5align_8sitemask_4_cpg_11list_non_cpg(PyObject *__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("list_non_cpg", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 71, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("list_non_cpg", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 74, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.align.sitemask._cpg.list_non_cpg", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1915,56 +1900,53 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_10list_non_cpg(CYTHON_UNUSE
   PyObject *__pyx_v_cpglist = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  char *__pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
   int __pyx_t_3;
-  int __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
-  int __pyx_t_6;
+  Py_ssize_t __pyx_t_4;
+  int __pyx_t_5;
   __Pyx_RefNannySetupContext("list_non_cpg", 0);
 
-  /* "bx/align/sitemask/_cpg.pyx":75
+  /* "bx/align/sitemask/_cpg.pyx":78
  *     cdef char * b
  *     cdef int start
- *     a = sp1             # <<<<<<<<<<<<<<
- *     b = sp2
+ *     a = PyUnicode_AsUTF8(sp1)             # <<<<<<<<<<<<<<
+ *     b = PyUnicode_AsUTF8(sp2)
  *     start = 0
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_sp1); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L1_error)
-  __pyx_v_a = __pyx_t_1;
+  __pyx_v_a = PyUnicode_AsUTF8(__pyx_v_sp1);
 
-  /* "bx/align/sitemask/_cpg.pyx":76
+  /* "bx/align/sitemask/_cpg.pyx":79
  *     cdef int start
- *     a = sp1
- *     b = sp2             # <<<<<<<<<<<<<<
+ *     a = PyUnicode_AsUTF8(sp1)
+ *     b = PyUnicode_AsUTF8(sp2)             # <<<<<<<<<<<<<<
  *     start = 0
  *     cpglist = list()
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_sp2); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L1_error)
-  __pyx_v_b = __pyx_t_1;
+  __pyx_v_b = PyUnicode_AsUTF8(__pyx_v_sp2);
 
-  /* "bx/align/sitemask/_cpg.pyx":77
- *     a = sp1
- *     b = sp2
+  /* "bx/align/sitemask/_cpg.pyx":80
+ *     a = PyUnicode_AsUTF8(sp1)
+ *     b = PyUnicode_AsUTF8(sp2)
  *     start = 0             # <<<<<<<<<<<<<<
  *     cpglist = list()
  *     while start > -1 and start < len(sp1):
  */
   __pyx_v_start = 0;
 
-  /* "bx/align/sitemask/_cpg.pyx":78
- *     b = sp2
+  /* "bx/align/sitemask/_cpg.pyx":81
+ *     b = PyUnicode_AsUTF8(sp2)
  *     start = 0
  *     cpglist = list()             # <<<<<<<<<<<<<<
  *     while start > -1 and start < len(sp1):
  *         start = next_non_cpg( a, b, start )
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_v_cpglist = ((PyObject*)__pyx_t_2);
-  __pyx_t_2 = 0;
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_cpglist = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
 
-  /* "bx/align/sitemask/_cpg.pyx":79
+  /* "bx/align/sitemask/_cpg.pyx":82
  *     start = 0
  *     cpglist = list()
  *     while start > -1 and start < len(sp1):             # <<<<<<<<<<<<<<
@@ -1972,19 +1954,19 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_10list_non_cpg(CYTHON_UNUSE
  *         if start == -1: break
  */
   while (1) {
-    __pyx_t_4 = ((__pyx_v_start > -1L) != 0);
-    if (__pyx_t_4) {
+    __pyx_t_3 = ((__pyx_v_start > -1L) != 0);
+    if (__pyx_t_3) {
     } else {
-      __pyx_t_3 = __pyx_t_4;
+      __pyx_t_2 = __pyx_t_3;
       goto __pyx_L5_bool_binop_done;
     }
-    __pyx_t_5 = PyObject_Length(__pyx_v_sp1); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 79, __pyx_L1_error)
-    __pyx_t_4 = ((__pyx_v_start < __pyx_t_5) != 0);
-    __pyx_t_3 = __pyx_t_4;
+    __pyx_t_4 = PyObject_Length(__pyx_v_sp1); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_3 = ((__pyx_v_start < __pyx_t_4) != 0);
+    __pyx_t_2 = __pyx_t_3;
     __pyx_L5_bool_binop_done:;
-    if (!__pyx_t_3) break;
+    if (!__pyx_t_2) break;
 
-    /* "bx/align/sitemask/_cpg.pyx":80
+    /* "bx/align/sitemask/_cpg.pyx":83
  *     cpglist = list()
  *     while start > -1 and start < len(sp1):
  *         start = next_non_cpg( a, b, start )             # <<<<<<<<<<<<<<
@@ -1993,31 +1975,31 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_10list_non_cpg(CYTHON_UNUSE
  */
     __pyx_v_start = next_non_cpg(__pyx_v_a, __pyx_v_b, __pyx_v_start);
 
-    /* "bx/align/sitemask/_cpg.pyx":81
+    /* "bx/align/sitemask/_cpg.pyx":84
  *     while start > -1 and start < len(sp1):
  *         start = next_non_cpg( a, b, start )
  *         if start == -1: break             # <<<<<<<<<<<<<<
  *         cpglist.append(start)
  *         start = start + 1
  */
-    __pyx_t_3 = ((__pyx_v_start == -1L) != 0);
-    if (__pyx_t_3) {
+    __pyx_t_2 = ((__pyx_v_start == -1L) != 0);
+    if (__pyx_t_2) {
       goto __pyx_L4_break;
     }
 
-    /* "bx/align/sitemask/_cpg.pyx":82
+    /* "bx/align/sitemask/_cpg.pyx":85
  *         start = next_non_cpg( a, b, start )
  *         if start == -1: break
  *         cpglist.append(start)             # <<<<<<<<<<<<<<
  *         start = start + 1
  *     return cpglist
  */
-    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_cpglist, __pyx_t_2); if (unlikely(__pyx_t_6 == -1)) __PYX_ERR(0, 82, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_cpglist, __pyx_t_1); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 85, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "bx/align/sitemask/_cpg.pyx":83
+    /* "bx/align/sitemask/_cpg.pyx":86
  *         if start == -1: break
  *         cpglist.append(start)
  *         start = start + 1             # <<<<<<<<<<<<<<
@@ -2028,7 +2010,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_10list_non_cpg(CYTHON_UNUSE
   }
   __pyx_L4_break:;
 
-  /* "bx/align/sitemask/_cpg.pyx":84
+  /* "bx/align/sitemask/_cpg.pyx":87
  *         cpglist.append(start)
  *         start = start + 1
  *     return cpglist             # <<<<<<<<<<<<<<
@@ -2040,7 +2022,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_10list_non_cpg(CYTHON_UNUSE
   __pyx_r = __pyx_v_cpglist;
   goto __pyx_L0;
 
-  /* "bx/align/sitemask/_cpg.pyx":71
+  /* "bx/align/sitemask/_cpg.pyx":74
  *     return cpglist
  * 
  * def list_non_cpg( sp1, sp2 ):             # <<<<<<<<<<<<<<
@@ -2050,7 +2032,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_10list_non_cpg(CYTHON_UNUSE
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_1);
   __Pyx_AddTraceback("bx.align.sitemask._cpg.list_non_cpg", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -2060,7 +2042,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_10list_non_cpg(CYTHON_UNUSE
   return __pyx_r;
 }
 
-/* "bx/align/sitemask/_cpg.pyx":86
+/* "bx/align/sitemask/_cpg.pyx":89
  *     return cpglist
  * 
  * def remove_gaps( sp, cpglist ):             # <<<<<<<<<<<<<<
@@ -2097,11 +2079,11 @@ static PyObject *__pyx_pw_2bx_5align_8sitemask_4_cpg_13remove_gaps(PyObject *__p
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_cpglist)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("remove_gaps", 1, 2, 2, 1); __PYX_ERR(0, 86, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("remove_gaps", 1, 2, 2, 1); __PYX_ERR(0, 89, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "remove_gaps") < 0)) __PYX_ERR(0, 86, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "remove_gaps") < 0)) __PYX_ERR(0, 89, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2114,7 +2096,7 @@ static PyObject *__pyx_pw_2bx_5align_8sitemask_4_cpg_13remove_gaps(PyObject *__p
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("remove_gaps", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 86, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("remove_gaps", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 89, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.align.sitemask._cpg.remove_gaps", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2141,7 +2123,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_12remove_gaps(CYTHON_UNUSED
   PyObject *__pyx_t_8 = NULL;
   __Pyx_RefNannySetupContext("remove_gaps", 0);
 
-  /* "bx/align/sitemask/_cpg.pyx":87
+  /* "bx/align/sitemask/_cpg.pyx":90
  * 
  * def remove_gaps( sp, cpglist ):
  *     for item in cpglist:             # <<<<<<<<<<<<<<
@@ -2152,26 +2134,26 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_12remove_gaps(CYTHON_UNUSED
     __pyx_t_1 = __pyx_v_cpglist; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_cpglist); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_cpglist); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 87, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 90, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 87, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 90, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 87, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 90, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 87, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 90, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -2181,7 +2163,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_12remove_gaps(CYTHON_UNUSED
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 87, __pyx_L1_error)
+          else __PYX_ERR(0, 90, __pyx_L1_error)
         }
         break;
       }
@@ -2190,26 +2172,26 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_12remove_gaps(CYTHON_UNUSED
     __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "bx/align/sitemask/_cpg.pyx":88
+    /* "bx/align/sitemask/_cpg.pyx":91
  * def remove_gaps( sp, cpglist ):
  *     for item in cpglist:
  *         if sp[item] == '-':             # <<<<<<<<<<<<<<
  *             cpglist.remove(item)
  *     return cpglist
  */
-    __pyx_t_4 = PyObject_GetItem(__pyx_v_sp, __pyx_v_item); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
+    __pyx_t_4 = PyObject_GetItem(__pyx_v_sp, __pyx_v_item); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 91, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = (__Pyx_PyString_Equals(__pyx_t_4, __pyx_kp_s_, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 88, __pyx_L1_error)
+    __pyx_t_5 = (__Pyx_PyString_Equals(__pyx_t_4, __pyx_kp_s_, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 91, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_5) {
 
-      /* "bx/align/sitemask/_cpg.pyx":89
+      /* "bx/align/sitemask/_cpg.pyx":92
  *     for item in cpglist:
  *         if sp[item] == '-':
  *             cpglist.remove(item)             # <<<<<<<<<<<<<<
  *     return cpglist
  */
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_cpglist, __pyx_n_s_remove); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 89, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_cpglist, __pyx_n_s_remove); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_7 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -2222,13 +2204,13 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_12remove_gaps(CYTHON_UNUSED
         }
       }
       if (!__pyx_t_7) {
-        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_item); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_item); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_6)) {
           PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_item};
-          __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_GOTREF(__pyx_t_4);
         } else
@@ -2236,19 +2218,19 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_12remove_gaps(CYTHON_UNUSED
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
           PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_item};
-          __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_GOTREF(__pyx_t_4);
         } else
         #endif
         {
-          __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 89, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 92, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7); __pyx_t_7 = NULL;
           __Pyx_INCREF(__pyx_v_item);
           __Pyx_GIVEREF(__pyx_v_item);
           PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_v_item);
-          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         }
@@ -2256,7 +2238,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_12remove_gaps(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "bx/align/sitemask/_cpg.pyx":88
+      /* "bx/align/sitemask/_cpg.pyx":91
  * def remove_gaps( sp, cpglist ):
  *     for item in cpglist:
  *         if sp[item] == '-':             # <<<<<<<<<<<<<<
@@ -2265,7 +2247,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_12remove_gaps(CYTHON_UNUSED
  */
     }
 
-    /* "bx/align/sitemask/_cpg.pyx":87
+    /* "bx/align/sitemask/_cpg.pyx":90
  * 
  * def remove_gaps( sp, cpglist ):
  *     for item in cpglist:             # <<<<<<<<<<<<<<
@@ -2275,7 +2257,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_12remove_gaps(CYTHON_UNUSED
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/align/sitemask/_cpg.pyx":90
+  /* "bx/align/sitemask/_cpg.pyx":93
  *         if sp[item] == '-':
  *             cpglist.remove(item)
  *     return cpglist             # <<<<<<<<<<<<<<
@@ -2285,7 +2267,7 @@ static PyObject *__pyx_pf_2bx_5align_8sitemask_4_cpg_12remove_gaps(CYTHON_UNUSED
   __pyx_r = __pyx_v_cpglist;
   goto __pyx_L0;
 
-  /* "bx/align/sitemask/_cpg.pyx":86
+  /* "bx/align/sitemask/_cpg.pyx":89
  *     return cpglist
  * 
  * def remove_gaps( sp, cpglist ):             # <<<<<<<<<<<<<<
@@ -2364,89 +2346,89 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "bx/align/sitemask/_cpg.pyx":11
+  /* "bx/align/sitemask/_cpg.pyx":14
  *     int next_non_cpg( char * sp1, char * sp2, int start)
  * 
  * def find_cpg( sp1, sp2, start ):             # <<<<<<<<<<<<<<
  *     cdef char* a
  *     cdef char* b
  */
-  __pyx_tuple__2 = PyTuple_Pack(6, __pyx_n_s_sp1, __pyx_n_s_sp2, __pyx_n_s_start, __pyx_n_s_a, __pyx_n_s_b, __pyx_n_s_pos); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(6, __pyx_n_s_sp1, __pyx_n_s_sp2, __pyx_n_s_start, __pyx_n_s_a, __pyx_n_s_b, __pyx_n_s_pos); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
-  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_find_cpg, 11, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_find_cpg, 14, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 14, __pyx_L1_error)
 
-  /* "bx/align/sitemask/_cpg.pyx":21
+  /* "bx/align/sitemask/_cpg.pyx":24
  *     return next_cpg( a, b, pos )
  * 
  * def find_cpg_restricted( sp1, sp2, start ):             # <<<<<<<<<<<<<<
  *     cdef char* a
  *     cdef char* b
  */
-  __pyx_tuple__4 = PyTuple_Pack(6, __pyx_n_s_sp1, __pyx_n_s_sp2, __pyx_n_s_start, __pyx_n_s_a, __pyx_n_s_b, __pyx_n_s_pos); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(6, __pyx_n_s_sp1, __pyx_n_s_sp2, __pyx_n_s_start, __pyx_n_s_a, __pyx_n_s_b, __pyx_n_s_pos); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_find_cpg_restricted, 21, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_find_cpg_restricted, 24, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 24, __pyx_L1_error)
 
-  /* "bx/align/sitemask/_cpg.pyx":31
+  /* "bx/align/sitemask/_cpg.pyx":34
  *     return next_cpg_restricted( a, b, pos )
  * 
  * def find_non_cpg( sp1, sp2, start ):             # <<<<<<<<<<<<<<
  *     cdef char* a
  *     cdef char* b
  */
-  __pyx_tuple__6 = PyTuple_Pack(6, __pyx_n_s_sp1, __pyx_n_s_sp2, __pyx_n_s_start, __pyx_n_s_a, __pyx_n_s_b, __pyx_n_s_pos); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(6, __pyx_n_s_sp1, __pyx_n_s_sp2, __pyx_n_s_start, __pyx_n_s_a, __pyx_n_s_b, __pyx_n_s_pos); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_find_non_cpg, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_find_non_cpg, 34, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 34, __pyx_L1_error)
 
-  /* "bx/align/sitemask/_cpg.pyx":41
+  /* "bx/align/sitemask/_cpg.pyx":44
  *     return next_non_cpg( a, b, pos )
  * 
  * def list_cpg( sp1, sp2 ):             # <<<<<<<<<<<<<<
  *     cdef char * a
  *     cdef char * b
  */
-  __pyx_tuple__8 = PyTuple_Pack(6, __pyx_n_s_sp1, __pyx_n_s_sp2, __pyx_n_s_a, __pyx_n_s_b, __pyx_n_s_start, __pyx_n_s_cpglist); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(6, __pyx_n_s_sp1, __pyx_n_s_sp2, __pyx_n_s_a, __pyx_n_s_b, __pyx_n_s_start, __pyx_n_s_cpglist); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_list_cpg, 41, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_list_cpg, 44, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 44, __pyx_L1_error)
 
-  /* "bx/align/sitemask/_cpg.pyx":56
+  /* "bx/align/sitemask/_cpg.pyx":59
  *     return cpglist
  * 
  * def list_cpg_restricted( sp1, sp2 ):             # <<<<<<<<<<<<<<
  *     cdef char * a
  *     cdef char * b
  */
-  __pyx_tuple__10 = PyTuple_Pack(6, __pyx_n_s_sp1, __pyx_n_s_sp2, __pyx_n_s_a, __pyx_n_s_b, __pyx_n_s_start, __pyx_n_s_cpglist); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(6, __pyx_n_s_sp1, __pyx_n_s_sp2, __pyx_n_s_a, __pyx_n_s_b, __pyx_n_s_start, __pyx_n_s_cpglist); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
-  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_list_cpg_restricted, 56, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_list_cpg_restricted, 59, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 59, __pyx_L1_error)
 
-  /* "bx/align/sitemask/_cpg.pyx":71
+  /* "bx/align/sitemask/_cpg.pyx":74
  *     return cpglist
  * 
  * def list_non_cpg( sp1, sp2 ):             # <<<<<<<<<<<<<<
  *     cdef char * a
  *     cdef char * b
  */
-  __pyx_tuple__12 = PyTuple_Pack(6, __pyx_n_s_sp1, __pyx_n_s_sp2, __pyx_n_s_a, __pyx_n_s_b, __pyx_n_s_start, __pyx_n_s_cpglist); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(6, __pyx_n_s_sp1, __pyx_n_s_sp2, __pyx_n_s_a, __pyx_n_s_b, __pyx_n_s_start, __pyx_n_s_cpglist); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
-  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_list_non_cpg, 71, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_list_non_cpg, 74, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 74, __pyx_L1_error)
 
-  /* "bx/align/sitemask/_cpg.pyx":86
+  /* "bx/align/sitemask/_cpg.pyx":89
  *     return cpglist
  * 
  * def remove_gaps( sp, cpglist ):             # <<<<<<<<<<<<<<
  *     for item in cpglist:
  *         if sp[item] == '-':
  */
-  __pyx_tuple__14 = PyTuple_Pack(3, __pyx_n_s_sp, __pyx_n_s_cpglist, __pyx_n_s_item); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_tuple__14 = PyTuple_Pack(3, __pyx_n_s_sp, __pyx_n_s_cpglist, __pyx_n_s_item); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_remove_gaps, 86, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_remove_gaps, 89, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -2554,88 +2536,88 @@ PyMODINIT_FUNC PyInit__cpg(void)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "bx/align/sitemask/_cpg.pyx":11
+  /* "bx/align/sitemask/_cpg.pyx":14
  *     int next_non_cpg( char * sp1, char * sp2, int start)
  * 
  * def find_cpg( sp1, sp2, start ):             # <<<<<<<<<<<<<<
  *     cdef char* a
  *     cdef char* b
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5align_8sitemask_4_cpg_1find_cpg, NULL, __pyx_n_s_bx_align_sitemask__cpg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5align_8sitemask_4_cpg_1find_cpg, NULL, __pyx_n_s_bx_align_sitemask__cpg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_find_cpg, __pyx_t_1) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_find_cpg, __pyx_t_1) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/align/sitemask/_cpg.pyx":21
+  /* "bx/align/sitemask/_cpg.pyx":24
  *     return next_cpg( a, b, pos )
  * 
  * def find_cpg_restricted( sp1, sp2, start ):             # <<<<<<<<<<<<<<
  *     cdef char* a
  *     cdef char* b
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5align_8sitemask_4_cpg_3find_cpg_restricted, NULL, __pyx_n_s_bx_align_sitemask__cpg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5align_8sitemask_4_cpg_3find_cpg_restricted, NULL, __pyx_n_s_bx_align_sitemask__cpg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_find_cpg_restricted, __pyx_t_1) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_find_cpg_restricted, __pyx_t_1) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/align/sitemask/_cpg.pyx":31
+  /* "bx/align/sitemask/_cpg.pyx":34
  *     return next_cpg_restricted( a, b, pos )
  * 
  * def find_non_cpg( sp1, sp2, start ):             # <<<<<<<<<<<<<<
  *     cdef char* a
  *     cdef char* b
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5align_8sitemask_4_cpg_5find_non_cpg, NULL, __pyx_n_s_bx_align_sitemask__cpg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5align_8sitemask_4_cpg_5find_non_cpg, NULL, __pyx_n_s_bx_align_sitemask__cpg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_find_non_cpg, __pyx_t_1) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_find_non_cpg, __pyx_t_1) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/align/sitemask/_cpg.pyx":41
+  /* "bx/align/sitemask/_cpg.pyx":44
  *     return next_non_cpg( a, b, pos )
  * 
  * def list_cpg( sp1, sp2 ):             # <<<<<<<<<<<<<<
  *     cdef char * a
  *     cdef char * b
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5align_8sitemask_4_cpg_7list_cpg, NULL, __pyx_n_s_bx_align_sitemask__cpg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5align_8sitemask_4_cpg_7list_cpg, NULL, __pyx_n_s_bx_align_sitemask__cpg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_list_cpg, __pyx_t_1) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_list_cpg, __pyx_t_1) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/align/sitemask/_cpg.pyx":56
+  /* "bx/align/sitemask/_cpg.pyx":59
  *     return cpglist
  * 
  * def list_cpg_restricted( sp1, sp2 ):             # <<<<<<<<<<<<<<
  *     cdef char * a
  *     cdef char * b
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5align_8sitemask_4_cpg_9list_cpg_restricted, NULL, __pyx_n_s_bx_align_sitemask__cpg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5align_8sitemask_4_cpg_9list_cpg_restricted, NULL, __pyx_n_s_bx_align_sitemask__cpg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_list_cpg_restricted, __pyx_t_1) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_list_cpg_restricted, __pyx_t_1) < 0) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/align/sitemask/_cpg.pyx":71
+  /* "bx/align/sitemask/_cpg.pyx":74
  *     return cpglist
  * 
  * def list_non_cpg( sp1, sp2 ):             # <<<<<<<<<<<<<<
  *     cdef char * a
  *     cdef char * b
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5align_8sitemask_4_cpg_11list_non_cpg, NULL, __pyx_n_s_bx_align_sitemask__cpg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5align_8sitemask_4_cpg_11list_non_cpg, NULL, __pyx_n_s_bx_align_sitemask__cpg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_list_non_cpg, __pyx_t_1) < 0) __PYX_ERR(0, 71, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_list_non_cpg, __pyx_t_1) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/align/sitemask/_cpg.pyx":86
+  /* "bx/align/sitemask/_cpg.pyx":89
  *     return cpglist
  * 
  * def remove_gaps( sp, cpglist ):             # <<<<<<<<<<<<<<
  *     for item in cpglist:
  *         if sp[item] == '-':
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5align_8sitemask_4_cpg_13remove_gaps, NULL, __pyx_n_s_bx_align_sitemask__cpg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5align_8sitemask_4_cpg_13remove_gaps, NULL, __pyx_n_s_bx_align_sitemask__cpg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_remove_gaps, __pyx_t_1) < 0) __PYX_ERR(0, 86, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_remove_gaps, __pyx_t_1) < 0) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "bx/align/sitemask/_cpg.pyx":1

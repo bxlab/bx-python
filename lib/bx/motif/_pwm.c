@@ -710,6 +710,62 @@ static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
 static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, int none_allowed,
     const char *name, int exact);
 
+/* PyObjectGetAttrStr.proto */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
+    PyTypeObject* tp = Py_TYPE(obj);
+    if (likely(tp->tp_getattro))
+        return tp->tp_getattro(obj, attr_name);
+#if PY_MAJOR_VERSION < 3
+    if (likely(tp->tp_getattr))
+        return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
+#endif
+    return PyObject_GetAttr(obj, attr_name);
+}
+#else
+#define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
+#endif
+
+/* PyCFunctionFastCall.proto */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+#else
+#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#endif
+
+/* PyFunctionFastCall.proto */
+#if CYTHON_FAST_PYCALL
+#define __Pyx_PyFunction_FastCall(func, args, nargs)\
+    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, int nargs, PyObject *kwargs);
+#else
+#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
+#endif
+#endif
+
+/* PyObjectCall.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
+#else
+#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
+#endif
+
+/* PyObjectCallMethO.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
+#endif
+
+/* PyObjectCallOneArg.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+
+/* PyObjectCallNoArg.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
+#else
+#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
+#endif
+
 /* CodeObjectCache.proto */
 typedef struct {
     PyCodeObject* code_object;
@@ -777,6 +833,7 @@ static const char __pyx_k_stop[] = "stop";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_score[] = "score";
 static const char __pyx_k_buffer[] = "buffer";
+static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_matrix[] = "matrix";
 static const char __pyx_k_string[] = "string";
 static const char __pyx_k_char_index[] = "char_index";
@@ -792,6 +849,7 @@ static PyObject *__pyx_n_s_buffer;
 static PyObject *__pyx_n_s_bx_motif__pwm;
 static PyObject *__pyx_n_s_char_index;
 static PyObject *__pyx_n_s_char_to_index;
+static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_j;
 static PyObject *__pyx_n_s_len;
@@ -814,7 +872,7 @@ static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_codeobj__2;
 static PyObject *__pyx_codeobj__4;
 
-/* "bx/motif/_pwm.pyx":20
+/* "bx/motif/_pwm.pyx":21
  *     ctypedef float npy_float32
  * 
  * def score_string( ndarray matrix, ndarray char_to_index, object string, ndarray rval ):             # <<<<<<<<<<<<<<
@@ -856,21 +914,21 @@ static PyObject *__pyx_pw_2bx_5motif_4_pwm_1score_string(PyObject *__pyx_self, P
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_char_to_index)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("score_string", 1, 4, 4, 1); __PYX_ERR(0, 20, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("score_string", 1, 4, 4, 1); __PYX_ERR(0, 21, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_string)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("score_string", 1, 4, 4, 2); __PYX_ERR(0, 20, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("score_string", 1, 4, 4, 2); __PYX_ERR(0, 21, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_rval)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("score_string", 1, 4, 4, 3); __PYX_ERR(0, 20, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("score_string", 1, 4, 4, 3); __PYX_ERR(0, 21, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "score_string") < 0)) __PYX_ERR(0, 20, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "score_string") < 0)) __PYX_ERR(0, 21, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -887,15 +945,15 @@ static PyObject *__pyx_pw_2bx_5motif_4_pwm_1score_string(PyObject *__pyx_self, P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("score_string", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 20, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("score_string", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 21, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.motif._pwm.score_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_matrix), __pyx_ptype_2bx_5motif_4_pwm_ndarray, 1, "matrix", 0))) __PYX_ERR(0, 20, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_char_to_index), __pyx_ptype_2bx_5motif_4_pwm_ndarray, 1, "char_to_index", 0))) __PYX_ERR(0, 20, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rval), __pyx_ptype_2bx_5motif_4_pwm_ndarray, 1, "rval", 0))) __PYX_ERR(0, 20, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_matrix), __pyx_ptype_2bx_5motif_4_pwm_ndarray, 1, "matrix", 0))) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_char_to_index), __pyx_ptype_2bx_5motif_4_pwm_ndarray, 1, "char_to_index", 0))) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rval), __pyx_ptype_2bx_5motif_4_pwm_ndarray, 1, "rval", 0))) __PYX_ERR(0, 21, __pyx_L1_error)
   __pyx_r = __pyx_pf_2bx_5motif_4_pwm_score_string(__pyx_self, __pyx_v_matrix, __pyx_v_char_to_index, __pyx_v_string, __pyx_v_rval);
 
   /* function exit code */
@@ -918,12 +976,15 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_score_string(CYTHON_UNUSED PyObject *
   int __pyx_v_stop;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  int __pyx_t_2;
-  int __pyx_t_3;
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_t_4;
+  int __pyx_t_5;
+  int __pyx_t_6;
   __Pyx_RefNannySetupContext("score_string", 0);
 
-  /* "bx/motif/_pwm.pyx":34
+  /* "bx/motif/_pwm.pyx":35
  *     cdef float score
  *     cdef int i, j
  *     cdef int matrix_width = matrix.dimensions[0]             # <<<<<<<<<<<<<<
@@ -932,17 +993,38 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_score_string(CYTHON_UNUSED PyObject *
  */
   __pyx_v_matrix_width = (__pyx_v_matrix->dimensions[0]);
 
-  /* "bx/motif/_pwm.pyx":37
+  /* "bx/motif/_pwm.pyx":38
  *     cdef npy_int16 char_index
  *     # Get input string as character pointer
- *     PyBytes_AsStringAndSize( string, &buffer, &len )             # <<<<<<<<<<<<<<
+ *     PyBytes_AsStringAndSize(string.encode(), &buffer, &len )             # <<<<<<<<<<<<<<
  *     # Loop over each position in the string
  *     cdef int stop = len - matrix.dimensions[0] + 1
  */
-  __pyx_t_1 = PyBytes_AsStringAndSize(__pyx_v_string, (&__pyx_v_buffer), (&__pyx_v_len)); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_string, __pyx_n_s_encode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  if (__pyx_t_3) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  } else {
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_4 = PyBytes_AsStringAndSize(__pyx_t_1, (&__pyx_v_buffer), (&__pyx_v_len)); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/motif/_pwm.pyx":39
- *     PyBytes_AsStringAndSize( string, &buffer, &len )
+  /* "bx/motif/_pwm.pyx":40
+ *     PyBytes_AsStringAndSize(string.encode(), &buffer, &len )
  *     # Loop over each position in the string
  *     cdef int stop = len - matrix.dimensions[0] + 1             # <<<<<<<<<<<<<<
  *     for i from 0 <= i < stop:
@@ -950,17 +1032,17 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_score_string(CYTHON_UNUSED PyObject *
  */
   __pyx_v_stop = ((__pyx_v_len - (__pyx_v_matrix->dimensions[0])) + 1);
 
-  /* "bx/motif/_pwm.pyx":40
+  /* "bx/motif/_pwm.pyx":41
  *     # Loop over each position in the string
  *     cdef int stop = len - matrix.dimensions[0] + 1
  *     for i from 0 <= i < stop:             # <<<<<<<<<<<<<<
  *         score = 0.0
  *         for j from 0 <= j < matrix_width:
  */
-  __pyx_t_1 = __pyx_v_stop;
-  for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_1; __pyx_v_i++) {
+  __pyx_t_4 = __pyx_v_stop;
+  for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_4; __pyx_v_i++) {
 
-    /* "bx/motif/_pwm.pyx":41
+    /* "bx/motif/_pwm.pyx":42
  *     cdef int stop = len - matrix.dimensions[0] + 1
  *     for i from 0 <= i < stop:
  *         score = 0.0             # <<<<<<<<<<<<<<
@@ -969,17 +1051,17 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_score_string(CYTHON_UNUSED PyObject *
  */
     __pyx_v_score = 0.0;
 
-    /* "bx/motif/_pwm.pyx":42
+    /* "bx/motif/_pwm.pyx":43
  *     for i from 0 <= i < stop:
  *         score = 0.0
  *         for j from 0 <= j < matrix_width:             # <<<<<<<<<<<<<<
  *             char_index = ( <npy_int16 *> ( char_to_index.data + buffer[i+j] * char_to_index.strides[0] ) )[0]
  *             if char_index < 0:
  */
-    __pyx_t_2 = __pyx_v_matrix_width;
-    for (__pyx_v_j = 0; __pyx_v_j < __pyx_t_2; __pyx_v_j++) {
+    __pyx_t_5 = __pyx_v_matrix_width;
+    for (__pyx_v_j = 0; __pyx_v_j < __pyx_t_5; __pyx_v_j++) {
 
-      /* "bx/motif/_pwm.pyx":43
+      /* "bx/motif/_pwm.pyx":44
  *         score = 0.0
  *         for j from 0 <= j < matrix_width:
  *             char_index = ( <npy_int16 *> ( char_to_index.data + buffer[i+j] * char_to_index.strides[0] ) )[0]             # <<<<<<<<<<<<<<
@@ -988,17 +1070,17 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_score_string(CYTHON_UNUSED PyObject *
  */
       __pyx_v_char_index = (((npy_int16 *)(__pyx_v_char_to_index->data + ((__pyx_v_buffer[(__pyx_v_i + __pyx_v_j)]) * (__pyx_v_char_to_index->strides[0]))))[0]);
 
-      /* "bx/motif/_pwm.pyx":44
+      /* "bx/motif/_pwm.pyx":45
  *         for j from 0 <= j < matrix_width:
  *             char_index = ( <npy_int16 *> ( char_to_index.data + buffer[i+j] * char_to_index.strides[0] ) )[0]
  *             if char_index < 0:             # <<<<<<<<<<<<<<
  *                 break
  *             score += ( <npy_float32*> ( matrix.data + j * matrix.strides[0] + char_index * matrix.strides[1] ) )[0]
  */
-      __pyx_t_3 = ((__pyx_v_char_index < 0) != 0);
-      if (__pyx_t_3) {
+      __pyx_t_6 = ((__pyx_v_char_index < 0) != 0);
+      if (__pyx_t_6) {
 
-        /* "bx/motif/_pwm.pyx":45
+        /* "bx/motif/_pwm.pyx":46
  *             char_index = ( <npy_int16 *> ( char_to_index.data + buffer[i+j] * char_to_index.strides[0] ) )[0]
  *             if char_index < 0:
  *                 break             # <<<<<<<<<<<<<<
@@ -1007,7 +1089,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_score_string(CYTHON_UNUSED PyObject *
  */
         goto __pyx_L6_break;
 
-        /* "bx/motif/_pwm.pyx":44
+        /* "bx/motif/_pwm.pyx":45
  *         for j from 0 <= j < matrix_width:
  *             char_index = ( <npy_int16 *> ( char_to_index.data + buffer[i+j] * char_to_index.strides[0] ) )[0]
  *             if char_index < 0:             # <<<<<<<<<<<<<<
@@ -1016,7 +1098,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_score_string(CYTHON_UNUSED PyObject *
  */
       }
 
-      /* "bx/motif/_pwm.pyx":46
+      /* "bx/motif/_pwm.pyx":47
  *             if char_index < 0:
  *                 break
  *             score += ( <npy_float32*> ( matrix.data + j * matrix.strides[0] + char_index * matrix.strides[1] ) )[0]             # <<<<<<<<<<<<<<
@@ -1027,7 +1109,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_score_string(CYTHON_UNUSED PyObject *
     }
     /*else*/ {
 
-      /* "bx/motif/_pwm.pyx":48
+      /* "bx/motif/_pwm.pyx":49
  *             score += ( <npy_float32*> ( matrix.data + j * matrix.strides[0] + char_index * matrix.strides[1] ) )[0]
  *         else:
  *             ( <npy_float32*> ( rval.data + i * rval.strides[0] ) )[0] = score             # <<<<<<<<<<<<<<
@@ -1039,7 +1121,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_score_string(CYTHON_UNUSED PyObject *
     __pyx_L6_break:;
   }
 
-  /* "bx/motif/_pwm.pyx":20
+  /* "bx/motif/_pwm.pyx":21
  *     ctypedef float npy_float32
  * 
  * def score_string( ndarray matrix, ndarray char_to_index, object string, ndarray rval ):             # <<<<<<<<<<<<<<
@@ -1051,6 +1133,9 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_score_string(CYTHON_UNUSED PyObject *
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_AddTraceback("bx.motif._pwm.score_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -1059,7 +1144,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_score_string(CYTHON_UNUSED PyObject *
   return __pyx_r;
 }
 
-/* "bx/motif/_pwm.pyx":50
+/* "bx/motif/_pwm.pyx":51
  *             ( <npy_float32*> ( rval.data + i * rval.strides[0] ) )[0] = score
  * 
  * def score_string_with_gaps( ndarray matrix, ndarray char_to_index, object string, ndarray rval ):             # <<<<<<<<<<<<<<
@@ -1101,21 +1186,21 @@ static PyObject *__pyx_pw_2bx_5motif_4_pwm_3score_string_with_gaps(PyObject *__p
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_char_to_index)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("score_string_with_gaps", 1, 4, 4, 1); __PYX_ERR(0, 50, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("score_string_with_gaps", 1, 4, 4, 1); __PYX_ERR(0, 51, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_string)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("score_string_with_gaps", 1, 4, 4, 2); __PYX_ERR(0, 50, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("score_string_with_gaps", 1, 4, 4, 2); __PYX_ERR(0, 51, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_rval)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("score_string_with_gaps", 1, 4, 4, 3); __PYX_ERR(0, 50, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("score_string_with_gaps", 1, 4, 4, 3); __PYX_ERR(0, 51, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "score_string_with_gaps") < 0)) __PYX_ERR(0, 50, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "score_string_with_gaps") < 0)) __PYX_ERR(0, 51, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -1132,15 +1217,15 @@ static PyObject *__pyx_pw_2bx_5motif_4_pwm_3score_string_with_gaps(PyObject *__p
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("score_string_with_gaps", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 50, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("score_string_with_gaps", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 51, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.motif._pwm.score_string_with_gaps", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_matrix), __pyx_ptype_2bx_5motif_4_pwm_ndarray, 1, "matrix", 0))) __PYX_ERR(0, 50, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_char_to_index), __pyx_ptype_2bx_5motif_4_pwm_ndarray, 1, "char_to_index", 0))) __PYX_ERR(0, 50, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rval), __pyx_ptype_2bx_5motif_4_pwm_ndarray, 1, "rval", 0))) __PYX_ERR(0, 50, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_matrix), __pyx_ptype_2bx_5motif_4_pwm_ndarray, 1, "matrix", 0))) __PYX_ERR(0, 51, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_char_to_index), __pyx_ptype_2bx_5motif_4_pwm_ndarray, 1, "char_to_index", 0))) __PYX_ERR(0, 51, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rval), __pyx_ptype_2bx_5motif_4_pwm_ndarray, 1, "rval", 0))) __PYX_ERR(0, 51, __pyx_L1_error)
   __pyx_r = __pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(__pyx_self, __pyx_v_matrix, __pyx_v_char_to_index, __pyx_v_string, __pyx_v_rval);
 
   /* function exit code */
@@ -1164,13 +1249,16 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
   int __pyx_v_stop;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  int __pyx_t_2;
-  int __pyx_t_3;
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
   int __pyx_t_4;
+  int __pyx_t_5;
+  int __pyx_t_6;
+  int __pyx_t_7;
   __Pyx_RefNannySetupContext("score_string_with_gaps", 0);
 
-  /* "bx/motif/_pwm.pyx":64
+  /* "bx/motif/_pwm.pyx":65
  *     cdef float score
  *     cdef int i, j, string_pos
  *     cdef int matrix_width = matrix.dimensions[0]             # <<<<<<<<<<<<<<
@@ -1179,17 +1267,38 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
  */
   __pyx_v_matrix_width = (__pyx_v_matrix->dimensions[0]);
 
-  /* "bx/motif/_pwm.pyx":67
+  /* "bx/motif/_pwm.pyx":68
  *     cdef npy_int16 char_index
  *     # Get input string as character pointer
- *     PyBytes_AsStringAndSize( string, &buffer, &len )             # <<<<<<<<<<<<<<
+ *     PyBytes_AsStringAndSize(string.encode(), &buffer, &len )             # <<<<<<<<<<<<<<
  *     # Loop over each position in the string
  *     cdef int stop = len - matrix.dimensions[0] + 1
  */
-  __pyx_t_1 = PyBytes_AsStringAndSize(__pyx_v_string, (&__pyx_v_buffer), (&__pyx_v_len)); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_string, __pyx_n_s_encode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  if (__pyx_t_3) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  } else {
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_4 = PyBytes_AsStringAndSize(__pyx_t_1, (&__pyx_v_buffer), (&__pyx_v_len)); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/motif/_pwm.pyx":69
- *     PyBytes_AsStringAndSize( string, &buffer, &len )
+  /* "bx/motif/_pwm.pyx":70
+ *     PyBytes_AsStringAndSize(string.encode(), &buffer, &len )
  *     # Loop over each position in the string
  *     cdef int stop = len - matrix.dimensions[0] + 1             # <<<<<<<<<<<<<<
  *     for i from 0 <= i < stop:
@@ -1197,27 +1306,27 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
  */
   __pyx_v_stop = ((__pyx_v_len - (__pyx_v_matrix->dimensions[0])) + 1);
 
-  /* "bx/motif/_pwm.pyx":70
+  /* "bx/motif/_pwm.pyx":71
  *     # Loop over each position in the string
  *     cdef int stop = len - matrix.dimensions[0] + 1
  *     for i from 0 <= i < stop:             # <<<<<<<<<<<<<<
  *         if buffer[i] == '-':
  *             # Never start scoring at a gap
  */
-  __pyx_t_1 = __pyx_v_stop;
-  for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_1; __pyx_v_i++) {
+  __pyx_t_4 = __pyx_v_stop;
+  for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_4; __pyx_v_i++) {
 
-    /* "bx/motif/_pwm.pyx":71
+    /* "bx/motif/_pwm.pyx":72
  *     cdef int stop = len - matrix.dimensions[0] + 1
  *     for i from 0 <= i < stop:
  *         if buffer[i] == '-':             # <<<<<<<<<<<<<<
  *             # Never start scoring at a gap
  *             continue
  */
-    __pyx_t_2 = (((__pyx_v_buffer[__pyx_v_i]) == '-') != 0);
-    if (__pyx_t_2) {
+    __pyx_t_5 = (((__pyx_v_buffer[__pyx_v_i]) == '-') != 0);
+    if (__pyx_t_5) {
 
-      /* "bx/motif/_pwm.pyx":73
+      /* "bx/motif/_pwm.pyx":74
  *         if buffer[i] == '-':
  *             # Never start scoring at a gap
  *             continue             # <<<<<<<<<<<<<<
@@ -1226,7 +1335,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
  */
       goto __pyx_L3_continue;
 
-      /* "bx/motif/_pwm.pyx":71
+      /* "bx/motif/_pwm.pyx":72
  *     cdef int stop = len - matrix.dimensions[0] + 1
  *     for i from 0 <= i < stop:
  *         if buffer[i] == '-':             # <<<<<<<<<<<<<<
@@ -1235,7 +1344,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
  */
     }
 
-    /* "bx/motif/_pwm.pyx":74
+    /* "bx/motif/_pwm.pyx":75
  *             # Never start scoring at a gap
  *             continue
  *         score = 0.0             # <<<<<<<<<<<<<<
@@ -1244,7 +1353,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
  */
     __pyx_v_score = 0.0;
 
-    /* "bx/motif/_pwm.pyx":75
+    /* "bx/motif/_pwm.pyx":76
  *             continue
  *         score = 0.0
  *         string_pos = i             # <<<<<<<<<<<<<<
@@ -1253,17 +1362,17 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
  */
     __pyx_v_string_pos = __pyx_v_i;
 
-    /* "bx/motif/_pwm.pyx":76
+    /* "bx/motif/_pwm.pyx":77
  *         score = 0.0
  *         string_pos = i
  *         for j from 0 <= j < matrix_width:             # <<<<<<<<<<<<<<
  *             # Advance to the next non-gap character
  *             while buffer[string_pos] == '-' and string_pos < len:
  */
-    __pyx_t_3 = __pyx_v_matrix_width;
-    for (__pyx_v_j = 0; __pyx_v_j < __pyx_t_3; __pyx_v_j++) {
+    __pyx_t_6 = __pyx_v_matrix_width;
+    for (__pyx_v_j = 0; __pyx_v_j < __pyx_t_6; __pyx_v_j++) {
 
-      /* "bx/motif/_pwm.pyx":78
+      /* "bx/motif/_pwm.pyx":79
  *         for j from 0 <= j < matrix_width:
  *             # Advance to the next non-gap character
  *             while buffer[string_pos] == '-' and string_pos < len:             # <<<<<<<<<<<<<<
@@ -1271,18 +1380,18 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
  *             # Ran out of non-gap characters, no more scoring is possible
  */
       while (1) {
-        __pyx_t_4 = (((__pyx_v_buffer[__pyx_v_string_pos]) == '-') != 0);
-        if (__pyx_t_4) {
+        __pyx_t_7 = (((__pyx_v_buffer[__pyx_v_string_pos]) == '-') != 0);
+        if (__pyx_t_7) {
         } else {
-          __pyx_t_2 = __pyx_t_4;
+          __pyx_t_5 = __pyx_t_7;
           goto __pyx_L10_bool_binop_done;
         }
-        __pyx_t_4 = ((__pyx_v_string_pos < __pyx_v_len) != 0);
-        __pyx_t_2 = __pyx_t_4;
+        __pyx_t_7 = ((__pyx_v_string_pos < __pyx_v_len) != 0);
+        __pyx_t_5 = __pyx_t_7;
         __pyx_L10_bool_binop_done:;
-        if (!__pyx_t_2) break;
+        if (!__pyx_t_5) break;
 
-        /* "bx/motif/_pwm.pyx":79
+        /* "bx/motif/_pwm.pyx":80
  *             # Advance to the next non-gap character
  *             while buffer[string_pos] == '-' and string_pos < len:
  *                 string_pos += 1             # <<<<<<<<<<<<<<
@@ -1292,17 +1401,17 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
         __pyx_v_string_pos = (__pyx_v_string_pos + 1);
       }
 
-      /* "bx/motif/_pwm.pyx":81
+      /* "bx/motif/_pwm.pyx":82
  *                 string_pos += 1
  *             # Ran out of non-gap characters, no more scoring is possible
  *             if string_pos == len:             # <<<<<<<<<<<<<<
  *                 return
  *             # Find character for position and score
  */
-      __pyx_t_2 = ((__pyx_v_string_pos == __pyx_v_len) != 0);
-      if (__pyx_t_2) {
+      __pyx_t_5 = ((__pyx_v_string_pos == __pyx_v_len) != 0);
+      if (__pyx_t_5) {
 
-        /* "bx/motif/_pwm.pyx":82
+        /* "bx/motif/_pwm.pyx":83
  *             # Ran out of non-gap characters, no more scoring is possible
  *             if string_pos == len:
  *                 return             # <<<<<<<<<<<<<<
@@ -1313,7 +1422,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
         __pyx_r = Py_None; __Pyx_INCREF(Py_None);
         goto __pyx_L0;
 
-        /* "bx/motif/_pwm.pyx":81
+        /* "bx/motif/_pwm.pyx":82
  *                 string_pos += 1
  *             # Ran out of non-gap characters, no more scoring is possible
  *             if string_pos == len:             # <<<<<<<<<<<<<<
@@ -1322,7 +1431,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
  */
       }
 
-      /* "bx/motif/_pwm.pyx":84
+      /* "bx/motif/_pwm.pyx":85
  *                 return
  *             # Find character for position and score
  *             char_index = ( <npy_int16 *> ( char_to_index.data + buffer[string_pos] * char_to_index.strides[0] ) )[0]             # <<<<<<<<<<<<<<
@@ -1331,17 +1440,17 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
  */
       __pyx_v_char_index = (((npy_int16 *)(__pyx_v_char_to_index->data + ((__pyx_v_buffer[__pyx_v_string_pos]) * (__pyx_v_char_to_index->strides[0]))))[0]);
 
-      /* "bx/motif/_pwm.pyx":85
+      /* "bx/motif/_pwm.pyx":86
  *             # Find character for position and score
  *             char_index = ( <npy_int16 *> ( char_to_index.data + buffer[string_pos] * char_to_index.strides[0] ) )[0]
  *             if char_index < 0:             # <<<<<<<<<<<<<<
  *                 break
  *             score += ( <npy_float32*> ( matrix.data + j * matrix.strides[0] + char_index * matrix.strides[1] ) )[0]
  */
-      __pyx_t_2 = ((__pyx_v_char_index < 0) != 0);
-      if (__pyx_t_2) {
+      __pyx_t_5 = ((__pyx_v_char_index < 0) != 0);
+      if (__pyx_t_5) {
 
-        /* "bx/motif/_pwm.pyx":86
+        /* "bx/motif/_pwm.pyx":87
  *             char_index = ( <npy_int16 *> ( char_to_index.data + buffer[string_pos] * char_to_index.strides[0] ) )[0]
  *             if char_index < 0:
  *                 break             # <<<<<<<<<<<<<<
@@ -1350,7 +1459,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
  */
         goto __pyx_L7_break;
 
-        /* "bx/motif/_pwm.pyx":85
+        /* "bx/motif/_pwm.pyx":86
  *             # Find character for position and score
  *             char_index = ( <npy_int16 *> ( char_to_index.data + buffer[string_pos] * char_to_index.strides[0] ) )[0]
  *             if char_index < 0:             # <<<<<<<<<<<<<<
@@ -1359,7 +1468,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
  */
       }
 
-      /* "bx/motif/_pwm.pyx":87
+      /* "bx/motif/_pwm.pyx":88
  *             if char_index < 0:
  *                 break
  *             score += ( <npy_float32*> ( matrix.data + j * matrix.strides[0] + char_index * matrix.strides[1] ) )[0]             # <<<<<<<<<<<<<<
@@ -1368,7 +1477,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
  */
       __pyx_v_score = (__pyx_v_score + (((npy_float32 *)((__pyx_v_matrix->data + (__pyx_v_j * (__pyx_v_matrix->strides[0]))) + (__pyx_v_char_index * (__pyx_v_matrix->strides[1]))))[0]));
 
-      /* "bx/motif/_pwm.pyx":89
+      /* "bx/motif/_pwm.pyx":90
  *             score += ( <npy_float32*> ( matrix.data + j * matrix.strides[0] + char_index * matrix.strides[1] ) )[0]
  *             # Matched a character, move forward
  *             string_pos += 1             # <<<<<<<<<<<<<<
@@ -1379,7 +1488,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
     }
     /*else*/ {
 
-      /* "bx/motif/_pwm.pyx":91
+      /* "bx/motif/_pwm.pyx":92
  *             string_pos += 1
  *         else:
  *             ( <npy_float32*> ( rval.data + i * rval.strides[0] ) )[0] = score             # <<<<<<<<<<<<<<
@@ -1390,7 +1499,7 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
     __pyx_L3_continue:;
   }
 
-  /* "bx/motif/_pwm.pyx":50
+  /* "bx/motif/_pwm.pyx":51
  *             ( <npy_float32*> ( rval.data + i * rval.strides[0] ) )[0] = score
  * 
  * def score_string_with_gaps( ndarray matrix, ndarray char_to_index, object string, ndarray rval ):             # <<<<<<<<<<<<<<
@@ -1402,6 +1511,9 @@ static PyObject *__pyx_pf_2bx_5motif_4_pwm_2score_string_with_gaps(CYTHON_UNUSED
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_AddTraceback("bx.motif._pwm.score_string_with_gaps", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -1437,6 +1549,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_bx_motif__pwm, __pyx_k_bx_motif__pwm, sizeof(__pyx_k_bx_motif__pwm), 0, 0, 1, 1},
   {&__pyx_n_s_char_index, __pyx_k_char_index, sizeof(__pyx_k_char_index), 0, 0, 1, 1},
   {&__pyx_n_s_char_to_index, __pyx_k_char_to_index, sizeof(__pyx_k_char_to_index), 0, 0, 1, 1},
+  {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_j, __pyx_k_j, sizeof(__pyx_k_j), 0, 0, 1, 1},
   {&__pyx_n_s_len, __pyx_k_len, sizeof(__pyx_k_len), 0, 0, 1, 1},
@@ -1462,29 +1575,29 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "bx/motif/_pwm.pyx":20
+  /* "bx/motif/_pwm.pyx":21
  *     ctypedef float npy_float32
  * 
  * def score_string( ndarray matrix, ndarray char_to_index, object string, ndarray rval ):             # <<<<<<<<<<<<<<
  *     """
  *     Score each position in string `string` using the scoring matrix `matrix`.
  */
-  __pyx_tuple_ = PyTuple_Pack(12, __pyx_n_s_matrix, __pyx_n_s_char_to_index, __pyx_n_s_string, __pyx_n_s_rval, __pyx_n_s_buffer, __pyx_n_s_len, __pyx_n_s_score, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_matrix_width, __pyx_n_s_char_index, __pyx_n_s_stop); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(12, __pyx_n_s_matrix, __pyx_n_s_char_to_index, __pyx_n_s_string, __pyx_n_s_rval, __pyx_n_s_buffer, __pyx_n_s_len, __pyx_n_s_score, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_matrix_width, __pyx_n_s_char_index, __pyx_n_s_stop); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(4, 0, 12, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_score_string, 20, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(4, 0, 12, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_score_string, 21, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 21, __pyx_L1_error)
 
-  /* "bx/motif/_pwm.pyx":50
+  /* "bx/motif/_pwm.pyx":51
  *             ( <npy_float32*> ( rval.data + i * rval.strides[0] ) )[0] = score
  * 
  * def score_string_with_gaps( ndarray matrix, ndarray char_to_index, object string, ndarray rval ):             # <<<<<<<<<<<<<<
  *     """
  *     Score each position in string `string` using the scoring matrix `matrix`.
  */
-  __pyx_tuple__3 = PyTuple_Pack(13, __pyx_n_s_matrix, __pyx_n_s_char_to_index, __pyx_n_s_string, __pyx_n_s_rval, __pyx_n_s_buffer, __pyx_n_s_len, __pyx_n_s_score, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_string_pos, __pyx_n_s_matrix_width, __pyx_n_s_char_index, __pyx_n_s_stop); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(13, __pyx_n_s_matrix, __pyx_n_s_char_to_index, __pyx_n_s_string, __pyx_n_s_rval, __pyx_n_s_buffer, __pyx_n_s_len, __pyx_n_s_score, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_string_pos, __pyx_n_s_matrix_width, __pyx_n_s_char_index, __pyx_n_s_stop); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
-  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(4, 0, 13, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_score_string_with_gaps, 50, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(4, 0, 13, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_score_string_with_gaps, 51, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -1583,7 +1696,7 @@ PyMODINIT_FUNC PyInit__pwm(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   /*--- Type init code ---*/
-  __pyx_ptype_2bx_5motif_4_pwm_ndarray = __Pyx_ImportType("numpy", "ndarray", sizeof(PyArrayObject), 0); if (unlikely(!__pyx_ptype_2bx_5motif_4_pwm_ndarray)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_ptype_2bx_5motif_4_pwm_ndarray = __Pyx_ImportType("numpy", "ndarray", sizeof(PyArrayObject), 0); if (unlikely(!__pyx_ptype_2bx_5motif_4_pwm_ndarray)) __PYX_ERR(0, 11, __pyx_L1_error)
   /*--- Type import code ---*/
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
@@ -1592,28 +1705,28 @@ PyMODINIT_FUNC PyInit__pwm(void)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "bx/motif/_pwm.pyx":20
+  /* "bx/motif/_pwm.pyx":21
  *     ctypedef float npy_float32
  * 
  * def score_string( ndarray matrix, ndarray char_to_index, object string, ndarray rval ):             # <<<<<<<<<<<<<<
  *     """
  *     Score each position in string `string` using the scoring matrix `matrix`.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5motif_4_pwm_1score_string, NULL, __pyx_n_s_bx_motif__pwm); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5motif_4_pwm_1score_string, NULL, __pyx_n_s_bx_motif__pwm); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_score_string, __pyx_t_1) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_score_string, __pyx_t_1) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/motif/_pwm.pyx":50
+  /* "bx/motif/_pwm.pyx":51
  *             ( <npy_float32*> ( rval.data + i * rval.strides[0] ) )[0] = score
  * 
  * def score_string_with_gaps( ndarray matrix, ndarray char_to_index, object string, ndarray rval ):             # <<<<<<<<<<<<<<
  *     """
  *     Score each position in string `string` using the scoring matrix `matrix`.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5motif_4_pwm_3score_string_with_gaps, NULL, __pyx_n_s_bx_motif__pwm); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_5motif_4_pwm_3score_string_with_gaps, NULL, __pyx_n_s_bx_motif__pwm); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_score_string_with_gaps, __pyx_t_1) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_score_string_with_gaps, __pyx_t_1) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "bx/motif/_pwm.pyx":1
@@ -1835,8 +1948,251 @@ static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, in
     return 0;
 }
 
+/* PyCFunctionFastCall */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
+    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
+    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
+    PyObject *self = PyCFunction_GET_SELF(func);
+    assert(PyCFunction_Check(func));
+    assert(METH_FASTCALL == (PyCFunction_GET_FLAGS(func) & ~(METH_CLASS | METH_STATIC | METH_COEXIST)));
+    assert(nargs >= 0);
+    assert(nargs == 0 || args != NULL);
+    /* _PyCFunction_FastCallDict() must not be called with an exception set,
+       because it may clear it (directly or indirectly) and so the
+       caller loses its exception */
+    assert(!PyErr_Occurred());
+    return (*((__Pyx_PyCFunctionFast)meth)) (self, args, nargs, NULL);
+}
+#endif  // CYTHON_FAST_PYCCALL
+
+/* PyFunctionFastCall */
+#if CYTHON_FAST_PYCALL
+#include "frameobject.h"
+static PyObject* __Pyx_PyFunction_FastCallNoKw(PyCodeObject *co, PyObject **args, Py_ssize_t na,
+                                               PyObject *globals) {
+    PyFrameObject *f;
+    PyThreadState *tstate = PyThreadState_GET();
+    PyObject **fastlocals;
+    Py_ssize_t i;
+    PyObject *result;
+    assert(globals != NULL);
+    /* XXX Perhaps we should create a specialized
+       PyFrame_New() that doesn't take locals, but does
+       take builtins without sanity checking them.
+       */
+    assert(tstate != NULL);
+    f = PyFrame_New(tstate, co, globals, NULL);
+    if (f == NULL) {
+        return NULL;
+    }
+    fastlocals = f->f_localsplus;
+    for (i = 0; i < na; i++) {
+        Py_INCREF(*args);
+        fastlocals[i] = *args++;
+    }
+    result = PyEval_EvalFrameEx(f,0);
+    ++tstate->recursion_depth;
+    Py_DECREF(f);
+    --tstate->recursion_depth;
+    return result;
+}
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, int nargs, PyObject *kwargs) {
+    PyCodeObject *co = (PyCodeObject *)PyFunction_GET_CODE(func);
+    PyObject *globals = PyFunction_GET_GLOBALS(func);
+    PyObject *argdefs = PyFunction_GET_DEFAULTS(func);
+    PyObject *closure;
+#if PY_MAJOR_VERSION >= 3
+    PyObject *kwdefs;
+#endif
+    PyObject *kwtuple, **k;
+    PyObject **d;
+    Py_ssize_t nd;
+    Py_ssize_t nk;
+    PyObject *result;
+    assert(kwargs == NULL || PyDict_Check(kwargs));
+    nk = kwargs ? PyDict_Size(kwargs) : 0;
+    if (Py_EnterRecursiveCall((char*)" while calling a Python object")) {
+        return NULL;
+    }
+    if (
+#if PY_MAJOR_VERSION >= 3
+            co->co_kwonlyargcount == 0 &&
+#endif
+            likely(kwargs == NULL || nk == 0) &&
+            co->co_flags == (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)) {
+        if (argdefs == NULL && co->co_argcount == nargs) {
+            result = __Pyx_PyFunction_FastCallNoKw(co, args, nargs, globals);
+            goto done;
+        }
+        else if (nargs == 0 && argdefs != NULL
+                 && co->co_argcount == Py_SIZE(argdefs)) {
+            /* function called with no arguments, but all parameters have
+               a default value: use default values as arguments .*/
+            args = &PyTuple_GET_ITEM(argdefs, 0);
+            result =__Pyx_PyFunction_FastCallNoKw(co, args, Py_SIZE(argdefs), globals);
+            goto done;
+        }
+    }
+    if (kwargs != NULL) {
+        Py_ssize_t pos, i;
+        kwtuple = PyTuple_New(2 * nk);
+        if (kwtuple == NULL) {
+            result = NULL;
+            goto done;
+        }
+        k = &PyTuple_GET_ITEM(kwtuple, 0);
+        pos = i = 0;
+        while (PyDict_Next(kwargs, &pos, &k[i], &k[i+1])) {
+            Py_INCREF(k[i]);
+            Py_INCREF(k[i+1]);
+            i += 2;
+        }
+        nk = i / 2;
+    }
+    else {
+        kwtuple = NULL;
+        k = NULL;
+    }
+    closure = PyFunction_GET_CLOSURE(func);
+#if PY_MAJOR_VERSION >= 3
+    kwdefs = PyFunction_GET_KW_DEFAULTS(func);
+#endif
+    if (argdefs != NULL) {
+        d = &PyTuple_GET_ITEM(argdefs, 0);
+        nd = Py_SIZE(argdefs);
+    }
+    else {
+        d = NULL;
+        nd = 0;
+    }
+#if PY_MAJOR_VERSION >= 3
+    result = PyEval_EvalCodeEx((PyObject*)co, globals, (PyObject *)NULL,
+                               args, nargs,
+                               k, (int)nk,
+                               d, (int)nd, kwdefs, closure);
+#else
+    result = PyEval_EvalCodeEx(co, globals, (PyObject *)NULL,
+                               args, nargs,
+                               k, (int)nk,
+                               d, (int)nd, closure);
+#endif
+    Py_XDECREF(kwtuple);
+done:
+    Py_LeaveRecursiveCall();
+    return result;
+}
+#endif  // CPython < 3.6
+#endif  // CYTHON_FAST_PYCALL
+
+/* PyObjectCall */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
+    PyObject *result;
+    ternaryfunc call = func->ob_type->tp_call;
+    if (unlikely(!call))
+        return PyObject_Call(func, arg, kw);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = (*call)(func, arg, kw);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
+
+/* PyObjectCallMethO */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
+    PyObject *self, *result;
+    PyCFunction cfunc;
+    cfunc = PyCFunction_GET_FUNCTION(func);
+    self = PyCFunction_GET_SELF(func);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = cfunc(self, arg);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
+
+/* PyObjectCallOneArg */
+#if CYTHON_COMPILING_IN_CPYTHON
+static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_New(1);
+    if (unlikely(!args)) return NULL;
+    Py_INCREF(arg);
+    PyTuple_SET_ITEM(args, 0, arg);
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
+    return result;
+}
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+#if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(func)) {
+        return __Pyx_PyFunction_FastCall(func, &arg, 1);
+    }
+#endif
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
+#else
+    if (likely(PyCFunction_Check(func))) {
+#endif
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_O)) {
+            return __Pyx_PyObject_CallMethO(func, arg);
+#if CYTHON_FAST_PYCCALL
+        } else if (PyCFunction_GET_FLAGS(func) & METH_FASTCALL) {
+            return __Pyx_PyCFunction_FastCall(func, &arg, 1);
+#endif
+        }
+    }
+    return __Pyx__PyObject_CallOneArg(func, arg);
+}
+#else
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_Pack(1, arg);
+    if (unlikely(!args)) return NULL;
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
+    return result;
+}
+#endif
+
+/* PyObjectCallNoArg */
+  #if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
+#if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(func)) {
+        return __Pyx_PyFunction_FastCall(func, NULL, 0);
+    }
+#endif
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
+#else
+    if (likely(PyCFunction_Check(func))) {
+#endif
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
+            return __Pyx_PyObject_CallMethO(func, NULL);
+        }
+    }
+    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
+}
+#endif
+
 /* CodeObjectCache */
-static int __pyx_bisect_code_objects(__Pyx_CodeObjectCacheEntry* entries, int count, int code_line) {
+    static int __pyx_bisect_code_objects(__Pyx_CodeObjectCacheEntry* entries, int count, int code_line) {
     int start = 0, mid = 0, end = count - 1;
     if (end >= 0 && code_line > entries[end].code_line) {
         return count;
@@ -1916,7 +2272,7 @@ static void __pyx_insert_code_object(int code_line, PyCodeObject* code_object) {
 }
 
 /* AddTraceback */
-#include "compile.h"
+    #include "compile.h"
 #include "frameobject.h"
 #include "traceback.h"
 static PyCodeObject* __Pyx_CreateCodeObjectForTraceback(
@@ -1997,7 +2353,7 @@ bad:
 }
 
 /* CIntToPy */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
+    static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
     const long neg_one = (long) -1, const_zero = (long) 0;
     const int is_unsigned = neg_one > const_zero;
     if (is_unsigned) {
@@ -2028,7 +2384,7 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
 }
 
 /* CIntFromPyVerify */
-#define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
+    #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
     __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
 #define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
     __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
@@ -2050,7 +2406,7 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
     }
 
 /* CIntFromPy */
-static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
+    static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
     const long neg_one = (long) -1, const_zero = (long) 0;
     const int is_unsigned = neg_one > const_zero;
 #if PY_MAJOR_VERSION < 3
@@ -2239,7 +2595,7 @@ raise_neg_overflow:
 }
 
 /* CIntFromPy */
-static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
+    static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
     const int neg_one = (int) -1, const_zero = (int) 0;
     const int is_unsigned = neg_one > const_zero;
 #if PY_MAJOR_VERSION < 3
@@ -2428,7 +2784,7 @@ raise_neg_overflow:
 }
 
 /* CheckBinaryVersion */
-static int __Pyx_check_binary_version(void) {
+    static int __Pyx_check_binary_version(void) {
     char ctversion[4], rtversion[4];
     PyOS_snprintf(ctversion, 4, "%d.%d", PY_MAJOR_VERSION, PY_MINOR_VERSION);
     PyOS_snprintf(rtversion, 4, "%s", Py_GetVersion());
@@ -2444,7 +2800,7 @@ static int __Pyx_check_binary_version(void) {
 }
 
 /* ModuleImport */
-#ifndef __PYX_HAVE_RT_ImportModule
+    #ifndef __PYX_HAVE_RT_ImportModule
 #define __PYX_HAVE_RT_ImportModule
 static PyObject *__Pyx_ImportModule(const char *name) {
     PyObject *py_name = 0;
@@ -2462,7 +2818,7 @@ bad:
 #endif
 
 /* TypeImport */
-#ifndef __PYX_HAVE_RT_ImportType
+    #ifndef __PYX_HAVE_RT_ImportType
 #define __PYX_HAVE_RT_ImportType
 static PyTypeObject *__Pyx_ImportType(const char *module_name, const char *class_name,
     size_t size, int strict)
@@ -2527,7 +2883,7 @@ bad:
 #endif
 
 /* InitStrings */
-static int __Pyx_InitStrings(__Pyx_StringTabEntry *t) {
+    static int __Pyx_InitStrings(__Pyx_StringTabEntry *t) {
     while (t->p) {
         #if PY_MAJOR_VERSION < 3
         if (t->is_unicode) {

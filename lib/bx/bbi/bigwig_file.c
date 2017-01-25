@@ -1170,7 +1170,7 @@ struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile {
 };
 
 
-/* "bx/bbi/bigwig_file.pyx":23
+/* "bx/bbi/bigwig_file.pyx":24
  *     return min( end1, end2 ) - max( start1, start2 )
  * 
  * cdef class BigWigBlockHandler( BlockHandler ):             # <<<<<<<<<<<<<<
@@ -1184,7 +1184,7 @@ struct __pyx_obj_2bx_3bbi_11bigwig_file_BigWigBlockHandler {
 };
 
 
-/* "bx/bbi/bigwig_file.pyx":76
+/* "bx/bbi/bigwig_file.pyx":77
  *         pass
  * 
  * cdef class SummarizingBlockHandler( BigWigBlockHandler ):             # <<<<<<<<<<<<<<
@@ -1197,7 +1197,7 @@ struct __pyx_obj_2bx_3bbi_11bigwig_file_SummarizingBlockHandler {
 };
 
 
-/* "bx/bbi/bigwig_file.pyx":93
+/* "bx/bbi/bigwig_file.pyx":94
  *         self.sd.accumulate_interval_value( s, e, val )
  * 
  * cdef class IntervalAccumulatingBlockHandler( BigWigBlockHandler ):             # <<<<<<<<<<<<<<
@@ -1210,7 +1210,7 @@ struct __pyx_obj_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler {
 };
 
 
-/* "bx/bbi/bigwig_file.pyx":105
+/* "bx/bbi/bigwig_file.pyx":106
  *         self.intervals.append( ( s, e, val ) )
  * 
  * cdef class ArrayAccumulatingBlockHandler( BigWigBlockHandler ):             # <<<<<<<<<<<<<<
@@ -1223,7 +1223,7 @@ struct __pyx_obj_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler {
 };
 
 
-/* "bx/bbi/bigwig_file.pyx":122
+/* "bx/bbi/bigwig_file.pyx":123
  *             array[ i ] = val
  * 
  * cdef class BigWigFile( BBIFile ):             # <<<<<<<<<<<<<<
@@ -1262,7 +1262,7 @@ struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile {
   PyObject *(*visit_blocks_in_region)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, struct __pyx_obj_2bx_3bbi_8bbi_file_BlockHandler *);
   PyObject *(*_get_chrom_id_and_size)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, char *);
   PyObject *(*_best_zoom_level)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, int);
-  PyObject *(*summarize)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, char *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int, int __pyx_skip_dispatch);
+  PyObject *(*summarize)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, PyObject *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int, int __pyx_skip_dispatch);
   PyObject *(*summarize_from_full)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, char *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int, int __pyx_skip_dispatch);
   PyObject *(*query)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, char *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int, int __pyx_skip_dispatch);
   PyObject *(*_summarize_from_full)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int);
@@ -1284,7 +1284,7 @@ struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BlockHandler {
 static struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BlockHandler *__pyx_vtabptr_2bx_3bbi_8bbi_file_BlockHandler;
 
 
-/* "bx/bbi/bigwig_file.pyx":23
+/* "bx/bbi/bigwig_file.pyx":24
  *     return min( end1, end2 ) - max( start1, start2 )
  * 
  * cdef class BigWigBlockHandler( BlockHandler ):             # <<<<<<<<<<<<<<
@@ -1299,7 +1299,7 @@ struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_BigWigBlockHandler {
 static struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_BigWigBlockHandler *__pyx_vtabptr_2bx_3bbi_11bigwig_file_BigWigBlockHandler;
 
 
-/* "bx/bbi/bigwig_file.pyx":76
+/* "bx/bbi/bigwig_file.pyx":77
  *         pass
  * 
  * cdef class SummarizingBlockHandler( BigWigBlockHandler ):             # <<<<<<<<<<<<<<
@@ -1313,7 +1313,7 @@ struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_SummarizingBlockHandler {
 static struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_SummarizingBlockHandler *__pyx_vtabptr_2bx_3bbi_11bigwig_file_SummarizingBlockHandler;
 
 
-/* "bx/bbi/bigwig_file.pyx":93
+/* "bx/bbi/bigwig_file.pyx":94
  *         self.sd.accumulate_interval_value( s, e, val )
  * 
  * cdef class IntervalAccumulatingBlockHandler( BigWigBlockHandler ):             # <<<<<<<<<<<<<<
@@ -1327,7 +1327,7 @@ struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler 
 static struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler *__pyx_vtabptr_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler;
 
 
-/* "bx/bbi/bigwig_file.pyx":105
+/* "bx/bbi/bigwig_file.pyx":106
  *         self.intervals.append( ( s, e, val ) )
  * 
  * cdef class ArrayAccumulatingBlockHandler( BigWigBlockHandler ):             # <<<<<<<<<<<<<<
@@ -1341,7 +1341,7 @@ struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler {
 static struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler *__pyx_vtabptr_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler;
 
 
-/* "bx/bbi/bigwig_file.pyx":122
+/* "bx/bbi/bigwig_file.pyx":123
  *             array[ i ] = val
  * 
  * cdef class BigWigFile( BBIFile ):             # <<<<<<<<<<<<<<
@@ -1934,6 +1934,7 @@ static const char __pyx_k_end[] = "end";
 static const char __pyx_k_get[] = "get";
 static const char __pyx_k_inf[] = "inf";
 static const char __pyx_k_nan[] = "nan";
+static const char __pyx_k_six[] = "six";
 static const char __pyx_k_file[] = "file";
 static const char __pyx_k_init[] = "__init__";
 static const char __pyx_k_main[] = "__main__";
@@ -1950,6 +1951,7 @@ static const char __pyx_k_start[] = "start";
 static const char __pyx_k_zeros[] = "zeros";
 static const char __pyx_k_bigwig[] = "bigwig";
 static const char __pyx_k_import[] = "__import__";
+static const char __pyx_k_BytesIO[] = "BytesIO";
 static const char __pyx_k_float32[] = "float32";
 static const char __pyx_k_StringIO[] = "StringIO";
 static const char __pyx_k_cStringIO[] = "cStringIO";
@@ -1978,6 +1980,7 @@ static const char __pyx_k_ndarray_is_not_Fortran_contiguou[] = "ndarray is not F
 static const char __pyx_k_numpy_core_umath_failed_to_impor[] = "numpy.core.umath failed to import";
 static const char __pyx_k_Format_string_allocated_too_shor_2[] = "Format string allocated too short.";
 static PyObject *__pyx_n_s_BinaryFileReader;
+static PyObject *__pyx_n_s_BytesIO;
 static PyObject *__pyx_kp_u_Format_string_allocated_too_shor;
 static PyObject *__pyx_kp_u_Format_string_allocated_too_shor_2;
 static PyObject *__pyx_n_s_ImportError;
@@ -2015,6 +2018,7 @@ static PyObject *__pyx_n_s_read_uint16;
 static PyObject *__pyx_n_s_read_uint32;
 static PyObject *__pyx_n_s_read_uint8;
 static PyObject *__pyx_n_s_round;
+static PyObject *__pyx_n_s_six;
 static PyObject *__pyx_n_s_six_moves;
 static PyObject *__pyx_n_s_skip;
 static PyObject *__pyx_n_s_start;
@@ -2050,7 +2054,7 @@ static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
 static PyObject *__pyx_tuple__10;
 
-/* "bx/bbi/bigwig_file.pyx":20
+/* "bx/bbi/bigwig_file.pyx":21
  * DEF bwg_fixed_step = 3
  * 
  * cdef inline int range_intersection( int start1, int end1, int start2, int end2 ):             # <<<<<<<<<<<<<<
@@ -2067,7 +2071,7 @@ static CYTHON_INLINE int __pyx_f_2bx_3bbi_11bigwig_file_range_intersection(int _
   int __pyx_t_4;
   __Pyx_RefNannySetupContext("range_intersection", 0);
 
-  /* "bx/bbi/bigwig_file.pyx":21
+  /* "bx/bbi/bigwig_file.pyx":22
  * 
  * cdef inline int range_intersection( int start1, int end1, int start2, int end2 ):
  *     return min( end1, end2 ) - max( start1, start2 )             # <<<<<<<<<<<<<<
@@ -2091,7 +2095,7 @@ static CYTHON_INLINE int __pyx_f_2bx_3bbi_11bigwig_file_range_intersection(int _
   __pyx_r = (__pyx_t_3 - __pyx_t_4);
   goto __pyx_L0;
 
-  /* "bx/bbi/bigwig_file.pyx":20
+  /* "bx/bbi/bigwig_file.pyx":21
  * DEF bwg_fixed_step = 3
  * 
  * cdef inline int range_intersection( int start1, int end1, int start2, int end2 ):             # <<<<<<<<<<<<<<
@@ -2105,7 +2109,7 @@ static CYTHON_INLINE int __pyx_f_2bx_3bbi_11bigwig_file_range_intersection(int _
   return __pyx_r;
 }
 
-/* "bx/bbi/bigwig_file.pyx":29
+/* "bx/bbi/bigwig_file.pyx":30
  *     cdef bits32 start
  *     cdef bits32 end
  *     def __init__( self, bits32 start, bits32 end ):             # <<<<<<<<<<<<<<
@@ -2141,11 +2145,11 @@ static int __pyx_pw_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_1__init__(PyObje
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 29, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 30, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 29, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 30, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2153,12 +2157,12 @@ static int __pyx_pw_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_1__init__(PyObje
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 29, __pyx_L3_error)
-    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 29, __pyx_L3_error)
+    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 30, __pyx_L3_error)
+    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 30, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 29, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 30, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.bbi.bigwig_file.BigWigBlockHandler.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2180,14 +2184,14 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_18BigWigBlockHandler___init__(struct 
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "bx/bbi/bigwig_file.pyx":30
+  /* "bx/bbi/bigwig_file.pyx":31
  *     cdef bits32 end
  *     def __init__( self, bits32 start, bits32 end ):
  *         BlockHandler.__init__( self )             # <<<<<<<<<<<<<<
  *         self.start = start
  *         self.end = end
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_2bx_3bbi_8bbi_file_BlockHandler), __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_2bx_3bbi_8bbi_file_BlockHandler), __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2200,13 +2204,13 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_18BigWigBlockHandler___init__(struct 
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, ((PyObject *)__pyx_v_self)};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -2214,19 +2218,19 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_18BigWigBlockHandler___init__(struct 
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, ((PyObject *)__pyx_v_self)};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 30, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 31, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(((PyObject *)__pyx_v_self));
       __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, ((PyObject *)__pyx_v_self));
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
@@ -2234,7 +2238,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_18BigWigBlockHandler___init__(struct 
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":31
+  /* "bx/bbi/bigwig_file.pyx":32
  *     def __init__( self, bits32 start, bits32 end ):
  *         BlockHandler.__init__( self )
  *         self.start = start             # <<<<<<<<<<<<<<
@@ -2243,7 +2247,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_18BigWigBlockHandler___init__(struct 
  */
   __pyx_v_self->start = __pyx_v_start;
 
-  /* "bx/bbi/bigwig_file.pyx":32
+  /* "bx/bbi/bigwig_file.pyx":33
  *         BlockHandler.__init__( self )
  *         self.start = start
  *         self.end = end             # <<<<<<<<<<<<<<
@@ -2252,7 +2256,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_18BigWigBlockHandler___init__(struct 
  */
   __pyx_v_self->end = __pyx_v_end;
 
-  /* "bx/bbi/bigwig_file.pyx":29
+  /* "bx/bbi/bigwig_file.pyx":30
  *     cdef bits32 start
  *     cdef bits32 end
  *     def __init__( self, bits32 start, bits32 end ):             # <<<<<<<<<<<<<<
@@ -2275,7 +2279,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_18BigWigBlockHandler___init__(struct 
   return __pyx_r;
 }
 
-/* "bx/bbi/bigwig_file.pyx":33
+/* "bx/bbi/bigwig_file.pyx":34
  *         self.start = start
  *         self.end = end
  *     cdef handle_block( self, str block_data, BBIFile bbi_file ):             # <<<<<<<<<<<<<<
@@ -2312,16 +2316,16 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
   int __pyx_t_12;
   __Pyx_RefNannySetupContext("handle_block", 0);
 
-  /* "bx/bbi/bigwig_file.pyx":41
+  /* "bx/bbi/bigwig_file.pyx":42
  *         cdef float val
  *         # Now we parse the block, first the header
- *         block_reader = BinaryFileReader( StringIO( block_data ), is_little_endian=bbi_file.reader.is_little_endian )             # <<<<<<<<<<<<<<
+ *         block_reader = BinaryFileReader( BytesIO( block_data ), is_little_endian=bbi_file.reader.is_little_endian )             # <<<<<<<<<<<<<<
  *         b_chrom_id = block_reader.read_uint32()
  *         b_start = block_reader.read_uint32()
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_BinaryFileReader); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_BinaryFileReader); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_StringIO); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_BytesIO); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -2334,13 +2338,13 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_block_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_block_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_block_data};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else
@@ -2348,36 +2352,36 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_block_data};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 41, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_INCREF(__pyx_v_block_data);
       __Pyx_GIVEREF(__pyx_v_block_data);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_block_data);
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_bbi_file->reader, __pyx_n_s_is_little_endian); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_bbi_file->reader, __pyx_n_s_is_little_endian); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_is_little_endian, __pyx_t_5) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_is_little_endian, __pyx_t_5) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -2385,43 +2389,12 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
   __pyx_v_block_reader = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":42
+  /* "bx/bbi/bigwig_file.pyx":43
  *         # Now we parse the block, first the header
- *         block_reader = BinaryFileReader( StringIO( block_data ), is_little_endian=bbi_file.reader.is_little_endian )
+ *         block_reader = BinaryFileReader( BytesIO( block_data ), is_little_endian=bbi_file.reader.is_little_endian )
  *         b_chrom_id = block_reader.read_uint32()             # <<<<<<<<<<<<<<
  *         b_start = block_reader.read_uint32()
  *         b_end = block_reader.read_uint32()
- */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  if (__pyx_t_3) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  } else {
-    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
-  }
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_6 = __Pyx_PyInt_As_unsigned_int(__pyx_t_5); if (unlikely((__pyx_t_6 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 42, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_v_b_chrom_id = __pyx_t_6;
-
-  /* "bx/bbi/bigwig_file.pyx":43
- *         block_reader = BinaryFileReader( StringIO( block_data ), is_little_endian=bbi_file.reader.is_little_endian )
- *         b_chrom_id = block_reader.read_uint32()
- *         b_start = block_reader.read_uint32()             # <<<<<<<<<<<<<<
- *         b_end = block_reader.read_uint32()
- *         b_item_step = block_reader.read_uint32()
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -2445,14 +2418,14 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_6 = __Pyx_PyInt_As_unsigned_int(__pyx_t_5); if (unlikely((__pyx_t_6 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_v_b_start = __pyx_t_6;
+  __pyx_v_b_chrom_id = __pyx_t_6;
 
   /* "bx/bbi/bigwig_file.pyx":44
+ *         block_reader = BinaryFileReader( BytesIO( block_data ), is_little_endian=bbi_file.reader.is_little_endian )
  *         b_chrom_id = block_reader.read_uint32()
- *         b_start = block_reader.read_uint32()
- *         b_end = block_reader.read_uint32()             # <<<<<<<<<<<<<<
+ *         b_start = block_reader.read_uint32()             # <<<<<<<<<<<<<<
+ *         b_end = block_reader.read_uint32()
  *         b_item_step = block_reader.read_uint32()
- *         b_item_span = block_reader.read_uint32()
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -2476,14 +2449,14 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_6 = __Pyx_PyInt_As_unsigned_int(__pyx_t_5); if (unlikely((__pyx_t_6 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_v_b_end = __pyx_t_6;
+  __pyx_v_b_start = __pyx_t_6;
 
   /* "bx/bbi/bigwig_file.pyx":45
+ *         b_chrom_id = block_reader.read_uint32()
  *         b_start = block_reader.read_uint32()
- *         b_end = block_reader.read_uint32()
- *         b_item_step = block_reader.read_uint32()             # <<<<<<<<<<<<<<
+ *         b_end = block_reader.read_uint32()             # <<<<<<<<<<<<<<
+ *         b_item_step = block_reader.read_uint32()
  *         b_item_span = block_reader.read_uint32()
- *         b_type = block_reader.read_uint8()
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -2507,14 +2480,14 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_6 = __Pyx_PyInt_As_unsigned_int(__pyx_t_5); if (unlikely((__pyx_t_6 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_v_b_item_step = __pyx_t_6;
+  __pyx_v_b_end = __pyx_t_6;
 
   /* "bx/bbi/bigwig_file.pyx":46
+ *         b_start = block_reader.read_uint32()
  *         b_end = block_reader.read_uint32()
- *         b_item_step = block_reader.read_uint32()
- *         b_item_span = block_reader.read_uint32()             # <<<<<<<<<<<<<<
+ *         b_item_step = block_reader.read_uint32()             # <<<<<<<<<<<<<<
+ *         b_item_span = block_reader.read_uint32()
  *         b_type = block_reader.read_uint8()
- *         block_reader.skip(1)
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -2538,16 +2511,16 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_6 = __Pyx_PyInt_As_unsigned_int(__pyx_t_5); if (unlikely((__pyx_t_6 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_v_b_item_span = __pyx_t_6;
+  __pyx_v_b_item_step = __pyx_t_6;
 
   /* "bx/bbi/bigwig_file.pyx":47
+ *         b_end = block_reader.read_uint32()
  *         b_item_step = block_reader.read_uint32()
- *         b_item_span = block_reader.read_uint32()
- *         b_type = block_reader.read_uint8()             # <<<<<<<<<<<<<<
+ *         b_item_span = block_reader.read_uint32()             # <<<<<<<<<<<<<<
+ *         b_type = block_reader.read_uint8()
  *         block_reader.skip(1)
- *         b_item_count = block_reader.read_uint16()
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2567,32 +2540,63 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
   }
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_7 = __Pyx_PyInt_As_unsigned_char(__pyx_t_5); if (unlikely((__pyx_t_7 == (unsigned char)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_As_unsigned_int(__pyx_t_5); if (unlikely((__pyx_t_6 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_b_item_span = __pyx_t_6;
+
+  /* "bx/bbi/bigwig_file.pyx":48
+ *         b_item_step = block_reader.read_uint32()
+ *         b_item_span = block_reader.read_uint32()
+ *         b_type = block_reader.read_uint8()             # <<<<<<<<<<<<<<
+ *         block_reader.skip(1)
+ *         b_item_count = block_reader.read_uint16()
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  if (__pyx_t_3) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  } else {
+    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 48, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_7 = __Pyx_PyInt_As_unsigned_char(__pyx_t_5); if (unlikely((__pyx_t_7 == (unsigned char)-1) && PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_b_type = __pyx_t_7;
 
-  /* "bx/bbi/bigwig_file.pyx":48
+  /* "bx/bbi/bigwig_file.pyx":49
  *         b_item_span = block_reader.read_uint32()
  *         b_type = block_reader.read_uint8()
  *         block_reader.skip(1)             # <<<<<<<<<<<<<<
  *         b_item_count = block_reader.read_uint16()
  *         for i from 0 <= i < b_item_count:
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_skip); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_skip); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":49
+  /* "bx/bbi/bigwig_file.pyx":50
  *         b_type = block_reader.read_uint8()
  *         block_reader.skip(1)
  *         b_item_count = block_reader.read_uint16()             # <<<<<<<<<<<<<<
  *         for i from 0 <= i < b_item_count:
  *             # Depending on the type, s and e are either read or
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -2605,18 +2609,18 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_8 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_8 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_8 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_b_item_count = __pyx_t_8;
 
-  /* "bx/bbi/bigwig_file.pyx":50
+  /* "bx/bbi/bigwig_file.pyx":51
  *         block_reader.skip(1)
  *         b_item_count = block_reader.read_uint16()
  *         for i from 0 <= i < b_item_count:             # <<<<<<<<<<<<<<
@@ -2625,12 +2629,12 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
  */
   __pyx_t_8 = __pyx_v_b_item_count;
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9++) {
-    __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "bx/bbi/bigwig_file.pyx":53
+    /* "bx/bbi/bigwig_file.pyx":54
  *             # Depending on the type, s and e are either read or
  *             # generate using header, val is always read
  *             if b_type == bwg_bed_graph:             # <<<<<<<<<<<<<<
@@ -2640,43 +2644,12 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
     switch (__pyx_v_b_type) {
       case 1:
 
-      /* "bx/bbi/bigwig_file.pyx":54
+      /* "bx/bbi/bigwig_file.pyx":55
  *             # generate using header, val is always read
  *             if b_type == bwg_bed_graph:
  *                 s = block_reader.read_uint32()             # <<<<<<<<<<<<<<
  *                 e = block_reader.read_uint32()
  *                 val = block_reader.read_float()
- */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_3 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
-        if (likely(__pyx_t_3)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-          __Pyx_INCREF(__pyx_t_3);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_5, function);
-        }
-      }
-      if (__pyx_t_3) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
-      }
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 54, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_v_s = __pyx_t_10;
-
-      /* "bx/bbi/bigwig_file.pyx":55
- *             if b_type == bwg_bed_graph:
- *                 s = block_reader.read_uint32()
- *                 e = block_reader.read_uint32()             # <<<<<<<<<<<<<<
- *                 val = block_reader.read_float()
- *             elif b_type == bwg_variable_step:
  */
       __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 55, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
@@ -2700,16 +2673,16 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 55, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_v_e = __pyx_t_10;
+      __pyx_v_s = __pyx_t_10;
 
       /* "bx/bbi/bigwig_file.pyx":56
+ *             if b_type == bwg_bed_graph:
  *                 s = block_reader.read_uint32()
- *                 e = block_reader.read_uint32()
- *                 val = block_reader.read_float()             # <<<<<<<<<<<<<<
+ *                 e = block_reader.read_uint32()             # <<<<<<<<<<<<<<
+ *                 val = block_reader.read_float()
  *             elif b_type == bwg_variable_step:
- *                 s = block_reader.read_uint32()
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_float); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 56, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 56, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_3 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -2729,11 +2702,42 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_11 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_11 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 56, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 56, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_v_e = __pyx_t_10;
+
+      /* "bx/bbi/bigwig_file.pyx":57
+ *                 s = block_reader.read_uint32()
+ *                 e = block_reader.read_uint32()
+ *                 val = block_reader.read_float()             # <<<<<<<<<<<<<<
+ *             elif b_type == bwg_variable_step:
+ *                 s = block_reader.read_uint32()
+ */
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_float); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_3 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_3)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_3);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_5, function);
+        }
+      }
+      if (__pyx_t_3) {
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      } else {
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)
+      }
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_11 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_11 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_v_val = __pyx_t_11;
 
-      /* "bx/bbi/bigwig_file.pyx":53
+      /* "bx/bbi/bigwig_file.pyx":54
  *             # Depending on the type, s and e are either read or
  *             # generate using header, val is always read
  *             if b_type == bwg_bed_graph:             # <<<<<<<<<<<<<<
@@ -2742,7 +2746,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
  */
       break;
 
-      /* "bx/bbi/bigwig_file.pyx":57
+      /* "bx/bbi/bigwig_file.pyx":58
  *                 e = block_reader.read_uint32()
  *                 val = block_reader.read_float()
  *             elif b_type == bwg_variable_step:             # <<<<<<<<<<<<<<
@@ -2751,14 +2755,14 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
  */
       case 2:
 
-      /* "bx/bbi/bigwig_file.pyx":58
+      /* "bx/bbi/bigwig_file.pyx":59
  *                 val = block_reader.read_float()
  *             elif b_type == bwg_variable_step:
  *                 s = block_reader.read_uint32()             # <<<<<<<<<<<<<<
  *                 e = s + b_item_span
  *                 val = block_reader.read_float()
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 58, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 59, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_3 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -2771,18 +2775,18 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
         }
       }
       if (__pyx_t_3) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 58, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 59, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_v_s = __pyx_t_10;
 
-      /* "bx/bbi/bigwig_file.pyx":59
+      /* "bx/bbi/bigwig_file.pyx":60
  *             elif b_type == bwg_variable_step:
  *                 s = block_reader.read_uint32()
  *                 e = s + b_item_span             # <<<<<<<<<<<<<<
@@ -2791,14 +2795,14 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
  */
       __pyx_v_e = (__pyx_v_s + __pyx_v_b_item_span);
 
-      /* "bx/bbi/bigwig_file.pyx":60
+      /* "bx/bbi/bigwig_file.pyx":61
  *                 s = block_reader.read_uint32()
  *                 e = s + b_item_span
  *                 val = block_reader.read_float()             # <<<<<<<<<<<<<<
  *             elif b_type == bwg_fixed_step:
  *                 s = b_start + ( i * b_item_span )
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_float); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_float); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_3 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -2811,18 +2815,18 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
         }
       }
       if (__pyx_t_3) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 60, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 60, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_11 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_11 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 60, __pyx_L1_error)
+      __pyx_t_11 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_11 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_v_val = __pyx_t_11;
 
-      /* "bx/bbi/bigwig_file.pyx":57
+      /* "bx/bbi/bigwig_file.pyx":58
  *                 e = block_reader.read_uint32()
  *                 val = block_reader.read_float()
  *             elif b_type == bwg_variable_step:             # <<<<<<<<<<<<<<
@@ -2831,7 +2835,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
  */
       break;
 
-      /* "bx/bbi/bigwig_file.pyx":61
+      /* "bx/bbi/bigwig_file.pyx":62
  *                 e = s + b_item_span
  *                 val = block_reader.read_float()
  *             elif b_type == bwg_fixed_step:             # <<<<<<<<<<<<<<
@@ -2840,29 +2844,29 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
  */
       case 3:
 
-      /* "bx/bbi/bigwig_file.pyx":62
+      /* "bx/bbi/bigwig_file.pyx":63
  *                 val = block_reader.read_float()
  *             elif b_type == bwg_fixed_step:
  *                 s = b_start + ( i * b_item_span )             # <<<<<<<<<<<<<<
  *                 e = s + b_item_span
  *                 val = block_reader.read_float()
  */
-      __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_b_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_b_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_b_item_span); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_b_item_span); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_3 = PyNumber_Multiply(__pyx_v_i, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 62, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Multiply(__pyx_v_i, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 63, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
+      __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_5); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 62, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_5); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 63, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_s = __pyx_t_10;
 
-      /* "bx/bbi/bigwig_file.pyx":63
+      /* "bx/bbi/bigwig_file.pyx":64
  *             elif b_type == bwg_fixed_step:
  *                 s = b_start + ( i * b_item_span )
  *                 e = s + b_item_span             # <<<<<<<<<<<<<<
@@ -2871,14 +2875,14 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
  */
       __pyx_v_e = (__pyx_v_s + __pyx_v_b_item_span);
 
-      /* "bx/bbi/bigwig_file.pyx":64
+      /* "bx/bbi/bigwig_file.pyx":65
  *                 s = b_start + ( i * b_item_span )
  *                 e = s + b_item_span
  *                 val = block_reader.read_float()             # <<<<<<<<<<<<<<
  *             if s < self.start:
  *                 s = self.start
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_float); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_float); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_2 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -2891,18 +2895,18 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
         }
       }
       if (__pyx_t_2) {
-        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 64, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       } else {
-        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 64, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_11 = __pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_11 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 64, __pyx_L1_error)
+      __pyx_t_11 = __pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_11 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 65, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_val = __pyx_t_11;
 
-      /* "bx/bbi/bigwig_file.pyx":61
+      /* "bx/bbi/bigwig_file.pyx":62
  *                 e = s + b_item_span
  *                 val = block_reader.read_float()
  *             elif b_type == bwg_fixed_step:             # <<<<<<<<<<<<<<
@@ -2913,7 +2917,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
       default: break;
     }
 
-    /* "bx/bbi/bigwig_file.pyx":65
+    /* "bx/bbi/bigwig_file.pyx":66
  *                 e = s + b_item_span
  *                 val = block_reader.read_float()
  *             if s < self.start:             # <<<<<<<<<<<<<<
@@ -2923,7 +2927,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
     __pyx_t_12 = ((__pyx_v_s < __pyx_v_self->start) != 0);
     if (__pyx_t_12) {
 
-      /* "bx/bbi/bigwig_file.pyx":66
+      /* "bx/bbi/bigwig_file.pyx":67
  *                 val = block_reader.read_float()
  *             if s < self.start:
  *                 s = self.start             # <<<<<<<<<<<<<<
@@ -2933,7 +2937,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
       __pyx_t_6 = __pyx_v_self->start;
       __pyx_v_s = __pyx_t_6;
 
-      /* "bx/bbi/bigwig_file.pyx":65
+      /* "bx/bbi/bigwig_file.pyx":66
  *                 e = s + b_item_span
  *                 val = block_reader.read_float()
  *             if s < self.start:             # <<<<<<<<<<<<<<
@@ -2942,7 +2946,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
  */
     }
 
-    /* "bx/bbi/bigwig_file.pyx":67
+    /* "bx/bbi/bigwig_file.pyx":68
  *             if s < self.start:
  *                 s = self.start
  *             if e > self.end:             # <<<<<<<<<<<<<<
@@ -2952,7 +2956,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
     __pyx_t_12 = ((__pyx_v_e > __pyx_v_self->end) != 0);
     if (__pyx_t_12) {
 
-      /* "bx/bbi/bigwig_file.pyx":68
+      /* "bx/bbi/bigwig_file.pyx":69
  *                 s = self.start
  *             if e > self.end:
  *                 e = self.end             # <<<<<<<<<<<<<<
@@ -2962,7 +2966,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
       __pyx_t_6 = __pyx_v_self->end;
       __pyx_v_e = __pyx_t_6;
 
-      /* "bx/bbi/bigwig_file.pyx":67
+      /* "bx/bbi/bigwig_file.pyx":68
  *             if s < self.start:
  *                 s = self.start
  *             if e > self.end:             # <<<<<<<<<<<<<<
@@ -2971,7 +2975,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
  */
     }
 
-    /* "bx/bbi/bigwig_file.pyx":69
+    /* "bx/bbi/bigwig_file.pyx":70
  *             if e > self.end:
  *                 e = self.end
  *             if s >= e:             # <<<<<<<<<<<<<<
@@ -2981,7 +2985,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
     __pyx_t_12 = ((__pyx_v_s >= __pyx_v_e) != 0);
     if (__pyx_t_12) {
 
-      /* "bx/bbi/bigwig_file.pyx":70
+      /* "bx/bbi/bigwig_file.pyx":71
  *                 e = self.end
  *             if s >= e:
  *                 continue             # <<<<<<<<<<<<<<
@@ -2990,7 +2994,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
  */
       goto __pyx_L3_continue;
 
-      /* "bx/bbi/bigwig_file.pyx":69
+      /* "bx/bbi/bigwig_file.pyx":70
  *             if e > self.end:
  *                 e = self.end
  *             if s >= e:             # <<<<<<<<<<<<<<
@@ -2999,33 +3003,33 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
  */
     }
 
-    /* "bx/bbi/bigwig_file.pyx":71
+    /* "bx/bbi/bigwig_file.pyx":72
  *             if s >= e:
  *                 continue
  *             self.handle_interval_value( s, e, val )             # <<<<<<<<<<<<<<
  * 
  *     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
  */
-    __pyx_t_5 = ((struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_BigWigBlockHandler *)__pyx_v_self->__pyx_base.__pyx_vtab)->handle_interval_value(__pyx_v_self, __pyx_v_s, __pyx_v_e, __pyx_v_val); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
+    __pyx_t_5 = ((struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_BigWigBlockHandler *)__pyx_v_self->__pyx_base.__pyx_vtab)->handle_interval_value(__pyx_v_self, __pyx_v_s, __pyx_v_e, __pyx_v_val); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_L3_continue:;
-    __pyx_t_9 = __Pyx_PyInt_As_long(__pyx_v_i); if (unlikely((__pyx_t_9 == (long)-1) && PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyInt_As_long(__pyx_v_i); if (unlikely((__pyx_t_9 == (long)-1) && PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
   }
 
-  /* "bx/bbi/bigwig_file.pyx":50
+  /* "bx/bbi/bigwig_file.pyx":51
  *         block_reader.skip(1)
  *         b_item_count = block_reader.read_uint16()
  *         for i from 0 <= i < b_item_count:             # <<<<<<<<<<<<<<
  *             # Depending on the type, s and e are either read or
  *             # generate using header, val is always read
  */
-  __pyx_t_5 = __Pyx_PyInt_From_long(__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_long(__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":33
+  /* "bx/bbi/bigwig_file.pyx":34
  *         self.start = start
  *         self.end = end
  *     cdef handle_block( self, str block_data, BBIFile bbi_file ):             # <<<<<<<<<<<<<<
@@ -3052,7 +3056,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_bloc
   return __pyx_r;
 }
 
-/* "bx/bbi/bigwig_file.pyx":73
+/* "bx/bbi/bigwig_file.pyx":74
  *             self.handle_interval_value( s, e, val )
  * 
  *     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):             # <<<<<<<<<<<<<<
@@ -3072,7 +3076,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_inte
   return __pyx_r;
 }
 
-/* "bx/bbi/bigwig_file.pyx":81
+/* "bx/bbi/bigwig_file.pyx":82
  *     """
  *     cdef SummarizedData sd
  *     def __init__( self, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
@@ -3110,16 +3114,16 @@ static int __pyx_pw_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler_1__init__(P
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 1); __PYX_ERR(0, 81, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 1); __PYX_ERR(0, 82, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_summary_size)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 2); __PYX_ERR(0, 81, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 2); __PYX_ERR(0, 82, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 81, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 82, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -3128,13 +3132,13 @@ static int __pyx_pw_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler_1__init__(P
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L3_error)
-    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L3_error)
-    __pyx_v_summary_size = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_summary_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L3_error)
+    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 82, __pyx_L3_error)
+    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 82, __pyx_L3_error)
+    __pyx_v_summary_size = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_summary_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 82, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 81, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 82, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.bbi.bigwig_file.SummarizingBlockHandler.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3161,18 +3165,18 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler___init__(st
   int __pyx_t_8;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "bx/bbi/bigwig_file.pyx":82
+  /* "bx/bbi/bigwig_file.pyx":83
  *     cdef SummarizedData sd
  *     def __init__( self, bits32 start, bits32 end, int summary_size ):
  *         BigWigBlockHandler.__init__( self, start, end )             # <<<<<<<<<<<<<<
  *         # What we will load into
  *         self.sd = SummarizedData( start, end, summary_size )
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_2bx_3bbi_11bigwig_file_BigWigBlockHandler), __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_2bx_3bbi_11bigwig_file_BigWigBlockHandler), __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
@@ -3189,7 +3193,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler___init__(st
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[4] = {__pyx_t_5, ((PyObject *)__pyx_v_self), __pyx_t_3, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3199,7 +3203,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler___init__(st
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[4] = {__pyx_t_5, ((PyObject *)__pyx_v_self), __pyx_t_3, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3207,7 +3211,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler___init__(st
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -3221,27 +3225,27 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler___init__(st
     PyTuple_SET_ITEM(__pyx_t_7, 2+__pyx_t_6, __pyx_t_4);
     __pyx_t_3 = 0;
     __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":84
+  /* "bx/bbi/bigwig_file.pyx":85
  *         BigWigBlockHandler.__init__( self, start, end )
  *         # What we will load into
  *         self.sd = SummarizedData( start, end, summary_size )             # <<<<<<<<<<<<<<
  *         for i in range(summary_size):
  *             self.sd.min_val[i] = +numpy.inf
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_summary_size); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_summary_size); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
@@ -3252,7 +3256,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler___init__(st
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_8bbi_file_SummarizedData), __pyx_t_4, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_8bbi_file_SummarizedData), __pyx_t_4, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GIVEREF(__pyx_t_7);
@@ -3261,7 +3265,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler___init__(st
   __pyx_v_self->sd = ((struct __pyx_obj_2bx_3bbi_8bbi_file_SummarizedData *)__pyx_t_7);
   __pyx_t_7 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":85
+  /* "bx/bbi/bigwig_file.pyx":86
  *         # What we will load into
  *         self.sd = SummarizedData( start, end, summary_size )
  *         for i in range(summary_size):             # <<<<<<<<<<<<<<
@@ -3272,26 +3276,26 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler___init__(st
   for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_6; __pyx_t_8+=1) {
     __pyx_v_i = __pyx_t_8;
 
-    /* "bx/bbi/bigwig_file.pyx":86
+    /* "bx/bbi/bigwig_file.pyx":87
  *         self.sd = SummarizedData( start, end, summary_size )
  *         for i in range(summary_size):
  *             self.sd.min_val[i] = +numpy.inf             # <<<<<<<<<<<<<<
  *         for i in range(summary_size):
  *             self.sd.max_val[i] = -numpy.inf
  */
-    __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 86, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 87, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_inf); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_inf); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 87, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyNumber_Positive(__pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 86, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Positive(__pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 87, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->sd->min_val), __pyx_v_i, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 86, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->sd->min_val), __pyx_v_i, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 87, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
 
-  /* "bx/bbi/bigwig_file.pyx":87
+  /* "bx/bbi/bigwig_file.pyx":88
  *         for i in range(summary_size):
  *             self.sd.min_val[i] = +numpy.inf
  *         for i in range(summary_size):             # <<<<<<<<<<<<<<
@@ -3302,26 +3306,26 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler___init__(st
   for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_6; __pyx_t_8+=1) {
     __pyx_v_i = __pyx_t_8;
 
-    /* "bx/bbi/bigwig_file.pyx":88
+    /* "bx/bbi/bigwig_file.pyx":89
  *             self.sd.min_val[i] = +numpy.inf
  *         for i in range(summary_size):
  *             self.sd.max_val[i] = -numpy.inf             # <<<<<<<<<<<<<<
  * 
  *     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
  */
-    __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 88, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 89, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_inf); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_inf); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyNumber_Negative(__pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 88, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Negative(__pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 89, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->sd->max_val), __pyx_v_i, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 88, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->sd->max_val), __pyx_v_i, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 89, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
 
-  /* "bx/bbi/bigwig_file.pyx":81
+  /* "bx/bbi/bigwig_file.pyx":82
  *     """
  *     cdef SummarizedData sd
  *     def __init__( self, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
@@ -3346,7 +3350,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler___init__(st
   return __pyx_r;
 }
 
-/* "bx/bbi/bigwig_file.pyx":90
+/* "bx/bbi/bigwig_file.pyx":91
  *             self.sd.max_val[i] = -numpy.inf
  * 
  *     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):             # <<<<<<<<<<<<<<
@@ -3360,18 +3364,18 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler_handle
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("handle_interval_value", 0);
 
-  /* "bx/bbi/bigwig_file.pyx":91
+  /* "bx/bbi/bigwig_file.pyx":92
  * 
  *     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
  *         self.sd.accumulate_interval_value( s, e, val )             # <<<<<<<<<<<<<<
  * 
  * cdef class IntervalAccumulatingBlockHandler( BigWigBlockHandler ):
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_SummarizedData *)__pyx_v_self->sd->__pyx_vtab)->accumulate_interval_value(__pyx_v_self->sd, __pyx_v_s, __pyx_v_e, __pyx_v_val); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_SummarizedData *)__pyx_v_self->sd->__pyx_vtab)->accumulate_interval_value(__pyx_v_self->sd, __pyx_v_s, __pyx_v_e, __pyx_v_val); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":90
+  /* "bx/bbi/bigwig_file.pyx":91
  *             self.sd.max_val[i] = -numpy.inf
  * 
  *     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):             # <<<<<<<<<<<<<<
@@ -3392,7 +3396,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler_handle
   return __pyx_r;
 }
 
-/* "bx/bbi/bigwig_file.pyx":98
+/* "bx/bbi/bigwig_file.pyx":99
  *     Accumulates intervals into a list of intervals with values
  *     """
  *     def __init__( self, bits32 start, bits32 end ):             # <<<<<<<<<<<<<<
@@ -3428,11 +3432,11 @@ static int __pyx_pw_2bx_3bbi_11bigwig_file_32IntervalAccumulatingBlockHandler_1_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 98, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 99, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 98, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 99, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3440,12 +3444,12 @@ static int __pyx_pw_2bx_3bbi_11bigwig_file_32IntervalAccumulatingBlockHandler_1_
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 98, __pyx_L3_error)
-    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 98, __pyx_L3_error)
+    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 99, __pyx_L3_error)
+    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 99, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 98, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 99, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.bbi.bigwig_file.IntervalAccumulatingBlockHandler.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3470,18 +3474,18 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_32IntervalAccumulatingBlockHandler___
   PyObject *__pyx_t_7 = NULL;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "bx/bbi/bigwig_file.pyx":99
+  /* "bx/bbi/bigwig_file.pyx":100
  *     """
  *     def __init__( self, bits32 start, bits32 end ):
  *         BigWigBlockHandler.__init__( self, start, end )             # <<<<<<<<<<<<<<
  *         self.intervals = []
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_2bx_3bbi_11bigwig_file_BigWigBlockHandler), __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_2bx_3bbi_11bigwig_file_BigWigBlockHandler), __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
@@ -3498,7 +3502,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_32IntervalAccumulatingBlockHandler___
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[4] = {__pyx_t_5, ((PyObject *)__pyx_v_self), __pyx_t_3, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3508,7 +3512,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_32IntervalAccumulatingBlockHandler___
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[4] = {__pyx_t_5, ((PyObject *)__pyx_v_self), __pyx_t_3, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3516,7 +3520,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_32IntervalAccumulatingBlockHandler___
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -3530,21 +3534,21 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_32IntervalAccumulatingBlockHandler___
     PyTuple_SET_ITEM(__pyx_t_7, 2+__pyx_t_6, __pyx_t_4);
     __pyx_t_3 = 0;
     __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":100
+  /* "bx/bbi/bigwig_file.pyx":101
  *     def __init__( self, bits32 start, bits32 end ):
  *         BigWigBlockHandler.__init__( self, start, end )
  *         self.intervals = []             # <<<<<<<<<<<<<<
  * 
  *     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->intervals);
@@ -3552,7 +3556,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_32IntervalAccumulatingBlockHandler___
   __pyx_v_self->intervals = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":98
+  /* "bx/bbi/bigwig_file.pyx":99
  *     Accumulates intervals into a list of intervals with values
  *     """
  *     def __init__( self, bits32 start, bits32 end ):             # <<<<<<<<<<<<<<
@@ -3577,7 +3581,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_32IntervalAccumulatingBlockHandler___
   return __pyx_r;
 }
 
-/* "bx/bbi/bigwig_file.pyx":102
+/* "bx/bbi/bigwig_file.pyx":103
  *         self.intervals = []
  * 
  *     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):             # <<<<<<<<<<<<<<
@@ -3595,7 +3599,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_32IntervalAccumulatingBlockHandl
   int __pyx_t_5;
   __Pyx_RefNannySetupContext("handle_interval_value", 0);
 
-  /* "bx/bbi/bigwig_file.pyx":103
+  /* "bx/bbi/bigwig_file.pyx":104
  * 
  *     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
  *         self.intervals.append( ( s, e, val ) )             # <<<<<<<<<<<<<<
@@ -3604,15 +3608,15 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_32IntervalAccumulatingBlockHandl
  */
   if (unlikely(__pyx_v_self->intervals == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "append");
-    __PYX_ERR(0, 103, __pyx_L1_error)
+    __PYX_ERR(0, 104, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_s); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_s); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_e); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_e); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_val); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_val); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
@@ -3623,10 +3627,10 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_32IntervalAccumulatingBlockHandl
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_self->intervals, __pyx_t_4); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_self->intervals, __pyx_t_4); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":102
+  /* "bx/bbi/bigwig_file.pyx":103
  *         self.intervals = []
  * 
  *     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):             # <<<<<<<<<<<<<<
@@ -3650,7 +3654,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_32IntervalAccumulatingBlockHandl
   return __pyx_r;
 }
 
-/* "bx/bbi/bigwig_file.pyx":110
+/* "bx/bbi/bigwig_file.pyx":111
  *     """
  *     cdef numpy.ndarray array
  *     def __init__( self, bits32 start, bits32 end ):             # <<<<<<<<<<<<<<
@@ -3686,11 +3690,11 @@ static int __pyx_pw_2bx_3bbi_11bigwig_file_29ArrayAccumulatingBlockHandler_1__in
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 110, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 111, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 110, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 111, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3698,12 +3702,12 @@ static int __pyx_pw_2bx_3bbi_11bigwig_file_29ArrayAccumulatingBlockHandler_1__in
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 110, __pyx_L3_error)
-    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 110, __pyx_L3_error)
+    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L3_error)
+    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 110, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 111, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.bbi.bigwig_file.ArrayAccumulatingBlockHandler.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3728,18 +3732,18 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_29ArrayAccumulatingBlockHandler___ini
   PyObject *__pyx_t_7 = NULL;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "bx/bbi/bigwig_file.pyx":111
+  /* "bx/bbi/bigwig_file.pyx":112
  *     cdef numpy.ndarray array
  *     def __init__( self, bits32 start, bits32 end ):
  *         BigWigBlockHandler.__init__( self, start, end )             # <<<<<<<<<<<<<<
  *         self.array = numpy.zeros( end - start, dtype=numpy.float32 )
  *         self.array[...] = numpy.nan
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_2bx_3bbi_11bigwig_file_BigWigBlockHandler), __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_2bx_3bbi_11bigwig_file_BigWigBlockHandler), __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
@@ -3756,7 +3760,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_29ArrayAccumulatingBlockHandler___ini
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[4] = {__pyx_t_5, ((PyObject *)__pyx_v_self), __pyx_t_3, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3766,7 +3770,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_29ArrayAccumulatingBlockHandler___ini
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[4] = {__pyx_t_5, ((PyObject *)__pyx_v_self), __pyx_t_3, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3774,7 +3778,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_29ArrayAccumulatingBlockHandler___ini
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -3788,69 +3792,69 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_29ArrayAccumulatingBlockHandler___ini
     PyTuple_SET_ITEM(__pyx_t_7, 2+__pyx_t_6, __pyx_t_4);
     __pyx_t_3 = 0;
     __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":112
+  /* "bx/bbi/bigwig_file.pyx":113
  *     def __init__( self, bits32 start, bits32 end ):
  *         BigWigBlockHandler.__init__( self, start, end )
  *         self.array = numpy.zeros( end - start, dtype=numpy.float32 )             # <<<<<<<<<<<<<<
  *         self.array[...] = numpy.nan
  * 
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int((__pyx_v_end - __pyx_v_start)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int((__pyx_v_end - __pyx_v_start)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float32); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float32); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 112, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 112, __pyx_L1_error)
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_3);
   __Pyx_GOTREF(__pyx_v_self->array);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->array));
   __pyx_v_self->array = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":113
+  /* "bx/bbi/bigwig_file.pyx":114
  *         BigWigBlockHandler.__init__( self, start, end )
  *         self.array = numpy.zeros( end - start, dtype=numpy.float32 )
  *         self.array[...] = numpy.nan             # <<<<<<<<<<<<<<
  * 
  *     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_nan); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_nan); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_self->array), Py_Ellipsis, __pyx_t_1) < 0)) __PYX_ERR(0, 113, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_self->array), Py_Ellipsis, __pyx_t_1) < 0)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":110
+  /* "bx/bbi/bigwig_file.pyx":111
  *     """
  *     cdef numpy.ndarray array
  *     def __init__( self, bits32 start, bits32 end ):             # <<<<<<<<<<<<<<
@@ -3875,7 +3879,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_29ArrayAccumulatingBlockHandler___ini
   return __pyx_r;
 }
 
-/* "bx/bbi/bigwig_file.pyx":115
+/* "bx/bbi/bigwig_file.pyx":116
  *         self.array[...] = numpy.nan
  * 
  *     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):             # <<<<<<<<<<<<<<
@@ -3900,7 +3904,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_29ArrayAccumulatingBlockHandler_
   __pyx_pybuffernd_array.data = NULL;
   __pyx_pybuffernd_array.rcbuffer = &__pyx_pybuffer_array;
 
-  /* "bx/bbi/bigwig_file.pyx":116
+  /* "bx/bbi/bigwig_file.pyx":117
  * 
  *     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):
  *         cdef numpy.ndarray[ numpy.float32_t, ndim=1 ] array = self.array             # <<<<<<<<<<<<<<
@@ -3913,14 +3917,14 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_29ArrayAccumulatingBlockHandler_
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_array.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_1), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float32_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_array = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_array.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 116, __pyx_L1_error)
+      __PYX_ERR(0, 117, __pyx_L1_error)
     } else {__pyx_pybuffernd_array.diminfo[0].strides = __pyx_pybuffernd_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_array.diminfo[0].shape = __pyx_pybuffernd_array.rcbuffer->pybuffer.shape[0];
     }
   }
   __pyx_v_array = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":119
+  /* "bx/bbi/bigwig_file.pyx":120
  *         cdef int i
  *         # Slicing is not optimized by Cython
  *         for i from s - self.start <= i < e - self.start:             # <<<<<<<<<<<<<<
@@ -3930,7 +3934,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_29ArrayAccumulatingBlockHandler_
   __pyx_t_2 = (__pyx_v_e - __pyx_v_self->__pyx_base.start);
   for (__pyx_v_i = (__pyx_v_s - __pyx_v_self->__pyx_base.start); __pyx_v_i < __pyx_t_2; __pyx_v_i++) {
 
-    /* "bx/bbi/bigwig_file.pyx":120
+    /* "bx/bbi/bigwig_file.pyx":121
  *         # Slicing is not optimized by Cython
  *         for i from s - self.start <= i < e - self.start:
  *             array[ i ] = val             # <<<<<<<<<<<<<<
@@ -3945,12 +3949,12 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_29ArrayAccumulatingBlockHandler_
     } else if (unlikely(__pyx_t_3 >= __pyx_pybuffernd_array.diminfo[0].shape)) __pyx_t_4 = 0;
     if (unlikely(__pyx_t_4 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_4);
-      __PYX_ERR(0, 120, __pyx_L1_error)
+      __PYX_ERR(0, 121, __pyx_L1_error)
     }
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_array.rcbuffer->pybuffer.buf, __pyx_t_3, __pyx_pybuffernd_array.diminfo[0].strides) = __pyx_v_val;
   }
 
-  /* "bx/bbi/bigwig_file.pyx":115
+  /* "bx/bbi/bigwig_file.pyx":116
  *         self.array[...] = numpy.nan
  * 
  *     cdef handle_interval_value( self, bits32 s, bits32 e, float val ):             # <<<<<<<<<<<<<<
@@ -3981,7 +3985,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_29ArrayAccumulatingBlockHandler_
   return __pyx_r;
 }
 
-/* "bx/bbi/bigwig_file.pyx":126
+/* "bx/bbi/bigwig_file.pyx":127
  *     A "big binary indexed" file whose raw data is in wiggle format.
  *     """
  *     def __init__( self, file=None ):             # <<<<<<<<<<<<<<
@@ -4017,7 +4021,7 @@ static int __pyx_pw_2bx_3bbi_11bigwig_file_10BigWigFile_1__init__(PyObject *__py
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 126, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 127, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4030,7 +4034,7 @@ static int __pyx_pw_2bx_3bbi_11bigwig_file_10BigWigFile_1__init__(PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 126, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 127, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.bbi.bigwig_file.BigWigFile.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4053,14 +4057,14 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_10BigWigFile___init__(struct __pyx_ob
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "bx/bbi/bigwig_file.pyx":127
+  /* "bx/bbi/bigwig_file.pyx":128
  *     """
  *     def __init__( self, file=None ):
  *         BBIFile.__init__( self, file, big_wig_sig, "bigwig" )             # <<<<<<<<<<<<<<
  * 
  *     cdef _summarize_from_full( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size ):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_2bx_3bbi_8bbi_file_BBIFile), __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_2bx_3bbi_8bbi_file_BBIFile), __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 128, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   __pyx_t_4 = 0;
@@ -4077,7 +4081,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_10BigWigFile___init__(struct __pyx_ob
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[5] = {__pyx_t_3, ((PyObject *)__pyx_v_self), __pyx_v_file, __pyx_int_2291137574, __pyx_n_s_bigwig};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_4, 4+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_4, 4+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
@@ -4085,13 +4089,13 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_10BigWigFile___init__(struct __pyx_ob
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[5] = {__pyx_t_3, ((PyObject *)__pyx_v_self), __pyx_v_file, __pyx_int_2291137574, __pyx_n_s_bigwig};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_4, 4+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_4, 4+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
   #endif
   {
-    __pyx_t_5 = PyTuple_New(4+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 127, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(4+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     if (__pyx_t_3) {
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -4108,14 +4112,14 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_10BigWigFile___init__(struct __pyx_ob
     __Pyx_INCREF(__pyx_n_s_bigwig);
     __Pyx_GIVEREF(__pyx_n_s_bigwig);
     PyTuple_SET_ITEM(__pyx_t_5, 3+__pyx_t_4, __pyx_n_s_bigwig);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":126
+  /* "bx/bbi/bigwig_file.pyx":127
  *     A "big binary indexed" file whose raw data is in wiggle format.
  *     """
  *     def __init__( self, file=None ):             # <<<<<<<<<<<<<<
@@ -4138,7 +4142,7 @@ static int __pyx_pf_2bx_3bbi_11bigwig_file_10BigWigFile___init__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "bx/bbi/bigwig_file.pyx":129
+/* "bx/bbi/bigwig_file.pyx":130
  *         BBIFile.__init__( self, file, big_wig_sig, "bigwig" )
  * 
  *     cdef _summarize_from_full( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
@@ -4158,20 +4162,20 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile__summarize_from_ful
   int __pyx_t_5;
   __Pyx_RefNannySetupContext("_summarize_from_full", 0);
 
-  /* "bx/bbi/bigwig_file.pyx":133
+  /* "bx/bbi/bigwig_file.pyx":134
  *         Create summary from full data.
  *         """
  *         v = SummarizingBlockHandler( start, end, summary_size )             # <<<<<<<<<<<<<<
  *         self.visit_blocks_in_region( chrom_id, start, end, v )
  *         # Round valid count, in place
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_summary_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_summary_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
@@ -4182,24 +4186,24 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile__summarize_from_ful
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_11bigwig_file_SummarizingBlockHandler), __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_11bigwig_file_SummarizingBlockHandler), __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_v = ((struct __pyx_obj_2bx_3bbi_11bigwig_file_SummarizingBlockHandler *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":134
+  /* "bx/bbi/bigwig_file.pyx":135
  *         """
  *         v = SummarizingBlockHandler( start, end, summary_size )
  *         self.visit_blocks_in_region( chrom_id, start, end, v )             # <<<<<<<<<<<<<<
  *         # Round valid count, in place
  *         for i from 0 <= i < summary_size:
  */
-  __pyx_t_3 = ((struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_BigWigFile *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.visit_blocks_in_region(((struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self), __pyx_v_chrom_id, __pyx_v_start, __pyx_v_end, ((struct __pyx_obj_2bx_3bbi_8bbi_file_BlockHandler *)__pyx_v_v)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 134, __pyx_L1_error)
+  __pyx_t_3 = ((struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_BigWigFile *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.visit_blocks_in_region(((struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self), __pyx_v_chrom_id, __pyx_v_start, __pyx_v_end, ((struct __pyx_obj_2bx_3bbi_8bbi_file_BlockHandler *)__pyx_v_v)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":136
+  /* "bx/bbi/bigwig_file.pyx":137
  *         self.visit_blocks_in_region( chrom_id, start, end, v )
  *         # Round valid count, in place
  *         for i from 0 <= i < summary_size:             # <<<<<<<<<<<<<<
@@ -4209,28 +4213,28 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile__summarize_from_ful
   __pyx_t_5 = __pyx_v_summary_size;
   for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_5; __pyx_v_i++) {
 
-    /* "bx/bbi/bigwig_file.pyx":137
+    /* "bx/bbi/bigwig_file.pyx":138
  *         # Round valid count, in place
  *         for i from 0 <= i < summary_size:
  *             v.sd.valid_count[i] = round( v.sd.valid_count[i] )             # <<<<<<<<<<<<<<
  *         return v.sd
  * 
  */
-    __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_v->sd->valid_count), __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 137, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_v->sd->valid_count), __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 137, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_round, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 137, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_round, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_v->sd->valid_count), __pyx_v_i, __pyx_t_3, long, 1, __Pyx_PyInt_From_long, 0, 1, 1) < 0)) __PYX_ERR(0, 137, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_v->sd->valid_count), __pyx_v_i, __pyx_t_3, long, 1, __Pyx_PyInt_From_long, 0, 1, 1) < 0)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
 
-  /* "bx/bbi/bigwig_file.pyx":138
+  /* "bx/bbi/bigwig_file.pyx":139
  *         for i from 0 <= i < summary_size:
  *             v.sd.valid_count[i] = round( v.sd.valid_count[i] )
  *         return v.sd             # <<<<<<<<<<<<<<
@@ -4242,7 +4246,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile__summarize_from_ful
   __pyx_r = ((PyObject *)__pyx_v_v->sd);
   goto __pyx_L0;
 
-  /* "bx/bbi/bigwig_file.pyx":129
+  /* "bx/bbi/bigwig_file.pyx":130
  *         BBIFile.__init__( self, file, big_wig_sig, "bigwig" )
  * 
  *     cdef _summarize_from_full( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
@@ -4265,7 +4269,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile__summarize_from_ful
   return __pyx_r;
 }
 
-/* "bx/bbi/bigwig_file.pyx":140
+/* "bx/bbi/bigwig_file.pyx":141
  *         return v.sd
  * 
  *     cpdef get( self, char * chrom, bits32 start, bits32 end ):             # <<<<<<<<<<<<<<
@@ -4298,15 +4302,15 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_2bx_3bbi_11bigwig_file_10BigWigFile_3get)) {
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_chrom); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 140, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_chrom); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 140, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 141, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 140, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 141, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_1);
       __pyx_t_6 = __pyx_t_1; __pyx_t_7 = NULL;
@@ -4324,7 +4328,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_6)) {
         PyObject *__pyx_temp[4] = {__pyx_t_7, __pyx_t_3, __pyx_t_4, __pyx_t_5};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 3+__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 3+__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 141, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4335,7 +4339,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
         PyObject *__pyx_temp[4] = {__pyx_t_7, __pyx_t_3, __pyx_t_4, __pyx_t_5};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 3+__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 3+__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 141, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4344,7 +4348,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
       } else
       #endif
       {
-        __pyx_t_9 = PyTuple_New(3+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 140, __pyx_L1_error)
+        __pyx_t_9 = PyTuple_New(3+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 141, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         if (__pyx_t_7) {
           __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -4358,7 +4362,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
         __pyx_t_3 = 0;
         __pyx_t_4 = 0;
         __pyx_t_5 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 141, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
@@ -4371,7 +4375,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "bx/bbi/bigwig_file.pyx":144
+  /* "bx/bbi/bigwig_file.pyx":145
  *         Gets all data points over the regions `chrom`:`start`-`end`.
  *         """
  *         if start >= end:             # <<<<<<<<<<<<<<
@@ -4381,7 +4385,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
   __pyx_t_10 = ((__pyx_v_start >= __pyx_v_end) != 0);
   if (__pyx_t_10) {
 
-    /* "bx/bbi/bigwig_file.pyx":145
+    /* "bx/bbi/bigwig_file.pyx":146
  *         """
  *         if start >= end:
  *             return None             # <<<<<<<<<<<<<<
@@ -4393,7 +4397,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
     __pyx_r = Py_None;
     goto __pyx_L0;
 
-    /* "bx/bbi/bigwig_file.pyx":144
+    /* "bx/bbi/bigwig_file.pyx":145
  *         Gets all data points over the regions `chrom`:`start`-`end`.
  *         """
  *         if start >= end:             # <<<<<<<<<<<<<<
@@ -4402,14 +4406,14 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
  */
   }
 
-  /* "bx/bbi/bigwig_file.pyx":146
+  /* "bx/bbi/bigwig_file.pyx":147
  *         if start >= end:
  *             return None
  *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )             # <<<<<<<<<<<<<<
  *         if chrom_id is None:
  *             return None
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_BigWigFile *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._get_chrom_id_and_size(((struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self), __pyx_v_chrom); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_BigWigFile *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._get_chrom_id_and_size(((struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self), __pyx_v_chrom); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
     PyObject* sequence = __pyx_t_1;
@@ -4421,7 +4425,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 146, __pyx_L1_error)
+      __PYX_ERR(0, 147, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -4434,15 +4438,15 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_t_6);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 146, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 146, __pyx_L1_error)
+    __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     #endif
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_9 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 146, __pyx_L1_error)
+    __pyx_t_9 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_11 = Py_TYPE(__pyx_t_9)->tp_iternext;
@@ -4450,7 +4454,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
     __Pyx_GOTREF(__pyx_t_2);
     index = 1; __pyx_t_6 = __pyx_t_11(__pyx_t_9); if (unlikely(!__pyx_t_6)) goto __pyx_L4_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_6);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_9), 2) < 0) __PYX_ERR(0, 146, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_9), 2) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
     __pyx_t_11 = NULL;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     goto __pyx_L5_unpacking_done;
@@ -4458,7 +4462,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_t_11 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 146, __pyx_L1_error)
+    __PYX_ERR(0, 147, __pyx_L1_error)
     __pyx_L5_unpacking_done:;
   }
   __pyx_v_chrom_id = __pyx_t_2;
@@ -4466,7 +4470,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
   __pyx_v_chrom_size = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":147
+  /* "bx/bbi/bigwig_file.pyx":148
  *             return None
  *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
  *         if chrom_id is None:             # <<<<<<<<<<<<<<
@@ -4477,7 +4481,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
   __pyx_t_12 = (__pyx_t_10 != 0);
   if (__pyx_t_12) {
 
-    /* "bx/bbi/bigwig_file.pyx":148
+    /* "bx/bbi/bigwig_file.pyx":149
  *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
  *         if chrom_id is None:
  *             return None             # <<<<<<<<<<<<<<
@@ -4489,7 +4493,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
     __pyx_r = Py_None;
     goto __pyx_L0;
 
-    /* "bx/bbi/bigwig_file.pyx":147
+    /* "bx/bbi/bigwig_file.pyx":148
  *             return None
  *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
  *         if chrom_id is None:             # <<<<<<<<<<<<<<
@@ -4498,18 +4502,18 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
  */
   }
 
-  /* "bx/bbi/bigwig_file.pyx":149
+  /* "bx/bbi/bigwig_file.pyx":150
  *         if chrom_id is None:
  *             return None
  *         v = IntervalAccumulatingBlockHandler( start, end )             # <<<<<<<<<<<<<<
  *         self.visit_blocks_in_region( chrom_id, start, end, v )
  *         return v.intervals
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 150, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 150, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 150, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
@@ -4517,25 +4521,25 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_6);
   __pyx_t_1 = 0;
   __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler), __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler), __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 150, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_v = ((struct __pyx_obj_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler *)__pyx_t_6);
   __pyx_t_6 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":150
+  /* "bx/bbi/bigwig_file.pyx":151
  *             return None
  *         v = IntervalAccumulatingBlockHandler( start, end )
  *         self.visit_blocks_in_region( chrom_id, start, end, v )             # <<<<<<<<<<<<<<
  *         return v.intervals
  * 
  */
-  __pyx_t_13 = __Pyx_PyInt_As_unsigned_int(__pyx_v_chrom_id); if (unlikely((__pyx_t_13 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 150, __pyx_L1_error)
-  __pyx_t_6 = ((struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_BigWigFile *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.visit_blocks_in_region(((struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self), __pyx_t_13, __pyx_v_start, __pyx_v_end, ((struct __pyx_obj_2bx_3bbi_8bbi_file_BlockHandler *)__pyx_v_v)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 150, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PyInt_As_unsigned_int(__pyx_v_chrom_id); if (unlikely((__pyx_t_13 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 151, __pyx_L1_error)
+  __pyx_t_6 = ((struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_BigWigFile *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.visit_blocks_in_region(((struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self), __pyx_t_13, __pyx_v_start, __pyx_v_end, ((struct __pyx_obj_2bx_3bbi_8bbi_file_BlockHandler *)__pyx_v_v)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":151
+  /* "bx/bbi/bigwig_file.pyx":152
  *         v = IntervalAccumulatingBlockHandler( start, end )
  *         self.visit_blocks_in_region( chrom_id, start, end, v )
  *         return v.intervals             # <<<<<<<<<<<<<<
@@ -4547,7 +4551,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(struct __pyx_ob
   __pyx_r = __pyx_v_v->intervals;
   goto __pyx_L0;
 
-  /* "bx/bbi/bigwig_file.pyx":140
+  /* "bx/bbi/bigwig_file.pyx":141
  *         return v.sd
  * 
  *     cpdef get( self, char * chrom, bits32 start, bits32 end ):             # <<<<<<<<<<<<<<
@@ -4607,16 +4611,16 @@ static PyObject *__pyx_pw_2bx_3bbi_11bigwig_file_10BigWigFile_3get(PyObject *__p
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get", 1, 3, 3, 1); __PYX_ERR(0, 140, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get", 1, 3, 3, 1); __PYX_ERR(0, 141, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get", 1, 3, 3, 2); __PYX_ERR(0, 140, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get", 1, 3, 3, 2); __PYX_ERR(0, 141, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get") < 0)) __PYX_ERR(0, 140, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get") < 0)) __PYX_ERR(0, 141, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -4625,13 +4629,13 @@ static PyObject *__pyx_pw_2bx_3bbi_11bigwig_file_10BigWigFile_3get(PyObject *__p
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_chrom = __Pyx_PyObject_AsString(values[0]); if (unlikely((!__pyx_v_chrom) && PyErr_Occurred())) __PYX_ERR(0, 140, __pyx_L3_error)
-    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 140, __pyx_L3_error)
-    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 140, __pyx_L3_error)
+    __pyx_v_chrom = __Pyx_PyObject_AsString(values[0]); if (unlikely((!__pyx_v_chrom) && PyErr_Occurred())) __PYX_ERR(0, 141, __pyx_L3_error)
+    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 141, __pyx_L3_error)
+    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 141, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 140, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("get", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 141, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.bbi.bigwig_file.BigWigFile.get", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4650,7 +4654,7 @@ static PyObject *__pyx_pf_2bx_3bbi_11bigwig_file_10BigWigFile_2get(struct __pyx_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("get", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(__pyx_v_self, __pyx_v_chrom, __pyx_v_start, __pyx_v_end, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get(__pyx_v_self, __pyx_v_chrom, __pyx_v_start, __pyx_v_end, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4667,7 +4671,7 @@ static PyObject *__pyx_pf_2bx_3bbi_11bigwig_file_10BigWigFile_2get(struct __pyx_
   return __pyx_r;
 }
 
-/* "bx/bbi/bigwig_file.pyx":153
+/* "bx/bbi/bigwig_file.pyx":154
  *         return v.intervals
  * 
  *     cpdef get_as_array( self, char * chrom, bits32 start, bits32 end ):             # <<<<<<<<<<<<<<
@@ -4700,15 +4704,15 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_as_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_as_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_2bx_3bbi_11bigwig_file_10BigWigFile_5get_as_array)) {
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_chrom); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_chrom); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 154, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 153, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 154, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 153, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 154, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_1);
       __pyx_t_6 = __pyx_t_1; __pyx_t_7 = NULL;
@@ -4726,7 +4730,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_6)) {
         PyObject *__pyx_temp[4] = {__pyx_t_7, __pyx_t_3, __pyx_t_4, __pyx_t_5};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 3+__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 3+__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 154, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4737,7 +4741,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
         PyObject *__pyx_temp[4] = {__pyx_t_7, __pyx_t_3, __pyx_t_4, __pyx_t_5};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 3+__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 3+__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 154, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4746,7 +4750,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
       } else
       #endif
       {
-        __pyx_t_9 = PyTuple_New(3+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 153, __pyx_L1_error)
+        __pyx_t_9 = PyTuple_New(3+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 154, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         if (__pyx_t_7) {
           __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -4760,7 +4764,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
         __pyx_t_3 = 0;
         __pyx_t_4 = 0;
         __pyx_t_5 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 154, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
@@ -4773,7 +4777,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "bx/bbi/bigwig_file.pyx":157
+  /* "bx/bbi/bigwig_file.pyx":158
  *         Gets all data points over the regions `chrom`:`start`-`end`.
  *         """
  *         if start >= end:             # <<<<<<<<<<<<<<
@@ -4783,7 +4787,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
   __pyx_t_10 = ((__pyx_v_start >= __pyx_v_end) != 0);
   if (__pyx_t_10) {
 
-    /* "bx/bbi/bigwig_file.pyx":158
+    /* "bx/bbi/bigwig_file.pyx":159
  *         """
  *         if start >= end:
  *             return None             # <<<<<<<<<<<<<<
@@ -4795,7 +4799,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
     __pyx_r = Py_None;
     goto __pyx_L0;
 
-    /* "bx/bbi/bigwig_file.pyx":157
+    /* "bx/bbi/bigwig_file.pyx":158
  *         Gets all data points over the regions `chrom`:`start`-`end`.
  *         """
  *         if start >= end:             # <<<<<<<<<<<<<<
@@ -4804,14 +4808,14 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
  */
   }
 
-  /* "bx/bbi/bigwig_file.pyx":159
+  /* "bx/bbi/bigwig_file.pyx":160
  *         if start >= end:
  *             return None
  *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )             # <<<<<<<<<<<<<<
  *         if chrom_id is None:
  *             return None
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_BigWigFile *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._get_chrom_id_and_size(((struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self), __pyx_v_chrom); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_BigWigFile *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._get_chrom_id_and_size(((struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self), __pyx_v_chrom); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 160, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
     PyObject* sequence = __pyx_t_1;
@@ -4823,7 +4827,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 159, __pyx_L1_error)
+      __PYX_ERR(0, 160, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -4836,15 +4840,15 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_t_6);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 160, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 160, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     #endif
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_9 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_9 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 160, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_11 = Py_TYPE(__pyx_t_9)->tp_iternext;
@@ -4852,7 +4856,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
     __Pyx_GOTREF(__pyx_t_2);
     index = 1; __pyx_t_6 = __pyx_t_11(__pyx_t_9); if (unlikely(!__pyx_t_6)) goto __pyx_L4_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_6);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_9), 2) < 0) __PYX_ERR(0, 159, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_9), 2) < 0) __PYX_ERR(0, 160, __pyx_L1_error)
     __pyx_t_11 = NULL;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     goto __pyx_L5_unpacking_done;
@@ -4860,7 +4864,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_t_11 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 159, __pyx_L1_error)
+    __PYX_ERR(0, 160, __pyx_L1_error)
     __pyx_L5_unpacking_done:;
   }
   __pyx_v_chrom_id = __pyx_t_2;
@@ -4868,7 +4872,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
   __pyx_v_chrom_size = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":160
+  /* "bx/bbi/bigwig_file.pyx":161
  *             return None
  *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
  *         if chrom_id is None:             # <<<<<<<<<<<<<<
@@ -4879,7 +4883,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
   __pyx_t_12 = (__pyx_t_10 != 0);
   if (__pyx_t_12) {
 
-    /* "bx/bbi/bigwig_file.pyx":161
+    /* "bx/bbi/bigwig_file.pyx":162
  *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
  *         if chrom_id is None:
  *             return None             # <<<<<<<<<<<<<<
@@ -4891,7 +4895,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
     __pyx_r = Py_None;
     goto __pyx_L0;
 
-    /* "bx/bbi/bigwig_file.pyx":160
+    /* "bx/bbi/bigwig_file.pyx":161
  *             return None
  *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
  *         if chrom_id is None:             # <<<<<<<<<<<<<<
@@ -4900,18 +4904,18 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
  */
   }
 
-  /* "bx/bbi/bigwig_file.pyx":162
+  /* "bx/bbi/bigwig_file.pyx":163
  *         if chrom_id is None:
  *             return None
  *         v = ArrayAccumulatingBlockHandler( start, end )             # <<<<<<<<<<<<<<
  *         self.visit_blocks_in_region( chrom_id, start, end, v )
  *         return v.array
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
@@ -4919,25 +4923,25 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_6);
   __pyx_t_1 = 0;
   __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler), __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler), __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_v = ((struct __pyx_obj_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler *)__pyx_t_6);
   __pyx_t_6 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":163
+  /* "bx/bbi/bigwig_file.pyx":164
  *             return None
  *         v = ArrayAccumulatingBlockHandler( start, end )
  *         self.visit_blocks_in_region( chrom_id, start, end, v )             # <<<<<<<<<<<<<<
  *         return v.array
  * 
  */
-  __pyx_t_13 = __Pyx_PyInt_As_unsigned_int(__pyx_v_chrom_id); if (unlikely((__pyx_t_13 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 163, __pyx_L1_error)
-  __pyx_t_6 = ((struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_BigWigFile *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.visit_blocks_in_region(((struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self), __pyx_t_13, __pyx_v_start, __pyx_v_end, ((struct __pyx_obj_2bx_3bbi_8bbi_file_BlockHandler *)__pyx_v_v)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 163, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PyInt_As_unsigned_int(__pyx_v_chrom_id); if (unlikely((__pyx_t_13 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_t_6 = ((struct __pyx_vtabstruct_2bx_3bbi_11bigwig_file_BigWigFile *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.visit_blocks_in_region(((struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self), __pyx_t_13, __pyx_v_start, __pyx_v_end, ((struct __pyx_obj_2bx_3bbi_8bbi_file_BlockHandler *)__pyx_v_v)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "bx/bbi/bigwig_file.pyx":164
+  /* "bx/bbi/bigwig_file.pyx":165
  *         v = ArrayAccumulatingBlockHandler( start, end )
  *         self.visit_blocks_in_region( chrom_id, start, end, v )
  *         return v.array             # <<<<<<<<<<<<<<
@@ -4949,7 +4953,7 @@ static PyObject *__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(struct
   __pyx_r = ((PyObject *)__pyx_v_v->array);
   goto __pyx_L0;
 
-  /* "bx/bbi/bigwig_file.pyx":153
+  /* "bx/bbi/bigwig_file.pyx":154
  *         return v.intervals
  * 
  *     cpdef get_as_array( self, char * chrom, bits32 start, bits32 end ):             # <<<<<<<<<<<<<<
@@ -5009,16 +5013,16 @@ static PyObject *__pyx_pw_2bx_3bbi_11bigwig_file_10BigWigFile_5get_as_array(PyOb
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_as_array", 1, 3, 3, 1); __PYX_ERR(0, 153, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get_as_array", 1, 3, 3, 1); __PYX_ERR(0, 154, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_as_array", 1, 3, 3, 2); __PYX_ERR(0, 153, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get_as_array", 1, 3, 3, 2); __PYX_ERR(0, 154, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_as_array") < 0)) __PYX_ERR(0, 153, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_as_array") < 0)) __PYX_ERR(0, 154, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -5027,13 +5031,13 @@ static PyObject *__pyx_pw_2bx_3bbi_11bigwig_file_10BigWigFile_5get_as_array(PyOb
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_chrom = __Pyx_PyObject_AsString(values[0]); if (unlikely((!__pyx_v_chrom) && PyErr_Occurred())) __PYX_ERR(0, 153, __pyx_L3_error)
-    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 153, __pyx_L3_error)
-    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 153, __pyx_L3_error)
+    __pyx_v_chrom = __Pyx_PyObject_AsString(values[0]); if (unlikely((!__pyx_v_chrom) && PyErr_Occurred())) __PYX_ERR(0, 154, __pyx_L3_error)
+    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 154, __pyx_L3_error)
+    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 154, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_as_array", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 153, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("get_as_array", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 154, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.bbi.bigwig_file.BigWigFile.get_as_array", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5052,7 +5056,7 @@ static PyObject *__pyx_pf_2bx_3bbi_11bigwig_file_10BigWigFile_4get_as_array(stru
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("get_as_array", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(__pyx_v_self, __pyx_v_chrom, __pyx_v_start, __pyx_v_end, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array(__pyx_v_self, __pyx_v_chrom, __pyx_v_start, __pyx_v_end, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8111,6 +8115,7 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_BinaryFileReader, __pyx_k_BinaryFileReader, sizeof(__pyx_k_BinaryFileReader), 0, 0, 1, 1},
+  {&__pyx_n_s_BytesIO, __pyx_k_BytesIO, sizeof(__pyx_k_BytesIO), 0, 0, 1, 1},
   {&__pyx_kp_u_Format_string_allocated_too_shor, __pyx_k_Format_string_allocated_too_shor, sizeof(__pyx_k_Format_string_allocated_too_shor), 0, 1, 0, 0},
   {&__pyx_kp_u_Format_string_allocated_too_shor_2, __pyx_k_Format_string_allocated_too_shor_2, sizeof(__pyx_k_Format_string_allocated_too_shor_2), 0, 1, 0, 0},
   {&__pyx_n_s_ImportError, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
@@ -8148,6 +8153,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_read_uint32, __pyx_k_read_uint32, sizeof(__pyx_k_read_uint32), 0, 0, 1, 1},
   {&__pyx_n_s_read_uint8, __pyx_k_read_uint8, sizeof(__pyx_k_read_uint8), 0, 0, 1, 1},
   {&__pyx_n_s_round, __pyx_k_round, sizeof(__pyx_k_round), 0, 0, 1, 1},
+  {&__pyx_n_s_six, __pyx_k_six, sizeof(__pyx_k_six), 0, 0, 1, 1},
   {&__pyx_n_s_six_moves, __pyx_k_six_moves, sizeof(__pyx_k_six_moves), 0, 0, 1, 1},
   {&__pyx_n_s_skip, __pyx_k_skip, sizeof(__pyx_k_skip), 0, 0, 1, 1},
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
@@ -8159,8 +8165,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 85, __pyx_L1_error)
-  __pyx_builtin_round = __Pyx_GetBuiltinName(__pyx_n_s_round); if (!__pyx_builtin_round) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_builtin_round = __Pyx_GetBuiltinName(__pyx_n_s_round); if (!__pyx_builtin_round) __PYX_ERR(0, 138, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 218, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 799, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 989, __pyx_L1_error)
@@ -8173,14 +8179,14 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "bx/bbi/bigwig_file.pyx":48
+  /* "bx/bbi/bigwig_file.pyx":49
  *         b_item_span = block_reader.read_uint32()
  *         b_type = block_reader.read_uint8()
  *         block_reader.skip(1)             # <<<<<<<<<<<<<<
  *         b_item_count = block_reader.read_uint16()
  *         for i from 0 <= i < b_item_count:
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -8388,37 +8394,37 @@ PyMODINIT_FUNC PyInit_bigwig_file(void)
   __pyx_vtable_2bx_3bbi_11bigwig_file_BigWigBlockHandler.__pyx_base.handle_block = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_8bbi_file_BlockHandler *, PyObject *, struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *))__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_block;
   __pyx_vtable_2bx_3bbi_11bigwig_file_BigWigBlockHandler.handle_interval_value = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_11bigwig_file_BigWigBlockHandler *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, float))__pyx_f_2bx_3bbi_11bigwig_file_18BigWigBlockHandler_handle_interval_value;
   __pyx_type_2bx_3bbi_11bigwig_file_BigWigBlockHandler.tp_base = __pyx_ptype_2bx_3bbi_8bbi_file_BlockHandler;
-  if (PyType_Ready(&__pyx_type_2bx_3bbi_11bigwig_file_BigWigBlockHandler) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_2bx_3bbi_11bigwig_file_BigWigBlockHandler) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __pyx_type_2bx_3bbi_11bigwig_file_BigWigBlockHandler.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_11bigwig_file_BigWigBlockHandler.tp_dict, __pyx_vtabptr_2bx_3bbi_11bigwig_file_BigWigBlockHandler) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "BigWigBlockHandler", (PyObject *)&__pyx_type_2bx_3bbi_11bigwig_file_BigWigBlockHandler) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_11bigwig_file_BigWigBlockHandler.tp_dict, __pyx_vtabptr_2bx_3bbi_11bigwig_file_BigWigBlockHandler) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "BigWigBlockHandler", (PyObject *)&__pyx_type_2bx_3bbi_11bigwig_file_BigWigBlockHandler) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __pyx_ptype_2bx_3bbi_11bigwig_file_BigWigBlockHandler = &__pyx_type_2bx_3bbi_11bigwig_file_BigWigBlockHandler;
   __pyx_vtabptr_2bx_3bbi_11bigwig_file_SummarizingBlockHandler = &__pyx_vtable_2bx_3bbi_11bigwig_file_SummarizingBlockHandler;
   __pyx_vtable_2bx_3bbi_11bigwig_file_SummarizingBlockHandler.__pyx_base = *__pyx_vtabptr_2bx_3bbi_11bigwig_file_BigWigBlockHandler;
   __pyx_vtable_2bx_3bbi_11bigwig_file_SummarizingBlockHandler.__pyx_base.handle_interval_value = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_11bigwig_file_BigWigBlockHandler *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, float))__pyx_f_2bx_3bbi_11bigwig_file_23SummarizingBlockHandler_handle_interval_value;
   __pyx_type_2bx_3bbi_11bigwig_file_SummarizingBlockHandler.tp_base = __pyx_ptype_2bx_3bbi_11bigwig_file_BigWigBlockHandler;
-  if (PyType_Ready(&__pyx_type_2bx_3bbi_11bigwig_file_SummarizingBlockHandler) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_2bx_3bbi_11bigwig_file_SummarizingBlockHandler) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
   __pyx_type_2bx_3bbi_11bigwig_file_SummarizingBlockHandler.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_11bigwig_file_SummarizingBlockHandler.tp_dict, __pyx_vtabptr_2bx_3bbi_11bigwig_file_SummarizingBlockHandler) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "SummarizingBlockHandler", (PyObject *)&__pyx_type_2bx_3bbi_11bigwig_file_SummarizingBlockHandler) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_11bigwig_file_SummarizingBlockHandler.tp_dict, __pyx_vtabptr_2bx_3bbi_11bigwig_file_SummarizingBlockHandler) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "SummarizingBlockHandler", (PyObject *)&__pyx_type_2bx_3bbi_11bigwig_file_SummarizingBlockHandler) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
   __pyx_ptype_2bx_3bbi_11bigwig_file_SummarizingBlockHandler = &__pyx_type_2bx_3bbi_11bigwig_file_SummarizingBlockHandler;
   __pyx_vtabptr_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler = &__pyx_vtable_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler;
   __pyx_vtable_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler.__pyx_base = *__pyx_vtabptr_2bx_3bbi_11bigwig_file_BigWigBlockHandler;
   __pyx_vtable_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler.__pyx_base.handle_interval_value = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_11bigwig_file_BigWigBlockHandler *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, float))__pyx_f_2bx_3bbi_11bigwig_file_32IntervalAccumulatingBlockHandler_handle_interval_value;
   __pyx_type_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler.tp_base = __pyx_ptype_2bx_3bbi_11bigwig_file_BigWigBlockHandler;
-  if (PyType_Ready(&__pyx_type_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler) < 0) __PYX_ERR(0, 93, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
   __pyx_type_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler.tp_dict, __pyx_vtabptr_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler) < 0) __PYX_ERR(0, 93, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "IntervalAccumulatingBlockHandler", (PyObject *)&__pyx_type_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler) < 0) __PYX_ERR(0, 93, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler.tp_dict, __pyx_vtabptr_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "IntervalAccumulatingBlockHandler", (PyObject *)&__pyx_type_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
   __pyx_ptype_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler = &__pyx_type_2bx_3bbi_11bigwig_file_IntervalAccumulatingBlockHandler;
   __pyx_vtabptr_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler = &__pyx_vtable_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler;
   __pyx_vtable_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler.__pyx_base = *__pyx_vtabptr_2bx_3bbi_11bigwig_file_BigWigBlockHandler;
   __pyx_vtable_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler.__pyx_base.handle_interval_value = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_11bigwig_file_BigWigBlockHandler *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, float))__pyx_f_2bx_3bbi_11bigwig_file_29ArrayAccumulatingBlockHandler_handle_interval_value;
   __pyx_type_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler.tp_base = __pyx_ptype_2bx_3bbi_11bigwig_file_BigWigBlockHandler;
-  if (PyType_Ready(&__pyx_type_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler) < 0) __PYX_ERR(0, 106, __pyx_L1_error)
   __pyx_type_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler.tp_dict, __pyx_vtabptr_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "ArrayAccumulatingBlockHandler", (PyObject *)&__pyx_type_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler.tp_dict, __pyx_vtabptr_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler) < 0) __PYX_ERR(0, 106, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "ArrayAccumulatingBlockHandler", (PyObject *)&__pyx_type_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler) < 0) __PYX_ERR(0, 106, __pyx_L1_error)
   __pyx_ptype_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler = &__pyx_type_2bx_3bbi_11bigwig_file_ArrayAccumulatingBlockHandler;
   __pyx_ptype_2bx_3bbi_8bbi_file_BBIFile = __Pyx_ImportType("bx.bbi.bbi_file", "BBIFile", sizeof(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile), 1); if (unlikely(!__pyx_ptype_2bx_3bbi_8bbi_file_BBIFile)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_vtabptr_2bx_3bbi_8bbi_file_BBIFile = (struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile*)__Pyx_GetVtable(__pyx_ptype_2bx_3bbi_8bbi_file_BBIFile->tp_dict); if (unlikely(!__pyx_vtabptr_2bx_3bbi_8bbi_file_BBIFile)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -8428,10 +8434,10 @@ PyMODINIT_FUNC PyInit_bigwig_file(void)
   __pyx_vtable_2bx_3bbi_11bigwig_file_BigWigFile.get = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_11bigwig_file_BigWigFile *, char *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int __pyx_skip_dispatch))__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get;
   __pyx_vtable_2bx_3bbi_11bigwig_file_BigWigFile.get_as_array = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_11bigwig_file_BigWigFile *, char *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int __pyx_skip_dispatch))__pyx_f_2bx_3bbi_11bigwig_file_10BigWigFile_get_as_array;
   __pyx_type_2bx_3bbi_11bigwig_file_BigWigFile.tp_base = __pyx_ptype_2bx_3bbi_8bbi_file_BBIFile;
-  if (PyType_Ready(&__pyx_type_2bx_3bbi_11bigwig_file_BigWigFile) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_2bx_3bbi_11bigwig_file_BigWigFile) < 0) __PYX_ERR(0, 123, __pyx_L1_error)
   __pyx_type_2bx_3bbi_11bigwig_file_BigWigFile.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_11bigwig_file_BigWigFile.tp_dict, __pyx_vtabptr_2bx_3bbi_11bigwig_file_BigWigFile) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "BigWigFile", (PyObject *)&__pyx_type_2bx_3bbi_11bigwig_file_BigWigFile) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_11bigwig_file_BigWigFile.tp_dict, __pyx_vtabptr_2bx_3bbi_11bigwig_file_BigWigFile) < 0) __PYX_ERR(0, 123, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "BigWigFile", (PyObject *)&__pyx_type_2bx_3bbi_11bigwig_file_BigWigFile) < 0) __PYX_ERR(0, 123, __pyx_L1_error)
   __pyx_ptype_2bx_3bbi_11bigwig_file_BigWigFile = &__pyx_type_2bx_3bbi_11bigwig_file_BigWigFile;
   /*--- Type import code ---*/
   __pyx_ptype_2bx_3bbi_8bpt_file_BPTFile = __Pyx_ImportType("bx.bbi.bpt_file", "BPTFile", sizeof(struct __pyx_obj_2bx_3bbi_8bpt_file_BPTFile), 1); if (unlikely(!__pyx_ptype_2bx_3bbi_8bpt_file_BPTFile)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -8496,7 +8502,7 @@ PyMODINIT_FUNC PyInit_bigwig_file(void)
  * from types cimport *
  * from bx.misc.binary_file import BinaryFileReader             # <<<<<<<<<<<<<<
  * from six.moves import cStringIO as StringIO
- * import zlib
+ * from six import BytesIO
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -8516,8 +8522,8 @@ PyMODINIT_FUNC PyInit_bigwig_file(void)
  * from types cimport *
  * from bx.misc.binary_file import BinaryFileReader
  * from six.moves import cStringIO as StringIO             # <<<<<<<<<<<<<<
+ * from six import BytesIO
  * import zlib
- * 
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -8536,24 +8542,45 @@ PyMODINIT_FUNC PyInit_bigwig_file(void)
   /* "bx/bbi/bigwig_file.pyx":13
  * from bx.misc.binary_file import BinaryFileReader
  * from six.moves import cStringIO as StringIO
+ * from six import BytesIO             # <<<<<<<<<<<<<<
+ * import zlib
+ * 
+ */
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_n_s_BytesIO);
+  __Pyx_GIVEREF(__pyx_n_s_BytesIO);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_BytesIO);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_six, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_BytesIO); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_BytesIO, __pyx_t_2) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "bx/bbi/bigwig_file.pyx":14
+ * from six.moves import cStringIO as StringIO
+ * from six import BytesIO
  * import zlib             # <<<<<<<<<<<<<<
  * 
  * DEF big_wig_sig = 0x888FFC26
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_zlib, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_zlib, __pyx_t_2) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_zlib, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_zlib, __pyx_t_1) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "bx/bbi/bigwig_file.pyx":1
  * """             # <<<<<<<<<<<<<<
  * BigWig file.
  * """
  */
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "../../../../conda_root/envs/bx-python/lib/python3.6/site-packages/Cython/Includes/numpy/__init__.pxd":997
  *         raise ImportError("numpy.core.umath failed to import")

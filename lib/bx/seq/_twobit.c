@@ -874,6 +874,7 @@ static const char __pyx_k_packedEnd[] = "packedEnd";
 static const char __pyx_k_packed_py[] = "packed_py";
 static const char __pyx_k_partCount[] = "partCount";
 static const char __pyx_k_remainder[] = "remainder";
+static const char __pyx_k_seek_bytes[] = "seek_bytes";
 static const char __pyx_k_packedStart[] = "packedStart";
 static const char __pyx_k_m_block_count[] = "m_block_count";
 static const char __pyx_k_n_block_count[] = "n_block_count";
@@ -922,6 +923,7 @@ static PyObject *__pyx_n_s_read;
 static PyObject *__pyx_n_s_remainder;
 static PyObject *__pyx_n_s_s;
 static PyObject *__pyx_n_s_seek;
+static PyObject *__pyx_n_s_seek_bytes;
 static PyObject *__pyx_n_s_seq;
 static PyObject *__pyx_n_s_sequence_offset;
 static PyObject *__pyx_n_s_start_ix;
@@ -934,7 +936,7 @@ static PyObject *__pyx_int_1;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_codeobj__2;
 
-/* "bx/seq/_twobit.pyx":19
+/* "bx/seq/_twobit.pyx":28
  * valToNt = "TCAG"
  * 
  * def read( file, seq, int fragStart, int fragEnd, bint do_mask ):             # <<<<<<<<<<<<<<
@@ -978,26 +980,26 @@ static PyObject *__pyx_pw_2bx_3seq_7_twobit_1read(PyObject *__pyx_self, PyObject
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_seq)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("read", 1, 5, 5, 1); __PYX_ERR(0, 19, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("read", 1, 5, 5, 1); __PYX_ERR(0, 28, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_fragStart)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("read", 1, 5, 5, 2); __PYX_ERR(0, 19, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("read", 1, 5, 5, 2); __PYX_ERR(0, 28, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_fragEnd)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("read", 1, 5, 5, 3); __PYX_ERR(0, 19, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("read", 1, 5, 5, 3); __PYX_ERR(0, 28, __pyx_L3_error)
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_do_mask)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("read", 1, 5, 5, 4); __PYX_ERR(0, 19, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("read", 1, 5, 5, 4); __PYX_ERR(0, 28, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "read") < 0)) __PYX_ERR(0, 19, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "read") < 0)) __PYX_ERR(0, 28, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
       goto __pyx_L5_argtuple_error;
@@ -1010,13 +1012,13 @@ static PyObject *__pyx_pw_2bx_3seq_7_twobit_1read(PyObject *__pyx_self, PyObject
     }
     __pyx_v_file = values[0];
     __pyx_v_seq = values[1];
-    __pyx_v_fragStart = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_fragStart == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 19, __pyx_L3_error)
-    __pyx_v_fragEnd = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_fragEnd == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 19, __pyx_L3_error)
-    __pyx_v_do_mask = __Pyx_PyObject_IsTrue(values[4]); if (unlikely((__pyx_v_do_mask == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 19, __pyx_L3_error)
+    __pyx_v_fragStart = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_fragStart == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 28, __pyx_L3_error)
+    __pyx_v_fragEnd = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_fragEnd == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 28, __pyx_L3_error)
+    __pyx_v_do_mask = __Pyx_PyObject_IsTrue(values[4]); if (unlikely((__pyx_v_do_mask == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 28, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("read", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 19, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("read", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 28, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.seq._twobit.read", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1047,6 +1049,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
   char *__pyx_v_dna;
   char __pyx_v_partial;
   PyObject *__pyx_v_dna_py = NULL;
+  PyObject *__pyx_v_seek_bytes = NULL;
   PyObject *__pyx_v_packed_py = NULL;
   int __pyx_v_midEnd;
   Py_ssize_t __pyx_v_n_block_count;
@@ -1064,10 +1067,11 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
   Py_ssize_t __pyx_t_8;
   PyObject *__pyx_t_9 = NULL;
   int __pyx_t_10;
+  char *__pyx_t_11;
   __Pyx_RefNannySetupContext("read", 0);
 
-  /* "bx/seq/_twobit.pyx":29
- *     cdef char * packed, * dna, *dna_orig
+  /* "bx/seq/_twobit.pyx":40
+ *     cdef char * dna_orig
  *     cdef char partial
  *     packedStart = (fragStart>>2);             # <<<<<<<<<<<<<<
  *     packedEnd = ((fragEnd+3)>>2);
@@ -1075,7 +1079,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
   __pyx_v_packedStart = (__pyx_v_fragStart >> 2);
 
-  /* "bx/seq/_twobit.pyx":30
+  /* "bx/seq/_twobit.pyx":41
  *     cdef char partial
  *     packedStart = (fragStart>>2);
  *     packedEnd = ((fragEnd+3)>>2);             # <<<<<<<<<<<<<<
@@ -1084,172 +1088,179 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
   __pyx_v_packedEnd = ((__pyx_v_fragEnd + 3) >> 2);
 
-  /* "bx/seq/_twobit.pyx":31
+  /* "bx/seq/_twobit.pyx":42
  *     packedStart = (fragStart>>2);
  *     packedEnd = ((fragEnd+3)>>2);
  *     packByteCount = packedEnd - packedStart;             # <<<<<<<<<<<<<<
  *     # Empty string in which to write unpacked DNA
- *     dna_py = PyUnicode_AsUTF8AndSize( NULL, fragEnd - fragStart )
+ * 
  */
   __pyx_v_packByteCount = (__pyx_v_packedEnd - __pyx_v_packedStart);
 
-  /* "bx/seq/_twobit.pyx":33
- *     packByteCount = packedEnd - packedStart;
- *     # Empty string in which to write unpacked DNA
- *     dna_py = PyUnicode_AsUTF8AndSize( NULL, fragEnd - fragStart )             # <<<<<<<<<<<<<<
- *     dna = PyUnicode_AsUTF8( dna_py )
- *     # Read it
+  /* "bx/seq/_twobit.pyx":46
+ * 
+ *     #dna_py = PyUnicode_New(fragEnd - fragStart, 127)
+ *     dna_py = PyBytes_FromStringAndSize(NULL, fragEnd - fragStart)             # <<<<<<<<<<<<<<
+ *     dna = PyBytes_AsString( dna_py )
+ * 
  */
-  __pyx_t_1 = PyUnicode_AsUTF8AndSize(NULL, (__pyx_v_fragEnd - __pyx_v_fragStart)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_1 = PyBytes_FromStringAndSize(NULL, (__pyx_v_fragEnd - __pyx_v_fragStart)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_dna_py = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "bx/seq/_twobit.pyx":34
- *     # Empty string in which to write unpacked DNA
- *     dna_py = PyUnicode_AsUTF8AndSize( NULL, fragEnd - fragStart )
- *     dna = PyUnicode_AsUTF8( dna_py )             # <<<<<<<<<<<<<<
- *     # Read it
- *     file.seek( seq.sequence_offset + packedStart )
+  /* "bx/seq/_twobit.pyx":47
+ *     #dna_py = PyUnicode_New(fragEnd - fragStart, 127)
+ *     dna_py = PyBytes_FromStringAndSize(NULL, fragEnd - fragStart)
+ *     dna = PyBytes_AsString( dna_py )             # <<<<<<<<<<<<<<
+ * 
+ *     seek_bytes = seq.sequence_offset+packedStart
  */
-  __pyx_v_dna = PyUnicode_AsUTF8(__pyx_v_dna_py);
+  __pyx_v_dna = PyBytes_AsString(__pyx_v_dna_py);
 
-  /* "bx/seq/_twobit.pyx":36
- *     dna = PyUnicode_AsUTF8( dna_py )
+  /* "bx/seq/_twobit.pyx":49
+ *     dna = PyBytes_AsString( dna_py )
+ * 
+ *     seek_bytes = seq.sequence_offset+packedStart             # <<<<<<<<<<<<<<
+ * 
  *     # Read it
- *     file.seek( seq.sequence_offset + packedStart )             # <<<<<<<<<<<<<<
- *     packed_py = file.read( packByteCount )
- *     packed = PyUnicode_AsUTF8( packed_py )
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_seek); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_sequence_offset); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_packedStart); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_sequence_offset); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_packedStart); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 36, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyNumber_Add(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_GOTREF(__pyx_t_1);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_2)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_5};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_5};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4); __pyx_t_4 = NULL;
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_t_5);
-      __pyx_t_5 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_seek_bytes = __pyx_t_3;
+  __pyx_t_3 = 0;
 
-  /* "bx/seq/_twobit.pyx":37
+  /* "bx/seq/_twobit.pyx":52
+ * 
  *     # Read it
- *     file.seek( seq.sequence_offset + packedStart )
- *     packed_py = file.read( packByteCount )             # <<<<<<<<<<<<<<
- *     packed = PyUnicode_AsUTF8( packed_py )
- *     # Handle case where everything is in one packed byte
+ *     file.seek( seek_bytes )             # <<<<<<<<<<<<<<
+ * 
+ *     packed_py = file.read( packByteCount )
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_read); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_seek); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_packByteCount); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = NULL;
+  __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_5)) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_1)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_1);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_2, function);
     }
   }
-  if (!__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_GOTREF(__pyx_t_1);
+  if (!__pyx_t_1) {
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_seek_bytes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_seek_bytes};
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_3);
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_seek_bytes};
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_3);
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 37, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
-      __Pyx_GIVEREF(__pyx_t_3);
-      PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_3);
-      __pyx_t_3 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1); __pyx_t_1 = NULL;
+      __Pyx_INCREF(__pyx_v_seek_bytes);
+      __Pyx_GIVEREF(__pyx_v_seek_bytes);
+      PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_seek_bytes);
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_packed_py = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "bx/seq/_twobit.pyx":38
- *     file.seek( seq.sequence_offset + packedStart )
- *     packed_py = file.read( packByteCount )
- *     packed = PyUnicode_AsUTF8( packed_py )             # <<<<<<<<<<<<<<
- *     # Handle case where everything is in one packed byte
- *     if packByteCount == 1:
+  /* "bx/seq/_twobit.pyx":54
+ *     file.seek( seek_bytes )
+ * 
+ *     packed_py = file.read( packByteCount )             # <<<<<<<<<<<<<<
+ *     packed = PyBytes_AsString( packed_py )
+ * 
  */
-  __pyx_v_packed = PyUnicode_AsUTF8(__pyx_v_packed_py);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_read); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_packByteCount); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_1 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_1)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  if (!__pyx_t_1) {
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_3);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_2)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_t_4};
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_t_4};
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1); __pyx_t_1 = NULL;
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_4);
+      __pyx_t_4 = 0;
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_packed_py = __pyx_t_3;
+  __pyx_t_3 = 0;
 
-  /* "bx/seq/_twobit.pyx":40
- *     packed = PyUnicode_AsUTF8( packed_py )
+  /* "bx/seq/_twobit.pyx":55
+ * 
+ *     packed_py = file.read( packByteCount )
+ *     packed = PyBytes_AsString( packed_py )             # <<<<<<<<<<<<<<
+ * 
+ *     # Handle case where everything is in one packed byte
+ */
+  __pyx_v_packed = PyBytes_AsString(__pyx_v_packed_py);
+
+  /* "bx/seq/_twobit.pyx":58
+ * 
  *     # Handle case where everything is in one packed byte
  *     if packByteCount == 1:             # <<<<<<<<<<<<<<
  *         pOff = (packedStart<<2)
@@ -1258,7 +1269,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
   __pyx_t_6 = ((__pyx_v_packByteCount == 1) != 0);
   if (__pyx_t_6) {
 
-    /* "bx/seq/_twobit.pyx":41
+    /* "bx/seq/_twobit.pyx":59
  *     # Handle case where everything is in one packed byte
  *     if packByteCount == 1:
  *         pOff = (packedStart<<2)             # <<<<<<<<<<<<<<
@@ -1267,7 +1278,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
     __pyx_v_pOff = (__pyx_v_packedStart << 2);
 
-    /* "bx/seq/_twobit.pyx":42
+    /* "bx/seq/_twobit.pyx":60
  *     if packByteCount == 1:
  *         pOff = (packedStart<<2)
  *         pStart = fragStart - pOff             # <<<<<<<<<<<<<<
@@ -1276,7 +1287,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
     __pyx_v_pStart = (__pyx_v_fragStart - __pyx_v_pOff);
 
-    /* "bx/seq/_twobit.pyx":43
+    /* "bx/seq/_twobit.pyx":61
  *         pOff = (packedStart<<2)
  *         pStart = fragStart - pOff
  *         pEnd = fragEnd - pOff             # <<<<<<<<<<<<<<
@@ -1285,7 +1296,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
     __pyx_v_pEnd = (__pyx_v_fragEnd - __pyx_v_pOff);
 
-    /* "bx/seq/_twobit.pyx":44
+    /* "bx/seq/_twobit.pyx":62
  *         pStart = fragStart - pOff
  *         pEnd = fragEnd - pOff
  *         partial = packed[0]             # <<<<<<<<<<<<<<
@@ -1294,7 +1305,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
     __pyx_v_partial = (__pyx_v_packed[0]);
 
-    /* "bx/seq/_twobit.pyx":45
+    /* "bx/seq/_twobit.pyx":63
  *         pEnd = fragEnd - pOff
  *         partial = packed[0]
  *         assert pEnd <= 4             # <<<<<<<<<<<<<<
@@ -1305,12 +1316,12 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
     if (unlikely(!Py_OptimizeFlag)) {
       if (unlikely(!((__pyx_v_pEnd <= 4) != 0))) {
         PyErr_SetNone(PyExc_AssertionError);
-        __PYX_ERR(0, 45, __pyx_L1_error)
+        __PYX_ERR(0, 63, __pyx_L1_error)
       }
     }
     #endif
 
-    /* "bx/seq/_twobit.pyx":46
+    /* "bx/seq/_twobit.pyx":64
  *         partial = packed[0]
  *         assert pEnd <= 4
  *         assert pStart >= 0             # <<<<<<<<<<<<<<
@@ -1321,12 +1332,12 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
     if (unlikely(!Py_OptimizeFlag)) {
       if (unlikely(!((__pyx_v_pStart >= 0) != 0))) {
         PyErr_SetNone(PyExc_AssertionError);
-        __PYX_ERR(0, 46, __pyx_L1_error)
+        __PYX_ERR(0, 64, __pyx_L1_error)
       }
     }
     #endif
 
-    /* "bx/seq/_twobit.pyx":47
+    /* "bx/seq/_twobit.pyx":65
  *         assert pEnd <= 4
  *         assert pStart >= 0
  *         for i from pStart <= i < pEnd:             # <<<<<<<<<<<<<<
@@ -1336,7 +1347,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
     __pyx_t_7 = __pyx_v_pEnd;
     for (__pyx_v_i = __pyx_v_pStart; __pyx_v_i < __pyx_t_7; __pyx_v_i++) {
 
-      /* "bx/seq/_twobit.pyx":48
+      /* "bx/seq/_twobit.pyx":66
  *         assert pStart >= 0
  *         for i from pStart <= i < pEnd:
  *             dna[0] = valToNt[(partial >> (6-i-i)) & 3]             # <<<<<<<<<<<<<<
@@ -1345,7 +1356,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       (__pyx_v_dna[0]) = (__pyx_v_2bx_3seq_7_twobit_valToNt[((__pyx_v_partial >> ((6 - __pyx_v_i) - __pyx_v_i)) & 3)]);
 
-      /* "bx/seq/_twobit.pyx":49
+      /* "bx/seq/_twobit.pyx":67
  *         for i from pStart <= i < pEnd:
  *             dna[0] = valToNt[(partial >> (6-i-i)) & 3]
  *             dna = dna + 1             # <<<<<<<<<<<<<<
@@ -1355,8 +1366,8 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
       __pyx_v_dna = (__pyx_v_dna + 1);
     }
 
-    /* "bx/seq/_twobit.pyx":40
- *     packed = PyUnicode_AsUTF8( packed_py )
+    /* "bx/seq/_twobit.pyx":58
+ * 
  *     # Handle case where everything is in one packed byte
  *     if packByteCount == 1:             # <<<<<<<<<<<<<<
  *         pOff = (packedStart<<2)
@@ -1365,7 +1376,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
     goto __pyx_L3;
   }
 
-  /* "bx/seq/_twobit.pyx":52
+  /* "bx/seq/_twobit.pyx":70
  *     else:
  *         # Handle partial first packed byte.
  *         midStart = fragStart;             # <<<<<<<<<<<<<<
@@ -1375,7 +1386,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
   /*else*/ {
     __pyx_v_midStart = __pyx_v_fragStart;
 
-    /* "bx/seq/_twobit.pyx":53
+    /* "bx/seq/_twobit.pyx":71
  *         # Handle partial first packed byte.
  *         midStart = fragStart;
  *         remainder = ( fragStart&3 )             # <<<<<<<<<<<<<<
@@ -1384,7 +1395,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
     __pyx_v_remainder = (__pyx_v_fragStart & 3);
 
-    /* "bx/seq/_twobit.pyx":54
+    /* "bx/seq/_twobit.pyx":72
  *         midStart = fragStart;
  *         remainder = ( fragStart&3 )
  *         if remainder > 0:             # <<<<<<<<<<<<<<
@@ -1394,7 +1405,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
     __pyx_t_6 = ((__pyx_v_remainder > 0) != 0);
     if (__pyx_t_6) {
 
-      /* "bx/seq/_twobit.pyx":55
+      /* "bx/seq/_twobit.pyx":73
  *         remainder = ( fragStart&3 )
  *         if remainder > 0:
  *             partial = packed[0]; packed = packed + 1             # <<<<<<<<<<<<<<
@@ -1404,7 +1415,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
       __pyx_v_partial = (__pyx_v_packed[0]);
       __pyx_v_packed = (__pyx_v_packed + 1);
 
-      /* "bx/seq/_twobit.pyx":56
+      /* "bx/seq/_twobit.pyx":74
  *         if remainder > 0:
  *             partial = packed[0]; packed = packed + 1
  *             partCount = 4 - remainder;             # <<<<<<<<<<<<<<
@@ -1413,7 +1424,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       __pyx_v_partCount = (4 - __pyx_v_remainder);
 
-      /* "bx/seq/_twobit.pyx":57
+      /* "bx/seq/_twobit.pyx":75
  *             partial = packed[0]; packed = packed + 1
  *             partCount = 4 - remainder;
  *             for i from partCount - 1 >= i >= 0:             # <<<<<<<<<<<<<<
@@ -1422,7 +1433,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       for (__pyx_v_i = (__pyx_v_partCount - 1); __pyx_v_i >= 0; __pyx_v_i--) {
 
-        /* "bx/seq/_twobit.pyx":58
+        /* "bx/seq/_twobit.pyx":76
  *             partCount = 4 - remainder;
  *             for i from partCount - 1 >= i >= 0:
  *                 dna[i] = valToNt[ partial & 3 ]             # <<<<<<<<<<<<<<
@@ -1431,7 +1442,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
         (__pyx_v_dna[__pyx_v_i]) = (__pyx_v_2bx_3seq_7_twobit_valToNt[(__pyx_v_partial & 3)]);
 
-        /* "bx/seq/_twobit.pyx":59
+        /* "bx/seq/_twobit.pyx":77
  *             for i from partCount - 1 >= i >= 0:
  *                 dna[i] = valToNt[ partial & 3 ]
  *                 partial = partial >> 2             # <<<<<<<<<<<<<<
@@ -1441,7 +1452,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
         __pyx_v_partial = (__pyx_v_partial >> 2);
       }
 
-      /* "bx/seq/_twobit.pyx":60
+      /* "bx/seq/_twobit.pyx":78
  *                 dna[i] = valToNt[ partial & 3 ]
  *                 partial = partial >> 2
  *             midStart = midStart + partCount             # <<<<<<<<<<<<<<
@@ -1450,7 +1461,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       __pyx_v_midStart = (__pyx_v_midStart + __pyx_v_partCount);
 
-      /* "bx/seq/_twobit.pyx":61
+      /* "bx/seq/_twobit.pyx":79
  *                 partial = partial >> 2
  *             midStart = midStart + partCount
  *             dna = dna + partCount             # <<<<<<<<<<<<<<
@@ -1459,7 +1470,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       __pyx_v_dna = (__pyx_v_dna + __pyx_v_partCount);
 
-      /* "bx/seq/_twobit.pyx":54
+      /* "bx/seq/_twobit.pyx":72
  *         midStart = fragStart;
  *         remainder = ( fragStart&3 )
  *         if remainder > 0:             # <<<<<<<<<<<<<<
@@ -1468,7 +1479,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
     }
 
-    /* "bx/seq/_twobit.pyx":63
+    /* "bx/seq/_twobit.pyx":81
  *             dna = dna + partCount
  *         # Handle middle bytes.
  *         remainder = fragEnd&3             # <<<<<<<<<<<<<<
@@ -1477,7 +1488,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
     __pyx_v_remainder = (__pyx_v_fragEnd & 3);
 
-    /* "bx/seq/_twobit.pyx":64
+    /* "bx/seq/_twobit.pyx":82
  *         # Handle middle bytes.
  *         remainder = fragEnd&3
  *         midEnd = fragEnd - remainder             # <<<<<<<<<<<<<<
@@ -1486,7 +1497,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
     __pyx_v_midEnd = (__pyx_v_fragEnd - __pyx_v_remainder);
 
-    /* "bx/seq/_twobit.pyx":65
+    /* "bx/seq/_twobit.pyx":83
  *         remainder = fragEnd&3
  *         midEnd = fragEnd - remainder
  *         i = midStart             # <<<<<<<<<<<<<<
@@ -1495,7 +1506,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
     __pyx_v_i = __pyx_v_midStart;
 
-    /* "bx/seq/_twobit.pyx":66
+    /* "bx/seq/_twobit.pyx":84
  *         midEnd = fragEnd - remainder
  *         i = midStart
  *         while i < midEnd:             # <<<<<<<<<<<<<<
@@ -1506,7 +1517,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
       __pyx_t_6 = ((__pyx_v_i < __pyx_v_midEnd) != 0);
       if (!__pyx_t_6) break;
 
-      /* "bx/seq/_twobit.pyx":67
+      /* "bx/seq/_twobit.pyx":85
  *         i = midStart
  *         while i < midEnd:
  *             partial = packed[0]             # <<<<<<<<<<<<<<
@@ -1515,7 +1526,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       __pyx_v_partial = (__pyx_v_packed[0]);
 
-      /* "bx/seq/_twobit.pyx":68
+      /* "bx/seq/_twobit.pyx":86
  *         while i < midEnd:
  *             partial = packed[0]
  *             packed = packed + 1;             # <<<<<<<<<<<<<<
@@ -1524,7 +1535,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       __pyx_v_packed = (__pyx_v_packed + 1);
 
-      /* "bx/seq/_twobit.pyx":69
+      /* "bx/seq/_twobit.pyx":87
  *             partial = packed[0]
  *             packed = packed + 1;
  *             dna[3] = valToNt[partial&3];             # <<<<<<<<<<<<<<
@@ -1533,7 +1544,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       (__pyx_v_dna[3]) = (__pyx_v_2bx_3seq_7_twobit_valToNt[(__pyx_v_partial & 3)]);
 
-      /* "bx/seq/_twobit.pyx":70
+      /* "bx/seq/_twobit.pyx":88
  *             packed = packed + 1;
  *             dna[3] = valToNt[partial&3];
  *             partial = partial >> 2             # <<<<<<<<<<<<<<
@@ -1542,7 +1553,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       __pyx_v_partial = (__pyx_v_partial >> 2);
 
-      /* "bx/seq/_twobit.pyx":71
+      /* "bx/seq/_twobit.pyx":89
  *             dna[3] = valToNt[partial&3];
  *             partial = partial >> 2
  *             dna[2] = valToNt[partial&3];             # <<<<<<<<<<<<<<
@@ -1551,7 +1562,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       (__pyx_v_dna[2]) = (__pyx_v_2bx_3seq_7_twobit_valToNt[(__pyx_v_partial & 3)]);
 
-      /* "bx/seq/_twobit.pyx":72
+      /* "bx/seq/_twobit.pyx":90
  *             partial = partial >> 2
  *             dna[2] = valToNt[partial&3];
  *             partial = partial >> 2             # <<<<<<<<<<<<<<
@@ -1560,7 +1571,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       __pyx_v_partial = (__pyx_v_partial >> 2);
 
-      /* "bx/seq/_twobit.pyx":73
+      /* "bx/seq/_twobit.pyx":91
  *             dna[2] = valToNt[partial&3];
  *             partial = partial >> 2
  *             dna[1] = valToNt[partial&3];             # <<<<<<<<<<<<<<
@@ -1569,7 +1580,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       (__pyx_v_dna[1]) = (__pyx_v_2bx_3seq_7_twobit_valToNt[(__pyx_v_partial & 3)]);
 
-      /* "bx/seq/_twobit.pyx":74
+      /* "bx/seq/_twobit.pyx":92
  *             partial = partial >> 2
  *             dna[1] = valToNt[partial&3];
  *             partial = partial >> 2             # <<<<<<<<<<<<<<
@@ -1578,7 +1589,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       __pyx_v_partial = (__pyx_v_partial >> 2);
 
-      /* "bx/seq/_twobit.pyx":75
+      /* "bx/seq/_twobit.pyx":93
  *             dna[1] = valToNt[partial&3];
  *             partial = partial >> 2
  *             dna[0] = valToNt[partial&3];             # <<<<<<<<<<<<<<
@@ -1587,7 +1598,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       (__pyx_v_dna[0]) = (__pyx_v_2bx_3seq_7_twobit_valToNt[(__pyx_v_partial & 3)]);
 
-      /* "bx/seq/_twobit.pyx":76
+      /* "bx/seq/_twobit.pyx":94
  *             partial = partial >> 2
  *             dna[0] = valToNt[partial&3];
  *             dna = dna + 4;             # <<<<<<<<<<<<<<
@@ -1596,7 +1607,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       __pyx_v_dna = (__pyx_v_dna + 4);
 
-      /* "bx/seq/_twobit.pyx":78
+      /* "bx/seq/_twobit.pyx":96
  *             dna = dna + 4;
  *             # Increment
  *             i = i + 4             # <<<<<<<<<<<<<<
@@ -1606,7 +1617,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
       __pyx_v_i = (__pyx_v_i + 4);
     }
 
-    /* "bx/seq/_twobit.pyx":81
+    /* "bx/seq/_twobit.pyx":99
  *             ## sys.stderr.write( "!!!< " + dna_py + " >!!!\n" ); sys.stderr.flush()
  *         # End
  *         if remainder > 0:             # <<<<<<<<<<<<<<
@@ -1616,7 +1627,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
     __pyx_t_6 = ((__pyx_v_remainder > 0) != 0);
     if (__pyx_t_6) {
 
-      /* "bx/seq/_twobit.pyx":82
+      /* "bx/seq/_twobit.pyx":100
  *         # End
  *         if remainder > 0:
  *             partial = packed[0];             # <<<<<<<<<<<<<<
@@ -1625,7 +1636,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       __pyx_v_partial = (__pyx_v_packed[0]);
 
-      /* "bx/seq/_twobit.pyx":83
+      /* "bx/seq/_twobit.pyx":101
  *         if remainder > 0:
  *             partial = packed[0];
  *             partial = partial >> (8-remainder-remainder)             # <<<<<<<<<<<<<<
@@ -1634,7 +1645,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       __pyx_v_partial = (__pyx_v_partial >> ((8 - __pyx_v_remainder) - __pyx_v_remainder));
 
-      /* "bx/seq/_twobit.pyx":84
+      /* "bx/seq/_twobit.pyx":102
  *             partial = packed[0];
  *             partial = partial >> (8-remainder-remainder)
  *             for i from remainder - 1 >= i >= 0:             # <<<<<<<<<<<<<<
@@ -1643,7 +1654,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       for (__pyx_v_i = (__pyx_v_remainder - 1); __pyx_v_i >= 0; __pyx_v_i--) {
 
-        /* "bx/seq/_twobit.pyx":85
+        /* "bx/seq/_twobit.pyx":103
  *             partial = partial >> (8-remainder-remainder)
  *             for i from remainder - 1 >= i >= 0:
  *                 dna[i] = valToNt[partial&3]             # <<<<<<<<<<<<<<
@@ -1652,17 +1663,17 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
         (__pyx_v_dna[__pyx_v_i]) = (__pyx_v_2bx_3seq_7_twobit_valToNt[(__pyx_v_partial & 3)]);
 
-        /* "bx/seq/_twobit.pyx":86
+        /* "bx/seq/_twobit.pyx":104
  *             for i from remainder - 1 >= i >= 0:
  *                 dna[i] = valToNt[partial&3]
  *                 partial = partial >> 2             # <<<<<<<<<<<<<<
  *     # Restore DNA pointer
- *     dna = PyUnicode_AsUTF8( dna_py )
+ *     #dna = PyUnicode_AsUTF8( dna_py )
  */
         __pyx_v_partial = (__pyx_v_partial >> 2);
       }
 
-      /* "bx/seq/_twobit.pyx":81
+      /* "bx/seq/_twobit.pyx":99
  *             ## sys.stderr.write( "!!!< " + dna_py + " >!!!\n" ); sys.stderr.flush()
  *         # End
  *         if remainder > 0:             # <<<<<<<<<<<<<<
@@ -1673,29 +1684,29 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
   }
   __pyx_L3:;
 
-  /* "bx/seq/_twobit.pyx":88
- *                 partial = partial >> 2
+  /* "bx/seq/_twobit.pyx":107
  *     # Restore DNA pointer
- *     dna = PyUnicode_AsUTF8( dna_py )             # <<<<<<<<<<<<<<
+ *     #dna = PyUnicode_AsUTF8( dna_py )
+ *     dna = PyBytes_AsString( dna_py )             # <<<<<<<<<<<<<<
  *     # N's
  *     n_block_count = len( seq.n_block_starts )
  */
-  __pyx_v_dna = PyUnicode_AsUTF8(__pyx_v_dna_py);
+  __pyx_v_dna = PyBytes_AsString(__pyx_v_dna_py);
 
-  /* "bx/seq/_twobit.pyx":90
- *     dna = PyUnicode_AsUTF8( dna_py )
+  /* "bx/seq/_twobit.pyx":109
+ *     dna = PyBytes_AsString( dna_py )
  *     # N's
  *     n_block_count = len( seq.n_block_starts )             # <<<<<<<<<<<<<<
  *     if n_block_count > 0:
  *         start_ix = bisect( seq.n_block_starts, fragStart ) - 1
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_n_block_starts); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 90, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_n_block_starts); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_8 = PyObject_Length(__pyx_t_3); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_n_block_count = __pyx_t_8;
 
-  /* "bx/seq/_twobit.pyx":91
+  /* "bx/seq/_twobit.pyx":110
  *     # N's
  *     n_block_count = len( seq.n_block_starts )
  *     if n_block_count > 0:             # <<<<<<<<<<<<<<
@@ -1705,26 +1716,26 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
   __pyx_t_6 = ((__pyx_v_n_block_count > 0) != 0);
   if (__pyx_t_6) {
 
-    /* "bx/seq/_twobit.pyx":92
+    /* "bx/seq/_twobit.pyx":111
  *     n_block_count = len( seq.n_block_starts )
  *     if n_block_count > 0:
  *         start_ix = bisect( seq.n_block_starts, fragStart ) - 1             # <<<<<<<<<<<<<<
  *         if start_ix < 0: start_ix = 0
  *         for i from start_ix <= i < n_block_count:
  */
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_bisect); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_bisect); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_n_block_starts); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_n_block_starts); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_fragStart); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 111, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_fragStart); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = NULL;
+    __pyx_t_1 = NULL;
     __pyx_t_7 = 0;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_5)) {
+      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_2);
+      if (likely(__pyx_t_1)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_1);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_2, function);
         __pyx_t_7 = 1;
@@ -1732,112 +1743,112 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
     }
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
+      PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_t_5, __pyx_t_4};
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
+      PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_t_5, __pyx_t_4};
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_9 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 92, __pyx_L1_error)
+      __pyx_t_9 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 111, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      if (__pyx_t_5) {
-        __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_5); __pyx_t_5 = NULL;
+      if (__pyx_t_1) {
+        __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_1); __pyx_t_1 = NULL;
       }
+      __Pyx_GIVEREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_9, 0+__pyx_t_7, __pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_4);
-      PyTuple_SET_ITEM(__pyx_t_9, 0+__pyx_t_7, __pyx_t_4);
-      __Pyx_GIVEREF(__pyx_t_3);
-      PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_7, __pyx_t_3);
+      PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_7, __pyx_t_4);
+      __pyx_t_5 = 0;
       __pyx_t_4 = 0;
-      __pyx_t_3 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_t_3, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_start_ix = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "bx/seq/_twobit.pyx":93
+    /* "bx/seq/_twobit.pyx":112
  *     if n_block_count > 0:
  *         start_ix = bisect( seq.n_block_starts, fragStart ) - 1
  *         if start_ix < 0: start_ix = 0             # <<<<<<<<<<<<<<
  *         for i from start_ix <= i < n_block_count:
  *             s = seq.n_block_starts[i];
  */
-    __pyx_t_2 = PyObject_RichCompare(__pyx_v_start_ix, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
-    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 93, __pyx_L1_error)
+    __pyx_t_2 = PyObject_RichCompare(__pyx_v_start_ix, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 112, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_6) {
       __Pyx_INCREF(__pyx_int_0);
       __Pyx_DECREF_SET(__pyx_v_start_ix, __pyx_int_0);
     }
 
-    /* "bx/seq/_twobit.pyx":94
+    /* "bx/seq/_twobit.pyx":113
  *         start_ix = bisect( seq.n_block_starts, fragStart ) - 1
  *         if start_ix < 0: start_ix = 0
  *         for i from start_ix <= i < n_block_count:             # <<<<<<<<<<<<<<
  *             s = seq.n_block_starts[i];
  *             e = s + seq.n_block_sizes[i];
  */
-    __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_start_ix); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 94, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_start_ix); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 113, __pyx_L1_error)
     __pyx_t_8 = __pyx_v_n_block_count;
     for (__pyx_v_i = __pyx_t_7; __pyx_v_i < __pyx_t_8; __pyx_v_i++) {
 
-      /* "bx/seq/_twobit.pyx":95
+      /* "bx/seq/_twobit.pyx":114
  *         if start_ix < 0: start_ix = 0
  *         for i from start_ix <= i < n_block_count:
  *             s = seq.n_block_starts[i];             # <<<<<<<<<<<<<<
  *             e = s + seq.n_block_sizes[i];
  *             if (s >= fragEnd):
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_n_block_starts); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 95, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_n_block_starts); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 114, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 95, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 95, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 114, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_v_s = __pyx_t_10;
 
-      /* "bx/seq/_twobit.pyx":96
+      /* "bx/seq/_twobit.pyx":115
  *         for i from start_ix <= i < n_block_count:
  *             s = seq.n_block_starts[i];
  *             e = s + seq.n_block_sizes[i];             # <<<<<<<<<<<<<<
  *             if (s >= fragEnd):
  *                 break
  */
-      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_s); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_n_block_sizes); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_s); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 115, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_n_block_sizes); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 115, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 96, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 115, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+      __pyx_t_2 = PyNumber_Add(__pyx_t_3, __pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 115, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 115, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_v_e = __pyx_t_10;
 
-      /* "bx/seq/_twobit.pyx":97
+      /* "bx/seq/_twobit.pyx":116
  *             s = seq.n_block_starts[i];
  *             e = s + seq.n_block_sizes[i];
  *             if (s >= fragEnd):             # <<<<<<<<<<<<<<
@@ -1847,7 +1858,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
       __pyx_t_6 = ((__pyx_v_s >= __pyx_v_fragEnd) != 0);
       if (__pyx_t_6) {
 
-        /* "bx/seq/_twobit.pyx":98
+        /* "bx/seq/_twobit.pyx":117
  *             e = s + seq.n_block_sizes[i];
  *             if (s >= fragEnd):
  *                 break             # <<<<<<<<<<<<<<
@@ -1856,7 +1867,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
         goto __pyx_L17_break;
 
-        /* "bx/seq/_twobit.pyx":97
+        /* "bx/seq/_twobit.pyx":116
  *             s = seq.n_block_starts[i];
  *             e = s + seq.n_block_sizes[i];
  *             if (s >= fragEnd):             # <<<<<<<<<<<<<<
@@ -1865,7 +1876,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       }
 
-      /* "bx/seq/_twobit.pyx":99
+      /* "bx/seq/_twobit.pyx":118
  *             if (s >= fragEnd):
  *                 break
  *             if (s < fragStart):             # <<<<<<<<<<<<<<
@@ -1875,7 +1886,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
       __pyx_t_6 = ((__pyx_v_s < __pyx_v_fragStart) != 0);
       if (__pyx_t_6) {
 
-        /* "bx/seq/_twobit.pyx":100
+        /* "bx/seq/_twobit.pyx":119
  *                 break
  *             if (s < fragStart):
  *                s = fragStart             # <<<<<<<<<<<<<<
@@ -1884,7 +1895,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
         __pyx_v_s = __pyx_v_fragStart;
 
-        /* "bx/seq/_twobit.pyx":99
+        /* "bx/seq/_twobit.pyx":118
  *             if (s >= fragEnd):
  *                 break
  *             if (s < fragStart):             # <<<<<<<<<<<<<<
@@ -1893,7 +1904,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       }
 
-      /* "bx/seq/_twobit.pyx":101
+      /* "bx/seq/_twobit.pyx":120
  *             if (s < fragStart):
  *                s = fragStart
  *             if (e > fragEnd):             # <<<<<<<<<<<<<<
@@ -1903,7 +1914,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
       __pyx_t_6 = ((__pyx_v_e > __pyx_v_fragEnd) != 0);
       if (__pyx_t_6) {
 
-        /* "bx/seq/_twobit.pyx":102
+        /* "bx/seq/_twobit.pyx":121
  *                s = fragStart
  *             if (e > fragEnd):
  *                e = fragEnd             # <<<<<<<<<<<<<<
@@ -1912,7 +1923,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
         __pyx_v_e = __pyx_v_fragEnd;
 
-        /* "bx/seq/_twobit.pyx":101
+        /* "bx/seq/_twobit.pyx":120
  *             if (s < fragStart):
  *                s = fragStart
  *             if (e > fragEnd):             # <<<<<<<<<<<<<<
@@ -1921,7 +1932,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
       }
 
-      /* "bx/seq/_twobit.pyx":103
+      /* "bx/seq/_twobit.pyx":122
  *             if (e > fragEnd):
  *                e = fragEnd
  *             if (s < e):             # <<<<<<<<<<<<<<
@@ -1931,7 +1942,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
       __pyx_t_6 = ((__pyx_v_s < __pyx_v_e) != 0);
       if (__pyx_t_6) {
 
-        /* "bx/seq/_twobit.pyx":104
+        /* "bx/seq/_twobit.pyx":123
  *                e = fragEnd
  *             if (s < e):
  *                 memset( dna + s - fragStart, c'N', e - s)             # <<<<<<<<<<<<<<
@@ -1940,7 +1951,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
         memset(((__pyx_v_dna + __pyx_v_s) - __pyx_v_fragStart), 'N', (__pyx_v_e - __pyx_v_s));
 
-        /* "bx/seq/_twobit.pyx":103
+        /* "bx/seq/_twobit.pyx":122
  *             if (e > fragEnd):
  *                e = fragEnd
  *             if (s < e):             # <<<<<<<<<<<<<<
@@ -1951,7 +1962,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
     }
     __pyx_L17_break:;
 
-    /* "bx/seq/_twobit.pyx":91
+    /* "bx/seq/_twobit.pyx":110
  *     # N's
  *     n_block_count = len( seq.n_block_starts )
  *     if n_block_count > 0:             # <<<<<<<<<<<<<<
@@ -1960,7 +1971,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
   }
 
-  /* "bx/seq/_twobit.pyx":106
+  /* "bx/seq/_twobit.pyx":125
  *                 memset( dna + s - fragStart, c'N', e - s)
  *     # Mask
  *     if do_mask:             # <<<<<<<<<<<<<<
@@ -1970,20 +1981,20 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
   __pyx_t_6 = (__pyx_v_do_mask != 0);
   if (__pyx_t_6) {
 
-    /* "bx/seq/_twobit.pyx":107
+    /* "bx/seq/_twobit.pyx":126
  *     # Mask
  *     if do_mask:
  *         m_block_count = len( seq.masked_block_starts )             # <<<<<<<<<<<<<<
  *         if m_block_count > 0:
  *             start_ix = bisect( seq.masked_block_starts, fragStart ) - 1
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_masked_block_starts); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_masked_block_starts); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __pyx_t_8 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_m_block_count = __pyx_t_8;
 
-    /* "bx/seq/_twobit.pyx":108
+    /* "bx/seq/_twobit.pyx":127
  *     if do_mask:
  *         m_block_count = len( seq.masked_block_starts )
  *         if m_block_count > 0:             # <<<<<<<<<<<<<<
@@ -1993,26 +2004,26 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
     __pyx_t_6 = ((__pyx_v_m_block_count > 0) != 0);
     if (__pyx_t_6) {
 
-      /* "bx/seq/_twobit.pyx":109
+      /* "bx/seq/_twobit.pyx":128
  *         m_block_count = len( seq.masked_block_starts )
  *         if m_block_count > 0:
  *             start_ix = bisect( seq.masked_block_starts, fragStart ) - 1             # <<<<<<<<<<<<<<
  *             if start_ix < 0: start_ix = 0
  *             for i from start_ix <= i < m_block_count:
  */
-      __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_bisect); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 109, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_bisect); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 128, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_masked_block_starts); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_fragStart); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 109, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_masked_block_starts); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 128, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = NULL;
+      __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_fragStart); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 128, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_5 = NULL;
       __pyx_t_7 = 0;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_9))) {
-        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_9);
-        if (likely(__pyx_t_4)) {
+        __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_9);
+        if (likely(__pyx_t_5)) {
           PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
-          __Pyx_INCREF(__pyx_t_4);
+          __Pyx_INCREF(__pyx_t_5);
           __Pyx_INCREF(function);
           __Pyx_DECREF_SET(__pyx_t_9, function);
           __pyx_t_7 = 1;
@@ -2020,112 +2031,112 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
       }
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_9)) {
-        PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_1, __pyx_t_3};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 109, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_t_4};
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 128, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else
       #endif
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_9)) {
-        PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_1, __pyx_t_3};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 109, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_t_4};
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 128, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else
       #endif
       {
-        __pyx_t_5 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 109, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        if (__pyx_t_4) {
-          __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
+        __pyx_t_1 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        if (__pyx_t_5) {
+          __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_5); __pyx_t_5 = NULL;
         }
-        __Pyx_GIVEREF(__pyx_t_1);
-        PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_7, __pyx_t_1);
         __Pyx_GIVEREF(__pyx_t_3);
-        PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_7, __pyx_t_3);
-        __pyx_t_1 = 0;
+        PyTuple_SET_ITEM(__pyx_t_1, 0+__pyx_t_7, __pyx_t_3);
+        __Pyx_GIVEREF(__pyx_t_4);
+        PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_7, __pyx_t_4);
         __pyx_t_3 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 109, __pyx_L1_error)
+        __pyx_t_4 = 0;
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 128, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       }
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_t_9 = __Pyx_PyInt_SubtractObjC(__pyx_t_2, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 109, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyInt_SubtractObjC(__pyx_t_2, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 128, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_XDECREF_SET(__pyx_v_start_ix, __pyx_t_9);
       __pyx_t_9 = 0;
 
-      /* "bx/seq/_twobit.pyx":110
+      /* "bx/seq/_twobit.pyx":129
  *         if m_block_count > 0:
  *             start_ix = bisect( seq.masked_block_starts, fragStart ) - 1
  *             if start_ix < 0: start_ix = 0             # <<<<<<<<<<<<<<
  *             for i from start_ix <= i < m_block_count:
  *                 s = seq.masked_block_starts[i];
  */
-      __pyx_t_9 = PyObject_RichCompare(__pyx_v_start_ix, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_9); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 110, __pyx_L1_error)
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 110, __pyx_L1_error)
+      __pyx_t_9 = PyObject_RichCompare(__pyx_v_start_ix, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_9); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 129, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 129, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       if (__pyx_t_6) {
         __Pyx_INCREF(__pyx_int_0);
         __Pyx_DECREF_SET(__pyx_v_start_ix, __pyx_int_0);
       }
 
-      /* "bx/seq/_twobit.pyx":111
+      /* "bx/seq/_twobit.pyx":130
  *             start_ix = bisect( seq.masked_block_starts, fragStart ) - 1
  *             if start_ix < 0: start_ix = 0
  *             for i from start_ix <= i < m_block_count:             # <<<<<<<<<<<<<<
  *                 s = seq.masked_block_starts[i];
  *                 e = s + seq.masked_block_sizes[i];
  */
-      __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_start_ix); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_start_ix); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 130, __pyx_L1_error)
       __pyx_t_8 = __pyx_v_m_block_count;
       for (__pyx_v_i = __pyx_t_7; __pyx_v_i < __pyx_t_8; __pyx_v_i++) {
 
-        /* "bx/seq/_twobit.pyx":112
+        /* "bx/seq/_twobit.pyx":131
  *             if start_ix < 0: start_ix = 0
  *             for i from start_ix <= i < m_block_count:
  *                 s = seq.masked_block_starts[i];             # <<<<<<<<<<<<<<
  *                 e = s + seq.masked_block_sizes[i];
  *                 if (s >= fragEnd):
  */
-        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_masked_block_starts); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 112, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_masked_block_starts); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 131, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_9, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_9, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 131, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 112, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 131, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_v_s = __pyx_t_10;
 
-        /* "bx/seq/_twobit.pyx":113
+        /* "bx/seq/_twobit.pyx":132
  *             for i from start_ix <= i < m_block_count:
  *                 s = seq.masked_block_starts[i];
  *                 e = s + seq.masked_block_sizes[i];             # <<<<<<<<<<<<<<
  *                 if (s >= fragEnd):
  *                     break
  */
-        __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_s); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 113, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_s); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_masked_block_sizes); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 113, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_seq, __pyx_n_s_masked_block_sizes); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 132, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_9, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 113, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_9, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = PyNumber_Add(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 113, __pyx_L1_error)
+        __pyx_t_9 = PyNumber_Add(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 132, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_9); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 113, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_9); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 132, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __pyx_v_e = __pyx_t_10;
 
-        /* "bx/seq/_twobit.pyx":114
+        /* "bx/seq/_twobit.pyx":133
  *                 s = seq.masked_block_starts[i];
  *                 e = s + seq.masked_block_sizes[i];
  *                 if (s >= fragEnd):             # <<<<<<<<<<<<<<
@@ -2135,7 +2146,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
         __pyx_t_6 = ((__pyx_v_s >= __pyx_v_fragEnd) != 0);
         if (__pyx_t_6) {
 
-          /* "bx/seq/_twobit.pyx":115
+          /* "bx/seq/_twobit.pyx":134
  *                 e = s + seq.masked_block_sizes[i];
  *                 if (s >= fragEnd):
  *                     break             # <<<<<<<<<<<<<<
@@ -2144,7 +2155,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
           goto __pyx_L26_break;
 
-          /* "bx/seq/_twobit.pyx":114
+          /* "bx/seq/_twobit.pyx":133
  *                 s = seq.masked_block_starts[i];
  *                 e = s + seq.masked_block_sizes[i];
  *                 if (s >= fragEnd):             # <<<<<<<<<<<<<<
@@ -2153,7 +2164,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
         }
 
-        /* "bx/seq/_twobit.pyx":116
+        /* "bx/seq/_twobit.pyx":135
  *                 if (s >= fragEnd):
  *                     break
  *                 if (s < fragStart):             # <<<<<<<<<<<<<<
@@ -2163,7 +2174,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
         __pyx_t_6 = ((__pyx_v_s < __pyx_v_fragStart) != 0);
         if (__pyx_t_6) {
 
-          /* "bx/seq/_twobit.pyx":117
+          /* "bx/seq/_twobit.pyx":136
  *                     break
  *                 if (s < fragStart):
  *                    s = fragStart             # <<<<<<<<<<<<<<
@@ -2172,7 +2183,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
           __pyx_v_s = __pyx_v_fragStart;
 
-          /* "bx/seq/_twobit.pyx":116
+          /* "bx/seq/_twobit.pyx":135
  *                 if (s >= fragEnd):
  *                     break
  *                 if (s < fragStart):             # <<<<<<<<<<<<<<
@@ -2181,7 +2192,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
         }
 
-        /* "bx/seq/_twobit.pyx":118
+        /* "bx/seq/_twobit.pyx":137
  *                 if (s < fragStart):
  *                    s = fragStart
  *                 if (e > fragEnd):             # <<<<<<<<<<<<<<
@@ -2191,7 +2202,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
         __pyx_t_6 = ((__pyx_v_e > __pyx_v_fragEnd) != 0);
         if (__pyx_t_6) {
 
-          /* "bx/seq/_twobit.pyx":119
+          /* "bx/seq/_twobit.pyx":138
  *                    s = fragStart
  *                 if (e > fragEnd):
  *                    e = fragEnd             # <<<<<<<<<<<<<<
@@ -2200,7 +2211,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
           __pyx_v_e = __pyx_v_fragEnd;
 
-          /* "bx/seq/_twobit.pyx":118
+          /* "bx/seq/_twobit.pyx":137
  *                 if (s < fragStart):
  *                    s = fragStart
  *                 if (e > fragEnd):             # <<<<<<<<<<<<<<
@@ -2209,7 +2220,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
         }
 
-        /* "bx/seq/_twobit.pyx":120
+        /* "bx/seq/_twobit.pyx":139
  *                 if (e > fragEnd):
  *                    e = fragEnd
  *                 if (s < e):             # <<<<<<<<<<<<<<
@@ -2219,26 +2230,26 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
         __pyx_t_6 = ((__pyx_v_s < __pyx_v_e) != 0);
         if (__pyx_t_6) {
 
-          /* "bx/seq/_twobit.pyx":121
+          /* "bx/seq/_twobit.pyx":140
  *                    e = fragEnd
  *                 if (s < e):
  *                     for j from s <= j < e:             # <<<<<<<<<<<<<<
  *                         dna[j-fragStart] = tolower( dna[j-fragStart] )
- *     return dna_py
+ *     return PyUnicode_FromString(dna_py)
  */
           __pyx_t_10 = __pyx_v_e;
           for (__pyx_v_j = __pyx_v_s; __pyx_v_j < __pyx_t_10; __pyx_v_j++) {
 
-            /* "bx/seq/_twobit.pyx":122
+            /* "bx/seq/_twobit.pyx":141
  *                 if (s < e):
  *                     for j from s <= j < e:
  *                         dna[j-fragStart] = tolower( dna[j-fragStart] )             # <<<<<<<<<<<<<<
- *     return dna_py
+ *     return PyUnicode_FromString(dna_py)
  */
             (__pyx_v_dna[(__pyx_v_j - __pyx_v_fragStart)]) = tolower((__pyx_v_dna[(__pyx_v_j - __pyx_v_fragStart)]));
           }
 
-          /* "bx/seq/_twobit.pyx":120
+          /* "bx/seq/_twobit.pyx":139
  *                 if (e > fragEnd):
  *                    e = fragEnd
  *                 if (s < e):             # <<<<<<<<<<<<<<
@@ -2249,7 +2260,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
       }
       __pyx_L26_break:;
 
-      /* "bx/seq/_twobit.pyx":108
+      /* "bx/seq/_twobit.pyx":127
  *     if do_mask:
  *         m_block_count = len( seq.masked_block_starts )
  *         if m_block_count > 0:             # <<<<<<<<<<<<<<
@@ -2258,7 +2269,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
     }
 
-    /* "bx/seq/_twobit.pyx":106
+    /* "bx/seq/_twobit.pyx":125
  *                 memset( dna + s - fragStart, c'N', e - s)
  *     # Mask
  *     if do_mask:             # <<<<<<<<<<<<<<
@@ -2267,17 +2278,20 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
  */
   }
 
-  /* "bx/seq/_twobit.pyx":123
+  /* "bx/seq/_twobit.pyx":142
  *                     for j from s <= j < e:
  *                         dna[j-fragStart] = tolower( dna[j-fragStart] )
- *     return dna_py             # <<<<<<<<<<<<<<
+ *     return PyUnicode_FromString(dna_py)             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_dna_py);
-  __pyx_r = __pyx_v_dna_py;
+  __pyx_t_11 = __Pyx_PyObject_AsString(__pyx_v_dna_py); if (unlikely((!__pyx_t_11) && PyErr_Occurred())) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_9 = PyUnicode_FromString(__pyx_t_11); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  __pyx_r = __pyx_t_9;
+  __pyx_t_9 = 0;
   goto __pyx_L0;
 
-  /* "bx/seq/_twobit.pyx":19
+  /* "bx/seq/_twobit.pyx":28
  * valToNt = "TCAG"
  * 
  * def read( file, seq, int fragStart, int fragEnd, bint do_mask ):             # <<<<<<<<<<<<<<
@@ -2297,6 +2311,7 @@ static PyObject *__pyx_pf_2bx_3seq_7_twobit_read(CYTHON_UNUSED PyObject *__pyx_s
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_dna_py);
+  __Pyx_XDECREF(__pyx_v_seek_bytes);
   __Pyx_XDECREF(__pyx_v_packed_py);
   __Pyx_XDECREF(__pyx_v_start_ix);
   __Pyx_XGIVEREF(__pyx_r);
@@ -2364,6 +2379,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_remainder, __pyx_k_remainder, sizeof(__pyx_k_remainder), 0, 0, 1, 1},
   {&__pyx_n_s_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 0, 1, 1},
   {&__pyx_n_s_seek, __pyx_k_seek, sizeof(__pyx_k_seek), 0, 0, 1, 1},
+  {&__pyx_n_s_seek_bytes, __pyx_k_seek_bytes, sizeof(__pyx_k_seek_bytes), 0, 0, 1, 1},
   {&__pyx_n_s_seq, __pyx_k_seq, sizeof(__pyx_k_seq), 0, 0, 1, 1},
   {&__pyx_n_s_sequence_offset, __pyx_k_sequence_offset, sizeof(__pyx_k_sequence_offset), 0, 0, 1, 1},
   {&__pyx_n_s_start_ix, __pyx_k_start_ix, sizeof(__pyx_k_start_ix), 0, 0, 1, 1},
@@ -2380,17 +2396,17 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "bx/seq/_twobit.pyx":19
+  /* "bx/seq/_twobit.pyx":28
  * valToNt = "TCAG"
  * 
  * def read( file, seq, int fragStart, int fragEnd, bint do_mask ):             # <<<<<<<<<<<<<<
  *     """
  *     Stolen directly from Jim Kent's twoBit.c
  */
-  __pyx_tuple_ = PyTuple_Pack(28, __pyx_n_s_file, __pyx_n_s_seq, __pyx_n_s_fragStart, __pyx_n_s_fragEnd, __pyx_n_s_do_mask, __pyx_n_s_packedStart, __pyx_n_s_packedEnd, __pyx_n_s_packByteCount, __pyx_n_s_pOff, __pyx_n_s_pStart, __pyx_n_s_pEnd, __pyx_n_s_midStart, __pyx_n_s_remainder, __pyx_n_s_partCount, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_s, __pyx_n_s_e, __pyx_n_s_packed, __pyx_n_s_dna, __pyx_n_s_dna_orig, __pyx_n_s_partial, __pyx_n_s_dna_py, __pyx_n_s_packed_py, __pyx_n_s_midEnd, __pyx_n_s_n_block_count, __pyx_n_s_start_ix, __pyx_n_s_m_block_count); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(29, __pyx_n_s_file, __pyx_n_s_seq, __pyx_n_s_fragStart, __pyx_n_s_fragEnd, __pyx_n_s_do_mask, __pyx_n_s_packedStart, __pyx_n_s_packedEnd, __pyx_n_s_packByteCount, __pyx_n_s_pOff, __pyx_n_s_pStart, __pyx_n_s_pEnd, __pyx_n_s_midStart, __pyx_n_s_remainder, __pyx_n_s_partCount, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_s, __pyx_n_s_e, __pyx_n_s_packed, __pyx_n_s_dna, __pyx_n_s_dna_orig, __pyx_n_s_partial, __pyx_n_s_dna_py, __pyx_n_s_seek_bytes, __pyx_n_s_packed_py, __pyx_n_s_midEnd, __pyx_n_s_n_block_count, __pyx_n_s_start_ix, __pyx_n_s_m_block_count); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(5, 0, 28, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_read, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(5, 0, 29, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_read, 28, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -2500,44 +2516,44 @@ PyMODINIT_FUNC PyInit__twobit(void)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "bx/seq/_twobit.pyx":12
+  /* "bx/seq/_twobit.pyx":21
  *     void * memset( void *, int, int )
  * 
  * import struct, sys             # <<<<<<<<<<<<<<
  * 
  * from bisect import bisect
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_struct, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_struct, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_struct, __pyx_t_1) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_struct, __pyx_t_1) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/seq/_twobit.pyx":14
+  /* "bx/seq/_twobit.pyx":23
  * import struct, sys
  * 
  * from bisect import bisect             # <<<<<<<<<<<<<<
  * 
  * cdef char* valToNt
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_bisect);
   __Pyx_GIVEREF(__pyx_n_s_bisect);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_bisect);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_bisect, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_bisect, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_bisect); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_bisect); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_bisect, __pyx_t_1) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_bisect, __pyx_t_1) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "bx/seq/_twobit.pyx":17
+  /* "bx/seq/_twobit.pyx":26
  * 
  * cdef char* valToNt
  * valToNt = "TCAG"             # <<<<<<<<<<<<<<
@@ -2546,16 +2562,16 @@ PyMODINIT_FUNC PyInit__twobit(void)
  */
   __pyx_v_2bx_3seq_7_twobit_valToNt = ((char *)"TCAG");
 
-  /* "bx/seq/_twobit.pyx":19
+  /* "bx/seq/_twobit.pyx":28
  * valToNt = "TCAG"
  * 
  * def read( file, seq, int fragStart, int fragEnd, bint do_mask ):             # <<<<<<<<<<<<<<
  *     """
  *     Stolen directly from Jim Kent's twoBit.c
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_2bx_3seq_7_twobit_1read, NULL, __pyx_n_s_bx_seq__twobit); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_2bx_3seq_7_twobit_1read, NULL, __pyx_n_s_bx_seq__twobit); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_read, __pyx_t_2) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_read, __pyx_t_2) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "bx/seq/_twobit.pyx":1

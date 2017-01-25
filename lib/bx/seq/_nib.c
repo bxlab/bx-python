@@ -769,6 +769,7 @@ static char *__pyx_v_2bx_3seq_4_nib_NIB_I2C_TABLE_SECOND;
 int __pyx_module_is_main_bx__seq___nib = 0;
 
 /* Implementation of 'bx.seq._nib' */
+static const char __pyx_k_[] = "";
 static const char __pyx_k_i[] = "i";
 static const char __pyx_k_j[] = "j";
 static const char __pyx_k_sys[] = "sys";
@@ -785,6 +786,7 @@ static const char __pyx_k_struct[] = "struct";
 static const char __pyx_k_bx_seq__nib[] = "bx.seq._nib";
 static const char __pyx_k_translate_raw_data[] = "translate_raw_data";
 static const char __pyx_k_projectnb_bubhub_bubhub_conda_p[] = "/projectnb/bubhub/bubhub-conda/package_recipes/bx-python/bx-python/lib/bx/seq/_nib.pyx";
+static PyObject *__pyx_kp_s_;
 static PyObject *__pyx_n_s_bx_seq__nib;
 static PyObject *__pyx_n_s_data;
 static PyObject *__pyx_n_s_i;
@@ -802,10 +804,10 @@ static PyObject *__pyx_n_s_sys;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_translate_raw_data;
 static PyObject *__pyx_pf_2bx_3seq_4_nib_translate_raw_data(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_data, int __pyx_v_start, int __pyx_v_length); /* proto */
-static PyObject *__pyx_tuple_;
-static PyObject *__pyx_codeobj__2;
+static PyObject *__pyx_tuple__2;
+static PyObject *__pyx_codeobj__3;
 
-/* "bx/seq/_nib.pyx":15
+/* "bx/seq/_nib.pyx":22
  * NIB_I2C_TABLE_SECOND = "TCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxx"
  * 
  * def translate_raw_data( data, int start, int length ):             # <<<<<<<<<<<<<<
@@ -845,16 +847,16 @@ static PyObject *__pyx_pw_2bx_3seq_4_nib_1translate_raw_data(PyObject *__pyx_sel
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("translate_raw_data", 1, 3, 3, 1); __PYX_ERR(0, 15, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("translate_raw_data", 1, 3, 3, 1); __PYX_ERR(0, 22, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_length)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("translate_raw_data", 1, 3, 3, 2); __PYX_ERR(0, 15, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("translate_raw_data", 1, 3, 3, 2); __PYX_ERR(0, 22, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "translate_raw_data") < 0)) __PYX_ERR(0, 15, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "translate_raw_data") < 0)) __PYX_ERR(0, 22, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -864,12 +866,12 @@ static PyObject *__pyx_pw_2bx_3seq_4_nib_1translate_raw_data(PyObject *__pyx_sel
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
     __pyx_v_data = values[0];
-    __pyx_v_start = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_start == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 15, __pyx_L3_error)
-    __pyx_v_length = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_length == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 15, __pyx_L3_error)
+    __pyx_v_start = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_start == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L3_error)
+    __pyx_v_length = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_length == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("translate_raw_data", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 15, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("translate_raw_data", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 22, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.seq._nib.translate_raw_data", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -890,61 +892,92 @@ static PyObject *__pyx_pf_2bx_3seq_4_nib_translate_raw_data(CYTHON_UNUSED PyObje
   PyObject *__pyx_v_rval = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
   long __pyx_t_3;
   __Pyx_RefNannySetupContext("translate_raw_data", 0);
 
-  /* "bx/seq/_nib.pyx":24
+  /* "bx/seq/_nib.pyx":31
  *     cdef unsigned char * p_data
- *     # Allocate string to write into
- *     rval = PyUnicode_AsUTF8AndSize( NULL, length )             # <<<<<<<<<<<<<<
- *     # Get char pointer access to strings
- *     p_rval = PyUnicode_AsUTF8( rval )
+ * 
+ *     if length == 0 :             # <<<<<<<<<<<<<<
+ *       return ""
+ * 
  */
-  __pyx_t_1 = PyUnicode_AsUTF8AndSize(NULL, __pyx_v_length); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_rval = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __pyx_t_1 = ((__pyx_v_length == 0) != 0);
+  if (__pyx_t_1) {
 
-  /* "bx/seq/_nib.pyx":26
- *     rval = PyUnicode_AsUTF8AndSize( NULL, length )
+    /* "bx/seq/_nib.pyx":32
+ * 
+ *     if length == 0 :
+ *       return ""             # <<<<<<<<<<<<<<
+ * 
+ *     # Allocate string to write into
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __Pyx_INCREF(__pyx_kp_s_);
+    __pyx_r = __pyx_kp_s_;
+    goto __pyx_L0;
+
+    /* "bx/seq/_nib.pyx":31
+ *     cdef unsigned char * p_data
+ * 
+ *     if length == 0 :             # <<<<<<<<<<<<<<
+ *       return ""
+ * 
+ */
+  }
+
+  /* "bx/seq/_nib.pyx":35
+ * 
+ *     # Allocate string to write into
+ *     rval = PyBytes_FromStringAndSize( NULL, length )             # <<<<<<<<<<<<<<
+ * 
  *     # Get char pointer access to strings
- *     p_rval = PyUnicode_AsUTF8( rval )             # <<<<<<<<<<<<<<
- *     p_data = <unsigned char *> PyUnicode_AsUTF8( data )
+ */
+  __pyx_t_2 = PyBytes_FromStringAndSize(NULL, __pyx_v_length); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_v_rval = __pyx_t_2;
+  __pyx_t_2 = 0;
+
+  /* "bx/seq/_nib.pyx":38
+ * 
+ *     # Get char pointer access to strings
+ *     p_rval = PyBytes_AsString( rval )             # <<<<<<<<<<<<<<
+ *     p_data = <unsigned char *> PyBytes_AsString( data )
  *     i = 0
  */
-  __pyx_v_p_rval = PyUnicode_AsUTF8(__pyx_v_rval);
+  __pyx_v_p_rval = PyBytes_AsString(__pyx_v_rval);
 
-  /* "bx/seq/_nib.pyx":27
+  /* "bx/seq/_nib.pyx":39
  *     # Get char pointer access to strings
- *     p_rval = PyUnicode_AsUTF8( rval )
- *     p_data = <unsigned char *> PyUnicode_AsUTF8( data )             # <<<<<<<<<<<<<<
+ *     p_rval = PyBytes_AsString( rval )
+ *     p_data = <unsigned char *> PyBytes_AsString( data )             # <<<<<<<<<<<<<<
  *     i = 0
  *     # Odd start
  */
-  __pyx_v_p_data = ((unsigned char *)PyUnicode_AsUTF8(__pyx_v_data));
+  __pyx_v_p_data = ((unsigned char *)PyBytes_AsString(__pyx_v_data));
 
-  /* "bx/seq/_nib.pyx":28
- *     p_rval = PyUnicode_AsUTF8( rval )
- *     p_data = <unsigned char *> PyUnicode_AsUTF8( data )
+  /* "bx/seq/_nib.pyx":40
+ *     p_rval = PyBytes_AsString( rval )
+ *     p_data = <unsigned char *> PyBytes_AsString( data )
  *     i = 0             # <<<<<<<<<<<<<<
  *     # Odd start
  *     if start & 1:
  */
   __pyx_v_i = 0;
 
-  /* "bx/seq/_nib.pyx":30
+  /* "bx/seq/_nib.pyx":42
  *     i = 0
  *     # Odd start
  *     if start & 1:             # <<<<<<<<<<<<<<
  *         #p_rval[i] = NIB_I2C_TABLE[ p_data[0] & 0xF ]
  *         p_rval[i] = NIB_I2C_TABLE_SECOND[ p_data[0] ]
  */
-  __pyx_t_2 = ((__pyx_v_start & 1) != 0);
-  if (__pyx_t_2) {
+  __pyx_t_1 = ((__pyx_v_start & 1) != 0);
+  if (__pyx_t_1) {
 
-    /* "bx/seq/_nib.pyx":32
+    /* "bx/seq/_nib.pyx":44
  *     if start & 1:
  *         #p_rval[i] = NIB_I2C_TABLE[ p_data[0] & 0xF ]
  *         p_rval[i] = NIB_I2C_TABLE_SECOND[ p_data[0] ]             # <<<<<<<<<<<<<<
@@ -953,7 +986,7 @@ static PyObject *__pyx_pf_2bx_3seq_4_nib_translate_raw_data(CYTHON_UNUSED PyObje
  */
     (__pyx_v_p_rval[__pyx_v_i]) = (__pyx_v_2bx_3seq_4_nib_NIB_I2C_TABLE_SECOND[(__pyx_v_p_data[0])]);
 
-    /* "bx/seq/_nib.pyx":33
+    /* "bx/seq/_nib.pyx":45
  *         #p_rval[i] = NIB_I2C_TABLE[ p_data[0] & 0xF ]
  *         p_rval[i] = NIB_I2C_TABLE_SECOND[ p_data[0] ]
  *         p_data = p_data + 1             # <<<<<<<<<<<<<<
@@ -962,7 +995,7 @@ static PyObject *__pyx_pf_2bx_3seq_4_nib_translate_raw_data(CYTHON_UNUSED PyObje
  */
     __pyx_v_p_data = (__pyx_v_p_data + 1);
 
-    /* "bx/seq/_nib.pyx":34
+    /* "bx/seq/_nib.pyx":46
  *         p_rval[i] = NIB_I2C_TABLE_SECOND[ p_data[0] ]
  *         p_data = p_data + 1
  *         i = 1             # <<<<<<<<<<<<<<
@@ -971,7 +1004,7 @@ static PyObject *__pyx_pf_2bx_3seq_4_nib_translate_raw_data(CYTHON_UNUSED PyObje
  */
     __pyx_v_i = 1;
 
-    /* "bx/seq/_nib.pyx":30
+    /* "bx/seq/_nib.pyx":42
  *     i = 0
  *     # Odd start
  *     if start & 1:             # <<<<<<<<<<<<<<
@@ -980,7 +1013,7 @@ static PyObject *__pyx_pf_2bx_3seq_4_nib_translate_raw_data(CYTHON_UNUSED PyObje
  */
   }
 
-  /* "bx/seq/_nib.pyx":36
+  /* "bx/seq/_nib.pyx":48
  *         i = 1
  *     # Two output values for each input value
  *     for j from 0 <= j < (length-i)/2:             # <<<<<<<<<<<<<<
@@ -990,7 +1023,7 @@ static PyObject *__pyx_pf_2bx_3seq_4_nib_translate_raw_data(CYTHON_UNUSED PyObje
   __pyx_t_3 = __Pyx_div_long((__pyx_v_length - __pyx_v_i), 2);
   for (__pyx_v_j = 0; __pyx_v_j < __pyx_t_3; __pyx_v_j++) {
 
-    /* "bx/seq/_nib.pyx":39
+    /* "bx/seq/_nib.pyx":51
  *         #p_rval[i]   = NIB_I2C_TABLE[ ( p_data[0] >> 4 ) & 0xF ];
  *         #p_rval[i+1] = NIB_I2C_TABLE[ ( p_data[0] >> 0 ) & 0xF ];
  *         p_rval[i]   = NIB_I2C_TABLE_FIRST [ p_data[0] ]             # <<<<<<<<<<<<<<
@@ -999,7 +1032,7 @@ static PyObject *__pyx_pf_2bx_3seq_4_nib_translate_raw_data(CYTHON_UNUSED PyObje
  */
     (__pyx_v_p_rval[__pyx_v_i]) = (__pyx_v_2bx_3seq_4_nib_NIB_I2C_TABLE_FIRST[(__pyx_v_p_data[0])]);
 
-    /* "bx/seq/_nib.pyx":40
+    /* "bx/seq/_nib.pyx":52
  *         #p_rval[i+1] = NIB_I2C_TABLE[ ( p_data[0] >> 0 ) & 0xF ];
  *         p_rval[i]   = NIB_I2C_TABLE_FIRST [ p_data[0] ]
  *         p_rval[i+1] = NIB_I2C_TABLE_SECOND[ p_data[0] ]             # <<<<<<<<<<<<<<
@@ -1008,7 +1041,7 @@ static PyObject *__pyx_pf_2bx_3seq_4_nib_translate_raw_data(CYTHON_UNUSED PyObje
  */
     (__pyx_v_p_rval[(__pyx_v_i + 1)]) = (__pyx_v_2bx_3seq_4_nib_NIB_I2C_TABLE_SECOND[(__pyx_v_p_data[0])]);
 
-    /* "bx/seq/_nib.pyx":41
+    /* "bx/seq/_nib.pyx":53
  *         p_rval[i]   = NIB_I2C_TABLE_FIRST [ p_data[0] ]
  *         p_rval[i+1] = NIB_I2C_TABLE_SECOND[ p_data[0] ]
  *         i = i + 2             # <<<<<<<<<<<<<<
@@ -1017,7 +1050,7 @@ static PyObject *__pyx_pf_2bx_3seq_4_nib_translate_raw_data(CYTHON_UNUSED PyObje
  */
     __pyx_v_i = (__pyx_v_i + 2);
 
-    /* "bx/seq/_nib.pyx":42
+    /* "bx/seq/_nib.pyx":54
  *         p_rval[i+1] = NIB_I2C_TABLE_SECOND[ p_data[0] ]
  *         i = i + 2
  *         p_data = p_data + 1             # <<<<<<<<<<<<<<
@@ -1027,44 +1060,47 @@ static PyObject *__pyx_pf_2bx_3seq_4_nib_translate_raw_data(CYTHON_UNUSED PyObje
     __pyx_v_p_data = (__pyx_v_p_data + 1);
   }
 
-  /* "bx/seq/_nib.pyx":44
+  /* "bx/seq/_nib.pyx":56
  *         p_data = p_data + 1
  *     # Odd end
  *     if i < length:             # <<<<<<<<<<<<<<
  *         p_rval[i] = NIB_I2C_TABLE_FIRST[ p_data[0] ]
- *     return rval
+ * 
  */
-  __pyx_t_2 = ((__pyx_v_i < __pyx_v_length) != 0);
-  if (__pyx_t_2) {
+  __pyx_t_1 = ((__pyx_v_i < __pyx_v_length) != 0);
+  if (__pyx_t_1) {
 
-    /* "bx/seq/_nib.pyx":45
+    /* "bx/seq/_nib.pyx":57
  *     # Odd end
  *     if i < length:
  *         p_rval[i] = NIB_I2C_TABLE_FIRST[ p_data[0] ]             # <<<<<<<<<<<<<<
- *     return rval
+ * 
+ *     return PyUnicode_FromString(p_rval)
  */
     (__pyx_v_p_rval[__pyx_v_i]) = (__pyx_v_2bx_3seq_4_nib_NIB_I2C_TABLE_FIRST[(__pyx_v_p_data[0])]);
 
-    /* "bx/seq/_nib.pyx":44
+    /* "bx/seq/_nib.pyx":56
  *         p_data = p_data + 1
  *     # Odd end
  *     if i < length:             # <<<<<<<<<<<<<<
  *         p_rval[i] = NIB_I2C_TABLE_FIRST[ p_data[0] ]
- *     return rval
+ * 
  */
   }
 
-  /* "bx/seq/_nib.pyx":46
- *     if i < length:
+  /* "bx/seq/_nib.pyx":59
  *         p_rval[i] = NIB_I2C_TABLE_FIRST[ p_data[0] ]
- *     return rval             # <<<<<<<<<<<<<<
+ * 
+ *     return PyUnicode_FromString(p_rval)             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_rval);
-  __pyx_r = __pyx_v_rval;
+  __pyx_t_2 = PyUnicode_FromString(__pyx_v_p_rval); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "bx/seq/_nib.pyx":15
+  /* "bx/seq/_nib.pyx":22
  * NIB_I2C_TABLE_SECOND = "TCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxx"
  * 
  * def translate_raw_data( data, int start, int length ):             # <<<<<<<<<<<<<<
@@ -1074,7 +1110,7 @@ static PyObject *__pyx_pf_2bx_3seq_4_nib_translate_raw_data(CYTHON_UNUSED PyObje
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_AddTraceback("bx.seq._nib.translate_raw_data", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -1107,6 +1143,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
+  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
   {&__pyx_n_s_bx_seq__nib, __pyx_k_bx_seq__nib, sizeof(__pyx_k_bx_seq__nib), 0, 0, 1, 1},
   {&__pyx_n_s_data, __pyx_k_data, sizeof(__pyx_k_data), 0, 0, 1, 1},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
@@ -1133,17 +1170,17 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "bx/seq/_nib.pyx":15
+  /* "bx/seq/_nib.pyx":22
  * NIB_I2C_TABLE_SECOND = "TCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxx"
  * 
  * def translate_raw_data( data, int start, int length ):             # <<<<<<<<<<<<<<
  *     """
  *     Data is a block read from the file that needs to be unpacked, dealing
  */
-  __pyx_tuple_ = PyTuple_Pack(8, __pyx_n_s_data, __pyx_n_s_start, __pyx_n_s_length, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_p_rval, __pyx_n_s_p_data, __pyx_n_s_rval); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 15, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple_);
-  __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(3, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_translate_raw_data, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(8, __pyx_n_s_data, __pyx_n_s_start, __pyx_n_s_length, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_p_rval, __pyx_n_s_p_data, __pyx_n_s_rval); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
+  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(3, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_projectnb_bubhub_bubhub_conda_p, __pyx_n_s_translate_raw_data, 22, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -1250,23 +1287,23 @@ PyMODINIT_FUNC PyInit__nib(void)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "bx/seq/_nib.pyx":6
+  /* "bx/seq/_nib.pyx":13
  *     int _PyString_Resize( object, int ) except -1
  * 
  * import struct, sys             # <<<<<<<<<<<<<<
  * 
  * cdef char * NIB_I2C_TABLE
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_struct, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_struct, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_struct, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_struct, __pyx_t_1) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/seq/_nib.pyx":12
+  /* "bx/seq/_nib.pyx":19
  * cdef char * NIB_I2C_TABLE_SECOND
  * #NIB_I2C_TABLE        = "TCAGNXXXtcagnxxx"
  * NIB_I2C_TABLE_FIRST  = "TTTTTTTTTTTTTTTTCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAGGGGGGGGGGGGGGGGNNNNNNNNNNNNNNNNXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXttttttttttttttttccccccccccccccccaaaaaaaaaaaaaaaaggggggggggggggggnnnnnnnnnnnnnnnnxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"             # <<<<<<<<<<<<<<
@@ -1275,7 +1312,7 @@ PyMODINIT_FUNC PyInit__nib(void)
  */
   __pyx_v_2bx_3seq_4_nib_NIB_I2C_TABLE_FIRST = ((char *)"TTTTTTTTTTTTTTTTCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAGGGGGGGGGGGGGGGGNNNNNNNNNNNNNNNNXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXttttttttttttttttccccccccccccccccaaaaaaaaaaaaaaaaggggggggggggggggnnnnnnnnnnnnnnnnxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
-  /* "bx/seq/_nib.pyx":13
+  /* "bx/seq/_nib.pyx":20
  * #NIB_I2C_TABLE        = "TCAGNXXXtcagnxxx"
  * NIB_I2C_TABLE_FIRST  = "TTTTTTTTTTTTTTTTCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAGGGGGGGGGGGGGGGGNNNNNNNNNNNNNNNNXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXttttttttttttttttccccccccccccccccaaaaaaaaaaaaaaaaggggggggggggggggnnnnnnnnnnnnnnnnxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
  * NIB_I2C_TABLE_SECOND = "TCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxx"             # <<<<<<<<<<<<<<
@@ -1284,22 +1321,22 @@ PyMODINIT_FUNC PyInit__nib(void)
  */
   __pyx_v_2bx_3seq_4_nib_NIB_I2C_TABLE_SECOND = ((char *)"TCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxx");
 
-  /* "bx/seq/_nib.pyx":15
+  /* "bx/seq/_nib.pyx":22
  * NIB_I2C_TABLE_SECOND = "TCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxxTCAGNXXXtcagnxxx"
  * 
  * def translate_raw_data( data, int start, int length ):             # <<<<<<<<<<<<<<
  *     """
  *     Data is a block read from the file that needs to be unpacked, dealing
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_3seq_4_nib_1translate_raw_data, NULL, __pyx_n_s_bx_seq__nib); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_2bx_3seq_4_nib_1translate_raw_data, NULL, __pyx_n_s_bx_seq__nib); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_translate_raw_data, __pyx_t_1) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_translate_raw_data, __pyx_t_1) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "bx/seq/_nib.pyx":1
  * cdef extern from "Python.h":             # <<<<<<<<<<<<<<
  *     char * PyUnicode_AsUTF8( object )
- *     object PyUnicode_AsUTF8AndSize( char *, int )
+ *     object PyUnicode_AsUTF8String( object )
  */
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

@@ -1040,7 +1040,7 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "bx/bbi/bbi_file.pyx":43
+/* "bx/bbi/bbi_file.pyx":50
  * cdef inline int imin(int a, int b): return a if a <= b else b
  * 
  * cdef enum summary_type:             # <<<<<<<<<<<<<<
@@ -1182,7 +1182,7 @@ struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile {
 };
 
 
-/* "bx/bbi/bbi_file.pyx":279
+/* "bx/bbi/bbi_file.pyx":289
  *         return closest_level
  * 
  * cdef class ZoomLevel:             # <<<<<<<<<<<<<<
@@ -1202,7 +1202,7 @@ struct __pyx_obj_2bx_3bbi_8bbi_file_ZoomLevel {
 
 
 
-/* "bx/bbi/bbi_file.pyx":56
+/* "bx/bbi/bbi_file.pyx":63
  *     pass
  * 
  * cdef class SummarizedData:             # <<<<<<<<<<<<<<
@@ -1216,7 +1216,7 @@ struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_SummarizedData {
 static struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_SummarizedData *__pyx_vtabptr_2bx_3bbi_8bbi_file_SummarizedData;
 
 
-/* "bx/bbi/bbi_file.pyx":110
+/* "bx/bbi/bbi_file.pyx":117
  *         pass
  * 
  * cdef class BBIFile:             # <<<<<<<<<<<<<<
@@ -1228,15 +1228,15 @@ struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile {
   PyObject *(*visit_blocks_in_region)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, struct __pyx_obj_2bx_3bbi_8bbi_file_BlockHandler *);
   PyObject *(*_get_chrom_id_and_size)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, char *);
   PyObject *(*_best_zoom_level)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, int);
-  PyObject *(*summarize)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, char *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int, int __pyx_skip_dispatch);
+  PyObject *(*summarize)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, PyObject *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int, int __pyx_skip_dispatch);
   PyObject *(*summarize_from_full)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, char *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int, int __pyx_skip_dispatch);
-  PyObject *(*query)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, char *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int, int __pyx_skip_dispatch);
+  PyObject *(*query)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, PyObject *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int, int __pyx_skip_dispatch);
   PyObject *(*_summarize_from_full)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int);
 };
 static struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile *__pyx_vtabptr_2bx_3bbi_8bbi_file_BBIFile;
 
 
-/* "bx/bbi/bbi_file.pyx":103
+/* "bx/bbi/bbi_file.pyx":110
  *                     min_val[j] = val
  * 
  * cdef class BlockHandler:             # <<<<<<<<<<<<<<
@@ -1250,7 +1250,7 @@ struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BlockHandler {
 static struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BlockHandler *__pyx_vtabptr_2bx_3bbi_8bbi_file_BlockHandler;
 
 
-/* "bx/bbi/bbi_file.pyx":279
+/* "bx/bbi/bbi_file.pyx":289
  *         return closest_level
  * 
  * cdef class ZoomLevel:             # <<<<<<<<<<<<<<
@@ -1793,9 +1793,9 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval_value(struct __pyx_obj_2bx_3bbi_8bbi_file_SummarizedData *__pyx_v_self, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_s, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_e, float __pyx_v_val); /* proto*/
 static PyObject *__pyx_f_2bx_3bbi_8bbi_file_12BlockHandler_handle_block(CYTHON_UNUSED struct __pyx_obj_2bx_3bbi_8bbi_file_BlockHandler *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_block_data, CYTHON_UNUSED struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_bbi_file); /* proto*/
 static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_chrom_id, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, struct __pyx_obj_2bx_3bbi_8bbi_file_BlockHandler *__pyx_v_handler); /* proto*/
-static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, char *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, PyObject *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, char *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size, int __pyx_skip_dispatch); /* proto*/
-static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, char *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, PyObject *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, char *__pyx_v_chrom); /* proto*/
 static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__summarize_from_full(CYTHON_UNUSED struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, CYTHON_UNUSED __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_chrom_id, CYTHON_UNUSED __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, CYTHON_UNUSED __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, CYTHON_UNUSED int __pyx_v_summary_size); /* proto*/
 static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, int __pyx_v_desired_reduction); /* proto*/
@@ -1868,6 +1868,8 @@ static const char __pyx_k_end[] = "end";
 static const char __pyx_k_max[] = "max";
 static const char __pyx_k_min[] = "min";
 static const char __pyx_k_nan[] = "nan";
+static const char __pyx_k_six[] = "six";
+static const char __pyx_k_sys[] = "sys";
 static const char __pyx_k_file[] = "file";
 static const char __pyx_k_find[] = "find";
 static const char __pyx_k_main[] = "__main__";
@@ -1892,6 +1894,7 @@ static const char __pyx_k_zeros[] = "zeros";
 static const char __pyx_k_append[] = "append";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_unpack[] = "unpack";
+static const char __pyx_k_BytesIO[] = "BytesIO";
 static const char __pyx_k_float64[] = "float64";
 static const char __pyx_k_max_val[] = "max_val";
 static const char __pyx_k_min_val[] = "min_val";
@@ -1936,6 +1939,7 @@ static const char __pyx_k_ndarray_is_not_Fortran_contiguou[] = "ndarray is not F
 static const char __pyx_k_numpy_core_umath_failed_to_impor[] = "numpy.core.umath failed to import";
 static const char __pyx_k_Format_string_allocated_too_shor_2[] = "Format string allocated too short.";
 static PyObject *__pyx_n_s_BinaryFileReader;
+static PyObject *__pyx_n_s_BytesIO;
 static PyObject *__pyx_kp_u_Format_string_allocated_too_shor;
 static PyObject *__pyx_kp_u_Format_string_allocated_too_shor_2;
 static PyObject *__pyx_n_s_II;
@@ -1987,6 +1991,7 @@ static PyObject *__pyx_n_s_read_uint16;
 static PyObject *__pyx_n_s_read_uint32;
 static PyObject *__pyx_n_s_read_uint64;
 static PyObject *__pyx_n_s_seek;
+static PyObject *__pyx_n_s_six;
 static PyObject *__pyx_n_s_six_moves;
 static PyObject *__pyx_n_s_size;
 static PyObject *__pyx_n_s_skip;
@@ -1999,6 +2004,7 @@ static PyObject *__pyx_n_s_summarize;
 static PyObject *__pyx_n_s_summarize_from_full;
 static PyObject *__pyx_n_s_summary_blocks_in_region;
 static PyObject *__pyx_n_s_summary_size;
+static PyObject *__pyx_n_s_sys;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_type_name;
 static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
@@ -2046,9 +2052,9 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_14SummarizedData_11sum_squares_2__set__(s
 static int __pyx_pf_2bx_3bbi_8bbi_file_14SummarizedData_11sum_squares_4__del__(struct __pyx_obj_2bx_3bbi_8bbi_file_SummarizedData *__pyx_v_self); /* proto */
 static int __pyx_pf_2bx_3bbi_8bbi_file_7BBIFile___init__(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, PyObject *__pyx_v_file, PyObject *__pyx_v_expected_sig, PyObject *__pyx_v_type_name); /* proto */
 static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, PyObject *__pyx_v_file, PyObject *__pyx_v_expected_sig, CYTHON_UNUSED PyObject *__pyx_v_type_name); /* proto */
-static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_4summarize(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, char *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size); /* proto */
+static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_4summarize(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, PyObject *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size); /* proto */
 static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_6summarize_from_full(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, char *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size); /* proto */
-static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_8query(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, char *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size); /* proto */
+static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_8query(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, PyObject *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size); /* proto */
 static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_5magic___get__(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self); /* proto */
 static int __pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_5magic_2__set__(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_7version___get__(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self); /* proto */
@@ -2092,7 +2098,7 @@ static PyObject *__pyx_tuple__12;
 int big_wig_sig;
 int big_bed_sig;
 
-/* "bx/bbi/bbi_file.pyx":35
+/* "bx/bbi/bbi_file.pyx":42
  * 
  * @cython.profile(False)
  * cdef inline int range_intersection( int start1, int end1, int start2, int end2 ):             # <<<<<<<<<<<<<<
@@ -2109,7 +2115,7 @@ static CYTHON_INLINE int __pyx_f_2bx_3bbi_8bbi_file_range_intersection(int __pyx
   int __pyx_t_4;
   __Pyx_RefNannySetupContext("range_intersection", 0);
 
-  /* "bx/bbi/bbi_file.pyx":36
+  /* "bx/bbi/bbi_file.pyx":43
  * @cython.profile(False)
  * cdef inline int range_intersection( int start1, int end1, int start2, int end2 ):
  *     return min( end1, end2 ) - max( start1, start2 )             # <<<<<<<<<<<<<<
@@ -2133,7 +2139,7 @@ static CYTHON_INLINE int __pyx_f_2bx_3bbi_8bbi_file_range_intersection(int __pyx
   __pyx_r = (__pyx_t_3 - __pyx_t_4);
   goto __pyx_L0;
 
-  /* "bx/bbi/bbi_file.pyx":35
+  /* "bx/bbi/bbi_file.pyx":42
  * 
  * @cython.profile(False)
  * cdef inline int range_intersection( int start1, int end1, int start2, int end2 ):             # <<<<<<<<<<<<<<
@@ -2147,7 +2153,7 @@ static CYTHON_INLINE int __pyx_f_2bx_3bbi_8bbi_file_range_intersection(int __pyx
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":39
+/* "bx/bbi/bbi_file.pyx":46
  * 
  * @cython.profile(False)
  * cdef inline int imax(int a, int b): return a if a >= b else b             # <<<<<<<<<<<<<<
@@ -2174,7 +2180,7 @@ static CYTHON_INLINE int __pyx_f_2bx_3bbi_8bbi_file_imax(int __pyx_v_a, int __py
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":41
+/* "bx/bbi/bbi_file.pyx":48
  * cdef inline int imax(int a, int b): return a if a >= b else b
  * @cython.profile(False)
  * cdef inline int imin(int a, int b): return a if a <= b else b             # <<<<<<<<<<<<<<
@@ -2809,7 +2815,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_12SummaryBlock_11sum_squares_2__set__(str
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":61
+/* "bx/bbi/bbi_file.pyx":68
  *     aggregation over a particular range and resolution
  *     """
  *     def __init__( self, bits32 start, bits32 end, int size ):             # <<<<<<<<<<<<<<
@@ -2847,16 +2853,16 @@ static int __pyx_pw_2bx_3bbi_8bbi_file_14SummarizedData_1__init__(PyObject *__py
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 1); __PYX_ERR(0, 61, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 1); __PYX_ERR(0, 68, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_size)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 2); __PYX_ERR(0, 61, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 2); __PYX_ERR(0, 68, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 61, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 68, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -2865,13 +2871,13 @@ static int __pyx_pw_2bx_3bbi_8bbi_file_14SummarizedData_1__init__(PyObject *__py
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L3_error)
-    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L3_error)
-    __pyx_v_size = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L3_error)
+    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L3_error)
+    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L3_error)
+    __pyx_v_size = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 61, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 68, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.bbi.bbi_file.SummarizedData.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2894,7 +2900,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_14SummarizedData___init__(struct __pyx_ob
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "bx/bbi/bbi_file.pyx":62
+  /* "bx/bbi/bbi_file.pyx":69
  *     """
  *     def __init__( self, bits32 start, bits32 end, int size ):
  *         self.start = start             # <<<<<<<<<<<<<<
@@ -2903,7 +2909,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_14SummarizedData___init__(struct __pyx_ob
  */
   __pyx_v_self->start = __pyx_v_start;
 
-  /* "bx/bbi/bbi_file.pyx":63
+  /* "bx/bbi/bbi_file.pyx":70
  *     def __init__( self, bits32 start, bits32 end, int size ):
  *         self.start = start
  *         self.end = end             # <<<<<<<<<<<<<<
@@ -2912,7 +2918,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_14SummarizedData___init__(struct __pyx_ob
  */
   __pyx_v_self->end = __pyx_v_end;
 
-  /* "bx/bbi/bbi_file.pyx":64
+  /* "bx/bbi/bbi_file.pyx":71
  *         self.start = start
  *         self.end = end
  *         self.size = size             # <<<<<<<<<<<<<<
@@ -2921,207 +2927,207 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_14SummarizedData___init__(struct __pyx_ob
  */
   __pyx_v_self->size = __pyx_v_size;
 
-  /* "bx/bbi/bbi_file.pyx":65
+  /* "bx/bbi/bbi_file.pyx":72
  *         self.end = end
  *         self.size = size
  *         self.valid_count = numpy.zeros( self.size, dtype=numpy.float64 )             # <<<<<<<<<<<<<<
  *         self.min_val = numpy.zeros( self.size, dtype=numpy.float64 )
  *         self.max_val = numpy.zeros( self.size, dtype=numpy.float64 )
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_5);
   __Pyx_GOTREF(__pyx_v_self->valid_count);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->valid_count));
   __pyx_v_self->valid_count = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":66
+  /* "bx/bbi/bbi_file.pyx":73
  *         self.size = size
  *         self.valid_count = numpy.zeros( self.size, dtype=numpy.float64 )
  *         self.min_val = numpy.zeros( self.size, dtype=numpy.float64 )             # <<<<<<<<<<<<<<
  *         self.max_val = numpy.zeros( self.size, dtype=numpy.float64 )
  *         self.sum_data = numpy.zeros( self.size, dtype=numpy.float64 )
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_self->size); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_self->size); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5);
   __pyx_t_5 = 0;
-  __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_float64); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_float64); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 66, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 66, __pyx_L1_error)
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_4);
   __Pyx_GOTREF(__pyx_v_self->min_val);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->min_val));
   __pyx_v_self->min_val = ((PyArrayObject *)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":67
+  /* "bx/bbi/bbi_file.pyx":74
  *         self.valid_count = numpy.zeros( self.size, dtype=numpy.float64 )
  *         self.min_val = numpy.zeros( self.size, dtype=numpy.float64 )
  *         self.max_val = numpy.zeros( self.size, dtype=numpy.float64 )             # <<<<<<<<<<<<<<
  *         self.sum_data = numpy.zeros( self.size, dtype=numpy.float64 )
  *         self.sum_squares = numpy.zeros( self.size, dtype=numpy.float64 )
  */
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_self->size); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_self->size); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float64); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float64); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_2) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_2) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 67, __pyx_L1_error)
+  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_self->max_val);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->max_val));
   __pyx_v_self->max_val = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":68
+  /* "bx/bbi/bbi_file.pyx":75
  *         self.min_val = numpy.zeros( self.size, dtype=numpy.float64 )
  *         self.max_val = numpy.zeros( self.size, dtype=numpy.float64 )
  *         self.sum_data = numpy.zeros( self.size, dtype=numpy.float64 )             # <<<<<<<<<<<<<<
  *         self.sum_squares = numpy.zeros( self.size, dtype=numpy.float64 )
  *     cdef accumulate_interval_value( self, bits32 s, bits32 e, float val ):
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_float64); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_float64); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_1) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_1) < 0) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 68, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->sum_data);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->sum_data));
   __pyx_v_self->sum_data = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":69
+  /* "bx/bbi/bbi_file.pyx":76
  *         self.max_val = numpy.zeros( self.size, dtype=numpy.float64 )
  *         self.sum_data = numpy.zeros( self.size, dtype=numpy.float64 )
  *         self.sum_squares = numpy.zeros( self.size, dtype=numpy.float64 )             # <<<<<<<<<<<<<<
  *     cdef accumulate_interval_value( self, bits32 s, bits32 e, float val ):
  *         cdef int base_start, base_end, base_step, overlap, j, interval_size
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 69, __pyx_L1_error)
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_5);
   __Pyx_GOTREF(__pyx_v_self->sum_squares);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->sum_squares));
   __pyx_v_self->sum_squares = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":61
+  /* "bx/bbi/bbi_file.pyx":68
  *     aggregation over a particular range and resolution
  *     """
  *     def __init__( self, bits32 start, bits32 end, int size ):             # <<<<<<<<<<<<<<
@@ -3145,7 +3151,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_14SummarizedData___init__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":70
+/* "bx/bbi/bbi_file.pyx":77
  *         self.sum_data = numpy.zeros( self.size, dtype=numpy.float64 )
  *         self.sum_squares = numpy.zeros( self.size, dtype=numpy.float64 )
  *     cdef accumulate_interval_value( self, bits32 s, bits32 e, float val ):             # <<<<<<<<<<<<<<
@@ -3213,7 +3219,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
   __pyx_pybuffernd_sum_squares.data = NULL;
   __pyx_pybuffernd_sum_squares.rcbuffer = &__pyx_pybuffer_sum_squares;
 
-  /* "bx/bbi/bbi_file.pyx":74
+  /* "bx/bbi/bbi_file.pyx":81
  *         cdef double overlap_factor, interval_weight
  *         # We locally cdef the arrays so all indexing will be at C speeds
  *         cdef numpy.ndarray[numpy.float64_t, ndim=1] valid_count = self.valid_count             # <<<<<<<<<<<<<<
@@ -3226,14 +3232,14 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_valid_count.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_1), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_valid_count = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_valid_count.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 74, __pyx_L1_error)
+      __PYX_ERR(0, 81, __pyx_L1_error)
     } else {__pyx_pybuffernd_valid_count.diminfo[0].strides = __pyx_pybuffernd_valid_count.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_valid_count.diminfo[0].shape = __pyx_pybuffernd_valid_count.rcbuffer->pybuffer.shape[0];
     }
   }
   __pyx_v_valid_count = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":75
+  /* "bx/bbi/bbi_file.pyx":82
  *         # We locally cdef the arrays so all indexing will be at C speeds
  *         cdef numpy.ndarray[numpy.float64_t, ndim=1] valid_count = self.valid_count
  *         cdef numpy.ndarray[numpy.float64_t, ndim=1] min_val = self.min_val             # <<<<<<<<<<<<<<
@@ -3246,14 +3252,14 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_min_val.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_1), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_min_val = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_min_val.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 75, __pyx_L1_error)
+      __PYX_ERR(0, 82, __pyx_L1_error)
     } else {__pyx_pybuffernd_min_val.diminfo[0].strides = __pyx_pybuffernd_min_val.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_min_val.diminfo[0].shape = __pyx_pybuffernd_min_val.rcbuffer->pybuffer.shape[0];
     }
   }
   __pyx_v_min_val = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":76
+  /* "bx/bbi/bbi_file.pyx":83
  *         cdef numpy.ndarray[numpy.float64_t, ndim=1] valid_count = self.valid_count
  *         cdef numpy.ndarray[numpy.float64_t, ndim=1] min_val = self.min_val
  *         cdef numpy.ndarray[numpy.float64_t, ndim=1] max_val = self.max_val             # <<<<<<<<<<<<<<
@@ -3266,14 +3272,14 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_max_val.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_1), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_max_val = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_max_val.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 76, __pyx_L1_error)
+      __PYX_ERR(0, 83, __pyx_L1_error)
     } else {__pyx_pybuffernd_max_val.diminfo[0].strides = __pyx_pybuffernd_max_val.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_max_val.diminfo[0].shape = __pyx_pybuffernd_max_val.rcbuffer->pybuffer.shape[0];
     }
   }
   __pyx_v_max_val = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":77
+  /* "bx/bbi/bbi_file.pyx":84
  *         cdef numpy.ndarray[numpy.float64_t, ndim=1] min_val = self.min_val
  *         cdef numpy.ndarray[numpy.float64_t, ndim=1] max_val = self.max_val
  *         cdef numpy.ndarray[numpy.float64_t, ndim=1] sum_data = self.sum_data             # <<<<<<<<<<<<<<
@@ -3286,14 +3292,14 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_sum_data.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_1), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_sum_data = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_sum_data.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 77, __pyx_L1_error)
+      __PYX_ERR(0, 84, __pyx_L1_error)
     } else {__pyx_pybuffernd_sum_data.diminfo[0].strides = __pyx_pybuffernd_sum_data.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_sum_data.diminfo[0].shape = __pyx_pybuffernd_sum_data.rcbuffer->pybuffer.shape[0];
     }
   }
   __pyx_v_sum_data = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":78
+  /* "bx/bbi/bbi_file.pyx":85
  *         cdef numpy.ndarray[numpy.float64_t, ndim=1] max_val = self.max_val
  *         cdef numpy.ndarray[numpy.float64_t, ndim=1] sum_data = self.sum_data
  *         cdef numpy.ndarray[numpy.float64_t, ndim=1] sum_squares = self.sum_squares             # <<<<<<<<<<<<<<
@@ -3306,14 +3312,14 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_sum_squares.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_1), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_sum_squares = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_sum_squares.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 78, __pyx_L1_error)
+      __PYX_ERR(0, 85, __pyx_L1_error)
     } else {__pyx_pybuffernd_sum_squares.diminfo[0].strides = __pyx_pybuffernd_sum_squares.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_sum_squares.diminfo[0].shape = __pyx_pybuffernd_sum_squares.rcbuffer->pybuffer.shape[0];
     }
   }
   __pyx_v_sum_squares = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":80
+  /* "bx/bbi/bbi_file.pyx":87
  *         cdef numpy.ndarray[numpy.float64_t, ndim=1] sum_squares = self.sum_squares
  *         # Trim interval down to region of interest
  *         if s < self.start:             # <<<<<<<<<<<<<<
@@ -3323,7 +3329,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
   __pyx_t_2 = ((__pyx_v_s < __pyx_v_self->start) != 0);
   if (__pyx_t_2) {
 
-    /* "bx/bbi/bbi_file.pyx":81
+    /* "bx/bbi/bbi_file.pyx":88
  *         # Trim interval down to region of interest
  *         if s < self.start:
  *             s = self.start             # <<<<<<<<<<<<<<
@@ -3333,7 +3339,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
     __pyx_t_3 = __pyx_v_self->start;
     __pyx_v_s = __pyx_t_3;
 
-    /* "bx/bbi/bbi_file.pyx":80
+    /* "bx/bbi/bbi_file.pyx":87
  *         cdef numpy.ndarray[numpy.float64_t, ndim=1] sum_squares = self.sum_squares
  *         # Trim interval down to region of interest
  *         if s < self.start:             # <<<<<<<<<<<<<<
@@ -3342,7 +3348,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":82
+  /* "bx/bbi/bbi_file.pyx":89
  *         if s < self.start:
  *             s = self.start
  *         if e > self.end:             # <<<<<<<<<<<<<<
@@ -3352,7 +3358,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
   __pyx_t_2 = ((__pyx_v_e > __pyx_v_self->end) != 0);
   if (__pyx_t_2) {
 
-    /* "bx/bbi/bbi_file.pyx":83
+    /* "bx/bbi/bbi_file.pyx":90
  *             s = self.start
  *         if e > self.end:
  *             e = self.end             # <<<<<<<<<<<<<<
@@ -3362,7 +3368,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
     __pyx_t_3 = __pyx_v_self->end;
     __pyx_v_e = __pyx_t_3;
 
-    /* "bx/bbi/bbi_file.pyx":82
+    /* "bx/bbi/bbi_file.pyx":89
  *         if s < self.start:
  *             s = self.start
  *         if e > self.end:             # <<<<<<<<<<<<<<
@@ -3371,7 +3377,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":84
+  /* "bx/bbi/bbi_file.pyx":91
  *         if e > self.end:
  *             e = self.end
  *         if s >= e:             # <<<<<<<<<<<<<<
@@ -3381,7 +3387,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
   __pyx_t_2 = ((__pyx_v_s >= __pyx_v_e) != 0);
   if (__pyx_t_2) {
 
-    /* "bx/bbi/bbi_file.pyx":85
+    /* "bx/bbi/bbi_file.pyx":92
  *             e = self.end
  *         if s >= e:
  *             return             # <<<<<<<<<<<<<<
@@ -3392,7 +3398,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "bx/bbi/bbi_file.pyx":84
+    /* "bx/bbi/bbi_file.pyx":91
  *         if e > self.end:
  *             e = self.end
  *         if s >= e:             # <<<<<<<<<<<<<<
@@ -3401,7 +3407,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":86
+  /* "bx/bbi/bbi_file.pyx":93
  *         if s >= e:
  *             return
  *         base_step = ( self.end - self.start ) / self.size             # <<<<<<<<<<<<<<
@@ -3411,11 +3417,11 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
   __pyx_t_3 = (__pyx_v_self->end - __pyx_v_self->start);
   if (unlikely(__pyx_v_self->size == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-    __PYX_ERR(0, 86, __pyx_L1_error)
+    __PYX_ERR(0, 93, __pyx_L1_error)
   }
   __pyx_v_base_step = (__pyx_t_3 / __pyx_v_self->size);
 
-  /* "bx/bbi/bbi_file.pyx":87
+  /* "bx/bbi/bbi_file.pyx":94
  *             return
  *         base_step = ( self.end - self.start ) / self.size
  *         for j from 0 <= j < self.size:             # <<<<<<<<<<<<<<
@@ -3425,7 +3431,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
   __pyx_t_4 = __pyx_v_self->size;
   for (__pyx_v_j = 0; __pyx_v_j < __pyx_t_4; __pyx_v_j++) {
 
-    /* "bx/bbi/bbi_file.pyx":88
+    /* "bx/bbi/bbi_file.pyx":95
  *         base_step = ( self.end - self.start ) / self.size
  *         for j from 0 <= j < self.size:
  *             base_start = self.start + ( base_step * j )             # <<<<<<<<<<<<<<
@@ -3434,7 +3440,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
  */
     __pyx_v_base_start = (__pyx_v_self->start + (__pyx_v_base_step * __pyx_v_j));
 
-    /* "bx/bbi/bbi_file.pyx":89
+    /* "bx/bbi/bbi_file.pyx":96
  *         for j from 0 <= j < self.size:
  *             base_start = self.start + ( base_step * j )
  *             base_end = base_start + base_step             # <<<<<<<<<<<<<<
@@ -3443,7 +3449,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
  */
     __pyx_v_base_end = (__pyx_v_base_start + __pyx_v_base_step);
 
-    /* "bx/bbi/bbi_file.pyx":90
+    /* "bx/bbi/bbi_file.pyx":97
  *             base_start = self.start + ( base_step * j )
  *             base_end = base_start + base_step
  *             overlap = range_intersection( base_start, base_end, s, e )             # <<<<<<<<<<<<<<
@@ -3452,7 +3458,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
  */
     __pyx_v_overlap = __pyx_f_2bx_3bbi_8bbi_file_range_intersection(__pyx_v_base_start, __pyx_v_base_end, __pyx_v_s, __pyx_v_e);
 
-    /* "bx/bbi/bbi_file.pyx":91
+    /* "bx/bbi/bbi_file.pyx":98
  *             base_end = base_start + base_step
  *             overlap = range_intersection( base_start, base_end, s, e )
  *             if overlap > 0:             # <<<<<<<<<<<<<<
@@ -3462,7 +3468,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
     __pyx_t_2 = ((__pyx_v_overlap > 0) != 0);
     if (__pyx_t_2) {
 
-      /* "bx/bbi/bbi_file.pyx":92
+      /* "bx/bbi/bbi_file.pyx":99
  *             overlap = range_intersection( base_start, base_end, s, e )
  *             if overlap > 0:
  *                 interval_size = e - s             # <<<<<<<<<<<<<<
@@ -3471,7 +3477,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
  */
       __pyx_v_interval_size = (__pyx_v_e - __pyx_v_s);
 
-      /* "bx/bbi/bbi_file.pyx":93
+      /* "bx/bbi/bbi_file.pyx":100
  *             if overlap > 0:
  *                 interval_size = e - s
  *                 overlap_factor = <double> overlap / interval_size             # <<<<<<<<<<<<<<
@@ -3480,11 +3486,11 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
  */
       if (unlikely(__pyx_v_interval_size == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 93, __pyx_L1_error)
+        __PYX_ERR(0, 100, __pyx_L1_error)
       }
       __pyx_v_overlap_factor = (((double)__pyx_v_overlap) / __pyx_v_interval_size);
 
-      /* "bx/bbi/bbi_file.pyx":94
+      /* "bx/bbi/bbi_file.pyx":101
  *                 interval_size = e - s
  *                 overlap_factor = <double> overlap / interval_size
  *                 interval_weight = interval_size * overlap_factor             # <<<<<<<<<<<<<<
@@ -3493,7 +3499,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
  */
       __pyx_v_interval_weight = (__pyx_v_interval_size * __pyx_v_overlap_factor);
 
-      /* "bx/bbi/bbi_file.pyx":95
+      /* "bx/bbi/bbi_file.pyx":102
  *                 overlap_factor = <double> overlap / interval_size
  *                 interval_weight = interval_size * overlap_factor
  *                 valid_count[j] += interval_weight             # <<<<<<<<<<<<<<
@@ -3508,11 +3514,11 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
       } else if (unlikely(__pyx_t_5 >= __pyx_pybuffernd_valid_count.diminfo[0].shape)) __pyx_t_6 = 0;
       if (unlikely(__pyx_t_6 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_6);
-        __PYX_ERR(0, 95, __pyx_L1_error)
+        __PYX_ERR(0, 102, __pyx_L1_error)
       }
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_valid_count.rcbuffer->pybuffer.buf, __pyx_t_5, __pyx_pybuffernd_valid_count.diminfo[0].strides) += __pyx_v_interval_weight;
 
-      /* "bx/bbi/bbi_file.pyx":96
+      /* "bx/bbi/bbi_file.pyx":103
  *                 interval_weight = interval_size * overlap_factor
  *                 valid_count[j] += interval_weight
  *                 sum_data[j] += val * interval_weight             # <<<<<<<<<<<<<<
@@ -3527,11 +3533,11 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
       } else if (unlikely(__pyx_t_7 >= __pyx_pybuffernd_sum_data.diminfo[0].shape)) __pyx_t_6 = 0;
       if (unlikely(__pyx_t_6 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_6);
-        __PYX_ERR(0, 96, __pyx_L1_error)
+        __PYX_ERR(0, 103, __pyx_L1_error)
       }
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sum_data.rcbuffer->pybuffer.buf, __pyx_t_7, __pyx_pybuffernd_sum_data.diminfo[0].strides) += (__pyx_v_val * __pyx_v_interval_weight);
 
-      /* "bx/bbi/bbi_file.pyx":97
+      /* "bx/bbi/bbi_file.pyx":104
  *                 valid_count[j] += interval_weight
  *                 sum_data[j] += val * interval_weight
  *                 sum_squares[j] += val * val * interval_weight             # <<<<<<<<<<<<<<
@@ -3546,11 +3552,11 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
       } else if (unlikely(__pyx_t_8 >= __pyx_pybuffernd_sum_squares.diminfo[0].shape)) __pyx_t_6 = 0;
       if (unlikely(__pyx_t_6 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_6);
-        __PYX_ERR(0, 97, __pyx_L1_error)
+        __PYX_ERR(0, 104, __pyx_L1_error)
       }
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sum_squares.rcbuffer->pybuffer.buf, __pyx_t_8, __pyx_pybuffernd_sum_squares.diminfo[0].strides) += ((__pyx_v_val * __pyx_v_val) * __pyx_v_interval_weight);
 
-      /* "bx/bbi/bbi_file.pyx":98
+      /* "bx/bbi/bbi_file.pyx":105
  *                 sum_data[j] += val * interval_weight
  *                 sum_squares[j] += val * val * interval_weight
  *                 if max_val[j] < val:             # <<<<<<<<<<<<<<
@@ -3565,12 +3571,12 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
       } else if (unlikely(__pyx_t_9 >= __pyx_pybuffernd_max_val.diminfo[0].shape)) __pyx_t_6 = 0;
       if (unlikely(__pyx_t_6 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_6);
-        __PYX_ERR(0, 98, __pyx_L1_error)
+        __PYX_ERR(0, 105, __pyx_L1_error)
       }
       __pyx_t_2 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_max_val.rcbuffer->pybuffer.buf, __pyx_t_9, __pyx_pybuffernd_max_val.diminfo[0].strides)) < __pyx_v_val) != 0);
       if (__pyx_t_2) {
 
-        /* "bx/bbi/bbi_file.pyx":99
+        /* "bx/bbi/bbi_file.pyx":106
  *                 sum_squares[j] += val * val * interval_weight
  *                 if max_val[j] < val:
  *                     max_val[j] = val             # <<<<<<<<<<<<<<
@@ -3585,11 +3591,11 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
         } else if (unlikely(__pyx_t_10 >= __pyx_pybuffernd_max_val.diminfo[0].shape)) __pyx_t_6 = 0;
         if (unlikely(__pyx_t_6 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_6);
-          __PYX_ERR(0, 99, __pyx_L1_error)
+          __PYX_ERR(0, 106, __pyx_L1_error)
         }
         *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_max_val.rcbuffer->pybuffer.buf, __pyx_t_10, __pyx_pybuffernd_max_val.diminfo[0].strides) = __pyx_v_val;
 
-        /* "bx/bbi/bbi_file.pyx":98
+        /* "bx/bbi/bbi_file.pyx":105
  *                 sum_data[j] += val * interval_weight
  *                 sum_squares[j] += val * val * interval_weight
  *                 if max_val[j] < val:             # <<<<<<<<<<<<<<
@@ -3598,7 +3604,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
  */
       }
 
-      /* "bx/bbi/bbi_file.pyx":100
+      /* "bx/bbi/bbi_file.pyx":107
  *                 if max_val[j] < val:
  *                     max_val[j] = val
  *                 if min_val[j] > val:             # <<<<<<<<<<<<<<
@@ -3613,12 +3619,12 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
       } else if (unlikely(__pyx_t_11 >= __pyx_pybuffernd_min_val.diminfo[0].shape)) __pyx_t_6 = 0;
       if (unlikely(__pyx_t_6 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_6);
-        __PYX_ERR(0, 100, __pyx_L1_error)
+        __PYX_ERR(0, 107, __pyx_L1_error)
       }
       __pyx_t_2 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_min_val.rcbuffer->pybuffer.buf, __pyx_t_11, __pyx_pybuffernd_min_val.diminfo[0].strides)) > __pyx_v_val) != 0);
       if (__pyx_t_2) {
 
-        /* "bx/bbi/bbi_file.pyx":101
+        /* "bx/bbi/bbi_file.pyx":108
  *                     max_val[j] = val
  *                 if min_val[j] > val:
  *                     min_val[j] = val             # <<<<<<<<<<<<<<
@@ -3633,11 +3639,11 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
         } else if (unlikely(__pyx_t_12 >= __pyx_pybuffernd_min_val.diminfo[0].shape)) __pyx_t_6 = 0;
         if (unlikely(__pyx_t_6 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_6);
-          __PYX_ERR(0, 101, __pyx_L1_error)
+          __PYX_ERR(0, 108, __pyx_L1_error)
         }
         *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_min_val.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_min_val.diminfo[0].strides) = __pyx_v_val;
 
-        /* "bx/bbi/bbi_file.pyx":100
+        /* "bx/bbi/bbi_file.pyx":107
  *                 if max_val[j] < val:
  *                     max_val[j] = val
  *                 if min_val[j] > val:             # <<<<<<<<<<<<<<
@@ -3646,7 +3652,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
  */
       }
 
-      /* "bx/bbi/bbi_file.pyx":91
+      /* "bx/bbi/bbi_file.pyx":98
  *             base_end = base_start + base_step
  *             overlap = range_intersection( base_start, base_end, s, e )
  *             if overlap > 0:             # <<<<<<<<<<<<<<
@@ -3656,7 +3662,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval
     }
   }
 
-  /* "bx/bbi/bbi_file.pyx":70
+  /* "bx/bbi/bbi_file.pyx":77
  *         self.sum_data = numpy.zeros( self.size, dtype=numpy.float64 )
  *         self.sum_squares = numpy.zeros( self.size, dtype=numpy.float64 )
  *     cdef accumulate_interval_value( self, bits32 s, bits32 e, float val ):             # <<<<<<<<<<<<<<
@@ -4452,10 +4458,10 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_14SummarizedData_11sum_squares_4__del__(s
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":107
+/* "bx/bbi/bbi_file.pyx":114
  *     Callback for `BBIFile.visit_blocks_in_region`
  *     """
- *     cdef handle_block( self, str block_data, BBIFile bbi_file ):             # <<<<<<<<<<<<<<
+ *     cdef handle_block( self, bytes block_data, BBIFile bbi_file ):             # <<<<<<<<<<<<<<
  *         pass
  * 
  */
@@ -4472,7 +4478,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_12BlockHandler_handle_block(CYTHON_U
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":117
+/* "bx/bbi/bbi_file.pyx":124
  *     """
  * 
  *     def __init__( self, file=None, expected_sig=None, type_name=None ):             # <<<<<<<<<<<<<<
@@ -4524,7 +4530,7 @@ static int __pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_1__init__(PyObject *__pyx_v_self
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 117, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 124, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4541,7 +4547,7 @@ static int __pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_1__init__(PyObject *__pyx_v_self
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 117, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 124, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.bbi.bbi_file.BBIFile.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4566,7 +4572,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_7BBIFile___init__(struct __pyx_obj_2bx_3b
   PyObject *__pyx_t_7 = NULL;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "bx/bbi/bbi_file.pyx":118
+  /* "bx/bbi/bbi_file.pyx":125
  * 
  *     def __init__( self, file=None, expected_sig=None, type_name=None ):
  *         if file is not None:             # <<<<<<<<<<<<<<
@@ -4577,14 +4583,14 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_7BBIFile___init__(struct __pyx_obj_2bx_3b
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "bx/bbi/bbi_file.pyx":119
+    /* "bx/bbi/bbi_file.pyx":126
  *     def __init__( self, file=None, expected_sig=None, type_name=None ):
  *         if file is not None:
  *             self.open( file, expected_sig, type_name )             # <<<<<<<<<<<<<<
  * 
  *     def open( self, file, expected_sig, type_name ):
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_open); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_open); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     __pyx_t_6 = 0;
@@ -4601,7 +4607,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_7BBIFile___init__(struct __pyx_obj_2bx_3b
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[4] = {__pyx_t_5, __pyx_v_file, __pyx_v_expected_sig, __pyx_v_type_name};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 119, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 126, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_3);
     } else
@@ -4609,13 +4615,13 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_7BBIFile___init__(struct __pyx_obj_2bx_3b
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[4] = {__pyx_t_5, __pyx_v_file, __pyx_v_expected_sig, __pyx_v_type_name};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 119, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 126, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_3);
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 119, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 126, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       if (__pyx_t_5) {
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -4629,14 +4635,14 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_7BBIFile___init__(struct __pyx_obj_2bx_3b
       __Pyx_INCREF(__pyx_v_type_name);
       __Pyx_GIVEREF(__pyx_v_type_name);
       PyTuple_SET_ITEM(__pyx_t_7, 2+__pyx_t_6, __pyx_v_type_name);
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 119, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 126, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":118
+    /* "bx/bbi/bbi_file.pyx":125
  * 
  *     def __init__( self, file=None, expected_sig=None, type_name=None ):
  *         if file is not None:             # <<<<<<<<<<<<<<
@@ -4645,7 +4651,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_7BBIFile___init__(struct __pyx_obj_2bx_3b
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":117
+  /* "bx/bbi/bbi_file.pyx":124
  *     """
  * 
  *     def __init__( self, file=None, expected_sig=None, type_name=None ):             # <<<<<<<<<<<<<<
@@ -4668,7 +4674,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_7BBIFile___init__(struct __pyx_obj_2bx_3b
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":121
+/* "bx/bbi/bbi_file.pyx":128
  *             self.open( file, expected_sig, type_name )
  * 
  *     def open( self, file, expected_sig, type_name ):             # <<<<<<<<<<<<<<
@@ -4707,16 +4713,16 @@ static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_3open(PyObject *__pyx_v_se
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_expected_sig)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("open", 1, 3, 3, 1); __PYX_ERR(0, 121, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("open", 1, 3, 3, 1); __PYX_ERR(0, 128, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_type_name)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("open", 1, 3, 3, 2); __PYX_ERR(0, 121, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("open", 1, 3, 3, 2); __PYX_ERR(0, 128, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "open") < 0)) __PYX_ERR(0, 121, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "open") < 0)) __PYX_ERR(0, 128, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -4731,7 +4737,7 @@ static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_3open(PyObject *__pyx_v_se
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("open", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 121, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("open", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 128, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.bbi.bbi_file.BBIFile.open", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4764,7 +4770,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
   PyObject *__pyx_t_12 = NULL;
   __Pyx_RefNannySetupContext("open", 0);
 
-  /* "bx/bbi/bbi_file.pyx":126
+  /* "bx/bbi/bbi_file.pyx":133
  *         in since this is generic.
  *         """
  *         assert expected_sig is not None             # <<<<<<<<<<<<<<
@@ -4776,12 +4782,12 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
     __pyx_t_1 = (__pyx_v_expected_sig != Py_None);
     if (unlikely(!(__pyx_t_1 != 0))) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 126, __pyx_L1_error)
+      __PYX_ERR(0, 133, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "bx/bbi/bbi_file.pyx":127
+  /* "bx/bbi/bbi_file.pyx":134
  *         """
  *         assert expected_sig is not None
  *         self.file = file             # <<<<<<<<<<<<<<
@@ -4794,14 +4800,14 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
   __Pyx_DECREF(__pyx_v_self->file);
   __pyx_v_self->file = __pyx_v_file;
 
-  /* "bx/bbi/bbi_file.pyx":129
+  /* "bx/bbi/bbi_file.pyx":136
  *         self.file = file
  *         # Open the file in a BinaryFileReader, handles magic and byteswapping
  *         self.reader = reader = BinaryFileReader( file, expected_sig )             # <<<<<<<<<<<<<<
  *         self.magic = expected_sig
  *         self.is_byteswapped = self.reader.byteswap_needed
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_BinaryFileReader); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_BinaryFileReader); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -4818,7 +4824,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_file, __pyx_v_expected_sig};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_2);
   } else
@@ -4826,13 +4832,13 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_file, __pyx_v_expected_sig};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_2);
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 136, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -4843,7 +4849,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
     __Pyx_INCREF(__pyx_v_expected_sig);
     __Pyx_GIVEREF(__pyx_v_expected_sig);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_expected_sig);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
@@ -4857,254 +4863,37 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
   __pyx_v_reader = __pyx_t_2;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":130
+  /* "bx/bbi/bbi_file.pyx":137
  *         # Open the file in a BinaryFileReader, handles magic and byteswapping
  *         self.reader = reader = BinaryFileReader( file, expected_sig )
  *         self.magic = expected_sig             # <<<<<<<<<<<<<<
  *         self.is_byteswapped = self.reader.byteswap_needed
  *         # Read header stuff
  */
-  __pyx_t_7 = __Pyx_PyInt_As_unsigned_int(__pyx_v_expected_sig); if (unlikely((__pyx_t_7 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_As_unsigned_int(__pyx_v_expected_sig); if (unlikely((__pyx_t_7 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 137, __pyx_L1_error)
   __pyx_v_self->magic = __pyx_t_7;
 
-  /* "bx/bbi/bbi_file.pyx":131
+  /* "bx/bbi/bbi_file.pyx":138
  *         self.reader = reader = BinaryFileReader( file, expected_sig )
  *         self.magic = expected_sig
  *         self.is_byteswapped = self.reader.byteswap_needed             # <<<<<<<<<<<<<<
  *         # Read header stuff
  *         self.version = reader.read_uint16()
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->reader, __pyx_n_s_byteswap_needed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->reader, __pyx_n_s_byteswap_needed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 131, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_self->is_byteswapped = __pyx_t_8;
 
-  /* "bx/bbi/bbi_file.pyx":133
+  /* "bx/bbi/bbi_file.pyx":140
  *         self.is_byteswapped = self.reader.byteswap_needed
  *         # Read header stuff
  *         self.version = reader.read_uint16()             # <<<<<<<<<<<<<<
  *         self.zoom_levels = reader.read_uint16()
  *         self.chrom_tree_offset = reader.read_uint64()
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 133, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  if (__pyx_t_6) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 133, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 133, __pyx_L1_error)
-  }
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_9 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_9 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 133, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_self->version = __pyx_t_9;
-
-  /* "bx/bbi/bbi_file.pyx":134
- *         # Read header stuff
- *         self.version = reader.read_uint16()
- *         self.zoom_levels = reader.read_uint16()             # <<<<<<<<<<<<<<
- *         self.chrom_tree_offset = reader.read_uint64()
- *         self.unzoomed_data_offset = reader.read_uint64()
- */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 134, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  if (__pyx_t_6) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 134, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 134, __pyx_L1_error)
-  }
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_9 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_9 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 134, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_self->zoom_levels = __pyx_t_9;
-
-  /* "bx/bbi/bbi_file.pyx":135
- *         self.version = reader.read_uint16()
- *         self.zoom_levels = reader.read_uint16()
- *         self.chrom_tree_offset = reader.read_uint64()             # <<<<<<<<<<<<<<
- *         self.unzoomed_data_offset = reader.read_uint64()
- *         self.unzoomed_index_offset = reader.read_uint64()
- */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 135, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  if (__pyx_t_6) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)
-  }
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_10 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_t_2); if (unlikely((__pyx_t_10 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 135, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_self->chrom_tree_offset = __pyx_t_10;
-
-  /* "bx/bbi/bbi_file.pyx":136
- *         self.zoom_levels = reader.read_uint16()
- *         self.chrom_tree_offset = reader.read_uint64()
- *         self.unzoomed_data_offset = reader.read_uint64()             # <<<<<<<<<<<<<<
- *         self.unzoomed_index_offset = reader.read_uint64()
- *         self.field_count = reader.read_uint16()
- */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 136, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  if (__pyx_t_6) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
-  }
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_10 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_t_2); if (unlikely((__pyx_t_10 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 136, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_self->unzoomed_data_offset = __pyx_t_10;
-
-  /* "bx/bbi/bbi_file.pyx":137
- *         self.chrom_tree_offset = reader.read_uint64()
- *         self.unzoomed_data_offset = reader.read_uint64()
- *         self.unzoomed_index_offset = reader.read_uint64()             # <<<<<<<<<<<<<<
- *         self.field_count = reader.read_uint16()
- *         self.defined_field_count = reader.read_uint16()
- */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 137, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  if (__pyx_t_6) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 137, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 137, __pyx_L1_error)
-  }
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_10 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_t_2); if (unlikely((__pyx_t_10 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 137, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_self->unzoomed_index_offset = __pyx_t_10;
-
-  /* "bx/bbi/bbi_file.pyx":138
- *         self.unzoomed_data_offset = reader.read_uint64()
- *         self.unzoomed_index_offset = reader.read_uint64()
- *         self.field_count = reader.read_uint16()             # <<<<<<<<<<<<<<
- *         self.defined_field_count = reader.read_uint16()
- *         self.as_offset = reader.read_uint64()
- */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 138, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  if (__pyx_t_6) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 138, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 138, __pyx_L1_error)
-  }
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_9 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_9 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 138, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_self->field_count = __pyx_t_9;
-
-  /* "bx/bbi/bbi_file.pyx":139
- *         self.unzoomed_index_offset = reader.read_uint64()
- *         self.field_count = reader.read_uint16()
- *         self.defined_field_count = reader.read_uint16()             # <<<<<<<<<<<<<<
- *         self.as_offset = reader.read_uint64()
- *         self.total_summary_offset = reader.read_uint64()
- */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 139, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  if (__pyx_t_6) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
-  }
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_9 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_9 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 139, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_self->defined_field_count = __pyx_t_9;
-
-  /* "bx/bbi/bbi_file.pyx":140
- *         self.field_count = reader.read_uint16()
- *         self.defined_field_count = reader.read_uint16()
- *         self.as_offset = reader.read_uint64()             # <<<<<<<<<<<<<<
- *         self.total_summary_offset = reader.read_uint64()
- *         self.uncompress_buf_size = reader.read_uint32()
- */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -5124,18 +4913,18 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
   }
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_10 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_t_2); if (unlikely((__pyx_t_10 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_9 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_self->as_offset = __pyx_t_10;
+  __pyx_v_self->version = __pyx_t_9;
 
   /* "bx/bbi/bbi_file.pyx":141
- *         self.defined_field_count = reader.read_uint16()
- *         self.as_offset = reader.read_uint64()
- *         self.total_summary_offset = reader.read_uint64()             # <<<<<<<<<<<<<<
- *         self.uncompress_buf_size = reader.read_uint32()
- *         # Skip reserved
+ *         # Read header stuff
+ *         self.version = reader.read_uint16()
+ *         self.zoom_levels = reader.read_uint16()             # <<<<<<<<<<<<<<
+ *         self.chrom_tree_offset = reader.read_uint64()
+ *         self.unzoomed_data_offset = reader.read_uint64()
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -5155,18 +4944,18 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
   }
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_10 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_t_2); if (unlikely((__pyx_t_10 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_9 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 141, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_self->total_summary_offset = __pyx_t_10;
+  __pyx_v_self->zoom_levels = __pyx_t_9;
 
   /* "bx/bbi/bbi_file.pyx":142
- *         self.as_offset = reader.read_uint64()
- *         self.total_summary_offset = reader.read_uint64()
- *         self.uncompress_buf_size = reader.read_uint32()             # <<<<<<<<<<<<<<
- *         # Skip reserved
- *         reader.seek( 64 )
+ *         self.version = reader.read_uint16()
+ *         self.zoom_levels = reader.read_uint16()
+ *         self.chrom_tree_offset = reader.read_uint64()             # <<<<<<<<<<<<<<
+ *         self.unzoomed_data_offset = reader.read_uint64()
+ *         self.unzoomed_index_offset = reader.read_uint64()
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -5186,32 +4975,249 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
   }
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_7 = __Pyx_PyInt_As_unsigned_int(__pyx_t_2); if (unlikely((__pyx_t_7 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_t_2); if (unlikely((__pyx_t_10 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 142, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_self->chrom_tree_offset = __pyx_t_10;
+
+  /* "bx/bbi/bbi_file.pyx":143
+ *         self.zoom_levels = reader.read_uint16()
+ *         self.chrom_tree_offset = reader.read_uint64()
+ *         self.unzoomed_data_offset = reader.read_uint64()             # <<<<<<<<<<<<<<
+ *         self.unzoomed_index_offset = reader.read_uint64()
+ *         self.field_count = reader.read_uint16()
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (__pyx_t_6) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 143, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else {
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 143, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_10 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_t_2); if (unlikely((__pyx_t_10 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_self->unzoomed_data_offset = __pyx_t_10;
+
+  /* "bx/bbi/bbi_file.pyx":144
+ *         self.chrom_tree_offset = reader.read_uint64()
+ *         self.unzoomed_data_offset = reader.read_uint64()
+ *         self.unzoomed_index_offset = reader.read_uint64()             # <<<<<<<<<<<<<<
+ *         self.field_count = reader.read_uint16()
+ *         self.defined_field_count = reader.read_uint16()
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (__pyx_t_6) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else {
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_10 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_t_2); if (unlikely((__pyx_t_10 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_self->unzoomed_index_offset = __pyx_t_10;
+
+  /* "bx/bbi/bbi_file.pyx":145
+ *         self.unzoomed_data_offset = reader.read_uint64()
+ *         self.unzoomed_index_offset = reader.read_uint64()
+ *         self.field_count = reader.read_uint16()             # <<<<<<<<<<<<<<
+ *         self.defined_field_count = reader.read_uint16()
+ *         self.as_offset = reader.read_uint64()
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (__pyx_t_6) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else {
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_9 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_9 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 145, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_self->field_count = __pyx_t_9;
+
+  /* "bx/bbi/bbi_file.pyx":146
+ *         self.unzoomed_index_offset = reader.read_uint64()
+ *         self.field_count = reader.read_uint16()
+ *         self.defined_field_count = reader.read_uint16()             # <<<<<<<<<<<<<<
+ *         self.as_offset = reader.read_uint64()
+ *         self.total_summary_offset = reader.read_uint64()
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (__pyx_t_6) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 146, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else {
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 146, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_9 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_9 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 146, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_self->defined_field_count = __pyx_t_9;
+
+  /* "bx/bbi/bbi_file.pyx":147
+ *         self.field_count = reader.read_uint16()
+ *         self.defined_field_count = reader.read_uint16()
+ *         self.as_offset = reader.read_uint64()             # <<<<<<<<<<<<<<
+ *         self.total_summary_offset = reader.read_uint64()
+ *         self.uncompress_buf_size = reader.read_uint32()
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (__pyx_t_6) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 147, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else {
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 147, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_10 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_t_2); if (unlikely((__pyx_t_10 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_self->as_offset = __pyx_t_10;
+
+  /* "bx/bbi/bbi_file.pyx":148
+ *         self.defined_field_count = reader.read_uint16()
+ *         self.as_offset = reader.read_uint64()
+ *         self.total_summary_offset = reader.read_uint64()             # <<<<<<<<<<<<<<
+ *         self.uncompress_buf_size = reader.read_uint32()
+ *         # Skip reserved
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (__pyx_t_6) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 148, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else {
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 148, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_10 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_t_2); if (unlikely((__pyx_t_10 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 148, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_self->total_summary_offset = __pyx_t_10;
+
+  /* "bx/bbi/bbi_file.pyx":149
+ *         self.as_offset = reader.read_uint64()
+ *         self.total_summary_offset = reader.read_uint64()
+ *         self.uncompress_buf_size = reader.read_uint32()             # <<<<<<<<<<<<<<
+ *         # Skip reserved
+ *         reader.seek( 64 )
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (__pyx_t_6) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else {
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_7 = __Pyx_PyInt_As_unsigned_int(__pyx_t_2); if (unlikely((__pyx_t_7 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_self->uncompress_buf_size = __pyx_t_7;
 
-  /* "bx/bbi/bbi_file.pyx":144
+  /* "bx/bbi/bbi_file.pyx":151
  *         self.uncompress_buf_size = reader.read_uint32()
  *         # Skip reserved
  *         reader.seek( 64 )             # <<<<<<<<<<<<<<
  *         # Read zoom headers
  *         self.level_list = []
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_seek); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_seek); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":146
+  /* "bx/bbi/bbi_file.pyx":153
  *         reader.seek( 64 )
  *         # Read zoom headers
  *         self.level_list = []             # <<<<<<<<<<<<<<
  *         for i from 0 <= i < self.zoom_levels:
  *             level = ZoomLevel()
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_3);
   __Pyx_GOTREF(__pyx_v_self->level_list);
@@ -5219,7 +5225,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
   __pyx_v_self->level_list = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":147
+  /* "bx/bbi/bbi_file.pyx":154
  *         # Read zoom headers
  *         self.level_list = []
  *         for i from 0 <= i < self.zoom_levels:             # <<<<<<<<<<<<<<
@@ -5229,19 +5235,19 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
   __pyx_t_9 = __pyx_v_self->zoom_levels;
   for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_9; __pyx_v_i++) {
 
-    /* "bx/bbi/bbi_file.pyx":148
+    /* "bx/bbi/bbi_file.pyx":155
  *         self.level_list = []
  *         for i from 0 <= i < self.zoom_levels:
  *             level = ZoomLevel()             # <<<<<<<<<<<<<<
  *             level.bbi_file = self
  *             level.reduction_level = reader.read_uint32()
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_8bbi_file_ZoomLevel), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 148, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_8bbi_file_ZoomLevel), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_XDECREF_SET(__pyx_v_level, ((struct __pyx_obj_2bx_3bbi_8bbi_file_ZoomLevel *)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":149
+    /* "bx/bbi/bbi_file.pyx":156
  *         for i from 0 <= i < self.zoom_levels:
  *             level = ZoomLevel()
  *             level.bbi_file = self             # <<<<<<<<<<<<<<
@@ -5254,14 +5260,14 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
     __Pyx_DECREF(((PyObject *)__pyx_v_level->bbi_file));
     __pyx_v_level->bbi_file = __pyx_v_self;
 
-    /* "bx/bbi/bbi_file.pyx":150
+    /* "bx/bbi/bbi_file.pyx":157
  *             level = ZoomLevel()
  *             level.bbi_file = self
  *             level.reduction_level = reader.read_uint32()             # <<<<<<<<<<<<<<
  *             level.reserved = reader.read_uint32()
  *             level.data_offset = reader.read_uint64()
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 150, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -5274,25 +5280,25 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
       }
     }
     if (__pyx_t_6) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 150, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else {
-      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 150, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
     }
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_7 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_7 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 150, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_7 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 157, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_level->reduction_level = __pyx_t_7;
 
-    /* "bx/bbi/bbi_file.pyx":151
+    /* "bx/bbi/bbi_file.pyx":158
  *             level.bbi_file = self
  *             level.reduction_level = reader.read_uint32()
  *             level.reserved = reader.read_uint32()             # <<<<<<<<<<<<<<
  *             level.data_offset = reader.read_uint64()
  *             level.index_offset = reader.read_uint64()
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -5305,25 +5311,25 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
       }
     }
     if (__pyx_t_6) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 151, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 158, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else {
-      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 151, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 158, __pyx_L1_error)
     }
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_7 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_7 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 151, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_7 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 158, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_level->reserved = __pyx_t_7;
 
-    /* "bx/bbi/bbi_file.pyx":152
+    /* "bx/bbi/bbi_file.pyx":159
  *             level.reduction_level = reader.read_uint32()
  *             level.reserved = reader.read_uint32()
  *             level.data_offset = reader.read_uint64()             # <<<<<<<<<<<<<<
  *             level.index_offset = reader.read_uint64()
  *             self.level_list.append( level )
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint64); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 152, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint64); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -5336,25 +5342,25 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
       }
     }
     if (__pyx_t_6) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 152, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else {
-      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 152, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
     }
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_10 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_t_3); if (unlikely((__pyx_t_10 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 152, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_t_3); if (unlikely((__pyx_t_10 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_level->data_offset = __pyx_t_10;
 
-    /* "bx/bbi/bbi_file.pyx":153
+    /* "bx/bbi/bbi_file.pyx":160
  *             level.reserved = reader.read_uint32()
  *             level.data_offset = reader.read_uint64()
  *             level.index_offset = reader.read_uint64()             # <<<<<<<<<<<<<<
  *             self.level_list.append( level )
  *         # Initialize and attach embedded BPTFile containing chromosome names and ids
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint64); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read_uint64); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 160, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -5367,37 +5373,37 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
       }
     }
     if (__pyx_t_6) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 160, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else {
-      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 160, __pyx_L1_error)
     }
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_10 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_t_3); if (unlikely((__pyx_t_10 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_t_3); if (unlikely((__pyx_t_10 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 160, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_level->index_offset = __pyx_t_10;
 
-    /* "bx/bbi/bbi_file.pyx":154
+    /* "bx/bbi/bbi_file.pyx":161
  *             level.data_offset = reader.read_uint64()
  *             level.index_offset = reader.read_uint64()
  *             self.level_list.append( level )             # <<<<<<<<<<<<<<
  *         # Initialize and attach embedded BPTFile containing chromosome names and ids
  *         reader.seek( self.chrom_tree_offset )
  */
-    __pyx_t_11 = __Pyx_PyObject_Append(__pyx_v_self->level_list, ((PyObject *)__pyx_v_level)); if (unlikely(__pyx_t_11 == -1)) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_Append(__pyx_v_self->level_list, ((PyObject *)__pyx_v_level)); if (unlikely(__pyx_t_11 == -1)) __PYX_ERR(0, 161, __pyx_L1_error)
   }
 
-  /* "bx/bbi/bbi_file.pyx":156
+  /* "bx/bbi/bbi_file.pyx":163
  *             self.level_list.append( level )
  *         # Initialize and attach embedded BPTFile containing chromosome names and ids
  *         reader.seek( self.chrom_tree_offset )             # <<<<<<<<<<<<<<
  *         self.chrom_bpt = BPTFile( file=self.file )
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_seek); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_seek); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_6 = __Pyx_PyInt_From_unsigned_PY_LONG_LONG(__pyx_v_self->chrom_tree_offset); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_unsigned_PY_LONG_LONG(__pyx_v_self->chrom_tree_offset); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -5410,14 +5416,14 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 156, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_3);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_6};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 156, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -5426,20 +5432,20 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_6};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 156, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 156, __pyx_L1_error)
+      __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 163, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_12, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_12, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 156, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_12, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
     }
@@ -5447,17 +5453,17 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":157
+  /* "bx/bbi/bbi_file.pyx":164
  *         # Initialize and attach embedded BPTFile containing chromosome names and ids
  *         reader.seek( self.chrom_tree_offset )
  *         self.chrom_bpt = BPTFile( file=self.file )             # <<<<<<<<<<<<<<
  * 
  *     cdef visit_blocks_in_region( self, bits32 chrom_id, bits32 start, bits32 end, BlockHandler handler ):
  */
-  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_file, __pyx_v_self->file) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_8bpt_file_BPTFile), __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_file, __pyx_v_self->file) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_8bpt_file_BPTFile), __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_GIVEREF(__pyx_t_2);
@@ -5466,7 +5472,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
   __pyx_v_self->chrom_bpt = ((struct __pyx_obj_2bx_3bbi_8bpt_file_BPTFile *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":121
+  /* "bx/bbi/bbi_file.pyx":128
  *             self.open( file, expected_sig, type_name )
  * 
  *     def open( self, file, expected_sig, type_name ):             # <<<<<<<<<<<<<<
@@ -5493,7 +5499,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_2open(struct __pyx_obj_2bx
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":159
+/* "bx/bbi/bbi_file.pyx":166
  *         self.chrom_bpt = BPTFile( file=self.file )
  * 
  *     cdef visit_blocks_in_region( self, bits32 chrom_id, bits32 start, bits32 end, BlockHandler handler ):             # <<<<<<<<<<<<<<
@@ -5524,7 +5530,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
   int __pyx_t_12;
   __Pyx_RefNannySetupContext("visit_blocks_in_region", 0);
 
-  /* "bx/bbi/bbi_file.pyx":164
+  /* "bx/bbi/bbi_file.pyx":171
  *         """
  *         cdef CIRTreeFile ctf
  *         reader = self.reader             # <<<<<<<<<<<<<<
@@ -5536,16 +5542,16 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
   __pyx_v_reader = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":165
+  /* "bx/bbi/bbi_file.pyx":172
  *         cdef CIRTreeFile ctf
  *         reader = self.reader
  *         reader.seek( self.unzoomed_index_offset )             # <<<<<<<<<<<<<<
  *         ctf = CIRTreeFile( reader.file )
  *         block_list = ctf.find_overlapping_blocks( chrom_id, start, end )
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_seek); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_seek); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_unsigned_PY_LONG_LONG(__pyx_v_self->unzoomed_index_offset); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_PY_LONG_LONG(__pyx_v_self->unzoomed_index_offset); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -5558,14 +5564,14 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5574,20 +5580,20 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 165, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 172, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
@@ -5595,40 +5601,40 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":166
+  /* "bx/bbi/bbi_file.pyx":173
  *         reader = self.reader
  *         reader.seek( self.unzoomed_index_offset )
  *         ctf = CIRTreeFile( reader.file )             # <<<<<<<<<<<<<<
  *         block_list = ctf.find_overlapping_blocks( chrom_id, start, end )
  *         for offset, size in block_list:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_file); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_file); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_12cirtree_file_CIRTreeFile), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_12cirtree_file_CIRTreeFile), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_ctf = ((struct __pyx_obj_2bx_3bbi_12cirtree_file_CIRTreeFile *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":167
+  /* "bx/bbi/bbi_file.pyx":174
  *         reader.seek( self.unzoomed_index_offset )
  *         ctf = CIRTreeFile( reader.file )
  *         block_list = ctf.find_overlapping_blocks( chrom_id, start, end )             # <<<<<<<<<<<<<<
  *         for offset, size in block_list:
  *             # Seek to and read all data for the block
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_ctf), __pyx_n_s_find_overlapping_blocks); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_ctf), __pyx_n_s_find_overlapping_blocks); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_chrom_id); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_chrom_id); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_6 = NULL;
   __pyx_t_7 = 0;
@@ -5645,7 +5651,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[4] = {__pyx_t_6, __pyx_t_5, __pyx_t_3, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 174, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -5656,7 +5662,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[4] = {__pyx_t_6, __pyx_t_5, __pyx_t_3, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 174, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -5665,7 +5671,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
   } else
   #endif
   {
-    __pyx_t_8 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 167, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 174, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     if (__pyx_t_6) {
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -5679,7 +5685,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
     __pyx_t_5 = 0;
     __pyx_t_3 = 0;
     __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 174, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
@@ -5687,7 +5693,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
   __pyx_v_block_list = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":168
+  /* "bx/bbi/bbi_file.pyx":175
  *         ctf = CIRTreeFile( reader.file )
  *         block_list = ctf.find_overlapping_blocks( chrom_id, start, end )
  *         for offset, size in block_list:             # <<<<<<<<<<<<<<
@@ -5698,26 +5704,26 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
     __pyx_t_1 = __pyx_v_block_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_9 = 0;
     __pyx_t_10 = NULL;
   } else {
-    __pyx_t_9 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_block_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 168, __pyx_L1_error)
+    __pyx_t_9 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_block_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_10 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 168, __pyx_L1_error)
+    __pyx_t_10 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 175, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_10)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_9 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 168, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 175, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 168, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 175, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_9 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 168, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 175, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 168, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 175, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -5727,7 +5733,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 168, __pyx_L1_error)
+          else __PYX_ERR(0, 175, __pyx_L1_error)
         }
         break;
       }
@@ -5743,7 +5749,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 168, __pyx_L1_error)
+        __PYX_ERR(0, 175, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -5756,15 +5762,15 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
       __Pyx_INCREF(__pyx_t_8);
       __Pyx_INCREF(__pyx_t_4);
       #else
-      __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 168, __pyx_L1_error)
+      __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 175, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 168, __pyx_L1_error)
+      __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 175, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       #endif
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 168, __pyx_L1_error)
+      __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 175, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_11 = Py_TYPE(__pyx_t_3)->tp_iternext;
@@ -5772,7 +5778,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
       __Pyx_GOTREF(__pyx_t_8);
       index = 1; __pyx_t_4 = __pyx_t_11(__pyx_t_3); if (unlikely(!__pyx_t_4)) goto __pyx_L5_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_4);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_3), 2) < 0) __PYX_ERR(0, 168, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_3), 2) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
       __pyx_t_11 = NULL;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       goto __pyx_L6_unpacking_done;
@@ -5780,7 +5786,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_11 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 168, __pyx_L1_error)
+      __PYX_ERR(0, 175, __pyx_L1_error)
       __pyx_L6_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_offset, __pyx_t_8);
@@ -5788,14 +5794,14 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
     __Pyx_XDECREF_SET(__pyx_v_size, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":170
+    /* "bx/bbi/bbi_file.pyx":177
  *         for offset, size in block_list:
  *             # Seek to and read all data for the block
  *             reader.seek( offset )             # <<<<<<<<<<<<<<
  *             block_data = reader.read( size )
  *             # Might need to uncompress
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_seek); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 170, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_seek); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 177, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -5808,13 +5814,13 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
       }
     }
     if (!__pyx_t_8) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_offset); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_offset); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 177, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_v_offset};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 177, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
@@ -5822,19 +5828,19 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_v_offset};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 177, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
       #endif
       {
-        __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 170, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 177, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_8); __pyx_t_8 = NULL;
         __Pyx_INCREF(__pyx_v_offset);
         __Pyx_GIVEREF(__pyx_v_offset);
         PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_v_offset);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 177, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
@@ -5842,14 +5848,14 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":171
+    /* "bx/bbi/bbi_file.pyx":178
  *             # Seek to and read all data for the block
  *             reader.seek( offset )
  *             block_data = reader.read( size )             # <<<<<<<<<<<<<<
  *             # Might need to uncompress
  *             if self.uncompress_buf_size > 0:
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 178, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_3 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -5862,13 +5868,13 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
       }
     }
     if (!__pyx_t_3) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 178, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_size};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 178, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
@@ -5876,19 +5882,19 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_size};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 178, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
       #endif
       {
-        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 171, __pyx_L1_error)
+        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 178, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_3); __pyx_t_3 = NULL;
         __Pyx_INCREF(__pyx_v_size);
         __Pyx_GIVEREF(__pyx_v_size);
         PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_v_size);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 178, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
@@ -5897,7 +5903,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
     __Pyx_XDECREF_SET(__pyx_v_block_data, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":173
+    /* "bx/bbi/bbi_file.pyx":180
  *             block_data = reader.read( size )
  *             # Might need to uncompress
  *             if self.uncompress_buf_size > 0:             # <<<<<<<<<<<<<<
@@ -5907,16 +5913,16 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
     __pyx_t_12 = ((__pyx_v_self->uncompress_buf_size > 0) != 0);
     if (__pyx_t_12) {
 
-      /* "bx/bbi/bbi_file.pyx":174
+      /* "bx/bbi/bbi_file.pyx":181
  *             # Might need to uncompress
  *             if self.uncompress_buf_size > 0:
  *                 block_data = zlib.decompress( block_data )             # <<<<<<<<<<<<<<
  *             handler.handle_block( block_data, self )
  * 
  */
-      __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_zlib); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 174, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_zlib); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 181, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_decompress); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 174, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_decompress); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 181, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_4 = NULL;
@@ -5930,13 +5936,13 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
         }
       }
       if (!__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_block_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 174, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_block_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 181, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_8)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_block_data};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 174, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 181, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -5944,19 +5950,19 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_block_data};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 174, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 181, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 174, __pyx_L1_error)
+          __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 181, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4); __pyx_t_4 = NULL;
           __Pyx_INCREF(__pyx_v_block_data);
           __Pyx_GIVEREF(__pyx_v_block_data);
           PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_v_block_data);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 174, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 181, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         }
@@ -5965,7 +5971,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
       __Pyx_DECREF_SET(__pyx_v_block_data, __pyx_t_2);
       __pyx_t_2 = 0;
 
-      /* "bx/bbi/bbi_file.pyx":173
+      /* "bx/bbi/bbi_file.pyx":180
  *             block_data = reader.read( size )
  *             # Might need to uncompress
  *             if self.uncompress_buf_size > 0:             # <<<<<<<<<<<<<<
@@ -5974,19 +5980,19 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
  */
     }
 
-    /* "bx/bbi/bbi_file.pyx":175
+    /* "bx/bbi/bbi_file.pyx":182
  *             if self.uncompress_buf_size > 0:
  *                 block_data = zlib.decompress( block_data )
  *             handler.handle_block( block_data, self )             # <<<<<<<<<<<<<<
  * 
- *     cpdef summarize( self, char * chrom, bits32 start, bits32 end, int summary_size ):
+ *     cpdef summarize( self, object chrom, bits32 start, bits32 end, int summary_size ):
  */
-    if (!(likely(PyString_CheckExact(__pyx_v_block_data))||((__pyx_v_block_data) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_block_data)->tp_name), 0))) __PYX_ERR(0, 175, __pyx_L1_error)
-    __pyx_t_2 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BlockHandler *)__pyx_v_handler->__pyx_vtab)->handle_block(__pyx_v_handler, ((PyObject*)__pyx_v_block_data), __pyx_v_self); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 175, __pyx_L1_error)
+    if (!(likely(PyBytes_CheckExact(__pyx_v_block_data))||((__pyx_v_block_data) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_v_block_data)->tp_name), 0))) __PYX_ERR(0, 182, __pyx_L1_error)
+    __pyx_t_2 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BlockHandler *)__pyx_v_handler->__pyx_vtab)->handle_block(__pyx_v_handler, ((PyObject*)__pyx_v_block_data), __pyx_v_self); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":168
+    /* "bx/bbi/bbi_file.pyx":175
  *         ctf = CIRTreeFile( reader.file )
  *         block_list = ctf.find_overlapping_blocks( chrom_id, start, end )
  *         for offset, size in block_list:             # <<<<<<<<<<<<<<
@@ -5996,7 +6002,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":159
+  /* "bx/bbi/bbi_file.pyx":166
  *         self.chrom_bpt = BPTFile( file=self.file )
  * 
  *     cdef visit_blocks_in_region( self, bits32 chrom_id, bits32 start, bits32 end, BlockHandler handler ):             # <<<<<<<<<<<<<<
@@ -6029,16 +6035,17 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region(stru
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":177
+/* "bx/bbi/bbi_file.pyx":184
  *             handler.handle_block( block_data, self )
  * 
- *     cpdef summarize( self, char * chrom, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
+ *     cpdef summarize( self, object chrom, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
  *         """
  *         Gets `summary_size` data points over the regions `chrom`:`start`-`end`.
  */
 
 static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_5summarize(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, char *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size, int __pyx_skip_dispatch) {
+static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, PyObject *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size, int __pyx_skip_dispatch) {
+  char *__pyx_v_cchrom;
   PyObject *__pyx_v_chrom_id = NULL;
   CYTHON_UNUSED PyObject *__pyx_v_chrom_size = NULL;
   __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_base_size;
@@ -6054,90 +6061,85 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  int __pyx_t_9;
-  PyObject *__pyx_t_10 = NULL;
-  int __pyx_t_11;
-  PyObject *(*__pyx_t_12)(PyObject *);
-  int __pyx_t_13;
-  __pyx_t_2bx_3bbi_5types_bits32 __pyx_t_14;
+  int __pyx_t_8;
+  PyObject *__pyx_t_9 = NULL;
+  int __pyx_t_10;
+  PyObject *(*__pyx_t_11)(PyObject *);
+  int __pyx_t_12;
+  __pyx_t_2bx_3bbi_5types_bits32 __pyx_t_13;
   __Pyx_RefNannySetupContext("summarize", 0);
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_summarize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_summarize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_5summarize)) {
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_chrom); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 177, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 184, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 177, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 184, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 177, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_summary_size); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 184, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_summary_size); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 177, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
       __Pyx_INCREF(__pyx_t_1);
-      __pyx_t_7 = __pyx_t_1; __pyx_t_8 = NULL;
-      __pyx_t_9 = 0;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
-        __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
-        if (likely(__pyx_t_8)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-          __Pyx_INCREF(__pyx_t_8);
+      __pyx_t_6 = __pyx_t_1; __pyx_t_7 = NULL;
+      __pyx_t_8 = 0;
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+        __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+        if (likely(__pyx_t_7)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+          __Pyx_INCREF(__pyx_t_7);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_7, function);
-          __pyx_t_9 = 1;
+          __Pyx_DECREF_SET(__pyx_t_6, function);
+          __pyx_t_8 = 1;
         }
       }
       #if CYTHON_FAST_PYCALL
-      if (PyFunction_Check(__pyx_t_7)) {
-        PyObject *__pyx_temp[5] = {__pyx_t_8, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 177, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+      if (PyFunction_Check(__pyx_t_6)) {
+        PyObject *__pyx_temp[5] = {__pyx_t_7, __pyx_v_chrom, __pyx_t_3, __pyx_t_4, __pyx_t_5};
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 184, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       } else
       #endif
       #if CYTHON_FAST_PYCCALL
-      if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
-        PyObject *__pyx_temp[5] = {__pyx_t_8, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 177, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+      if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+        PyObject *__pyx_temp[5] = {__pyx_t_7, __pyx_v_chrom, __pyx_t_3, __pyx_t_4, __pyx_t_5};
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 184, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       } else
       #endif
       {
-        __pyx_t_10 = PyTuple_New(4+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 177, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        if (__pyx_t_8) {
-          __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __pyx_t_8 = NULL;
+        __pyx_t_9 = PyTuple_New(4+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 184, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        if (__pyx_t_7) {
+          __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
         }
+        __Pyx_INCREF(__pyx_v_chrom);
+        __Pyx_GIVEREF(__pyx_v_chrom);
+        PyTuple_SET_ITEM(__pyx_t_9, 0+__pyx_t_8, __pyx_v_chrom);
         __Pyx_GIVEREF(__pyx_t_3);
-        PyTuple_SET_ITEM(__pyx_t_10, 0+__pyx_t_9, __pyx_t_3);
+        PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_t_3);
         __Pyx_GIVEREF(__pyx_t_4);
-        PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_t_4);
+        PyTuple_SET_ITEM(__pyx_t_9, 2+__pyx_t_8, __pyx_t_4);
         __Pyx_GIVEREF(__pyx_t_5);
-        PyTuple_SET_ITEM(__pyx_t_10, 2+__pyx_t_9, __pyx_t_5);
-        __Pyx_GIVEREF(__pyx_t_6);
-        PyTuple_SET_ITEM(__pyx_t_10, 3+__pyx_t_9, __pyx_t_6);
+        PyTuple_SET_ITEM(__pyx_t_9, 3+__pyx_t_8, __pyx_t_5);
         __pyx_t_3 = 0;
         __pyx_t_4 = 0;
         __pyx_t_5 = 0;
-        __pyx_t_6 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 177, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 184, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_r = __pyx_t_2;
       __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6146,21 +6148,30 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "bx/bbi/bbi_file.pyx":181
- *         Gets `summary_size` data points over the regions `chrom`:`start`-`end`.
+  /* "bx/bbi/bbi_file.pyx":189
  *         """
+ *         cdef char * cchrom
+ *         cchrom = PyUnicode_AsUTF8(chrom)             # <<<<<<<<<<<<<<
+ *         if start >= end:
+ *             return None
+ */
+  __pyx_v_cchrom = PyUnicode_AsUTF8(__pyx_v_chrom);
+
+  /* "bx/bbi/bbi_file.pyx":190
+ *         cdef char * cchrom
+ *         cchrom = PyUnicode_AsUTF8(chrom)
  *         if start >= end:             # <<<<<<<<<<<<<<
  *             return None
- *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
+ *         chrom_id, chrom_size = self._get_chrom_id_and_size( cchrom )
  */
-  __pyx_t_11 = ((__pyx_v_start >= __pyx_v_end) != 0);
-  if (__pyx_t_11) {
+  __pyx_t_10 = ((__pyx_v_start >= __pyx_v_end) != 0);
+  if (__pyx_t_10) {
 
-    /* "bx/bbi/bbi_file.pyx":182
- *         """
+    /* "bx/bbi/bbi_file.pyx":191
+ *         cchrom = PyUnicode_AsUTF8(chrom)
  *         if start >= end:
  *             return None             # <<<<<<<<<<<<<<
- *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
+ *         chrom_id, chrom_size = self._get_chrom_id_and_size( cchrom )
  *         if chrom_id is None:
  */
     __Pyx_XDECREF(__pyx_r);
@@ -6168,23 +6179,23 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
     __pyx_r = Py_None;
     goto __pyx_L0;
 
-    /* "bx/bbi/bbi_file.pyx":181
- *         Gets `summary_size` data points over the regions `chrom`:`start`-`end`.
- *         """
+    /* "bx/bbi/bbi_file.pyx":190
+ *         cdef char * cchrom
+ *         cchrom = PyUnicode_AsUTF8(chrom)
  *         if start >= end:             # <<<<<<<<<<<<<<
  *             return None
- *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
+ *         chrom_id, chrom_size = self._get_chrom_id_and_size( cchrom )
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":183
+  /* "bx/bbi/bbi_file.pyx":192
  *         if start >= end:
  *             return None
- *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )             # <<<<<<<<<<<<<<
+ *         chrom_id, chrom_size = self._get_chrom_id_and_size( cchrom )             # <<<<<<<<<<<<<<
  *         if chrom_id is None:
  *             return None
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self->__pyx_vtab)->_get_chrom_id_and_size(__pyx_v_self, __pyx_v_chrom); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self->__pyx_vtab)->_get_chrom_id_and_size(__pyx_v_self, __pyx_v_cchrom); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
     PyObject* sequence = __pyx_t_1;
@@ -6196,64 +6207,64 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 183, __pyx_L1_error)
+      __PYX_ERR(0, 192, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
       __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
-      __pyx_t_7 = PyTuple_GET_ITEM(sequence, 1); 
+      __pyx_t_6 = PyTuple_GET_ITEM(sequence, 1); 
     } else {
       __pyx_t_2 = PyList_GET_ITEM(sequence, 0); 
-      __pyx_t_7 = PyList_GET_ITEM(sequence, 1); 
+      __pyx_t_6 = PyList_GET_ITEM(sequence, 1); 
     }
     __Pyx_INCREF(__pyx_t_2);
-    __Pyx_INCREF(__pyx_t_7);
+    __Pyx_INCREF(__pyx_t_6);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 183, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 192, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     #endif
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_10 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 183, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_9 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 192, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_12 = Py_TYPE(__pyx_t_10)->tp_iternext;
-    index = 0; __pyx_t_2 = __pyx_t_12(__pyx_t_10); if (unlikely(!__pyx_t_2)) goto __pyx_L4_unpacking_failed;
+    __pyx_t_11 = Py_TYPE(__pyx_t_9)->tp_iternext;
+    index = 0; __pyx_t_2 = __pyx_t_11(__pyx_t_9); if (unlikely(!__pyx_t_2)) goto __pyx_L4_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_2);
-    index = 1; __pyx_t_7 = __pyx_t_12(__pyx_t_10); if (unlikely(!__pyx_t_7)) goto __pyx_L4_unpacking_failed;
-    __Pyx_GOTREF(__pyx_t_7);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_12(__pyx_t_10), 2) < 0) __PYX_ERR(0, 183, __pyx_L1_error)
-    __pyx_t_12 = NULL;
-    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+    index = 1; __pyx_t_6 = __pyx_t_11(__pyx_t_9); if (unlikely(!__pyx_t_6)) goto __pyx_L4_unpacking_failed;
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_9), 2) < 0) __PYX_ERR(0, 192, __pyx_L1_error)
+    __pyx_t_11 = NULL;
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     goto __pyx_L5_unpacking_done;
     __pyx_L4_unpacking_failed:;
-    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_12 = NULL;
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __pyx_t_11 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 183, __pyx_L1_error)
+    __PYX_ERR(0, 192, __pyx_L1_error)
     __pyx_L5_unpacking_done:;
   }
   __pyx_v_chrom_id = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_v_chrom_size = __pyx_t_7;
-  __pyx_t_7 = 0;
+  __pyx_v_chrom_size = __pyx_t_6;
+  __pyx_t_6 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":184
+  /* "bx/bbi/bbi_file.pyx":193
  *             return None
- *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
+ *         chrom_id, chrom_size = self._get_chrom_id_and_size( cchrom )
  *         if chrom_id is None:             # <<<<<<<<<<<<<<
  *             return None
  *         # Return value will be a structured array (rather than an array
  */
-  __pyx_t_11 = (__pyx_v_chrom_id == Py_None);
-  __pyx_t_13 = (__pyx_t_11 != 0);
-  if (__pyx_t_13) {
+  __pyx_t_10 = (__pyx_v_chrom_id == Py_None);
+  __pyx_t_12 = (__pyx_t_10 != 0);
+  if (__pyx_t_12) {
 
-    /* "bx/bbi/bbi_file.pyx":185
- *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
+    /* "bx/bbi/bbi_file.pyx":194
+ *         chrom_id, chrom_size = self._get_chrom_id_and_size( cchrom )
  *         if chrom_id is None:
  *             return None             # <<<<<<<<<<<<<<
  *         # Return value will be a structured array (rather than an array
@@ -6264,16 +6275,16 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
     __pyx_r = Py_None;
     goto __pyx_L0;
 
-    /* "bx/bbi/bbi_file.pyx":184
+    /* "bx/bbi/bbi_file.pyx":193
  *             return None
- *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
+ *         chrom_id, chrom_size = self._get_chrom_id_and_size( cchrom )
  *         if chrom_id is None:             # <<<<<<<<<<<<<<
  *             return None
  *         # Return value will be a structured array (rather than an array
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":190
+  /* "bx/bbi/bbi_file.pyx":199
  * 
  *         # Find appropriate zoom level
  *         cdef bits32 base_size = end - start             # <<<<<<<<<<<<<<
@@ -6282,7 +6293,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
  */
   __pyx_v_base_size = (__pyx_v_end - __pyx_v_start);
 
-  /* "bx/bbi/bbi_file.pyx":191
+  /* "bx/bbi/bbi_file.pyx":200
  *         # Find appropriate zoom level
  *         cdef bits32 base_size = end - start
  *         cdef int full_reduction = base_size / summary_size             # <<<<<<<<<<<<<<
@@ -6291,11 +6302,11 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
  */
   if (unlikely(__pyx_v_summary_size == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-    __PYX_ERR(0, 191, __pyx_L1_error)
+    __PYX_ERR(0, 200, __pyx_L1_error)
   }
   __pyx_v_full_reduction = (__pyx_v_base_size / __pyx_v_summary_size);
 
-  /* "bx/bbi/bbi_file.pyx":192
+  /* "bx/bbi/bbi_file.pyx":201
  *         cdef bits32 base_size = end - start
  *         cdef int full_reduction = base_size / summary_size
  *         cdef int zoom = full_reduction / 2             # <<<<<<<<<<<<<<
@@ -6304,17 +6315,17 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
  */
   __pyx_v_zoom = __Pyx_div_long(__pyx_v_full_reduction, 2);
 
-  /* "bx/bbi/bbi_file.pyx":193
+  /* "bx/bbi/bbi_file.pyx":202
  *         cdef int full_reduction = base_size / summary_size
  *         cdef int zoom = full_reduction / 2
  *         if zoom < 0:             # <<<<<<<<<<<<<<
  *             zoom = 0
  *         cdef ZoomLevel zoom_level = self._best_zoom_level( zoom )
  */
-  __pyx_t_13 = ((__pyx_v_zoom < 0) != 0);
-  if (__pyx_t_13) {
+  __pyx_t_12 = ((__pyx_v_zoom < 0) != 0);
+  if (__pyx_t_12) {
 
-    /* "bx/bbi/bbi_file.pyx":194
+    /* "bx/bbi/bbi_file.pyx":203
  *         cdef int zoom = full_reduction / 2
  *         if zoom < 0:
  *             zoom = 0             # <<<<<<<<<<<<<<
@@ -6323,7 +6334,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
  */
     __pyx_v_zoom = 0;
 
-    /* "bx/bbi/bbi_file.pyx":193
+    /* "bx/bbi/bbi_file.pyx":202
  *         cdef int full_reduction = base_size / summary_size
  *         cdef int zoom = full_reduction / 2
  *         if zoom < 0:             # <<<<<<<<<<<<<<
@@ -6332,31 +6343,31 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":195
+  /* "bx/bbi/bbi_file.pyx":204
  *         if zoom < 0:
  *             zoom = 0
  *         cdef ZoomLevel zoom_level = self._best_zoom_level( zoom )             # <<<<<<<<<<<<<<
  *         if zoom_level is not None:
  *             return zoom_level._summarize( chrom_id, start, end, summary_size )
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self->__pyx_vtab)->_best_zoom_level(__pyx_v_self, __pyx_v_zoom); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self->__pyx_vtab)->_best_zoom_level(__pyx_v_self, __pyx_v_zoom); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_2bx_3bbi_8bbi_file_ZoomLevel))))) __PYX_ERR(0, 195, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_2bx_3bbi_8bbi_file_ZoomLevel))))) __PYX_ERR(0, 204, __pyx_L1_error)
   __pyx_v_zoom_level = ((struct __pyx_obj_2bx_3bbi_8bbi_file_ZoomLevel *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":196
+  /* "bx/bbi/bbi_file.pyx":205
  *             zoom = 0
  *         cdef ZoomLevel zoom_level = self._best_zoom_level( zoom )
  *         if zoom_level is not None:             # <<<<<<<<<<<<<<
  *             return zoom_level._summarize( chrom_id, start, end, summary_size )
  *         else:
  */
-  __pyx_t_13 = (((PyObject *)__pyx_v_zoom_level) != Py_None);
-  __pyx_t_11 = (__pyx_t_13 != 0);
-  if (__pyx_t_11) {
+  __pyx_t_12 = (((PyObject *)__pyx_v_zoom_level) != Py_None);
+  __pyx_t_10 = (__pyx_t_12 != 0);
+  if (__pyx_t_10) {
 
-    /* "bx/bbi/bbi_file.pyx":197
+    /* "bx/bbi/bbi_file.pyx":206
  *         cdef ZoomLevel zoom_level = self._best_zoom_level( zoom )
  *         if zoom_level is not None:
  *             return zoom_level._summarize( chrom_id, start, end, summary_size )             # <<<<<<<<<<<<<<
@@ -6364,14 +6375,14 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
  *             return self._summarize_from_full( chrom_id, start, end, summary_size )
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_14 = __Pyx_PyInt_As_unsigned_int(__pyx_v_chrom_id); if (unlikely((__pyx_t_14 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 197, __pyx_L1_error)
-    __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_ZoomLevel *)__pyx_v_zoom_level->__pyx_vtab)->_summarize(__pyx_v_zoom_level, __pyx_t_14, __pyx_v_start, __pyx_v_end, __pyx_v_summary_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_PyInt_As_unsigned_int(__pyx_v_chrom_id); if (unlikely((__pyx_t_13 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 206, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_ZoomLevel *)__pyx_v_zoom_level->__pyx_vtab)->_summarize(__pyx_v_zoom_level, __pyx_t_13, __pyx_v_start, __pyx_v_end, __pyx_v_summary_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "bx/bbi/bbi_file.pyx":196
+    /* "bx/bbi/bbi_file.pyx":205
  *             zoom = 0
  *         cdef ZoomLevel zoom_level = self._best_zoom_level( zoom )
  *         if zoom_level is not None:             # <<<<<<<<<<<<<<
@@ -6380,7 +6391,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":199
+  /* "bx/bbi/bbi_file.pyx":208
  *             return zoom_level._summarize( chrom_id, start, end, summary_size )
  *         else:
  *             return self._summarize_from_full( chrom_id, start, end, summary_size )             # <<<<<<<<<<<<<<
@@ -6389,18 +6400,18 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_14 = __Pyx_PyInt_As_unsigned_int(__pyx_v_chrom_id); if (unlikely((__pyx_t_14 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 199, __pyx_L1_error)
-    __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self->__pyx_vtab)->_summarize_from_full(__pyx_v_self, __pyx_t_14, __pyx_v_start, __pyx_v_end, __pyx_v_summary_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_PyInt_As_unsigned_int(__pyx_v_chrom_id); if (unlikely((__pyx_t_13 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 208, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self->__pyx_vtab)->_summarize_from_full(__pyx_v_self, __pyx_t_13, __pyx_v_start, __pyx_v_end, __pyx_v_summary_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 208, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
     goto __pyx_L0;
   }
 
-  /* "bx/bbi/bbi_file.pyx":177
+  /* "bx/bbi/bbi_file.pyx":184
  *             handler.handle_block( block_data, self )
  * 
- *     cpdef summarize( self, char * chrom, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
+ *     cpdef summarize( self, object chrom, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
  *         """
  *         Gets `summary_size` data points over the regions `chrom`:`start`-`end`.
  */
@@ -6414,8 +6425,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("bx.bbi.bbi_file.BBIFile.summarize", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -6431,7 +6441,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(struct __pyx_obj_
 static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_5summarize(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static char __pyx_doc_2bx_3bbi_8bbi_file_7BBIFile_4summarize[] = "\n        Gets `summary_size` data points over the regions `chrom`:`start`-`end`.\n        ";
 static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_5summarize(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  char *__pyx_v_chrom;
+  PyObject *__pyx_v_chrom = 0;
   __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start;
   __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end;
   int __pyx_v_summary_size;
@@ -6460,21 +6470,21 @@ static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_5summarize(PyObject *__pyx
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("summarize", 1, 4, 4, 1); __PYX_ERR(0, 177, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("summarize", 1, 4, 4, 1); __PYX_ERR(0, 184, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("summarize", 1, 4, 4, 2); __PYX_ERR(0, 177, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("summarize", 1, 4, 4, 2); __PYX_ERR(0, 184, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_summary_size)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("summarize", 1, 4, 4, 3); __PYX_ERR(0, 177, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("summarize", 1, 4, 4, 3); __PYX_ERR(0, 184, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "summarize") < 0)) __PYX_ERR(0, 177, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "summarize") < 0)) __PYX_ERR(0, 184, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -6484,14 +6494,14 @@ static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_5summarize(PyObject *__pyx
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
-    __pyx_v_chrom = __Pyx_PyObject_AsString(values[0]); if (unlikely((!__pyx_v_chrom) && PyErr_Occurred())) __PYX_ERR(0, 177, __pyx_L3_error)
-    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 177, __pyx_L3_error)
-    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 177, __pyx_L3_error)
-    __pyx_v_summary_size = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_summary_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 177, __pyx_L3_error)
+    __pyx_v_chrom = values[0];
+    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 184, __pyx_L3_error)
+    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 184, __pyx_L3_error)
+    __pyx_v_summary_size = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_summary_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 184, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("summarize", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 177, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("summarize", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 184, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.bbi.bbi_file.BBIFile.summarize", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6504,13 +6514,13 @@ static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_5summarize(PyObject *__pyx
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_4summarize(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, char *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size) {
+static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_4summarize(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, PyObject *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("summarize", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(__pyx_v_self, __pyx_v_chrom, __pyx_v_start, __pyx_v_end, __pyx_v_summary_size, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize(__pyx_v_self, __pyx_v_chrom, __pyx_v_start, __pyx_v_end, __pyx_v_summary_size, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6527,7 +6537,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_4summarize(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":201
+/* "bx/bbi/bbi_file.pyx":210
  *             return self._summarize_from_full( chrom_id, start, end, summary_size )
  * 
  *     cpdef summarize_from_full( self, char * chrom, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
@@ -6560,17 +6570,17 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_summarize_from_full); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_summarize_from_full); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_7summarize_from_full)) {
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_chrom); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 201, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_chrom); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 210, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 201, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 210, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 201, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 210, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_summary_size); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 201, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_summary_size); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 210, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_INCREF(__pyx_t_1);
       __pyx_t_7 = __pyx_t_1; __pyx_t_8 = NULL;
@@ -6588,7 +6598,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_7)) {
         PyObject *__pyx_temp[5] = {__pyx_t_8, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 210, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6600,7 +6610,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
         PyObject *__pyx_temp[5] = {__pyx_t_8, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 210, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6610,7 +6620,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
       } else
       #endif
       {
-        __pyx_t_10 = PyTuple_New(4+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 201, __pyx_L1_error)
+        __pyx_t_10 = PyTuple_New(4+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 210, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         if (__pyx_t_8) {
           __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -6627,7 +6637,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
         __pyx_t_4 = 0;
         __pyx_t_5 = 0;
         __pyx_t_6 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 210, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       }
@@ -6640,7 +6650,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "bx/bbi/bbi_file.pyx":206
+  /* "bx/bbi/bbi_file.pyx":215
  *         always using the raw data points
  *         """
  *         if start >= end:             # <<<<<<<<<<<<<<
@@ -6650,7 +6660,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
   __pyx_t_11 = ((__pyx_v_start >= __pyx_v_end) != 0);
   if (__pyx_t_11) {
 
-    /* "bx/bbi/bbi_file.pyx":207
+    /* "bx/bbi/bbi_file.pyx":216
  *         """
  *         if start >= end:
  *             return None             # <<<<<<<<<<<<<<
@@ -6662,7 +6672,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
     __pyx_r = Py_None;
     goto __pyx_L0;
 
-    /* "bx/bbi/bbi_file.pyx":206
+    /* "bx/bbi/bbi_file.pyx":215
  *         always using the raw data points
  *         """
  *         if start >= end:             # <<<<<<<<<<<<<<
@@ -6671,14 +6681,14 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":208
+  /* "bx/bbi/bbi_file.pyx":217
  *         if start >= end:
  *             return None
  *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )             # <<<<<<<<<<<<<<
  *         if chrom_id is None:
  *             return None
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self->__pyx_vtab)->_get_chrom_id_and_size(__pyx_v_self, __pyx_v_chrom); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self->__pyx_vtab)->_get_chrom_id_and_size(__pyx_v_self, __pyx_v_chrom); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 217, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
     PyObject* sequence = __pyx_t_1;
@@ -6690,7 +6700,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 208, __pyx_L1_error)
+      __PYX_ERR(0, 217, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -6703,15 +6713,15 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_t_7);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 208, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 217, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 208, __pyx_L1_error)
+    __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 217, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     #endif
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_10 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 208, __pyx_L1_error)
+    __pyx_t_10 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 217, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_12 = Py_TYPE(__pyx_t_10)->tp_iternext;
@@ -6719,7 +6729,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
     __Pyx_GOTREF(__pyx_t_2);
     index = 1; __pyx_t_7 = __pyx_t_12(__pyx_t_10); if (unlikely(!__pyx_t_7)) goto __pyx_L4_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_7);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_12(__pyx_t_10), 2) < 0) __PYX_ERR(0, 208, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_12(__pyx_t_10), 2) < 0) __PYX_ERR(0, 217, __pyx_L1_error)
     __pyx_t_12 = NULL;
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     goto __pyx_L5_unpacking_done;
@@ -6727,7 +6737,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     __pyx_t_12 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 208, __pyx_L1_error)
+    __PYX_ERR(0, 217, __pyx_L1_error)
     __pyx_L5_unpacking_done:;
   }
   __pyx_v_chrom_id = __pyx_t_2;
@@ -6735,7 +6745,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
   __pyx_v_chrom_size = __pyx_t_7;
   __pyx_t_7 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":209
+  /* "bx/bbi/bbi_file.pyx":218
  *             return None
  *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
  *         if chrom_id is None:             # <<<<<<<<<<<<<<
@@ -6746,7 +6756,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
   __pyx_t_13 = (__pyx_t_11 != 0);
   if (__pyx_t_13) {
 
-    /* "bx/bbi/bbi_file.pyx":210
+    /* "bx/bbi/bbi_file.pyx":219
  *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
  *         if chrom_id is None:
  *             return None             # <<<<<<<<<<<<<<
@@ -6758,7 +6768,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
     __pyx_r = Py_None;
     goto __pyx_L0;
 
-    /* "bx/bbi/bbi_file.pyx":209
+    /* "bx/bbi/bbi_file.pyx":218
  *             return None
  *         chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
  *         if chrom_id is None:             # <<<<<<<<<<<<<<
@@ -6767,22 +6777,22 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(struct 
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":213
+  /* "bx/bbi/bbi_file.pyx":222
  *         # Return value will be a structured array (rather than an array
  *         # of summary element structures
  *         return self._summarize_from_full( chrom_id, start, end, summary_size )             # <<<<<<<<<<<<<<
  * 
- *     cpdef query( self, char * chrom, bits32 start, bits32 end, int summary_size ):
+ *     cpdef query( self, object chrom, bits32 start, bits32 end, int summary_size ):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_14 = __Pyx_PyInt_As_unsigned_int(__pyx_v_chrom_id); if (unlikely((__pyx_t_14 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 213, __pyx_L1_error)
-  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self->__pyx_vtab)->_summarize_from_full(__pyx_v_self, __pyx_t_14, __pyx_v_start, __pyx_v_end, __pyx_v_summary_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyInt_As_unsigned_int(__pyx_v_chrom_id); if (unlikely((__pyx_t_14 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 222, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self->__pyx_vtab)->_summarize_from_full(__pyx_v_self, __pyx_t_14, __pyx_v_start, __pyx_v_end, __pyx_v_summary_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "bx/bbi/bbi_file.pyx":201
+  /* "bx/bbi/bbi_file.pyx":210
  *             return self._summarize_from_full( chrom_id, start, end, summary_size )
  * 
  *     cpdef summarize_from_full( self, char * chrom, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
@@ -6844,21 +6854,21 @@ static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_7summarize_from_full(PyObj
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("summarize_from_full", 1, 4, 4, 1); __PYX_ERR(0, 201, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("summarize_from_full", 1, 4, 4, 1); __PYX_ERR(0, 210, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("summarize_from_full", 1, 4, 4, 2); __PYX_ERR(0, 201, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("summarize_from_full", 1, 4, 4, 2); __PYX_ERR(0, 210, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_summary_size)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("summarize_from_full", 1, 4, 4, 3); __PYX_ERR(0, 201, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("summarize_from_full", 1, 4, 4, 3); __PYX_ERR(0, 210, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "summarize_from_full") < 0)) __PYX_ERR(0, 201, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "summarize_from_full") < 0)) __PYX_ERR(0, 210, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -6868,14 +6878,14 @@ static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_7summarize_from_full(PyObj
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
-    __pyx_v_chrom = __Pyx_PyObject_AsString(values[0]); if (unlikely((!__pyx_v_chrom) && PyErr_Occurred())) __PYX_ERR(0, 201, __pyx_L3_error)
-    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 201, __pyx_L3_error)
-    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 201, __pyx_L3_error)
-    __pyx_v_summary_size = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_summary_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 201, __pyx_L3_error)
+    __pyx_v_chrom = __Pyx_PyObject_AsString(values[0]); if (unlikely((!__pyx_v_chrom) && PyErr_Occurred())) __PYX_ERR(0, 210, __pyx_L3_error)
+    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 210, __pyx_L3_error)
+    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 210, __pyx_L3_error)
+    __pyx_v_summary_size = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_summary_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 210, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("summarize_from_full", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 201, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("summarize_from_full", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 210, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.bbi.bbi_file.BBIFile.summarize_from_full", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6894,7 +6904,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_6summarize_from_full(struc
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("summarize_from_full", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(__pyx_v_self, __pyx_v_chrom, __pyx_v_start, __pyx_v_end, __pyx_v_summary_size, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full(__pyx_v_self, __pyx_v_chrom, __pyx_v_start, __pyx_v_end, __pyx_v_summary_size, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6911,16 +6921,16 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_6summarize_from_full(struc
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":215
+/* "bx/bbi/bbi_file.pyx":224
  *         return self._summarize_from_full( chrom_id, start, end, summary_size )
  * 
- *     cpdef query( self, char * chrom, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
+ *     cpdef query( self, object chrom, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
  *         """
  *         Provides a different view of summary for region, a list of dictionaries
  */
 
 static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_9query(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, char *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size, int __pyx_skip_dispatch) {
+static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, PyObject *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size, int __pyx_skip_dispatch) {
   PyObject *__pyx_v_results = NULL;
   PyObject *__pyx_v_rval = NULL;
   int __pyx_v_i;
@@ -6939,92 +6949,87 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(struct __pyx_obj_2bx_
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  int __pyx_t_9;
-  PyObject *__pyx_t_10 = NULL;
+  int __pyx_t_8;
+  PyObject *__pyx_t_9 = NULL;
+  int __pyx_t_10;
   int __pyx_t_11;
   int __pyx_t_12;
-  int __pyx_t_13;
-  __pyx_t_2bx_3bbi_5types_bits32 __pyx_t_14;
-  long __pyx_t_15;
-  int __pyx_t_16;
+  __pyx_t_2bx_3bbi_5types_bits32 __pyx_t_13;
+  long __pyx_t_14;
+  int __pyx_t_15;
   __Pyx_RefNannySetupContext("query", 0);
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_query); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_query); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 224, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_9query)) {
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_chrom); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 215, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 224, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 215, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 224, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 215, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_summary_size); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 224, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_summary_size); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 215, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
       __Pyx_INCREF(__pyx_t_1);
-      __pyx_t_7 = __pyx_t_1; __pyx_t_8 = NULL;
-      __pyx_t_9 = 0;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
-        __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
-        if (likely(__pyx_t_8)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-          __Pyx_INCREF(__pyx_t_8);
+      __pyx_t_6 = __pyx_t_1; __pyx_t_7 = NULL;
+      __pyx_t_8 = 0;
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+        __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+        if (likely(__pyx_t_7)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+          __Pyx_INCREF(__pyx_t_7);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_7, function);
-          __pyx_t_9 = 1;
+          __Pyx_DECREF_SET(__pyx_t_6, function);
+          __pyx_t_8 = 1;
         }
       }
       #if CYTHON_FAST_PYCALL
-      if (PyFunction_Check(__pyx_t_7)) {
-        PyObject *__pyx_temp[5] = {__pyx_t_8, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 215, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+      if (PyFunction_Check(__pyx_t_6)) {
+        PyObject *__pyx_temp[5] = {__pyx_t_7, __pyx_v_chrom, __pyx_t_3, __pyx_t_4, __pyx_t_5};
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 224, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       } else
       #endif
       #if CYTHON_FAST_PYCCALL
-      if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
-        PyObject *__pyx_temp[5] = {__pyx_t_8, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 215, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+      if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+        PyObject *__pyx_temp[5] = {__pyx_t_7, __pyx_v_chrom, __pyx_t_3, __pyx_t_4, __pyx_t_5};
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 224, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       } else
       #endif
       {
-        __pyx_t_10 = PyTuple_New(4+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 215, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        if (__pyx_t_8) {
-          __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __pyx_t_8 = NULL;
+        __pyx_t_9 = PyTuple_New(4+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 224, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        if (__pyx_t_7) {
+          __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
         }
+        __Pyx_INCREF(__pyx_v_chrom);
+        __Pyx_GIVEREF(__pyx_v_chrom);
+        PyTuple_SET_ITEM(__pyx_t_9, 0+__pyx_t_8, __pyx_v_chrom);
         __Pyx_GIVEREF(__pyx_t_3);
-        PyTuple_SET_ITEM(__pyx_t_10, 0+__pyx_t_9, __pyx_t_3);
+        PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_t_3);
         __Pyx_GIVEREF(__pyx_t_4);
-        PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_t_4);
+        PyTuple_SET_ITEM(__pyx_t_9, 2+__pyx_t_8, __pyx_t_4);
         __Pyx_GIVEREF(__pyx_t_5);
-        PyTuple_SET_ITEM(__pyx_t_10, 2+__pyx_t_9, __pyx_t_5);
-        __Pyx_GIVEREF(__pyx_t_6);
-        PyTuple_SET_ITEM(__pyx_t_10, 3+__pyx_t_9, __pyx_t_6);
+        PyTuple_SET_ITEM(__pyx_t_9, 3+__pyx_t_8, __pyx_t_5);
         __pyx_t_3 = 0;
         __pyx_t_4 = 0;
         __pyx_t_5 = 0;
-        __pyx_t_6 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 215, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 224, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_r = __pyx_t_2;
       __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -7033,35 +7038,35 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(struct __pyx_obj_2bx_
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "bx/bbi/bbi_file.pyx":221
+  /* "bx/bbi/bbi_file.pyx":230
  *         """
  * 
  *         if end > 2147483647 or start < 0:             # <<<<<<<<<<<<<<
  *             raise ValueError
  *         results = self.summarize(chrom, start, end, summary_size)
  */
-  __pyx_t_12 = ((__pyx_v_end > 0x7FFFFFFF) != 0);
-  if (!__pyx_t_12) {
+  __pyx_t_11 = ((__pyx_v_end > 0x7FFFFFFF) != 0);
+  if (!__pyx_t_11) {
   } else {
-    __pyx_t_11 = __pyx_t_12;
+    __pyx_t_10 = __pyx_t_11;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_12 = ((__pyx_v_start < 0) != 0);
-  __pyx_t_11 = __pyx_t_12;
+  __pyx_t_11 = ((__pyx_v_start < 0) != 0);
+  __pyx_t_10 = __pyx_t_11;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_11) {
+  if (__pyx_t_10) {
 
-    /* "bx/bbi/bbi_file.pyx":222
+    /* "bx/bbi/bbi_file.pyx":231
  * 
  *         if end > 2147483647 or start < 0:
  *             raise ValueError             # <<<<<<<<<<<<<<
  *         results = self.summarize(chrom, start, end, summary_size)
- *         if not results:
+ * 
  */
     __Pyx_Raise(__pyx_builtin_ValueError, 0, 0, 0);
-    __PYX_ERR(0, 222, __pyx_L1_error)
+    __PYX_ERR(0, 231, __pyx_L1_error)
 
-    /* "bx/bbi/bbi_file.pyx":221
+    /* "bx/bbi/bbi_file.pyx":230
  *         """
  * 
  *         if end > 2147483647 or start < 0:             # <<<<<<<<<<<<<<
@@ -7070,31 +7075,31 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(struct __pyx_obj_2bx_
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":223
+  /* "bx/bbi/bbi_file.pyx":232
  *         if end > 2147483647 or start < 0:
  *             raise ValueError
  *         results = self.summarize(chrom, start, end, summary_size)             # <<<<<<<<<<<<<<
+ * 
  *         if not results:
- *             return None
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self->__pyx_vtab)->summarize(__pyx_v_self, __pyx_v_chrom, __pyx_v_start, __pyx_v_end, __pyx_v_summary_size, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 223, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_BBIFile *)__pyx_v_self->__pyx_vtab)->summarize(__pyx_v_self, __pyx_v_chrom, __pyx_v_start, __pyx_v_end, __pyx_v_summary_size, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_results = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":224
- *             raise ValueError
+  /* "bx/bbi/bbi_file.pyx":234
  *         results = self.summarize(chrom, start, end, summary_size)
+ * 
  *         if not results:             # <<<<<<<<<<<<<<
  *             return None
  * 
  */
-  __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_v_results); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 224, __pyx_L1_error)
-  __pyx_t_12 = ((!__pyx_t_11) != 0);
-  if (__pyx_t_12) {
+  __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_v_results); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 234, __pyx_L1_error)
+  __pyx_t_11 = ((!__pyx_t_10) != 0);
+  if (__pyx_t_11) {
 
-    /* "bx/bbi/bbi_file.pyx":225
- *         results = self.summarize(chrom, start, end, summary_size)
+    /* "bx/bbi/bbi_file.pyx":235
+ * 
  *         if not results:
  *             return None             # <<<<<<<<<<<<<<
  * 
@@ -7105,152 +7110,152 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(struct __pyx_obj_2bx_
     __pyx_r = Py_None;
     goto __pyx_L0;
 
-    /* "bx/bbi/bbi_file.pyx":224
- *             raise ValueError
+    /* "bx/bbi/bbi_file.pyx":234
  *         results = self.summarize(chrom, start, end, summary_size)
+ * 
  *         if not results:             # <<<<<<<<<<<<<<
  *             return None
  * 
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":227
+  /* "bx/bbi/bbi_file.pyx":237
  *             return None
  * 
  *         rval = []             # <<<<<<<<<<<<<<
  *         for i in range(summary_size):
  *             sum_data = results.sum_data[i]
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_rval = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":228
+  /* "bx/bbi/bbi_file.pyx":238
  * 
  *         rval = []
  *         for i in range(summary_size):             # <<<<<<<<<<<<<<
  *             sum_data = results.sum_data[i]
  *             valid_count = results.valid_count[i]
  */
-  __pyx_t_9 = __pyx_v_summary_size;
-  for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_9; __pyx_t_13+=1) {
-    __pyx_v_i = __pyx_t_13;
+  __pyx_t_8 = __pyx_v_summary_size;
+  for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_8; __pyx_t_12+=1) {
+    __pyx_v_i = __pyx_t_12;
 
-    /* "bx/bbi/bbi_file.pyx":229
+    /* "bx/bbi/bbi_file.pyx":239
  *         rval = []
  *         for i in range(summary_size):
  *             sum_data = results.sum_data[i]             # <<<<<<<<<<<<<<
  *             valid_count = results.valid_count[i]
  *             mean = sum_data / valid_count
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_results, __pyx_n_s_sum_data); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_results, __pyx_n_s_sum_data); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 229, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF_SET(__pyx_v_sum_data, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":230
+    /* "bx/bbi/bbi_file.pyx":240
  *         for i in range(summary_size):
  *             sum_data = results.sum_data[i]
  *             valid_count = results.valid_count[i]             # <<<<<<<<<<<<<<
  *             mean = sum_data / valid_count
  *             coverage = <double> summary_size / (end - start) * valid_count
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_results, __pyx_n_s_valid_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 230, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_results, __pyx_n_s_valid_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 240, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 230, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 240, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_XDECREF_SET(__pyx_v_valid_count, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":231
+    /* "bx/bbi/bbi_file.pyx":241
  *             sum_data = results.sum_data[i]
  *             valid_count = results.valid_count[i]
  *             mean = sum_data / valid_count             # <<<<<<<<<<<<<<
  *             coverage = <double> summary_size / (end - start) * valid_count
  * 
  */
-    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_v_sum_data, __pyx_v_valid_count); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 231, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_v_sum_data, __pyx_v_valid_count); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 241, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_mean, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":232
+    /* "bx/bbi/bbi_file.pyx":242
  *             valid_count = results.valid_count[i]
  *             mean = sum_data / valid_count
  *             coverage = <double> summary_size / (end - start) * valid_count             # <<<<<<<<<<<<<<
  * 
  *             # print results.sum_squares[i], sum_data, valid_count
  */
-    __pyx_t_14 = (__pyx_v_end - __pyx_v_start);
-    if (unlikely(__pyx_t_14 == 0)) {
+    __pyx_t_13 = (__pyx_v_end - __pyx_v_start);
+    if (unlikely(__pyx_t_13 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 232, __pyx_L1_error)
+      __PYX_ERR(0, 242, __pyx_L1_error)
     }
-    __pyx_t_1 = PyFloat_FromDouble((((double)__pyx_v_summary_size) / __pyx_t_14)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 232, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble((((double)__pyx_v_summary_size) / __pyx_t_13)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PyNumber_Multiply(__pyx_t_1, __pyx_v_valid_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 232, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Multiply(__pyx_t_1, __pyx_v_valid_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 242, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF_SET(__pyx_v_coverage, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":235
+    /* "bx/bbi/bbi_file.pyx":245
  * 
  *             # print results.sum_squares[i], sum_data, valid_count
  *             variance = results.sum_squares[i] - sum_data * sum_data / valid_count             # <<<<<<<<<<<<<<
  *             if valid_count > 1:
  *                 variance /= valid_count - 1
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_results, __pyx_n_s_sum_squares); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_results, __pyx_n_s_sum_squares); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 245, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_Multiply(__pyx_v_sum_data, __pyx_v_sum_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Multiply(__pyx_v_sum_data, __pyx_v_sum_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_v_valid_count); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 235, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_v_valid_count); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 245, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_Subtract(__pyx_t_1, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Subtract(__pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF_SET(__pyx_v_variance, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":236
+    /* "bx/bbi/bbi_file.pyx":246
  *             # print results.sum_squares[i], sum_data, valid_count
  *             variance = results.sum_squares[i] - sum_data * sum_data / valid_count
  *             if valid_count > 1:             # <<<<<<<<<<<<<<
  *                 variance /= valid_count - 1
  *             std_dev = math.sqrt(max(variance, 0))
  */
-    __pyx_t_2 = PyObject_RichCompare(__pyx_v_valid_count, __pyx_int_1, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 236, __pyx_L1_error)
-    __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 236, __pyx_L1_error)
+    __pyx_t_2 = PyObject_RichCompare(__pyx_v_valid_count, __pyx_int_1, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 246, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (__pyx_t_12) {
+    if (__pyx_t_11) {
 
-      /* "bx/bbi/bbi_file.pyx":237
+      /* "bx/bbi/bbi_file.pyx":247
  *             variance = results.sum_squares[i] - sum_data * sum_data / valid_count
  *             if valid_count > 1:
  *                 variance /= valid_count - 1             # <<<<<<<<<<<<<<
  *             std_dev = math.sqrt(max(variance, 0))
  * 
  */
-      __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_v_valid_count, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 237, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_v_valid_count, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 247, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = __Pyx_PyNumber_InPlaceDivide(__pyx_v_variance, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 237, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_6 = __Pyx_PyNumber_InPlaceDivide(__pyx_v_variance, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 247, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF_SET(__pyx_v_variance, __pyx_t_7);
-      __pyx_t_7 = 0;
+      __Pyx_DECREF_SET(__pyx_v_variance, __pyx_t_6);
+      __pyx_t_6 = 0;
 
-      /* "bx/bbi/bbi_file.pyx":236
+      /* "bx/bbi/bbi_file.pyx":246
  *             # print results.sum_squares[i], sum_data, valid_count
  *             variance = results.sum_squares[i] - sum_data * sum_data / valid_count
  *             if valid_count > 1:             # <<<<<<<<<<<<<<
@@ -7259,35 +7264,35 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(struct __pyx_obj_2bx_
  */
     }
 
-    /* "bx/bbi/bbi_file.pyx":238
+    /* "bx/bbi/bbi_file.pyx":248
  *             if valid_count > 1:
  *                 variance /= valid_count - 1
  *             std_dev = math.sqrt(max(variance, 0))             # <<<<<<<<<<<<<<
  * 
  *             rval.append( { "mean": mean, "max": results.max_val[i], "min": results.min_val[i], \
  */
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_math); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 238, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_math); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 248, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_sqrt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 238, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_sqrt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 248, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_15 = 0;
+    __pyx_t_14 = 0;
     __Pyx_INCREF(__pyx_v_variance);
     __pyx_t_2 = __pyx_v_variance;
-    __pyx_t_6 = __Pyx_PyInt_From_long(__pyx_t_15); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 238, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = PyObject_RichCompare(__pyx_t_6, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 238, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 238, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_long(__pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 248, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 248, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (__pyx_t_12) {
-      __pyx_t_5 = __Pyx_PyInt_From_long(__pyx_t_15); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 238, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_10 = __pyx_t_5;
-      __pyx_t_5 = 0;
+    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 248, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (__pyx_t_11) {
+      __pyx_t_4 = __Pyx_PyInt_From_long(__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 248, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_9 = __pyx_t_4;
+      __pyx_t_4 = 0;
     } else {
       __Pyx_INCREF(__pyx_t_2);
-      __pyx_t_10 = __pyx_t_2;
+      __pyx_t_9 = __pyx_t_2;
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = NULL;
@@ -7301,92 +7306,92 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(struct __pyx_obj_2bx_
       }
     }
     if (!__pyx_t_2) {
-      __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_10); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 238, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_9); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 248, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_1)) {
-        PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_10};
-        __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 238, __pyx_L1_error)
+        PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_9};
+        __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 248, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_GOTREF(__pyx_t_6);
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       } else
       #endif
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
-        PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_10};
-        __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 238, __pyx_L1_error)
+        PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_9};
+        __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 248, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_GOTREF(__pyx_t_6);
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       } else
       #endif
       {
-        __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 238, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __pyx_t_2 = NULL;
-        __Pyx_INCREF(__pyx_t_10);
-        __Pyx_GIVEREF(__pyx_t_10);
-        PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_10);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_5, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 238, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 248, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2); __pyx_t_2 = NULL;
+        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_GIVEREF(__pyx_t_9);
+        PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_9);
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 248, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_std_dev, __pyx_t_7);
-    __pyx_t_7 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_std_dev, __pyx_t_6);
+    __pyx_t_6 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":240
+    /* "bx/bbi/bbi_file.pyx":250
  *             std_dev = math.sqrt(max(variance, 0))
  * 
  *             rval.append( { "mean": mean, "max": results.max_val[i], "min": results.min_val[i], \             # <<<<<<<<<<<<<<
  *                         "coverage": coverage, "std_dev": std_dev } )
  * 
  */
-    __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 240, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_mean, __pyx_v_mean) < 0) __PYX_ERR(0, 240, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_results, __pyx_n_s_max_val); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 240, __pyx_L1_error)
+    __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 250, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_mean, __pyx_v_mean) < 0) __PYX_ERR(0, 250, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_results, __pyx_n_s_max_val); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 250, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 240, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 250, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_max, __pyx_t_5) < 0) __PYX_ERR(0, 240, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_results, __pyx_n_s_min_val); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 240, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 240, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_max, __pyx_t_4) < 0) __PYX_ERR(0, 250, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_results, __pyx_n_s_min_val); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 250, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 250, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_min, __pyx_t_1) < 0) __PYX_ERR(0, 240, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_min, __pyx_t_1) < 0) __PYX_ERR(0, 250, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":241
+    /* "bx/bbi/bbi_file.pyx":251
  * 
  *             rval.append( { "mean": mean, "max": results.max_val[i], "min": results.min_val[i], \
  *                         "coverage": coverage, "std_dev": std_dev } )             # <<<<<<<<<<<<<<
  * 
  *         return rval
  */
-    if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_coverage, __pyx_v_coverage) < 0) __PYX_ERR(0, 240, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_std_dev, __pyx_v_std_dev) < 0) __PYX_ERR(0, 240, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_coverage, __pyx_v_coverage) < 0) __PYX_ERR(0, 250, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_std_dev, __pyx_v_std_dev) < 0) __PYX_ERR(0, 250, __pyx_L1_error)
 
-    /* "bx/bbi/bbi_file.pyx":240
+    /* "bx/bbi/bbi_file.pyx":250
  *             std_dev = math.sqrt(max(variance, 0))
  * 
  *             rval.append( { "mean": mean, "max": results.max_val[i], "min": results.min_val[i], \             # <<<<<<<<<<<<<<
  *                         "coverage": coverage, "std_dev": std_dev } )
  * 
  */
-    __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_rval, __pyx_t_7); if (unlikely(__pyx_t_16 == -1)) __PYX_ERR(0, 240, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_15 = __Pyx_PyList_Append(__pyx_v_rval, __pyx_t_6); if (unlikely(__pyx_t_15 == -1)) __PYX_ERR(0, 250, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
 
-  /* "bx/bbi/bbi_file.pyx":243
+  /* "bx/bbi/bbi_file.pyx":253
  *                         "coverage": coverage, "std_dev": std_dev } )
  * 
  *         return rval             # <<<<<<<<<<<<<<
@@ -7398,10 +7403,10 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(struct __pyx_obj_2bx_
   __pyx_r = __pyx_v_rval;
   goto __pyx_L0;
 
-  /* "bx/bbi/bbi_file.pyx":215
+  /* "bx/bbi/bbi_file.pyx":224
  *         return self._summarize_from_full( chrom_id, start, end, summary_size )
  * 
- *     cpdef query( self, char * chrom, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
+ *     cpdef query( self, object chrom, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
  *         """
  *         Provides a different view of summary for region, a list of dictionaries
  */
@@ -7415,8 +7420,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(struct __pyx_obj_2bx_
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("bx.bbi.bbi_file.BBIFile.query", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -7437,7 +7441,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(struct __pyx_obj_2bx_
 static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_9query(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static char __pyx_doc_2bx_3bbi_8bbi_file_7BBIFile_8query[] = "\n        Provides a different view of summary for region, a list of dictionaries\n        with keys: mean, max, min, coverage, std_dev\n        ";
 static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_9query(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  char *__pyx_v_chrom;
+  PyObject *__pyx_v_chrom = 0;
   __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start;
   __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end;
   int __pyx_v_summary_size;
@@ -7466,21 +7470,21 @@ static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_9query(PyObject *__pyx_v_s
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("query", 1, 4, 4, 1); __PYX_ERR(0, 215, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("query", 1, 4, 4, 1); __PYX_ERR(0, 224, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("query", 1, 4, 4, 2); __PYX_ERR(0, 215, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("query", 1, 4, 4, 2); __PYX_ERR(0, 224, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_summary_size)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("query", 1, 4, 4, 3); __PYX_ERR(0, 215, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("query", 1, 4, 4, 3); __PYX_ERR(0, 224, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "query") < 0)) __PYX_ERR(0, 215, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "query") < 0)) __PYX_ERR(0, 224, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -7490,14 +7494,14 @@ static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_9query(PyObject *__pyx_v_s
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
-    __pyx_v_chrom = __Pyx_PyObject_AsString(values[0]); if (unlikely((!__pyx_v_chrom) && PyErr_Occurred())) __PYX_ERR(0, 215, __pyx_L3_error)
-    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 215, __pyx_L3_error)
-    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 215, __pyx_L3_error)
-    __pyx_v_summary_size = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_summary_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 215, __pyx_L3_error)
+    __pyx_v_chrom = values[0];
+    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 224, __pyx_L3_error)
+    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 224, __pyx_L3_error)
+    __pyx_v_summary_size = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_summary_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 224, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("query", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 215, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("query", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 224, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.bbi.bbi_file.BBIFile.query", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7510,13 +7514,13 @@ static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_7BBIFile_9query(PyObject *__pyx_v_s
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_8query(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, char *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size) {
+static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_8query(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *__pyx_v_self, PyObject *__pyx_v_chrom, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_start, __pyx_t_2bx_3bbi_5types_bits32 __pyx_v_end, int __pyx_v_summary_size) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("query", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(__pyx_v_self, __pyx_v_chrom, __pyx_v_start, __pyx_v_end, __pyx_v_summary_size, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query(__pyx_v_self, __pyx_v_chrom, __pyx_v_start, __pyx_v_end, __pyx_v_summary_size, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7533,7 +7537,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_8query(struct __pyx_obj_2b
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":245
+/* "bx/bbi/bbi_file.pyx":255
  *         return rval
  * 
  *     cdef _get_chrom_id_and_size( self, char * chrom ):             # <<<<<<<<<<<<<<
@@ -7559,16 +7563,16 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
   PyObject *(*__pyx_t_10)(PyObject *);
   __Pyx_RefNannySetupContext("_get_chrom_id_and_size", 0);
 
-  /* "bx/bbi/bbi_file.pyx":249
+  /* "bx/bbi/bbi_file.pyx":259
  *         Lookup id and size from the chromosome named `chrom`
  *         """
  *         bytes = self.chrom_bpt.find( chrom )             # <<<<<<<<<<<<<<
  *         if bytes is not None:
  *             # The value is two 32 bit uints, use the BPT's reader for checking byteswapping
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->chrom_bpt), __pyx_n_s_find); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->chrom_bpt), __pyx_n_s_find); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 259, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_chrom); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_chrom); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 259, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -7581,14 +7585,14 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 259, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 259, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7597,20 +7601,20 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 259, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 259, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 259, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
@@ -7619,7 +7623,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
   __pyx_v_bytes = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":250
+  /* "bx/bbi/bbi_file.pyx":260
  *         """
  *         bytes = self.chrom_bpt.find( chrom )
  *         if bytes is not None:             # <<<<<<<<<<<<<<
@@ -7630,7 +7634,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
   __pyx_t_7 = (__pyx_t_6 != 0);
   if (__pyx_t_7) {
 
-    /* "bx/bbi/bbi_file.pyx":252
+    /* "bx/bbi/bbi_file.pyx":262
  *         if bytes is not None:
  *             # The value is two 32 bit uints, use the BPT's reader for checking byteswapping
  *             assert len( bytes ) == 8             # <<<<<<<<<<<<<<
@@ -7639,22 +7643,22 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
  */
     #ifndef CYTHON_WITHOUT_ASSERTIONS
     if (unlikely(!Py_OptimizeFlag)) {
-      __pyx_t_8 = PyObject_Length(__pyx_v_bytes); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 252, __pyx_L1_error)
+      __pyx_t_8 = PyObject_Length(__pyx_v_bytes); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 262, __pyx_L1_error)
       if (unlikely(!((__pyx_t_8 == 8) != 0))) {
         PyErr_SetNone(PyExc_AssertionError);
-        __PYX_ERR(0, 252, __pyx_L1_error)
+        __PYX_ERR(0, 262, __pyx_L1_error)
       }
     }
     #endif
 
-    /* "bx/bbi/bbi_file.pyx":253
+    /* "bx/bbi/bbi_file.pyx":263
  *             # The value is two 32 bit uints, use the BPT's reader for checking byteswapping
  *             assert len( bytes ) == 8
  *             chrom_id, chrom_size = self.chrom_bpt.reader.unpack( "II", bytes )             # <<<<<<<<<<<<<<
  *             return chrom_id, chrom_size
  *         else:
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->chrom_bpt->reader, __pyx_n_s_unpack); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 253, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->chrom_bpt->reader, __pyx_n_s_unpack); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 263, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_5 = NULL;
     __pyx_t_9 = 0;
@@ -7671,7 +7675,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_n_s_II, __pyx_v_bytes};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 253, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 263, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -7679,13 +7683,13 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_n_s_II, __pyx_v_bytes};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 253, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 263, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_3 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 253, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 263, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       if (__pyx_t_5) {
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -7696,7 +7700,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
       __Pyx_INCREF(__pyx_v_bytes);
       __Pyx_GIVEREF(__pyx_v_bytes);
       PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_9, __pyx_v_bytes);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 253, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 263, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
@@ -7711,7 +7715,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 253, __pyx_L1_error)
+        __PYX_ERR(0, 263, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -7724,15 +7728,15 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
       __Pyx_INCREF(__pyx_t_2);
       __Pyx_INCREF(__pyx_t_3);
       #else
-      __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 253, __pyx_L1_error)
+      __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 263, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 253, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 263, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 253, __pyx_L1_error)
+      __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 263, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_10 = Py_TYPE(__pyx_t_5)->tp_iternext;
@@ -7740,7 +7744,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
       __Pyx_GOTREF(__pyx_t_2);
       index = 1; __pyx_t_3 = __pyx_t_10(__pyx_t_5); if (unlikely(!__pyx_t_3)) goto __pyx_L4_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_3);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_5), 2) < 0) __PYX_ERR(0, 253, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_5), 2) < 0) __PYX_ERR(0, 263, __pyx_L1_error)
       __pyx_t_10 = NULL;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       goto __pyx_L5_unpacking_done;
@@ -7748,7 +7752,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_t_10 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 253, __pyx_L1_error)
+      __PYX_ERR(0, 263, __pyx_L1_error)
       __pyx_L5_unpacking_done:;
     }
     __pyx_v_chrom_id = __pyx_t_2;
@@ -7756,7 +7760,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
     __pyx_v_chrom_size = __pyx_t_3;
     __pyx_t_3 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":254
+    /* "bx/bbi/bbi_file.pyx":264
  *             assert len( bytes ) == 8
  *             chrom_id, chrom_size = self.chrom_bpt.reader.unpack( "II", bytes )
  *             return chrom_id, chrom_size             # <<<<<<<<<<<<<<
@@ -7764,7 +7768,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
  *             return None, None
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 254, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 264, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_v_chrom_id);
     __Pyx_GIVEREF(__pyx_v_chrom_id);
@@ -7776,7 +7780,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "bx/bbi/bbi_file.pyx":250
+    /* "bx/bbi/bbi_file.pyx":260
  *         """
  *         bytes = self.chrom_bpt.find( chrom )
  *         if bytes is not None:             # <<<<<<<<<<<<<<
@@ -7785,7 +7789,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":256
+  /* "bx/bbi/bbi_file.pyx":266
  *             return chrom_id, chrom_size
  *         else:
  *             return None, None             # <<<<<<<<<<<<<<
@@ -7799,7 +7803,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
     goto __pyx_L0;
   }
 
-  /* "bx/bbi/bbi_file.pyx":245
+  /* "bx/bbi/bbi_file.pyx":255
  *         return rval
  * 
  *     cdef _get_chrom_id_and_size( self, char * chrom ):             # <<<<<<<<<<<<<<
@@ -7825,7 +7829,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size(stru
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":258
+/* "bx/bbi/bbi_file.pyx":268
  *             return None, None
  * 
  *     cdef _summarize_from_full( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
@@ -7845,7 +7849,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__summarize_from_full(CYTHON
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":264
+/* "bx/bbi/bbi_file.pyx":274
  *         pass
  * 
  *     cdef _best_zoom_level( self, int desired_reduction ):             # <<<<<<<<<<<<<<
@@ -7868,7 +7872,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
   int __pyx_t_6;
   __Pyx_RefNannySetupContext("_best_zoom_level", 0);
 
-  /* "bx/bbi/bbi_file.pyx":265
+  /* "bx/bbi/bbi_file.pyx":275
  * 
  *     cdef _best_zoom_level( self, int desired_reduction ):
  *         if desired_reduction <= 1:             # <<<<<<<<<<<<<<
@@ -7878,7 +7882,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
   __pyx_t_1 = ((__pyx_v_desired_reduction <= 1) != 0);
   if (__pyx_t_1) {
 
-    /* "bx/bbi/bbi_file.pyx":266
+    /* "bx/bbi/bbi_file.pyx":276
  *     cdef _best_zoom_level( self, int desired_reduction ):
  *         if desired_reduction <= 1:
  *             return None             # <<<<<<<<<<<<<<
@@ -7890,7 +7894,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
     __pyx_r = Py_None;
     goto __pyx_L0;
 
-    /* "bx/bbi/bbi_file.pyx":265
+    /* "bx/bbi/bbi_file.pyx":275
  * 
  *     cdef _best_zoom_level( self, int desired_reduction ):
  *         if desired_reduction <= 1:             # <<<<<<<<<<<<<<
@@ -7899,7 +7903,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":269
+  /* "bx/bbi/bbi_file.pyx":279
  * 
  *         cdef ZoomLevel level, closest_level
  *         cdef int diff, closest_diff = limits.INT_MAX             # <<<<<<<<<<<<<<
@@ -7908,7 +7912,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
  */
   __pyx_v_closest_diff = INT_MAX;
 
-  /* "bx/bbi/bbi_file.pyx":271
+  /* "bx/bbi/bbi_file.pyx":281
  *         cdef int diff, closest_diff = limits.INT_MAX
  * 
  *         closest_level = None             # <<<<<<<<<<<<<<
@@ -7918,7 +7922,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
   __Pyx_INCREF(Py_None);
   __pyx_v_closest_level = ((struct __pyx_obj_2bx_3bbi_8bbi_file_ZoomLevel *)Py_None);
 
-  /* "bx/bbi/bbi_file.pyx":272
+  /* "bx/bbi/bbi_file.pyx":282
  * 
  *         closest_level = None
  *         for level in self.level_list:             # <<<<<<<<<<<<<<
@@ -7929,26 +7933,26 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
     __pyx_t_2 = __pyx_v_self->level_list; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_self->level_list); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 272, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_self->level_list); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 282, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 272, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 282, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_4)) {
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 272, __pyx_L1_error)
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 282, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 272, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 282, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 272, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 282, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 272, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 282, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       }
@@ -7958,17 +7962,17 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 272, __pyx_L1_error)
+          else __PYX_ERR(0, 282, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_5);
     }
-    if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_2bx_3bbi_8bbi_file_ZoomLevel))))) __PYX_ERR(0, 272, __pyx_L1_error)
+    if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_2bx_3bbi_8bbi_file_ZoomLevel))))) __PYX_ERR(0, 282, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_level, ((struct __pyx_obj_2bx_3bbi_8bbi_file_ZoomLevel *)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":273
+    /* "bx/bbi/bbi_file.pyx":283
  *         closest_level = None
  *         for level in self.level_list:
  *             diff = desired_reduction - level.reduction_level             # <<<<<<<<<<<<<<
@@ -7977,7 +7981,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
  */
     __pyx_v_diff = (__pyx_v_desired_reduction - __pyx_v_level->reduction_level);
 
-    /* "bx/bbi/bbi_file.pyx":274
+    /* "bx/bbi/bbi_file.pyx":284
  *         for level in self.level_list:
  *             diff = desired_reduction - level.reduction_level
  *             if diff >= 0 and diff < closest_diff:             # <<<<<<<<<<<<<<
@@ -7995,7 +7999,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
     __pyx_L7_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "bx/bbi/bbi_file.pyx":275
+      /* "bx/bbi/bbi_file.pyx":285
  *             diff = desired_reduction - level.reduction_level
  *             if diff >= 0 and diff < closest_diff:
  *                 closest_diff = diff             # <<<<<<<<<<<<<<
@@ -8004,7 +8008,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
  */
       __pyx_v_closest_diff = __pyx_v_diff;
 
-      /* "bx/bbi/bbi_file.pyx":276
+      /* "bx/bbi/bbi_file.pyx":286
  *             if diff >= 0 and diff < closest_diff:
  *                 closest_diff = diff
  *                 closest_level = level             # <<<<<<<<<<<<<<
@@ -8014,7 +8018,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
       __Pyx_INCREF(((PyObject *)__pyx_v_level));
       __Pyx_DECREF_SET(__pyx_v_closest_level, __pyx_v_level);
 
-      /* "bx/bbi/bbi_file.pyx":274
+      /* "bx/bbi/bbi_file.pyx":284
  *         for level in self.level_list:
  *             diff = desired_reduction - level.reduction_level
  *             if diff >= 0 and diff < closest_diff:             # <<<<<<<<<<<<<<
@@ -8023,7 +8027,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
  */
     }
 
-    /* "bx/bbi/bbi_file.pyx":272
+    /* "bx/bbi/bbi_file.pyx":282
  * 
  *         closest_level = None
  *         for level in self.level_list:             # <<<<<<<<<<<<<<
@@ -8033,7 +8037,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":277
+  /* "bx/bbi/bbi_file.pyx":287
  *                 closest_diff = diff
  *                 closest_level = level
  *         return closest_level             # <<<<<<<<<<<<<<
@@ -8045,7 +8049,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level(struct __p
   __pyx_r = ((PyObject *)__pyx_v_closest_level);
   goto __pyx_L0;
 
-  /* "bx/bbi/bbi_file.pyx":264
+  /* "bx/bbi/bbi_file.pyx":274
  *         pass
  * 
  *     cdef _best_zoom_level( self, int desired_reduction ):             # <<<<<<<<<<<<<<
@@ -8390,7 +8394,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_7BBIFile_10level_list_4__del__(struct __p
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":287
+/* "bx/bbi/bbi_file.pyx":297
  *     cdef int item_count
  * 
  *     def _summary_blocks_in_region( self, bits32 chrom_id, bits32 start, bits32 end ):             # <<<<<<<<<<<<<<
@@ -8429,16 +8433,16 @@ static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_9ZoomLevel_1_summary_blocks_in_regi
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_summary_blocks_in_region", 1, 3, 3, 1); __PYX_ERR(0, 287, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_summary_blocks_in_region", 1, 3, 3, 1); __PYX_ERR(0, 297, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_summary_blocks_in_region", 1, 3, 3, 2); __PYX_ERR(0, 287, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_summary_blocks_in_region", 1, 3, 3, 2); __PYX_ERR(0, 297, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_summary_blocks_in_region") < 0)) __PYX_ERR(0, 287, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_summary_blocks_in_region") < 0)) __PYX_ERR(0, 297, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -8447,13 +8451,13 @@ static PyObject *__pyx_pw_2bx_3bbi_8bbi_file_9ZoomLevel_1_summary_blocks_in_regi
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_chrom_id = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_chrom_id == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 287, __pyx_L3_error)
-    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 287, __pyx_L3_error)
-    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 287, __pyx_L3_error)
+    __pyx_v_chrom_id = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_chrom_id == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 297, __pyx_L3_error)
+    __pyx_v_start = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_start == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 297, __pyx_L3_error)
+    __pyx_v_end = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_end == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 297, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_summary_blocks_in_region", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 287, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_summary_blocks_in_region", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 297, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bx.bbi.bbi_file.ZoomLevel._summary_blocks_in_region", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -8501,14 +8505,14 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
   int __pyx_t_17;
   __Pyx_RefNannySetupContext("_summary_blocks_in_region", 0);
 
-  /* "bx/bbi/bbi_file.pyx":294
+  /* "bx/bbi/bbi_file.pyx":304
  *         cdef CIRTreeFile ctf
  *         cdef SummaryBlock summary
  *         rval = deque()             # <<<<<<<<<<<<<<
  *         reader = self.bbi_file.reader
  *         reader.seek( self.index_offset )
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_deque); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 294, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_deque); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 304, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -8521,17 +8525,17 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 294, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 304, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 294, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 304, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_rval = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":295
+  /* "bx/bbi/bbi_file.pyx":305
  *         cdef SummaryBlock summary
  *         rval = deque()
  *         reader = self.bbi_file.reader             # <<<<<<<<<<<<<<
@@ -8543,16 +8547,16 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
   __pyx_v_reader = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":296
+  /* "bx/bbi/bbi_file.pyx":306
  *         rval = deque()
  *         reader = self.bbi_file.reader
  *         reader.seek( self.index_offset )             # <<<<<<<<<<<<<<
  *         ctf = CIRTreeFile( reader.file )
  *         block_list = ctf.find_overlapping_blocks( chrom_id, start, end )
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_seek); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 296, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_seek); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 306, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_unsigned_PY_LONG_LONG(__pyx_v_self->index_offset); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 296, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_PY_LONG_LONG(__pyx_v_self->index_offset); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 306, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8565,14 +8569,14 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 296, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 296, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8581,20 +8585,20 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 296, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 296, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 306, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 296, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
@@ -8602,40 +8606,40 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":297
+  /* "bx/bbi/bbi_file.pyx":307
  *         reader = self.bbi_file.reader
  *         reader.seek( self.index_offset )
  *         ctf = CIRTreeFile( reader.file )             # <<<<<<<<<<<<<<
  *         block_list = ctf.find_overlapping_blocks( chrom_id, start, end )
  *         for offset, size in block_list:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_file); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_file); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 307, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 307, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_12cirtree_file_CIRTreeFile), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_12cirtree_file_CIRTreeFile), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 307, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_ctf = ((struct __pyx_obj_2bx_3bbi_12cirtree_file_CIRTreeFile *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":298
+  /* "bx/bbi/bbi_file.pyx":308
  *         reader.seek( self.index_offset )
  *         ctf = CIRTreeFile( reader.file )
  *         block_list = ctf.find_overlapping_blocks( chrom_id, start, end )             # <<<<<<<<<<<<<<
  *         for offset, size in block_list:
  *             # Seek to and read all data for the block
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_ctf), __pyx_n_s_find_overlapping_blocks); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 298, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_ctf), __pyx_n_s_find_overlapping_blocks); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_chrom_id); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 298, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_chrom_id); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 298, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 298, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_6 = NULL;
   __pyx_t_7 = 0;
@@ -8652,7 +8656,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[4] = {__pyx_t_6, __pyx_t_5, __pyx_t_3, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 298, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 308, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -8663,7 +8667,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[4] = {__pyx_t_6, __pyx_t_5, __pyx_t_3, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 298, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 308, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -8672,7 +8676,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
   } else
   #endif
   {
-    __pyx_t_8 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 298, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 308, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     if (__pyx_t_6) {
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -8686,7 +8690,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
     __pyx_t_5 = 0;
     __pyx_t_3 = 0;
     __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 298, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 308, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
@@ -8694,7 +8698,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
   __pyx_v_block_list = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":299
+  /* "bx/bbi/bbi_file.pyx":309
  *         ctf = CIRTreeFile( reader.file )
  *         block_list = ctf.find_overlapping_blocks( chrom_id, start, end )
  *         for offset, size in block_list:             # <<<<<<<<<<<<<<
@@ -8705,26 +8709,26 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
     __pyx_t_1 = __pyx_v_block_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_9 = 0;
     __pyx_t_10 = NULL;
   } else {
-    __pyx_t_9 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_block_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 299, __pyx_L1_error)
+    __pyx_t_9 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_block_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 309, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_10 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 299, __pyx_L1_error)
+    __pyx_t_10 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 309, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_10)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_9 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 299, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 309, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 299, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 309, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_9 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 299, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 309, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 299, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 309, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -8734,7 +8738,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 299, __pyx_L1_error)
+          else __PYX_ERR(0, 309, __pyx_L1_error)
         }
         break;
       }
@@ -8750,7 +8754,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 299, __pyx_L1_error)
+        __PYX_ERR(0, 309, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -8763,15 +8767,15 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
       __Pyx_INCREF(__pyx_t_8);
       __Pyx_INCREF(__pyx_t_4);
       #else
-      __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 309, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 309, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       #endif
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 309, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_11 = Py_TYPE(__pyx_t_3)->tp_iternext;
@@ -8779,7 +8783,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
       __Pyx_GOTREF(__pyx_t_8);
       index = 1; __pyx_t_4 = __pyx_t_11(__pyx_t_3); if (unlikely(!__pyx_t_4)) goto __pyx_L5_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_4);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_3), 2) < 0) __PYX_ERR(0, 299, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_3), 2) < 0) __PYX_ERR(0, 309, __pyx_L1_error)
       __pyx_t_11 = NULL;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       goto __pyx_L6_unpacking_done;
@@ -8787,7 +8791,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_11 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 299, __pyx_L1_error)
+      __PYX_ERR(0, 309, __pyx_L1_error)
       __pyx_L6_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_offset, __pyx_t_8);
@@ -8795,14 +8799,14 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
     __Pyx_XDECREF_SET(__pyx_v_size, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":301
+    /* "bx/bbi/bbi_file.pyx":311
  *         for offset, size in block_list:
  *             # Seek to and read all data for the block
  *             reader.seek( offset )             # <<<<<<<<<<<<<<
  *             block_data = reader.read( size )
  *             # Might need to uncompress
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_seek); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 301, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_seek); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 311, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -8815,13 +8819,13 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
       }
     }
     if (!__pyx_t_8) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_offset); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 301, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_offset); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 311, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_v_offset};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 301, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 311, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
@@ -8829,19 +8833,19 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_v_offset};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 301, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 311, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
       #endif
       {
-        __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 301, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 311, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_8); __pyx_t_8 = NULL;
         __Pyx_INCREF(__pyx_v_offset);
         __Pyx_GIVEREF(__pyx_v_offset);
         PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_v_offset);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 301, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 311, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
@@ -8849,14 +8853,14 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":302
+    /* "bx/bbi/bbi_file.pyx":312
  *             # Seek to and read all data for the block
  *             reader.seek( offset )
  *             block_data = reader.read( size )             # <<<<<<<<<<<<<<
  *             # Might need to uncompress
  *             if self.bbi_file.uncompress_buf_size > 0:
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 302, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_read); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 312, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_3 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -8869,13 +8873,13 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
       }
     }
     if (!__pyx_t_3) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 302, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 312, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_size};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 302, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 312, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
@@ -8883,19 +8887,19 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_size};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 302, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 312, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
       #endif
       {
-        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 302, __pyx_L1_error)
+        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 312, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_3); __pyx_t_3 = NULL;
         __Pyx_INCREF(__pyx_v_size);
         __Pyx_GIVEREF(__pyx_v_size);
         PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_v_size);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 302, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 312, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
@@ -8904,7 +8908,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
     __Pyx_XDECREF_SET(__pyx_v_block_data, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":304
+    /* "bx/bbi/bbi_file.pyx":314
  *             block_data = reader.read( size )
  *             # Might need to uncompress
  *             if self.bbi_file.uncompress_buf_size > 0:             # <<<<<<<<<<<<<<
@@ -8914,16 +8918,16 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
     __pyx_t_12 = ((__pyx_v_self->bbi_file->uncompress_buf_size > 0) != 0);
     if (__pyx_t_12) {
 
-      /* "bx/bbi/bbi_file.pyx":306
+      /* "bx/bbi/bbi_file.pyx":316
  *             if self.bbi_file.uncompress_buf_size > 0:
  *                 ## block_data = zlib.decompress( block_data, buf_size = self.bbi_file.uncompress_buf_size )
  *                 block_data = zlib.decompress( block_data )             # <<<<<<<<<<<<<<
  *             block_size = len( block_data )
  *             # The block should be a bunch of summaries.
  */
-      __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_zlib); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 306, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_zlib); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 316, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_decompress); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 306, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_decompress); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 316, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_4 = NULL;
@@ -8937,13 +8941,13 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
         }
       }
       if (!__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_block_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 306, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_block_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 316, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_8)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_block_data};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 306, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 316, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -8951,19 +8955,19 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_block_data};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 306, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 316, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 306, __pyx_L1_error)
+          __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 316, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4); __pyx_t_4 = NULL;
           __Pyx_INCREF(__pyx_v_block_data);
           __Pyx_GIVEREF(__pyx_v_block_data);
           PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_v_block_data);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 306, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 316, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         }
@@ -8972,7 +8976,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
       __Pyx_DECREF_SET(__pyx_v_block_data, __pyx_t_2);
       __pyx_t_2 = 0;
 
-      /* "bx/bbi/bbi_file.pyx":304
+      /* "bx/bbi/bbi_file.pyx":314
  *             block_data = reader.read( size )
  *             # Might need to uncompress
  *             if self.bbi_file.uncompress_buf_size > 0:             # <<<<<<<<<<<<<<
@@ -8981,20 +8985,20 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
  */
     }
 
-    /* "bx/bbi/bbi_file.pyx":307
+    /* "bx/bbi/bbi_file.pyx":317
  *                 ## block_data = zlib.decompress( block_data, buf_size = self.bbi_file.uncompress_buf_size )
  *                 block_data = zlib.decompress( block_data )
  *             block_size = len( block_data )             # <<<<<<<<<<<<<<
  *             # The block should be a bunch of summaries.
  *             assert block_size % summary_on_disk_size == 0
  */
-    __pyx_t_13 = PyObject_Length(__pyx_v_block_data); if (unlikely(__pyx_t_13 == -1)) __PYX_ERR(0, 307, __pyx_L1_error)
-    __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_13); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 307, __pyx_L1_error)
+    __pyx_t_13 = PyObject_Length(__pyx_v_block_data); if (unlikely(__pyx_t_13 == -1)) __PYX_ERR(0, 317, __pyx_L1_error)
+    __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_13); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 317, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_XDECREF_SET(__pyx_v_block_size, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":309
+    /* "bx/bbi/bbi_file.pyx":319
  *             block_size = len( block_data )
  *             # The block should be a bunch of summaries.
  *             assert block_size % summary_on_disk_size == 0             # <<<<<<<<<<<<<<
@@ -9003,42 +9007,42 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
  */
     #ifndef CYTHON_WITHOUT_ASSERTIONS
     if (unlikely(!Py_OptimizeFlag)) {
-      __pyx_t_2 = __Pyx_PyInt_RemainderObjC(__pyx_v_block_size, __pyx_int_32, 32, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 309, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyInt_RemainderObjC(__pyx_v_block_size, __pyx_int_32, 32, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 319, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_8 = __Pyx_PyInt_EqObjC(__pyx_t_2, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 309, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyInt_EqObjC(__pyx_t_2, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 319, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 309, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 319, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       if (unlikely(!__pyx_t_12)) {
         PyErr_SetNone(PyExc_AssertionError);
-        __PYX_ERR(0, 309, __pyx_L1_error)
+        __PYX_ERR(0, 319, __pyx_L1_error)
       }
     }
     #endif
 
-    /* "bx/bbi/bbi_file.pyx":310
+    /* "bx/bbi/bbi_file.pyx":320
  *             # The block should be a bunch of summaries.
  *             assert block_size % summary_on_disk_size == 0
  *             item_count = block_size / summary_on_disk_size             # <<<<<<<<<<<<<<
  *             # Create another reader just for the block, shouldn't be too expensive
- *             block_reader = BinaryFileReader( StringIO( block_data ), is_little_endian=reader.is_little_endian )
+ *             block_reader = BinaryFileReader( BytesIO( block_data ), is_little_endian=reader.is_little_endian )
  */
-    __pyx_t_8 = __Pyx_PyNumber_Divide(__pyx_v_block_size, __pyx_int_32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 310, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyNumber_Divide(__pyx_v_block_size, __pyx_int_32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 320, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_XDECREF_SET(__pyx_v_item_count, __pyx_t_8);
     __pyx_t_8 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":312
+    /* "bx/bbi/bbi_file.pyx":322
  *             item_count = block_size / summary_on_disk_size
  *             # Create another reader just for the block, shouldn't be too expensive
- *             block_reader = BinaryFileReader( StringIO( block_data ), is_little_endian=reader.is_little_endian )             # <<<<<<<<<<<<<<
+ *             block_reader = BinaryFileReader( BytesIO( block_data ), is_little_endian=reader.is_little_endian )             # <<<<<<<<<<<<<<
  *             for i from 0 <= i < item_count:
  *                 ## NOTE: Look carefully at bbiRead again to be sure the endian
  */
-    __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_BinaryFileReader); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_BinaryFileReader); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 322, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_StringIO); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_BytesIO); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 322, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -9051,13 +9055,13 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
       }
     }
     if (!__pyx_t_4) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_block_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 312, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_block_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 322, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_block_data};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 312, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 322, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
@@ -9065,36 +9069,36 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_block_data};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 312, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 322, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
       #endif
       {
-        __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 312, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 322, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
         __Pyx_INCREF(__pyx_v_block_data);
         __Pyx_GIVEREF(__pyx_v_block_data);
         PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_block_data);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 312, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 322, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 322, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 322, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_is_little_endian); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_is_little_endian); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 322, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_is_little_endian, __pyx_t_5) < 0) __PYX_ERR(0, 312, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_is_little_endian, __pyx_t_5) < 0) __PYX_ERR(0, 322, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 322, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -9102,183 +9106,22 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
     __Pyx_XDECREF_SET(__pyx_v_block_reader, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":313
+    /* "bx/bbi/bbi_file.pyx":323
  *             # Create another reader just for the block, shouldn't be too expensive
- *             block_reader = BinaryFileReader( StringIO( block_data ), is_little_endian=reader.is_little_endian )
+ *             block_reader = BinaryFileReader( BytesIO( block_data ), is_little_endian=reader.is_little_endian )
  *             for i from 0 <= i < item_count:             # <<<<<<<<<<<<<<
  *                 ## NOTE: Look carefully at bbiRead again to be sure the endian
  *                 ##       conversion here is all correct. It looks like it is
  */
-    __pyx_t_14 = __Pyx_PyInt_As_long(__pyx_v_item_count); if (unlikely((__pyx_t_14 == (long)-1) && PyErr_Occurred())) __PYX_ERR(0, 313, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyInt_As_long(__pyx_v_item_count); if (unlikely((__pyx_t_14 == (long)-1) && PyErr_Occurred())) __PYX_ERR(0, 323, __pyx_L1_error)
     for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_14; __pyx_v_i++) {
 
-      /* "bx/bbi/bbi_file.pyx":318
+      /* "bx/bbi/bbi_file.pyx":328
  *                 ##       just pushing raw data into memory and not swapping
  * 
  *                 sum_chrom_id = block_reader.read_uint32()             # <<<<<<<<<<<<<<
  *                 # A block can contain summaries from more that one chrom_id
  *                 if sum_chrom_id != chrom_id:
- */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 318, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_3 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-        if (likely(__pyx_t_3)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-          __Pyx_INCREF(__pyx_t_3);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_2, function);
-        }
-      }
-      if (__pyx_t_3) {
-        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 318, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      } else {
-        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 318, __pyx_L1_error)
-      }
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_sum_chrom_id, __pyx_t_5);
-      __pyx_t_5 = 0;
-
-      /* "bx/bbi/bbi_file.pyx":320
- *                 sum_chrom_id = block_reader.read_uint32()
- *                 # A block can contain summaries from more that one chrom_id
- *                 if sum_chrom_id != chrom_id:             # <<<<<<<<<<<<<<
- *                     block_reader.skip(7*4)
- *                     continue
- */
-      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_chrom_id); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 320, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_2 = PyObject_RichCompare(__pyx_v_sum_chrom_id, __pyx_t_5, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 320, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 320, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (__pyx_t_12) {
-
-        /* "bx/bbi/bbi_file.pyx":321
- *                 # A block can contain summaries from more that one chrom_id
- *                 if sum_chrom_id != chrom_id:
- *                     block_reader.skip(7*4)             # <<<<<<<<<<<<<<
- *                     continue
- * 
- */
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_skip); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 321, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 321, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-        /* "bx/bbi/bbi_file.pyx":322
- *                 if sum_chrom_id != chrom_id:
- *                     block_reader.skip(7*4)
- *                     continue             # <<<<<<<<<<<<<<
- * 
- *                 summary = SummaryBlock()
- */
-        goto __pyx_L8_continue;
-
-        /* "bx/bbi/bbi_file.pyx":320
- *                 sum_chrom_id = block_reader.read_uint32()
- *                 # A block can contain summaries from more that one chrom_id
- *                 if sum_chrom_id != chrom_id:             # <<<<<<<<<<<<<<
- *                     block_reader.skip(7*4)
- *                     continue
- */
-      }
-
-      /* "bx/bbi/bbi_file.pyx":324
- *                     continue
- * 
- *                 summary = SummaryBlock()             # <<<<<<<<<<<<<<
- *                 summary.chrom_id = sum_chrom_id
- *                 summary.start = block_reader.read_uint32()
- */
-      __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_8bbi_file_SummaryBlock), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 324, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_XDECREF_SET(__pyx_v_summary, ((struct __pyx_obj_2bx_3bbi_8bbi_file_SummaryBlock *)__pyx_t_5));
-      __pyx_t_5 = 0;
-
-      /* "bx/bbi/bbi_file.pyx":325
- * 
- *                 summary = SummaryBlock()
- *                 summary.chrom_id = sum_chrom_id             # <<<<<<<<<<<<<<
- *                 summary.start = block_reader.read_uint32()
- *                 summary.end = block_reader.read_uint32()
- */
-      __pyx_t_15 = __Pyx_PyInt_As_unsigned_int(__pyx_v_sum_chrom_id); if (unlikely((__pyx_t_15 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 325, __pyx_L1_error)
-      __pyx_v_summary->chrom_id = __pyx_t_15;
-
-      /* "bx/bbi/bbi_file.pyx":326
- *                 summary = SummaryBlock()
- *                 summary.chrom_id = sum_chrom_id
- *                 summary.start = block_reader.read_uint32()             # <<<<<<<<<<<<<<
- *                 summary.end = block_reader.read_uint32()
- *                 summary.valid_count = block_reader.read_uint32()
- */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 326, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_3 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-        if (likely(__pyx_t_3)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-          __Pyx_INCREF(__pyx_t_3);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_2, function);
-        }
-      }
-      if (__pyx_t_3) {
-        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 326, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      } else {
-        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 326, __pyx_L1_error)
-      }
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_15 = __Pyx_PyInt_As_unsigned_int(__pyx_t_5); if (unlikely((__pyx_t_15 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 326, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_v_summary->start = __pyx_t_15;
-
-      /* "bx/bbi/bbi_file.pyx":327
- *                 summary.chrom_id = sum_chrom_id
- *                 summary.start = block_reader.read_uint32()
- *                 summary.end = block_reader.read_uint32()             # <<<<<<<<<<<<<<
- *                 summary.valid_count = block_reader.read_uint32()
- *                 summary.min_val = block_reader.read_float()
- */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 327, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_3 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-        if (likely(__pyx_t_3)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-          __Pyx_INCREF(__pyx_t_3);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_2, function);
-        }
-      }
-      if (__pyx_t_3) {
-        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 327, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      } else {
-        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 327, __pyx_L1_error)
-      }
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_15 = __Pyx_PyInt_As_unsigned_int(__pyx_t_5); if (unlikely((__pyx_t_15 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 327, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_v_summary->end = __pyx_t_15;
-
-      /* "bx/bbi/bbi_file.pyx":328
- *                 summary.start = block_reader.read_uint32()
- *                 summary.end = block_reader.read_uint32()
- *                 summary.valid_count = block_reader.read_uint32()             # <<<<<<<<<<<<<<
- *                 summary.min_val = block_reader.read_float()
- *                 summary.max_val = block_reader.read_float()
  */
       __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 328, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
@@ -9300,18 +9143,179 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
       }
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_15 = __Pyx_PyInt_As_unsigned_int(__pyx_t_5); if (unlikely((__pyx_t_15 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 328, __pyx_L1_error)
+      __Pyx_XDECREF_SET(__pyx_v_sum_chrom_id, __pyx_t_5);
+      __pyx_t_5 = 0;
+
+      /* "bx/bbi/bbi_file.pyx":330
+ *                 sum_chrom_id = block_reader.read_uint32()
+ *                 # A block can contain summaries from more that one chrom_id
+ *                 if sum_chrom_id != chrom_id:             # <<<<<<<<<<<<<<
+ *                     block_reader.skip(7*4)
+ *                     continue
+ */
+      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_chrom_id); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 330, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_2 = PyObject_RichCompare(__pyx_v_sum_chrom_id, __pyx_t_5, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 330, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 330, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      if (__pyx_t_12) {
+
+        /* "bx/bbi/bbi_file.pyx":331
+ *                 # A block can contain summaries from more that one chrom_id
+ *                 if sum_chrom_id != chrom_id:
+ *                     block_reader.skip(7*4)             # <<<<<<<<<<<<<<
+ *                     continue
+ * 
+ */
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_skip); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 331, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 331, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+        /* "bx/bbi/bbi_file.pyx":332
+ *                 if sum_chrom_id != chrom_id:
+ *                     block_reader.skip(7*4)
+ *                     continue             # <<<<<<<<<<<<<<
+ * 
+ *                 summary = SummaryBlock()
+ */
+        goto __pyx_L8_continue;
+
+        /* "bx/bbi/bbi_file.pyx":330
+ *                 sum_chrom_id = block_reader.read_uint32()
+ *                 # A block can contain summaries from more that one chrom_id
+ *                 if sum_chrom_id != chrom_id:             # <<<<<<<<<<<<<<
+ *                     block_reader.skip(7*4)
+ *                     continue
+ */
+      }
+
+      /* "bx/bbi/bbi_file.pyx":334
+ *                     continue
+ * 
+ *                 summary = SummaryBlock()             # <<<<<<<<<<<<<<
+ *                 summary.chrom_id = sum_chrom_id
+ *                 summary.start = block_reader.read_uint32()
+ */
+      __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_8bbi_file_SummaryBlock), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 334, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_XDECREF_SET(__pyx_v_summary, ((struct __pyx_obj_2bx_3bbi_8bbi_file_SummaryBlock *)__pyx_t_5));
+      __pyx_t_5 = 0;
+
+      /* "bx/bbi/bbi_file.pyx":335
+ * 
+ *                 summary = SummaryBlock()
+ *                 summary.chrom_id = sum_chrom_id             # <<<<<<<<<<<<<<
+ *                 summary.start = block_reader.read_uint32()
+ *                 summary.end = block_reader.read_uint32()
+ */
+      __pyx_t_15 = __Pyx_PyInt_As_unsigned_int(__pyx_v_sum_chrom_id); if (unlikely((__pyx_t_15 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 335, __pyx_L1_error)
+      __pyx_v_summary->chrom_id = __pyx_t_15;
+
+      /* "bx/bbi/bbi_file.pyx":336
+ *                 summary = SummaryBlock()
+ *                 summary.chrom_id = sum_chrom_id
+ *                 summary.start = block_reader.read_uint32()             # <<<<<<<<<<<<<<
+ *                 summary.end = block_reader.read_uint32()
+ *                 summary.valid_count = block_reader.read_uint32()
+ */
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 336, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_3 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+        if (likely(__pyx_t_3)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+          __Pyx_INCREF(__pyx_t_3);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_2, function);
+        }
+      }
+      if (__pyx_t_3) {
+        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 336, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      } else {
+        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 336, __pyx_L1_error)
+      }
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_15 = __Pyx_PyInt_As_unsigned_int(__pyx_t_5); if (unlikely((__pyx_t_15 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 336, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_v_summary->start = __pyx_t_15;
+
+      /* "bx/bbi/bbi_file.pyx":337
+ *                 summary.chrom_id = sum_chrom_id
+ *                 summary.start = block_reader.read_uint32()
+ *                 summary.end = block_reader.read_uint32()             # <<<<<<<<<<<<<<
+ *                 summary.valid_count = block_reader.read_uint32()
+ *                 summary.min_val = block_reader.read_float()
+ */
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 337, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_3 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+        if (likely(__pyx_t_3)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+          __Pyx_INCREF(__pyx_t_3);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_2, function);
+        }
+      }
+      if (__pyx_t_3) {
+        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 337, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      } else {
+        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 337, __pyx_L1_error)
+      }
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_15 = __Pyx_PyInt_As_unsigned_int(__pyx_t_5); if (unlikely((__pyx_t_15 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 337, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_v_summary->end = __pyx_t_15;
+
+      /* "bx/bbi/bbi_file.pyx":338
+ *                 summary.start = block_reader.read_uint32()
+ *                 summary.end = block_reader.read_uint32()
+ *                 summary.valid_count = block_reader.read_uint32()             # <<<<<<<<<<<<<<
+ *                 summary.min_val = block_reader.read_float()
+ *                 summary.max_val = block_reader.read_float()
+ */
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_uint32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 338, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_3 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+        if (likely(__pyx_t_3)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+          __Pyx_INCREF(__pyx_t_3);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_2, function);
+        }
+      }
+      if (__pyx_t_3) {
+        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 338, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      } else {
+        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 338, __pyx_L1_error)
+      }
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_15 = __Pyx_PyInt_As_unsigned_int(__pyx_t_5); if (unlikely((__pyx_t_15 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 338, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_summary->valid_count = __pyx_t_15;
 
-      /* "bx/bbi/bbi_file.pyx":329
+      /* "bx/bbi/bbi_file.pyx":339
  *                 summary.end = block_reader.read_uint32()
  *                 summary.valid_count = block_reader.read_uint32()
  *                 summary.min_val = block_reader.read_float()             # <<<<<<<<<<<<<<
  *                 summary.max_val = block_reader.read_float()
  *                 summary.sum_data = block_reader.read_float()
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_float); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 329, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_float); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 339, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_3 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -9324,25 +9328,25 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
         }
       }
       if (__pyx_t_3) {
-        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 329, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 339, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else {
-        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 329, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 339, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_16 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_16 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 329, __pyx_L1_error)
+      __pyx_t_16 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_16 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 339, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_summary->min_val = __pyx_t_16;
 
-      /* "bx/bbi/bbi_file.pyx":330
+      /* "bx/bbi/bbi_file.pyx":340
  *                 summary.valid_count = block_reader.read_uint32()
  *                 summary.min_val = block_reader.read_float()
  *                 summary.max_val = block_reader.read_float()             # <<<<<<<<<<<<<<
  *                 summary.sum_data = block_reader.read_float()
  *                 summary.sum_squares = block_reader.read_float()
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_float); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 330, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_float); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 340, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_3 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -9355,25 +9359,25 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
         }
       }
       if (__pyx_t_3) {
-        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 330, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 340, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else {
-        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 330, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 340, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_16 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_16 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 330, __pyx_L1_error)
+      __pyx_t_16 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_16 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 340, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_summary->max_val = __pyx_t_16;
 
-      /* "bx/bbi/bbi_file.pyx":331
+      /* "bx/bbi/bbi_file.pyx":341
  *                 summary.min_val = block_reader.read_float()
  *                 summary.max_val = block_reader.read_float()
  *                 summary.sum_data = block_reader.read_float()             # <<<<<<<<<<<<<<
  *                 summary.sum_squares = block_reader.read_float()
  *                 rval.append( summary )
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_float); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 331, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_float); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 341, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_3 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -9386,25 +9390,25 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
         }
       }
       if (__pyx_t_3) {
-        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 331, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 341, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else {
-        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 331, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 341, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_16 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_16 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 331, __pyx_L1_error)
+      __pyx_t_16 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_16 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 341, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_summary->sum_data = __pyx_t_16;
 
-      /* "bx/bbi/bbi_file.pyx":332
+      /* "bx/bbi/bbi_file.pyx":342
  *                 summary.max_val = block_reader.read_float()
  *                 summary.sum_data = block_reader.read_float()
  *                 summary.sum_squares = block_reader.read_float()             # <<<<<<<<<<<<<<
  *                 rval.append( summary )
  * 
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_float); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 332, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_block_reader, __pyx_n_s_read_float); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 342, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_3 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -9417,29 +9421,29 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
         }
       }
       if (__pyx_t_3) {
-        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 332, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 342, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else {
-        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 332, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 342, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_16 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_16 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 332, __pyx_L1_error)
+      __pyx_t_16 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_16 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 342, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_summary->sum_squares = __pyx_t_16;
 
-      /* "bx/bbi/bbi_file.pyx":333
+      /* "bx/bbi/bbi_file.pyx":343
  *                 summary.sum_data = block_reader.read_float()
  *                 summary.sum_squares = block_reader.read_float()
  *                 rval.append( summary )             # <<<<<<<<<<<<<<
  * 
  * 
  */
-      __pyx_t_17 = __Pyx_PyObject_Append(__pyx_v_rval, ((PyObject *)__pyx_v_summary)); if (unlikely(__pyx_t_17 == -1)) __PYX_ERR(0, 333, __pyx_L1_error)
+      __pyx_t_17 = __Pyx_PyObject_Append(__pyx_v_rval, ((PyObject *)__pyx_v_summary)); if (unlikely(__pyx_t_17 == -1)) __PYX_ERR(0, 343, __pyx_L1_error)
       __pyx_L8_continue:;
     }
 
-    /* "bx/bbi/bbi_file.pyx":299
+    /* "bx/bbi/bbi_file.pyx":309
  *         ctf = CIRTreeFile( reader.file )
  *         block_list = ctf.find_overlapping_blocks( chrom_id, start, end )
  *         for offset, size in block_list:             # <<<<<<<<<<<<<<
@@ -9449,7 +9453,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":336
+  /* "bx/bbi/bbi_file.pyx":346
  * 
  * 
  *         return rval             # <<<<<<<<<<<<<<
@@ -9461,7 +9465,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
   __pyx_r = __pyx_v_rval;
   goto __pyx_L0;
 
-  /* "bx/bbi/bbi_file.pyx":287
+  /* "bx/bbi/bbi_file.pyx":297
  *     cdef int item_count
  * 
  *     def _summary_blocks_in_region( self, bits32 chrom_id, bits32 start, bits32 end ):             # <<<<<<<<<<<<<<
@@ -9498,7 +9502,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel__summary_blocks_in_regio
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":338
+/* "bx/bbi/bbi_file.pyx":348
  *         return rval
  * 
  *     cdef _get_summary_slice( self, bits32 base_start, bits32 base_end, summaries ):             # <<<<<<<<<<<<<<
@@ -9531,7 +9535,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
   PyObject *__pyx_t_12 = NULL;
   __Pyx_RefNannySetupContext("_get_summary_slice", 0);
 
-  /* "bx/bbi/bbi_file.pyx":339
+  /* "bx/bbi/bbi_file.pyx":349
  * 
  *     cdef _get_summary_slice( self, bits32 base_start, bits32 base_end, summaries ):
  *         cdef float valid_count = 0.0             # <<<<<<<<<<<<<<
@@ -9540,7 +9544,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
  */
   __pyx_v_valid_count = 0.0;
 
-  /* "bx/bbi/bbi_file.pyx":340
+  /* "bx/bbi/bbi_file.pyx":350
  *     cdef _get_summary_slice( self, bits32 base_start, bits32 base_end, summaries ):
  *         cdef float valid_count = 0.0
  *         cdef float sum_data = 0.0             # <<<<<<<<<<<<<<
@@ -9549,7 +9553,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
  */
   __pyx_v_sum_data = 0.0;
 
-  /* "bx/bbi/bbi_file.pyx":341
+  /* "bx/bbi/bbi_file.pyx":351
  *         cdef float valid_count = 0.0
  *         cdef float sum_data = 0.0
  *         cdef float sum_squares = 0.0             # <<<<<<<<<<<<<<
@@ -9558,81 +9562,81 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
  */
   __pyx_v_sum_squares = 0.0;
 
-  /* "bx/bbi/bbi_file.pyx":342
+  /* "bx/bbi/bbi_file.pyx":352
  *         cdef float sum_data = 0.0
  *         cdef float sum_squares = 0.0
  *         cdef float min_val = numpy.nan             # <<<<<<<<<<<<<<
  *         cdef float max_val = numpy.nan
  *         cdef float overlap_factor
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 342, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 352, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_nan); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 342, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_nan); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 352, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 342, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 352, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_min_val = __pyx_t_3;
 
-  /* "bx/bbi/bbi_file.pyx":343
+  /* "bx/bbi/bbi_file.pyx":353
  *         cdef float sum_squares = 0.0
  *         cdef float min_val = numpy.nan
  *         cdef float max_val = numpy.nan             # <<<<<<<<<<<<<<
  *         cdef float overlap_factor
  *         cdef int overlap
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 353, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_nan); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_nan); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 353, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 343, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 353, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_max_val = __pyx_t_3;
 
-  /* "bx/bbi/bbi_file.pyx":347
+  /* "bx/bbi/bbi_file.pyx":357
  *         cdef int overlap
  * 
  *         if summaries:             # <<<<<<<<<<<<<<
  * 
  *             min_val = summaries[0].min_val
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_summaries); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 347, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_summaries); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 357, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "bx/bbi/bbi_file.pyx":349
+    /* "bx/bbi/bbi_file.pyx":359
  *         if summaries:
  * 
  *             min_val = summaries[0].min_val             # <<<<<<<<<<<<<<
  *             max_val = summaries[0].max_val
  * 
  */
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_summaries, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 349, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_summaries, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_min_val); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 349, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_min_val); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 349, __pyx_L1_error)
+    __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_min_val = __pyx_t_3;
 
-    /* "bx/bbi/bbi_file.pyx":350
+    /* "bx/bbi/bbi_file.pyx":360
  * 
  *             min_val = summaries[0].min_val
  *             max_val = summaries[0].max_val             # <<<<<<<<<<<<<<
  * 
  *             for summary in summaries:
  */
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_summaries, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 350, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_summaries, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 360, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_max_val); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_max_val); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 360, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 350, __pyx_L1_error)
+    __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 360, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_max_val = __pyx_t_3;
 
-    /* "bx/bbi/bbi_file.pyx":352
+    /* "bx/bbi/bbi_file.pyx":362
  *             max_val = summaries[0].max_val
  * 
  *             for summary in summaries:             # <<<<<<<<<<<<<<
@@ -9643,26 +9647,26 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
       __pyx_t_1 = __pyx_v_summaries; __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
       __pyx_t_6 = NULL;
     } else {
-      __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_summaries); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 352, __pyx_L1_error)
+      __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_summaries); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 362, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 352, __pyx_L1_error)
+      __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 362, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_6)) {
         if (likely(PyList_CheckExact(__pyx_t_1))) {
           if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 352, __pyx_L1_error)
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 362, __pyx_L1_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 352, __pyx_L1_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 362, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         } else {
           if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 352, __pyx_L1_error)
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 362, __pyx_L1_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 352, __pyx_L1_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 362, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         }
@@ -9672,7 +9676,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 352, __pyx_L1_error)
+            else __PYX_ERR(0, 362, __pyx_L1_error)
           }
           break;
         }
@@ -9681,25 +9685,25 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
       __Pyx_XDECREF_SET(__pyx_v_summary, __pyx_t_2);
       __pyx_t_2 = 0;
 
-      /* "bx/bbi/bbi_file.pyx":353
+      /* "bx/bbi/bbi_file.pyx":363
  * 
  *             for summary in summaries:
  *                 if summary.start >= base_end:             # <<<<<<<<<<<<<<
  *                     break
  * 
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 353, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 363, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = __Pyx_PyInt_From_unsigned_int(__pyx_v_base_end); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 353, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyInt_From_unsigned_int(__pyx_v_base_end); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 363, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_8 = PyObject_RichCompare(__pyx_t_2, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 353, __pyx_L1_error)
+      __pyx_t_8 = PyObject_RichCompare(__pyx_t_2, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 363, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 353, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 363, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       if (__pyx_t_4) {
 
-        /* "bx/bbi/bbi_file.pyx":354
+        /* "bx/bbi/bbi_file.pyx":364
  *             for summary in summaries:
  *                 if summary.start >= base_end:
  *                     break             # <<<<<<<<<<<<<<
@@ -9708,7 +9712,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
  */
         goto __pyx_L5_break;
 
-        /* "bx/bbi/bbi_file.pyx":353
+        /* "bx/bbi/bbi_file.pyx":363
  * 
  *             for summary in summaries:
  *                 if summary.start >= base_end:             # <<<<<<<<<<<<<<
@@ -9717,24 +9721,24 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
  */
       }
 
-      /* "bx/bbi/bbi_file.pyx":356
+      /* "bx/bbi/bbi_file.pyx":366
  *                     break
  * 
  *                 overlap = range_intersection( base_start, base_end, summary.start, summary.end )             # <<<<<<<<<<<<<<
  *                 if overlap > 0:
  *                     overlap_factor = <double> overlap / (summary.end - summary.start)
  */
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_start); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 356, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_start); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_8); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 356, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_8); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_end); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 356, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_end); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_8); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 356, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_8); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __pyx_v_overlap = __pyx_f_2bx_3bbi_8bbi_file_range_intersection(__pyx_v_base_start, __pyx_v_base_end, __pyx_t_9, __pyx_t_10);
 
-      /* "bx/bbi/bbi_file.pyx":357
+      /* "bx/bbi/bbi_file.pyx":367
  * 
  *                 overlap = range_intersection( base_start, base_end, summary.start, summary.end )
  *                 if overlap > 0:             # <<<<<<<<<<<<<<
@@ -9744,138 +9748,138 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
       __pyx_t_4 = ((__pyx_v_overlap > 0) != 0);
       if (__pyx_t_4) {
 
-        /* "bx/bbi/bbi_file.pyx":358
+        /* "bx/bbi/bbi_file.pyx":368
  *                 overlap = range_intersection( base_start, base_end, summary.start, summary.end )
  *                 if overlap > 0:
  *                     overlap_factor = <double> overlap / (summary.end - summary.start)             # <<<<<<<<<<<<<<
  * 
  *                     valid_count += summary.valid_count * overlap_factor
  */
-        __pyx_t_8 = PyFloat_FromDouble(((double)__pyx_v_overlap)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 358, __pyx_L1_error)
+        __pyx_t_8 = PyFloat_FromDouble(((double)__pyx_v_overlap)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 368, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_end); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 358, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_end); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 368, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 358, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 368, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_11 = PyNumber_Subtract(__pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 358, __pyx_L1_error)
+        __pyx_t_11 = PyNumber_Subtract(__pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 368, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_8, __pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 358, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_8, __pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 368, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 358, __pyx_L1_error)
+        __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 368, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_v_overlap_factor = __pyx_t_3;
 
-        /* "bx/bbi/bbi_file.pyx":360
+        /* "bx/bbi/bbi_file.pyx":370
  *                     overlap_factor = <double> overlap / (summary.end - summary.start)
  * 
  *                     valid_count += summary.valid_count * overlap_factor             # <<<<<<<<<<<<<<
  *                     sum_data += summary.sum_data * overlap_factor
  *                     sum_squares += summary.sum_squares * overlap_factor
  */
-        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_valid_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 360, __pyx_L1_error)
+        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_valid_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 370, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_valid_count); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 360, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_valid_count); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 370, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_overlap_factor); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 360, __pyx_L1_error)
+        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_overlap_factor); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 370, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_7 = PyNumber_Multiply(__pyx_t_11, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 360, __pyx_L1_error)
+        __pyx_t_7 = PyNumber_Multiply(__pyx_t_11, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 370, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 360, __pyx_L1_error)
+        __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 370, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_8); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 360, __pyx_L1_error)
+        __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_8); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 370, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __pyx_v_valid_count = __pyx_t_3;
 
-        /* "bx/bbi/bbi_file.pyx":361
+        /* "bx/bbi/bbi_file.pyx":371
  * 
  *                     valid_count += summary.valid_count * overlap_factor
  *                     sum_data += summary.sum_data * overlap_factor             # <<<<<<<<<<<<<<
  *                     sum_squares += summary.sum_squares * overlap_factor
  * 
  */
-        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_sum_data); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 361, __pyx_L1_error)
+        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_sum_data); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 371, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_sum_data); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 361, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_sum_data); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 371, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_overlap_factor); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 361, __pyx_L1_error)
+        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_overlap_factor); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 371, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_11 = PyNumber_Multiply(__pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 361, __pyx_L1_error)
+        __pyx_t_11 = PyNumber_Multiply(__pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 371, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_t_8, __pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 361, __pyx_L1_error)
+        __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_t_8, __pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 371, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 361, __pyx_L1_error)
+        __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 371, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_v_sum_data = __pyx_t_3;
 
-        /* "bx/bbi/bbi_file.pyx":362
+        /* "bx/bbi/bbi_file.pyx":372
  *                     valid_count += summary.valid_count * overlap_factor
  *                     sum_data += summary.sum_data * overlap_factor
  *                     sum_squares += summary.sum_squares * overlap_factor             # <<<<<<<<<<<<<<
  * 
  *                     if max_val < summary.max_val:
  */
-        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_sum_squares); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 362, __pyx_L1_error)
+        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_sum_squares); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 372, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_sum_squares); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 362, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_sum_squares); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 372, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_overlap_factor); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 362, __pyx_L1_error)
+        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_overlap_factor); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 372, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_7 = PyNumber_Multiply(__pyx_t_11, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 362, __pyx_L1_error)
+        __pyx_t_7 = PyNumber_Multiply(__pyx_t_11, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 372, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 362, __pyx_L1_error)
+        __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 372, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_8); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 362, __pyx_L1_error)
+        __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_8); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 372, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __pyx_v_sum_squares = __pyx_t_3;
 
-        /* "bx/bbi/bbi_file.pyx":364
+        /* "bx/bbi/bbi_file.pyx":374
  *                     sum_squares += summary.sum_squares * overlap_factor
  * 
  *                     if max_val < summary.max_val:             # <<<<<<<<<<<<<<
  *                         max_val = summary.max_val
  *                     if min_val > summary.min_val:
  */
-        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_max_val); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 364, __pyx_L1_error)
+        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_max_val); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 374, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_max_val); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 364, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_max_val); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 374, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_2 = PyObject_RichCompare(__pyx_t_8, __pyx_t_7, Py_LT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 364, __pyx_L1_error)
+        __pyx_t_2 = PyObject_RichCompare(__pyx_t_8, __pyx_t_7, Py_LT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 374, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 364, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 374, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         if (__pyx_t_4) {
 
-          /* "bx/bbi/bbi_file.pyx":365
+          /* "bx/bbi/bbi_file.pyx":375
  * 
  *                     if max_val < summary.max_val:
  *                         max_val = summary.max_val             # <<<<<<<<<<<<<<
  *                     if min_val > summary.min_val:
  *                         min_val = summary.min_val
  */
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_max_val); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 365, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_max_val); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 375, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 365, __pyx_L1_error)
+          __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 375, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __pyx_v_max_val = __pyx_t_3;
 
-          /* "bx/bbi/bbi_file.pyx":364
+          /* "bx/bbi/bbi_file.pyx":374
  *                     sum_squares += summary.sum_squares * overlap_factor
  * 
  *                     if max_val < summary.max_val:             # <<<<<<<<<<<<<<
@@ -9884,38 +9888,38 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
  */
         }
 
-        /* "bx/bbi/bbi_file.pyx":366
+        /* "bx/bbi/bbi_file.pyx":376
  *                     if max_val < summary.max_val:
  *                         max_val = summary.max_val
  *                     if min_val > summary.min_val:             # <<<<<<<<<<<<<<
  *                         min_val = summary.min_val
  * 
  */
-        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_min_val); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 366, __pyx_L1_error)
+        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_min_val); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 376, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_min_val); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 366, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_min_val); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 376, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = PyObject_RichCompare(__pyx_t_2, __pyx_t_7, Py_GT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 366, __pyx_L1_error)
+        __pyx_t_8 = PyObject_RichCompare(__pyx_t_2, __pyx_t_7, Py_GT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 376, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 366, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 376, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         if (__pyx_t_4) {
 
-          /* "bx/bbi/bbi_file.pyx":367
+          /* "bx/bbi/bbi_file.pyx":377
  *                         max_val = summary.max_val
  *                     if min_val > summary.min_val:
  *                         min_val = summary.min_val             # <<<<<<<<<<<<<<
  * 
  *         return valid_count, sum_data, sum_squares, min_val, max_val
  */
-          __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_min_val); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 367, __pyx_L1_error)
+          __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_summary, __pyx_n_s_min_val); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 377, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
-          __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_8); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 367, __pyx_L1_error)
+          __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_t_8); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 377, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
           __pyx_v_min_val = __pyx_t_3;
 
-          /* "bx/bbi/bbi_file.pyx":366
+          /* "bx/bbi/bbi_file.pyx":376
  *                     if max_val < summary.max_val:
  *                         max_val = summary.max_val
  *                     if min_val > summary.min_val:             # <<<<<<<<<<<<<<
@@ -9924,7 +9928,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
  */
         }
 
-        /* "bx/bbi/bbi_file.pyx":357
+        /* "bx/bbi/bbi_file.pyx":367
  * 
  *                 overlap = range_intersection( base_start, base_end, summary.start, summary.end )
  *                 if overlap > 0:             # <<<<<<<<<<<<<<
@@ -9933,7 +9937,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
  */
       }
 
-      /* "bx/bbi/bbi_file.pyx":352
+      /* "bx/bbi/bbi_file.pyx":362
  *             max_val = summaries[0].max_val
  * 
  *             for summary in summaries:             # <<<<<<<<<<<<<<
@@ -9944,7 +9948,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
     __pyx_L5_break:;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "bx/bbi/bbi_file.pyx":347
+    /* "bx/bbi/bbi_file.pyx":357
  *         cdef int overlap
  * 
  *         if summaries:             # <<<<<<<<<<<<<<
@@ -9953,7 +9957,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
  */
   }
 
-  /* "bx/bbi/bbi_file.pyx":369
+  /* "bx/bbi/bbi_file.pyx":379
  *                         min_val = summary.min_val
  * 
  *         return valid_count, sum_data, sum_squares, min_val, max_val             # <<<<<<<<<<<<<<
@@ -9961,17 +9965,17 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
  *     cdef _summarize( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size ):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_valid_count); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 369, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_valid_count); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 379, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = PyFloat_FromDouble(__pyx_v_sum_data); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 369, __pyx_L1_error)
+  __pyx_t_8 = PyFloat_FromDouble(__pyx_v_sum_data); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 379, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_sum_squares); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 369, __pyx_L1_error)
+  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_sum_squares); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 379, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_min_val); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 369, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_min_val); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 379, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_11 = PyFloat_FromDouble(__pyx_v_max_val); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 369, __pyx_L1_error)
+  __pyx_t_11 = PyFloat_FromDouble(__pyx_v_max_val); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 379, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
-  __pyx_t_12 = PyTuple_New(5); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 369, __pyx_L1_error)
+  __pyx_t_12 = PyTuple_New(5); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 379, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_1);
@@ -9992,7 +9996,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
   __pyx_t_12 = 0;
   goto __pyx_L0;
 
-  /* "bx/bbi/bbi_file.pyx":338
+  /* "bx/bbi/bbi_file.pyx":348
  *         return rval
  * 
  *     cdef _get_summary_slice( self, bits32 base_start, bits32 base_end, summaries ):             # <<<<<<<<<<<<<<
@@ -10017,7 +10021,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice(CYTHON
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":371
+/* "bx/bbi/bbi_file.pyx":381
  *         return valid_count, sum_data, sum_squares, min_val, max_val
  * 
  *     cdef _summarize( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
@@ -10099,20 +10103,20 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
   __pyx_pybuffernd_sum_squares.data = NULL;
   __pyx_pybuffernd_sum_squares.rcbuffer = &__pyx_pybuffer_sum_squares;
 
-  /* "bx/bbi/bbi_file.pyx":391
+  /* "bx/bbi/bbi_file.pyx":401
  * 
  *         # What we will load into
  *         rval = SummarizedData( start, end, summary_size )             # <<<<<<<<<<<<<<
  *         valid_count = rval.valid_count
  *         min_val = rval.min_val
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 391, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 391, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_summary_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 391, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_summary_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 391, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
@@ -10123,13 +10127,13 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_8bbi_file_SummarizedData), __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 391, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_2bx_3bbi_8bbi_file_SummarizedData), __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_rval = ((struct __pyx_obj_2bx_3bbi_8bbi_file_SummarizedData *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":392
+  /* "bx/bbi/bbi_file.pyx":402
  *         # What we will load into
  *         rval = SummarizedData( start, end, summary_size )
  *         valid_count = rval.valid_count             # <<<<<<<<<<<<<<
@@ -10152,12 +10156,12 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
       }
     }
     __pyx_pybuffernd_valid_count.diminfo[0].strides = __pyx_pybuffernd_valid_count.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_valid_count.diminfo[0].shape = __pyx_pybuffernd_valid_count.rcbuffer->pybuffer.shape[0];
-    if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 392, __pyx_L1_error)
+    if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 402, __pyx_L1_error)
   }
   __pyx_v_valid_count = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":393
+  /* "bx/bbi/bbi_file.pyx":403
  *         rval = SummarizedData( start, end, summary_size )
  *         valid_count = rval.valid_count
  *         min_val = rval.min_val             # <<<<<<<<<<<<<<
@@ -10180,12 +10184,12 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
       }
     }
     __pyx_pybuffernd_min_val.diminfo[0].strides = __pyx_pybuffernd_min_val.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_min_val.diminfo[0].shape = __pyx_pybuffernd_min_val.rcbuffer->pybuffer.shape[0];
-    if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 393, __pyx_L1_error)
+    if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 403, __pyx_L1_error)
   }
   __pyx_v_min_val = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":394
+  /* "bx/bbi/bbi_file.pyx":404
  *         valid_count = rval.valid_count
  *         min_val = rval.min_val
  *         max_val = rval.max_val             # <<<<<<<<<<<<<<
@@ -10208,12 +10212,12 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
       }
     }
     __pyx_pybuffernd_max_val.diminfo[0].strides = __pyx_pybuffernd_max_val.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_max_val.diminfo[0].shape = __pyx_pybuffernd_max_val.rcbuffer->pybuffer.shape[0];
-    if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 394, __pyx_L1_error)
+    if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 404, __pyx_L1_error)
   }
   __pyx_v_max_val = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":395
+  /* "bx/bbi/bbi_file.pyx":405
  *         min_val = rval.min_val
  *         max_val = rval.max_val
  *         sum_data = rval.sum_data             # <<<<<<<<<<<<<<
@@ -10236,12 +10240,12 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
       }
     }
     __pyx_pybuffernd_sum_data.diminfo[0].strides = __pyx_pybuffernd_sum_data.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_sum_data.diminfo[0].shape = __pyx_pybuffernd_sum_data.rcbuffer->pybuffer.shape[0];
-    if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 395, __pyx_L1_error)
+    if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 405, __pyx_L1_error)
   }
   __pyx_v_sum_data = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":396
+  /* "bx/bbi/bbi_file.pyx":406
  *         max_val = rval.max_val
  *         sum_data = rval.sum_data
  *         sum_squares = rval.sum_squares             # <<<<<<<<<<<<<<
@@ -10264,12 +10268,12 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
       }
     }
     __pyx_pybuffernd_sum_squares.diminfo[0].strides = __pyx_pybuffernd_sum_squares.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_sum_squares.diminfo[0].shape = __pyx_pybuffernd_sum_squares.rcbuffer->pybuffer.shape[0];
-    if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 396, __pyx_L1_error)
+    if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 406, __pyx_L1_error)
   }
   __pyx_v_sum_squares = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":398
+  /* "bx/bbi/bbi_file.pyx":408
  *         sum_squares = rval.sum_squares
  *         # First, load up summaries
  *         reader = self.bbi_file.reader             # <<<<<<<<<<<<<<
@@ -10281,16 +10285,16 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
   __pyx_v_reader = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":399
+  /* "bx/bbi/bbi_file.pyx":409
  *         # First, load up summaries
  *         reader = self.bbi_file.reader
  *         reader.seek( self.index_offset )             # <<<<<<<<<<<<<<
  *         summaries = self._summary_blocks_in_region(chrom_id, start, end)
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_seek); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 399, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_reader, __pyx_n_s_seek); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 409, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = __Pyx_PyInt_From_unsigned_PY_LONG_LONG(__pyx_v_self->index_offset); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 399, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_unsigned_PY_LONG_LONG(__pyx_v_self->index_offset); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 409, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -10303,14 +10307,14 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
     }
   }
   if (!__pyx_t_1) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 399, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 409, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_3);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_t_2};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 399, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 409, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -10319,20 +10323,20 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_t_2};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 399, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 409, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 399, __pyx_L1_error)
+      __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 409, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_1); __pyx_t_1 = NULL;
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_t_2);
       __pyx_t_2 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 399, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 409, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     }
@@ -10340,20 +10344,20 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":400
+  /* "bx/bbi/bbi_file.pyx":410
  *         reader = self.bbi_file.reader
  *         reader.seek( self.index_offset )
  *         summaries = self._summary_blocks_in_region(chrom_id, start, end)             # <<<<<<<<<<<<<<
  * 
  *         base_step = (end - start) / summary_size
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_summary_blocks_in_region); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 400, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_summary_blocks_in_region); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 410, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_9 = __Pyx_PyInt_From_unsigned_int(__pyx_v_chrom_id); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 400, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyInt_From_unsigned_int(__pyx_v_chrom_id); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 410, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 400, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 410, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 400, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_end); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 410, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_10 = NULL;
   __pyx_t_5 = 0;
@@ -10370,7 +10374,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[4] = {__pyx_t_10, __pyx_t_9, __pyx_t_2, __pyx_t_1};
-    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 400, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 410, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -10381,7 +10385,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[4] = {__pyx_t_10, __pyx_t_9, __pyx_t_2, __pyx_t_1};
-    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 400, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 410, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -10390,7 +10394,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
   } else
   #endif
   {
-    __pyx_t_11 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 400, __pyx_L1_error)
+    __pyx_t_11 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 410, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     if (__pyx_t_10) {
       __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_10); __pyx_t_10 = NULL;
@@ -10404,7 +10408,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
     __pyx_t_9 = 0;
     __pyx_t_2 = 0;
     __pyx_t_1 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_11, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 400, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_11, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 410, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   }
@@ -10412,7 +10416,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
   __pyx_v_summaries = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":402
+  /* "bx/bbi/bbi_file.pyx":412
  *         summaries = self._summary_blocks_in_region(chrom_id, start, end)
  * 
  *         base_step = (end - start) / summary_size             # <<<<<<<<<<<<<<
@@ -10422,11 +10426,11 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
   __pyx_t_12 = (__pyx_v_end - __pyx_v_start);
   if (unlikely(__pyx_v_summary_size == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-    __PYX_ERR(0, 402, __pyx_L1_error)
+    __PYX_ERR(0, 412, __pyx_L1_error)
   }
   __pyx_v_base_step = (__pyx_t_12 / __pyx_v_summary_size);
 
-  /* "bx/bbi/bbi_file.pyx":403
+  /* "bx/bbi/bbi_file.pyx":413
  * 
  *         base_step = (end - start) / summary_size
  *         base_start = start             # <<<<<<<<<<<<<<
@@ -10435,7 +10439,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
  */
   __pyx_v_base_start = __pyx_v_start;
 
-  /* "bx/bbi/bbi_file.pyx":404
+  /* "bx/bbi/bbi_file.pyx":414
  *         base_step = (end - start) / summary_size
  *         base_start = start
  *         base_end = start             # <<<<<<<<<<<<<<
@@ -10444,7 +10448,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
  */
   __pyx_v_base_end = __pyx_v_start;
 
-  /* "bx/bbi/bbi_file.pyx":406
+  /* "bx/bbi/bbi_file.pyx":416
  *         base_end = start
  * 
  *         for i in range(summary_size):             # <<<<<<<<<<<<<<
@@ -10455,7 +10459,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
   for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_5; __pyx_t_13+=1) {
     __pyx_v_i = __pyx_t_13;
 
-    /* "bx/bbi/bbi_file.pyx":407
+    /* "bx/bbi/bbi_file.pyx":417
  * 
  *         for i in range(summary_size):
  *             base_end += base_step             # <<<<<<<<<<<<<<
@@ -10464,7 +10468,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
  */
     __pyx_v_base_end = (__pyx_v_base_end + __pyx_v_base_step);
 
-    /* "bx/bbi/bbi_file.pyx":409
+    /* "bx/bbi/bbi_file.pyx":419
  *             base_end += base_step
  * 
  *             while summaries and summaries[0].end <= base_start:             # <<<<<<<<<<<<<<
@@ -10472,36 +10476,36 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
  * 
  */
     while (1) {
-      __pyx_t_15 = __Pyx_PyObject_IsTrue(__pyx_v_summaries); if (unlikely(__pyx_t_15 < 0)) __PYX_ERR(0, 409, __pyx_L1_error)
+      __pyx_t_15 = __Pyx_PyObject_IsTrue(__pyx_v_summaries); if (unlikely(__pyx_t_15 < 0)) __PYX_ERR(0, 419, __pyx_L1_error)
       if (__pyx_t_15) {
       } else {
         __pyx_t_14 = __pyx_t_15;
         goto __pyx_L7_bool_binop_done;
       }
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_summaries, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 409, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_summaries, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 419, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_end); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 409, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_end); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 419, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_base_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 409, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_base_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 419, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_11 = PyObject_RichCompare(__pyx_t_4, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 409, __pyx_L1_error)
+      __pyx_t_11 = PyObject_RichCompare(__pyx_t_4, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 419, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_15 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely(__pyx_t_15 < 0)) __PYX_ERR(0, 409, __pyx_L1_error)
+      __pyx_t_15 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely(__pyx_t_15 < 0)) __PYX_ERR(0, 419, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       __pyx_t_14 = __pyx_t_15;
       __pyx_L7_bool_binop_done:;
       if (!__pyx_t_14) break;
 
-      /* "bx/bbi/bbi_file.pyx":410
+      /* "bx/bbi/bbi_file.pyx":420
  * 
  *             while summaries and summaries[0].end <= base_start:
  *                 summaries.popleft()             # <<<<<<<<<<<<<<
  * 
  *             valid_count[i], sum_data[i], sum_squares[i], min_val[i], max_val[i] = self._get_summary_slice(base_start, base_end, summaries)
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_summaries, __pyx_n_s_popleft); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 410, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_summaries, __pyx_n_s_popleft); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 420, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_4 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -10514,24 +10518,24 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_11 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 410, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 420, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_11 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 410, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 420, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     }
 
-    /* "bx/bbi/bbi_file.pyx":412
+    /* "bx/bbi/bbi_file.pyx":422
  *                 summaries.popleft()
  * 
  *             valid_count[i], sum_data[i], sum_squares[i], min_val[i], max_val[i] = self._get_summary_slice(base_start, base_end, summaries)             # <<<<<<<<<<<<<<
  *             base_start = base_end
  * 
  */
-    __pyx_t_11 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_ZoomLevel *)__pyx_v_self->__pyx_vtab)->_get_summary_slice(__pyx_v_self, __pyx_v_base_start, __pyx_v_base_end, __pyx_v_summaries); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 412, __pyx_L1_error)
+    __pyx_t_11 = ((struct __pyx_vtabstruct_2bx_3bbi_8bbi_file_ZoomLevel *)__pyx_v_self->__pyx_vtab)->_get_summary_slice(__pyx_v_self, __pyx_v_base_start, __pyx_v_base_end, __pyx_v_summaries); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 422, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     if ((likely(PyTuple_CheckExact(__pyx_t_11))) || (PyList_CheckExact(__pyx_t_11))) {
       PyObject* sequence = __pyx_t_11;
@@ -10543,7 +10547,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
       if (unlikely(size != 5)) {
         if (size > 5) __Pyx_RaiseTooManyValuesError(5);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 412, __pyx_L1_error)
+        __PYX_ERR(0, 422, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -10569,7 +10573,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
         Py_ssize_t i;
         PyObject** temps[5] = {&__pyx_t_3,&__pyx_t_4,&__pyx_t_1,&__pyx_t_2,&__pyx_t_9};
         for (i=0; i < 5; i++) {
-          PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) __PYX_ERR(0, 412, __pyx_L1_error)
+          PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) __PYX_ERR(0, 422, __pyx_L1_error)
           __Pyx_GOTREF(item);
           *(temps[i]) = item;
         }
@@ -10579,7 +10583,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
     } else {
       Py_ssize_t index = -1;
       PyObject** temps[5] = {&__pyx_t_3,&__pyx_t_4,&__pyx_t_1,&__pyx_t_2,&__pyx_t_9};
-      __pyx_t_10 = PyObject_GetIter(__pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 412, __pyx_L1_error)
+      __pyx_t_10 = PyObject_GetIter(__pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 422, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       __pyx_t_16 = Py_TYPE(__pyx_t_10)->tp_iternext;
@@ -10588,7 +10592,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
         __Pyx_GOTREF(item);
         *(temps[index]) = item;
       }
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_16(__pyx_t_10), 5) < 0) __PYX_ERR(0, 412, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_16(__pyx_t_10), 5) < 0) __PYX_ERR(0, 422, __pyx_L1_error)
       __pyx_t_16 = NULL;
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       goto __pyx_L10_unpacking_done;
@@ -10596,18 +10600,18 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_t_16 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 412, __pyx_L1_error)
+      __PYX_ERR(0, 422, __pyx_L1_error)
       __pyx_L10_unpacking_done:;
     }
-    __pyx_t_17 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_17 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 412, __pyx_L1_error)
+    __pyx_t_17 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_17 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 422, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_18 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 412, __pyx_L1_error)
+    __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_18 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 422, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_19 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 412, __pyx_L1_error)
+    __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_19 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 422, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_20 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_20 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 412, __pyx_L1_error)
+    __pyx_t_20 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_20 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 422, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_21 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_21 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 412, __pyx_L1_error)
+    __pyx_t_21 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_21 == ((npy_float64)-1)) && PyErr_Occurred())) __PYX_ERR(0, 422, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_t_22 = __pyx_v_i;
     __pyx_t_23 = -1;
@@ -10617,7 +10621,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
     } else if (unlikely(__pyx_t_22 >= __pyx_pybuffernd_valid_count.diminfo[0].shape)) __pyx_t_23 = 0;
     if (unlikely(__pyx_t_23 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_23);
-      __PYX_ERR(0, 412, __pyx_L1_error)
+      __PYX_ERR(0, 422, __pyx_L1_error)
     }
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_valid_count.rcbuffer->pybuffer.buf, __pyx_t_22, __pyx_pybuffernd_valid_count.diminfo[0].strides) = __pyx_t_17;
     __pyx_t_24 = __pyx_v_i;
@@ -10628,7 +10632,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
     } else if (unlikely(__pyx_t_24 >= __pyx_pybuffernd_sum_data.diminfo[0].shape)) __pyx_t_23 = 0;
     if (unlikely(__pyx_t_23 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_23);
-      __PYX_ERR(0, 412, __pyx_L1_error)
+      __PYX_ERR(0, 422, __pyx_L1_error)
     }
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sum_data.rcbuffer->pybuffer.buf, __pyx_t_24, __pyx_pybuffernd_sum_data.diminfo[0].strides) = __pyx_t_18;
     __pyx_t_25 = __pyx_v_i;
@@ -10639,7 +10643,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
     } else if (unlikely(__pyx_t_25 >= __pyx_pybuffernd_sum_squares.diminfo[0].shape)) __pyx_t_23 = 0;
     if (unlikely(__pyx_t_23 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_23);
-      __PYX_ERR(0, 412, __pyx_L1_error)
+      __PYX_ERR(0, 422, __pyx_L1_error)
     }
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sum_squares.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_sum_squares.diminfo[0].strides) = __pyx_t_19;
     __pyx_t_26 = __pyx_v_i;
@@ -10650,7 +10654,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
     } else if (unlikely(__pyx_t_26 >= __pyx_pybuffernd_min_val.diminfo[0].shape)) __pyx_t_23 = 0;
     if (unlikely(__pyx_t_23 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_23);
-      __PYX_ERR(0, 412, __pyx_L1_error)
+      __PYX_ERR(0, 422, __pyx_L1_error)
     }
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_min_val.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_min_val.diminfo[0].strides) = __pyx_t_20;
     __pyx_t_27 = __pyx_v_i;
@@ -10661,11 +10665,11 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
     } else if (unlikely(__pyx_t_27 >= __pyx_pybuffernd_max_val.diminfo[0].shape)) __pyx_t_23 = 0;
     if (unlikely(__pyx_t_23 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_23);
-      __PYX_ERR(0, 412, __pyx_L1_error)
+      __PYX_ERR(0, 422, __pyx_L1_error)
     }
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_max_val.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_max_val.diminfo[0].strides) = __pyx_t_21;
 
-    /* "bx/bbi/bbi_file.pyx":413
+    /* "bx/bbi/bbi_file.pyx":423
  * 
  *             valid_count[i], sum_data[i], sum_squares[i], min_val[i], max_val[i] = self._get_summary_slice(base_start, base_end, summaries)
  *             base_start = base_end             # <<<<<<<<<<<<<<
@@ -10675,7 +10679,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
     __pyx_v_base_start = __pyx_v_base_end;
   }
 
-  /* "bx/bbi/bbi_file.pyx":415
+  /* "bx/bbi/bbi_file.pyx":425
  *             base_start = base_end
  * 
  *         return rval             # <<<<<<<<<<<<<<
@@ -10685,7 +10689,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
   __pyx_r = ((PyObject *)__pyx_v_rval);
   goto __pyx_L0;
 
-  /* "bx/bbi/bbi_file.pyx":371
+  /* "bx/bbi/bbi_file.pyx":381
  *         return valid_count, sum_data, sum_squares, min_val, max_val
  * 
  *     cdef _summarize( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size ):             # <<<<<<<<<<<<<<
@@ -10735,7 +10739,7 @@ static PyObject *__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize(struct __pyx_o
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":281
+/* "bx/bbi/bbi_file.pyx":291
  * cdef class ZoomLevel:
  *     cdef BBIFile bbi_file
  *     cdef public bits32 reduction_level             # <<<<<<<<<<<<<<
@@ -10762,7 +10766,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel_15reduction_level___get_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->reduction_level); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->reduction_level); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -10797,7 +10801,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel_15reduction_level_2__set__(str
   __Pyx_RefNannyDeclarations
   __pyx_t_2bx_3bbi_5types_bits32 __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_unsigned_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_unsigned_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 291, __pyx_L1_error)
   __pyx_v_self->reduction_level = __pyx_t_1;
 
   /* function exit code */
@@ -10811,7 +10815,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel_15reduction_level_2__set__(str
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":283
+/* "bx/bbi/bbi_file.pyx":293
  *     cdef public bits32 reduction_level
  *     cdef bits32 reserved
  *     cdef public bits64 data_offset             # <<<<<<<<<<<<<<
@@ -10838,7 +10842,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel_11data_offset___get__(st
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_PY_LONG_LONG(__pyx_v_self->data_offset); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 283, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_PY_LONG_LONG(__pyx_v_self->data_offset); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 293, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -10873,7 +10877,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel_11data_offset_2__set__(struct 
   __Pyx_RefNannyDeclarations
   __pyx_t_2bx_3bbi_5types_bits64 __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_v_value); if (unlikely((__pyx_t_1 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 283, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_v_value); if (unlikely((__pyx_t_1 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 293, __pyx_L1_error)
   __pyx_v_self->data_offset = __pyx_t_1;
 
   /* function exit code */
@@ -10887,7 +10891,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel_11data_offset_2__set__(struct 
   return __pyx_r;
 }
 
-/* "bx/bbi/bbi_file.pyx":284
+/* "bx/bbi/bbi_file.pyx":294
  *     cdef bits32 reserved
  *     cdef public bits64 data_offset
  *     cdef public bits64 index_offset             # <<<<<<<<<<<<<<
@@ -10914,7 +10918,7 @@ static PyObject *__pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel_12index_offset___get__(s
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_PY_LONG_LONG(__pyx_v_self->index_offset); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 284, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_PY_LONG_LONG(__pyx_v_self->index_offset); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 294, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -10949,7 +10953,7 @@ static int __pyx_pf_2bx_3bbi_8bbi_file_9ZoomLevel_12index_offset_2__set__(struct
   __Pyx_RefNannyDeclarations
   __pyx_t_2bx_3bbi_5types_bits64 __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_v_value); if (unlikely((__pyx_t_1 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 284, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_unsigned_PY_LONG_LONG(__pyx_v_value); if (unlikely((__pyx_t_1 == (unsigned PY_LONG_LONG)-1) && PyErr_Occurred())) __PYX_ERR(0, 294, __pyx_L1_error)
   __pyx_v_self->index_offset = __pyx_t_1;
 
   /* function exit code */
@@ -14401,6 +14405,7 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_BinaryFileReader, __pyx_k_BinaryFileReader, sizeof(__pyx_k_BinaryFileReader), 0, 0, 1, 1},
+  {&__pyx_n_s_BytesIO, __pyx_k_BytesIO, sizeof(__pyx_k_BytesIO), 0, 0, 1, 1},
   {&__pyx_kp_u_Format_string_allocated_too_shor, __pyx_k_Format_string_allocated_too_shor, sizeof(__pyx_k_Format_string_allocated_too_shor), 0, 1, 0, 0},
   {&__pyx_kp_u_Format_string_allocated_too_shor_2, __pyx_k_Format_string_allocated_too_shor_2, sizeof(__pyx_k_Format_string_allocated_too_shor_2), 0, 1, 0, 0},
   {&__pyx_n_s_II, __pyx_k_II, sizeof(__pyx_k_II), 0, 0, 1, 1},
@@ -14452,6 +14457,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_read_uint32, __pyx_k_read_uint32, sizeof(__pyx_k_read_uint32), 0, 0, 1, 1},
   {&__pyx_n_s_read_uint64, __pyx_k_read_uint64, sizeof(__pyx_k_read_uint64), 0, 0, 1, 1},
   {&__pyx_n_s_seek, __pyx_k_seek, sizeof(__pyx_k_seek), 0, 0, 1, 1},
+  {&__pyx_n_s_six, __pyx_k_six, sizeof(__pyx_k_six), 0, 0, 1, 1},
   {&__pyx_n_s_six_moves, __pyx_k_six_moves, sizeof(__pyx_k_six_moves), 0, 0, 1, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
   {&__pyx_n_s_skip, __pyx_k_skip, sizeof(__pyx_k_skip), 0, 0, 1, 1},
@@ -14464,6 +14470,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_summarize_from_full, __pyx_k_summarize_from_full, sizeof(__pyx_k_summarize_from_full), 0, 0, 1, 1},
   {&__pyx_n_s_summary_blocks_in_region, __pyx_k_summary_blocks_in_region, sizeof(__pyx_k_summary_blocks_in_region), 0, 0, 1, 1},
   {&__pyx_n_s_summary_size, __pyx_k_summary_size, sizeof(__pyx_k_summary_size), 0, 0, 1, 1},
+  {&__pyx_n_s_sys, __pyx_k_sys, sizeof(__pyx_k_sys), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_type_name, __pyx_k_type_name, sizeof(__pyx_k_type_name), 0, 0, 1, 1},
   {&__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_k_unknown_dtype_code_in_numpy_pxd, sizeof(__pyx_k_unknown_dtype_code_in_numpy_pxd), 0, 1, 0, 0},
@@ -14474,8 +14481,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 222, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 231, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 238, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(2, 799, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 989, __pyx_L1_error)
   return 0;
@@ -14487,36 +14494,36 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "bx/bbi/bbi_file.pyx":144
+  /* "bx/bbi/bbi_file.pyx":151
  *         self.uncompress_buf_size = reader.read_uint32()
  *         # Skip reserved
  *         reader.seek( 64 )             # <<<<<<<<<<<<<<
  *         # Read zoom headers
  *         self.level_list = []
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_int_64); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_int_64); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "bx/bbi/bbi_file.pyx":256
+  /* "bx/bbi/bbi_file.pyx":266
  *             return chrom_id, chrom_size
  *         else:
  *             return None, None             # <<<<<<<<<<<<<<
  * 
  *     cdef _summarize_from_full( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size ):
  */
-  __pyx_tuple__2 = PyTuple_Pack(2, Py_None, Py_None); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 256, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(2, Py_None, Py_None); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "bx/bbi/bbi_file.pyx":321
+  /* "bx/bbi/bbi_file.pyx":331
  *                 # A block can contain summaries from more that one chrom_id
  *                 if sum_chrom_id != chrom_id:
  *                     block_reader.skip(7*4)             # <<<<<<<<<<<<<<
  *                     continue
  * 
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_int_28); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 321, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_int_28); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 331, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -14720,44 +14727,44 @@ PyMODINIT_FUNC PyInit_bbi_file(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_2bx_3bbi_8bbi_file_SummaryBlock) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_2bx_3bbi_8bbi_file_SummaryBlock) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
   __pyx_type_2bx_3bbi_8bbi_file_SummaryBlock.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "SummaryBlock", (PyObject *)&__pyx_type_2bx_3bbi_8bbi_file_SummaryBlock) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "SummaryBlock", (PyObject *)&__pyx_type_2bx_3bbi_8bbi_file_SummaryBlock) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
   __pyx_ptype_2bx_3bbi_8bbi_file_SummaryBlock = &__pyx_type_2bx_3bbi_8bbi_file_SummaryBlock;
   __pyx_vtabptr_2bx_3bbi_8bbi_file_SummarizedData = &__pyx_vtable_2bx_3bbi_8bbi_file_SummarizedData;
   __pyx_vtable_2bx_3bbi_8bbi_file_SummarizedData.accumulate_interval_value = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_8bbi_file_SummarizedData *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, float))__pyx_f_2bx_3bbi_8bbi_file_14SummarizedData_accumulate_interval_value;
-  if (PyType_Ready(&__pyx_type_2bx_3bbi_8bbi_file_SummarizedData) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_2bx_3bbi_8bbi_file_SummarizedData) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
   __pyx_type_2bx_3bbi_8bbi_file_SummarizedData.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_8bbi_file_SummarizedData.tp_dict, __pyx_vtabptr_2bx_3bbi_8bbi_file_SummarizedData) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "SummarizedData", (PyObject *)&__pyx_type_2bx_3bbi_8bbi_file_SummarizedData) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_8bbi_file_SummarizedData.tp_dict, __pyx_vtabptr_2bx_3bbi_8bbi_file_SummarizedData) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "SummarizedData", (PyObject *)&__pyx_type_2bx_3bbi_8bbi_file_SummarizedData) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
   __pyx_ptype_2bx_3bbi_8bbi_file_SummarizedData = &__pyx_type_2bx_3bbi_8bbi_file_SummarizedData;
   __pyx_vtabptr_2bx_3bbi_8bbi_file_BBIFile = &__pyx_vtable_2bx_3bbi_8bbi_file_BBIFile;
   __pyx_vtable_2bx_3bbi_8bbi_file_BBIFile.visit_blocks_in_region = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, struct __pyx_obj_2bx_3bbi_8bbi_file_BlockHandler *))__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_visit_blocks_in_region;
   __pyx_vtable_2bx_3bbi_8bbi_file_BBIFile._get_chrom_id_and_size = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, char *))__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__get_chrom_id_and_size;
   __pyx_vtable_2bx_3bbi_8bbi_file_BBIFile._best_zoom_level = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, int))__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__best_zoom_level;
-  __pyx_vtable_2bx_3bbi_8bbi_file_BBIFile.summarize = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, char *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int, int __pyx_skip_dispatch))__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize;
+  __pyx_vtable_2bx_3bbi_8bbi_file_BBIFile.summarize = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, PyObject *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int, int __pyx_skip_dispatch))__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize;
   __pyx_vtable_2bx_3bbi_8bbi_file_BBIFile.summarize_from_full = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, char *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int, int __pyx_skip_dispatch))__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_summarize_from_full;
-  __pyx_vtable_2bx_3bbi_8bbi_file_BBIFile.query = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, char *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int, int __pyx_skip_dispatch))__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query;
+  __pyx_vtable_2bx_3bbi_8bbi_file_BBIFile.query = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, PyObject *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int, int __pyx_skip_dispatch))__pyx_f_2bx_3bbi_8bbi_file_7BBIFile_query;
   __pyx_vtable_2bx_3bbi_8bbi_file_BBIFile._summarize_from_full = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int))__pyx_f_2bx_3bbi_8bbi_file_7BBIFile__summarize_from_full;
-  if (PyType_Ready(&__pyx_type_2bx_3bbi_8bbi_file_BBIFile) < 0) __PYX_ERR(0, 110, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_2bx_3bbi_8bbi_file_BBIFile) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
   __pyx_type_2bx_3bbi_8bbi_file_BBIFile.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_8bbi_file_BBIFile.tp_dict, __pyx_vtabptr_2bx_3bbi_8bbi_file_BBIFile) < 0) __PYX_ERR(0, 110, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "BBIFile", (PyObject *)&__pyx_type_2bx_3bbi_8bbi_file_BBIFile) < 0) __PYX_ERR(0, 110, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_8bbi_file_BBIFile.tp_dict, __pyx_vtabptr_2bx_3bbi_8bbi_file_BBIFile) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "BBIFile", (PyObject *)&__pyx_type_2bx_3bbi_8bbi_file_BBIFile) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
   __pyx_ptype_2bx_3bbi_8bbi_file_BBIFile = &__pyx_type_2bx_3bbi_8bbi_file_BBIFile;
   __pyx_vtabptr_2bx_3bbi_8bbi_file_BlockHandler = &__pyx_vtable_2bx_3bbi_8bbi_file_BlockHandler;
   __pyx_vtable_2bx_3bbi_8bbi_file_BlockHandler.handle_block = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_8bbi_file_BlockHandler *, PyObject *, struct __pyx_obj_2bx_3bbi_8bbi_file_BBIFile *))__pyx_f_2bx_3bbi_8bbi_file_12BlockHandler_handle_block;
-  if (PyType_Ready(&__pyx_type_2bx_3bbi_8bbi_file_BlockHandler) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_2bx_3bbi_8bbi_file_BlockHandler) < 0) __PYX_ERR(0, 110, __pyx_L1_error)
   __pyx_type_2bx_3bbi_8bbi_file_BlockHandler.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_8bbi_file_BlockHandler.tp_dict, __pyx_vtabptr_2bx_3bbi_8bbi_file_BlockHandler) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "BlockHandler", (PyObject *)&__pyx_type_2bx_3bbi_8bbi_file_BlockHandler) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_8bbi_file_BlockHandler.tp_dict, __pyx_vtabptr_2bx_3bbi_8bbi_file_BlockHandler) < 0) __PYX_ERR(0, 110, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "BlockHandler", (PyObject *)&__pyx_type_2bx_3bbi_8bbi_file_BlockHandler) < 0) __PYX_ERR(0, 110, __pyx_L1_error)
   __pyx_ptype_2bx_3bbi_8bbi_file_BlockHandler = &__pyx_type_2bx_3bbi_8bbi_file_BlockHandler;
   __pyx_vtabptr_2bx_3bbi_8bbi_file_ZoomLevel = &__pyx_vtable_2bx_3bbi_8bbi_file_ZoomLevel;
   __pyx_vtable_2bx_3bbi_8bbi_file_ZoomLevel._get_summary_slice = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_8bbi_file_ZoomLevel *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, PyObject *))__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__get_summary_slice;
   __pyx_vtable_2bx_3bbi_8bbi_file_ZoomLevel._summarize = (PyObject *(*)(struct __pyx_obj_2bx_3bbi_8bbi_file_ZoomLevel *, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, __pyx_t_2bx_3bbi_5types_bits32, int))__pyx_f_2bx_3bbi_8bbi_file_9ZoomLevel__summarize;
-  if (PyType_Ready(&__pyx_type_2bx_3bbi_8bbi_file_ZoomLevel) < 0) __PYX_ERR(0, 279, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_2bx_3bbi_8bbi_file_ZoomLevel) < 0) __PYX_ERR(0, 289, __pyx_L1_error)
   __pyx_type_2bx_3bbi_8bbi_file_ZoomLevel.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_8bbi_file_ZoomLevel.tp_dict, __pyx_vtabptr_2bx_3bbi_8bbi_file_ZoomLevel) < 0) __PYX_ERR(0, 279, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "ZoomLevel", (PyObject *)&__pyx_type_2bx_3bbi_8bbi_file_ZoomLevel) < 0) __PYX_ERR(0, 279, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_2bx_3bbi_8bbi_file_ZoomLevel.tp_dict, __pyx_vtabptr_2bx_3bbi_8bbi_file_ZoomLevel) < 0) __PYX_ERR(0, 289, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "ZoomLevel", (PyObject *)&__pyx_type_2bx_3bbi_8bbi_file_ZoomLevel) < 0) __PYX_ERR(0, 289, __pyx_L1_error)
   __pyx_ptype_2bx_3bbi_8bbi_file_ZoomLevel = &__pyx_type_2bx_3bbi_8bbi_file_ZoomLevel;
   /*--- Type import code ---*/
   __pyx_ptype_2bx_3bbi_8bpt_file_BPTFile = __Pyx_ImportType("bx.bbi.bpt_file", "BPTFile", sizeof(struct __pyx_obj_2bx_3bbi_8bpt_file_BPTFile), 1); if (unlikely(!__pyx_ptype_2bx_3bbi_8bpt_file_BPTFile)) __PYX_ERR(3, 5, __pyx_L1_error)
@@ -14781,98 +14788,131 @@ PyMODINIT_FUNC PyInit_bbi_file(void)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "bx/bbi/bbi_file.pyx":12
+  /* "bx/bbi/bbi_file.pyx":10
+ * """
+ * 
+ * import sys             # <<<<<<<<<<<<<<
+ * 
+ * cimport cython
+ */
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "bx/bbi/bbi_file.pyx":14
  * cimport cython
  * 
  * from collections import deque             # <<<<<<<<<<<<<<
  * from bpt_file cimport BPTFile
  * from cirtree_file cimport CIRTreeFile
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_deque);
   __Pyx_GIVEREF(__pyx_n_s_deque);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_deque);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_collections, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_collections, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_deque); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_deque); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_deque, __pyx_t_1) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_deque, __pyx_t_1) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":19
+  /* "bx/bbi/bbi_file.pyx":21
  * from libc cimport limits
  * 
  * import numpy             # <<<<<<<<<<<<<<
  * cimport numpy
  * 
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_numpy, __pyx_t_2) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_numpy, __pyx_t_2) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":22
+  /* "bx/bbi/bbi_file.pyx":24
  * cimport numpy
  * 
  * from bx.misc.binary_file import BinaryFileReader             # <<<<<<<<<<<<<<
  * from six.moves import cStringIO as StringIO
- * import zlib, math
+ * from six import BytesIO
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_BinaryFileReader);
   __Pyx_GIVEREF(__pyx_n_s_BinaryFileReader);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_BinaryFileReader);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_bx_misc_binary_file, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_bx_misc_binary_file, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_BinaryFileReader); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_BinaryFileReader); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_BinaryFileReader, __pyx_t_2) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_BinaryFileReader, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":23
+  /* "bx/bbi/bbi_file.pyx":25
  * 
  * from bx.misc.binary_file import BinaryFileReader
  * from six.moves import cStringIO as StringIO             # <<<<<<<<<<<<<<
+ * from six import BytesIO
  * import zlib, math
- * 
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_cStringIO);
   __Pyx_GIVEREF(__pyx_n_s_cStringIO);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_cStringIO);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_six_moves, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_six_moves, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_cStringIO); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_cStringIO); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_StringIO, __pyx_t_1) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_StringIO, __pyx_t_1) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":24
+  /* "bx/bbi/bbi_file.pyx":26
  * from bx.misc.binary_file import BinaryFileReader
  * from six.moves import cStringIO as StringIO
+ * from six import BytesIO             # <<<<<<<<<<<<<<
+ * import zlib, math
+ * 
+ */
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_n_s_BytesIO);
+  __Pyx_GIVEREF(__pyx_n_s_BytesIO);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_BytesIO);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_six, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_BytesIO); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_BytesIO, __pyx_t_2) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "bx/bbi/bbi_file.pyx":27
+ * from six.moves import cStringIO as StringIO
+ * from six import BytesIO
  * import zlib, math             # <<<<<<<<<<<<<<
  * 
- * # Signatures for bbi related file types
+ * cdef extern from "Python.h":
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_zlib, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_zlib, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_math, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_math, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_zlib, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_zlib, __pyx_t_1) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_math, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_math, __pyx_t_1) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bx/bbi/bbi_file.pyx":28
+  /* "bx/bbi/bbi_file.pyx":35
  * # Signatures for bbi related file types
  * 
  * cdef public int big_wig_sig = 0x888FFC26             # <<<<<<<<<<<<<<
@@ -14881,7 +14921,7 @@ PyMODINIT_FUNC PyInit_bbi_file(void)
  */
   big_wig_sig = 0x888FFC26;
 
-  /* "bx/bbi/bbi_file.pyx":29
+  /* "bx/bbi/bbi_file.pyx":36
  * 
  * cdef public int big_wig_sig = 0x888FFC26
  * cdef public int big_bed_sig = 0x8789F2EB             # <<<<<<<<<<<<<<
@@ -14895,10 +14935,10 @@ PyMODINIT_FUNC PyInit_bbi_file(void)
  * 
  * """
  */
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "../../../../conda_root/envs/bx-python/lib/python3.6/site-packages/Cython/Includes/numpy/__init__.pxd":997
  *         raise ImportError("numpy.core.umath failed to import")
