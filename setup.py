@@ -158,10 +158,11 @@ def get_extension_modules( numpy_include=None ):
     # Translation if character / integer strings 
     extensions.append( Extension( "bx._seqmapping", [ "lib/bx/_seqmapping.pyx" ] ) )
     # BGZF
-    extensions.append( Extension( "bx.misc.bgzf",
-                                  [ "lib/bx/misc/bgzf.pyx", "src/samtools/bgzf.c" ],
-                                  include_dirs=[ "src/samtools"],
-                                  libraries=['z'] ) )
+    # FIXME: I can't figure out how to compile this, it's a problem with bgzf_open
+    #extensions.append( Extension( "bx.misc.bgzf",
+    #                              [ "lib/bx/misc/bgzf.pyx", "src/samtools/bgzf.c" ],
+    #                              include_dirs=[ "src/samtools"],
+    #                              libraries=['z'] ) )
 
     
     # The following extensions won't (currently) compile on windows

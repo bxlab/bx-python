@@ -8,6 +8,8 @@ ctypedef unsigned long long int64_t
 cdef extern from "Python.h":
     char * PyUnicode_AsUTF8( object )
     object PyUnicode_AsUTF8AndSize( char *, int )
+    char * PyBytes_AsString( object )
+    void PyErr_Print()
 
 cdef extern from "bgzf.h":
     ctypedef struct BGZF
@@ -20,9 +22,11 @@ cdef extern from "bgzf.h":
 cdef class BGZFFile( object ):
     cdef BGZF * bgzf
     def __init__( self, path, mode="r" ):
+        # FIXME: the next expression segfaults when compiling for python3
         self.bgzf = bgzf_open( path, mode )
         if not self.bgzf:
             raise IOError( "Could not open file" )
+      
     def close( self ):
         if self.bgzf:
             bgzf_close( self.bgzf )
