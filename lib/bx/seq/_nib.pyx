@@ -27,6 +27,10 @@ def translate_raw_data( data, int start, int length ):
     cdef int i, j
     cdef char * p_rval
     cdef unsigned char * p_data
+
+    if length == 0 :
+      return ""
+
     # Allocate string to write into
     rval = PyBytes_FromStringAndSize( NULL, length ) 
 
