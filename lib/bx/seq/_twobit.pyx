@@ -1,7 +1,16 @@
 cdef extern from "Python.h":
     char * PyUnicode_AsUTF8( object )
     object PyUnicode_AsUTF8AndSize( char *, int )
+    object PyUnicode_FromStringAndSize( char *, int )
+    object PyUnicode_FromString( char * )
+    object PyUnicode_FromStringAndSize( char * )
+    object PyUnicode_New( int, int )
+
+    char * PyBytes_AsString( object )
+    object PyBytes_FromStringAndSize( char *, int )
+
     int _PyString_Resize( object, int ) except -1
+    void PyErr_Print()
 
 cdef extern from "ctype.h":
     int tolower( int )
@@ -24,18 +33,27 @@ def read( file, seq, int fragStart, int fragEnd, bint do_mask ):
     cdef int pOff, pStart, pEnd
     cdef int midStart, remainder, partCount
     cdef int i, j, s, e
-    cdef char * packed, * dna, *dna_orig
+    cdef char * packed
+    cdef char * dna
+    cdef char * dna_orig
     cdef char partial
     packedStart = (fragStart>>2);
     packedEnd = ((fragEnd+3)>>2);
     packByteCount = packedEnd - packedStart;
     # Empty string in which to write unpacked DNA
-    dna_py = PyUnicode_AsUTF8AndSize( NULL, fragEnd - fragStart )
-    dna = PyUnicode_AsUTF8( dna_py )
+
+    #dna_py = PyUnicode_New(fragEnd - fragStart, 127)
+    dna_py = PyBytes_FromStringAndSize(NULL, fragEnd - fragStart)
+    dna = PyBytes_AsString( dna_py )
+
+    seek_bytes = seq.sequence_offset+packedStart
+
     # Read it
-    file.seek( seq.sequence_offset + packedStart )
+    file.seek( seek_bytes )
+
     packed_py = file.read( packByteCount )
-    packed = PyUnicode_AsUTF8( packed_py )
+    packed = PyBytes_AsString( packed_py )
+
     # Handle case where everything is in one packed byte 
     if packByteCount == 1:
         pOff = (packedStart<<2)
@@ -85,7 +103,8 @@ def read( file, seq, int fragStart, int fragEnd, bint do_mask ):
                 dna[i] = valToNt[partial&3]
                 partial = partial >> 2
     # Restore DNA pointer
-    dna = PyUnicode_AsUTF8( dna_py )
+    #dna = PyUnicode_AsUTF8( dna_py )
+    dna = PyBytes_AsString( dna_py )
     # N's
     n_block_count = len( seq.n_block_starts )
     if n_block_count > 0:
@@ -120,4 +139,4 @@ def read( file, seq, int fragStart, int fragEnd, bint do_mask ):
                 if (s < e):
                     for j from s <= j < e:
                         dna[j-fragStart] = tolower( dna[j-fragStart] )
-    return dna_py
+    return PyUnicode_FromString(dna_py)
