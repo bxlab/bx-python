@@ -1,6 +1,6 @@
 cdef extern from "Python.h":
-    char * PyString_AsString( object )
-    object PyString_FromStringAndSize( char *, int )
+    char * PyUnicode_AsUTF8( object )
+    object PyUnicode_AsUTF8AndSize( char *, int )
     int _PyString_Resize( object, int ) except -1
 
 cdef extern from "ctype.h":
@@ -30,12 +30,12 @@ def read( file, seq, int fragStart, int fragEnd, bint do_mask ):
     packedEnd = ((fragEnd+3)>>2);
     packByteCount = packedEnd - packedStart;
     # Empty string in which to write unpacked DNA
-    dna_py = PyString_FromStringAndSize( NULL, fragEnd - fragStart )
-    dna = PyString_AsString( dna_py )
+    dna_py = PyUnicode_AsUTF8AndSize( NULL, fragEnd - fragStart )
+    dna = PyUnicode_AsUTF8( dna_py )
     # Read it
     file.seek( seq.sequence_offset + packedStart )
     packed_py = file.read( packByteCount )
-    packed = PyString_AsString( packed_py )
+    packed = PyUnicode_AsUTF8( packed_py )
     # Handle case where everything is in one packed byte 
     if packByteCount == 1:
         pOff = (packedStart<<2)
@@ -85,7 +85,7 @@ def read( file, seq, int fragStart, int fragEnd, bint do_mask ):
                 dna[i] = valToNt[partial&3]
                 partial = partial >> 2
     # Restore DNA pointer
-    dna = PyString_AsString( dna_py )
+    dna = PyUnicode_AsUTF8( dna_py )
     # N's
     n_block_count = len( seq.n_block_starts )
     if n_block_count > 0:

@@ -6,8 +6,8 @@ complete file-like interface.
 ctypedef unsigned long long int64_t
 
 cdef extern from "Python.h":
-    char * PyString_AsString( object )
-    object PyString_FromStringAndSize( char *, int )
+    char * PyUnicode_AsUTF8( object )
+    object PyUnicode_AsUTF8AndSize( char *, int )
 
 cdef extern from "bgzf.h":
     ctypedef struct BGZF
@@ -27,8 +27,8 @@ cdef class BGZFFile( object ):
         if self.bgzf:
             bgzf_close( self.bgzf )
     def read( self, int length ):
-        cdef object rval = PyString_FromStringAndSize( NULL, length )
-        bgzf_read( self.bgzf, PyString_AsString( rval ), length )
+        cdef object rval = PyUnicode_AsUTF8AndSize( NULL, length )
+        bgzf_read( self.bgzf, PyUnicode_AsUTF8( rval ), length )
         return rval
     def tell( self ):
         return bgzf_tell( self.bgzf )

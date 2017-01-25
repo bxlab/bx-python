@@ -53,7 +53,8 @@ class TwoBitFile( Mapping ):
         self.do_mask = do_mask
         # Read magic and determine byte order
         self.byte_order = ">"
-        magic = unpack( ">L", file.read( TWOBIT_MAGIC_SIZE ) )[0]
+        strng = file.read( TWOBIT_MAGIC_SIZE )
+        magic = unpack( ">L", strng )[0]
         if magic != TWOBIT_MAGIC_NUMBER:
             if magic == TWOBIT_MAGIC_NUMBER_SWAP: 
                 self.byte_order = "<"

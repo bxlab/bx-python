@@ -1,6 +1,6 @@
 cdef extern from "Python.h":
-    char * PyString_AsString( object )
-    object PyString_FromStringAndSize( char *, int )
+    char * PyUnicode_AsUTF8( object )
+    object PyUnicode_AsUTF8AndSize( char *, int )
     int _PyString_Resize( object, int ) except -1
 
 import struct, sys
@@ -21,10 +21,10 @@ def translate_raw_data( data, int start, int length ):
     cdef char * p_rval
     cdef unsigned char * p_data
     # Allocate string to write into
-    rval = PyString_FromStringAndSize( NULL, length ) 
+    rval = PyUnicode_AsUTF8AndSize( NULL, length ) 
     # Get char pointer access to strings
-    p_rval = PyString_AsString( rval )
-    p_data = <unsigned char *> PyString_AsString( data )
+    p_rval = PyUnicode_AsUTF8( rval )
+    p_data = <unsigned char *> PyUnicode_AsUTF8( data )
     i = 0
     # Odd start
     if start & 1: 
