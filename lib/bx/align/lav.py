@@ -100,7 +100,7 @@ class Reader(Iterator):
 			if (self.seq1_contig == 1): contig = None
 			else:                       contig = self.seq1_contig
 			try:
-				f = file(self.seq1_filename,"rb")
+				f = open(self.seq1_filename,"rb")
 			except:
 				if (self.fail_to_ns):
 					f = StringIO(">seq1\n" + ("n" * (self.seq1_end - self.seq1_start)))
@@ -127,7 +127,7 @@ class Reader(Iterator):
 			if (self.seq2_contig == 1): contig = None
 			else:                       contig = self.seq2_contig
 			try:
-				f = file(self.seq2_filename,"rb")
+				f = open(self.seq2_filename,"rb")
 			except:
 				if (self.fail_to_ns):
 					f = StringIO(">seq2\n" + ("n" * (self.seq2_end - self.seq2_start)))

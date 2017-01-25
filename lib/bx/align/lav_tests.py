@@ -13,7 +13,7 @@ class lavTestCase(unittest.TestCase):
 
     def testReader(self):
 
-        reader = lav.Reader(file(test_lav))
+        reader = lav.Reader(open(test_lav))
 
         a = next(reader)
         assert a.score == 10286, "a.score is wrong: %s" % a.score
