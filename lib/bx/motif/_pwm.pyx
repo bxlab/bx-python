@@ -4,6 +4,7 @@ Extensions used by the `pwm` module.
 
 cdef extern from "Python.h":
     int PyBytes_AsStringAndSize(object obj, char **buffer, Py_ssize_t* length) except -1
+    char *PyBytes_AsString(object obj)
 
 cdef extern from "numpy/arrayobject.h":
     ctypedef int intp
@@ -34,7 +35,7 @@ def score_string( ndarray matrix, ndarray char_to_index, object string, ndarray 
     cdef int matrix_width = matrix.dimensions[0]
     cdef npy_int16 char_index
     # Get input string as character pointer
-    PyBytes_AsStringAndSize( string, &buffer, &len )
+    PyBytes_AsStringAndSize(string.encode(), &buffer, &len )
     # Loop over each position in the string 
     cdef int stop = len - matrix.dimensions[0] + 1
     for i from 0 <= i < stop:
@@ -64,7 +65,7 @@ def score_string_with_gaps( ndarray matrix, ndarray char_to_index, object string
     cdef int matrix_width = matrix.dimensions[0]
     cdef npy_int16 char_index
     # Get input string as character pointer
-    PyBytes_AsStringAndSize( string, &buffer, &len )
+    PyBytes_AsStringAndSize(string.encode(), &buffer, &len )
     # Loop over each position in the string 
     cdef int stop = len - matrix.dimensions[0] + 1
     for i from 0 <= i < stop:
