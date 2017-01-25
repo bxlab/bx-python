@@ -10,6 +10,7 @@ cimport numpy
 from types cimport *
 from bx.misc.binary_file import BinaryFileReader
 from six.moves import cStringIO as StringIO
+from six import BytesIO
 import zlib
 
 DEF big_wig_sig = 0x888FFC26
@@ -38,7 +39,7 @@ cdef class BigWigBlockHandler( BlockHandler ):
         cdef int s, e
         cdef float val
         # Now we parse the block, first the header
-        block_reader = BinaryFileReader( StringIO( block_data ), is_little_endian=bbi_file.reader.is_little_endian )
+        block_reader = BinaryFileReader( BytesIO( block_data ), is_little_endian=bbi_file.reader.is_little_endian )
         b_chrom_id = block_reader.read_uint32()
         b_start = block_reader.read_uint32()
         b_end = block_reader.read_uint32()
