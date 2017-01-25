@@ -1,6 +1,13 @@
 cdef extern from "Python.h":
     char * PyUnicode_AsUTF8( object )
-    object PyUnicode_AsUTF8AndSize( char *, int )
+    object PyUnicode_AsUTF8String( object )
+    char * PyUnicode_AsUTF8AndSize( char *, int )
+    object PyUnicode_FromString( char * )
+    object PyUnicode_FromStringAndSize( char *, int )
+
+    char * PyBytes_AsString( data )
+    object PyBytes_FromStringAndSize( char *, int )
+
     int _PyString_Resize( object, int ) except -1
 
 import struct, sys
@@ -21,10 +28,11 @@ def translate_raw_data( data, int start, int length ):
     cdef char * p_rval
     cdef unsigned char * p_data
     # Allocate string to write into
-    rval = PyUnicode_AsUTF8AndSize( NULL, length ) 
+    rval = PyBytes_FromStringAndSize( NULL, length ) 
+
     # Get char pointer access to strings
-    p_rval = PyUnicode_AsUTF8( rval )
-    p_data = <unsigned char *> PyUnicode_AsUTF8( data )
+    p_rval = PyBytes_AsString( rval )
+    p_data = <unsigned char *> PyBytes_AsString( data )
     i = 0
     # Odd start
     if start & 1: 
@@ -43,4 +51,5 @@ def translate_raw_data( data, int start, int length ):
     # Odd end
     if i < length: 
         p_rval[i] = NIB_I2C_TABLE_FIRST[ p_data[0] ]
-    return rval
+
+    return PyUnicode_FromString(p_rval)
