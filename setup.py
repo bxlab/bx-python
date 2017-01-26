@@ -26,7 +26,7 @@ def main():
 
     metadata = \
       dict( name = "bx-python",
-            version = "0.8.0",
+            version = "0.7.4",
             install_requires=build_requires + ['six'],
             py_modules = [ 'psyco_full' ],
             package_dir = { '': 'lib' },
