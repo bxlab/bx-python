@@ -200,3 +200,13 @@ latex_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 #intersphinx_mapping = {'http://docs.python.org/dev': None}
+
+# Generate API docs
+
+import subprocess
+
+def run_apidoc(_):
+    subprocess.check_call( [ "sphinx-apidoc", "-e", "-o", "source/lib", "../lib/", "--force" ])
+
+def setup(app):
+    app.connect('builder-inited', run_apidoc)

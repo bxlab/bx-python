@@ -15,9 +15,9 @@ Contents
 ========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
 
-   modules/index.rst
+   Application Documentation <lib/modules>
 
 Indices and tables
 ==================
