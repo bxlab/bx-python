@@ -20,9 +20,9 @@ import sys, os
 # is relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
 #sys.path.append(os.path.abspath('.'))
-curr_dir = os.path.dirname( __file__ )
-bx_dir = os.path.join( curr_dir, '..', '..', 'lib')
-sys.path.insert( 0, bx_dir )
+## curr_dir = os.path.dirname( __file__ )
+## bx_dir = os.path.join( curr_dir, '..', '..', 'lib')
+## sys.path.insert( 0, bx_dir )
 import bx
 
 # General configuration
