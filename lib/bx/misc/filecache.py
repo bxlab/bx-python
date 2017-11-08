@@ -1,9 +1,9 @@
 from __future__ import division
 
 import sys
+from io import BytesIO
 
 from six import Iterator
-from six.moves import cStringIO as StringIO
 
 from bx_extras.lrucache import LRUCache
 
@@ -40,7 +40,7 @@ class FileCache( Iterator ):
     def fix_dirty( self ):
         chunk, offset = self.get_block_and_offset( self.file_pos )
         if self.current_block_index != chunk:
-            self.current_block = StringIO( self.load_block( chunk ) )
+            self.current_block = BytesIO( self.load_block( chunk ) )
             self.current_block.read( offset )
             self.current_block_index = chunk
         else:
@@ -84,23 +84,23 @@ class FileCache( Iterator ):
         if self.dirty:
             self.fix_dirty()
         if self.at_eof:
-            return ""
+            return b""
         rval = []
         while 1:
             line = self.current_block.readline()
             rval.append( line )
-            if len( line ) > 0 and line[-1] == '\n':
+            if len( line ) > 0 and line[-1] == b'\n':
                 break
             elif self.current_block_index == self.nblocks - 1:
                 self.at_eof = True
                 break
             else:
                 self.current_block_index += 1
-                self.current_block = StringIO( self.load_block( self.current_block_index ) )      
-        return "".join( rval )     
+                self.current_block = BytesIO( self.load_block( self.current_block_index ) )
+        return b"".join( rval )
     def __next__( self ):
         line = self.readline()
-        if line == "":
+        if line == b"":
             raise StopIteration
     def __iter__( self ):
         return self

@@ -14,6 +14,7 @@ import psyco_full
 from bx.cookbook import doc_optparse
 
 import sys
+from io import TextIOWrapper
 import os.path
 
 from bx import interval_index_file
@@ -49,7 +50,7 @@ def main():
             # Strip .lzo from the filename before adding ".index"
             maf_file = maf_file[:-4]
         else:
-            maf_in = open( maf_file )
+            maf_in = open( maf_file, "rb" )
         # Determine the name of the index file
         if len( args ) > 1: 
             index_file = args[1]
@@ -62,7 +63,7 @@ def main():
     except:
         doc_optparse.exception()
 
-    maf_reader = bx.align.maf.Reader( maf_in )
+    maf_reader = bx.align.maf.Reader( TextIOWrapper(maf_in, encoding="ascii") )
 
     indexes = interval_index_file.Indexes()
 

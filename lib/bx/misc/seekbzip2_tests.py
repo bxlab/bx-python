@@ -2,6 +2,7 @@
 Tests for `bx.misc.seekbzip2`.
 """
 import bz2
+from codecs import encode
 import os
 import random
 import tempfile
@@ -45,7 +46,7 @@ if F and os.path.exists( F ):
             a = f.read( chunk )
             b = raw_data[ seek_to : seek_to + chunk ]
         
-            assert a == b, "'%s' != '%s' on %dth attempt" % ( a.encode("hex"), b.encode("hex"), i )
+            assert a == b, "'%s' != '%s' on %dth attempt" % ( encode(a, "hex"), encode(b, "hex"), i )
 
             assert f.tell() == min( seek_to + chunk, len(raw_data) )
         f.close()
@@ -54,12 +55,12 @@ if T and os.path.exists( T ):
        
     def test_text_reading():
         #raw_data = bz2.BZ2File( T ).read()
-        #raw_lines = raw_data.split( "\n" )
+        #raw_lines = raw_data.split( b"\n" )
         raw_file = bz2.BZ2File( T )
         f = seekbzip2.SeekableBzip2File( T, T + "t" )
         pos = 0
         for i, ( line, raw_line ) in enumerate( zip( f, raw_file ) ):
-            assert line == raw_line, "%d: %r != %r" % ( i, line.rstrip( "\n" ), raw_line )
+            assert line == raw_line, "%d: %r != %r" % ( i, line.rstrip( b"\n" ), raw_line )
             pos += len( line )
             ftell = f.tell()
             assert ftell == pos, "%d != %d" % ( ftell, pos )
@@ -69,13 +70,13 @@ if T and os.path.exists( T ):
     def test_text_reading_2():
         raw_data = bz2.BZ2File( T ).read()
         f = seekbzip2.SeekableBzip2File( T, T + "t" )
-        raw_lines = raw_data.split( "\n" )
+        raw_lines = raw_data.split( b"\n" )
         pos = 0
         i = 0
         while 1:
             line = f.readline()
-            if line == "": break
-            assert line.rstrip( "\r\n" ) == raw_lines[i], "%r != %r" % ( line.rstrip( "\r\n" ), raw_lines[i] )
+            if line == b"": break
+            assert line.rstrip( b"\r\n" ) == raw_lines[i], "%r != %r" % ( line.rstrip( b"\r\n" ), raw_lines[i] )
             pos += len( line )
             ftell = f.tell()
             assert ftell == pos, "%d != %d" % ( ftell, pos )  
