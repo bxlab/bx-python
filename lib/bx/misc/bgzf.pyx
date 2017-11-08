@@ -3,11 +3,14 @@ Seekable access to BGZ files based on samtools code. Does not yet implement
 complete file-like interface.
 """
 
+from cpython.version cimport PY_MAJOR_VERSION
+
 ctypedef unsigned long long int64_t
 
 cdef extern from "Python.h":
     char * PyBytes_AsString( object )
     object PyBytes_FromStringAndSize( char *, int )
+    char * PyUnicode_AsUTF8( object ) except NULL
 
 cdef extern from "bgzf.h":
     ctypedef struct BGZF
@@ -20,14 +23,19 @@ cdef extern from "bgzf.h":
 cdef class BGZFFile( object ):
     cdef BGZF * bgzf
     def __init__( self, path, mode="r" ):
-        self.bgzf = bgzf_open( path, mode )
+        if PY_MAJOR_VERSION >= 3:
+            self.bgzf = bgzf_open( PyUnicode_AsUTF8(path), PyUnicode_AsUTF8(mode) )
+        else:
+            self.bgzf = bgzf_open( path, mode )
         if not self.bgzf:
             raise IOError( "Could not open file" )
+      
     def close( self ):
         if self.bgzf:
             bgzf_close( self.bgzf )
     def read( self, int length ):
-        cdef object rval = PyBytes_FromStringAndSize( NULL, length )
+        cdef object rval
+        rval = PyBytes_FromStringAndSize( NULL, length )
         bgzf_read( self.bgzf, PyBytes_AsString( rval ), length )
         return rval
     def tell( self ):

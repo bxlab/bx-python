@@ -3,9 +3,13 @@ Pyrex/C extension supporting `bx.misc.seekbzip2` (wrapping the low level
 functions in `micro-bunzip.c`).
 """
 
+from cpython.version cimport PY_MAJOR_VERSION
+
 cdef extern from "Python.h":
     char * PyBytes_AsString( object )
     object PyBytes_FromStringAndSize( char *, int )
+    char * PyUnicode_AsUTF8( object ) except NULL
+    object PyUnicode_AsUTF8AndSize( char *, int )
 
 cdef extern from "micro-bunzip.h":
     ctypedef struct bunzip_data:
@@ -94,8 +98,12 @@ cdef class SeekBzip2:
         chunks = []
         # We have great difficulty resizing buffers, so we'll just create
         # one 8k string at a time
-        rval = PyBytes_FromStringAndSize( NULL, 8192 )
-        p_rval = PyBytes_AsString( rval )
+        if PY_MAJOR_VERSION >=3:
+            rval = PyUnicode_AsUTF8AndSize( NULL, 8192 )
+            p_rval = PyUnicode_AsUTF8( rval )
+        else:
+            rval = PyBytes_FromStringAndSize( NULL, 8192 )
+            p_rval = PyBytes_AsString( rval )
         spaceleft = 8192
         while amount != 0:
             if amount > 0 and amount < spaceleft:
@@ -127,8 +135,12 @@ cdef class SeekBzip2:
                 if amount == 0:
                     # Got the desired amount
                     break
-                rval = PyBytes_FromStringAndSize( NULL, 8192 )
-                p_rval = PyBytes_AsString( rval )
+                if PY_MAJOR_VERSION >=3:
+                    rval = PyUnicode_AsUTF8AndSize( NULL, 8192 )
+                    p_rval = PyUnicode_AsUTF8( rval )
+                else:
+                    rval = PyBytes_FromStringAndSize( NULL, 8192 )
+                    p_rval = PyBytes_AsString( rval )
                 spaceleft = 8192
             elif status == -8:
                 ## sys.stderr.write( "readline, END_OF_BLOCK\n" ); sys.stderr.flush()
@@ -166,8 +178,12 @@ cdef class SeekBzip2:
         if self.at_eof:
             return None
         # Create a new python string large enough to hold the result
-        rval = PyBytes_FromStringAndSize( NULL, amount )
-        p_rval = PyBytes_AsString( rval )
+        if PY_MAJOR_VERSION >=3:
+            rval = PyUnicode_AsUTF8AndSize( NULL, amount )
+            p_rval = PyUnicode_AsUTF8( rval )
+        else:
+            rval = PyBytes_FromStringAndSize( NULL, amount )
+            p_rval = PyBytes_AsString( rval )
         # Read into it
         ## sys.stderr.write( "read called, bd.current: %x\n" % self.bd.writeCurrent ); sys.stderr.flush()
         while amount > 0:
@@ -187,5 +203,3 @@ cdef class SeekBzip2:
                 p_rval = p_rval + gotcount
         # Return whatever we read
         return rval[:totalcount]
-    
-    

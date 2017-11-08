@@ -25,7 +25,7 @@ valid_seq_len = len(valid_seq)
 class QDNATestCase(unittest.TestCase):
 
     def test_get(self):
-        qdnafile = qdna.QdnaFile(file(test_qdna,"rb"))
+        qdnafile = qdna.QdnaFile(open(test_qdna,"rb"))
         check_get(qdnafile, 0, valid_seq_len)
         check_get(qdnafile, 0, 40)
         check_get(qdnafile, valid_seq_len - 40, 40)

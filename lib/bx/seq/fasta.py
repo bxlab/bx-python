@@ -32,7 +32,6 @@ Typical use:
 """
 from __future__ import print_function
 
-import string
 import sys
 
 from bx.seq.seq import SeqFile,SeqReader
@@ -53,6 +52,8 @@ class FastaFile(SeqFile):
                 (line,self.lookahead) = (self.lookahead,None)
             else:
                 line = self.file.readline()
+                if not isinstance(line, str):
+                    line = line.decode()
             if (line == ""): break
             if not line:
                 break

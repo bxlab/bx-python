@@ -9,7 +9,7 @@ cimport numpy
 from types cimport *
 from bx.intervals.io import GenomicInterval
 from bx.misc.binary_file import BinaryFileReader
-from six.moves import cStringIO as StringIO
+from io import BytesIO
 import zlib
 
 DEF big_bed_sig = 0x8789F2EB
@@ -29,16 +29,16 @@ cdef class BigBedBlockHandler( BlockHandler ):
         self.chrom_id = chrom_id
         self.start = start
         self.end = end
-    cdef handle_block( self, str block_data, BBIFile bbi_file ):
-        cdef object string_io
+    cdef handle_block( self, bytes block_data, BBIFile bbi_file ):
+        cdef object bytes_io
         cdef int length
         cdef bits32 chrom_id, s, e
         cdef str rest
         # Now we parse the block, which should just be a bunch of BED records
-        string_io = StringIO( block_data )
-        block_reader = BinaryFileReader( string_io, is_little_endian=bbi_file.reader.is_little_endian )
+        bytes_io = BytesIO( block_data )
+        block_reader = BinaryFileReader( bytes_io, is_little_endian=bbi_file.reader.is_little_endian )
         length = len( block_data )
-        while string_io.tell() < length:
+        while bytes_io.tell() < length:
             chrom_id = block_reader.read_uint32()
             s = block_reader.read_uint32()
             e = block_reader.read_uint32()

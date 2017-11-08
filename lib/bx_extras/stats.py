@@ -219,6 +219,12 @@ import math, string, copy  # required python modules
 from types import *
 
 from six.moves import input
+from six import PY3
+if PY3:
+    IntType = int
+    FloatType = float
+    ListType = list
+    TupleType = tuple
 
 from . import pstat               # required 3rd party module
 

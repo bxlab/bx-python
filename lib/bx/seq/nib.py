@@ -22,7 +22,6 @@ offset 0x08:  ...        data sequence;  most significant nybble in each
 from __future__ import division
 
 import math
-import string
 import struct
 import sys
 

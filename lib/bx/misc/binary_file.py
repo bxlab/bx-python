@@ -74,10 +74,10 @@ class BinaryFileReader( object ):
         while 1:
             ch = self.file.read(1)
             assert len( ch ) == 1, "Unexpected end of file"
-            if ch == '\0':
+            if ch == b'\0':
                 break
             rval.append( ch )
-        return ''.join( rval )
+        return b''.join( rval )
         
     def read_raw_array( self, dtype, size ):
         a = numpy.fromfile( self.file, dtype=dtype, count=size )
@@ -147,7 +147,7 @@ class BinaryFileWriter( object ):
         Read a zero terminated (C style) string
         """
         self.file.write( value )
-        self.file.write( '\0' )
+        self.file.write( b'\0' )
         
     def write_raw_array( self, value ):
         value.tofile( self.file )

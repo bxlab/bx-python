@@ -46,7 +46,7 @@ def test_cpg_inclusive():
     cpgfilter.run( reader, writer.write )
     out.seek(0)
     j=0
-    for line in file(out.name):
+    for line in open(out.name):
         line = line.strip()
         if not(line):
             continue
@@ -61,7 +61,7 @@ def test_cpg_restricted():
     cpgfilter.run( reader, writer.write )
     out.seek(0)
     j=0
-    for line in file(out.name):
+    for line in open(out.name):
         line = line.strip()
         if not(line):
             continue
@@ -76,7 +76,7 @@ def test_non_cpg():
     cpgfilter.run( reader, writer.write )
     out.seek(0)
     j=0
-    for line in file(out.name):
+    for line in open(out.name):
         line = line.strip()
         if not(line):
             continue
