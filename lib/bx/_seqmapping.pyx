@@ -9,7 +9,7 @@ cdef extern from "stdlib.h":
 cdef extern from "Python.h":
     int PyObject_AsReadBuffer(object, void **, int *) except -1
     int PyObject_AsWriteBuffer(object, void **, int *) except -1
-    int PyString_AsStringAndSize(object, char **, int *) except -1
+    int PyBytes_AsStringAndSize(object, char **, int *) except -1
 
 from numpy import zeros
 from math import floor
@@ -46,7 +46,7 @@ cdef class CharToIntArrayMapping:
         cdef unsigned char * s_buf
         cdef int * t_buf
         # Get direct access to string
-        PyString_AsStringAndSize( string, <char **> &s_buf, &s_len )
+        PyBytes_AsStringAndSize( string, <char **> &s_buf, &s_len )
         # Initialize empty array
         rval = zeros( s_len, 'i' )
         PyObject_AsWriteBuffer( rval, <void **> &t_buf, &t_len ) 
@@ -76,7 +76,7 @@ cdef class CharToIntArrayMapping:
         # Loop over seqs and accumulate result values
         factor = 1
         for string in strings:
-            PyString_AsStringAndSize( string, <char **> &s_buf, &s_len )
+            PyBytes_AsStringAndSize( string, <char **> &s_buf, &s_len )
             for i from 0 <= i < text_len:
                 if t_buf[i] >= 0: 
                     if self.table[ s_buf[i] ] == -1: 
