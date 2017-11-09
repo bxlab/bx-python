@@ -93,7 +93,7 @@ def rem_dash(p, q):
 def fastLoadChain(fname, hf):
     data = []
     open_f = (fname.endswith(".gz") and gzip.open or open)
-    with open_f(fname) as fd:
+    with open_f(fname, "rt") as fd:
         while True:
             line = fd.readline()
             if line == "":
