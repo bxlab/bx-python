@@ -17,6 +17,8 @@ import sys
 from io import TextIOWrapper
 import os.path
 
+from six import PY3
+
 from bx import interval_index_file
 import bx.align.maf
 from bx.misc.seekbzip2 import SeekableBzip2File
@@ -63,7 +65,9 @@ def main():
     except:
         doc_optparse.exception()
 
-    maf_reader = bx.align.maf.Reader( TextIOWrapper(maf_in, encoding="ascii") )
+    if PY3:
+        maf_in = TextIOWrapper(maf_in, encoding="ascii")
+    maf_reader = bx.align.maf.Reader( maf_in )
 
     indexes = interval_index_file.Indexes()
 
