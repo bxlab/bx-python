@@ -138,6 +138,11 @@ except:
 
 # ---- Extension Modules ----------------------------------------------------
 
+# # suppress C++ #warning, e.g., to silence NumPy deprecation warnings:
+# from functools import partial
+# _Extension = Extension
+# Extension = partial(_Extension, extra_compile_args=["-Wno-cpp"])
+
 def get_extension_modules( numpy_include=None ):
     extensions = []
     # Bitsets
@@ -204,7 +209,8 @@ def get_extension_modules( numpy_include=None ):
                                         "lib/bx/align/sitemask/find_cpg.c" ] ) )
         
         # Counting n-grams in integer strings
-        extensions.append( Extension( "bx.intseq.ngramcount", [ "lib/bx/intseq/ngramcount.pyx" ] ) )
+        extensions.append( Extension( "bx.intseq.ngramcount", [ "lib/bx/intseq/ngramcount.pyx" ],
+                                      include_dirs=["src"] ) )
 
         # Seekable access to bzip2 files
         extensions.append( Extension( "bx.misc._seekbzip2", 
