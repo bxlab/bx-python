@@ -44,6 +44,3 @@ class NIBTestCase( unittest.TestCase ):
 
 def check_get( nibfile, start, len ):
     assert nibfile.get( start, len ) == valid_seq[start:start+len]
-
-test_classes = [ NIBTestCase ]
-suite = unittest.TestSuite( [ unittest.makeSuite( c ) for c in test_classes ] )

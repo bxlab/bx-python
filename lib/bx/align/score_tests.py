@@ -89,6 +89,3 @@ class BasicTests( unittest.TestCase ):
         ss = asymm_scheme
         for t1, t2, score in aligns_for_asymm_scheme:
             self.assertEquals( bx.align.score.score_texts( ss, t1, t2 ), score )
-   
-test_classes = [ BasicTests ]
-suite = unittest.TestSuite( [ unittest.makeSuite( c ) for c in test_classes ] )

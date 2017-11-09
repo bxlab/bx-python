@@ -32,6 +32,3 @@ class FASTATestCase( unittest.TestCase ):
 
 def check_get( fastafile, start, len ):
     assert fastafile.get( start, len ) == valid_seq[start:start+len]
-
-test_classes = [ FASTATestCase ]
-suite = unittest.TestSuite( [ unittest.makeSuite( c ) for c in test_classes ] )

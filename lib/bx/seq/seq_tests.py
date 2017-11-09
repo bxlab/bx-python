@@ -50,6 +50,3 @@ class SEQTestCase (unittest.TestCase):
 
 def check_get (seqfile, valid_seq, start, len):
     assert seqfile.get (start, len) == valid_seq[start:start+len]
-
-test_classes = [SEQTestCase]
-suite = unittest.TestSuite ([unittest.makeSuite (c) for c in test_classes])

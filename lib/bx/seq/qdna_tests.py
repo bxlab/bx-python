@@ -32,6 +32,3 @@ class QDNATestCase(unittest.TestCase):
 
 def check_get(qdnafile, start, len):
     assert qdnafile.get(start, len) == valid_seq[start:start+len]
-
-test_classes = [ QDNATestCase ]
-suite = unittest.TestSuite( [ unittest.makeSuite( c ) for c in test_classes ] )
