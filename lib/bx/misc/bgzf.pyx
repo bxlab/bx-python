@@ -9,11 +9,11 @@ ctypedef unsigned long long int64_t
 
 cdef extern from "Python.h":
     char * PyBytes_AsString( object )
-    object PyBytes_FromStringAndSize( char *, int )
+    object PyBytes_FromStringAndSize( char *, Py_ssize_t )
 
 cdef extern from "bgzf.h":
     ctypedef struct BGZF
-    BGZF * bgzf_open( char * path, char * mode )
+    BGZF * bgzf_open( const char * path, const char * mode )
     int bgzf_close( BGZF * fp )
     int bgzf_read( BGZF * fp, void * data, int length )
     int64_t bgzf_tell( BGZF * fp )

@@ -2,7 +2,7 @@ from cpython.version cimport PY_MAJOR_VERSION
 
 cdef extern from "Python.h":
     char * PyBytes_AsString( object )
-    object PyBytes_FromStringAndSize( char *, int )
+    object PyBytes_FromStringAndSize( char *, Py_ssize_t )
 
 import struct, sys
 

@@ -34,7 +34,8 @@ def count_ngrams( object ints, int n, int radix ):
     `ints` (which contains values from 0 to `radix`). Returns an array
     of length `radix` ** `n` containing the counts.
     """
-    cdef PyArrayInterface * ints_desc, * rval_desc
+    cdef PyArrayInterface * ints_desc
+    cdef PyArrayInterface * rval_desc
     # Get array interface for input string and validate
     ints_desc_obj = ints.__array_struct__
     ints_desc = <PyArrayInterface *> PyCObject_AsVoidPtr( ints_desc_obj )

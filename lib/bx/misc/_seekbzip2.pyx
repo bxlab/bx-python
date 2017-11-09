@@ -5,7 +5,7 @@ functions in `micro-bunzip.c`).
 
 cdef extern from "Python.h":
     char * PyBytes_AsString( object )
-    object PyBytes_FromStringAndSize( char *, int )
+    object PyBytes_FromStringAndSize( char *, Py_ssize_t )
 
 cdef extern from "micro-bunzip.h":
     ctypedef struct bunzip_data:

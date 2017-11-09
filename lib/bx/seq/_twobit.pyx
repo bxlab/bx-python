@@ -2,16 +2,13 @@ from cpython.version cimport PY_MAJOR_VERSION
 
 cdef extern from "Python.h":
     char * PyBytes_AsString( object )
-    object PyBytes_FromStringAndSize( char *, int )
-
-    int _PyString_Resize( object, int ) except -1
-    void PyErr_Print()
+    object PyBytes_FromStringAndSize( char *, Py_ssize_t )
 
 cdef extern from "ctype.h":
     int tolower( int )
     
 cdef extern from "string.h":
-    void * memset( void *, int, int )
+    void * memset( void *, int, size_t )
 
 import struct, sys
 
