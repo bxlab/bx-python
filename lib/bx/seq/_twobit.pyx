@@ -3,11 +3,6 @@ from cpython.version cimport PY_MAJOR_VERSION
 cdef extern from "Python.h":
     char * PyBytes_AsString( object )
     object PyBytes_FromStringAndSize( char *, int )
-    char * PyUnicode_AsUTF8( object )
-    object PyUnicode_AsUTF8AndSize( char *, int )
-    object PyUnicode_FromStringAndSize( char *, int )
-    object PyUnicode_FromString( char * )
-    object PyUnicode_FromStringAndSize( char * )
 
     int _PyString_Resize( object, int ) except -1
     void PyErr_Print()
@@ -138,6 +133,6 @@ def read( file, seq, int fragStart, int fragEnd, bint do_mask ):
                     for j from s <= j < e:
                         dna[j-fragStart] = tolower( dna[j-fragStart] )
     if PY_MAJOR_VERSION >= 3:
-        return PyUnicode_FromString(dna_py)
+        return dna_py.decode()
     else:
         return dna_py

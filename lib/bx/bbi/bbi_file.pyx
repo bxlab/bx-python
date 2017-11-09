@@ -27,7 +27,6 @@ from io import BytesIO
 import zlib, math
 
 cdef extern from "Python.h":
-    char * PyUnicode_AsUTF8( object ) except NULL
     char * PyBytes_AsString( object )
 
 # Signatures for bbi related file types
@@ -187,9 +186,10 @@ cdef class BBIFile:
         """
         cdef char * cchrom
         if PY_MAJOR_VERSION >= 3:
-            cchrom = PyUnicode_AsUTF8(chrom)
+            bytes_chrom = chrom.encode()
         else:
-            cchrom = PyBytes_AsString(chrom)
+            bytes_chrom = chrom
+        cchrom = PyBytes_AsString(bytes_chrom)
         if start >= end:
             return None
         chrom_id, chrom_size = self._get_chrom_id_and_size( cchrom )

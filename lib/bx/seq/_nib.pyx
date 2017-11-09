@@ -3,7 +3,6 @@ from cpython.version cimport PY_MAJOR_VERSION
 cdef extern from "Python.h":
     char * PyBytes_AsString( object )
     object PyBytes_FromStringAndSize( char *, int )
-    object PyUnicode_FromString( char * )
 
 import struct, sys
 
@@ -52,6 +51,6 @@ def translate_raw_data( data, int start, int length ):
         p_rval[i] = NIB_I2C_TABLE_FIRST[ p_data[0] ]
 
     if PY_MAJOR_VERSION >= 3:
-        return PyUnicode_FromString(p_rval)
+        return rval.decode()
     else:
         return rval

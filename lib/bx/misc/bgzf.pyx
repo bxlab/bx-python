@@ -10,7 +10,6 @@ ctypedef unsigned long long int64_t
 cdef extern from "Python.h":
     char * PyBytes_AsString( object )
     object PyBytes_FromStringAndSize( char *, int )
-    char * PyUnicode_AsUTF8( object ) except NULL
 
 cdef extern from "bgzf.h":
     ctypedef struct BGZF
@@ -24,9 +23,10 @@ cdef class BGZFFile( object ):
     cdef BGZF * bgzf
     def __init__( self, path, mode="r" ):
         if PY_MAJOR_VERSION >= 3:
-            self.bgzf = bgzf_open( PyUnicode_AsUTF8(path), PyUnicode_AsUTF8(mode) )
+            bytes_path, bytes_mode = path.encode(), mode.encode()
         else:
-            self.bgzf = bgzf_open( path, mode )
+            bytes_path, bytes_mode = path, mode
+        self.bgzf = bgzf_open( bytes_path, bytes_mode )
         if not self.bgzf:
             raise IOError( "Could not open file" )
       

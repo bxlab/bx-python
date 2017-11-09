@@ -6,7 +6,6 @@ from cpython.version cimport PY_MAJOR_VERSION
 
 cdef extern from "Python.h":
     int PyBytes_AsStringAndSize(object obj, char **buffer, Py_ssize_t* length) except -1
-    char * PyUnicode_AsUTF8AndSize(object obj, Py_ssize_t* length) except NULL
 
 cdef extern from "numpy/arrayobject.h":
     ctypedef int intp
@@ -38,9 +37,10 @@ def score_string( ndarray matrix, ndarray char_to_index, object string, ndarray 
     cdef npy_int16 char_index
     # Get input string as character pointer
     if PY_MAJOR_VERSION >= 3:
-        buffer = PyUnicode_AsUTF8AndSize(string, &len )
+        bytes_string = string.encode()
     else:
-        PyBytes_AsStringAndSize(string, &buffer, &len )
+        bytes_string = string
+    PyBytes_AsStringAndSize(bytes_string, &buffer, &len )
     # Loop over each position in the string 
     cdef int stop = len - matrix.dimensions[0] + 1
     for i from 0 <= i < stop:
@@ -71,9 +71,10 @@ def score_string_with_gaps( ndarray matrix, ndarray char_to_index, object string
     cdef npy_int16 char_index
     # Get input string as character pointer
     if PY_MAJOR_VERSION >= 3:
-        buffer = PyUnicode_AsUTF8AndSize(string, &len )
+        bytes_string = string.encode()
     else:
-        PyBytes_AsStringAndSize(string, &buffer, &len )
+        bytes_string = string
+    PyBytes_AsStringAndSize(bytes_string, &buffer, &len )
     # Loop over each position in the string 
     cdef int stop = len - matrix.dimensions[0] + 1
     for i from 0 <= i < stop:
