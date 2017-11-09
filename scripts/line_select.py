@@ -25,10 +25,10 @@ def __main__():
     else:
         match = 1
     
-    feature_vector = [ int( line ) for line in file( feature_file ) ]
+    feature_vector = [ int( line ) for line in open( feature_file ) ]
 
     for index, line in enumerate( sys.stdin ):
-        if feature_vector[ index ] == match: print(line, end=' ')
+        if feature_vector[ index ] == match: print(line, end='')
 
 if __name__ == "__main__":
     __main__()

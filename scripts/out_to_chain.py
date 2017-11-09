@@ -22,7 +22,7 @@ def outFile(s):
 def loadChrSizes(path):
     data = {}
     with open(path) as fd:
-        for ch, s in (l.split(_) for _ in fd):
+        for ch, s in (l.split() for l in fd):
             data[ch] = int(s)
     return data
 

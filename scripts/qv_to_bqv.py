@@ -16,7 +16,7 @@ import string
 import sys
 
 import psyco_full
-from binned_array import *
+from bx.binned_array import *
 from bx.cookbook import *
 
 
