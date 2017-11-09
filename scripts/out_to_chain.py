@@ -35,7 +35,8 @@ def convert_action(trg_comp, qr_comp, ts, qs, opt):
                 continue
             new_id = "%si%d" % (ch.id, i)
             print(str(ch._replace(id=new_id)), file=opt.output)
-            map(lambda tup: opt.output.write("%d %d %d\n" % tup), zip(S, T, Q))
+            for s, t, q in  zip(S, T, Q):
+                print("%d %d %d" % (s, t, q), file=opt.output)
             print("%d\n" % S[-1], file=opt.output)
         except KeyError:
             log.warning("skipping chromosome/contig (%s, %s)" % (a.chrom, b.chrom))
