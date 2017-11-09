@@ -62,6 +62,10 @@ cdef class BigWigBlockHandler( BlockHandler ):
                 s = b_start + ( i * b_item_span )
                 e = s + b_item_span
                 val = block_reader.read_float()
+            else:
+                # FIXME: raise exception???
+                #        s, e, val are uninitialized/not updated at this point!
+                pass
             if s < self.start: 
                 s = self.start
             if e > self.end: 
