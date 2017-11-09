@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from __future__ import print_function
 
+from collections import OrderedDict
 import logging
 import os
 import sys
@@ -20,7 +21,7 @@ def outFile(s):
     return open(s, 'w')
 
 def loadChrSizes(path):
-    data = {}
+    data = OrderedDict()
     with open(path) as fd:
         for ch, s in (l.split() for l in fd):
             data[ch] = int(s)
@@ -60,7 +61,7 @@ if __name__ == '__main__':
     qsizes = loadChrSizes(opt.chrsizes[1])
 
     log.info("loading alignments ...")
-    data = EPOitem._parse_epo(opt.input)
+    data = OrderedDict(sorted(EPOitem._parse_epo(opt.input).items()))
 
     log.info("dumping ...")
     for k in data:
