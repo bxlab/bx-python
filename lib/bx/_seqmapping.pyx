@@ -3,13 +3,13 @@ Pyrex extension classes used by `seqmapping.py`.
 """
 
 cdef extern from "stdlib.h":
-    void* malloc( int )
+    void* malloc( size_t )
     void free( void* )
 
 cdef extern from "Python.h":
-    int PyObject_AsReadBuffer(object, void **, int *) except -1
-    int PyObject_AsWriteBuffer(object, void **, int *) except -1
-    int PyString_AsStringAndSize(object, char **, int *) except -1
+    int PyObject_AsReadBuffer(object, const void **, Py_ssize_t *) except -1
+    int PyObject_AsWriteBuffer(object, void **, Py_ssize_t *) except -1
+    int PyBytes_AsStringAndSize(object, char **, Py_ssize_t *) except -1
 
 from numpy import zeros
 from math import floor
@@ -42,11 +42,11 @@ cdef class CharToIntArrayMapping:
 
     def translate( self, string ):
         """Translate 'string' and return as int array"""
-        cdef int s_len, t_len
+        cdef Py_ssize_t s_len, t_len
         cdef unsigned char * s_buf
         cdef int * t_buf
         # Get direct access to string
-        PyString_AsStringAndSize( string, <char **> &s_buf, &s_len )
+        PyBytes_AsStringAndSize( string, <char **> &s_buf, &s_len )
         # Initialize empty array
         rval = zeros( s_len, 'i' )
         PyObject_AsWriteBuffer( rval, <void **> &t_buf, &t_len ) 
@@ -58,8 +58,9 @@ cdef class CharToIntArrayMapping:
         
     def translate_list( self, strings ):
         """Translate a list of strings into an int array"""
-        cdef int text_len, factor, i
-        cdef int s_len, t_len
+        cdef Py_ssize_t text_len, i
+        cdef Py_ssize_t s_len, t_len
+        cdef int factor
         cdef unsigned char * s_buf
         cdef int * t_buf
 
@@ -76,7 +77,7 @@ cdef class CharToIntArrayMapping:
         # Loop over seqs and accumulate result values
         factor = 1
         for string in strings:
-            PyString_AsStringAndSize( string, <char **> &s_buf, &s_len )
+            PyBytes_AsStringAndSize( string, <char **> &s_buf, &s_len )
             for i from 0 <= i < text_len:
                 if t_buf[i] >= 0: 
                     if self.table[ s_buf[i] ] == -1: 
@@ -124,10 +125,11 @@ cdef class IntToIntMapping:
 
     def translate( self, src ):
         """Translate `string` and return as int array"""
-        cdef int s_len, t_len
-        cdef int *s_buf, *t_buf
+        cdef Py_ssize_t s_len, t_len
+        cdef int *s_buf
+        cdef int *t_buf
         # Get direct access to string
-        PyObject_AsReadBuffer( src, <void **> &s_buf, &s_len )
+        PyObject_AsReadBuffer( src, <const void **> &s_buf, &s_len )
         s_len = s_len / sizeof( int )
         assert s_len == len( src ), "`src` argument must be a buffer of 32bit integers"
         # Initialize empty array

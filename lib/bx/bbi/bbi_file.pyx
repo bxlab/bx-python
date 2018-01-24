@@ -7,6 +7,9 @@ There isn't really any specification for the format beyond the code, so this
 mirrors Jim Kent's 'bbiRead.c' mostly. 
 """
 
+from cpython.version cimport PY_MAJOR_VERSION
+import sys
+
 cimport cython
 
 from collections import deque
@@ -20,8 +23,11 @@ import numpy
 cimport numpy
 
 from bx.misc.binary_file import BinaryFileReader
-from six.moves import cStringIO as StringIO
+from io import BytesIO
 import zlib, math
+
+cdef extern from "Python.h":
+    char * PyBytes_AsString( object )
 
 # Signatures for bbi related file types
 
@@ -104,7 +110,7 @@ cdef class BlockHandler:
     """
     Callback for `BBIFile.visit_blocks_in_region`
     """
-    cdef handle_block( self, str block_data, BBIFile bbi_file ):
+    cdef handle_block( self, bytes block_data, BBIFile bbi_file ):
         pass
 
 cdef class BBIFile:
@@ -174,13 +180,19 @@ cdef class BBIFile:
                 block_data = zlib.decompress( block_data )
             handler.handle_block( block_data, self )
         
-    cpdef summarize( self, char * chrom, bits32 start, bits32 end, int summary_size ):
+    cpdef summarize( self, object chrom, bits32 start, bits32 end, int summary_size ):
         """
         Gets `summary_size` data points over the regions `chrom`:`start`-`end`.
         """
+        cdef char * cchrom
+        if PY_MAJOR_VERSION >= 3:
+            bytes_chrom = chrom.encode()
+        else:
+            bytes_chrom = chrom
+        cchrom = PyBytes_AsString(bytes_chrom)
         if start >= end:
             return None
-        chrom_id, chrom_size = self._get_chrom_id_and_size( chrom )
+        chrom_id, chrom_size = self._get_chrom_id_and_size( cchrom )
         if chrom_id is None:
             return None
         # Return value will be a structured array (rather than an array
@@ -212,15 +224,16 @@ cdef class BBIFile:
         # of summary element structures
         return self._summarize_from_full( chrom_id, start, end, summary_size )
 
-    cpdef query( self, char * chrom, bits32 start, bits32 end, int summary_size ):
+    cpdef query( self, object chrom, bits32 start, bits32 end, int summary_size ):
         """
         Provides a different view of summary for region, a list of dictionaries
         with keys: mean, max, min, coverage, std_dev
         """
-        
+
         if end > 2147483647 or start < 0:
             raise ValueError
         results = self.summarize(chrom, start, end, summary_size)
+
         if not results:
             return None
         
@@ -309,7 +322,7 @@ cdef class ZoomLevel:
             assert block_size % summary_on_disk_size == 0
             item_count = block_size / summary_on_disk_size
             # Create another reader just for the block, shouldn't be too expensive
-            block_reader = BinaryFileReader( StringIO( block_data ), is_little_endian=reader.is_little_endian )
+            block_reader = BinaryFileReader( BytesIO( block_data ), is_little_endian=reader.is_little_endian )
             for i from 0 <= i < item_count:
                 ## NOTE: Look carefully at bbiRead again to be sure the endian
                 ##       conversion here is all correct. It looks like it is 

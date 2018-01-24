@@ -4,10 +4,10 @@ Semi-random access to bz2 compressed data.
 
 import bisect
 import os
+from io import BytesIO
 import sys
 
 from six import Iterator
-from six.moves import cStringIO as StringIO
 
 try:
     import pkg_resources
@@ -30,7 +30,7 @@ class SeekableLzopFile( Iterator ):
         self.filename = filename
         self.table_filename = table_filename
         self.init_table()
-        self.file = open( self.filename, "r" )
+        self.file = open( self.filename, "rb" )
         self.dirty = True
         self.at_eof = False
         self.file_pos = 0
@@ -68,7 +68,7 @@ class SeekableLzopFile( Iterator ):
             self.file.seek( offset )
             data = self.file.read( csize )
             # Need to prepend a header for python-lzo module (silly)
-            data = ''.join( ( '\xf0', struct.pack( "!I", size ), data ) )
+            data = b''.join( ( b'\xf0', struct.pack( "!I", size ), data ) )
             value = lzo.decompress( data )
             if self.cache is not None:
                 self.cache[index] = value
@@ -77,7 +77,7 @@ class SeekableLzopFile( Iterator ):
     def fix_dirty( self ):
         chunk, offset = self.get_block_and_offset( self.file_pos )
         if self.current_block_index != chunk:
-            self.current_block = StringIO( self.load_block( chunk ) )
+            self.current_block = BytesIO( self.load_block( chunk ) )
             self.current_block.read( offset )
             self.current_block_index = chunk
         else:
@@ -119,25 +119,25 @@ class SeekableLzopFile( Iterator ):
         if self.dirty:
             self.fix_dirty()
         if self.at_eof:
-            return ""
+            return b""
         rval = []
         while 1:
             line = self.current_block.readline()
             self.file_pos += len( line )
             rval.append( line )
-            if len( line ) > 0 and line[-1] == '\n':
+            if len( line ) > 0 and line[-1] == b'\n':
                 break
             elif self.current_block_index == self.nblocks - 1:
                 self.at_eof = True
                 break
             else:
                 self.current_block_index += 1
-                self.current_block = StringIO( self.load_block( self.current_block_index ) )      
-        return "".join( rval ) 
+                self.current_block = BytesIO( self.load_block( self.current_block_index ) )
+        return b"".join( rval )
             
     def __next__( self ):
         line = self.readline()
-        if line == "":
+        if line == b"":
             raise StopIteration
             
     def __iter__( self ):
@@ -145,7 +145,7 @@ class SeekableLzopFile( Iterator ):
 
 # --- Factor out ---        
         
-MAGIC="\x89\x4c\x5a\x4f\x00\x0d\x0a\x1a\x0a"
+MAGIC=b"\x89\x4c\x5a\x4f\x00\x0d\x0a\x1a\x0a"
 
 F_ADLER32_D     = 0x00000001
 F_ADLER32_C     = 0x00000002

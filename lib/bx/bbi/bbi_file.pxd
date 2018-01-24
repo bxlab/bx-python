@@ -40,7 +40,7 @@ cdef class BlockHandler:
     """
     Callback for `BBIFile.visit_blocks_in_region`
     """
-    cdef handle_block( self, str block_data, BBIFile bbi_file )
+    cdef handle_block( self, bytes block_data, BBIFile bbi_file )
 
 cdef class BBIFile:
     """
@@ -83,9 +83,9 @@ cdef class BBIFile:
     cdef visit_blocks_in_region( self, bits32 chrom_id, bits32 start, bits32 end, BlockHandler handler )
     cdef _get_chrom_id_and_size( self, char * chrom )
     cdef _best_zoom_level( self, int desired_reduction )
-    cpdef summarize( self, char * chrom, bits32 start, bits32 end, int summary_size )
+    cpdef summarize( self, object chrom, bits32 start, bits32 end, int summary_size )
     cpdef summarize_from_full( self, char * chrom, bits32 start, bits32 end, int summary_size )
-    cpdef query( self, char * chrom, bits32 start, bits32 end, int summary_size )
+    cpdef query( self, object chrom, bits32 start, bits32 end, int summary_size )
     cdef _summarize_from_full( self, bits32 chrom_id, bits32 start, bits32 end, int summary_size )    
 
 

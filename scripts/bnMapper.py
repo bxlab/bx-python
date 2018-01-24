@@ -140,7 +140,8 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
             mapped_elem_count += 1
             log.debug("\tjoined to %d elements" % (len(to_elem_list)))
             if opt.format == "BED4":
-                map(lambda tel: out_fd.write(BED4_FRM % tel), to_elem_list)
+                for tel in to_elem_list:
+                    out_fd.write(BED4_FRM % tel)
             else:
                 start = to_elem_list[0][1]
                 end = to_elem_list[-1][2]
@@ -257,6 +258,3 @@ if __name__ == "__main__":
             transform_file(loadFeatures(inpath), outpath, EPO, TREE, opt)
     else:
         transform_file(loadFeatures( opt.input[0] ), opt.output, EPO, TREE, opt)
-
-
-

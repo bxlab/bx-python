@@ -57,7 +57,7 @@ def infer_format (file):
         format = "qdna"
     else:
         file.seek(0)
-        if (file.read(1) == ">"):
+        if (file.read(1) == b">"):
             format = "fasta"
     file.seek(0)
     return format

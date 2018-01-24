@@ -13,7 +13,7 @@ class lavTestCase(unittest.TestCase):
 
     def testReader(self):
 
-        reader = lav.Reader(file(test_lav))
+        reader = lav.Reader(open(test_lav))
 
         a = next(reader)
         assert a.score == 10286, "a.score is wrong: %s" % a.score
@@ -40,6 +40,3 @@ def check_component( c, src, start, size, strand, src_size, text ):
     assert c.strand   == strand,   "c.strand = %s (expected %s)"       % (c.strand,  strand)
     assert c.src_size == src_size, "c.src_size = %s (expected %s)"     % (c.src_size,src_size)
     assert c.text     == text,     "c.text = \"%s\" (expected \"%s\")" % (c.text,    text)
-
-test_classes = [ lavTestCase ]
-suite = unittest.TestSuite([ unittest.makeSuite(c) for c in test_classes ])

@@ -5,9 +5,10 @@ Support for the `MAF`_ multiple sequence alignment format used by `multiz`_.
 .. _multiz: http://www.bx.psu.edu/miller_lab/
 """
 import itertools
+from io import TextIOWrapper
 import os
 
-from six import Iterator, StringIO
+from six import Iterator, StringIO, PY3
 
 from bx import interval_index_file
 from bx.align import *
@@ -33,6 +34,12 @@ class MAFIndexedAccess( interval_index_file.AbstractIndexedAccess ):
         instance of `Alignment`.
         """
         return read_next_maf( file, **kwargs )
+
+    def open_data(self):
+        data = super(MAFIndexedAccess, self).open_data()
+        if PY3:
+            return TextIOWrapper(data, encoding="ascii")
+        return data
 
 class MAFMultiIndexedAccess( interval_index_file.AbstractMultiIndexedAccess ):
     """

@@ -76,7 +76,7 @@ class SeekableBzip2File( Iterator ):
                     chunks.append( val )
                 else:
                     break
-            return "".join( chunks )
+            return b"".join( chunks )
         else:
             return self._read( sizehint )
         
@@ -86,7 +86,7 @@ class SeekableBzip2File( Iterator ):
         if val is None:
             # EOF
             self.pos = self.size
-            val = ""
+            val = b""
         else:
             self.pos = self.pos + len( val )
         return val
@@ -97,7 +97,7 @@ class SeekableBzip2File( Iterator ):
         if val is None:
             # EOF
             self.pos = self.size
-            val = ""
+            val = b""
         else:
             self.pos = self.pos + len( val )
         return val
@@ -136,7 +136,7 @@ class SeekableBzip2File( Iterator ):
     
     def __next__(self):
         ln = self.readline()
-        if ln == "":
+        if ln == b"":
             raise StopIteration()
         return ln
     

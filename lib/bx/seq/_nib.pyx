@@ -1,7 +1,8 @@
+from cpython.version cimport PY_MAJOR_VERSION
+
 cdef extern from "Python.h":
-    char * PyString_AsString( object )
-    object PyString_FromStringAndSize( char *, int )
-    int _PyString_Resize( object, int ) except -1
+    char * PyBytes_AsString( object )
+    object PyBytes_FromStringAndSize( char *, Py_ssize_t )
 
 import struct, sys
 
@@ -20,11 +21,16 @@ def translate_raw_data( data, int start, int length ):
     cdef int i, j
     cdef char * p_rval
     cdef unsigned char * p_data
+
+    if length == 0 :
+      return ""
+
     # Allocate string to write into
-    rval = PyString_FromStringAndSize( NULL, length ) 
+    rval = PyBytes_FromStringAndSize( NULL, length )
+
     # Get char pointer access to strings
-    p_rval = PyString_AsString( rval )
-    p_data = <unsigned char *> PyString_AsString( data )
+    p_rval = PyBytes_AsString( rval )
+    p_data = <unsigned char *> PyBytes_AsString( data )
     i = 0
     # Odd start
     if start & 1: 
@@ -43,4 +49,8 @@ def translate_raw_data( data, int start, int length ):
     # Odd end
     if i < length: 
         p_rval[i] = NIB_I2C_TABLE_FIRST[ p_data[0] ]
-    return rval
+
+    if PY_MAJOR_VERSION >= 3:
+        return rval.decode()
+    else:
+        return rval

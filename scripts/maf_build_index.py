@@ -14,7 +14,10 @@ import psyco_full
 from bx.cookbook import doc_optparse
 
 import sys
+from io import TextIOWrapper
 import os.path
+
+from six import PY3
 
 from bx import interval_index_file
 import bx.align.maf
@@ -49,7 +52,7 @@ def main():
             # Strip .lzo from the filename before adding ".index"
             maf_file = maf_file[:-4]
         else:
-            maf_in = open( maf_file )
+            maf_in = open( maf_file, "rb" )
         # Determine the name of the index file
         if len( args ) > 1: 
             index_file = args[1]
@@ -62,6 +65,8 @@ def main():
     except:
         doc_optparse.exception()
 
+    if PY3:
+        maf_in = TextIOWrapper(maf_in, encoding="ascii")
     maf_reader = bx.align.maf.Reader( maf_in )
 
     indexes = interval_index_file.Indexes()

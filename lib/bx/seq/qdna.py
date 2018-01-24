@@ -39,7 +39,6 @@ variable (in which case it is an error).
 Recognized properties (at present only one):
   - codebook: A string in qdna code file format (see QdnaCodebook class for details).
 """
-import string
 import struct
 import sys
 
@@ -118,17 +117,19 @@ class QdnaFile(SeqFile):
 
 
     def read_string(self):
-        s = ""
+        s = b""
         while (True):
             ch = self.file.read(1)
-            if (ch == chr(0)): break
+            if (ch == b"\0"): break
             s += ch
+        if not isinstance(s, str):
+            return s.decode()
         return s
 
 
     def raw_fetch(self, start, length):
         self.file.seek(self.seqOffset + start)
-        return self.file.read(length)
+        return self.file.read(length).decode()
 
 
     def get_quantum(self, start, length):

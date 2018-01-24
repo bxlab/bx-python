@@ -2,8 +2,10 @@
 Extensions used by the `pwm` module.
 """
 
+from cpython.version cimport PY_MAJOR_VERSION
+
 cdef extern from "Python.h":
-    int PyString_AsStringAndSize(object obj, char **buffer, Py_ssize_t* length) except -1
+    int PyBytes_AsStringAndSize(object obj, char **buffer, Py_ssize_t* length) except -1
 
 cdef extern from "numpy/arrayobject.h":
     ctypedef int intp
@@ -34,7 +36,11 @@ def score_string( ndarray matrix, ndarray char_to_index, object string, ndarray 
     cdef int matrix_width = matrix.dimensions[0]
     cdef npy_int16 char_index
     # Get input string as character pointer
-    PyString_AsStringAndSize( string, &buffer, &len )
+    if PY_MAJOR_VERSION >= 3:
+        bytes_string = string.encode()
+    else:
+        bytes_string = string
+    PyBytes_AsStringAndSize(bytes_string, &buffer, &len )
     # Loop over each position in the string 
     cdef int stop = len - matrix.dimensions[0] + 1
     for i from 0 <= i < stop:
@@ -64,7 +70,11 @@ def score_string_with_gaps( ndarray matrix, ndarray char_to_index, object string
     cdef int matrix_width = matrix.dimensions[0]
     cdef npy_int16 char_index
     # Get input string as character pointer
-    PyString_AsStringAndSize( string, &buffer, &len )
+    if PY_MAJOR_VERSION >= 3:
+        bytes_string = string.encode()
+    else:
+        bytes_string = string
+    PyBytes_AsStringAndSize(bytes_string, &buffer, &len )
     # Loop over each position in the string 
     cdef int stop = len - matrix.dimensions[0] + 1
     for i from 0 <= i < stop:

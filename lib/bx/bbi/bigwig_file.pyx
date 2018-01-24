@@ -9,7 +9,7 @@ import numpy
 cimport numpy
 from types cimport *
 from bx.misc.binary_file import BinaryFileReader
-from six.moves import cStringIO as StringIO
+from io import BytesIO
 import zlib
 
 DEF big_wig_sig = 0x888FFC26
@@ -30,7 +30,7 @@ cdef class BigWigBlockHandler( BlockHandler ):
         BlockHandler.__init__( self )
         self.start = start
         self.end = end
-    cdef handle_block( self, str block_data, BBIFile bbi_file ):
+    cdef handle_block( self, bytes block_data, BBIFile bbi_file ):
         cdef bits32 b_chrom_id, b_start, b_end, b_valid_count
         cdef bits32 b_item_step, b_item_span
         cdef bits16 b_item_count
@@ -38,7 +38,7 @@ cdef class BigWigBlockHandler( BlockHandler ):
         cdef int s, e
         cdef float val
         # Now we parse the block, first the header
-        block_reader = BinaryFileReader( StringIO( block_data ), is_little_endian=bbi_file.reader.is_little_endian )
+        block_reader = BinaryFileReader( BytesIO( block_data ), is_little_endian=bbi_file.reader.is_little_endian )
         b_chrom_id = block_reader.read_uint32()
         b_start = block_reader.read_uint32()
         b_end = block_reader.read_uint32()
@@ -62,6 +62,10 @@ cdef class BigWigBlockHandler( BlockHandler ):
                 s = b_start + ( i * b_item_span )
                 e = s + b_item_span
                 val = block_reader.read_float()
+            else:
+                # FIXME: raise exception???
+                #        s, e, val are uninitialized/not updated at this point!
+                pass
             if s < self.start: 
                 s = self.start
             if e > self.end: 

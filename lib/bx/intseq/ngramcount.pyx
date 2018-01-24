@@ -6,11 +6,13 @@ import numpy
 
 cdef extern from "Python.h":
     ctypedef int Py_intptr_t
-    long PyInt_AsLong(object)
-    void Py_INCREF(object)
-    void Py_DECREF(object)
-    void * PyCObject_AsVoidPtr(object cobj)
-    
+
+# cdef extern from "numpy/npy_3kcompat.h":
+    # NOTE: including npy_3kcompat.h did not compile,
+    #       so use the explicitly extracted function from here:
+cdef extern from "npy_capsule_as_void_ptr.h":
+    void * NpyCapsule_AsVoidPtr(object) except NULL
+
 # for PyArrayInterface:
 CONTIGUOUS=0x01
 FORTRAN=0x02
@@ -34,10 +36,11 @@ def count_ngrams( object ints, int n, int radix ):
     `ints` (which contains values from 0 to `radix`). Returns an array
     of length `radix` ** `n` containing the counts.
     """
-    cdef PyArrayInterface * ints_desc, * rval_desc
+    cdef PyArrayInterface * ints_desc
+    cdef PyArrayInterface * rval_desc
     # Get array interface for input string and validate
     ints_desc_obj = ints.__array_struct__
-    ints_desc = <PyArrayInterface *> PyCObject_AsVoidPtr( ints_desc_obj )
+    ints_desc = <PyArrayInterface *> NpyCapsule_AsVoidPtr( ints_desc_obj )
     assert ints_desc.two == 2, "Array interface sanity check failed, got %d" % ints_desc.two
     assert ints_desc.nd == 1, "Input array must be 1d"
     assert ints_desc.typekind == 'i'[0], "Input array must contain integers"
@@ -49,7 +52,7 @@ def count_ngrams( object ints, int n, int radix ):
     rval = numpy.zeros( <int> ( ( <float> radix ) ** n ), dtype=numpy.int32 )
     assert ints_desc.two == 2, "Array interface sanity check failed, got %d" % ints_desc.two
     rval_desc_obj = rval.__array_struct__
-    rval_desc = <PyArrayInterface *> PyCObject_AsVoidPtr( rval_desc_obj )
+    rval_desc = <PyArrayInterface *> NpyCapsule_AsVoidPtr( rval_desc_obj )
     assert rval_desc.two == 2, "Array interface sanity check failed"
     assert rval_desc.nd == 1, "Input array must be 1d"
     assert rval_desc.typekind == 'i'[0], "Input array must contain integers"
@@ -79,4 +82,3 @@ cdef _count_ngrams( int* ints, int n_ints, int* rval, int n, int radix ):
         else:
             print index
             rval[ index ] = rval[ index ] + 1
-            

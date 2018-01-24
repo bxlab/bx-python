@@ -21,8 +21,8 @@ class Restricted( Masker ):
         if len(block.components) < 2:
             return
         cpglist = list_cpg_restricted( \
-            string.upper(block.components[0].text), \
-            string.upper(block.components[1].text) )
+            block.components[0].text.upper(), \
+            block.components[1].text.upper() )
 
         # now we have a fast list of CpG columns, iterate/mask
         self.masked += len(cpglist)
@@ -44,8 +44,8 @@ class Inclusive( Masker ):
         if len(block.components) < 2:
             return
         cpglist = list_cpg( \
-            string.upper(block.components[0].text), \
-            string.upper(block.components[1].text) )
+            block.components[0].text.upper(), \
+            block.components[1].text.upper() )
         
         self.masked += len( cpglist )
         self.total += len( block.components[0].text )
@@ -66,8 +66,8 @@ class nonCpG( Masker ):
         if len(block.components) < 2:
             return
         noncpglist = list_non_cpg( \
-            string.upper(block.components[0].text), \
-            string.upper(block.components[1].text) )
+            block.components[0].text.upper(), \
+            block.components[1].text.upper() )
 
         # now we have a fast list of non-CpG columns, iterate/mask
         self.masked += len(noncpglist)

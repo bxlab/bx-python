@@ -4,8 +4,8 @@ functions in `micro-bunzip.c`).
 """
 
 cdef extern from "Python.h":
-    char * PyString_AsString( object )
-    object PyString_FromStringAndSize( char *, int )
+    char * PyBytes_AsString( object )
+    object PyBytes_FromStringAndSize( char *, Py_ssize_t )
 
 cdef extern from "micro-bunzip.h":
     ctypedef struct bunzip_data:
@@ -94,8 +94,8 @@ cdef class SeekBzip2:
         chunks = []
         # We have great difficulty resizing buffers, so we'll just create
         # one 8k string at a time
-        rval = PyString_FromStringAndSize( NULL, 8192 )
-        p_rval = PyString_AsString( rval )
+        rval = PyBytes_FromStringAndSize( NULL, 8192 )
+        p_rval = PyBytes_AsString( rval )
         spaceleft = 8192
         while amount != 0:
             if amount > 0 and amount < spaceleft:
@@ -127,8 +127,8 @@ cdef class SeekBzip2:
                 if amount == 0:
                     # Got the desired amount
                     break
-                rval = PyString_FromStringAndSize( NULL, 8192 )
-                p_rval = PyString_AsString( rval )
+                rval = PyBytes_FromStringAndSize( NULL, 8192 )
+                p_rval = PyBytes_AsString( rval )
                 spaceleft = 8192
             elif status == -8:
                 ## sys.stderr.write( "readline, END_OF_BLOCK\n" ); sys.stderr.flush()
@@ -165,9 +165,9 @@ cdef class SeekBzip2:
         # If already at EOF return None
         if self.at_eof:
             return None
-        # Create a new python string large enough to hold the result
-        rval = PyString_FromStringAndSize( NULL, amount )
-        p_rval = PyString_AsString( rval )
+        # Create a new python bytes string large enough to hold the result
+        rval = PyBytes_FromStringAndSize( NULL, amount )
+        p_rval = PyBytes_AsString( rval )
         # Read into it
         ## sys.stderr.write( "read called, bd.current: %x\n" % self.bd.writeCurrent ); sys.stderr.flush()
         while amount > 0:
@@ -187,5 +187,3 @@ cdef class SeekBzip2:
                 p_rval = p_rval + gotcount
         # Return whatever we read
         return rval[:totalcount]
-    
-    

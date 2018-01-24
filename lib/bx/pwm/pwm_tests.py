@@ -94,6 +94,3 @@ class PWMTestCase (unittest.TestCase):
         qScores = wm.score_seq(qSeq)
         assert len(qScores) == 1
         assert "%.4f %.4f" % (qScores[0][0],qScores[0][1]) == qScoresExpected
-
-test_classes = [PWMTestCase]
-suite = unittest.TestSuite ([unittest.makeSuite (c) for c in test_classes])
