@@ -10,8 +10,6 @@ import sys
 from six import Iterator
 
 try:
-    import pkg_resources
-    pkg_resources.require( 'python_lzo' )
     import lzo
 except:
     pass

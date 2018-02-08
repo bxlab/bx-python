@@ -21,6 +21,6 @@ install:
     - conda create --yes -n testenv python=$TRAVIS_PYTHON_VERSION Cython numpy nose
     - source activate testenv
     - python setup.py build_ext --inplace
-    - python setup.py install
+    - pip install .[lzo]
 script: 
     - nosetests

@@ -16,13 +16,13 @@ from setuptools import *
 from glob import glob
 
 def main():
-
-    build_requires = [ 'python-lzo', 'numpy' ]
-
     metadata = \
       dict( name = "bx-python",
-            version = "0.8.1",
-            install_requires=build_requires + ['six'],
+            version = "0.8.2",
+            install_requires=['numpy', 'six'],
+            extras_require={
+                'lzo': ['python-lzo']
+            },
             py_modules = [ 'psyco_full' ],
             package_dir = { '': 'lib' },
             package_data = { '': ['*.ps'] },
@@ -102,9 +102,11 @@ command_classes['build_py'] = build_py
 
 # Use epydoc if found
 try:
-    import pkg_resources
-    pkg_resources.require( "epydoc" )
-    import epydoc.cli, sys, os, os.path
+    import os
+    import os.path
+    import sys
+
+    import epydoc.cli
     # Create command class to build API documentation
     class BuildAPIDocs( Command ):
         user_options = []
