@@ -17,16 +17,11 @@ from glob import glob
 
 def main():
 
-    numpy = None
-    build_requires = [ 'python-lzo' ]
-    try:
-        import numpy
-    except:
-        build_requires.append( 'numpy' )
+    build_requires = [ 'python-lzo', 'numpy' ]
 
     metadata = \
       dict( name = "bx-python",
-            version = "0.8.0",
+            version = "0.8.1",
             install_requires=build_requires + ['six'],
             py_modules = [ 'psyco_full' ],
             package_dir = { '': 'lib' },
@@ -58,6 +53,12 @@ def main():
             zip_safe = False,
             dependency_links = [],
             cmdclass=command_classes )
+
+    numpy = None
+    try:
+        import numpy
+    except:
+        pass
     
     if len(sys.argv) >= 2 and ('--help' in sys.argv[1:] or
             sys.argv[1] in ('--help-commands', 'egg_info', '--version', 'clean')):
