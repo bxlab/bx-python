@@ -32,7 +32,7 @@ def main():
             author = "James Taylor, Bob Harris, David King, Brent Pedersen, Kanwei Li, and others",
             author_email = "james@jamestaylor.org",
             description = "Tools for manipulating biological data, particularly multiple sequence alignments",
-            url = "http://bitbucket.org/james_taylor/bx-python/wiki/Home",
+            url = "https://github.com/bxlab/bx-python",
             license = "MIT",
             classifiers = [
                 "Development Status :: 5 - Production/Stable",
