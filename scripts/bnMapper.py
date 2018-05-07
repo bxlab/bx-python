@@ -124,10 +124,33 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
 
         # do the actual mapping
         to_elem_slices = [_ for _ in (transform(from_elem, all_epo[i], opt.gap) for i in matching_block_ids) if _]
+        """ # Original version: silently discard split alignments
         if len(to_elem_slices) > 1 or len(to_elem_slices) == 0:
             log.debug("%s no match or in different chain/chromosomes" % (str(from_elem)))
             continue
         to_elem_slices = to_elem_slices[0]
+        """
+        """ Modified version below allows liftOver-like behavior of
+        keeping the longest alignment when alignments are split across
+        multiple chains. Added by Adam Diehl (adadiehl@umich.edu)
+        """
+        max_elem_idx = 0
+        if len(to_elem_slices) == 0:
+            log.debug("%s: no match in target: discarding." % (str(from_elem)))
+            continue
+        elif len(to_elem_slices) > 1 and opt.keep_split:
+            log.debug("%s spans multiple chains/chromosomes. Using longest alignment." % (str(from_elem)))
+            max_elem_len = 0
+            for i in xrange(len(to_elem_slices)):
+                elem_len = to_elem_slices[i][-1][2] - to_elem_slices[i][0][2]
+                if elem_len > max_elem_len:
+                    max_elem_len = elem_len
+                    max_elem_idx = i
+        elif len(to_elem_slices) > 1:
+            log.debug("%s spans multiple chains/chromosomes: discarding." % (str(from_elem)))
+            continue
+        to_elem_slices = to_elem_slices[max_elem_idx]
+        """ End AGD modifications """
 
         # apply threshold
         if (from_elem[2] - from_elem[1]) * opt.threshold > reduce(lambda b,a: a[2]-a[1] + b, to_elem_slices, 0):
@@ -225,6 +248,8 @@ if __name__ == "__main__":
             help="Ignore elements with an insertion/deletion of this or bigger size.")
     parser.add_argument('-v', '--verbose', type=str, choices=list(LOG_LEVELS.keys()), default='info',
             help='Verbosity level')
+    parser.add_argument("-k", '--keep_split', default=False, action='store_true',
+                        help="If elements span multiple chains, report the segment with the longest overlap instead of silently dropping them. (This is the default behavior for liftOver.)")
 
 
     opt = parser.parse_args()
