@@ -179,7 +179,8 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
                         ",".join( "%d" % (e[1]-start) for e in to_elem_list ) )
                         )
             else:
-                peak = int((start + end)/2)
+                # narrowPeak convention is to report the peak location relative to start
+                peak = int((start + end)/2) - start
                 if opt.in_format == "narrowPeak":
                     # Map the peak location
                     #sys.stderr.write("{}\n".format(from_elem))
@@ -187,7 +188,14 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
                     p_elem_slices = [_ for _ in (transform( np.array((chrom, from_elem['peak'], from_elem['peak'], '.'), dtype=elem_t), all_epo[i], opt.gap) for i in matching_block_ids) if _]
                     if len(p_elem_slices) >= 1:
                         mapped_summit_count += 1
-                        peak = p_elem_slices[0][0][1]
+                        sys.stderr.write("{}\n".format(p_elem_slices))
+                        # Make sure the peak is between the start and end positions
+                        if p_elem_slices[0][0][1] >= start and p_elem_slices[0][0][1] <= end:
+                            peak = p_elem_slices[0][0][1] - start
+                        else:
+                            mapped_summit_count -= 1
+                            log.debug("Warning: elem {} summit mapped location falls outside the mapped element start and end. Using the mapped elem midpoint instead.".format(from_elem))
+                        
                     else:
                         log.debug("Warning: elem {} summit maps to a gap region in the target alignment. Using the mapped elem midpoint instead.".format(from_elem))
                 out_fd.write(NPEAK_FRM % (to_elem_list[0][0], start, end, from_elem['id'],
