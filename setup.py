@@ -17,18 +17,17 @@ from glob import glob
 
 def main():
 
-    build_requires = [ 'python-lzo', 'numpy' ]
-
     metadata = \
       dict( name = "bx-python",
             version = "0.8.1",
-            install_requires=build_requires + ['six'],
+            setup_requires=['numpy', 'cython'],
+            install_requires=['numpy', 'six'],
             py_modules = [ 'psyco_full' ],
             package_dir = { '': 'lib' },
             package_data = { '': ['*.ps'] },
             scripts = glob( "scripts/*.py" ),
             test_suite = 'nose.collector',
-            tests_require = ['nose'],
+            tests_require = ['nose','python-lzo'],
             author = "James Taylor, Bob Harris, David King, Brent Pedersen, Kanwei Li, and others",
             author_email = "james@jamestaylor.org",
             description = "Tools for manipulating biological data, particularly multiple sequence alignments",
@@ -57,6 +56,8 @@ def main():
     numpy = None
     try:
         import numpy
+        # Suppress numpy tests
+	numpy.test = None
     except:
         pass
     
@@ -81,10 +82,8 @@ def main():
 
 from distutils.core import Command
 
-# Use build_ext from Cython
-command_classes = {}
-
 # Use build_ext from Cython if found
+command_classes = {}
 try:
     import Cython.Distutils
     command_classes['build_ext'] = Cython.Distutils.build_ext
@@ -220,47 +219,5 @@ def get_extension_modules( numpy_include=None ):
                                       include_dirs=[ "src/bunzip" ] ) )   
     return extensions     
      
-# ---- Monkey patches -------------------------------------------------------
-
-def monkey_patch_doctest():
-    #
-    # Doctest and coverage don't get along, so we need to create
-    # a monkeypatch that will replace the part of doctest that
-    # interferes with coverage reports.
-    #
-    # The monkeypatch is based on this zope patch:
-    # http://svn.zope.org/Zope3/trunk/src/zope/testing/doctest.py?rev=28679&r1=28703&r2=28705
-    #
-    try:
-        import doctest
-        _orp = doctest._OutputRedirectingPdb
-        class NoseOutputRedirectingPdb(_orp):
-            def __init__(self, out):
-                self.__debugger_used = False
-                _orp.__init__(self, out)
-
-            def set_trace(self):
-                self.__debugger_used = True
-                _orp.set_trace(self)
-
-            def set_continue(self):
-                # Calling set_continue unconditionally would break unit test coverage
-                # reporting, as Bdb.set_continue calls sys.settrace(None).
-                if self.__debugger_used:
-                    _orp.set_continue(self)
-        doctest._OutputRedirectingPdb = NoseOutputRedirectingPdb
-    except:
-        pass
-
-def monkey_patch_numpy():
-    # Numpy pushes its tests into every importers namespace, yeccch.
-    try:
-        import numpy
-        numpy.test = None
-    except:
-        pass
-        
 if __name__ == "__main__":
-    monkey_patch_doctest()
-    monkey_patch_numpy()
     main()
