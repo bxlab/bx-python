@@ -99,7 +99,9 @@ class GenomicIntervalReader( TableReader ):
     ...               "chr2\\tbar\\t20\\t300\\txxx",
     ...               "#I am a comment",
     ...               "chr2\\tbar\\t20\\t300\\txxx" ], start_col=2, end_col=3 )
+    >>> header = next(r)
     >>> elements = list( r )
+    >>> elements.insert(0, header)
     >>> assert type( elements[0] ) is Header
     >>> str( elements[0] )
     '#chrom\\tname\\tstart\\tend\\textra'
@@ -174,6 +176,15 @@ class GenomicIntervalReader( TableReader ):
         return bitsets
 
 class NiceReaderWrapper( GenomicIntervalReader ):
+    """
+    >>> r = NiceReaderWrapper( [ "#chrom\\tname\\tstart\\tend\\textra",
+    ...                          "chr1\\tfoo\\t1\\t100\\txxx",
+    ...                          "chr2\\tbar\\t20\\t300\\txxx",
+    ...                          "#I am a comment",
+    ...                          "chr2\\tbar\\t20\\t300\\txxx" ], start_col=2, end_col=3 )
+    >>> assert type(next(r)) == Header
+    """
+
     def __init__( self, reader, **kwargs ):
         GenomicIntervalReader.__init__( self, reader, **kwargs )
         self.outstream = kwargs.get("outstream", None)
@@ -187,7 +198,7 @@ class NiceReaderWrapper( GenomicIntervalReader ):
     def __next__( self ):
         while 1:
             try:
-                nextitem = GenomicIntervalReader.next( self )
+                nextitem = super(NiceReaderWrapper, self ).__next__()
                 return nextitem
             except ParseError as e:
                 if self.outstream:
