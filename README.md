@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/bxlab/bx-python.svg?branch=master)](https://travis-ci.org/bxlab/bx-python)
 
+[![Read the Docs](https://img.shields.io/readthedocs/bx-python.svg)](https://bx-python.readthedocs.io/)
+
 # bx-python
 
 The bx-python project is a python library and associated set of scripts to allow for rapid implementation of genome scale analyses. The library contains a variety of useful modules, but the particular strengths are:
