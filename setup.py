@@ -57,7 +57,7 @@ def main():
     try:
         import numpy
         # Suppress numpy tests
-	numpy.test = None
+        numpy.test = None
     except:
         pass
     
