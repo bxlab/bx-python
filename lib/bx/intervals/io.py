@@ -198,7 +198,7 @@ class NiceReaderWrapper( GenomicIntervalReader ):
     def __next__( self ):
         while 1:
             try:
-                nextitem = GenomicIntervalReader.next( self )
+                nextitem = super(NiceReaderWrapper, self ).__next__()
                 return nextitem
             except ParseError as e:
                 if self.outstream:
