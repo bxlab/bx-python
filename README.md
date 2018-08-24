@@ -12,6 +12,10 @@ The bx-python project is a python library and associated set of scripts to allow
     * "Binned bitsets" which act just like chromosome sized bit arrays, but lazily allocate regions and allow large blocks of all set or all unset bits to be stored compactly
     * "Intersecter" for performing fast intersection tests that preserve both query and target intervals and associated annotation
 
+## Requirements
+
+Build currently requires liblzo, e.g. sudo apt-get install liblzo2-dev on debian/ubuntu).
+
 ## Installing
 
 The package can be installed with pip:
