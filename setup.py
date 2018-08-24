@@ -19,7 +19,7 @@ def main():
 
     metadata = \
       dict( name = "bx-python",
-            version = "0.8.1",
+            version = "0.8.2",
             setup_requires=['numpy', 'cython'],
             install_requires=['numpy', 'six'],
             py_modules = [ 'psyco_full' ],
