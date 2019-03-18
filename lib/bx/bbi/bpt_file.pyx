@@ -54,7 +54,7 @@ cdef class BPTFile:
             self.reader.read( self.key_size )
             offset = self.reader.read_uint64()
             # Loop until correct subtree is found
-            for i from 0 <= i < child_count:
+            for i from 0 <= i < child_count - 1:
                 node_key = self.reader.read( self.key_size )
                 if node_key > key:
                     break
