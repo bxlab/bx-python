@@ -22,3 +22,6 @@ nose*.egg
 
 # .eggs directory
 .eggs
+
+# Virtualenv
+.venv
