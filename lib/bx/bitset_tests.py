@@ -10,7 +10,7 @@ class AbstractTests( object ):
     def assert_bits( self, bits, list ):
         assert bits.size == len( list ), "Bitset size and verification list size do not match"
         for i in range( bits.size ):
-            self.assertEquals( bits[i], list[i] )
+            self.assertEqual( bits[i], list[i] )
 
     def test_overflow_create( self ):
         self.assertRaises( ValueError, self.new_bits, 4000000000 )
@@ -52,11 +52,11 @@ class AbstractTests( object ):
         # Set some positions
         for b, e in ( ( 11, 14 ), (20,75), (90,100) ):
             bits.set_range( b, e-b)
-        self.assertEquals( bits.count_range( 0, 0 ), 0 )
-        self.assertEquals( bits.count_range( 0, 20 ), 3 )
-        self.assertEquals( bits.count_range( 25, 25 ), 25 )
-        self.assertEquals( bits.count_range( 80, 20 ), 10 )
-        self.assertEquals( bits.count_range( 0, 100 ), 68 )
+        self.assertEqual( bits.count_range( 0, 0 ), 0 )
+        self.assertEqual( bits.count_range( 0, 20 ), 3 )
+        self.assertEqual( bits.count_range( 25, 25 ), 25 )
+        self.assertEqual( bits.count_range( 80, 20 ), 10 )
+        self.assertEqual( bits.count_range( 0, 100 ), 68 )
 
     def test_find( self ):
         # Create and assert empty
@@ -65,14 +65,14 @@ class AbstractTests( object ):
         for b, e in ( ( 11, 14 ), (20,75), (90,100) ):
             bits.set_range( b, e-b)
         # Next set
-        self.assertEquals( bits.next_set( 0 ), 11 )
-        self.assertEquals( bits.next_set( 13 ), 13 )
-        self.assertEquals( bits.next_set( 15 ), 20 )
+        self.assertEqual( bits.next_set( 0 ), 11 )
+        self.assertEqual( bits.next_set( 13 ), 13 )
+        self.assertEqual( bits.next_set( 15 ), 20 )
         # Next clear
-        self.assertEquals( bits.next_clear( 0 ), 0 )
-        self.assertEquals( bits.next_clear( 11 ), 14 )
-        self.assertEquals( bits.next_clear( 20 ), 75 )
-        self.assertEquals( bits.next_clear( 92 ), 100 )
+        self.assertEqual( bits.next_clear( 0 ), 0 )
+        self.assertEqual( bits.next_clear( 11 ), 14 )
+        self.assertEqual( bits.next_clear( 20 ), 75 )
+        self.assertEqual( bits.next_clear( 92 ), 100 )
 
     def test_and( self ):
         bits1 = self.new_bits( 100 )
@@ -109,4 +109,4 @@ class BitSetTests( AbstractTests, unittest.TestCase ):
 class BinnedBitSetTests( AbstractTests, unittest.TestCase ):
     def new_bits( self, size ):
         granularity = size % 11 
-        return bx.bitset.BinnedBitSet( size, granularity ) 
+        return bx.bitset.BinnedBitSet( size, granularity )

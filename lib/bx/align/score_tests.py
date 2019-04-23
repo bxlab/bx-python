@@ -66,12 +66,12 @@ class BasicTests( unittest.TestCase ):
     def test_scoring_text( self ):
         ss = bx.align.score.hox70
         for t1, t2, score in aligns:
-            self.assertEquals( bx.align.score.score_texts( ss, t1, t2 ), score )
+            self.assertEqual( bx.align.score.score_texts( ss, t1, t2 ), score )
             
     def test_align( self ):
         ss = bx.align.score.hox70
         for block in bx.align.maf.Reader( StringIO( mafs ) ):
-            self.assertEquals( bx.align.score.score_alignment( ss, block ), float( block.score ) )
+            self.assertEqual( bx.align.score.score_alignment( ss, block ), float( block.score ) )
             
     def test_accumulate( self ):
         ss = bx.align.score.hox70
@@ -83,9 +83,9 @@ class BasicTests( unittest.TestCase ):
     def test_nonsymm_scoring( self ):
         ss = nonsymm_scheme
         for t1, t2, score in aligns_for_nonsymm_scheme:
-            self.assertEquals( bx.align.score.score_texts( ss, t1, t2 ), score )
+            self.assertEqual( bx.align.score.score_texts( ss, t1, t2 ), score )
 
     def test_asymm_scoring( self ):
         ss = asymm_scheme
         for t1, t2, score in aligns_for_asymm_scheme:
-            self.assertEquals( bx.align.score.score_texts( ss, t1, t2 ), score )
+            self.assertEqual( bx.align.score.score_texts( ss, t1, t2 ), score )
