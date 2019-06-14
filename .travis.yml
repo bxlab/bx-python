@@ -7,6 +7,28 @@ python:
   - '2.7'
   - '3.5'
 
+_deploy_common: &deploy_common
+  if: tag IS present
+  addons: {}
+  install:
+    - pip3 install cibuildwheel
+  script:
+    - cibuildwheel --output-dir dist
+
+matrix:
+  include:
+    - stage: deploy
+      python: '3.5'
+      services:
+        - docker
+      env: CIBW_BEFORE_BUILD="yum install -y zlib-devel && pip install Cython numpy"
+      <<: *deploy_common
+    - stage: deploy
+      os: osx
+      language: generic
+      env: CIBW_BEFORE_BUILD="pip install Cython numpy"
+      <<: *deploy_common
+
 addons:
   apt:
     packages:
