@@ -7,13 +7,21 @@ python:
   - '2.7'
   - '3.5'
 
+env:
+  global:
+    - TWINE_USERNAME=nsoranzo
+    - secure: 'Kz1HbnAR9tvj/Xxz5eHtmV15eT3aDxuJIAspZ1eyUCg5OQvJRgrgD88zlkkV/EHPELD9gMg0hvHvIxQpus3QqLr75FVRQJWB8kusuf/ZeTs9F8jJOdqDrUI58lW/BkspIRdGXjylMA4TcIg9013KvmbZvPxoCQckB7A5x/X2Z2WpmeVLQ2EkJxF2gsvRHjXyIhlsTRqXexw9ZIvO6xEXHYkukc+tERSIKwZxtoSdFWPJQ4xSEtn/jkKYR3cPdIW2qJeSRVU6LBf/xHnlPQCymyrAO6EMqmktyuInhRXhYFe7GeqIKC9wmuxvDtvDKpnJbLxlnk8S0ZEhrrVbxlqSdVyYSMUR7gTZOtTFZ+UMY7ehRr2dY3TNxQSvZGlUVxciAUsInlQ4ao6EHJsBryYhobSG882EQvA+CQGE4SR/s5sx7FlvsERSTwA/l9+q7wQfoWi0DECe0JGU08rhVe4d/mkTiPpsgAbt2nw9MQwR1VPRpW+7dKVRtPFtQeoQCULSsLUQAU7ZuWK8QZWgaood9pQmzNMexQNeK/2GfFnRhKenL3zu6gQZHTuF71ICzdk9vABw72jN2Sr4b0aR87BZ1n0H9YvtDjWOzilq5SnX4NdufSnghqbVqGmXfOqHF3zuYmu2rE9ZOXeocbnWLHGy77z+QO3GbgcMMyd/3OvAUE0='
+
 _deploy_common: &deploy_common
   if: tag IS present
   addons: {}
   install:
-    - pip3 install cibuildwheel
+    - pip3 install cibuildwheel twine
   script:
+    - python3 setup.py sdist
     - cibuildwheel --output-dir dist
+    - twine check dist/*
+    - twine upload --skip-existing dist/*
 
 matrix:
   include:
