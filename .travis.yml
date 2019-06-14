@@ -1,29 +1,21 @@
 language: python
+cache: pip
 os:
-    - linux
-    ## - osx
+  - linux
+  # - osx
 python:
-    - 2.7
-    - 3.3
+  - '2.7'
+  - '3.5'
+
 addons:
-    apt:
-        packages:
-            - liblzo2-dev
+  apt:
+    packages:
+      - liblzo2-dev
 
-before_install:
-    # Use miniconda for dependencies, pip is too slow -- https://gist.github.com/zonca/9958333
-    - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
-    - chmod +x miniconda.sh
-    - ./miniconda.sh -b
-    - export PATH=/home/travis/miniconda2/bin:$PATH
-    - conda update --yes conda
+install:
+  - pip install Cython nose numpy python-lzo six
+  - python setup.py build_ext --inplace
+  - python setup.py install
 
-install: 
-    - conda create --yes -n testenv python=$TRAVIS_PYTHON_VERSION Cython numpy nose
-    - source activate testenv
-    - pip install python-lzo
-    - python setup.py build_ext --inplace
-    - python setup.py install
-
-script: 
-    - nosetests
+script:
+  - nosetests
