@@ -1,29 +1,51 @@
 language: python
+cache: pip
 os:
-    - linux
-    ## - osx
+  - linux
+  # - osx
 python:
-    - 2.7
-    - 3.3
+  - '2.7'
+  - '3.5'
+
+env:
+  global:
+    - TWINE_USERNAME=nsoranzo
+    - secure: 'kFoqHCxat/ETS2SUc2q9M7YvzvnlR7sgHmx7SRvVgTyLkk1efpJ++YPwDBEYZ3v+GLf2nRfc20GxtZkH6ey1f//aj4CT2q2CJiUsKAlkFAOHzKo/3mTLl/WDHkPAr9MW7AdnbNk6W8sIPCKqFsyKL2FTH70dBcxa1e7trQ2RC64hnOOkt/tm2cQhj6sX0gROggN5QrpHE8tDZb9ugF0uf92L/CGxeClAebWgb7zVChHDMTNsmnOvWUF9m6LZOvkgFmuIeh70EPuOWh6LxU/n5JyevYIGO5vVDbjgfmNELlG2KUTm6dWeoyofcj6hUqYmQsmI1ATrf7ThY1+b6asQGy+Exp/76MBXiYRh+RgVKifwaZMOWehzfjDQvPYOGvf6rXOVGeVZ+nBkskr0HARsX1KnyDE+k+XPoP7zqvW6mCic9ZQ+IdQJtxMHOTxxFjuPAlunvaUqDNM9VP6YEWOI4UqIOO1nQh4E2zkPhXI2yY744q+BV/5+3HHqNQj1+5qFPoZeyDEuNXwgDCjrJ8i3hna/LTTvRigx6/YQL1PF/C30R4h/nkqp8ghA4VpNRPnQ8nOO+oD6AdN7Pswc3C4qGPEwoeqfNzEIR1KfEWzB7HsfTFbgyGFFNGuQ/P26DMK+kPBNZ6GhZ9wb5/xT226OA+ovcAmVGn/Hnt/qVaylXNk='
+
+_deploy_common: &deploy_common
+  if: tag IS present
+  addons: {}
+  install:
+    - pip3 install cibuildwheel twine
+  script:
+    - python3 setup.py sdist
+    - cibuildwheel --output-dir dist
+    - twine check dist/*
+    - twine upload --skip-existing dist/*
+
+matrix:
+  include:
+    - stage: deploy
+      python: '3.5'
+      services:
+        - docker
+      env: CIBW_BEFORE_BUILD="yum install -y zlib-devel && pip install Cython numpy"
+      <<: *deploy_common
+    - stage: deploy
+      os: osx
+      language: generic
+      env: CIBW_BEFORE_BUILD="pip install Cython numpy"
+      <<: *deploy_common
+
 addons:
-    apt:
-        packages:
-            - liblzo2-dev
+  apt:
+    packages:
+      - liblzo2-dev
 
-before_install:
-    # Use miniconda for dependencies, pip is too slow -- https://gist.github.com/zonca/9958333
-    - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
-    - chmod +x miniconda.sh
-    - ./miniconda.sh -b
-    - export PATH=/home/travis/miniconda2/bin:$PATH
-    - conda update --yes conda
+install:
+  - pip install Cython nose numpy python-lzo six
+  - python setup.py build_ext --inplace
+  - python setup.py install
 
-install: 
-    - conda create --yes -n testenv python=$TRAVIS_PYTHON_VERSION Cython numpy nose
-    - source activate testenv
-    - pip install python-lzo
-    - python setup.py build_ext --inplace
-    - python setup.py install
-
-script: 
-    - nosetests
+script:
+  - nosetests
