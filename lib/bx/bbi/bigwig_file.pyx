@@ -138,7 +138,7 @@ cdef class BigWigHeaderBlockHandler( BigWigBlockHandler ):
         cdef UBYTE b_type
         cdef int s, e
         cdef float val
-        # Now we parse the block, first the header
+        # parse the block header
         block_reader = BinaryFileReader( BytesIO( block_data ), is_little_endian=bbi_file.reader.is_little_endian )
         b_chrom_id = block_reader.read_uint32()
         b_start = block_reader.read_uint32()
