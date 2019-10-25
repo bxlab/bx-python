@@ -71,6 +71,6 @@ cdef class BPTFile:
             return None
         # Key is less than key_size, right pad with 0 bytes
         if len(key) < self.key_size:
-            key += ( '\0' * ( self.key_size - len(key) ) )
+            key += ( b'\0' * ( self.key_size - len(key) ) )
         # Call the recursive finder
         return self.r_find( self.root_offset, key )
