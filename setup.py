@@ -1,5 +1,7 @@
 import platform
 import sys
+from distutils.core import Command
+from glob import glob
 
 if sys.version_info < (2, 6):
     sys.exit("ERROR: bx-python requires Python 2.6 or greater")
@@ -12,57 +14,56 @@ except ImportError:
     from ez_setup import use_setuptools
     use_setuptools()
 
-from setuptools import *
-from glob import glob
+from setuptools import Extension  # noqa: E402
+
 
 def main():
 
-    metadata = \
-      dict( name = "bx-python",
-            version = "0.8.4",
-            setup_requires=['numpy', 'cython'],
-            install_requires=['numpy', 'six'],
-            py_modules = [ 'psyco_full' ],
-            package_dir = { '': 'lib' },
-            package_data = { '': ['*.ps'] },
-            scripts = glob( "scripts/*.py" ),
-            test_suite = 'nose.collector',
-            tests_require = ['nose','python-lzo'],
-            author = "James Taylor, Bob Harris, David King, Brent Pedersen, Kanwei Li, and others",
-            author_email = "james@jamestaylor.org",
-            description = "Tools for manipulating biological data, particularly multiple sequence alignments",
-            url = "https://github.com/bxlab/bx-python",
-            license = "MIT",
-            classifiers = [
-                "Development Status :: 5 - Production/Stable",
-                "Intended Audience :: Developers",
-                "Intended Audience :: Science/Research",
-                "License :: OSI Approved :: MIT License",
-                "Operating System :: POSIX",
-                "Programming Language :: Python :: 2",
-                "Programming Language :: Python :: 2.6",
-                "Programming Language :: Python :: 2.7",
-                "Programming Language :: Python :: 3",
-                "Programming Language :: Python :: 3.3",
-                "Programming Language :: Python :: 3.4",
-                "Programming Language :: Python :: 3.5",
-                "Topic :: Scientific/Engineering :: Bio-Informatics",
-                "Topic :: Software Development :: Libraries :: Python Modules"
-            ],
-            zip_safe = False,
-            dependency_links = [],
-            cmdclass=command_classes )
+    metadata = dict(
+        name="bx-python",
+        version="0.8.5",
+        setup_requires=['numpy', 'cython'],
+        install_requires=['numpy', 'six'],
+        py_modules=['psyco_full'],
+        package_dir={'': 'lib'},
+        package_data={'': ['*.ps']},
+        scripts=glob("scripts/*.py"),
+        test_suite='nose.collector',
+        tests_require=['nose', 'python-lzo'],
+        author="James Taylor, Bob Harris, David King, Brent Pedersen, Kanwei Li, and others",
+        author_email="james@jamestaylor.org",
+        description="Tools for manipulating biological data, particularly multiple sequence alignments",
+        url="https://github.com/bxlab/bx-python",
+        license="MIT",
+        classifiers=[
+            "Development Status :: 5 - Production/Stable",
+            "Intended Audience :: Developers",
+            "Intended Audience :: Science/Research",
+            "License :: OSI Approved :: MIT License",
+            "Operating System :: POSIX",
+            "Programming Language :: Python :: 2",
+            "Programming Language :: Python :: 2.7",
+            "Programming Language :: Python :: 3",
+            "Programming Language :: Python :: 3.5",
+            "Programming Language :: Python :: 3.6",
+            "Programming Language :: Python :: 3.7",
+            "Programming Language :: Python :: 3.8",
+            "Topic :: Scientific/Engineering :: Bio-Informatics",
+            "Topic :: Software Development :: Libraries :: Python Modules"],
+        zip_safe=False,
+        dependency_links=[],
+        cmdclass=command_classes)
 
     numpy = None
     try:
         import numpy
         # Suppress numpy tests
         numpy.test = None
-    except:
+    except Exception:
         pass
-    
-    if len(sys.argv) >= 2 and ('--help' in sys.argv[1:] or
-            sys.argv[1] in ('--help-commands', 'egg_info', '--version', 'clean')):
+
+    if len(sys.argv) >= 2 and \
+            ('--help' in sys.argv[1:] or sys.argv[1] in ('--help-commands', 'egg_info', '--version', 'clean')):
         # For these actions, NumPy is not required.
         #
         # They are required to succeed without Numpy for example when
@@ -71,23 +72,21 @@ def main():
         pass
     else:
         if numpy is None:
-            raise Exception( "numpy must be installed to build" )
-        metadata['packages'] = find_packages( 'lib' )
-        metadata['ext_modules'] = get_extension_modules( numpy_include=numpy.get_include() )
+            raise Exception("numpy must be installed to build")
+        metadata['packages'] = find_packages('lib')
+        metadata['ext_modules'] = get_extension_modules(numpy_include=numpy.get_include())
 
     setup(**metadata)
 
 
 # ---- Commands -------------------------------------------------------------
 
-from distutils.core import Command
-
 # Use build_ext from Cython if found
 command_classes = {}
 try:
     import Cython.Distutils
     command_classes['build_ext'] = Cython.Distutils.build_ext
-except:
+except Exception:
     pass
 
 # Run 2to3 builder if we're on Python 3.x, from
@@ -102,16 +101,22 @@ command_classes['build_py'] = build_py
 # Use epydoc if found
 try:
     import pkg_resources
-    pkg_resources.require( "epydoc" )
-    import epydoc.cli, sys, os, os.path
+    pkg_resources.require("epydoc")
+    import epydoc.cli
+    import os
+    import os.path
+
     # Create command class to build API documentation
-    class BuildAPIDocs( Command ):
+    class BuildAPIDocs(Command):
         user_options = []
-        def initialize_options( self ):
+
+        def initialize_options(self):
             pass
-        def finalize_options( self ):
+
+        def finalize_options(self):
             pass
-        def run( self ):
+
+        def run(self):
             # Save working directory and args
             old_argv = sys.argv
             old_cwd = os.getcwd()
@@ -122,18 +127,18 @@ try:
                                        --docformat=reStructuredText
                                        --output=../doc/docbuild/html/apidoc""".split()
             # Make output directory
-            if not os.path.exists( "./doc/docbuild/html/apidoc" ):
-                os.mkdir( "./doc/docbuild/html/apidoc" )
+            if not os.path.exists("./doc/docbuild/html/apidoc"):
+                os.mkdir("./doc/docbuild/html/apidoc")
             # Move to lib directory (so bx package is in current directory)
-            os.chdir( "./lib" )
+            os.chdir("./lib")
             # Invoke epydoc
             epydoc.cli.cli()
             # Restore args and working directory
             sys.argv = old_argv
-            os.chdir( old_cwd )
-    # Add to extra_commands    
+            os.chdir(old_cwd)
+    # Add to extra_commands
     command_classes['build_apidocs'] = BuildAPIDocs
-except:
+except Exception:
     pass
 
 # ---- Extension Modules ----------------------------------------------------
@@ -143,81 +148,80 @@ except:
 # _Extension = Extension
 # Extension = partial(_Extension, extra_compile_args=["-Wno-cpp"])
 
-def get_extension_modules( numpy_include=None ):
+
+def get_extension_modules(numpy_include=None):
     extensions = []
     # Bitsets
-    extensions.append( Extension( "bx.bitset",
-                                  [ "lib/bx/bitset.pyx", 
-                                    "src/binBits.c",
-                                    "src/kent/bits.c",
-                                    "src/kent/common.c" ],
-                                  include_dirs=[ "src/kent", "src"] ) )
+    extensions.append(Extension("bx.bitset",
+                                ["lib/bx/bitset.pyx",
+                                 "src/binBits.c",
+                                 "src/kent/bits.c",
+                                 "src/kent/common.c"],
+                                include_dirs=["src/kent", "src"]))
     # Interval intersection
-    extensions.append( Extension( "bx.intervals.intersection", [ "lib/bx/intervals/intersection.pyx" ] ) )
+    extensions.append(Extension("bx.intervals.intersection", ["lib/bx/intervals/intersection.pyx"]))
     # Alignment object speedups
-    extensions.append( Extension( "bx.align._core", [ "lib/bx/align/_core.pyx" ] ) )
+    extensions.append(Extension("bx.align._core", ["lib/bx/align/_core.pyx"]))
     # NIB reading speedups
-    extensions.append( Extension( "bx.seq._nib", [ "lib/bx/seq/_nib.pyx" ] ) )
+    extensions.append(Extension("bx.seq._nib", ["lib/bx/seq/_nib.pyx"]))
     # 2bit reading speedups
-    extensions.append( Extension( "bx.seq._twobit", [ "lib/bx/seq/_twobit.pyx" ] ) )
-    # Translation if character / integer strings 
-    extensions.append( Extension( "bx._seqmapping", [ "lib/bx/_seqmapping.pyx" ] ) )
+    extensions.append(Extension("bx.seq._twobit", ["lib/bx/seq/_twobit.pyx"]))
+    # Translation if character / integer strings
+    extensions.append(Extension("bx._seqmapping", ["lib/bx/_seqmapping.pyx"]))
     # BGZF
-    extensions.append( Extension( "bx.misc.bgzf",
-                                  [ "lib/bx/misc/bgzf.pyx", "src/samtools/bgzf.c" ],
-                                  include_dirs=[ "src/samtools"],
-                                  libraries=['z'] ) )
+    extensions.append(Extension("bx.misc.bgzf",
+                                ["lib/bx/misc/bgzf.pyx", "src/samtools/bgzf.c"],
+                                include_dirs=["src/samtools"],
+                                libraries=['z']))
 
-    
     # The following extensions won't (currently) compile on windows
-    if platform.system() not in ( 'Microsoft', 'Windows' ):
-        
-        # Interval clustering                
-        extensions.append( Extension( "bx.intervals.cluster",
-                                  [ "lib/bx/intervals/cluster.pyx", 
-                                    "src/cluster.c"],
-                                  include_dirs=["src"] ) )
+    if platform.system() not in ('Microsoft', 'Windows'):
+        # Interval clustering
+        extensions.append(Extension("bx.intervals.cluster",
+                                    ["lib/bx/intervals/cluster.pyx",
+                                     "src/cluster.c"],
+                                    include_dirs=["src"]))
         # Position weight matrices
-        extensions.append( Extension( "bx.pwm._position_weight_matrix",
-                                  [ "lib/bx/pwm/_position_weight_matrix.pyx", "src/pwm_utils.c" ],
-                                  include_dirs=["src"]  ) )
- 
-        extensions.append( Extension( "bx.motif._pwm", [ "lib/bx/motif/_pwm.pyx" ], 
-                                      include_dirs=[numpy_include] ) )
-            
+        extensions.append(Extension("bx.pwm._position_weight_matrix",
+                                    ["lib/bx/pwm/_position_weight_matrix.pyx", "src/pwm_utils.c"],
+                                    include_dirs=["src"]))
+
+        extensions.append(Extension("bx.motif._pwm", ["lib/bx/motif/_pwm.pyx"],
+                                    include_dirs=[numpy_include]))
+
         # Sparse arrays with summaries organized as trees on disk
-        extensions.append( Extension( "bx.arrays.array_tree", [ "lib/bx/arrays/array_tree.pyx" ], include_dirs=[numpy_include] ) )  
-        
+        extensions.append(Extension("bx.arrays.array_tree", ["lib/bx/arrays/array_tree.pyx"], include_dirs=[numpy_include]))
+
         # Reading UCSC "big binary index" files
-        extensions.append( Extension( "bx.bbi.bpt_file", [ "lib/bx/bbi/bpt_file.pyx" ] ) )
-        extensions.append( Extension( "bx.bbi.cirtree_file", [ "lib/bx/bbi/cirtree_file.pyx" ] ) )
-        extensions.append( Extension( "bx.bbi.bbi_file", [ "lib/bx/bbi/bbi_file.pyx" ], include_dirs=[numpy_include] ) )
-        extensions.append( Extension( "bx.bbi.bigwig_file", [ "lib/bx/bbi/bigwig_file.pyx" ], include_dirs=[numpy_include] ) )
-        extensions.append( Extension( "bx.bbi.bigbed_file", [ "lib/bx/bbi/bigbed_file.pyx" ], include_dirs=[numpy_include] ) )
+        extensions.append(Extension("bx.bbi.bpt_file", ["lib/bx/bbi/bpt_file.pyx"]))
+        extensions.append(Extension("bx.bbi.cirtree_file", ["lib/bx/bbi/cirtree_file.pyx"]))
+        extensions.append(Extension("bx.bbi.bbi_file", ["lib/bx/bbi/bbi_file.pyx"], include_dirs=[numpy_include]))
+        extensions.append(Extension("bx.bbi.bigwig_file", ["lib/bx/bbi/bigwig_file.pyx"], include_dirs=[numpy_include]))
+        extensions.append(Extension("bx.bbi.bigbed_file", ["lib/bx/bbi/bigbed_file.pyx"], include_dirs=[numpy_include]))
 
         # EPO and Chain arithmetics and IO speedups
-        extensions.append( Extension( "bx.align._epo", [ "lib/bx/align/_epo.pyx" ], include_dirs=[numpy_include] ) )
+        extensions.append(Extension("bx.align._epo", ["lib/bx/align/_epo.pyx"], include_dirs=[numpy_include]))
 
         # Reading UCSC bed and wiggle formats
-        extensions.append( Extension( "bx.arrays.bed", [ "lib/bx/arrays/bed.pyx" ] ) )
-        extensions.append( Extension( "bx.arrays.wiggle", [ "lib/bx/arrays/wiggle.pyx" ] ) )
-
+        extensions.append(Extension("bx.arrays.bed", ["lib/bx/arrays/bed.pyx"]))
+        extensions.append(Extension("bx.arrays.wiggle", ["lib/bx/arrays/wiggle.pyx"]))
 
         # CpG masking
-        extensions.append( Extension( "bx.align.sitemask._cpg", \
-                                      [ "lib/bx/align/sitemask/_cpg.pyx", 
-                                        "lib/bx/align/sitemask/find_cpg.c" ] ) )
-        
+        extensions.append(Extension("bx.align.sitemask._cpg",
+                                    ["lib/bx/align/sitemask/_cpg.pyx",
+                                     "lib/bx/align/sitemask/find_cpg.c"]))
+
         # Counting n-grams in integer strings
-        extensions.append( Extension( "bx.intseq.ngramcount", [ "lib/bx/intseq/ngramcount.pyx" ],
-                                      include_dirs=["src"] ) )
+        extensions.append(Extension("bx.intseq.ngramcount", ["lib/bx/intseq/ngramcount.pyx"],
+                                    include_dirs=["src"]))
 
         # Seekable access to bzip2 files
-        extensions.append( Extension( "bx.misc._seekbzip2", 
-                                      [ "lib/bx/misc/_seekbzip2.pyx",
-                                        "src/bunzip/micro-bunzip.c" ],
-                                      include_dirs=[ "src/bunzip" ] ) )   
-    return extensions     
-     
+        extensions.append(Extension("bx.misc._seekbzip2",
+                                    ["lib/bx/misc/_seekbzip2.pyx",
+                                     "src/bunzip/micro-bunzip.c"],
+                                    include_dirs=["src/bunzip"]))
+    return extensions
+
+
 if __name__ == "__main__":
     main()
