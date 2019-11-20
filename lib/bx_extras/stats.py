@@ -233,7 +233,7 @@ __version__ = 0.6
 ############# DISPATCH CODE ##############
 
 
-class Dispatch:
+class Dispatch(object):
     """
 The Dispatch class, care of David Ascher, allows different functions to
 be called depending on the argument types.  This way, there can be one

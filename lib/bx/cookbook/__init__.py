@@ -37,7 +37,7 @@ def cachedmethod(function):
     return types.MethodType(Memoize(function), None)
 
 
-class Memoize:
+class Memoize(object):
     def __init__(self,function):
         self._cache = {}
         self._callable = function

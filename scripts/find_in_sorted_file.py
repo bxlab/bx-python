@@ -16,7 +16,8 @@ import sys
 
 max_cats = 1000
 
-class Finder:
+
+class Finder(object):
     def __init__( self, file, segments ):
         self.file = file
         self.segments = segments
