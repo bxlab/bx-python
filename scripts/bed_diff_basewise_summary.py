@@ -1,18 +1,15 @@
 #!/usr/bin/env python
 
 """
-Given two bed files print the number of bases covered 1) by both, 2) only by 
+Given two bed files print the number of bases covered 1) by both, 2) only by
 the first, and 3) only by the second.
 
 usage: %prog bed_file_1 bed_file_2
 """
 from __future__ import print_function
 
-import sys
-from warnings import warn
 
-from bx.bitset import BinnedBitSet
-from bx.bitset_builders import *
+from bx.bitset_builders import binned_bitsets_from_file
 from bx.cookbook import doc_optparse
 
 
@@ -26,7 +23,7 @@ def coverage(bitsets):
 options, args = doc_optparse.parse(__doc__)
 try:
     in_fname, in2_fname = args
-except:
+except ValueError:
     doc_optparse.exit()
 
 bits1 = binned_bitsets_from_file(open(in_fname))

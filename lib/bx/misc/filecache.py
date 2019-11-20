@@ -1,6 +1,5 @@
 from __future__ import division
 
-import sys
 from io import BytesIO
 
 from six import Iterator
@@ -13,15 +12,14 @@ DEFAULT_BLOCK_SIZE = 1024*1024*2
 
 class FileCache(Iterator):
     """
-    Wrapper for a file that cache blocks of data in memory. 
-    
+    Wrapper for a file that cache blocks of data in memory.
+
     **NOTE:** this is currently an incomplete file-like object, it only
     supports seek, tell, and readline (plus iteration). Reading bytes is
     currently not implemented.
     """
 
-    def __init__(self, file, size, cache_size=DEFAULT_CACHE_SIZE,
-                                    block_size=DEFAULT_BLOCK_SIZE):
+    def __init__(self, file, size, cache_size=DEFAULT_CACHE_SIZE, block_size=DEFAULT_BLOCK_SIZE):
         """
         Create a new `FileCache` wrapping the file-like object `file` that
         has total size `size` and caching blocks of size `block_size`.
@@ -93,7 +91,7 @@ class FileCache(Iterator):
         if self.at_eof:
             return b""
         rval = []
-        while 1:
+        while True:
             line = self.current_block.readline()
             rval.append(line)
             if len(line) > 0 and line[-1] == b'\n':

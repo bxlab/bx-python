@@ -9,7 +9,7 @@ import numpy
 
 try:
     sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-except:
+except Exception:
     sys.path.insert(0, os.path.dirname(os.path.abspath(".")))
 
 from bx.bbi.bigwig_file import BigWigFile
@@ -17,7 +17,7 @@ from bx.bbi.bigwig_file import BigWigFile
 
 def allclose(a, b, tol=0.00001):
     """
-    Like numpy.allclose but treat Nan == Nan 
+    Like numpy.allclose but treat Nan == Nan
     """
     d = numpy.absolute(a - b)
     return numpy.all(numpy.isnan(d) | (d < tol))
@@ -66,6 +66,7 @@ class TestBigWig(unittest.TestCase):
 
 def test_summaries_from_file():
     bw = BigWigFile(file=open("test_data/bbi_tests/test.bw", 'rb'))
+
     def check_summary(line):
         fields = line.split()
         chrom = fields[0]

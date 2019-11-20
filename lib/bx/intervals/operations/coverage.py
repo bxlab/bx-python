@@ -1,15 +1,17 @@
 """
-Determine amount of each interval in one set covered by the intervals of 
-another set. Adds two columns to the first input, giving number of bases 
+Determine amount of each interval in one set covered by the intervals of
+another set. Adds two columns to the first input, giving number of bases
 covered and percent coverage on the second input.
 """
 
-import traceback
-import fileinput
-from warnings import warn
-
-from bx.intervals.io import *
-from bx.intervals.operations import *
+from bx.intervals.io import (
+    BitsetSafeReaderWrapper,
+    GenomicInterval,
+)
+from bx.tabular.io import (
+    Comment,
+    Header
+)
 
 
 def coverage(readers, comments=True):
@@ -46,7 +48,7 @@ def coverage(readers, comments=True):
                     # no reason to stuff an entire bad file into memmory
                     if primary.skipped < 10:
                         primary.skipped_lines.append((primary.linenum, primary.current_line, "Interval start after end!"))
-                except:
+                except Exception:
                     pass
                 continue
             if chrom not in bitsets:
@@ -62,7 +64,7 @@ def coverage(readers, comments=True):
                         # no reason to stuff an entire bad file into memmory
                         if primary.skipped < 10:
                             primary.skipped_lines.append((primary.linenum, primary.current_line, str(e)))
-                    except:
+                    except Exception:
                         pass
                     continue
                 if (end - start) == 0:

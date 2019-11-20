@@ -22,7 +22,7 @@ import sys
 import bx.align.axt
 import bx.align.maf
 import bx.binned_array
-from bx.align.sitemask.quality import *
+from bx.align.sitemask.quality import Simple
 from bx.cookbook import doc_optparse
 
 
@@ -34,11 +34,10 @@ def main():
         outputformat = options.output
         mask = options.mask
         minqual = int(options.quality)
-        qtype = options.type
         speciesAndLens = options.list
         inputfile = args[0]
         outputfile = args[1]
-    except:
+    except Exception:
         doc_optparse.exception()
 
     outstream = open(outputfile, "w")
@@ -89,8 +88,7 @@ def main():
         # setup maf
         writer = bx.align.maf.Writer(outstream, attributes=reader.attributes)
 
-    qualfilter = Simple(mask=mask, qualspecies=species_to_lengths,
-                         qualfiles=qualfiles, minqual=minqual, cache=50)
+    qualfilter = Simple(mask=mask, qualspecies=species_to_lengths, qualfiles=qualfiles, minqual=minqual, cache=50)
 
     qualfilter.run(reader, writer.write)
 

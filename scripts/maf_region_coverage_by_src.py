@@ -11,10 +11,9 @@ usage: %prog maf_files  [options] < interval_file
 from __future__ import division, print_function
 
 import sys
+from collections import defaultdict
 
 import bx.align.maf
-import psyco_full
-from bx import intervals, misc
 from bx.cookbook import doc_optparse
 
 
@@ -30,7 +29,7 @@ def __main__():
             prefix = options.prefix
         else:
             prefix = None
-    except:
+    except Exception:
         doc_optparse.exit()
 
     # Open indexed access to mafs
@@ -51,7 +50,7 @@ def __main__():
         for index in indexes:
             blocks += index.get(src, start, end)
 
-        coverage = dict()
+        coverage = defaultdict(int)
         for block in blocks:
             overlap_start = max(start, block.components[0].start)
             overlap_end = min(end, block.components[0].end)
@@ -59,10 +58,7 @@ def __main__():
             assert length > 0
             for c in block.components[1:]:
                 species = c.src.split('.')[0]
-                try:
-                    coverage[species] += length
-                except:
-                    coverage[species] = length
+                coverage[species] += length
 
         print(line, end=' ')
         for key, value in coverage.items():

@@ -582,9 +582,8 @@ class Writer(object):
 
 
 def sort_keys_by_chrom(keys):
-    decorated = [(chrom_key(src1), strand1, chrom_key(src2), strand2, (src1, strand1, src2, strand2))
-                 for (src1, strand1, src2, strand2) in keys]
-    decorated.sort()
+    decorated = sorted((chrom_key(src1), strand1, chrom_key(src2), strand2, (src1, strand1, src2, strand2))
+                       for (src1, strand1, src2, strand2) in keys)
     return [key for (src1, strand1, src2, strand2, key) in decorated]
 
 

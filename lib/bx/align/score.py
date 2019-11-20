@@ -3,21 +3,26 @@ Support for scoring alignments using arbitrary scoring matrices, arbitrary
 alphabets, and affine gap penalties.
 """
 
-from numpy import *
+from numpy import (
+    float32,
+    int32,
+    ones,
+    zeros
+)
 
 
 class ScoringScheme(object):
-	# note that gap_open and gap_extend are penalties, which means you should make them positive
+    # note that gap_open and gap_extend are penalties, which means you should make them positive
     def __init__(self, gap_open, gap_extend, default=-100, alphabet1="ACGT", alphabet2=None, gap1="-", gap2=None, text1_range=128, text2_range=None, typecode=int32):
-        if (text2_range == None):
+        if text2_range is None:
             text2_range = text1_range
-        if (alphabet2 == None):
+        if alphabet2 is None:
             alphabet2 = alphabet1
-        if (gap2 == None):
+        if gap2 is None:
             gap2 = gap1  # (scheme with gap1=gap2=None is legit)
-        if type(alphabet1) == str:
+        if isinstance(alphabet1, str):
             alphabet1 = [ch for ch in alphabet1]
-        if type(alphabet2) == str:
+        if isinstance(alphabet2, str):
             alphabet2 = [ch for ch in alphabet2]
         self.table = ones((text1_range, text2_range), typecode)
         self.table *= default
@@ -27,8 +32,8 @@ class ScoringScheme(object):
         self.gap2 = gap2
         self.alphabet1 = alphabet1
         self.alphabet2 = alphabet2
-	# private _set_score and _get_score allow subclasses to override them to
-	# implement a different underlying table object
+        # private _set_score and _get_score allow subclasses to override them to
+        # implement a different underlying table object
 
     def _set_score(self, a_b_pair, val):
         (a, b) = a_b_pair
@@ -79,7 +84,7 @@ class ScoringScheme(object):
         for a in self.alphabet1:
             for b in self.alphabet2:
                 score = self._get_score((ord(a), ord(b)))
-                if (type(score) == float):
+                if (isinstance(score, float)):
                     s = "%8.6f" % score
                 else:
                     s = "%s" % score
@@ -108,7 +113,7 @@ class ScoringScheme(object):
                     line.append("%02X" % ord(a))
             for b in self.alphabet2:
                 score = self._get_score((ord(a), ord(b)))
-                if (type(score) == float):
+                if (isinstance(score, float)):
                     s = "%8.6f" % score
                 else:
                     s = "%s" % score
@@ -123,8 +128,8 @@ def read_scoring_scheme(f, gap_open, gap_extend, gap1="-", gap2=None, **kwargs):
     f can be either a file or the name of a file.
     """
     close_it = False
-    if (type(f) == str):
-        f = file(f, "rt")
+    if (isinstance(f, str)):
+        f = open(f, "rt")
         close_it = True
     ss = build_scoring_scheme("".join([line for line in f]), gap_open, gap_extend, gap1=gap1, gap2=gap2, **kwargs)
     if (close_it):
@@ -163,14 +168,14 @@ def build_scoring_scheme(s, gap_open, gap_extend, gap1="-", gap2=None, **kwargs)
     for i, line in enumerate(lines):
         row_scores = line.split()
         if len(row_scores) == len(symbols2):        # blastz-style row
-            if symbols1 == None:
+            if symbols1 is None:
                 if len(lines) != len(symbols2):
                     raise bad_matrix
                 symbols1 = symbols2
             elif (rows_have_syms):
                 raise bad_matrix
         elif len(row_scores) == len(symbols2) + 1:  # row starts with symbol
-            if symbols1 == None:
+            if symbols1 is None:
                 symbols1 = []
                 rows_have_syms = True
                 a_la_blastz = False
@@ -206,11 +211,11 @@ def build_scoring_scheme(s, gap_open, gap_extend, gap1="-", gap2=None, **kwargs)
     typecode = int32
     for i, row_scores in enumerate(rows):
         for j, score in enumerate(map(int_or_float, row_scores)):
-            if type(score) == float:
+            if isinstance(score, float):
                 typecode = float32
-    if type(gap_open) == float:
+    if isinstance(gap_open, float):
         typecode = float32
-    if type(gap_extend) == float:
+    if isinstance(gap_extend, float):
         typecode = float32
     ss = ScoringScheme(gap_open, gap_extend, alphabet1=alphabet1, alphabet2=alphabet2, gap1=gap1, gap2=gap2, text1_range=text1_range, text2_range=text2_range, typecode=typecode, **kwargs)
     # fill matrix
@@ -231,7 +236,7 @@ def build_scoring_scheme(s, gap_open, gap_extend, gap1="-", gap2=None, **kwargs)
 def int_or_float(s):
     try:
         return int(s)
-    except:
+    except ValueError:
         return float(s)
 
 # convert possible two-char symbol to a single character
@@ -268,16 +273,16 @@ def score_texts(scoring_scheme, text1, text2):
         elif a == scoring_scheme.gap1:
             rval -= scoring_scheme.gap_extend
             if not last_gap_a:
-               rval -= scoring_scheme.gap_open
-               last_gap_a = True
-               last_gap_b = False
+                rval -= scoring_scheme.gap_open
+                last_gap_a = True
+                last_gap_b = False
         # Gap in second species
         elif b == scoring_scheme.gap2:
             rval -= scoring_scheme.gap_extend
             if not last_gap_b:
-               rval -= scoring_scheme.gap_open
-               last_gap_a = False
-               last_gap_b = True
+                rval -= scoring_scheme.gap_open
+                last_gap_a = False
+                last_gap_b = True
         # Aligned base
         else:
             rval += scoring_scheme._get_score((ord(a), ord(b)))
@@ -288,7 +293,7 @@ def score_texts(scoring_scheme, text1, text2):
 def accumulate_scores(scoring_scheme, text1, text2, skip_ref_gaps=False):
     """
     Return cumulative scores for each position in alignment as a 1d array.
-    
+
     If `skip_ref_gaps` is False positions in returned array correspond to each
     column in alignment, if True they correspond to each non-gap position (each
     base) in text1.
@@ -310,16 +315,16 @@ def accumulate_scores(scoring_scheme, text1, text2, skip_ref_gaps=False):
         elif a == scoring_scheme.gap1:
             score -= scoring_scheme.gap_extend
             if not last_gap_a:
-               score -= scoring_scheme.gap_open
-               last_gap_a = True
-               last_gap_b = False
+                score -= scoring_scheme.gap_open
+                last_gap_a = True
+                last_gap_b = False
         # Gap in second species
         elif b == scoring_scheme.gap2:
             score -= scoring_scheme.gap_extend
             if not last_gap_b:
-               score -= scoring_scheme.gap_open
-               last_gap_a = False
-               last_gap_b = True
+                score -= scoring_scheme.gap_open
+                last_gap_a = False
+                last_gap_b = True
         # Aligned base
         else:
             score += scoring_scheme._get_score((ord(a), ord(b)))

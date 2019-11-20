@@ -2,7 +2,7 @@
 
 """
 WARNING: bz2/bz2t support and file cache support are new and not as well
-         tested. 
+         tested.
 
 usage: %prog maf_files [options] < interval_file
     -s, --species=SPECIES: Comma separated list of species to include
@@ -11,14 +11,11 @@ usage: %prog maf_files [options] < interval_file
 """
 from __future__ import division, print_function
 
-import os
 import sys
 
-from numpy import *
+from numpy import zeros
 
 import bx.align.maf
-import psyco_full
-from bx import misc
 from bx.cookbook import doc_optparse
 
 
@@ -32,7 +29,7 @@ def main():
         use_cache = bool(options.usecache)
         if not prefix:
             prefix = ""
-    except:
+    except Exception:
         doc_optparse.exit()
     # Open indexed access to mafs
     index = bx.align.maf.MultiIndexed(maf_files,
@@ -93,7 +90,6 @@ def main():
             # An interval will be called missing if it is < 100bp and <50%
             # present, or more than 100bp and less that 50bp present (yes,
             # arbitrary)
-            is_missing = False
             if length < 100 and missing > (length / 2):
                 print("NA", end=' ')
             elif length >= 100 and missing > 50:

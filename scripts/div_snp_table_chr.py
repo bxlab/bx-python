@@ -12,13 +12,12 @@ from __future__ import print_function
 
 import sys
 
-import bx.bitset
-from bx.bitset_builders import *
+from bx.bitset import BinnedBitSet
+from bx.bitset_builders import binned_bitsets_from_file
 from bx.cookbook import doc_optparse
 
 
 def main():
-
     options, args = doc_optparse.parse(__doc__)
     try:
         lens = {}
@@ -65,7 +64,7 @@ def main():
             mask = binned_bitsets_from_file(open(options.mask), lens=lens)
         else:
             mask = None
-    except:
+    except Exception:
         doc_optparse.exit()
 
     if mask:
@@ -92,7 +91,7 @@ def main():
         print("reading %s ..." % chr, end=' ', file=sys.stderr)
         try:
             div = binned_bitsets_from_file(open(dirname + "/%s.bed" % (chr+suffix)), lens=lens)
-        except:
+        except Exception:
             print("%s.bed not found" % chr, file=sys.stderr)
             continue
 
@@ -109,7 +108,7 @@ def main():
             div_count = div[chr].count_range(0, div[chr].size)
             ar_div_count += div_count
             print(div_count, file=sys.stderr)
-        except:
+        except Exception:
             print(chr, "failed", file=sys.stderr)
 
         div = div_copy
@@ -135,9 +134,8 @@ def main():
     print("ar snp\t%d" % ar_snp_count)
     print("ar div\t%d" % ar_div_count)
 
+
 # copies a dictionary of bitsets
-
-
 def copybits(binnedbits):
     bitset = BinnedBitSet(binnedbits.size)
     bitset.ior(binnedbits)

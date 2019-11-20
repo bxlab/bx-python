@@ -2,7 +2,7 @@
 
 """
 Find regions of first bed file that overlap regions in a second bed file. The
-output preserves all fields from the input. 
+output preserves all fields from the input.
 
 NOTE: -u and -d options are currently not functional!
 
@@ -15,12 +15,9 @@ usage: %prog bed_file_1 bed_file_2
 """
 from __future__ import print_function
 
-import sys
 from warnings import warn
 
-from bx.bitset import *
-from bx.bitset_builders import *
-
+from bx.bitset_builders import binned_bitsets_from_file
 from bx.cookbook import doc_optparse
 
 mincols = 1
@@ -38,7 +35,7 @@ try:
     reverse = bool(options.reverse)
     booleans = bool(options.booleans)
     in_fname, in2_fname = args
-except:
+except Exception:
     doc_optparse.exit()
 
 # Read first bed into some bitsets

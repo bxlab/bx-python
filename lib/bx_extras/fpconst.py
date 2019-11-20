@@ -22,12 +22,14 @@ Copyright: (c) 2003, Pfizer, Inc.
 """
 
 __version__ = "0.7.0"
-ident = "$Id: fpconst.py,v 1.12 2004/05/22 04:38:17 warnes Exp $"
 
 import operator
 import struct
 
 from six.moves import reduce
+
+ident = "$Id: fpconst.py,v 1.12 2004/05/22 04:38:17 warnes Exp $"
+
 
 # check endianess
 _big_endian = struct.pack('i', 1)[:1] != b'\x01'
@@ -115,14 +117,14 @@ def isFinite(value):
 
 def isPosInf(value):
     "Determine if the argument is a IEEE 754 positive infinity value"
-    return (_sign(value) == 0 and _exponent(value) == 0x7ff and
-            _zero_mantissa(value))
+    return (_sign(value) == 0 and _exponent(value) == 0x7ff
+            and _zero_mantissa(value))
 
 
 def isNegInf(value):
     "Determine if the argument is a IEEE 754 negative infinity value"
-    return (_sign(value) == 1 and _exponent(value) == 0x7ff and
-            _zero_mantissa(value))
+    return (_sign(value) == 1 and _exponent(value) == 0x7ff
+            and _zero_mantissa(value))
 
 ##
 # Functions to test public functions.

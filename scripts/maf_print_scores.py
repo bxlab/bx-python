@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 """
-Read a MAF from standard input and print the score of each block. It can 
-optionally recalculate each score using the hox70 matrix, and normalize the 
+Read a MAF from standard input and print the score of each block. It can
+optionally recalculate each score using the hox70 matrix, and normalize the
 score by the number of columns in the alignment.
 
 TODO: Should be able to read an arbitrary scoring matrix.
@@ -14,7 +14,6 @@ usage: %prog [options]
 from __future__ import division, print_function
 
 import sys
-from optparse import OptionParser
 
 from bx.align import maf, score
 from bx.cookbook import doc_optparse
@@ -28,7 +27,7 @@ def main():
     try:
         lnorm = bool(options.lnorm)
         recalculate = bool(options.recalculate)
-    except:
+    except Exception:
         doc_optparse.exit()
 
     hox70 = score.build_scoring_scheme("""  A    C    G    T

@@ -3,11 +3,15 @@ Support for reading and writing genomic intervals from delimited text files.
 """
 from __future__ import print_function
 
-import sys
-from itertools import *
-
-from bx.bitset import *
-from bx.tabular.io import *
+from bx.bitset import (
+    BinnedBitSet,
+    MAX
+)
+from bx.tabular.io import (
+    ParseError,
+    TableReader,
+    TableRow,
+)
 
 
 class MissingFieldError(ParseError):
@@ -102,35 +106,36 @@ class GenomicIntervalReader(TableReader):
     """
     Reader for iterating a set of intervals in a tab separated file. Can
     also parse header and comment lines if requested.
-    
+
+    >>> from bx.tabular.io import Comment, Header
     >>> r = GenomicIntervalReader( [ "#chrom\\tname\\tstart\\tend\\textra",
     ...               "chr1\\tfoo\\t1\\t100\\txxx",
     ...               "chr2\\tbar\\t20\\t300\\txxx",
     ...               "#I am a comment",
     ...               "chr2\\tbar\\t20\\t300\\txxx" ], start_col=2, end_col=3 )
     >>> header = next(r)
-    >>> elements = list( r )
+    >>> elements = list(r)
     >>> elements.insert(0, header)
-    >>> assert type( elements[0] ) is Header
-    >>> str( elements[0] )
+    >>> assert isinstance(elements[0], Header)
+    >>> str(elements[0])
     '#chrom\\tname\\tstart\\tend\\textra'
-    >>> assert type( elements[1] ) is GenomicInterval
+    >>> assert isinstance(elements[1], GenomicInterval)
     >>> print(elements[1].start, elements[1].end)
     1 100
-    >>> str( elements[1] )
+    >>> str(elements[1])
     'chr1\\tfoo\\t1\\t100\\txxx'
     >>> elements[1].start = 30
     >>> print(elements[1].start, elements[1].end)
     30 100
-    >>> str( elements[1] )
+    >>> str(elements[1])
     'chr1\\tfoo\\t30\\t100\\txxx'
-    >>> assert type( elements[2] ) is GenomicInterval
-    >>> assert type( elements[3] ) is Comment
-    >>> assert type( elements[4] ) is GenomicInterval
+    >>> assert isinstance(elements[2], GenomicInterval)
+    >>> assert isinstance(elements[3], Comment)
+    >>> assert isinstance(elements[4], GenomicInterval)
     """
 
     def __init__(self, input, chrom_col=0, start_col=1, end_col=2, strand_col=5,
-                  default_strand="+", return_header=True, return_comments=True, force_header=None, fix_strand=False, comment_lines_startswith=["#", "track "], allow_spaces=False):
+                 default_strand="+", return_header=True, return_comments=True, force_header=None, fix_strand=False, comment_lines_startswith=["#", "track "], allow_spaces=False):
         TableReader.__init__(self, input, return_header, return_comments, force_header, comment_lines_startswith)
         self.chrom_col = chrom_col
         self.start_col = start_col
@@ -149,10 +154,10 @@ class GenomicIntervalReader(TableReader):
             seps.append(None)
         for i, sep in enumerate(seps):
             try:
-                return GenomicInterval(self, line.split(sep), self.chrom_col,
-                                        self.start_col, self.end_col,
-                                        self.strand_col, self.default_strand,
-                                        fix_strand=self.fix_strand)
+                return GenomicInterval(
+                    self, line.split(sep), self.chrom_col, self.start_col,
+                    self.end_col, self.strand_col, self.default_strand,
+                    fix_strand=self.fix_strand)
             except Exception as e:
                 # Catch and store the initial error
                 if i == 0:
@@ -189,12 +194,13 @@ class GenomicIntervalReader(TableReader):
 
 class NiceReaderWrapper(GenomicIntervalReader):
     """
-    >>> r = NiceReaderWrapper( [ "#chrom\\tname\\tstart\\tend\\textra",
-    ...                          "chr1\\tfoo\\t1\\t100\\txxx",
-    ...                          "chr2\\tbar\\t20\\t300\\txxx",
-    ...                          "#I am a comment",
-    ...                          "chr2\\tbar\\t20\\t300\\txxx" ], start_col=2, end_col=3 )
-    >>> assert type(next(r)) == Header
+    >>> from bx.tabular.io import Header
+    >>> r = NiceReaderWrapper(["#chrom\\tname\\tstart\\tend\\textra",
+    ...                        "chr1\\tfoo\\t1\\t100\\txxx",
+    ...                        "chr2\\tbar\\t20\\t300\\txxx",
+    ...                        "#I am a comment",
+    ...                        "chr2\\tbar\\t20\\t300\\txxx" ], start_col=2, end_col=3 )
+    >>> assert isinstance(next(r), Header)
     """
 
     def __init__(self, reader, **kwargs):
@@ -210,7 +216,7 @@ class NiceReaderWrapper(GenomicIntervalReader):
         return self
 
     def __next__(self):
-        while 1:
+        while True:
             try:
                 nextitem = super(NiceReaderWrapper, self).__next__()
                 return nextitem
@@ -219,12 +225,12 @@ class NiceReaderWrapper(GenomicIntervalReader):
                     if self.print_delegate and hasattr(self.print_delegate, "__call__"):
                         self.print_delegate(self.outstream, e, self)
                 self.skipped += 1
-                # no reason to stuff an entire bad file into memmory
+                # no reason to stuff an entire bad file into memory
                 if self.skipped < 10:
                     self.skipped_lines.append((self.linenum, self.current_line, str(e)))
 
     def iterwrapper(self):
-        while 1:
+        while True:
             self.current_line = next(self.input_wrapper)
             yield self.current_line
 
@@ -242,14 +248,10 @@ class BitsetSafeReaderWrapper(NiceReaderWrapper):
     def __next__(self):
         while True:
             rval = NiceReaderWrapper.next(self)
-            if isinstance(rval, GenomicInterval) and rval.end > self.lens.get(rval.chrom, MAX):  # MAX_INT is defined in bx.bitset
-                try:
-                    # This will only work if reader is a NiceReaderWrapper
-                    self.skipped += 1
-                    # no reason to stuff an entire bad file into memmory
-                    if self.skipped < 10:
-                        self.skipped_lines.append((self.linenum, self.current_line, str(e)))
-                except:
-                    pass
+            if isinstance(rval, GenomicInterval) and rval.end > self.lens.get(rval.chrom, MAX):
+                self.skipped += 1
+                # no reason to stuff an entire bad file into memory
+                if self.skipped < 10:
+                    self.skipped_lines.append((self.linenum, self.current_line, "Error in BitsetSafeReaderWrapper"))
             else:
                 return rval

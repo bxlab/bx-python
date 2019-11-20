@@ -2,7 +2,8 @@
 Various utilities.
 """
 
-import bz2, gzip
+import bz2
+import gzip
 
 
 def open_compressed(filename, mode='r'):
@@ -11,4 +12,4 @@ def open_compressed(filename, mode='r'):
     elif filename.endswith(".gz"):
         return gzip.GzipFile(filename, mode)
     else:
-        return file(filename, mode)
+        return open(filename, mode)

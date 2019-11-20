@@ -1,8 +1,8 @@
 """
 Access to files containing sequence data in 'twobit' format.
 """
-from struct import calcsize, unpack
 from collections import Mapping
+from struct import calcsize, unpack
 
 from . import _twobit
 

@@ -11,7 +11,6 @@ usage: %prog nib_dir < range_file
 """
 from __future__ import print_function
 
-import string
 import sys
 
 import bx.seq.nib
@@ -19,12 +18,11 @@ from bx.cookbook import doc_optparse
 
 
 def __main__():
-
     options, args = doc_optparse.parse(__doc__)
 
     try:
         nib_dir = args[0]
-    except:
+    except IndexError:
         doc_optparse.exit()
 
     nibs = {}
@@ -36,7 +34,7 @@ def __main__():
         if chrom in nibs:
             nib = nibs[chrom]
         else:
-            nibs[chrom] = nib = bx.seq.nib.NibFile(file("%s/%s.nib" % (nib_dir, chrom)))
+            nibs[chrom] = nib = bx.seq.nib.NibFile(open("%s/%s.nib" % (nib_dir, chrom)))
         print_wrapped(nib.get(start, end - start))
 
 

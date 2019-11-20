@@ -4,13 +4,18 @@
 from __future__ import with_statement
 
 import logging
-import re
 import os
+import re
 from collections import namedtuple
 
 from six.moves import cPickle
 
-from ._epo import rem_dash, fastLoadChain, bed_union, cummulative_intervals
+from ._epo import (  # noqa: F401
+    bed_union,
+    cummulative_intervals,
+    fastLoadChain,
+    rem_dash
+)
 
 log = logging.getLogger(__name__)
 
@@ -33,7 +38,7 @@ class Chain(namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qSi
         :param line: header of a chain (in .chain format)
         """
 
-        assert type(line) == str, "this is a factory from string"
+        assert isinstance(line, str), "this is a factory from string"
 
         line = line.rstrip().split()[1:]  # the first component is the keyword "chain"
         tup = [t[0](t[1]) for t in zip([int, str, int, str, int, int, str, int, str, int, int, str], line)]
@@ -80,10 +85,14 @@ class Chain(namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qSi
         # intervals are 0-base, halfo-open => lengths = coordinate difference
         while A or B:
             if a[1] < b[1]:
-                T.append(0); Q.append(A[0][0] - a[1]); S.append(min(a[1], b[1]) - max(a[0], b[0]))
+                T.append(0)
+                Q.append(A[0][0] - a[1])
+                S.append(min(a[1], b[1]) - max(a[0], b[0]))
                 a = A.pop(0)
             elif b[1] < a[1]:
-                Q.append(0); T.append(B[0][0] - b[1]); S.append(min(a[1], b[1]) - max(a[0], b[0]))
+                Q.append(0)
+                T.append(B[0][0] - b[1])
+                S.append(min(a[1], b[1]) - max(a[0], b[0]))
                 b = B.pop(0)
             elif A and B:
                 assert 1 > 2, "there are dash columns"
@@ -97,29 +106,30 @@ class Chain(namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qSi
         # UCSC coordinates are 0-based, half-open and e! coordinates are 1-base, closed
         # chain_start = epo_start - 1 and chain_end = epo_end
         if qr_comp.strand == '+':
-            chain = Chain(0,
-                    trg_comp.chrom, tSize, "+",
-                    (trg_comp.start - 1) + tr_start_correction, trg_comp.end - tr_end_correction,
-                    qr_comp.chrom, qSize, (qr_comp.strand == trg_comp.strand and '+' or '-'),
-                    (qr_comp.start - 1) + qr_start_correction, qr_comp.end - qr_end_correction,
-                    qr_comp.gabid)
+            chain = Chain(
+                0, trg_comp.chrom, tSize, "+",
+                (trg_comp.start - 1) + tr_start_correction, trg_comp.end - tr_end_correction,
+                qr_comp.chrom, qSize, (qr_comp.strand == trg_comp.strand and '+' or '-'),
+                (qr_comp.start - 1) + qr_start_correction, qr_comp.end - qr_end_correction,
+                qr_comp.gabid)
         else:
-            chain = Chain(0,
-                    trg_comp.chrom, tSize, "+",
-                    (trg_comp.start - 1) + tr_start_correction, trg_comp.end - tr_end_correction,
-                    qr_comp.chrom, qSize, (qr_comp.strand == trg_comp.strand and '+' or '-'),
-                    (qr_comp.start - 1) + qr_end_correction, qr_comp.end - qr_start_correction,
-                    qr_comp.gabid)
+            chain = Chain(
+                0, trg_comp.chrom, tSize, "+",
+                (trg_comp.start - 1) + tr_start_correction, trg_comp.end - tr_end_correction,
+                qr_comp.chrom, qSize, (qr_comp.strand == trg_comp.strand and '+' or '-'),
+                (qr_comp.start - 1) + qr_end_correction, qr_comp.end - qr_start_correction,
+                qr_comp.gabid)
 
         # strand correction. in UCSC coordinates this is: size - coord
         if chain.qStrand == '-':
-            chain = chain._replace(qEnd=chain.qSize - chain.qStart,
-                    qStart=chain.qSize - chain.qEnd)
+            chain = chain._replace(
+                qEnd=chain.qSize - chain.qStart,
+                qStart=chain.qSize - chain.qEnd)
 
-        assert chain.tEnd - chain.tStart == sum(S) + sum(T), "[%s] %d != %d" % (str(chain),
-                chain.tEnd - chain.tStart, sum(S) + sum(T))
-        assert chain.qEnd - chain.qStart == sum(S) + sum(Q), "[%s] %d != %d" % (str(chain),
-                chain.qEnd - chain.qStart, sum(S) + sum(Q))
+        assert chain.tEnd - chain.tStart == sum(S) + sum(T), "[%s] %d != %d" % (
+            str(chain), chain.tEnd - chain.tStart, sum(S) + sum(T))
+        assert chain.qEnd - chain.qStart == sum(S) + sum(Q), "[%s] %d != %d" % (
+            str(chain), chain.qEnd - chain.qStart, sum(S) + sum(Q))
         return chain, S, T, Q
 
     def slice(self, who):
@@ -181,9 +191,10 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
 
     __slots__ = ()
 
-    cigar_pattern = re.compile("(\d*)([MD])")
+    cigar_pattern = re.compile(r"(\d*)([MD])")
 
-    def __repr__(self): return str(self)
+    def __repr__(self):
+        return str(self)
 
     def __str__(self):
         c = self.cigar[:5] + "..." + self.cigar[-5:]
@@ -199,10 +210,9 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
         chrom = cmp[2]
         if not chrom.startswith("chr"):
             chrom = "chr%s" % chrom
-        instance = tuple.__new__(cls,
-                (cmp[0], cmp[1],
-                    chrom, int(cmp[3]), int(cmp[4]),
-                    {'1': '+', '-1': '-'}[cmp[5]], cmp[6]))
+        instance = tuple.__new__(
+            cls,
+            (cmp[0], cmp[1], chrom, int(cmp[3]), int(cmp[4]), {'1': '+', '-1': '-'}[cmp[5]], cmp[6]))
         span = instance.end - instance.start + 1
         m_num = sum((t[1] == "M" and [t[0]] or [0])[0] for t in instance.cigar_iter(False))
         if span != m_num:
@@ -274,6 +284,6 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
         assert sum(t[0] for t in self.cigar_iter(False) if t[1] == "M") == sum(t[1]-t[0] for t in d)
 
         d_sum = sum(t[1]-t[0] for t in d)
-        assert self.end - self.start + 1 == d_sum, "[ (%d, %d) = %d ] != %d" % (self.start, self.end,
-                self.end-self.start+1, d_sum)
+        assert self.end - self.start + 1 == d_sum, "[ (%d, %d) = %d ] != %d" % (
+            self.start, self.end, self.end-self.start+1, d_sum)
         return d[1:]  # clip the (thr, thr) entry

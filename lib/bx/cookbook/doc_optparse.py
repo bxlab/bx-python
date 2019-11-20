@@ -10,7 +10,7 @@ First, write a module level docstring containing something like this
     '''usage: %prog files [options]
        -d, --delete: delete all files
        -e, --erase = ERASE: erase the given file'''
-   
+
 Then write a main program of this kind:
 
 # sketch of a script to delete files::
@@ -29,7 +29,10 @@ or worse, the script will not work as expected.
 """
 from __future__ import print_function
 
-import optparse, re, sys, traceback
+import optparse
+import re
+import sys
+import traceback
 
 USAGE = re.compile(r'(?s)\s*usage: (.*?)(\n[ \t]*\n|$)')
 
@@ -84,8 +87,6 @@ def parse(docstring, arglist=None):
                     k = k.split("=")[0]
                 opt_strings.append(k)
             p.add_option(*opt_strings, **dict(action=action, help=help.strip()))
-        helpstring = docstring.replace("%prog", sys.argv[0])
-        # p.add_option( "-h", "--help", action="callback", callback=help_callback, callback_args=(helpstring,) )
     except (IndexError, ValueError):
         raise ParsingError("Cannot parse the option string correctly")
     return p.parse_args(arglist)

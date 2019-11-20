@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Read an alignment from stdin and for each block print the result of 
+Read an alignment from stdin and for each block print the result of
 evaluating `template_string` (in cheetah template format). The alignment
 block will be placed in the template context as `a` and the list of components
 as `c`.
@@ -12,15 +12,15 @@ usage: %prog template [options]
 
 from __future__ import division, print_function
 
-import psyco_full
 
 import sys
-from bx.cookbook import doc_optparse
+
 from bx import align
+from bx.cookbook import doc_optparse
 
 try:
     from Cheetah.Template import Template
-except:
+except ImportError:
     print("This script requires the Cheetah template modules", file=sys.stderr)
     sys.exit(-1)
 
@@ -35,7 +35,7 @@ def main():
         format = options.format
         if not format:
             format = "maf"
-    except:
+    except Exception:
         doc_optparse.exception()
 
     reader = align.get_reader(format, sys.stdin)
@@ -47,4 +47,4 @@ def main():
 
 
 if __name__ == "__main__":
-	main()
+    main()

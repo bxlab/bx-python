@@ -8,15 +8,12 @@ usage: %prog -c cols < maf > maf
 """
 
 import sys
+from optparse import OptionParser
 
 from bx.align import maf
-from optparse import OptionParser
 
 
 def __main__():
-
-    # Parse command line arguments
-
     parser = OptionParser()
     parser.add_option("-c", "--cols", action="store")
 

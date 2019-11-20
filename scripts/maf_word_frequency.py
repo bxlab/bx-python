@@ -13,11 +13,11 @@ from __future__ import division, print_function
 import string
 import sys
 
-import psyco; psyco.profile()
+import psyco
 
-from bx.cookbook import doc_optparse
+from bx.align import maf
 
-from align import maf
+psyco.profile()
 
 
 def __main__():
@@ -39,8 +39,7 @@ def __main__():
                 big_map[motif] = 1
             total += 1
 
-    items = list(zip(big_map.values(), big_map.keys()))
-    items.sort()
+    items = sorted(zip(big_map.values(), big_map.keys()))
     items.reverse()
 
     for count, motif in items:

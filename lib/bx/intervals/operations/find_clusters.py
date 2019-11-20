@@ -10,16 +10,11 @@ disturbing original order, or the clusters may themselves be written
 as intervals.
 """
 
-import random
 import math
+import random
 
-import traceback
-import fileinput
-from warnings import warn
-
-from bx.intervals.cluster import *
-from bx.intervals.io import *
-from bx.intervals.operations import *
+from bx.intervals.cluster import ClusterTree
+from bx.intervals.io import GenomicInterval
 
 
 def find_clusters(reader, mincols=1, minregions=2):
@@ -41,7 +36,7 @@ def find_clusters(reader, mincols=1, minregions=2):
                     reader.skipped += 1
                     if reader.skipped < 10:
                         reader.skipped_lines.append((reader.linenum, reader.current_line, str(e)))
-                except:
+                except Exception:
                     pass
                 continue
     return chroms, extra
@@ -129,34 +124,21 @@ class ClusterNode(object):
 
     def getintervals(self):
         if self.left:
-            for start, end in self.left.getintervals(minregions):
+            for start, end in self.left.getintervals(self.minregions):
                 yield start, end
-        if len(self.lines) >= minregions:
+        if len(self.lines) >= self.minregions:
             yield self.start, self.end
         if self.right:
-            for start, end in self.right.getintervals(minregions):
+            for start, end in self.right.getintervals(self.minregions):
                 yield start, end
 
     def getlines(self):
         if self.left:
             for line in self.left.getlines():
                 yield line
-        if len(self.lines) >= minregions:
+        if len(self.lines) >= self.minregions:
             for line in self.lines:
                 yield line
         if self.right:
             for line in self.right.getlines():
                 yield line
-
-# def main():
-##     f1 = fileinput.FileInput("big.bed")
-##     g1 = GenomicIntervalReader(f1)
-##     returntree, extra = find_clusters(g1, mincols=50)
-##     print "All found"
-# for chrom, value in returntree.items():
-# for start, end in value.getregions():
-##             print chrom+"\t"+str(start)+"\t"+str(end)
-# for line in value.getlines():
-##             print "Line:\t"+str(line)
-
-# main()

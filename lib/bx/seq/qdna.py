@@ -40,7 +40,6 @@ Recognized properties (at present only one):
   - codebook: A string in qdna code file format (see QdnaCodebook class for details).
 """
 import struct
-import sys
 
 from six import StringIO
 
@@ -54,15 +53,15 @@ class QdnaFile(SeqFile):
 
     def __init__(self, file, revcomp=False, name="", gap=None, codebook=None):
         SeqFile.__init__(self, file, revcomp, name, gap)
-        if (gap == None):
+        if gap is None:
             self.gap = chr(0)
-        assert (revcomp == False), "reverse complement is not supported for qdna files"
+        assert not revcomp, "reverse complement is not supported for qdna files"
         self.codebook = codebook
 
         self.byte_order = ">"
         magic = struct.unpack(">L", file.read(4))[0]
-        if (magic != qdnaMagic):
-            if (magic == qdnaMagicSwap):
+        if magic != qdnaMagic:
+            if magic == qdnaMagicSwap:
                 self.byte_order = "<"
             else:
                 raise ValueError("not a quantum-dna file (magic=%08X)" % magic)
@@ -73,44 +72,41 @@ class QdnaFile(SeqFile):
 
         self.version = struct.unpack("%sL" % self.byte_order,
                                      self.file.read(4))[0]
-        if (self.version not in [0x100, 0x200]):
+        if self.version not in [0x100, 0x200]:
             raise ValueError("unsupported quantum-dna (version=%08X)" % self.version)
 
         self.headerLength = struct.unpack("%sL" % self.byte_order,
                                           self.file.read(4))[0]
-        if (self.headerLength < 0x10):
+        if self.headerLength < 0x10:
             raise ValueError("unsupported quantum-dna (header len=%08X)" % self.headerLength)
-        if (self.version == 0x100) and (self.headerLength != 0x10):
+        if self.version == 0x100 and self.headerLength != 0x10:
             raise ValueError("unsupported quantum-dna (version 1.0 header len=%08X)" % self.headerLength)
 
-        self.seqOffset = struct.unpack("%sL" % self.byte_order,
-                                        self.file.read(4))[0]
-        self.nameOffset = struct.unpack("%sL" % self.byte_order,
-                                        self.file.read(4))[0]
-        self.length = struct.unpack("%sL" % self.byte_order,
-                                        self.file.read(4))[0]
+        self.seqOffset = struct.unpack("%sL" % self.byte_order, self.file.read(4))[0]
+        self.nameOffset = struct.unpack("%sL" % self.byte_order, self.file.read(4))[0]
+        self.length = struct.unpack("%sL" % self.byte_order, self.file.read(4))[0]
 
         self.propOffset = 0
-        if (self.headerLength >= 0x14):
+        if self.headerLength >= 0x14:
             self.propOffset = struct.unpack("%sL" % self.byte_order,
                                             self.file.read(4))[0]
 
         self.name = ""
-        if (self.nameOffset != 0):
+        if self.nameOffset != 0:
             self.file.seek(self.nameOffset)
             self.name = self.read_string()
 
-        if (self.propOffset != 0):
+        if self.propOffset != 0:
             self.file.seek(self.propOffset)
             while (True):
                 name = self.read_string()
-                if (len(name) == 0):
+                if len(name) == 0:
                     break
                 value = self.read_string()
                 self.set_property(name, value)
 
     def set_property(self, name, value):
-        if (name == "codebook"):
+        if name == "codebook":
             self.codebook = QdnaCodebook(StringIO(value))
         else:
             raise Exception("named properties as instance variables are not implemented yet")
@@ -121,7 +117,7 @@ class QdnaFile(SeqFile):
         s = b""
         while (True):
             ch = self.file.read(1)
-            if (ch == b"\0"):
+            if ch == b"\0":
                 break
             s += ch
         if not isinstance(s, str):
@@ -133,8 +129,7 @@ class QdnaFile(SeqFile):
         return self.file.read(length).decode()
 
     def get_quantum(self, start, length):
-        assert (self.codebook != None), \
-                "qdna sequence %s has no code book" % self.name
+        assert self.codebook is not None, "qdna sequence %s has no code book" % self.name
         return [self.codebook[codeNum] for codeNum in self.raw_fetch(start, length)]
 
 
@@ -145,7 +140,7 @@ class QdnaReader(SeqReader):
         self.codebook = codebook
 
     def __next__(self):
-        if (self.seqs_read != 0):
+        if self.seqs_read != 0:
             return  # qdna files have just one sequence
         seq = QdnaFile(self.file, self.revcomp, self.name, self.gap, self.codebook)
         self.seqs_read += 1
@@ -180,17 +175,16 @@ class QdnaCodebook(object):
         (self.alphabet, self.codeToProbs) = self.read_codebook(file)
 
     def __str__(self):
-        codeSet = [codeNum for codeNum in self.codeToProbs]
-        codeSet.sort()
+        codeSet = sorted(codeNum for codeNum in self.codeToProbs)
         return "\n".join([self.vector_text(codeNum) for codeNum in codeSet])
 
     def vector_text(self, codeNum):
-        if (codeNum in self.codeToProbs):
+        if codeNum in self.codeToProbs:
             vec = self.codeToProbs[codeNum]
         else:
             vec = {}
         for sym in self.alphabet:
-            if (sym not in vec):
+            if sym not in vec:
                 vec[sym] = 0.0
         return ("%02X\t" % ord(codeNum)) \
             + "\t".join(["%.6f" % vec[sym] for sym in self.alphabet])
@@ -199,8 +193,7 @@ class QdnaCodebook(object):
         return self.codeToProbs[codeNum]
 
     def __setitem__(self, codeNum, value):
-        self.codeToProbs[codeNum] = value  # value should be hash from symbol
-                                          # .. to probability
+        self.codeToProbs[codeNum] = value  # value should be hash from symbol to probability
 
     def read_codebook(self, codeF):
         alphabet = "ACGT"
@@ -210,37 +203,33 @@ class QdnaCodebook(object):
             lineNum += 1
             line = line.rstrip()
             stripped = line.strip()
-            if (stripped == "") or (stripped.startswith("#")):
+            if stripped == "" or stripped.startswith("#"):
                 continue
 
             fields = line.split(None)
-            if (len(fields) != 5):
+            if len(fields) != 5:
                 raise ValueError("wrong vector size (line %d)" % lineNum)
 
             try:
                 codeNum = int(fields[0], 16)
-            except:
-                raise ValueError("bad character code %s (line %d)"
-                    % (fields[0], lineNum))
+            except ValueError:
+                raise ValueError("bad character code %s (line %d)" % (fields[0], lineNum))
 
-            if (not 0 <= codeNum <= 255):
-                raise ValueError("character code %s is outside the valid range (line %d)"
-                     % (fields[0], lineNum))
+            if not 0 <= codeNum <= 255:
+                raise ValueError("character code %s is outside the valid range (line %d)" % (fields[0], lineNum))
 
-            if (chr(codeNum) in codeToProbs):
-                raise ValueError("character code %s appears more than once (line %d)"
-                     % (fields[0], lineNum))
+            if chr(codeNum) in codeToProbs:
+                raise ValueError("character code %s appears more than once (line %d)" % (fields[0], lineNum))
 
             try:
                 vec = {}
                 for ix in range(1, 5):
                     p = float(fields[ix])
-                    if (p < 0) or (p > 1):
+                    if p < 0 or p > 1:
                         raise ValueError
                     vec[alphabet[ix-1]] = p
-            except:
-                raise ValueError("%s is a bad probability value (line %d)"
-                     % (fields[ix], lineNum))
+            except Exception:
+                raise ValueError("%s is a bad probability value (line %d)" % (fields[ix], lineNum))
 
             codeToProbs[chr(codeNum)] = vec
 
@@ -254,7 +243,7 @@ class QdnaWriter(object):
 
     def write(self, seq):
         text = seq.text
-        if (text == None):
+        if text is None:
             text = ""
 
         version = 0x200
@@ -262,7 +251,7 @@ class QdnaWriter(object):
         offset = headerLen + 8
 
         nameOffset = 0
-        if (seq.name != None) and (seq.name != ""):
+        if seq.name is not None and seq.name != "":
             nameOffset = 0x01C
             offset += len(seq.name) + 1
             name = seq.name + chr(0)
@@ -270,8 +259,7 @@ class QdnaWriter(object):
         dataOffset = offset
         offset += len(text)
 
-        assert (seq.codebook == None), \
-               "QdnaWriter.write() does not support codebooks yet"
+        assert seq.codebook is None, "QdnaWriter.write() does not support codebooks yet"
         propOffset = 0
 
         self.file.write(struct.pack("%sL" % seq.byte_order, qdnaMagic))
@@ -281,7 +269,7 @@ class QdnaWriter(object):
         self.file.write(struct.pack("%sL" % seq.byte_order, nameOffset))
         self.file.write(struct.pack("%sL" % seq.byte_order, len(text)))
         self.file.write(struct.pack("%sL" % seq.byte_order, propOffset))
-        if (nameOffset != 0):
+        if nameOffset != 0:
             self.file.write(name)
         self.file.write(text)
 

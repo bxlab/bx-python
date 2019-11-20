@@ -7,6 +7,7 @@ See seq.py for more information
 """
 
 import struct
+
 from . import fasta, nib, qdna
 
 # DNA reverse complement table
@@ -22,9 +23,9 @@ def reverse_complement(text):
 
 
 def seq_file(file, format=None, revcomp=False, name="", gap=None, contig=None):
-    if (format == None):
+    if (format is None):
         format = infer_format(file)
-    if (contig != None) and (format not in ["fasta", None]):
+    if (contig is not None) and (format not in ["fasta", None]):
         raise ValueError("Contigs are not supported for format %s" % format)
     if (format == "fasta"):
         return fasta.FastaFile(file, revcomp=revcomp, name=name, gap=gap, contig=contig)
@@ -33,7 +34,7 @@ def seq_file(file, format=None, revcomp=False, name="", gap=None, contig=None):
     elif (format == "qdna"):
         return qdna.QdnaFile(file, revcomp=revcomp, name=name, gap=gap)
     else:
-        if (format == None):
+        if (format is None):
             format = ""
         else:
             format = " " + format
@@ -41,7 +42,7 @@ def seq_file(file, format=None, revcomp=False, name="", gap=None, contig=None):
 
 
 def seq_reader(file, format=None, revcomp=False, name="", gap=None):
-    if (format == None):
+    if (format is None):
         format = infer_format(file)
     if (format == "fasta"):
         return fasta.FastaReader(file, revcomp=revcomp, name=name, gap=gap)

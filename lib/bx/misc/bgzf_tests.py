@@ -1,7 +1,6 @@
 from __future__ import print_function
 
 import bx.misc.bgzf
-import sys
 
 
 def test_bgzf():

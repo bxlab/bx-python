@@ -6,24 +6,19 @@ Remove any blocks from a maf that overlap any of a set of intervals.
 usage: %prog interval files... < maf
 """
 
-import psyco_full
-
-from bx.cookbook import doc_optparse
+import sys
 
 import bx.align.maf
 from bx import intervals
-import sys
+from bx.cookbook import doc_optparse
 
 
 def __main__():
-
-    # Parse Command Line
-
     options, args = doc_optparse.parse(__doc__)
 
     try:
         assert len(args) > 0
-    except:
+    except AssertionError:
         doc_optparse.exit()
 
     # Load Intervals
@@ -31,7 +26,7 @@ def __main__():
     intersector = intervals.Intersecter()
 
     for f in args:
-        for line in file(f):
+        for line in open(f):
             if line.startswith("#") or line.isspace():
                 continue
             fields = line.split()

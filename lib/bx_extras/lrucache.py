@@ -37,7 +37,11 @@ discarded. [1]_
 from __future__ import print_function
 
 import time
-from heapq import heappush, heappop, heapify
+from heapq import (
+    heapify,
+    heappop,
+    heappush,
+)
 
 __version__ = "0.2"
 __all__ = ['CacheKeyError', 'LRUCache', 'DEFAULT_SIZE']
@@ -53,7 +57,6 @@ class CacheKeyError(KeyError):
     When a cache record is accessed which no longer exists (or never did),
     this error is raised. To avoid it, you may want to check for the existence
     of a cache record before reading or deleting it."""
-    pass
 
 
 class LRUCache(object):
@@ -70,12 +73,12 @@ class LRUCache(object):
     cache['foo'] = get_file_contents('foo') # or whatever
 
     if 'foo' in cache: # if it's still in cache...
-	    # use cached version
+            # use cached version
         contents = cache['foo']
     else:
-	    # recalculate
+            # recalculate
         contents = get_file_contents('foo')
-	    # store in cache for next time
+            # store in cache for next time
         cache['foo'] = contents
 
     print cache.size # Maximum size
@@ -133,7 +136,7 @@ class LRUCache(object):
         # Check arguments
         if size <= 0:
             raise ValueError(size)
-        elif type(size) is not type(0):
+        elif not isinstance(size, int):
             raise TypeError(size)
         object.__init__(self)
         self.__heap = []

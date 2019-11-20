@@ -6,18 +6,16 @@ from `interval_file` and print all scores overlapping intervals.
 
 TODO: Support binned array format scores also.
 
-usage: %prog score_file interval_file [out_file] 
+usage: %prog score_file interval_file [out_file]
 """
 from __future__ import division, print_function
 
 import sys
 
 import bx.wiggle
-import psyco_full
 from bx import misc
 from bx.binned_array import BinnedArray
 from bx.cookbook import doc_optparse
-from fpconst import isNaN
 
 
 def read_scores(f):
@@ -40,7 +38,7 @@ def main():
             out_file = open(args[2], 'w')
         else:
             out_file = sys.stdout
-    except:
+    except Exception:
         doc_optparse.exit()
 
     scores_by_chrom = read_scores(misc.open_compressed(sys.argv[1]))

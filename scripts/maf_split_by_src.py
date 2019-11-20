@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.3
 
 """
-Read a MAF from stdin and break into several mafs based on the source of 
+Read a MAF from stdin and break into several mafs based on the source of
 each block. If the `component` option is provided then only that component
 will be used to determine the new file for each block, otherwise the src
 for *all* components will be used.
@@ -13,11 +13,12 @@ usage: %prog [options] < maf
     -c, --component: use only this component (by index!) to split
 """
 
-import sys, string
-import bx.align.maf
+import string
+import sys
 from optparse import OptionParser
 
-import psyco_full
+import bx.align.maf
+
 
 INF = "inf"
 
@@ -34,7 +35,7 @@ def __main__():
     out_prefix = options.outprefix
     comp = options.component
     if comp is not None:
-       comp = int(comp)
+        comp = int(comp)
 
     maf_reader = bx.align.maf.Reader(sys.stdin)
 
@@ -48,7 +49,7 @@ def __main__():
             writer_key = m.components[comp].src
 
         if writer_key not in writers:
-            writer = bx.align.maf.Writer(file("%s%s.maf" % (out_prefix, writer_key), "w"))
+            writer = bx.align.maf.Writer(open("%s%s.maf" % (out_prefix, writer_key), "w"))
             writers[writer_key] = writer
         else:
             writer = writers[writer_key]

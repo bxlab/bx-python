@@ -8,16 +8,13 @@ usage: %prog bed1 bed2
 """
 from __future__ import division, print_function
 
-import string
 import sys
 
 import bx.intervals.intersection
 import bx.intervals.io
-import psyco_full
 
 
 def main():
-
     intersecters = {}
 
     # Read second set into intersecter

@@ -8,8 +8,6 @@ usage: %prog bed_file_1 bed_file_2
 """
 from __future__ import print_function
 
-import sys
-from warnings import warn
 
 from bx.bitset_builders import binned_bitsets_from_file
 from bx.cookbook import doc_optparse
@@ -17,7 +15,7 @@ from bx.cookbook import doc_optparse
 
 def print_bits_as_bed(bits):
     end = 0
-    while 1:
+    while True:
         start = bits.next_set(end)
         if start == bits.size:
             break
@@ -28,7 +26,7 @@ def print_bits_as_bed(bits):
 options, args = doc_optparse.parse(__doc__)
 try:
     in_fname, in2_fname = args
-except:
+except ValueError:
     doc_optparse.exit()
 
 # Read first bed into some bitsets

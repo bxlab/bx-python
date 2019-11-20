@@ -11,24 +11,19 @@ usage: %prog [options] chunk_size out_dir < maf
   --prob: probability of writing versus skipping each chunk.
 """
 
-usage = "usage: %prog chunk_size out_dir"
-
+import random
 import sys
 from optparse import OptionParser
+
 import bx.align.maf
-import psyco_full
-import random
 
 INF = "inf"
 
 
 def __main__():
-
-    # Parse command line arguments
-
     parser = OptionParser("usage: %prog chunk_size out_dir")
     parser.add_option("--prob", action="store", default=None, type="float",
-                       help="Probability of writing a given chunk")
+                      help="Probability of writing a given chunk")
 
     (options, args) = parser.parse_args()
 
@@ -48,7 +43,7 @@ def __main__():
 
     write_current_chunk = True
 
-    interval_file = file("%s/intervals.txt" % out_dir, "w")
+    interval_file = open("%s/intervals.txt" % out_dir, "w")
 
     for m in maf_reader:
         chunk_min = min(chunk_min, m.components[0].start)
@@ -67,13 +62,13 @@ def __main__():
             else:
                 write_current_chunk = True
             if write_current_chunk:
-                maf_writer = bx.align.maf.Writer(file("%s/%09d.maf" % (out_dir, current_chunk), "w"))
+                maf_writer = bx.align.maf.Writer(open("%s/%09d.maf" % (out_dir, current_chunk), "w"))
             else:
                 maf_writer = None
             count = 0
         if maf_writer:
             maf_writer.write(m)
-        #count += m.text_size
+        # count += m.text_size
         count += m.components[0].size
 
     if maf_writer:

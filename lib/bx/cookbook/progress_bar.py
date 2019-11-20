@@ -1,5 +1,5 @@
 """
-An ASCII text progress bar. See __main__ for command line use (using \r to 
+An ASCII text progress bar. See __main__ for command line use (using \r to
 move the cursor back to the start of the current line is the key, on
 terminals that do not support this functionality the progress bar will
 not work as well).
@@ -72,8 +72,6 @@ def iterprogress(sized_iterable):
 
 
 if __name__ == "__main__":
-    import time
-
     bar = ProgressBar(0, 1000, 80)
 
     for i in range(1000):

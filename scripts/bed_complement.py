@@ -10,10 +10,7 @@ usage: %prog bed_file chrom_length_file
 
 from __future__ import print_function
 
-import sys
-
-from bx.bitset import *
-from bx.bitset_builders import *
+from bx.bitset_builders import binned_bitsets_from_file
 from bx.cookbook import doc_optparse
 
 
@@ -29,7 +26,7 @@ def read_len(f):
 options, args = doc_optparse.parse(__doc__)
 try:
     in_fname, len_fname = args
-except:
+except Exception:
     doc_optparse.exit()
 
 bitsets = binned_bitsets_from_file(open(in_fname))
@@ -42,7 +39,7 @@ for chrom in lens:
         bits.invert()
         len = lens[chrom]
         end = 0
-        while 1:
+        while True:
             start = bits.next_set(end)
             if start == bits.size:
                 break

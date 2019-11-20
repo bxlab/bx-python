@@ -4,17 +4,25 @@
 Create a site profile vector showing the average signal accumulated from a
 bigwig file around the center of each interval from a BED file.
 
-Output is the average signal value at that relative position across the 
+Output is the average signal value at that relative position across the
 intervals.
 
-usage: %prog bigwig_file.bw padding < bed_file.bed 
+usage: %prog bigwig_file.bw padding < bed_file.bed
 """
 
 import sys
-from numpy import *
 
-from bx.intervals.io import GenomicIntervalReader
+from numpy import (
+    float64,
+    floor,
+    int32,
+    isnan,
+    savetxt,
+    zeros
+)
+
 from bx.bbi.bigwig_file import BigWigFile
+from bx.intervals.io import GenomicIntervalReader
 
 bw = BigWigFile(open(sys.argv[1]))
 padding = int(sys.argv[2])

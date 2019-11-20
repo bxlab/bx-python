@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Read BED file and extend each record to the specified minimum length. If chromosome 
+Read BED file and extend each record to the specified minimum length. If chromosome
 size information is provided trim extended intervals.
 
 usage: %prog amount [ chrom_file ] < bed_file

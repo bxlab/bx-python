@@ -2,6 +2,7 @@
 Various useful utilities, mostly taken from the ASPN Python cookbook.
 """
 
+import types
 seq_types = type(()), type([])
 
 
@@ -34,9 +35,6 @@ def cross_lists(*sets):
 # Cached / memoized methods
 
 
-import types
-
-
 def cachedmethod(function):
     return types.MethodType(Memoize(function), None)
 
@@ -60,29 +58,29 @@ class Memoize(object):
 
 
 class memoized(object):
-   """Decorator that caches a function's return value each time it is called.
-   If called later with the same arguments, the cached value is returned, and
-   not re-evaluated.
-   """
+    """Decorator that caches a function's return value each time it is called.
+    If called later with the same arguments, the cached value is returned, and
+    not re-evaluated.
+    """
 
-   def __init__(self, func):
-      self.func = func
-      self.cache = {}
+    def __init__(self, func):
+        self.func = func
+        self.cache = {}
 
-   def __call__(self, *args):
-      try:
-         return self.cache[args]
-      except KeyError:
-         self.cache[args] = value = self.func(*args)
-         return value
-      except TypeError:
-         # uncachable -- for instance, passing a list as an argument.
-         # Better to not cache than to blow up entirely.
-         return self.func(*args)
+    def __call__(self, *args):
+        try:
+            return self.cache[args]
+        except KeyError:
+            self.cache[args] = value = self.func(*args)
+            return value
+        except TypeError:
+            # uncachable -- for instance, passing a list as an argument.
+            # Better to not cache than to blow up entirely.
+            return self.func(*args)
 
-   def __repr__(self):
-      """Return the function's docstring."""
-      return self.func.__doc__
+    def __repr__(self):
+        """Return the function's docstring."""
+        return self.func.__doc__
 
 
 class ImmutableDict(dict):

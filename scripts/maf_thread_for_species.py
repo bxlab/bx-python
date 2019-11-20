@@ -2,25 +2,22 @@
 
 """
 Read a maf file from stdin and write out a new maf with only blocks having all of
-the passed in species, after dropping any other species and removing columns 
+the passed in species, after dropping any other species and removing columns
 containing only gaps. By default this will attempt to fuse together any blocks
-which are adjacent after the unwanted species have been dropped. 
+which are adjacent after the unwanted species have been dropped.
 
-usage: %prog species1 species2 ... < maf 
+usage: %prog species1 species2 ... < maf
     -n, --nofuse: Don't attempt to join blocks, just remove rows.
 """
 
-import psyco_full
-
-import bx.align.maf
-import copy
 import sys
 
-from bx.align.tools.thread import *
-from bx.align.tools.fuse import *
-
-from itertools import *
-
+import bx.align.maf
+from bx.align.tools.fuse import FusingAlignmentWriter
+from bx.align.tools.thread import (
+    get_components_for_species,
+    remove_all_gap_columns
+)
 from bx.cookbook import doc_optparse
 
 
@@ -34,7 +31,7 @@ def main():
         if len(species) == 1 and ',' in species[0]:
             species = species[0].split(',')
         fuse = not(bool(options.nofuse))
-    except:
+    except Exception:
         doc_optparse.exit()
 
     maf_reader = bx.align.maf.Reader(sys.stdin)

@@ -3,7 +3,10 @@ Utility functions for working with `Bitset`s and treating lists of (start,end)
 as `Bitset`s.
 """
 
-from bx.bitset import *
+from bx.bitset import (
+    BinnedBitSet,
+    MAX,
+)
 
 
 def bitset_intersect(ex1, ex2):
@@ -23,7 +26,7 @@ def bitset_subtract(ex1, ex2):
 
 def list2bits(ex):
     bits = BinnedBitSet(MAX)
-    for start, end  in ex:
+    for start, end in ex:
         bits.set_range(start, end - start)
     return bits
 
@@ -31,7 +34,7 @@ def list2bits(ex):
 def bits2list(bits):
     ex = []
     end = 0
-    while 1:
+    while True:
         start = bits.next_set(end)
         if start == bits.size:
             break
@@ -52,17 +55,17 @@ def bitset_complement(exons):
     ex_end = max([a[1] for a in exons])
     end = ex_start
     len = ex_end
-    while 1:
-            start = bits.next_set(end)
-            if start == bits.size:
-                break
-            end = bits.next_clear(start)
-            if end > len:
-                end = len
-            if start != end:
-                introns.append((start, end))
-            if end == len:
-                break
+    while True:
+        start = bits.next_set(end)
+        if start == bits.size:
+            break
+        end = bits.next_clear(start)
+        if end > len:
+            end = len
+        if start != end:
+            introns.append((start, end))
+        if end == len:
+            break
     return introns
 
 
@@ -70,7 +73,7 @@ def bitset_interval_intersect(bits, istart, iend):
     rval = []
     end = istart
     len = iend
-    while 1:
+    while True:
         start = bits.next_set(end)
         if start >= len:
             break

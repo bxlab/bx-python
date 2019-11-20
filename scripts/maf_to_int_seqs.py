@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-For each block in a maf file (read from stdin) write a sequence of ints 
+For each block in a maf file (read from stdin) write a sequence of ints
 corresponding to the columns of the block after applying the provided sequence
 mapping.
 
@@ -12,18 +12,16 @@ usage: %prog mapping_file
 """
 from __future__ import division, print_function
 
-import string
 import sys
 
 import bx.align.maf
-import psyco_full
 from bx import seqmapping
 
 
 def main():
 
     if len(sys.argv) > 1:
-        _, alpha_map = seqmapping.alignment_mapping_from_file(file(sys.argv[1]))
+        _, alpha_map = seqmapping.alignment_mapping_from_file(open(sys.argv[1]))
     else:
         alpha_map = None
 

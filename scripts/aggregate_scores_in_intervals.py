@@ -7,7 +7,7 @@ the scores that fall in that interval. Scores can either be wiggle format
 data or a directory containing binned array files (named according to the
 sequence source / chromosome of the intervals).
 
-usage: %prog score_file interval_file [out_file] [options] 
+usage: %prog score_file interval_file [out_file] [options]
     -b, --binned: 'score_file' is actually a directory of binned array files
     -m, --mask=FILE: bed file containing regions not to consider valid
 """
@@ -19,11 +19,9 @@ import sys
 from collections import Mapping
 
 import bx.wiggle
-import psyco_full
 from bx import misc
 from bx.binned_array import BinnedArray, FileBinnedArray
-from bx.bitset import *
-from bx.bitset_builders import *
+from bx.bitset_builders import binned_bitsets_from_file
 from bx.cookbook import doc_optparse
 from bx_extras.fpconst import isNaN
 
@@ -31,7 +29,7 @@ from bx_extras.fpconst import isNaN
 class FileBinnedArrayDir(Mapping):
     """
     Adapter that makes a directory of FileBinnedArray files look like
-    a regular dict of BinnedArray objects. 
+    a regular dict of BinnedArray objects.
     """
 
     def __init__(self, dir):
@@ -60,7 +58,7 @@ class FileBinnedArrayDir(Mapping):
 
 def load_scores_wiggle(fname):
     """
-    Read a wiggle file and return a dict of BinnedArray objects keyed 
+    Read a wiggle file and return a dict of BinnedArray objects keyed
     by chromosome.
     """
     scores_by_chrom = dict()
@@ -73,7 +71,7 @@ def load_scores_wiggle(fname):
 
 def load_scores_ba_dir(dir):
     """
-    Return a dict-like object (keyed by chromosome) that returns 
+    Return a dict-like object (keyed by chromosome) that returns
     FileBinnedArray objects created from "key.ba" files in `dir`
     """
     return FileBinnedArrayDir(dir)
@@ -92,7 +90,7 @@ def main():
             out_file = sys.stdout
         binned = bool(options.binned)
         mask_fname = options.mask
-    except:
+    except Exception:
         doc_optparse.exit()
 
     if binned:

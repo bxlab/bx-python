@@ -13,13 +13,11 @@ usage: %prog interval_file refindex [options] < maf_file
    -m, --mincols=10: Minimum length (columns) required for alignment to be output
 """
 
-import psyco_full
-
-from bx.cookbook import doc_optparse
+import sys
 
 import bx.align.maf
 from bx import intervals
-import sys
+from bx.cookbook import doc_optparse
 
 
 def __main__():
@@ -35,13 +33,13 @@ def __main__():
             mincols = int(options.mincols)
         else:
             mincols = 10
-    except:
+    except Exception:
         doc_optparse.exit()
 
     # Load Intervals
 
     intersecter = intervals.Intersecter()
-    for line in file(range_filename):
+    for line in open(range_filename):
         fields = line.split()
         intersecter.add_interval(intervals.Interval(int(fields[0]), int(fields[1])))
 
@@ -54,9 +52,8 @@ def __main__():
     for maf in bx.align.maf.Reader(sys.stdin):
         ref = maf.components[refindex]
         # Find overlap with reference component
-        intersections = intersecter.find(ref.get_forward_strand_start(), ref.get_forward_strand_end())
+        intersections = sorted(intersecter.find(ref.get_forward_strand_start(), ref.get_forward_strand_end()))
         # Keep output maf ordered
-        intersections.sort()
         # Write each intersecting block
         for interval in intersections:
             start = max(interval.start, ref.get_forward_strand_start())

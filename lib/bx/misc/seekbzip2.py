@@ -2,8 +2,6 @@
 Semi-random access to bz2 compressed data.
 """
 import bisect
-import os
-import sys
 
 from six import Iterator
 
@@ -46,8 +44,6 @@ class SeekableBzip2File(Iterator):
             pos = pos + length
             assert pos > old_pos
         self.size = pos
-        #print >> sys.stderr, self.size
-        #print >> sys.stderr, self.table_bz2positions
 
     def close(self):
         self.seek_bz2.close()
@@ -70,8 +66,8 @@ class SeekableBzip2File(Iterator):
     def read(self, sizehint=-1):
         if sizehint < 0:
             chunks = []
-            while 1:
-                self._read(1024*1024)
+            while True:
+                val = self._read(1024*1024)
                 if val:
                     chunks.append(val)
                 else:

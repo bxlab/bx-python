@@ -1,8 +1,8 @@
 #!/usr/bin/env python2.3
 
 """
-Read a MAF from standard input and print counts of alignments, bases, or 
-columns. 
+Read a MAF from standard input and print counts of alignments, bases, or
+columns.
 
 usage: %prog [options]
    -c, --cols: count alignment columns rather than number of alignments
@@ -20,7 +20,6 @@ from bx.cookbook import doc_optparse
 
 
 def __main__():
-
     options, args = doc_optparse.parse(__doc__)
 
     try:
@@ -39,7 +38,7 @@ def __main__():
             skip = options.skip
         else:
             skip = None
-    except:
+    except Exception:
         doc_optparse.exit()
 
     maf_reader = bx.align.maf.Reader(sys.stdin)

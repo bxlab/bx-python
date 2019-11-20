@@ -4,7 +4,7 @@
 Convert a qual (qv) file to several BinnedArray files for fast seek.
 This script takes approximately 4 seconds per 1 million base pairs.
 
-The input format is fasta style quality -- fasta headers followed by 
+The input format is fasta style quality -- fasta headers followed by
 whitespace separated integers.
 
 usage: %prog qual_file output_file
@@ -12,12 +12,9 @@ usage: %prog qual_file output_file
 from __future__ import print_function
 
 import fileinput
-import string
 import sys
 
-import psyco_full
-from bx.binned_array import *
-from bx.cookbook import *
+from bx.binned_array import BinnedArrayWriter
 
 
 def main():
@@ -25,7 +22,7 @@ def main():
     try:
         qual_file = args[0]
         output_file = args[1]
-    except:
+    except IndexError:
         print("usage: qual_file output_file")
         sys.exit()
 
@@ -34,6 +31,7 @@ def main():
     outbin = None
     base_count = 0
     mega_count = 0
+    region = ""
 
     for line in qual:
         line = line.rstrip("\r\n")

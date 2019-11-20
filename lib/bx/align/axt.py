@@ -213,7 +213,7 @@ def read_next_axt(file, species1, species2, species_to_lengths=None, support_ids
 
 def readline(file, skip_blank=False):
     """Read a line from provided file, skipping any blank or comment lines"""
-    while 1:
+    while True:
         line = file.readline()
         if not line:
             return None

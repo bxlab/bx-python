@@ -6,7 +6,7 @@ import unittest
 
 try:
     sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-except:
+except Exception:
     sys.path.insert(0, os.path.dirname(os.path.abspath(".")))
 
 from bx.intervals.intersection import Interval
@@ -73,25 +73,21 @@ class UpDownStreamTestCase(unittest.TestCase):
         for u in upstreams:
             self.assertTrue(u.end < 59)
 
-        upstreams = iv.upstream_of_interval(Interval(60, 70, strand=-1),
-                num_intervals=200)
+        upstreams = iv.upstream_of_interval(Interval(60, 70, strand=-1), num_intervals=200)
         for u in upstreams:
             self.assertTrue(u.start > 70)
 
-        upstreams = iv.upstream_of_interval(Interval(58, 58, strand=-1),
-                num_intervals=200)
+        upstreams = iv.upstream_of_interval(Interval(58, 58, strand=-1), num_intervals=200)
         for u in upstreams:
             self.assertTrue(u.start > 59)
 
     def test_downstream(self):
         iv = self.intervals
-        downstreams = iv.downstream_of_interval(Interval(59, 60),
-                num_intervals=200)
+        downstreams = iv.downstream_of_interval(Interval(59, 60), num_intervals=200)
         for d in downstreams:
             self.assertTrue(d.start > 60)
 
-        downstreams = iv.downstream_of_interval(Interval(59, 60, strand=-1),
-                num_intervals=200)
+        downstreams = iv.downstream_of_interval(Interval(59, 60, strand=-1), num_intervals=200)
         for d in downstreams:
             self.assertTrue(d.start < 59)
 
@@ -150,7 +146,6 @@ class LotsaTestCase(unittest.TestCase):
         iv = self.intervals
         path = sys.path[:]
         sys.path = sys.path[2:]
-        ## import random
         random = __import__("random")
         sys.path = path
         for t in range(25):
@@ -160,10 +155,8 @@ class LotsaTestCase(unittest.TestCase):
             results = iv.find(start, end)
             for feat in results:
                 self.assertTrue(
-                        (feat.end >= start and feat.end <= end)
-                            or
-                        (feat.start <= end and feat.start >= start)
-                        )
+                    (feat.end >= start and feat.end <= end)
+                    or (feat.start <= end and feat.start >= start))
 
 
 class IntervalTreeTest(unittest.TestCase):
@@ -177,10 +170,8 @@ class IntervalTreeTest(unittest.TestCase):
             iv.add(i + 20, i + 30, dict(astr=str(i*i)))
 
             # or insert/add an interval object with start, end attrs.
-            iv.insert_interval(Interval(i + 40, i + 50,
-                value=dict(astr=str(i*i))))
-            iv.add_interval(Interval(i + 60, i + 70,
-                value=dict(astr=str(i*i))))
+            iv.insert_interval(Interval(i + 40, i + 50, value=dict(astr=str(i*i))))
+            iv.add_interval(Interval(i + 60, i + 70, value=dict(astr=str(i*i))))
 
             n += 4
         self.intervals = self.iv = iv
@@ -211,7 +202,9 @@ class IntervalTreeTest(unittest.TestCase):
 
     def test_public_interval(self):
 
-        fn = lambda ival: self.assert_(ival.interval)
+        def fn(ival):
+            return self.assert_(ival.interval)
+
         self.iv.traverse(fn)
 
 

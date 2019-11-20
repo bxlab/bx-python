@@ -25,14 +25,13 @@ A typical FASTA file::
 
 Typical use:
 
-	for seq in bx.seq.fasta.FastaReader(sys.stdin):
-		print seq.name
-		print seq.get(0,seq.length)
+    for seq in bx.seq.fasta.FastaReader(sys.stdin):
+        print seq.name
+        print seq.get(0,seq.length)
 
 """
 from __future__ import print_function
 
-import sys
 
 from bx.seq.seq import SeqFile, SeqReader
 
@@ -42,7 +41,7 @@ class FastaFile(SeqFile):
     def __init__(self, file, revcomp=False, name="", gap=None, lookahead=None, contig=None):
         SeqFile.__init__(self, file, revcomp, name, gap)
         self.lookahead = lookahead
-        if (contig == None):
+        if (contig is None):
             contig = 1
         assert (contig >= 1), "contig %d is not legal" % contig
 
@@ -50,7 +49,7 @@ class FastaFile(SeqFile):
 
         currContig = 1
         while (True):
-            if (self.lookahead != None):
+            if (self.lookahead is not None):
                 (line, self.lookahead) = (self.lookahead, None)
             else:
                 line = self.file.readline()
@@ -61,7 +60,7 @@ class FastaFile(SeqFile):
             if not line:
                 break
             if (line.startswith(">")):
-                if (self.text != None):
+                if (self.text is not None):
                     if (currContig == contig):
                         self.lookahead = line  # (next sequence header)
                         break
@@ -70,13 +69,13 @@ class FastaFile(SeqFile):
                 self.text = []
                 continue
             line = line.split()  # (remove whitespace)
-            if (self.text == None):
+            if (self.text is None):
                 self.text = line  # (allows headerless fasta)
             else:
                 self.text.extend(line)
         assert (currContig == contig), \
             "contig %d is not legal (file contains only %d)" % (contig, currContig)
-        if (self.text != None):
+        if (self.text is not None):
             self.text = "".join(self.text)
             self.length = len(self.text)
 
@@ -89,7 +88,7 @@ class FastaReader(SeqReader):
 
     def __next__(self):
         seq = FastaFile(self.file, self.revcomp, self.name, self.gap, self.lookahead)
-        if (seq.text == None):
+        if (seq.text is None):
             return
         self.lookahead = seq.lookahead
         self.seqs_read += 1
@@ -105,12 +104,12 @@ class FastaWriter(object):
     def write(self, seq):
         print(">%s" % seq.name, file=self.file)
         text = seq.text
-        if (self.columns != None) and (self.columns > 0):
+        if (self.columns is not None) and (self.columns > 0):
             text = "\n".join([text[ix:ix+self.columns]
                               for ix in range(0, len(text), self.columns)])
         print(text, file=self.file)
 
     def close(self):
-        assert (self.file != None)
+        assert (self.file is not None)
         self.file.close()
         self.file = None

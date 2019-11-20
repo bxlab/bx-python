@@ -27,7 +27,7 @@ class BadMagicNumber(IOError):
 class BinaryFileReader(object):
     """
     Wrapper for doing binary reads on any file like object.
-    
+
     Currently this is not heavily optimized (it uses the `struct` module to
     unpack)
     """
@@ -43,8 +43,9 @@ class BinaryFileReader(object):
             elif struct.unpack("<I", bytes)[0] == magic:
                 self.is_little_endian = True
             else:
-                raise BadMagicNumber("File does not have expected magic number: %x != %x or %x"
-                        % (magic, struct.unpack(">I", bytes)[0], struct.unpack("<I", bytes)[0]))
+                raise BadMagicNumber(
+                    "File does not have expected magic number: %x != %x or %x"
+                    % (magic, struct.unpack(">I", bytes)[0], struct.unpack("<I", bytes)[0]))
         # Set endian code
         if self.is_little_endian:
             self.endian_code = "<"
@@ -74,7 +75,7 @@ class BinaryFileReader(object):
         Read a zero terminated (C style) string
         """
         rval = []
-        while 1:
+        while True:
             ch = self.file.read(1)
             assert len(ch) == 1, "Unexpected end of file"
             if ch == b'\0':
@@ -119,7 +120,7 @@ class BinaryFileReader(object):
 class BinaryFileWriter(object):
     """
     Wrapper for doing binary writes on any file like object.
-    
+
     Currently this is not heavily optimized (it uses the `struct` module to
     unpack)
     """

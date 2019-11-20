@@ -2,8 +2,10 @@
 Classes for generating random sets of intervals over larger regions.
 """
 
-from bx.bitset import *
 import bisect
+
+from bx.bitset import BitSet
+
 random = __import__('random')
 
 
@@ -28,15 +30,15 @@ def throw_random_bits(lengths, mask, allow_overlap=False):
 
 def throw_random_gap_list(lengths, mask, save_interval_func, allow_overlap=False):
     """
-    Generates a set of non-overlapping random intervals from a length 
+    Generates a set of non-overlapping random intervals from a length
     distribution.
-    
+
     `lengths`: list containing the length of each interval to be generated.
                We expect this to be sorted by decreasing length to minimize
                the chance of failure (MaxtriesException) and for some
                performance gains when allow_overlap==True and there are
                duplicate lengths
-    `mask`: a BitSet in which set bits represent regions not to place 
+    `mask`: a BitSet in which set bits represent regions not to place
             intervals. The size of the region is also determined from the
             mask.
     """
@@ -45,7 +47,7 @@ def throw_random_gap_list(lengths, mask, save_interval_func, allow_overlap=False
     min_length = min(lengths)
     gaps = []
     start = end = 0
-    while 1:
+    while True:
         start = mask.next_clear(end)
         if start == mask.size:
             break
@@ -61,9 +63,9 @@ def throw_random_gap_list(lengths, mask, save_interval_func, allow_overlap=False
 
 def throw_random_intervals(lengths, regions, save_interval_func=None, allow_overlap=False):
     """
-    Generates a set of non-overlapping random intervals from a length 
+    Generates a set of non-overlapping random intervals from a length
     distribution.
-    
+
     `lengths`: list containing the length of each interval to be generated.
                We expect this to be sorted by decreasing length to minimize
                the chance of failure (MaxtriesException) and for some
@@ -72,25 +74,27 @@ def throw_random_intervals(lengths, regions, save_interval_func=None, allow_over
     `regions`: A list of regions in which intervals can be placed.  Elements
                are tuples or lists of the form (start, end, ...), where ...
                indicates any number of items (including zero).
-    `save_interval_func`: A function accepting three arguments which will be 
-                          passed the (start,stop,region) for each generated 
+    `save_interval_func`: A function accepting three arguments which will be
+                          passed the (start,stop,region) for each generated
                           interval, where region is an entry in the regions
                           list.  If this is None, the generated intervals will
                           be returned as a list of elements copied from the
                           region with start and end modified.
     """
     # Copy regions
-    regions = [(x[1]-x[0], x[0], x) for x in regions]
+    regions = sorted([(x[1]-x[0], x[0], x) for x in regions])
     # Sort (long regions first)
-    regions.sort()
     regions.reverse()
     # Throw
-    if (save_interval_func != None):
+    if (save_interval_func is not None):
         throw_random_private(lengths, regions, save_interval_func, allow_overlap)
         return
     else:
         intervals = []
-        save_interval_func = lambda s, e, rgn: intervals.append(overwrite_start_end(s, e, rgn))
+
+        def save_interval_func(s, e, rgn):
+            return intervals.append(overwrite_start_end(s, e, rgn))
+
         throw_random_private(lengths, regions, save_interval_func, allow_overlap)
         return intervals
 
@@ -106,13 +110,13 @@ def throw_random_private(lengths, regions, save_interval_func, allow_overlap=Fal
     """
     (Internal function;  we expect calls only through the interface functions
     above)
-    
+
     `lengths`: A list containing the length of each interval to be generated.
     `regions`: A list of regions in which intervals can be placed, sorted by
                decreasing length.  Elements are triples of the form (length,
                start, extra), This list CAN BE MODIFIED by this function.
-    `save_interval_func`: A function accepting three arguments which will be 
-                          passed the (start,stop,extra) for each generated 
+    `save_interval_func`: A function accepting three arguments which will be
+                          passed the (start,stop,extra) for each generated
                           interval.
     """
 
@@ -175,8 +179,9 @@ def throw_random_private(lengths, regions, save_interval_func, allow_overlap=Fal
                 candidates += rgn_len - length + 1
                 hi_rgn += 1
             if candidates == 0:
-                raise MaxtriesException("No region can fit an interval of length %d (we threw %d of %d)"
-                                       % (length, num_thrown, len(lengths)))
+                raise MaxtriesException(
+                    "No region can fit an interval of length %d (we threw %d of %d)"
+                    % (length, num_thrown, len(lengths)))
             hi_rgn -= 1
         # Select a candidate
         s = random.randrange(candidates)

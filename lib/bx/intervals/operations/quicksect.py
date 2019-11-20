@@ -6,7 +6,6 @@ from __future__ import print_function
 
 import math
 import random
-import sys
 import time
 
 

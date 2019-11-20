@@ -30,138 +30,137 @@ Each spec is of the form seq_file[:species_name]:lengths_file.
 __author__ = "Bob Harris (rsharris@bx.psu.edu)"
 
 import sys
-import copy
+
 import bx.align.axt
 import bx.align.lav
 
 
 def usage(s=None):
-	message = __doc__
-	if (s == None):
-		sys.exit(message)
-	else:
-		sys.exit("%s\n%s" % (s, message))
+    message = __doc__
+    if s is None:
+        sys.exit(message)
+    else:
+        sys.exit("%s\n%s" % (s, message))
 
 
 def main():
-	global debug
+    global debug
 
-	# parse the command line
+    primary = None
+    secondary = None
+    silent = False
 
-	primary = None
-	secondary = None
-	silent = False
+    # pick off options
 
-	# pick off options
+    args = sys.argv[1:]
+    while len(args) > 0:
+        arg = args.pop(0)
+        val = None
+        fields = arg.split("=", 1)
+        if len(fields) == 2:
+            arg = fields[0]
+            val = fields[1]
+            if val == "":
+                usage("missing a value in %s=" % arg)
 
-	args = sys.argv[1:]
-	while (len(args) > 0):
-		arg = args.pop(0)
-		val = None
-		fields = arg.split("=", 1)
-		if (len(fields) == 2):
-			arg = fields[0]
-			val = fields[1]
-			if (val == ""):
-				usage("missing a value in %s=" % arg)
+        if arg == "--silent" and val is None:
+            silent = True
+        elif primary is None and val is None:
+            primary = arg
+        elif secondary is None and val is None:
+            secondary = arg
+        else:
+            usage("unknown argument: %s" % arg)
 
-		if (arg == "--silent") and (val == None):
-			silent = True
-		elif (primary == None) and (val == None):
-			primary = arg
-		elif (secondary == None) and (val == None):
-			secondary = arg
-		else:
-			usage("unknown argument: %s" % arg)
+    if primary is None:
+        usage("missing primary file name and length")
 
-	if (primary == None):
-		usage("missing primary file name and length")
+    if secondary is None:
+        usage("missing secondary file name and length")
 
-	if (secondary == None):
-		usage("missing secondary file name and length")
+    try:
+        (primaryFile, primary, primaryLengths) = parse_spec(primary)
+    except Exception:
+        usage("bad primary spec (must be seq_file[:species_name]:lengths_file")
 
-	try:
-		(primaryFile, primary, primaryLengths) = parse_spec(primary)
-	except:
-		usage("bad primary spec (must be seq_file[:species_name]:lengths_file")
+    try:
+        (secondaryFile, secondary, secondaryLengths) = parse_spec(secondary)
+    except Exception:
+        usage("bad secondary spec (must be seq_file[:species_name]:lengths_file")
 
-	try:
-		(secondaryFile, secondary, secondaryLengths) = parse_spec(secondary)
-	except:
-		usage("bad secondary spec (must be seq_file[:species_name]:lengths_file")
+    # read the lengths
 
-	# read the lengths
+    speciesToLengths = {}
+    speciesToLengths[primary] = read_lengths(primaryLengths)
+    speciesToLengths[secondary] = read_lengths(secondaryLengths)
 
-	speciesToLengths = {}
-	speciesToLengths[primary] = read_lengths(primaryLengths)
-	speciesToLengths[secondary] = read_lengths(secondaryLengths)
+    # read the alignments
 
-	# read the alignments
+    out = bx.align.lav.Writer(
+        sys.stdout,
+        attributes={
+            "name_format_1": primaryFile,
+            "name_format_2": secondaryFile})
 
-	out = bx.align.lav.Writer(sys.stdout,
-			attributes={"name_format_1": primaryFile,
-			               "name_format_2": secondaryFile})
+    axtsRead = 0
+    axtsWritten = 0
+    for axtBlock in bx.align.axt.Reader(
+            sys.stdin,
+            species_to_lengths=speciesToLengths,
+            species1=primary,
+            species2=secondary,
+            support_ids=True):
+        axtsRead += 1
+        out.write(axtBlock)
+        axtsWritten += 1
 
-	axtsRead = 0
-	axtsWritten = 0
-	for axtBlock in bx.align.axt.Reader(sys.stdin,
-			species_to_lengths=speciesToLengths,
-			species1=primary,
-			species2=secondary,
-			support_ids=True):
-		axtsRead += 1
-		out.write(axtBlock)
-		axtsWritten += 1
+    out.close()
 
-	out.close()
-
-	if (not silent):
-		sys.stderr.write("%d blocks read, %d written\n" % (axtsRead, axtsWritten))
+    if not silent:
+        sys.stderr.write("%d blocks read, %d written\n" % (axtsRead, axtsWritten))
 
 
 def parse_spec(spec):  # returns (seq_file,species_name,lengths_file)
-	fields = spec.split(":")
-	if (len(fields) == 2):
-		return (fields[0], "", fields[1])
-	elif (len(fields) == 3):
-		return (fields[0], fields[1], fields[2])
-	else:
-		raise ValueError
+    fields = spec.split(":")
+    if len(fields) == 2:
+        return (fields[0], "", fields[1])
+    elif len(fields) == 3:
+        return (fields[0], fields[1], fields[2])
+    else:
+        raise ValueError
 
 
 def read_lengths(fileName):
+    chromToLength = {}
 
-	chromToLength = {}
+    f = open(fileName, "r")
 
-	f = file(fileName, "r")
+    for lineNumber, line in enumerate(f):
+        line = line.strip()
+        if line == "":
+            continue
+        if line.startswith("#"):
+            continue
 
-	for lineNumber, line in enumerate(f):
-		line = line.strip()
-		if (line == ""):
-			continue
-		if (line.startswith("#")):
-			continue
+        fields = line.split()
+        if len(fields) != 2:
+            raise ValueError("bad lengths line (%s:%d): %s" % (fileName, lineNumber, line))
 
-		fields = line.split()
-		if (len(fields) != 2):
-			raise ValueError("bad lengths line (%s:%d): %s" % (fileName, lineNumber, line))
+        chrom = fields[0]
+        try:
+            length = int(fields[1])
+        except ValueError:
+            raise ValueError("bad lengths line (%s:%d): %s" % (fileName, lineNumber, line))
 
-		chrom = fields[0]
-		try:
-			length = int(fields[1])
-		except:
-			raise ValueError("bad lengths line (%s:%d): %s" % (fileName, lineNumber, line))
+        if chrom in chromToLength:
+            raise ValueError("%s appears more than once (%s:%d): %s" % (chrom, fileName, lineNumber))
 
-		if (chrom in chromToLength):
-			raise ValueError("%s appears more than once (%s:%d): %s"
-			    % (chrom, fileName, lineNumber))
+        chromToLength[chrom] = length
 
-		chromToLength[chrom] = length
+    f.close()
 
-	f.close()
-
-	return chromToLength
+    return chromToLength
 
 
 if __name__ == "__main__":
-	main()
+    main()

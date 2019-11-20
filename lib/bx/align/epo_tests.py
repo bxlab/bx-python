@@ -1,11 +1,19 @@
 "tests for bx.align.epo"
 
-import unittest, logging, pdb
+import pdb
 import random
+import unittest
+
 import numpy as np
 
-from bx.align._epo import cummulative_intervals, bed_union
-from bx.align.epo import *
+from bx.align._epo import (
+    bed_union,
+    cummulative_intervals,
+)
+from bx.align.epo import (
+    Chain,
+    EPOitem
+)
 
 
 class TestBed(unittest.TestCase):
@@ -18,8 +26,7 @@ class TestBed(unittest.TestCase):
             S.append(random.randint(10, 50))
             D.append(random.randint(10, 50))
         D[-1] = 0
-        C = cummulative_intervals(np.array(S, dtype=np.int64),
-                np.array(D, dtype=np.int64))
+        C = cummulative_intervals(np.array(S, dtype=np.int64), np.array(D, dtype=np.int64))
         for i in range(self.N):
             assert C[i, 1] - C[i, 0] == S[i]
         for i in range(1, self.N):
@@ -63,35 +70,26 @@ class TestBed(unittest.TestCase):
 
 
 cigar_pairs = [
-("GGACCTGGAGAGATCAG---------------------------GACTTCAACTGTGTG-------------TCTTAGACTGGG--------AGGGTGTTA",
- "AGGCCAGGAGAGATCAGGTAAGTCTTAATTTAATAAAGAGATAGGACCTGAACTGTGTCTAACAATAGGTAATATTAGACTGGGGGAGAGAGAAGACTTTC"),
-
-("TTT--------------------------------------------------------------------------------------------------------------------T",
- "CTTGTACCAAGGACAGTACTGGCAGCCTAATTGCTAACACTTTGTGGTGGATTGGTCCACTCAATATTTGTTCCCACCTCTTTTCAGTCCAGTTCTATAAAGGACAGAAAGTTGAAAACT"),
-
-("A-------------------------------------------------ACACTGGACACAGCACTAACACGATTACTTA",
- "ACATTTCCCACACTCCCTTGCAGCTAGGTTTCTAGATATAATTTAGATTCCA----------------------------A"),
-
-("TTTGGTCCTCTGGA------CGAGCAGCCAGTGCT---------------------------------------------------------------------------AAAAAAAA",
- "T---CATTCTAGCAGGTGCTGCAGCAGCAGGTAGCCCTGGAGCCAACAGTTGTGGCTATGATTCTTGATCATCAGATTTGGCTCAAGTGATGTGTTCCTCTAGCATGCACTTGAGATA"),
-
-("G-----------------------C----------------------------------------------------------------------------------------A",
- "GGCCTGCACTGCCAGTAATTTTAACAAATTTTTAGGCACTGAATTCCCTGTATTAAATCTGTTTTCCTTAGCGTAAACAGATCTCTGTTAAATGAAACTAAACCCTGACTGATA"),
-
-("TATT----------------------------------T",
- "TCCTTCATTTTATTTCTCCCTTAAAATTTTTTTTATTACT"),
-
-("TAAAAA--A------A------------------------------------------------------------TTTTTTTTTTT",
- "T---AATTATTTTGCAGCAGGTCCTTGATAACATATCATCTATAAATATTTCAGCAAGAATCTCTAAAAGGCAAGAACCTCCTTCTT"),
-
-("AAACAA---------------------------------------TT---T",
- "AAACAATACCACTGCATCACTATCAAACCCAAAAAATAACAAAAATTGGGT"),
-
-("TCTTAAC---TGCTGAGCCATCCCTCCAGCTCCTGTTTTATTTTTATTATGAAGTAATAATA--ATAG--TAATAATAATGATG",
- "TACACTTAATTCTAAAACTTGTTATGAATCATCA----------TTGG--TTTTTTATTGTGAAGAACTAATATAATCAGA--G"),
-
-("ATGATAATGGTATCCTAGCTCAACACCTG-GAGTTCACCCCAACAGTTAACTAA----GTTTGAGGAAGTGTTAACAAGCCTA---ACAAAGAGGACATGCCAATAGCTGACAGAGTCAC",
- "A-------CCTCTGCTAGCTCAACTCCTGAGAATCAATTATATAAGCTAGGTCAGTGGTTTTGAGAAAGTATTAGTAGACATTTCTCCAAAGAATACATAAAAATGGCC-A--CAAGTAT")
+    ("GGACCTGGAGAGATCAG---------------------------GACTTCAACTGTGTG-------------TCTTAGACTGGG--------AGGGTGTTA",
+     "AGGCCAGGAGAGATCAGGTAAGTCTTAATTTAATAAAGAGATAGGACCTGAACTGTGTCTAACAATAGGTAATATTAGACTGGGGGAGAGAGAAGACTTTC"),
+    ("TTT--------------------------------------------------------------------------------------------------------------------T",
+     "CTTGTACCAAGGACAGTACTGGCAGCCTAATTGCTAACACTTTGTGGTGGATTGGTCCACTCAATATTTGTTCCCACCTCTTTTCAGTCCAGTTCTATAAAGGACAGAAAGTTGAAAACT"),
+    ("A-------------------------------------------------ACACTGGACACAGCACTAACACGATTACTTA",
+     "ACATTTCCCACACTCCCTTGCAGCTAGGTTTCTAGATATAATTTAGATTCCA----------------------------A"),
+    ("TTTGGTCCTCTGGA------CGAGCAGCCAGTGCT---------------------------------------------------------------------------AAAAAAAA",
+     "T---CATTCTAGCAGGTGCTGCAGCAGCAGGTAGCCCTGGAGCCAACAGTTGTGGCTATGATTCTTGATCATCAGATTTGGCTCAAGTGATGTGTTCCTCTAGCATGCACTTGAGATA"),
+    ("G-----------------------C----------------------------------------------------------------------------------------A",
+     "GGCCTGCACTGCCAGTAATTTTAACAAATTTTTAGGCACTGAATTCCCTGTATTAAATCTGTTTTCCTTAGCGTAAACAGATCTCTGTTAAATGAAACTAAACCCTGACTGATA"),
+    ("TATT----------------------------------T",
+     "TCCTTCATTTTATTTCTCCCTTAAAATTTTTTTTATTACT"),
+    ("TAAAAA--A------A------------------------------------------------------------TTTTTTTTTTT",
+     "T---AATTATTTTGCAGCAGGTCCTTGATAACATATCATCTATAAATATTTCAGCAAGAATCTCTAAAAGGCAAGAACCTCCTTCTT"),
+    ("AAACAA---------------------------------------TT---T",
+     "AAACAATACCACTGCATCACTATCAAACCCAAAAAATAACAAAAATTGGGT"),
+    ("TCTTAAC---TGCTGAGCCATCCCTCCAGCTCCTGTTTTATTTTTATTATGAAGTAATAATA--ATAG--TAATAATAATGATG",
+     "TACACTTAATTCTAAAACTTGTTATGAATCATCA----------TTGG--TTTTTTATTGTGAAGAACTAATATAATCAGA--G"),
+    ("ATGATAATGGTATCCTAGCTCAACACCTG-GAGTTCACCCCAACAGTTAACTAA----GTTTGAGGAAGTGTTAACAAGCCTA---ACAAAGAGGACATGCCAATAGCTGACAGAGTCAC",
+     "A-------CCTCTGCTAGCTCAACTCCTGAGAATCAATTATATAAGCTAGGTCAGTGGTTTTGAGAAAGTATTAGTAGACATTTCTCCAAAGAATACATAAAAATGGCC-A--CAAGTAT")
 ]
 
 
@@ -113,7 +111,6 @@ def toCigar(species, id, s):
         L = L[start+1:]
     if len(L):
         I.append((I[-1][1] + len(L), I[-1][1] + len(L)))
-    #print I[1:]
     C = []
     for i in range(1, len(I)):
         dl = I[i][0] - I[i-1][1]
@@ -130,8 +127,7 @@ def toCigar(species, id, s):
         C.append(dc+mc)
     MSUM = sum(i[1]-i[0] for i in I)
     start = random.randint(50, 10000)
-    return "%s\t%d\t1\t%d\t%d\t%d\t%s" % (species, id, start, start+MSUM-1,
-            random.choice((-1, 1)), "".join(C))
+    return "%s\t%d\t1\t%d\t%d\t%d\t%s" % (species, id, start, start+MSUM-1, random.choice((-1, 1)), "".join(C))
 
 
 class TestEpo(unittest.TestCase):
@@ -156,8 +152,6 @@ class TestEpo(unittest.TestCase):
 
         for (a, b) in self.epo_records:
             ca, cb = cigar_pairs[int(a.gabid)]
-            #if a.strand == '-': ca = ca[::-1]
-            #if b.strand == '-': cb = cb[::-1]
             ch(ca, a.cigar_iter(False))
             ch(cb, b.cigar_iter(False))
 
@@ -197,8 +191,9 @@ class TestEpo(unittest.TestCase):
             dash_cols = random.randint(0, 10)
             tStart = random.randint(0, 1000)
             qStart = random.randint(0, 1000)
-            epo_pair = (EPOitem._strfactory("homo_sapiens\t0\t1\t%d\t%d\t1\t%s" % (tStart, tStart+12-1, "4M2D4M%dD4M" % (dash_cols+3))),
-                    EPOitem._strfactory("mus_musculus\t0\t1\t%d\t%d\t1\t%s" % (qStart, qStart+14-1, "7M%dD7M" % (dash_cols+3))))
+            epo_pair = (
+                EPOitem._strfactory("homo_sapiens\t0\t1\t%d\t%d\t1\t%s" % (tStart, tStart+12-1, "4M2D4M%dD4M" % (dash_cols+3))),
+                EPOitem._strfactory("mus_musculus\t0\t1\t%d\t%d\t1\t%s" % (qStart, qStart+14-1, "7M%dD7M" % (dash_cols+3))))
             chain = Chain._make_from_epo(epo_pair[0], epo_pair[1], {"chr1": 500}, {"chr1": 800})
             ti = epo_pair[0].intervals(False)
             qi = epo_pair[1].intervals(False)
@@ -220,10 +215,9 @@ class TestEpo(unittest.TestCase):
             tStart = random.randint(0, 1000)
             qStart = random.randint(0, 1000)
 
-            epo_pair = (EPOitem._strfactory("homo_sapiens\t0\t1\t%d\t%d\t1\t%s" % (tStart, tStart+tm-1,
-                    "%dD%dM" % (dash_cols+1, tm))),
-                EPOitem._strfactory("mus_musculus\t0\t1\t%d\t%d\t1\t%s" % (qStart, qStart+qm+1-1,
-                    "M%dD%dM" % (dash_cols+tm-qm, qm))))
+            epo_pair = (
+                EPOitem._strfactory("homo_sapiens\t0\t1\t%d\t%d\t1\t%s" % (tStart, tStart+tm-1, "%dD%dM" % (dash_cols+1, tm))),
+                EPOitem._strfactory("mus_musculus\t0\t1\t%d\t%d\t1\t%s" % (qStart, qStart+qm+1-1, "M%dD%dM" % (dash_cols+tm-qm, qm))))
             chain = Chain._make_from_epo(epo_pair[0], epo_pair[1], {"chr1": 500}, {"chr1": 800})
             if chain[1][-1] != qm:
                 pdb.set_trace()

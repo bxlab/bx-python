@@ -2,7 +2,7 @@
 
 """
 Filter each block in a maf file. Can filter blocks for a minimum number of
-components (rows), a minimum length in columns, or an arbitrary python 
+components (rows), a minimum length in columns, or an arbitrary python
 expression (which will be evaluated for each block with the variable 'm'
 containing that block).
 
@@ -12,13 +12,10 @@ usage: %prog [options] < maf > maf
     -e, --expr=EXPR: Python expression that must evaulate to true
 """
 
-import psyco_full
-
 import sys
-
-import sys
-from bx.align import maf
 from optparse import OptionParser
+
+from bx.align import maf
 
 
 def __main__():

@@ -1,5 +1,5 @@
 """
-Readers extracting gene (exon and intron) information from bed / gtf / gff 
+Readers extracting gene (exon and intron) information from bed / gtf / gff
 formats.
 
  - GeneReader: yields exons
@@ -12,9 +12,12 @@ from __future__ import print_function
 
 import sys
 
-from bx.bitset import *
-from bx.bitset_builders import *
-from bx.bitset_utils import *
+from bx.bitset_utils import (
+    bitset_complement,
+    bitset_intersect,
+    bitset_subtract,
+    bitset_union,
+)
 
 
 def GeneReader(fh, format='gff'):
@@ -32,9 +35,9 @@ def GeneReader(fh, format='gff'):
             chrom_start = int(f[1])
             name = f[4]
             strand = f[5]
-            cdsStart = int(f[6])
-            cdsEnd = int(f[7])
-            blockCount = int(f[9])
+            int(f[6])  # cdsStart
+            int(f[7])  # cdsEnd
+            int(f[9])  # blockCount
             blockSizes = [int(i) for i in f[10].strip(',').split(',')]
             blockStarts = [chrom_start + int(i) for i in f[11].strip(',').split(',')]
 
@@ -74,8 +77,6 @@ def GeneReader(fh, format='gff'):
             exons_i = 2
             genelist[group][exons_i].append((ex_st, ex_end))
 
-        sp = lambda a, b: cmp(a[0], b[0])
-
         # for gene in genelist.values():
         for gene in grouplist:
             chrom, strand, gene_exons = genelist[gene]
@@ -100,14 +101,12 @@ def CDSReader(fh, format='gff'):
             strand = f[5]
             cdsStart = int(f[6])
             cdsEnd = int(f[7])
-            blockCount = int(f[9])
+            int(f[9])  # blockCount
             blockSizes = [int(i) for i in f[10].strip(',').split(',')]
             blockStarts = [chrom_start + int(i) for i in f[11].strip(',').split(',')]
 
             # grab cdsStart - cdsEnd
             cds_exons = []
-            cds_seq = ''
-            genome_seq_index = []
             for base, offset in zip(blockStarts, blockSizes):
                 if (base + offset) < cdsStart:
                     continue
@@ -149,15 +148,12 @@ def CDSReader(fh, format='gff'):
 
             genelist[group][2].append((ex_st, ex_end))
 
-        sp = lambda a, b: cmp(a[0], b[0])
-
         # for gene in genelist.values():
         for gene in grouplist:
             chrom, strand, cds_exons = genelist[gene]
             seqlen = sum([a[1]-a[0] for a in cds_exons])
             overhang = seqlen % 3
             if overhang > 0:
-                #print >>sys.stderr, "adjusting ", gene
                 if strand == '+':
                     cds_exons[-1] = (cds_exons[-1][0], cds_exons[-1][1] - overhang)
                 else:
@@ -167,7 +163,7 @@ def CDSReader(fh, format='gff'):
 
 
 def FeatureReader(fh, format='gff', alt_introns_subtract="exons", gtf_parse=None):
-    """ 
+    """
     yield chrom, strand, cds_exons, introns, exons, name
 
     gtf_parse Example:
@@ -191,7 +187,7 @@ def FeatureReader(fh, format='gff', alt_introns_subtract="exons", gtf_parse=None
             strand = f[5]
             cdsStart = int(f[6])
             cdsEnd = int(f[7])
-            blockCount = int(f[9])
+            int(f[9])  # blockCount
             blockSizes = [int(i) for i in f[10].strip(',').split(',')]
             blockStarts = [chrom_start + int(i) for i in f[11].strip(',').split(',')]
 
@@ -199,8 +195,6 @@ def FeatureReader(fh, format='gff', alt_introns_subtract="exons", gtf_parse=None
             cds_exons = []
             exons = []
 
-            cds_seq = ''
-            genome_seq_index = []
             for base, offset in zip(blockStarts, blockSizes):
                 if (base + offset) < cdsStart:
                     continue

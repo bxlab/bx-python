@@ -2,12 +2,12 @@
 
 """
 Extract ranges of scores from a sorted file in which each line contains a
-position followed by a score. 
+position followed by a score.
 
 TODO: The finder class might actually be useful, it strides through a file
       and builds an index based on the first line. Maybe move it into the
       library and get rid of this very specific script?
-      
+
 usage: %prog start_pos stop_pos
 """
 from __future__ import print_function
@@ -48,7 +48,7 @@ class Finder(object):
                 break
         self.file.seek(position, 0)
         result = []
-        while 1:
+        while True:
             line = file.readline()
             if line == "":
                 break

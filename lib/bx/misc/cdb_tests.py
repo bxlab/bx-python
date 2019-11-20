@@ -1,5 +1,6 @@
-from bx.misc.cdb import *
 from tempfile import NamedTemporaryFile
+
+from bx.misc.cdb import FileCDBDict
 
 
 def test():
@@ -26,7 +27,7 @@ def test():
     try:
         cdb['notin']
         assert False, "KeyError was not raised"
-    except KeyError as e:
+    except KeyError:
         pass
 
     # Close everything (deletes the temporary file)

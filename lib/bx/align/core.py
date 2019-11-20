@@ -53,7 +53,7 @@ class Alignment(object):
         return self.__score
 
     def set_score(self, score):
-        if type(score) == str:
+        if isinstance(score, str):
             try:
                 score = int(score)
             except ValueError:
@@ -83,7 +83,7 @@ class Alignment(object):
             chrom_to_length = self.species_to_lengths
         else:
             raise ValueError("no src_size (no length file for %s)" % species)
-        if type(chrom_to_length) == int:         # (if it's a single length)
+        if isinstance(chrom_to_length, int):         # (if it's a single length)
             return chrom_to_length
         if isinstance(chrom_to_length, str):  # (if it's a file name)
             chrom_to_length = read_lengths_file(chrom_to_length)
@@ -142,7 +142,7 @@ class Alignment(object):
             ref = self.components[component_index]
         elif isinstance(component_index, str):
             ref = self.get_component_by_src(component_index)
-        elif type(component_index) == Component:
+        elif isinstance(component_index, Component):
             ref = component_index
         else:
             raise ValueError("can't figure out what to do")
@@ -199,7 +199,7 @@ class Alignment(object):
         self.text_size = text_size
 
     def __eq__(self, other):
-        if other is None or type(other) != type(self):
+        if other is None or not isinstance(other, type(self)):
             return False
         if self.score != other.score:
             return False
@@ -368,7 +368,7 @@ class Component(object):
         return x
 
     def __eq__(self, other):
-        if other is None or type(other) != type(self):
+        if other is None or not isinstance(other, type(self)):
             return False
         return (self.src == other.src
                 and self.start == other.start

@@ -1,8 +1,7 @@
 """
 Reading and writing delimited data files (with headers and comments).
 """
-import sys
-from itertools import *
+from itertools import count
 
 from six import Iterator
 
@@ -31,9 +30,9 @@ class TableRow(object):
         self.fields = fields
 
     def __getitem__(self, key):
-        if type(key) == int:
+        if isinstance(key, int):
             return self.fields[key]
-        elif type(key) == str:
+        elif isinstance(key, str):
             if self.reader.header:
                 return self.fields[self.reader.header.field_to_column[key]]
             else:
@@ -63,9 +62,9 @@ class Header(object):
         self.field_to_column = dict(zip(fields, count()))
 
     def __getitem__(self, key):
-        if type(key) == int:
+        if isinstance(key, int):
             return self.fields[key]
-        elif type(key) == str:
+        elif isinstance(key, str):
             if key in self.field_to_column:
                 return key
         else:

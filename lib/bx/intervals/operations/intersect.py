@@ -1,16 +1,19 @@
 """
 Compute the intersection of two sets of genomic intervals, either base-by-base
 or at the interval level. The returned GenomicIntervalReader will be in
-the order of the first set of intervals passed in, with the corresponding 
+the order of the first set of intervals passed in, with the corresponding
 additional fields.
 """
 
-import traceback
-import fileinput
-from warnings import warn
-
-from bx.intervals.io import *
-from bx.intervals.operations import *
+from bx.intervals.io import (
+    BitsetSafeReaderWrapper,
+    GenomicInterval
+)
+from bx.intervals.operations import bits_set_in_range
+from bx.tabular.io import (
+    Comment,
+    Header,
+)
 
 
 def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens={}, comments=True):
@@ -50,7 +53,7 @@ def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True,
                     # no reason to stuff an entire bad file into memmory
                     if primary.skipped < 10:
                         primary.skipped_lines.append((primary.linenum, primary.current_line, "Interval start after end!"))
-                except:
+                except Exception:
                     pass
                 continue
             out_intervals = []
@@ -74,6 +77,6 @@ def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True,
                     # no reason to stuff an entire bad file into memmory
                     if primary.skipped < 10:
                         primary.skipped_lines.append((primary.linenum, primary.current_line, str(e)))
-                except:
+                except Exception:
                     pass
                 continue

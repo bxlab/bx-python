@@ -11,10 +11,8 @@ usage: %prog bed1 bed2 > out
 """
 from __future__ import division, print_function
 
-import string
 import sys
 
-import psyco_full
 from bx import intervals
 from bx import misc
 
@@ -38,7 +36,6 @@ def main():
         if chr in intersecters:
             intersection = intersecters[chr].find(start, end)
             if intersection:
-                #print chr, intersection
                 total += 1
 
     print(total)

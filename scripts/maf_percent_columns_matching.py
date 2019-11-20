@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.3
 
 """
-Read a PAIRWISE maf from stdin and print the fraction of columns whose bases 
+Read a PAIRWISE maf from stdin and print the fraction of columns whose bases
 match for each alignment.
 
 TODO: generalize for more than two speceis.
@@ -12,7 +12,6 @@ from __future__ import division, print_function
 
 import sys
 
-import psyco_full
 from bx.align import maf
 
 

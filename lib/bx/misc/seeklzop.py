@@ -2,10 +2,8 @@
 Semi-random access to bz2 compressed data.
 """
 
-import bisect
-import os
+import struct
 from io import BytesIO
-import sys
 
 from six import Iterator
 
@@ -13,10 +11,8 @@ try:
     import pkg_resources
     pkg_resources.require('python_lzo')
     import lzo
-except:
+except Exception:
     pass
-
-import struct
 
 from bx_extras import lrucache
 
@@ -99,14 +95,12 @@ class SeekableLzopFile(Iterator):
             target_pos = self.file_pos + offset
         elif whence == 2:
             raise Exception("seek from end not supported")
-            ## target_pos = self.size - offset
         else:
             raise Exception("Invalid `whence` argument: %r", whence)
         # Check if this is a noop
         if target_pos == self.file_pos:
             return
         # Verify it is valid
-        ## assert 0 <= target_pos < self.size, "Attempt to seek outside file"
         # Move the position
         self.file_pos = target_pos
         # Mark as dirty, the next time a read is done we need to actually
@@ -122,7 +116,7 @@ class SeekableLzopFile(Iterator):
         if self.at_eof:
             return b""
         rval = []
-        while 1:
+        while True:
             line = self.current_block.readline()
             self.file_pos += len(line)
             rval.append(line)

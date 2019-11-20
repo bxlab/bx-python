@@ -2,13 +2,16 @@
 """
 For each interval in `bed1` count the number of intersecting regions in `bed2`.
 
-usage: %prog bed1 bed2 
+usage: %prog bed1 bed2
 """
 from __future__ import print_function
 
 import sys
 
-from bx.intervals import *
+from bx.intervals import (
+    Intersecter,
+    Interval
+)
 
 bed1, bed2 = sys.argv[1:3]
 

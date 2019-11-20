@@ -4,18 +4,26 @@ Classes for working with position specific matrices.
 from copy import copy
 
 import numpy
-from numpy import float32, log2, int16, maximum, nan, newaxis, ones, zeros
+from numpy import (
+    float32,
+    int16,
+    log2,
+    maximum,
+    nan,
+    newaxis,
+    ones,
+    zeros
+)
 
 from . import _pwm
 
 
 class BaseMatrix(object):
     """
-    Base class for position specific matrices. 
+    Base class for position specific matrices.
     """
 
-    def __init__(self, alphabet=None, sorted_alphabet=None,
-                  char_to_index=None, values=None):
+    def __init__(self, alphabet=None, sorted_alphabet=None, char_to_index=None, values=None):
         self.alphabet = alphabet
         self.sorted_alphabet = sorted_alphabet
         self.char_to_index = char_to_index
@@ -24,16 +32,16 @@ class BaseMatrix(object):
     @classmethod
     def from_rows(Class, alphabet, rows):
         """
-        Create a new matrix for a sequence over alphabet `alphabet` taking 
+        Create a new matrix for a sequence over alphabet `alphabet` taking
         values from `rows` which is a list whose length is the width of the
         matrix, and whose elements are lists of values associated with each
-        character (in the order those characters appear in alphabet). 
+        character (in the order those characters appear in alphabet).
         """
         # Sorted alphabet
         sorted_alphabet = sorted(alphabet)
         # Character to index mapping (initialized to -1)
         char_to_index = zeros((256), int16) - 1
-        for i, ch  in enumerate(sorted_alphabet):
+        for i, ch in enumerate(sorted_alphabet):
             char_to_index[ord(ch)] = i
         # Array
         values = zeros((len(rows), len(alphabet)), float32)
@@ -52,7 +60,7 @@ class BaseMatrix(object):
     @classmethod
     def create_from_other(Class, other, values=None):
         """
-        Create a new Matrix with attributes taken from `other` but with the 
+        Create a new Matrix with attributes taken from `other` but with the
         values taken from `values` if provided
         """
         m = Class()
@@ -104,16 +112,14 @@ class FrequencyMatrix(BaseMatrix):
             background = ones(alphabet_size, float32) / alphabet_size
         # Row totals as a one column array
         totals = numpy.sum(self.values, 1)[:, newaxis]
-        values = log2(maximum(self.values, correction)) \
-               - log2(totals) \
-               - log2(maximum(background, correction))
+        values = log2(maximum(self.values, correction)) - log2(totals) - log2(maximum(background, correction))
         return ScoringMatrix.create_from_other(self, values.astype(float32))
 
     def to_stormo_scoring_matrix(self, background=None):
         """
         Create a scoring matrix from this count matrix using the method from:
 
-        Hertz, G.Z. and G.D. Stormo (1999). Identifying DNA and protein patterns with statistically 
+        Hertz, G.Z. and G.D. Stormo (1999). Identifying DNA and protein patterns with statistically
         significant alignments of multiple sequences. Bioinformatics 15(7): 563-577.
         """
         alphabet_size = len(self.alphabet)
@@ -121,8 +127,7 @@ class FrequencyMatrix(BaseMatrix):
             background = ones(alphabet_size, float32) / alphabet_size
         # Row totals as a one column array
         totals = numpy.sum(self.values, 1)[:, newaxis]
-        values = log2(self.values + background) \
-               - log2(totals + 1) - log2(background)
+        values = log2(self.values + background) - log2(totals + 1) - log2(background)
         return ScoringMatrix.create_from_other(self, values.astype(float32))
 
 
@@ -134,7 +139,7 @@ class ScoringMatrix(BaseMatrix):
 
     def score_string(self, string):
         """
-        Score each valid position in `string` using this scoring matrix. 
+        Score each valid position in `string` using this scoring matrix.
         Positions which were not scored are set to nan.
         """
         rval = zeros(len(string), float32)
@@ -144,7 +149,7 @@ class ScoringMatrix(BaseMatrix):
 
     def score_string_with_gaps(self, string):
         """
-        Score each valid position in `string` using this scoring matrix. 
+        Score each valid position in `string` using this scoring matrix.
         Positions which were not scored are set to nan. Gap characters are
         ignored (matrices score across them).
         """

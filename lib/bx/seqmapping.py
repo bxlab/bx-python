@@ -10,17 +10,17 @@ sequence alignment).
 The int-to-int mapping is particularly useful for creating partitions,
 and provides methods to merge/split symbols in the output mapping.
 
-The two forms of mapping can be combined, for example to encode a 
+The two forms of mapping can be combined, for example to encode a
 multiple sequence alignment in a reduced alphabet defined by a partition
-of alignment columns. Many of the helper methods provided are for 
-solving such alignment oriented problems. 
+of alignment columns. Many of the helper methods provided are for
+solving such alignment oriented problems.
 
 This code was originally written for the `ESPERR`_ project which includes
 software for searcing for alignment encodings that work well for specific
 classification problems using various Markov chain classifiers over the
 reduced encodings.
 
-Most of the core implementation is in the pyrex/C extension 
+Most of the core implementation is in the pyrex/C extension
 "_seqmapping.pyx" for performance reasons (specifically to avoid the
 excessive bounds checking that would make a sequence/array lookup heavy
 problem like this slow in pure python).
@@ -28,7 +28,10 @@ problem like this slow in pure python).
 .. _ESPERR: http://www.bx.psu.edu/projects/esperr/
 """
 
-from ._seqmapping import *
+from ._seqmapping import (
+    CharToIntArrayMapping,
+    IntToIntMapping,
+)
 
 # Char->Int mapping for DNA characters with missing data
 
@@ -75,8 +78,6 @@ def second_mapping_from_file(f, first_mapping, char_mapping=DNA):
         column, symbol = line.split()
         columns.append(column)
         symbols.append(int(symbol))
-
-    align_count = len(columns[0])
 
     mapping = IntToIntMapping(first_mapping.get_out_size())
 

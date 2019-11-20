@@ -9,11 +9,9 @@ usage: %prog bed1 bed2 [mask]
 from __future__ import division, print_function
 
 import sys
-from itertools import *
 
-import psyco_full
 from bx.bitset import BinnedBitSet
-from bx.bitset_builders import *
+from bx.bitset_builders import binned_bitsets_from_file
 
 bed1_fname, bed2_fname = sys.argv[1:3]
 
@@ -45,7 +43,7 @@ for line in open(bed1_fname):
     chr, start, end = fields[0], int(fields[1]), int(fields[2])
     bases_covered = 0
     if chr in bitsets:
-         bases_covered = bitsets[chr].count_range(start, end-start)
+        bases_covered = bitsets[chr].count_range(start, end-start)
     length = end - start
     if mask and chr in mask:
         bases_masked = mask[chr].count_range(start, end-start)

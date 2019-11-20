@@ -3,7 +3,7 @@ Rudimentary support for PHAST's tree model file format (a simple format for
 storing trees and rate matrices).
 """
 
-from numpy import *
+from numpy import zeros
 
 
 class TreeModel(object):
@@ -15,10 +15,7 @@ class TreeModel(object):
         self.background = None
         self.tree = None
         self.matrix = None
-    # TODO: Need scipy for this method
-    # def matrix_for_time( self, t ):
-    # return expm( self.matrix * t )
-    ## matrix_for_time = cachedmethod( matrix_for_time )
+
     @staticmethod
     def from_file(f):
         input = iter(f)

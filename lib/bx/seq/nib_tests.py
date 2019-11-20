@@ -3,8 +3,7 @@ Tests for `bx.seq.nib`.
 """
 
 import unittest
-import sys
-import os.path
+
 from . import nib
 
 test_nib = "test_data/seq_tests/test.nib"
@@ -12,13 +11,13 @@ test_nib = "test_data/seq_tests/test.nib"
 # Same sequence data as stored in test.nib
 
 valid_seq = "TGGAGGCATTTGTGATTCAATAGATGCAGAAAGAAACCTTCCTAGAGCTG" \
-          + "GCGTTCTCTAACTAAAAGTGGAAAGTTCTGAGGAATGAGGACTGTTATAA" \
-          + "ATCCCACCCCACACCGCACCTTCTCCAGGGAAGTTTCATGGCCGTGAAGA" \
-          + "GGACAGAAAGTGAGAACCAAGATggaactgaataaacaagcttcacactg" \
-          + "ttagtttccccatatgcttaccttcccacagatgccaaccttggaggcct" \
-          + "aagaggcctagaatattatcctttgtctgatcatttctctacaaatttat" \
-          + "tgttctttgttaagatgctacataagcccaaattctaaccacccctttga" \
-          + "gttacccatcatcaagtttctcccatgtg"
+    + "GCGTTCTCTAACTAAAAGTGGAAAGTTCTGAGGAATGAGGACTGTTATAA" \
+    + "ATCCCACCCCACACCGCACCTTCTCCAGGGAAGTTTCATGGCCGTGAAGA" \
+    + "GGACAGAAAGTGAGAACCAAGATggaactgaataaacaagcttcacactg" \
+    + "ttagtttccccatatgcttaccttcccacagatgccaaccttggaggcct" \
+    + "aagaggcctagaatattatcctttgtctgatcatttctctacaaatttat" \
+    + "tgttctttgttaagatgctacataagcccaaattctaaccacccctttga" \
+    + "gttacccatcatcaagtttctcccatgtg"
 
 valid_seq_len = len(valid_seq)
 

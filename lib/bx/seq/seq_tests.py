@@ -2,10 +2,8 @@
 Tests for `bx.seq.seq`.
 """
 
-
 import unittest
-import os.path
-import sys
+
 import bx.seq
 from bx.seq import fasta_tests, nib_tests, qdna_tests
 

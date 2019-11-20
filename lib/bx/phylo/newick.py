@@ -7,7 +7,18 @@ from __future__ import print_function
 
 from functools import total_ordering
 
-from bx_extras.pyparsing import *
+from bx_extras.pyparsing import (
+    alphas,
+    CaselessLiteral,
+    Combine,
+    delimitedList,
+    Forward,
+    nums,
+    Optional,
+    QuotedString,
+    Suppress,
+    Word
+)
 
 __all__ = ["Tree", "Edge", "NewickParser", "newick_parser"]
 
@@ -74,14 +85,13 @@ def create_parser():
           to be an edge.
     """
     # Basic tokens
-    real = Combine(Word("+-" + nums, nums) +
-                    Optional("." + Optional(Word(nums))) +
-                    Optional(CaselessLiteral("E") + Word("+-" + nums, nums)))
+    real = Combine(
+        Word("+-" + nums, nums) + Optional("." + Optional(Word(nums)))
+        + Optional(CaselessLiteral("E") + Word("+-" + nums, nums)))
     lpar = Suppress("(")
     rpar = Suppress(")")
     colon = Suppress(":")
     semi = Suppress(";")
-    quot = Suppress("'")
     # Labels are either unquoted or single quoted, if unquoted underscores will be replaced with spaces
     quoted_label = QuotedString("'", None, "''").setParseAction(lambda s, l, t: t[0])
     simple_label = Word(alphas + nums + "_.").setParseAction(lambda s, l, t: t[0].replace("_", " "))

@@ -13,7 +13,6 @@ from __future__ import division, print_function
 
 import sys
 
-import psyco_full
 from bx.align import maf
 
 

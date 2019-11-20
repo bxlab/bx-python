@@ -16,10 +16,12 @@ usage: %prog [options] < maf > column_counts
 from __future__ import print_function
 
 import sys
-from itertools import *
 
 import bx.align.maf
-from bx.cookbook import doc_optparse, cross_lists
+from bx.cookbook import (
+    cross_lists,
+    doc_optparse,
+)
 
 counts = {}
 
@@ -36,15 +38,8 @@ for block in bx.align.maf.Reader(sys.stdin):
         col = ''.join(col)
         try:
             counts[col] += 1
-        except:
+        except Exception:
             counts[col] = 1
-
-# counts = [ ( value, key ) for key, value in counts.iteritems() ]
-# counts.sort()
-# counts.reverse()
-
-# for count, col in counts:
-##     print "".join(col), count
 
 options, args = doc_optparse.parse(__doc__)
 

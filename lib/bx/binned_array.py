@@ -1,21 +1,33 @@
 """
 Numeric arrays stored as individually compressed blocks on disk, allowing
-pseudo-random acccess. 
+pseudo-random acccess.
 
 `BinnedArray` is used to build such an array in memory and save it to disk.
 `BinnedArrayWriter` can instead be used when creating the array sequentially
 (does not require keeping all data in memory). `FileBinnedArray` provides
-read only access to an on disk binned array. 
+read only access to an on disk binned array.
 """
 
 from __future__ import division
 
 import math
 import sys
+from struct import (
+    calcsize,
+    pack,
+    unpack,
+)
 
+from numpy import (
+    array,
+    concatenate,
+    fromstring,
+    NaN,
+    resize,
+    zeros
+)
 from six import binary_type
-from numpy import *
-from struct import *
+
 from bx_extras.lrucache import LRUCache
 
 platform_is_little_endian = (sys.byteorder == 'little')
@@ -41,13 +53,13 @@ comp_types['none'] = (lambda x: x, lambda x: x)
 try:
     import zlib
     comp_types['zlib'] = (zlib.compress, zlib.decompress)
-except:
+except Exception:
     pass
 
 try:
     import lzo
     comp_types['lzo'] = (lzo.compress, lzo.decompress)
-except:
+except Exception:
     pass
 
 MAX = 512*1024*1024
@@ -234,7 +246,7 @@ class FileBinnedArray(object):
         while size > 0:
             bin, offset = self.get_bin_offset(start)
             delta = self.bin_size - offset
-            if not bin in self.bins and self.bin_pos[bin] != 0:
+            if bin not in self.bins and self.bin_pos[bin] != 0:
                 self.load_bin(bin)
             if self.bins[bin] is None:
                 if delta < size:
@@ -280,8 +292,6 @@ class BinnedArrayWriter(object):
         self.comp_type = comp_type
         self.compress = comp_types[comp_type][0]
         self.write_header()
-        # Start the first bin
-        ## self.bin_index = [ (self.data_offset, 0) ]
         # Put the fp at the start of the data (we go back and fill in the index at the end)
         self.f.seek(self.data_offset)
 
@@ -319,7 +329,6 @@ class BinnedArrayWriter(object):
             assert self.bin <= self.nbins
             self.buffer = resize(array(self.default, self.typecode), (self.bin_size,))
             self.buffer_contains_values = False
-            ## self.bin_index.append( (self.f.tell(), 0) )
 
     def write(self, data):
         self.buffer[self.bin_pos] = data
@@ -332,13 +341,10 @@ class BinnedArrayWriter(object):
             assert self.bin <= self.nbins
             self.buffer = resize(array(self.default, self.typecode), (self.bin_size,))
             self.buffer_contains_values = False
-            ## self.bin_index.append( (self.f.tell(), 0) )
 
     def flush(self):
         # Flush buffer to file
         if self.buffer_contains_values:
-            ## pos, size = self.bin_index[self.bin]
-            ## self.f.seek( pos )
             pos = self.f.tell()
             if platform_is_little_endian:
                 s = self.buffer.byteswap().tostring()

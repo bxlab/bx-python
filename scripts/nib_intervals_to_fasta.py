@@ -8,9 +8,6 @@ usage: %prog range_file nib_file
 """
 from __future__ import print_function
 
-import string
-import sys
-
 import bx.seq.nib
 from bx.cookbook import doc_optparse
 
@@ -20,9 +17,9 @@ def __main__():
     options, args = doc_optparse.parse(__doc__)
 
     try:
-        range_file = file(args[0])
-        nib_file = file(args[1])
-    except:
+        range_file = open(args[0])
+        nib_file = open(args[1])
+    except Exception:
         doc_optparse.exit()
 
     nib = bx.seq.nib.NibFile(nib_file)

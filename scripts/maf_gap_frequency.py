@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Read a MAF from standard input and print the fraction of gap columns in 
+Read a MAF from standard input and print the fraction of gap columns in
 each block.
 
 usage: %prog < maf > out
@@ -17,7 +17,7 @@ def main():
     for m in bx.align.maf.Reader(sys.stdin):
         gaps = 0
         for col in m.column_iter():
-            if ('-' in col):
+            if '-' in col:
                 gaps += 1
         print(gaps / m.text_size)
 

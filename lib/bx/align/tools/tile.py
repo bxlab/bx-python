@@ -2,12 +2,7 @@
 Tools for tiling / projecting alignments onto an interval of a sequence.
 """
 
-import bx.align as align
-from bx import misc
 import bx.seq.nib
-import os
-import string
-import sys
 
 
 def tile_interval(sources, index, ref_src, start, end, seq_db=None):
@@ -31,10 +26,8 @@ def tile_interval(sources, index, ref_src, start, end, seq_db=None):
     # From low to high score
     blocks.sort(key=lambda t: t.score)
     mask = [-1] * base_len
-    ref_src_size = None
     for i, block in enumerate(blocks):
         ref = block.get_component_by_src_start(ref_src)
-        ref_src_size = ref.src_size
         assert ref.strand == "+"
         slice_start = max(start, ref.start)
         slice_end = min(end, ref.end)

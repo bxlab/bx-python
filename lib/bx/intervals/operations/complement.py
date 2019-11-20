@@ -2,15 +2,12 @@
 Complement a set of intervals.
 """
 
-import psyco_full
-
-import traceback
-import fileinput
-from warnings import warn
-
-from bx.intervals.io import *
-from bx.intervals.operations import *
 from bx.bitset import MAX
+from bx.intervals.io import (
+    BitsetSafeReaderWrapper,
+    GenomicInterval
+)
+from bx.intervals.operations import bits_set_in_range
 
 
 def complement(reader, lens):
@@ -28,7 +25,7 @@ def complement(reader, lens):
         try:
             # Write the intervals
             for start, end in out_intervals:
-                fields = ["."  for x in range(max(complement_reader.chrom_col, complement_reader.start_col, complement_reader.end_col)+1)]
+                fields = ["." for x in range(max(complement_reader.chrom_col, complement_reader.start_col, complement_reader.end_col)+1)]
                 # default the column to a + if it exists
                 if complement_reader.strand_col < len(fields) and complement_reader.strand_col >= 0:
                     fields[complement_reader.strand_col] = "+"

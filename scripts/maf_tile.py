@@ -2,30 +2,26 @@
 
 """
 'Tile' the blocks of a maf file over each of a set of intervals. The
-highest scoring block that covers any part of a region will be used, and 
+highest scoring block that covers any part of a region will be used, and
 pieces not covered by any block filled with "-" or optionally "*". The list
 of species to tile is specified by `tree` (either a tree or just a comma
 separated list). The `seq_db` is a lookup table mapping chromosome names
 to nib file for filling in the reference species. Maf files must be indexed.
 
 NOTE: See maf_tile_2.py for a more sophisticated version of this program, I
-      think this one will be eliminated in the future. 
+      think this one will be eliminated in the future.
 
 usage: %prog tree maf_files...
     -m, --missingData: Inserts wildcards for missing block rows instead of '-'
 """
 
-import psyco_full
-
-from bx.cookbook import doc_optparse
-
-import bx.align.maf
-import bx.align as align
-from bx import misc
-import bx.seq.nib
-import os
 import string
 import sys
+
+import bx.align as align
+import bx.align.maf
+import bx.seq.nib
+from bx.cookbook import doc_optparse
 
 tree_tx = string.maketrans("(),", "   ")
 
@@ -40,7 +36,7 @@ def main():
 
         out = bx.align.maf.Writer(sys.stdout)
         missing_data = bool(options.missingData)
-    except:
+    except Exception:
         doc_optparse.exception()
 
     for line in sys.stdin:
@@ -68,12 +64,9 @@ def do_interval(sources, index, out, ref_src, start, end, seq_db, missing_data):
 
     blocks = index.get(ref_src, start, end)
     # From low to high score
-    blocks.sort(lambda a, b: cmp(a.score, b.score))
+    blocks.sort(key=lambda _: _.score)
 
     mask = [-1] * base_len
-
-    # print len( blocks )
-    # print blocks[0]
 
     ref_src_size = None
     for i, block in enumerate(blocks):
@@ -84,8 +77,6 @@ def do_interval(sources, index, out, ref_src, start, end, seq_db, missing_data):
         slice_end = min(end, ref.end)
         for j in range(slice_start, slice_end):
             mask[j-start] = i
-
-    #print >>sys.stderr, mask
 
     tiled = []
     for i in range(len(sources)):

@@ -1,10 +1,12 @@
 """
 Tests for `bx.seqmapping`.
 """
-import sys
 import unittest
 
-from numpy import array, allclose
+from numpy import (
+    allclose,
+    array,
+)
 from six import StringIO
 
 import bx.seqmapping
@@ -14,12 +16,14 @@ class CharMappingTests(unittest.TestCase):
     __test__ = False
 
     def test_DNA(self):
-        assert(allclose(bx.seqmapping.DNA.translate("ACGTacgt-?X"),
-                          [0, 1, 2, 3, 0, 1, 2, 3, 4, -1, -1]))
+        assert(allclose(
+            bx.seqmapping.DNA.translate("ACGTacgt-?X"),
+            [0, 1, 2, 3, 0, 1, 2, 3, 4, -1, -1]))
 
     def test_DNA_list(self):
-        assert(allclose(bx.seqmapping.DNA.translate_list(["ACGTA", "TGCAX"]),
-                          [0 + 3*6, 1 + 2*6, 2 + 1*6, 3 + 0*6, -1]))
+        assert(allclose(
+            bx.seqmapping.DNA.translate_list(["ACGTA", "TGCAX"]),
+            [0 + 3*6, 1 + 2*6, 2 + 1*6, 3 + 0*6, -1]))
 
     def test_other(self):
         m = bx.seqmapping.CharToIntArrayMapping()
@@ -74,13 +78,13 @@ AAAGGAAA 2
 """
 
 rows = ["AAATTGT-----ATGTCCATCCTTTAAAGGTCATTCCTTTAATGGTCTTTTCTGGACACCACTAGGGGTCAGAAGTAGTTCATCAAAC-----------------TTTCTTCCCTCCC-TACTTCAGTG",
-         "AAATTGT-----ATGTCCATCCTTTAAAGGTCATTCCTTTAATGGTCTTTTCTGGACACCACTAGGGGTCAGAAGTAGTTCATCAAAC-----------------TTTCTTCCCTCCC-TACTTCAGTG",
-         "AAATTTT-----ATGTCTATCCTTTAAAGGTCATTCCTCTAATAGTCTTTTCTGGACACCACTAGGGGTCAGAAGTAGTTCATTAAAC-----------------TTTCTTCCCTCCC-TACCTCAGTG",
-         "AAACTGT-----ATCACCACCTTTTTAAGGTCATTTCTCTAATGATCCTGTT-GCATACCAGTAGGGGGCAGAAGTGTTCCGCTGATTTCCGCCCTCCTCCCCACCCCCCCACCCCCC-TTATTCAAAG",
-         "*********************************************************************************************************************************",
-         "-TATTAT-----ATGGCCATGTTCAAAAGGTTGTTTCTCTAATGATTCCTTC-TGATACCAGTAGGGGTCAGAAGTGGTCCATTGATT---------------------CTTTTCCTC-TGATTC-AAG",
-         "AAATTGA--AAGATCTCACTCTTTGCCAGGTAGTCCATCTAAGGGTCACATATGGATACCAGCAGGGCCT-GAAGAAGCCCATTGAAT------------------------TTTCCC-ATCTTCAAGG",
-         "AAATTCATGATAGTGTCACTCTTAAATAGATGATTC--------TTCACAT---GATGCCAGCAGGGGGC-AGAGCAGGCTGTGAAAT------------------------TTTCCCTTTCTTCAAAG"]
+        "AAATTGT-----ATGTCCATCCTTTAAAGGTCATTCCTTTAATGGTCTTTTCTGGACACCACTAGGGGTCAGAAGTAGTTCATCAAAC-----------------TTTCTTCCCTCCC-TACTTCAGTG",
+        "AAATTTT-----ATGTCTATCCTTTAAAGGTCATTCCTCTAATAGTCTTTTCTGGACACCACTAGGGGTCAGAAGTAGTTCATTAAAC-----------------TTTCTTCCCTCCC-TACCTCAGTG",
+        "AAACTGT-----ATCACCACCTTTTTAAGGTCATTTCTCTAATGATCCTGTT-GCATACCAGTAGGGGGCAGAAGTGTTCCGCTGATTTCCGCCCTCCTCCCCACCCCCCCACCCCCC-TTATTCAAAG",
+        "*********************************************************************************************************************************",
+        "-TATTAT-----ATGGCCATGTTCAAAAGGTTGTTTCTCTAATGATTCCTTC-TGATACCAGTAGGGGTCAGAAGTGGTCCATTGATT---------------------CTTTTCCTC-TGATTC-AAG",
+        "AAATTGA--AAGATCTCACTCTTTGCCAGGTAGTCCATCTAAGGGTCACATATGGATACCAGCAGGGCCT-GAAGAAGCCCATTGAAT------------------------TTTCCC-ATCTTCAAGG",
+        "AAATTCATGATAGTGTCACTCTTAAATAGATGATTC--------TTCACAT---GATGCCAGCAGGGGGC-AGAGCAGGCTGTGAAAT------------------------TTTCCCTTTCTTCAAAG"]
 
 
 class AlignmentMappingTests(unittest.TestCase):
@@ -90,4 +94,4 @@ class AlignmentMappingTests(unittest.TestCase):
         f = StringIO(eight_species_mapping)
         n, m = bx.seqmapping.alignment_mapping_from_file(f)
         t = bx.seqmapping.DNA.translate_list(rows)
-        i = m.translate(t)
+        m.translate(t)

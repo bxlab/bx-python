@@ -66,7 +66,7 @@ def main():
     indexes = interval_index_file.Indexes()
 
     # Need to be a bit tricky in our iteration here to get the 'tells' right
-    while 1:
+    while True:
         pos = maf_reader.file.tell()
         block = next(maf_reader)
         if block is None:

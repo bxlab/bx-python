@@ -25,7 +25,7 @@ def main():
             mask = options.mask
         else:
             mask = "?"
-    except:
+    except Exception:
         doc_optparse.exception()
 
     reader = bx.align.maf.Reader(sys.stdin)

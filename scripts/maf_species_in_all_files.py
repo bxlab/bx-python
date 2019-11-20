@@ -2,7 +2,7 @@
 
 """
 Takes a list of maf filenames on the command line and prints a comma separated
-list of the species that occur in all of the mafs. 
+list of the species that occur in all of the mafs.
 
 usage %prog maf1 maf2 ...
 """

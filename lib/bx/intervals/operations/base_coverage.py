@@ -2,14 +2,8 @@
 Determine the number of bases covered by a set of intervals.
 """
 
-import psyco_full
-
-import traceback
-import fileinput
-from warnings import warn
-
-from bx.intervals.io import *
-from bx.intervals.operations import *
+from bx.intervals.io import BitsetSafeReaderWrapper
+from bx.intervals.operations import MAX_END
 
 
 def base_coverage(reader):

@@ -4,14 +4,14 @@ Provides functions for creating simple properties.
 If, inside a class definition, you write:
 
     attribute(foo=1, bar=2)
-    
+
 simple properties named 'foo' and 'bar' are created for this class.
-Also, private instance variables '__foo' and '__bar' will be added 
+Also, private instance variables '__foo' and '__bar' will be added
 to instances of this class.
 
 USEAGE:
 
-# assumes attribute.py is on path 
+# assumes attribute.py is on path
 from attribute import *
 
 class MyClass(object):
@@ -22,20 +22,20 @@ class MyClass(object):
 This is equivalent to the following:
 
 class MyClass(object):
-    def __init__(self): 
+    def __init__(self):
         self.__foo = 1
         self.__bar = 2
         self.__fro = 3
         self.__boz = 4
         self.__baz = 5
 
-    def get_foo(self): 
+    def get_foo(self):
         return self.__foo
-    def get_bar(self): 
+    def get_bar(self):
         return self.__bar
-    def set_fro(self, value): 
+    def set_fro(self, value):
         self.__fro = value
-    def set_boz(self, value): 
+    def set_boz(self, value):
         self.__boz = value
     def get_baz(self):
         return self.__baz
@@ -61,7 +61,7 @@ import sys
 
 
 def mangle(classname, attrname):
-    """mangles name according to python name-mangling 
+    """mangles name according to python name-mangling
        conventions for private variables"""
     return "_%s__%s" % (classname, attrname)
 
@@ -106,6 +106,7 @@ def _attribute(permission='rwd', **kwds):
            'r': readable, 'w':writable, 'd':deletable
     """
     classname, classdict = class_space()
+
     def _property(attrname, default):
         propname, attrname = attrname, mangle(classname, attrname)
         fget, fset, fdel, doc = None, None, None, propname

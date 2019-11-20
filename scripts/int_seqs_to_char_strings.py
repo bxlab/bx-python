@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Translate lists of space separated integers (magnitude less than 62) and print 
+Translate lists of space separated integers (magnitude less than 62) and print
 as strings of alphanumeric characters. This is useful mainly for some machine
 learning algorithms that only take string input.
 
@@ -10,7 +10,6 @@ usage: %prog < int_seqs > strings
 from __future__ import print_function
 
 import sys
-from itertools import *
 
 table = "012345678ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 

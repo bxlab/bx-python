@@ -2,7 +2,6 @@
 Tools for fusing contiguous alignment blocks together.
 """
 
-from itertools import *
 from copy import deepcopy
 
 
@@ -27,27 +26,27 @@ def fuse_list(mafs):
 
 def fuse(m1, m2):
     """
-    Attempt to fuse two blocks. If they can be fused returns a new block, 
+    Attempt to fuse two blocks. If they can be fused returns a new block,
     otherwise returns None.
-      
+
     Example:
-      
+
     >>> import bx.align.maf
-      
+
     >>> block1 = bx.align.maf.from_string( '''
     ... a score=0.0
     ... s hg18.chr10 52686 44 + 135374737 GTGCTAACTTACTGCTCCACAGAAAACATCAATTCTGCTCATGC
     ... s panTro1.chrUn_random 208115356 44 - 240967748 GTGCTAACTGACTGCTCCAGAGAAAACATCAATTCTGTTCATGT
     ... ''' )
-    
+
     >>> block2 = bx.align.maf.from_string( '''
     ... a score=0.0
     ... s hg18.chr10 52730 69 + 135374737 GCAGGTACAATTCATCAAGAAAGGAATTACAACTTCAGAAATGTGTTCAAAATATATCCATACTTTGAC
     ... s panTro1.chrUn_random 208115400 69 - 240967748 GCAGCTACTATTCATCAAGAAAGGGATTACAACTTCAGAAATGTGTTCAAAGTGTATCCATACTTTGAT
     ... ''' )
-    
+
     >>> fused = fuse( block1, block2 )
-    
+
     >>> print(fused)
     a score=0.0
     s hg18.chr10 52686 113 + 135374737 GTGCTAACTTACTGCTCCACAGAAAACATCAATTCTGCTCATGCGCAGGTACAATTCATCAAGAAAGGAATTACAACTTCAGAAATGTGTTCAAAATATATCCATACTTTGAC

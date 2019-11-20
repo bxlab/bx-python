@@ -2,7 +2,10 @@
 Base classes for site maskers.
 """
 
-from bx.filter import *
+from bx.filter import (
+    Filter,
+    Pipeline,
+)
 
 
 class Masker(Filter):
@@ -20,12 +23,13 @@ class MaskPipeline(Pipeline):
 
     def get_masked(self):
         masked = 0
-        for function in self.pipeline:
+        for masker in self.pipeline:
             try:
                 masked += masker.masked
             except AttributeError:
                 pass
         return masked
+
     masked = property(fget=get_masked)
 
     def __call__(self, block):
@@ -37,7 +41,7 @@ class MaskPipeline(Pipeline):
             if not block:
                 return
             try:
-                m_filter = masker.__call__
+                masker.__call__
             except AttributeError:
                 raise Exception("Masker in pipeline does not implement \"filter( self, block )\".")
             masker(block)

@@ -2,7 +2,7 @@
 
 """
 Returns a bed-like translation of a CDS in which each record corresponds to
-a single site in the CDS and includes additional fields for site degenaracy, 
+a single site in the CDS and includes additional fields for site degenaracy,
 position ind CDS, and amino acid encoded.
 
 usage: %prog nibdir genefile [options]
@@ -18,11 +18,8 @@ import re
 import string
 import sys
 
-from bx.bitset import *
-from bx.bitset_builders import *
-from bx.bitset_utils import *
 from bx.cookbook import doc_optparse
-from bx.gene_reader import *
+from bx.gene_reader import CDSReader
 from bx.seq import nib
 
 GENETIC_CODE = """
@@ -103,7 +100,7 @@ GEN_CODE = {}
 for line in GENETIC_CODE.split('\n'):
     if line.strip() == '':
         continue
-    f = re.split('\s|\(|\)|\/', line)
+    f = re.split(r'\s|\(|\)|\/', line)
     codon = f[0]
     c1, c2, c3 = codon
     aminoacid = f[3]
@@ -138,17 +135,6 @@ def Comp(seq):
     return seq.translate(REVMAP)
 
 
-def codon_degeneracy(codon, position=3):
-    aa = translate(codon, GEN_CODE)
-    if position == 1:
-        degeneracy1 = [GEN_CODE[k][codon[1]][codon[2]] for k in all].count(aa)
-    elif position == 2:
-        degeneracy2 = [GEN_CODE[codon[0]][k][codon[2]] for k in all].count(aa)
-    elif position == 3:
-        degeneracy = list(GEN_CODE[codon[0]][codon[1]].values()).count(aa)
-    return degeneracy
-
-
 def main():
 
     options, args = doc_optparse.parse(__doc__)
@@ -166,7 +152,7 @@ def main():
         include_name = bool(options.include_name)
         nibdir = args[0]
         bedfile = args[1]
-    except:
+    except Exception:
         doc_optparse.exit()
 
     nibs = getnib(nibdir)
@@ -245,8 +231,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    #format = sys.argv[1]
-    #file = sys.argv[2]
-    # for chr, strand, cds_exons in CDSReader( open(file), format=format):
-    #    s_points = [ "%d,%d" % (a[0],a[1]) for a in cds_exons ]
-    #    print chr, strand, len(cds_exons), "\t".join(s_points)

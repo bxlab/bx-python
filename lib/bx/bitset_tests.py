@@ -2,8 +2,9 @@
 Tests for `bx.bitset`.
 """
 
-import bx.bitset
 import unittest
+
+import bx.bitset
 
 
 class AbstractTests(object):

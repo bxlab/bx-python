@@ -1,16 +1,13 @@
 #!/usr/bin/env python2.3
 
 """
-usage: %prog species1,species2,... nrequired < maf 
+usage: %prog species1,species2,... nrequired < maf
 """
 from __future__ import print_function
 
-import copy
 import sys
-from itertools import *
 
 import bx.align.maf
-import psyco_full
 from bx.cookbook import doc_optparse
 
 SPAN = 100
@@ -18,13 +15,12 @@ MIN = 100
 
 
 def main():
-
     options, args = doc_optparse.parse(__doc__)
 
     try:
         species = args[0].split(',')
         nrequired = int(args[1])
-    except:
+    except Exception:
         doc_optparse.exit()
 
     maf_reader = bx.align.maf.Reader(sys.stdin)
@@ -48,7 +44,7 @@ def main():
                     interval_start = ref.start
                     interval_end = ref.end
         else:
-            if interval_start != None and interval_end - interval_start >= MIN:
+            if interval_start is not None and interval_end - interval_start >= MIN:
                 print(ref.src.split('.')[1], interval_start, interval_end)
             interval_start = None
             interval_end = None

@@ -10,25 +10,16 @@ from __future__ import division, print_function
 import sys
 
 import bx.wiggle
-import psyco_full
-from bx import misc
 from bx.binned_array import BinnedArray
 from bx.cookbook import doc_optparse
-from fpconst import isNaN
 
 
 def main():
-
-    # Parse command line
     options, args = doc_optparse.parse(__doc__)
-    try:
-        score_fname = args[0]
-    except:
-        doc_optparse.exit()
 
     scores = {}
     for i, (chrom, pos, val) in enumerate(bx.wiggle.Reader(open(sys.argv[1]))):
-        if not chrom in scores:
+        if chrom not in scores:
             scores[chrom] = BinnedArray()
         scores[chrom][pos] = val
 

@@ -8,7 +8,6 @@ usage: %prog < maf > fasta
 from __future__ import division, print_function
 
 import sys
-import textwrap
 
 from bx.align import maf
 
@@ -34,7 +33,6 @@ def __main__():
         for c in l:
             print(">%s:%d-%d" % (c.src, c.start, c.end))
             print(c.text)
-            #print_n( c.text, 50 )
 
 
 def print_n(s, n, f=sys.stdout):

@@ -2,18 +2,15 @@
 Merge overlapping regions in two sets of genomic intervals.
 """
 
-import psyco_full
 
-import traceback
-import fileinput
-from warnings import warn
+from bx.intervals.io import BitsetSafeReaderWrapper
+from bx.intervals.operations import (
+    bits_set_in_range,
+    MAX_END
+)
 
-from bx.intervals.io import *
-from bx.intervals.operations import *
 
 # sorting could make this a less memory intensive operation(?)
-
-
 def merge(interval, mincols=1):
     # Handle any ValueError, IndexError and OverflowError exceptions that may be thrown when
     # the bitsets are being created by skipping the problem lines
@@ -37,6 +34,6 @@ def merge(interval, mincols=1):
                 # no reason to stuff an entire bad file into memmory
                 if interval.skipped < 10:
                     interval.skipped_lines.append((interval.linenum, interval.current_line, str(e)))
-            except:
+            except Exception:
                 pass
             continue

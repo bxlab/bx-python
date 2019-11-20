@@ -6,15 +6,9 @@ walking through the inputs in O(n) time.
 """
 from __future__ import print_function
 
-import fileinput
 import math
-import traceback
-from warnings import warn
 
-import psyco_full
-from bx.intervals.io import *
-from bx.intervals.operations import *
-
+from bx.intervals.io import GenomicInterval
 from .quicksect import IntervalTree
 
 
@@ -45,7 +39,7 @@ def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
                     overlap = item.end-interval.start
                 elif item.start in range(interval.start, interval.end+1) and item.end in range(interval.start, interval.end+1):
                     overlap = item.end-item.start
-                else:   #the intersecting item's start and end are outside the interval range
+                else:  # the intersecting item's start and end are outside the interval range
                     overlap = interval.end-interval.start
                 if overlap < mincols:
                     overlap_not_met += 1
@@ -126,7 +120,6 @@ def findintersect(interval, sortedlist, mincols):
         return 0, -1
 
     lowerbound = x
-    middlebound = x
     upperbound = x
     while (lowerbound > -1) and (findoverlap(sortedlist[lowerbound-1][0], interval) >= mincols):
         lowerbound -= 1

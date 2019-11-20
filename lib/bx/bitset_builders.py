@@ -5,17 +5,21 @@ files containg sets of "covered" intervals in sequences (e.g. `BED`_ files).
 .. BED: http://genome.ucsc.edu/FAQ/FAQformat.html#format1
 """
 
-from warnings import warn
-from bx.bitset import *
 import re
+from warnings import warn
+
+from bx.bitset import (
+    BinnedBitSet,
+    MAX
+)
 
 
 def binned_bitsets_from_file(f, chrom_col=0, start_col=1, end_col=2, strand_col=5, upstream_pad=0, downstream_pad=0, lens={}):
     """
-    Read a file into a dictionary of bitsets. The defaults arguments 
-    
+    Read a file into a dictionary of bitsets. The defaults arguments
+
     - 'f' should be a file like object (or any iterable containing strings)
-    - 'chrom_col', 'start_col', and 'end_col' must exist in each line. 
+    - 'chrom_col', 'start_col', and 'end_col' must exist in each line.
     - 'strand_col' is optional, any line without it will be assumed to be '+'
     - if 'lens' is provided bitset sizes will be looked up from it, otherwise
       chromosomes will be assumed to be the maximum size
@@ -27,10 +31,6 @@ def binned_bitsets_from_file(f, chrom_col=0, start_col=1, end_col=2, strand_col=
         if line.startswith("#") or line.isspace():
             continue
         fields = line.split()
-        strand = "+"
-        if len(fields) > strand_col:
-            if fields[strand_col] == "-":
-                strand = "-"
         chrom = fields[chrom_col]
         if chrom != last_chrom:
             if chrom not in bitsets:
@@ -54,10 +54,10 @@ def binned_bitsets_from_file(f, chrom_col=0, start_col=1, end_col=2, strand_col=
 
 def binned_bitsets_from_bed_file(f, chrom_col=0, start_col=1, end_col=2, strand_col=5, upstream_pad=0, downstream_pad=0, lens={}):
     """
-    Read a file into a dictionary of bitsets. The defaults arguments 
-    
+    Read a file into a dictionary of bitsets. The defaults arguments
+
     - 'f' should be a file like object (or any iterable containing strings)
-    - 'chrom_col', 'start_col', and 'end_col' must exist in each line. 
+    - 'chrom_col', 'start_col', and 'end_col' must exist in each line.
     - 'strand_col' is optional, any line without it will be assumed to be '+'
     - if 'lens' is provided bitset sizes will be looked up from it, otherwise
       chromosomes will be assumed to be the maximum size
@@ -74,15 +74,11 @@ def binned_bitsets_from_bed_file(f, chrom_col=0, start_col=1, end_col=2, strand_
             continue
         # Need to check track lines due to the offset
         if line.startswith("track"):
-            m = re.search("offset=(\d+)", line)
+            m = re.search(r"offset=(\d+)", line)
             if m and m.group(1):
                 offset = int(m.group(1))
             continue
         fields = line.split()
-        strand = "+"
-        if len(fields) > strand_col:
-            if fields[strand_col] == "-":
-                strand = "-"
         chrom = fields[chrom_col]
         if chrom != last_chrom:
             if chrom not in bitsets:
@@ -94,10 +90,6 @@ def binned_bitsets_from_bed_file(f, chrom_col=0, start_col=1, end_col=2, strand_
             last_chrom = chrom
             last_bitset = bitsets[chrom]
         start, end = int(fields[start_col]) + offset, int(fields[end_col]) + offset
-        # Switch to '+' strand coordinates if not already
-        # if strand == '-':
-        ##     start = size - end
-        ##     end = size - start
         if upstream_pad:
             start = max(0, start - upstream_pad)
         if downstream_pad:

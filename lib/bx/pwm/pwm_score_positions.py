@@ -8,8 +8,6 @@ from __future__ import print_function
 import sys
 
 import bx.pwm.position_weight_matrix as pwmx
-import psyco_full
-from bx import intervals
 from bx.align import maf as align_maf
 from bx.pwm.pwm_score_maf import MafBlockScorer
 

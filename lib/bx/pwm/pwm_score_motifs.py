@@ -7,12 +7,8 @@ from __future__ import print_function
 
 import sys
 
-import psyco_full
-from bx import intervals
 from bx.align import maf as align_maf
 from bx.pwm.pwm_score_maf import MafMotifScorer
-
-from . import position_weight_matrix as pwmx
 
 
 def isnan(x):
@@ -20,7 +16,6 @@ def isnan(x):
 
 
 def main():
-
     if len(sys.argv) < 4:
         print("%s motif inmaf spec1,spec2,... " % sys.argv[0], file=sys.stderr)
         sys.exit(0)
@@ -42,7 +37,6 @@ def main():
 
         # maf block scores for each matrix
         for scoremax, width, headers in MafMotifScorer(species, maf, targmotif):
-            #print >>sys.stderr,headers
             blocklength = width
             mafsrc, mafstart, mafend = headers[0]
             mafchrom = mafsrc.split('.')[1]

@@ -8,11 +8,8 @@ longer will match the sequence refered to by the other row attributes!
 usage: %prog < maf > maf
 """
 
-import psyco_full
-
 import sys
 
-import sys
 from bx import align
 
 

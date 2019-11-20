@@ -2,24 +2,24 @@
 
 """
 'Tile' the blocks of a maf file over each of a set of intervals. The
-highest scoring block that covers any part of a region will be used, and 
-pieces not covered by any block filled with "-" or optionally "*". 
+highest scoring block that covers any part of a region will be used, and
+pieces not covered by any block filled with "-" or optionally "*".
 
 This version uses synteny annotation if found on the alignment blocks, and
 will attempt to fill gaps with special characters depending on the type of
-gap, similar to the projected alignment display of the UCSC genome browser: 
-'*' for new, '=' for inverse/inset, '#' for contig, 'X' for missing. 
+gap, similar to the projected alignment display of the UCSC genome browser:
+'*' for new, '=' for inverse/inset, '#' for contig, 'X' for missing.
 
-- The list of species to tile is specified by the first argument (either a 
-  newick tree or just a comma separated list). 
-  
+- The list of species to tile is specified by the first argument (either a
+  newick tree or just a comma separated list).
+
 - a 2bit file is expected for the reference species to fill in missing
   sequence
 
-- The remaining arguments are a list of maf files which must have 
+- The remaining arguments are a list of maf files which must have
   corresponding ".index" files.
 
-TODO: The seq_db format is specific to something old and obsure at PSU, 
+TODO: The seq_db format is specific to something old and obsure at PSU,
       need to standardize.
 
 usage: %prog list,of,species,to,keep ref.2bit indexed_maf_files ...
@@ -27,20 +27,14 @@ usage: %prog list,of,species,to,keep ref.2bit indexed_maf_files ...
     -s, --strand:      Use strand information for intervals, reveres complement if '-'
 """
 
-import psyco_full
-
-from bx.cookbook import doc_optparse
-
-import operator
-
-import bx.align.maf as maf
-import bx.align as align
-import bx.seq.twobit
-from bx import misc
-import bx.seq.nib
-import os
 import string
 import sys
+
+import bx.align as align
+import bx.align.maf as maf
+import bx.seq.nib
+import bx.seq.twobit
+from bx.cookbook import doc_optparse
 
 tree_tx = string.maketrans("(),", "   ")
 
@@ -56,7 +50,7 @@ def main():
         out = maf.Writer(sys.stdout)
         missing_data = bool(options.missingData)
         use_strand = bool(options.strand)
-    except:
+    except Exception:
         doc_optparse.exception()
 
     for line in sys.stdin:
@@ -76,11 +70,11 @@ def get_fill_char(maf_status):
     Return the character that should be used to fill between blocks
     having a given status
     """
-    # assert maf_status not in ( maf.MAF_CONTIG_NESTED_STATUS, maf.MAF_NEW_NESTED_STATUS,
-    # maf.MAF_MAYBE_NEW_NESTED_STATUS ), \
-    ##     "Nested rows do not make sense in a single coverage MAF (or do they?)"
+    # assert maf_status not in (maf.MAF_CONTIG_NESTED_STATUS, maf.MAF_NEW_NESTED_STATUS,
+    #                           maf.MAF_MAYBE_NEW_NESTED_STATUS ), \
+    #     "Nested rows do not make sense in a single coverage MAF (or do they?)"
     if maf_status in (maf.MAF_NEW_STATUS, maf.MAF_MAYBE_NEW_STATUS,
-                       maf.MAF_NEW_NESTED_STATUS, maf.MAF_MAYBE_NEW_NESTED_STATUS):
+                      maf.MAF_NEW_NESTED_STATUS, maf.MAF_MAYBE_NEW_NESTED_STATUS):
         return "*"
     elif maf_status in (maf.MAF_INVERSE_STATUS, maf.MAF_INSERT_STATUS):
         return "="
@@ -100,7 +94,7 @@ def guess_fill_char(left_comp, right_comp):
     return "*"
     # First check that the blocks have the same src (not just species) and
     # orientation
-    if (left_comp.src == right_comp.src and left_comp.strand != right_comp.strand):
+    if left_comp.src == right_comp.src and left_comp.strand != right_comp.strand:
         # Are they completely contiguous? Easy to call that a gap
         if left_comp.end == right_comp.start:
             return "-"
@@ -133,8 +127,8 @@ def remove_all_gap_columns(texts):
 
 def do_interval(sources, index, out, ref_src, start, end, ref_2bit, missing_data, strand):
     """
-    Join together alignment blocks to create a semi human projected local 
-    alignment (small reference sequence deletions are kept as supported by 
+    Join together alignment blocks to create a semi human projected local
+    alignment (small reference sequence deletions are kept as supported by
     the local alignment).
     """
     ref_src_size = None
@@ -145,8 +139,6 @@ def do_interval(sources, index, out, ref_src, start, end, ref_2bit, missing_data
     ref_chr = ref_src
     if "." in ref_src:
         ref_chr = ref_src[ref_src.index(".")+1:]
-    # Determine the overall length of the interval
-    base_len = end - start
     # Counter for the last reference species base we have processed
     last_stop = start
     # Rows in maf blocks come in in arbitrary order, we'll convert things
@@ -212,8 +204,8 @@ def do_interval(sources, index, out, ref_src, start, end, ref_2bit, missing_data
                 if cols_to_fill > 0:
                     # Adjacent components should have matching status
                     # assert last_status[ source_index ] is None or last_status[ source_index ] == left_status, \
-                    ##     "left status (%s) does not match right status (%s) of last component for %s" \
-                    # % ( left_status, last_status[ source_index ], source )
+                    #     "left status (%s) does not match right status (%s) of last component for %s" \
+                    #     % ( left_status, last_status[ source_index ], source )
                     if left_status is None:
                         fill_char = guess_fill_char(last_components[source_index], comp)
                     else:

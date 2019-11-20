@@ -8,17 +8,12 @@ columns containing only gaps.
 usage: %prog species,species2,... < maf
 """
 
-import psyco_full
-
-import bx.align.maf
-import copy
 import sys
 
-from itertools import *
+import bx.align.maf
 
 
 def main():
-
     species = sys.argv[1].split(',')
 
     maf_reader = bx.align.maf.Reader(sys.stdin)

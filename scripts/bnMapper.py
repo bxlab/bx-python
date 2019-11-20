@@ -10,7 +10,7 @@ import logging
 import os
 import sys
 from itertools import groupby
-from operator import attrgetter, concat, itemgetter
+from operator import attrgetter, itemgetter
 
 import numpy as np
 from six.moves import reduce
@@ -18,7 +18,10 @@ from six.moves import reduce
 from bx.align import epo
 from bx.align.epo import bed_union as elem_u
 from bx.cookbook import argparse
-from bx.intervals.intersection import IntervalTree, Interval
+from bx.intervals.intersection import (
+    Interval,
+    IntervalTree,
+)
 
 elem_t = np.dtype([('chrom', np.str_, 30), ('start', np.int64), ('end', np.int64), ('id', np.str_, 100)])
 narrowPeak_t = np.dtype([('chrom', np.str_, 30), ('start', np.int64), ('end', np.int64), ('id', np.str_, 100),
@@ -115,7 +118,7 @@ def union_elements(elements):
     unioned_elements = []
     for ch, chgrp in groupby(elements, key=itemgetter(0)):
         for (s, e) in elem_u(np.array([itemgetter(1, 2)(_) for _ in chgrp], dtype=np.uint)):
-            if (s < e):
+            if s < e:
                 unioned_elements.append((ch, s, e, el_id))
     assert len(unioned_elements) <= len(elements)
     return unioned_elements
@@ -151,7 +154,7 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
         elif len(to_elem_slices) > 1 and opt.keep_split:
             log.debug("%s spans multiple chains/chromosomes. Using longest alignment." % (str(from_elem)))
             max_elem_len = 0
-            for i in xrange(len(to_elem_slices)):
+            for i in range(len(to_elem_slices)):
                 elem_len = to_elem_slices[i][-1][2] - to_elem_slices[i][0][2]
                 if elem_len > max_elem_len:
                     max_elem_len = elem_len
@@ -178,11 +181,11 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
                 for tel in to_elem_list:
                     out_fd.write(BED4_FRM % tel)
             elif opt.format == "BED12":
-                out_fd.write(BED12_FRM % (to_elem_list[0][0], start, end, from_elem['id'],
-                        start, end, len(to_elem_list),
-                        ",".join("%d" % (e[2]-e[1]) for e in to_elem_list),
-                        ",".join("%d" % (e[1]-start) for e in to_elem_list))
-                        )
+                out_fd.write(BED12_FRM % (
+                    to_elem_list[0][0], start, end, from_elem['id'],
+                    start, end, len(to_elem_list),
+                    ",".join("%d" % (e[2]-e[1]) for e in to_elem_list),
+                    ",".join("%d" % (e[1]-start) for e in to_elem_list)))
             else:
                 # narrowPeak convention is to report the peak location relative to start
                 peak = int((start + end)/2) - start
@@ -225,9 +228,7 @@ def transform_file(ELEMS, ofname, EPO, TREE, opt):
                     out_fd.write(BED4_FRM % elem)
         else:
             for chrom in set(ELEMS['chrom']):
-                transform_by_chrom(EPO,
-                        ELEMS[ELEMS['chrom'] == chrom],
-                        TREE, chrom, opt, out_fd)
+                transform_by_chrom(EPO, ELEMS[ELEMS['chrom'] == chrom], TREE, chrom, opt, out_fd)
     log.info("DONE!")
 
 
@@ -240,15 +241,10 @@ def loadChains(path):
     for i in range(len(EPO)):
         ch, S, T, Q = EPO[i]
         if ch.tStrand == '-':
-            ch = ch._replace(tEnd=ch.tSize - ch.tStart,
-                    tStart=ch.tSize - ch.tEnd)
+            ch = ch._replace(tEnd=ch.tSize - ch.tStart, tStart=ch.tSize - ch.tEnd)
         if ch.qStrand == '-':
-            ch = ch._replace(qEnd=ch.qSize - ch.qStart,
-                    qStart=ch.qSize - ch.qEnd)
-        EPO[i] = (ch,
-                epo.cummulative_intervals(S, T),
-                epo.cummulative_intervals(S, Q)
-                )
+            ch = ch._replace(qEnd=ch.qSize - ch.qStart, qStart=ch.qSize - ch.qEnd)
+        EPO[i] = (ch, epo.cummulative_intervals(S, T), epo.cummulative_intervals(S, Q))
     # now each element of epo is (chain_header, target_intervals, query_intervals)
     assert all(t[0].tStrand == '+' for t in EPO), "all target strands should be +"
     return EPO
@@ -272,38 +268,38 @@ def loadFeatures(path, opt):
         with open(path) as fd:
             for line in fd:
                 cols = line.split()
-                data.append((cols[0], int(cols[1]), int(cols[2]), cols[3], int(cols[4]),
-                              cols[5], float(cols[6]), float(cols[7]), float(cols[8]),
-                              int(cols[-1])+int(cols[1])))
+                data.append((
+                    cols[0], int(cols[1]), int(cols[2]), cols[3], int(cols[4]),
+                    cols[5], float(cols[6]), float(cols[7]), float(cols[8]),
+                    int(cols[-1])+int(cols[1])))
         data = np.array(data, dtype=narrowPeak_t)
     return data
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description=__doc__, epilog="Olgert Denas (Taylor Lab)",
-            formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(description=__doc__, epilog="Olgert Denas (Taylor Lab)", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument("input", nargs='+',
-            help="Input to process. If more than a file is specified, all files will be mapped and placed on --output, which should be a directory.")
+                        help="Input to process. If more than a file is specified, all files will be mapped and placed on --output, which should be a directory.")
     parser.add_argument("alignment", help="Alignment file (.chain or .pkl)")
 
     parser.add_argument("-f", '--format', choices=("BED4", "BED12", "narrowPeak"), default="BED4",
                         help="Output format. BED4 output reports all aligned blocks as separate BED records. BED12 reports a single BED record for each mapped element, with individual blocks given in the BED12 fields. NarrowPeak reports a single narrowPeak record for each mapped element, in which the chromosome, start, end, and peak positions are mapped to the target species and all other columns are passed through unchanged.")
     parser.add_argument("-o", '--output', metavar="FILE", default='stdout',
-            type=lambda s: ((s in ('stdout', '-') and "/dev/stdout") or s),
-            help="Output file. Mandatory if more than on file in input.")
+                        type=lambda s: ((s in ('stdout', '-') and "/dev/stdout") or s),
+                        help="Output file. Mandatory if more than on file in input.")
     parser.add_argument("-t", '--threshold', metavar="FLOAT", default=0., type=float,
-            help="Mapping threshold i.e., |elem| * threshold <= |mapped_elem|")
+                        help="Mapping threshold i.e., |elem| * threshold <= |mapped_elem|")
     parser.add_argument("-s", '--screen', default=False, action='store_true',
-            help="Only report elements in the alignment (without mapping). -t has not effect here (TODO)")
+                        help="Only report elements in the alignment (without mapping). -t has not effect here (TODO)")
     parser.add_argument('-g', '--gap', type=int, default=-1,
-            help="Ignore elements with an insertion/deletion of this or bigger size.")
+                        help="Ignore elements with an insertion/deletion of this or bigger size.")
     parser.add_argument('-v', '--verbose', type=str, choices=list(LOG_LEVELS.keys()), default='info',
-            help='Verbosity level')
+                        help='Verbosity level')
     parser.add_argument("-k", '--keep_split', default=False, action='store_true',
-            help="If elements span multiple chains, report the segment with the longest overlap instead of silently dropping them. (This is the default behavior for liftOver.)")
+                        help="If elements span multiple chains, report the segment with the longest overlap instead of silently dropping them. (This is the default behavior for liftOver.)")
     parser.add_argument("-i", "--in_format", choices=["BED", "narrowPeak"], default="BED",
-            help="Input file format.")
+                        help="Input file format.")
 
     opt = parser.parse_args()
     log.setLevel(LOG_LEVELS[opt.verbose])

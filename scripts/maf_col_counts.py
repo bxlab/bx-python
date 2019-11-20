@@ -12,7 +12,6 @@ usage: %prog < maf > column_counts
 from __future__ import print_function
 
 import sys
-from itertools import *
 
 import bx.align.maf
 
@@ -30,14 +29,11 @@ for block in bx.align.maf.Reader(sys.stdin):
     for col in zip(* [iter(comp.text.upper()) for comp in block.components]):
         try:
             counts[col] += 1
-        except:
+        except Exception:
             counts[col] = 1
 
-counts = [(value, key) for key, value in counts.items()]
-counts.sort()
+counts = sorted((value, key) for key, value in counts.items())
 counts.reverse()
-
-# print len( counts )
 
 for count, col in counts:
     print("".join(col), count)

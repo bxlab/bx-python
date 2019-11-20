@@ -8,11 +8,11 @@ usage: %prog [options] < maf > maf
   -l, --length: Chop to exactly this length in columns (default 100)
 """
 
+import random
 import sys
-
-import sys, random
-import bx.align.maf
 from optparse import OptionParser
+
+import bx.align.maf
 
 
 def main():

@@ -4,15 +4,19 @@ Support for the `MAF`_ multiple sequence alignment format used by `multiz`_.
 .. _MAF: http://genome.ucsc.edu/FAQ/FAQformat.html#format5
 .. _multiz: http://www.bx.psu.edu/miller_lab/
 """
-import itertools
 from io import TextIOWrapper
-import os
 
-from six import Iterator, StringIO, PY3
+from six import (
+    Iterator,
+    PY3,
+    StringIO,
+)
 
 from bx import interval_index_file
-from bx.align import *
-from bx.misc.seekbzip2 import SeekableBzip2File
+from bx.align import (
+    Alignment,
+    Component
+)
 
 MAF_INVERSE_STATUS = 'V'
 MAF_INSERT_STATUS = 'I'
@@ -149,8 +153,8 @@ def from_string(string, **kwargs):
 
 def read_next_maf(file, species_to_lengths=None, parse_e_rows=False):
     """
-    Read the next MAF block from `file` and return as an `Alignment` 
-    instance. If `parse_i_rows` is true, empty components will be created 
+    Read the next MAF block from `file` and return as an `Alignment`
+    instance. If `parse_i_rows` is true, empty components will be created
     when e rows are encountered.
     """
     alignment = Alignment(species_to_lengths=species_to_lengths)
@@ -169,7 +173,7 @@ def read_next_maf(file, species_to_lengths=None, parse_e_rows=False):
         alignment.score = 0
     # Sequence lines
     last_component = None
-    while 1:
+    while True:
         line = readline(file)
         # EOF or Blank line terminates alignment components
         if not line or line.isspace():
@@ -225,9 +229,8 @@ def read_next_maf(file, species_to_lengths=None, parse_e_rows=False):
 
 def readline(file, skip_blank=False):
     """Read a line from provided file, skipping any blank or comment lines"""
-    while 1:
+    while True:
         line = file.readline()
-        #print "every line: %r" % line
         if not line:
             return None
         if line[0] != '#' and not (skip_blank and line.isspace()):

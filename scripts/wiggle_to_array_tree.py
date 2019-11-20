@@ -10,7 +10,10 @@ from __future__ import division
 
 import sys
 
-from bx.arrays.array_tree import *
+from bx.arrays.array_tree import (
+    array_tree_dict_from_reader,
+    FileArrayTreeDict
+)
 from bx.arrays.wiggle import WiggleReader
 
 
@@ -30,9 +33,8 @@ def main():
     for value in d.values():
         value.root.build_summary()
 
-    f = open(out_fname, "w")
-    FileArrayTreeDict.dict_to_file(d, f)
-    f.close()
+    with open(out_fname, "w") as f:
+        FileArrayTreeDict.dict_to_file(d, f)
 
 
 if __name__ == "__main__":

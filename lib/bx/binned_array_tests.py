@@ -2,10 +2,19 @@
 Tests for `bx.binned_array`.
 """
 
-from numpy import *
-from .binned_array import *
+from numpy import (
+    allclose,
+    concatenate,
+    NaN,
+    zeros
+)
+from numpy.random import random_sample as random
 
-random = random.random
+from .binned_array import (
+    BinnedArray,
+    BinnedArrayWriter,
+    FileBinnedArray,
+)
 
 # Bigger values take longer, but excercise more bins
 CHUNK_SIZE_RANDOM = 945
@@ -30,7 +39,7 @@ def setup():
     target = BinnedArray(128, NaN, len(source))
     for i in range(len(source)):
         # if not isNaN( source[i] ):
-            target[i] = source[i]
+        target[i] = source[i]
     return source, target
 
 

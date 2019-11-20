@@ -1,8 +1,9 @@
-import sys, os
+import os
+import sys
 import unittest
 try:
     sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-except:
+except Exception:
     sys.path.insert(0, os.path.dirname(os.path.abspath(".")))
 
 # from bx.intervals.cluster import ClusterTree
@@ -80,7 +81,7 @@ class TestCluster(unittest.TestCase):
 
     def test_larger(self):
         pairs = [(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14), (15, 16), (17, 18), (19, 20),
-                (1, 3), (4, 10), (10, 15), (15, 20), (21, 22)]
+                 (1, 3), (4, 10), (10, 15), (15, 20), (21, 22)]
         self.insertpairs(pairs)
 
         self.assertEqual([(1, 20, [x for x in range(14)]), (21, 22, [14])], self.tree.getregions())

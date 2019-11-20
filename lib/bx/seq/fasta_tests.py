@@ -3,8 +3,7 @@ Tests for `bx.seq.fasta`.
 """
 
 import unittest
-import sys
-import os.path
+
 from . import fasta
 
 test_fa = "test_data/seq_tests/test.fa"
@@ -12,13 +11,13 @@ test_fa = "test_data/seq_tests/test.fa"
 # Same sequence data as stored in test.fa
 
 valid_seq = "TGGAGGCATTTGTGATTCAATAGATGCAGAAAGAAACCTTCCTAGAGCTG" \
-          + "GCGTTCTCTAACTAAAAGTGGAAAGTTCTGAGGAATGAGGACTGTTATAA" \
-          + "ATCCCACCCCACACCGCACCTTCTCCAGGGAAGTTTCATGGCCGTGAAGA" \
-          + "GGACAGAAAGTGAGAACCAAGATggaactgaataaacaagcttcacactg" \
-          + "ttagtttccccatatgcttaccttcccacagatgccaaccttggaggcct" \
-          + "aagaggcctagaatattatcctttgtctgatcatttctctacaaatttat" \
-          + "tgttctttgttaagatgctacataagcccaaattctaaccacccctttga" \
-          + "gttacccatcatcaagtttctcccatgtg"
+    + "GCGTTCTCTAACTAAAAGTGGAAAGTTCTGAGGAATGAGGACTGTTATAA" \
+    + "ATCCCACCCCACACCGCACCTTCTCCAGGGAAGTTTCATGGCCGTGAAGA" \
+    + "GGACAGAAAGTGAGAACCAAGATggaactgaataaacaagcttcacactg" \
+    + "ttagtttccccatatgcttaccttcccacagatgccaaccttggaggcct" \
+    + "aagaggcctagaatattatcctttgtctgatcatttctctacaaatttat" \
+    + "tgttctttgttaagatgctacataagcccaaattctaaccacccctttga" \
+    + "gttacccatcatcaagtttctcccatgtg"
 
 valid_seq_len = len(valid_seq)
 

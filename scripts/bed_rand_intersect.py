@@ -3,29 +3,27 @@
 """
 From a set of regions and two sets of intervals inside those regions
 compute (for each region separately) the overlap between the two sets
-of intervals and the overlap in `nsamples` random coverings of the 
+of intervals and the overlap in `nsamples` random coverings of the
 regions with intervals having the same lengths. Prints the z-score relative
 to the mean and sample stdev of the random coverings.
 
 Currently intervals must be in bed 3+ format.
 
-TODO: There are a few versions of this floating around, including a 
-      better/faster one using gap lists instead of bitsets. Need to track 
+TODO: There are a few versions of this floating around, including a
+      better/faster one using gap lists instead of bitsets. Need to track
       that down and merge as necessary.
 
 usage: %prog bounding_region_file intervals1 intervals2 nsamples
 """
 from __future__ import division, print_function
 
-import bisect
-import random
 import sys
 
-from Numeric import *
+from numpy import zeros
 
+from bx.bitset import BitSet
+from bx.intervals.random_intervals import throw_random_bits
 from bx_extras import stats
-from bx.bitset import *
-from bx.intervals.random_intervals import *
 
 maxtries = 10
 
@@ -54,13 +52,13 @@ def throw_random(lengths, mask):
         except MaxtriesException as e:
             saved = e
             continue
-    raise e
+    raise saved
 
 
 def as_bits(region_start, region_length, intervals):
     """
-    Convert a set of intervals overlapping a region of a chromosome into 
-    a bitset for just that region with the bits covered by the intervals 
+    Convert a set of intervals overlapping a region of a chromosome into
+    a bitset for just that region with the bits covered by the intervals
     set.
     """
     bits = BitSet(region_length)
@@ -74,7 +72,7 @@ def interval_lengths(bits):
     Get the length distribution of all contiguous runs of set bits from
     """
     end = 0
-    while 1:
+    while True:
         start = bits.next_set(end)
         if start == bits.size:
             break
@@ -128,7 +126,8 @@ def main():
         # Load the mask
         mask = overlapping_in_bed(mask_fname, r_chr, r_start, r_stop)
         bits_mask = as_bits(r_start, r_length, mask)
-        bits_not_masked = bit_clone(bits_mask); bits_not_masked.invert()
+        bits_not_masked = bit_clone(bits_mask)
+        bits_not_masked.invert()
         # Load the first set
         intervals1 = overlapping_in_bed(intervals1_fname, r_chr, r_start, r_stop)
         bits1 = as_bits(r_start, r_length, intervals1)
@@ -162,7 +161,6 @@ def main():
     print("\t".join(map(str, total_actual/total_lengths2)))
     for row in fraction_overlap:
         print("\t".join(map(str, row)))
-    #print "total covered by first: %d, second: %d, overlap: %d" % ( total_lengths1, total_lengths2, total_actual )
     print("observed overlap: %d, sample mean: %d, sample stdev: %d" % (total_actual, stats.amean(total_samples), stats.asamplestdev(total_samples)))
     print("z-score:", (total_actual - stats.amean(total_samples)) / stats.asamplestdev(total_samples))
     print("percentile:", sum(total_actual > total_samples) / nsamples)

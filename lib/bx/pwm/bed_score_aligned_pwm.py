@@ -7,13 +7,10 @@ from __future__ import print_function
 
 import sys
 
-import psyco_full
 from bx import intervals
 from bx.align import maf as align_maf
 from bx.pwm.pwm_score_maf import MafBlockScorer
-
 from . import position_weight_matrix as pwmx
-import Numeric
 
 
 def isnan(x):
@@ -35,7 +32,7 @@ def main():
         chrom, start, end = fields[0], int(fields[1]), int(fields[2])
         try:
             name = fields[3]
-        except:
+        except IndexError:
             name = None
         if chrom not in regions:
             regions[chrom] = intervals.Intersecter()
@@ -62,17 +59,13 @@ def main():
 
         # maf block scores for each matrix
         for scoremax, width, headers in MafBlockScorer(pwm, species, maf):
-            #print >>sys.stderr,headers
             blocklength = width
             mafsrc, mafstart, mafend = headers[0]
             mafchrom = mafsrc.split('.')[1]
 
             # lists of scores for each position in scoremax
             for mx_name, mx in scoremax.items():
-                #print >>sys.stderr, mx_name, len(pwm[mx_name])
-
                 for offset in range(blocklength):
-
                     # scan all species with threshold
                     for i in range(len(species)):
                         if mx[i][offset] > threshold:
@@ -85,7 +78,6 @@ def main():
                             if mafchrom in regions and len(r) > 0:
                                 region_label = r[0].value
                             else:
-                                #region_label = 0
                                 continue
                             v_name = mx_name.replace(' ', '_')
                             print(mafchrom, refstart, refend, region_label, v_name, data)

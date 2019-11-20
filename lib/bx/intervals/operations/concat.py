@@ -1,5 +1,5 @@
 """
-Concatenate sets of intervals. 
+Concatenate sets of intervals.
 
 Preserves format of the first input -- it is possible to concat two files that
 have different column orders. Of course, the meta-data of the second will be
@@ -9,14 +9,11 @@ cuts extra columns on subsequent input, and pads missing columns. If
 sameformat=False then extra columns are filled with ".".
 """
 
-import psyco_full
-
-import traceback
-import fileinput
-from warnings import warn
-
-from bx.intervals.io import *
-from bx.intervals.operations import *
+from bx.intervals.io import GenomicInterval
+from bx.tabular.io import (
+    Comment,
+    Header,
+)
 
 
 def concat(readers, comments=True, header=True, sameformat=True):

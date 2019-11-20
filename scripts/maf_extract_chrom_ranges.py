@@ -7,7 +7,7 @@ portions of the original that overlapped the intervals
 NOTE: See maf_extract_ranges_indexed.py which works better / faster for many
       use cases.
 
-TODO: Combine with maf_extract_ranges, and possibly share some code with 
+TODO: Combine with maf_extract_ranges, and possibly share some code with
       maf_extract_ranges_indexed.
 
 usage: %prog interval_file refname|refindex [options] < maf_file
@@ -15,19 +15,14 @@ usage: %prog interval_file refname|refindex [options] < maf_file
    -p, --prefix=PREFIX: Prefix
 """
 
-import psyco_full
-
-from bx.cookbook import doc_optparse
+import sys
 
 import bx.align.maf
 from bx import intervals
-import sys
+from bx.cookbook import doc_optparse
 
 
 def __main__():
-
-    # Parse Command Line
-
     options, args = doc_optparse.parse(__doc__)
 
     try:
@@ -35,7 +30,7 @@ def __main__():
         try:
             refindex = int(args[1])
             refname = None
-        except:
+        except ValueError:
             refindex = None
             refname = args[1]
         if options.mincols:
@@ -46,16 +41,16 @@ def __main__():
             prefix = options.prefix
         else:
             prefix = ""
-    except:
+    except Exception:
         doc_optparse.exit()
 
     # Load Intervals
 
     intersecters = dict()
-    for line in file(range_filename):
+    for line in open(range_filename):
         fields = line.split()
         src = prefix + fields[0]
-        if not src in intersecters:
+        if src not in intersecters:
             intersecters[src] = intervals.Intersecter()
         intersecters[src].add_interval(intervals.Interval(int(fields[1]), int(fields[2])))
 
@@ -70,16 +65,15 @@ def __main__():
             sourcenames = [cmp.src.split('.')[0] for cmp in maf.components]
             try:
                 refindex = sourcenames.index(refname)
-            except:
+            except Exception:
                 continue
 
         ref_component = maf.components[refindex]
         # Find overlap with reference component
-        if not (ref_component.src in intersecters):
+        if ref_component.src not in intersecters:
             continue
-        intersections = intersecters[ref_component.src].find(ref_component.start, ref_component.end)
+        intersections = sorted(intersecters[ref_component.src].find(ref_component.start, ref_component.end))
         # Keep output maf ordered
-        intersections.sort()
         # Write each intersecting block
         for interval in intersections:
             start = max(interval.start, ref_component.start)

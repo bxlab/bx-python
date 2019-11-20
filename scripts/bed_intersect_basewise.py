@@ -9,17 +9,13 @@ usage: %prog bed_file_1 bed_file_2
 """
 from __future__ import print_function
 
-import sys
-from warnings import warn
-
-from bx.bitset import *
-from bx.bitset_builders import *
+from bx.bitset_builders import binned_bitsets_from_file
 from bx.cookbook import doc_optparse
 
 options, args = doc_optparse.parse(__doc__)
 try:
     in_fname, in2_fname = args
-except:
+except ValueError:
     doc_optparse.exit()
 
 bits1 = binned_bitsets_from_file(open(in_fname))
@@ -35,7 +31,7 @@ for key in bits1:
 for chrom in bitsets:
     bits = bitsets[chrom]
     end = 0
-    while 1:
+    while True:
         start = bits.next_set(end)
         if start == bits.size:
             break

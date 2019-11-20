@@ -80,7 +80,7 @@ RT  An inhibitory domain of E12 transcription factor prevents
 RT  DNA binding in E12 homodimers but not in E12 heterodimers
 RL  Cell 64:459-470 (1991).
 XX
-"""
+"""  # noqa: W291
 
 
 def test_reader():

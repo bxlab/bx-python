@@ -10,7 +10,6 @@ from __future__ import print_function
 import sys
 
 import bx.wiggle
-import psyco_full
 
 if len(sys.argv) > 1:
     in_file = open(sys.argv[1])

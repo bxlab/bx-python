@@ -1,25 +1,22 @@
 #!/usr/bin/env python
 
 """
-Translate a maf file containing gap ambiguity characters as produced by 
+Translate a maf file containing gap ambiguity characters as produced by
 'maf_tile_2.py' to a new file in which "#" (contiguous) is replaced by "-" and
 all other types are replaces by "*".
 
 TODO: This could be much more general, should just take the translation table
       from the command line.
-      
+
 usage: %prog < maf > maf
 """
 
 from __future__ import division
 
-import psyco_full
-
-import sys
-
-import sys
-from bx.align import maf
 import string
+import sys
+
+from bx.align import maf
 
 table = string.maketrans("#=X@", "-***")
 

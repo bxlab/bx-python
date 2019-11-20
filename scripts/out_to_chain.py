@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 from __future__ import print_function
 
-from collections import OrderedDict
 import logging
-import os
 import sys
+from collections import OrderedDict
 from itertools import product
 
 import numpy as np
@@ -47,15 +46,14 @@ def convert_action(trg_comp, qr_comp, ts, qs, opt):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="""EPO alignments (.out) to .chain converter.""",
-            epilog="Olgert Denas (Taylor Lab)",
-            formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description="""EPO alignments (.out) to .chain converter.""",
+        epilog="Olgert Denas (Taylor Lab)",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument("input", help="File to process.")
-    parser.add_argument("--species", nargs=2, default=["homo_sapiens", "mus_musculus"],
-            help="Names of target and query species (respectively) in the alignment.")
-    parser.add_argument("--chrsizes", nargs=2, required=True,
-            help="Chromosome sizes for the given species.")
+    parser.add_argument("--species", nargs=2, default=["homo_sapiens", "mus_musculus"], help="Names of target and query species (respectively) in the alignment.")
+    parser.add_argument("--chrsizes", nargs=2, required=True, help="Chromosome sizes for the given species.")
     parser.add_argument("-o", '--output', metavar="FILE", default='stdout', type=outFile, help="Output file")
 
     opt = parser.parse_args()

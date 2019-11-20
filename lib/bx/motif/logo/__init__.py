@@ -1,7 +1,12 @@
 from string import Template
 
 import pkg_resources
-from numpy import *
+from numpy import (
+    ceil,
+    log2,
+    transpose,
+    where
+)
 from six import StringIO
 
 PAD = 2
@@ -22,8 +27,8 @@ TEMPLATE = "template.ps"
 def freqs_to_heights(matrix):
     """
     Calculate logo height using the method of:
-    
-    Schneider TD, Stephens RM. "Sequence logos: a new way to display consensus 
+
+    Schneider TD, Stephens RM. "Sequence logos: a new way to display consensus
     sequences." Nucleic Acids Res. 1990 Oct 25;18(20):6097-100.
     """
     # Columns are sequence positions, rows are symbol counts/frequencies
@@ -42,14 +47,15 @@ def eps_logo(matrix, base_width, height, colors=DNA_DEFAULT_COLORS):
     Return an EPS document containing a sequence logo for matrix where each
     bases is shown as a column of `base_width` points and the total logo
     height is `height` points. If `colors` is provided it is a mapping from
-    characters to rgb color strings. 
+    characters to rgb color strings.
     """
     alphabet = matrix.sorted_alphabet
     rval = StringIO()
     # Read header ans substitute in width / height
     header = Template(pkg_resources.resource_string(__name__, "template.ps"))
-    rval.write(header.substitute(bounding_box_width=ceil(base_width * matrix.width) + PAD,
-                                   bounding_box_height=ceil(height) + PAD))
+    rval.write(header.substitute(
+        bounding_box_width=ceil(base_width * matrix.width) + PAD,
+        bounding_box_height=ceil(height) + PAD))
     # Determine heights
     heights = freqs_to_heights(matrix)
     height_scale = height / log2(len(alphabet))

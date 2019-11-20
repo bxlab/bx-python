@@ -23,10 +23,8 @@ from __future__ import division
 
 import math
 import struct
-import sys
 
 from bx.seq.seq import SeqFile, SeqReader
-
 from . import _nib
 
 NIB_MAGIC_NUMBER = 0x6BE93D3A

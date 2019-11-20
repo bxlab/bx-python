@@ -2,11 +2,9 @@
 Tests for `bx.misc.seekbzip2`.
 """
 import bz2
-from codecs import encode
 import os
 import random
-import tempfile
-from itertools import *
+from codecs import encode
 
 from . import seekbzip2
 
@@ -18,7 +16,6 @@ T = None
 
 # F=/depot/data1/cache/human/hg18/align/multiz28way/chr1.maf.bz2
 
-import sys
 
 if F and os.path.exists(F):
 
@@ -54,8 +51,6 @@ if F and os.path.exists(F):
 if T and os.path.exists(T):
 
     def test_text_reading():
-        #raw_data = bz2.BZ2File( T ).read()
-        #raw_lines = raw_data.split( b"\n" )
         raw_file = bz2.BZ2File(T)
         f = seekbzip2.SeekableBzip2File(T, T + "t")
         pos = 0
@@ -72,7 +67,7 @@ if T and os.path.exists(T):
         raw_lines = raw_data.split(b"\n")
         pos = 0
         i = 0
-        while 1:
+        while True:
             line = f.readline()
             if line == b"":
                 break

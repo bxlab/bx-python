@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Read a file from stdin, split each line and write fields one per line to 
+Read a file from stdin, split each line and write fields one per line to
 stdout.
 
 TODO: is this really that useful?

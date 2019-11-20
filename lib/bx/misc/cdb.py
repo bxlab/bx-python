@@ -1,11 +1,13 @@
-import sys
 
-import numpy
 
 from collections import Mapping
 
-from bx.misc.binary_file import BinaryFileReader, BinaryFileWriter
 from six.moves import reduce
+
+from bx.misc.binary_file import (
+    BinaryFileReader,
+    BinaryFileWriter
+)
 
 
 def cdbhash(s):
@@ -16,7 +18,7 @@ class FileCDBDict(Mapping):
     """
     For accessing a CDB structure on disk. Read only. Currently only supports
     access by key (getitem).
-    
+
     NOTE: The keys method could be implemented by scanning the main table.
     """
 

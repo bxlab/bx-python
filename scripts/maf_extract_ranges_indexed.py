@@ -4,21 +4,21 @@
 Reads a list of intervals and a maf. Produces a new maf containing the
 blocks or parts of blocks in the original that overlapped the intervals.
 
-It is assumed that each file `maf_fname` has a corresponding `maf_fname`.index 
+It is assumed that each file `maf_fname` has a corresponding `maf_fname`.index
 file.
 
 NOTE: If two intervals overlap the same block it will be written twice. With
-      non-overlapping intervals and --chop this is never a problem. 
-      
+      non-overlapping intervals and --chop this is never a problem.
+
 NOTE: Intervals are origin-zero, half-open.  For example, the interval 100,150
       is 50 bases long, and there are 100 bases to its left in the sequence.
-      
+
 NOTE: Intervals are relative to the + strand, regardless of the strands in
       the alignments.
 
-      
+
 WARNING: bz2/bz2t support and file cache support are new and not as well
-         tested. 
+         tested.
 
 usage: %prog maf_fname1 maf_fname2 ... [options] < interval_file
    -m, --mincols=0: Minimum length (columns) required for alignment to be output
@@ -30,14 +30,11 @@ usage: %prog maf_fname1 maf_fname2 ... [options] < interval_file
    -C, --usecache:   Use a cache that keeps blocks of the MAF files in memory (requires ~20MB per MAF)
 """
 
-import psyco_full
-
-from bx.cookbook import doc_optparse
-
-import bx.align.maf
-from bx import misc
 import os
 import sys
+
+import bx.align.maf
+from bx.cookbook import doc_optparse
 
 
 def main():
@@ -64,12 +61,10 @@ def main():
         chop = bool(options.chop)
         do_strand = bool(options.strand)
         use_cache = bool(options.usecache)
-    except:
+    except Exception:
         doc_optparse.exit()
     # Open indexed access to mafs
-    index = bx.align.maf.MultiIndexed(maf_files, keep_open=True,
-                                                  parse_e_rows=True,
-                                                  use_cache=use_cache)
+    index = bx.align.maf.MultiIndexed(maf_files, keep_open=True, parse_e_rows=True, use_cache=use_cache)
     # Start MAF on stdout
     if dir is None:
         out = bx.align.maf.Writer(sys.stdout)
@@ -98,7 +93,7 @@ def main():
                 for ref in block.get_components_by_src(src):
                     slice_start = max(start, ref.get_forward_strand_start())
                     slice_end = min(end, ref.get_forward_strand_end())
-                    if (slice_end <= slice_start):
+                    if slice_end <= slice_start:
                         continue
                     sliced = block.slice_by_component(ref, slice_start, slice_end)
                     # If the block is shorter than the minimum allowed size, stop
@@ -110,7 +105,7 @@ def main():
                     # Keep only components that are not empty
                     sliced.components = [c for c in sliced.components if c.size > 0]
                     # Reverse complement if needed
-                    if (strand != None) and (ref.strand != strand):
+                    if strand is not None and ref.strand != strand:
                         sliced = sliced.reverse_complement()
                     # Write the block
                     out.write(sliced)

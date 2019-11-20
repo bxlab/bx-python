@@ -38,34 +38,34 @@ class SeqFile(object):
     def __init__(self, file=None, revcomp=False, name="", gap=None):
 
         self.file = file
-        if (revcomp == True):
+        if revcomp:
             self.revcomp = "-5'"
-        elif (revcomp == "+3'"):
+        elif revcomp == "+3'":
             self.revcomp = "-5'"
-        elif (revcomp == "+5'"):
+        elif revcomp == "+5'":
             self.revcomp = "-3'"
-        elif (revcomp == "maf"):
+        elif revcomp == "maf":
             self.revcomp = "-5'"
         else:
             self.revcomp = revcomp
         self.name = name
-        if (gap == None):
+        if gap is None:
             self.gap = "-"
         else:
             self.gap = gap
 
         self.text = None  # (subclasses fill in text and
-        self.length = 0     #  length or they most override get())
+        self.length = 0  # length or they most override get())
 
     def close(self):
-        assert (self.file != None)
+        assert (self.file is not None)
         self.file.close()
         self.file = None
 
     def extract_name(self, line):
         try:
             return line.split()[0]
-        except:
+        except Exception:
             return ""
 
     def set_text(self, text):
@@ -74,15 +74,15 @@ class SeqFile(object):
 
     def __str__(self):
         text = ""
-        if (self.name != None):
+        if self.name is not None:
             text += self.name + " "
         text += self.get(0, self.length)
         return text
 
     def get(self, start, length):
         """
-        Fetch subsequence starting at position `start` with length `length`. 
-        This method is picky about parameters, the requested interval must 
+        Fetch subsequence starting at position `start` with length `length`.
+        This method is picky about parameters, the requested interval must
         have non-negative length and fit entirely inside the NIB sequence,
         the returned string will contain exactly 'length' characters, or an
         AssertionError will be generated.
@@ -127,8 +127,7 @@ class SeqReader(Iterator):
         return SeqReaderIter(self)
 
     def __next__(self):  # subclasses should override this method and return the
-        return       # .. next sequence (of type SeqFile or a subclass) read
-                     # .. from self.file
+        return   # .. next sequence (of type SeqFile or a subclass) read from self.file
 
 
 class SeqReaderIter(Iterator):

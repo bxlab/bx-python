@@ -3,8 +3,6 @@ Tests for `bx.align.maf`.
 """
 from __future__ import print_function
 
-import sys
-import unittest
 
 from six import StringIO
 
@@ -107,7 +105,7 @@ a score=7009
 s human_hoxa 100  9 + 1000257 ACA-TTACT 
 s horse_hoxa 120 10 -   98892 ACAATTGCT 
 
-"""
+"""  # noqa: W291
 
 
 def test_slice():
@@ -122,14 +120,14 @@ def test_slice():
     check_component(b.components[0], src="human_hoxa", start=101, size=4, strand="+", src_size=100257, text="CA-TT")
     check_component(b.components[1], src="horse_hoxa", start=121, size=5, strand="-", src_size=98892, text="CAATT")
 
-	# test slicing with + strand src
+    # test slicing with + strand src
     reader = maf.Reader(StringIO(test_maf_3))
     a = next(reader)
     b = a.slice_by_component(0, 40, 62)
     check_component(b.components[0], src="apple", start=40, size=22, strand="+", src_size=110, text="TTCGTCACT------GTCGTAAGGGTTC")
     check_component(b.components[1], src="orange", start=28, size=22, strand="-", src_size=100, text="TT--TCACTGCTATCGTCGTA----TTC")
 
-	# test slicing with - strand src
+    # test slicing with - strand src
     b = a.slice_by_component(1, 30, 68)
     check_component(b.components[0], src="apple", start=46, size=41, strand="+", src_size=110, text="ACT------GTCGTAAGGGTTCAGA--CTGTCTATGTATACACAAGTTG")
     check_component(b.components[1], src="orange", start=32, size=38, strand="-", src_size=100, text="ACTGCTATCGTCGTA----TTCAGACTTCG-CTATCT------GAGTTG")
@@ -179,7 +177,7 @@ e echTel1.scaffold_212365     4641 1430 +      9822 I
 e rn3.chr4                29161032 1524 - 187371129 I                                                 
 e mm7.chr6                28091695 3290 - 149646834 I                                                 
 
-"""
+"""  # noqa: W291
     print(actual)
     print("---")
     print(expected)

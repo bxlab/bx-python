@@ -77,10 +77,10 @@ class TransfacReader(Iterator):
         # Accumulate lines until either the end of record indicator "//" is
         # encounted or the input is exhausted.
         lines = []
-        while 1:
+        while True:
             try:
                 line = next(self.input)
-            except StopIteration as e:
+            except StopIteration:
                 self.input_exhausted = True
                 break
             if line.startswith("//"):
@@ -105,7 +105,7 @@ class TransfacReader(Iterator):
         # Fill in motif from lines
         motif = TransfacMotif()
         current_line = 0
-        while 1:
+        while True:
             # Done parsing if no more lines to consume
             if current_line >= len(lines):
                 break

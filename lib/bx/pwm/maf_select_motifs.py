@@ -5,12 +5,11 @@ The positions are projected onto human coordinates
 """
 from __future__ import print_function
 
-import psyco_full
-from bx.align import maf as align_maf
-import bx.pwm.position_weight_matrix as pwmx
-from bx.pwm.pwm_score_maf import MafMotifSelect
 import sys
-from bx import intervals
+
+import bx.pwm.position_weight_matrix as pwmx
+from bx.align import maf as align_maf
+from bx.pwm.pwm_score_maf import MafMotifSelect
 
 
 def isnan(x):
@@ -34,7 +33,6 @@ def main():
 
     for maf in align_maf.Reader(inmaf):
         for mafmotif, pwm_score, motif_score in MafMotifSelect(maf, pwm, motif, threshold):
-            #mafwrite( mafmotif,pwm_score,motif_score)
             print(mafmotif, pwm_score, motif_score)
             print('zzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
 
@@ -50,9 +48,7 @@ def mafwrite(alignment, kvec=None, jvec=None, file=sys.stdout):
     if not jvec:
         jvec = [0 for c in alignment.components]
     for c, x, y in zip(alignment.components, kvec, jvec):
-    # for c in alignment.components:
         rows.append(("s", c.src, str(c.start), str(c.size), c.strand, str(c.src_size), c.text, "%.2f" % x, str(y)))
-        #rows.append( ( "s", c.src, str( c.start ), str( c.size ), c.strand, str( c.src_size ), c.text ) )
         file.write(format_tabular(rows, "llrrrrrrr"))
 
 

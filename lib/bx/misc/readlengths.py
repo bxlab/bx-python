@@ -11,7 +11,7 @@ def read_lengths_file(name):
     """
 
     chrom_to_length = {}
-    f = file(name, "rt")
+    f = open(name, "rt")
     for line in f:
         line = line.strip()
         if line == '' or line[0] == '#':
@@ -22,7 +22,7 @@ def read_lengths_file(name):
                 raise
             chrom = fields[0]
             length = int(fields[1])
-        except:
+        except Exception:
             raise ValueError("bad length file line: %s" % line)
         if chrom in chrom_to_length and length != chrom_to_length[chrom]:
             raise ValueError("%s has more than one length!" % chrom)

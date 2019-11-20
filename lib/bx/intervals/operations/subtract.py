@@ -6,12 +6,17 @@ of the first set of intervals passed in, with the corresponding
 meta-data.
 """
 
-import traceback
-import fileinput
 from warnings import warn
 
-from bx.intervals.io import *
-from bx.intervals.operations import *
+from bx.intervals.io import (
+    BitsetSafeReaderWrapper,
+    GenomicInterval
+)
+from bx.intervals.operations import bits_clear_in_range
+from bx.tabular.io import (
+    Comment,
+    Header,
+)
 
 
 def subtract(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens={}, comments=True):
@@ -69,6 +74,6 @@ def subtract(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, 
                         # no reason to stuff an entire bad file into memmory
                         if primary.skipped < 10:
                             primary.skipped_lines.append((primary.linenum, primary.current_line, str(e)))
-                    except:
+                    except Exception:
                         pass
                     continue

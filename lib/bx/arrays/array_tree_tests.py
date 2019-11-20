@@ -1,14 +1,14 @@
-import sys, os
-import unittest
+import os
+import sys
 import tempfile
+import unittest
+
 try:
     sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-except:
+except Exception:
     sys.path.insert(0, os.path.dirname(os.path.abspath(".")))
 
-from bx.arrays.array_tree import ArrayTree, FileArrayTree, FileArrayTreeDict, array_tree_dict_from_reader
-from bx.arrays.bed import BedReader
-from bx.arrays.wiggle import WiggleReader
+from bx.arrays.array_tree import ArrayTree, FileArrayTreeDict
 
 
 class TestArrayTree(unittest.TestCase):
@@ -78,25 +78,6 @@ class TestArrayTree(unittest.TestCase):
         avgs = [float(_) for _ in lvl1.sums/lvl1.counts]
         self.assertEqual(len(avgs), 1000)
         self.assertEqual(avgs, [200 for i in range(0, 1000)])
-
-
-#    def create_bed(self):
-#        reader = BedReader( open( "22.bed.txt" ) )
-#        temp = tempfile.TemporaryFile()
-#
-#        d = array_tree_dict_from_reader( reader, {}, block_size = 1000 )
-#
-#        for array_tree in d.itervalues():
-#            array_tree.root.build_summary()
-#
-#        FileArrayTreeDict.dict_to_file( d, open("tree.at", "w"), no_leaves=True ) # just summaries
-#
-#    def test_bed(self):
-#        # self.create_bed()
-#        print "bed"
-#        at = FileArrayTreeDict( open( "tree.at" ) )['chr22']
-#        print map(, at.get_summary(14000000, 1).frequencies)
-
 
     def test_get_frequencies(self):
         f = self.filearraytree

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 """
-Read a maf and print the text as a fasta file, concatenating blocks. A 
-specific subset of species can be chosen. 
+Read a maf and print the text as a fasta file, concatenating blocks. A
+specific subset of species can be chosen.
 
 usage %prog [options] species1,species2,... < maf_file > fasta_file
     --fill="expression": Insert this between blocks
@@ -11,7 +11,6 @@ usage %prog [options] species1,species2,... < maf_file > fasta_file
 from __future__ import print_function
 
 import sys
-import textwrap
 from optparse import OptionParser
 
 from bx.align import maf
@@ -36,9 +35,9 @@ def __main__():
         fill = eval(options.fill)
 
     wrap = 50
-    if (options.wrap != None):
+    if options.wrap is not None:
         wrap = options.wrap
-    elif (options.nowrap):
+    elif options.nowrap:
         wrap = 0
 
     # create the concatenated sequences
@@ -60,7 +59,7 @@ def __main__():
 
 
 def print_n(s, n, f=sys.stdout):
-    if (n <= 0):
+    if n <= 0:
         print(s, file=f)
     else:
         p = 0
