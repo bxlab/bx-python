@@ -76,7 +76,7 @@ def main():
                 continue
             indexes.add(c.src, c.forward_strand_start, c.forward_strand_end, pos, max=c.src_size)
 
-    out = open(index_file, 'w')
+    out = open(index_file, 'wb')
     indexes.write(out)
     out.close()
 
