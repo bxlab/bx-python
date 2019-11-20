@@ -7,7 +7,8 @@ import sys
 from itertools import *
 from copy import deepcopy
 
-def thread( mafs, species ):
+
+def thread(mafs, species):
     """
     Restrict an list of alignments to a given list of species by:
     
@@ -56,43 +57,50 @@ def thread( mafs, species ):
     
     """
     for m in mafs:
-        new_maf = deepcopy( m )
-        new_components = get_components_for_species( new_maf, species )	
-        if new_components: 
-            remove_all_gap_columns( new_components )          
+        new_maf = deepcopy(m)
+        new_components = get_components_for_species(new_maf, species)
+        if new_components:
+            remove_all_gap_columns(new_components)
             new_maf.components = new_components
             new_maf.score = 0.0
             new_maf.text_size = len(new_components[0].text)
             yield new_maf
-        
-def get_components_for_species( alignment, species ):
+
+
+def get_components_for_species(alignment, species):
     """Return the component for each species in the list `species` or None"""
     # If the number of components in the alignment is less that the requested number
     # of species we can immediately fail
-    if len( alignment.components ) < len( species ): return None
-    # Otherwise, build an index of components by species, then lookup 
-    index = dict( [ ( c.src.split( '.' )[0], c ) for c in alignment.components ] )
-    try: return [ index[s] for s in species ]
-    except: return None
+    if len(alignment.components) < len(species):
+        return None
+    # Otherwise, build an index of components by species, then lookup
+    index = dict([(c.src.split('.')[0], c) for c in alignment.components])
+    try:
+        return [index[s] for s in species]
+    except:
+        return None
 
-def remove_all_gap_columns( components ):
+
+def remove_all_gap_columns(components):
     """
     Remove any columns containing only gaps from a set of alignment components,
     text of components is modified IN PLACE.
     
     TODO: Optimize this with Pyrex.
-    """        
-    seqs = [ list( c.text ) for c in components ]
+    """
+    seqs = [list(c.text) for c in components]
     i = 0
-    text_size = len( seqs[0] )
+    text_size = len(seqs[0])
     while i < text_size:
         all_gap = True
         for seq in seqs:
-            if seq[i] != '-': all_gap = False
+            if seq[i] != '-':
+                all_gap = False
         if all_gap:
-            for seq in seqs: del seq[i]
+            for seq in seqs:
+                del seq[i]
             text_size -= 1
         else:
             i += 1
-    for i in range( len( components ) ):
-        components[i].text = ''.join( seqs[i] )
+    for i in range(len(components)):
+        components[i].text = ''.join(seqs[i])

@@ -10,30 +10,36 @@ from six import StringIO
 import bx.seqmapping
 
 
-class CharMappingTests( unittest.TestCase ):
+class CharMappingTests(unittest.TestCase):
     __test__ = False
-    def test_DNA( self ):
-        assert( allclose( bx.seqmapping.DNA.translate( "ACGTacgt-?X" ),
-                          [ 0, 1, 2, 3, 0, 1, 2, 3, 4, -1, -1 ] ) )
-    def test_DNA_list( self ):
-        assert( allclose( bx.seqmapping.DNA.translate_list( [ "ACGTA", "TGCAX" ] ),
-                          [ 0 + 3*6, 1 + 2*6, 2 + 1*6, 3 + 0*6, -1 ] ) )
-    def test_other( self ):
+
+    def test_DNA(self):
+        assert(allclose(bx.seqmapping.DNA.translate("ACGTacgt-?X"),
+                          [0, 1, 2, 3, 0, 1, 2, 3, 4, -1, -1]))
+
+    def test_DNA_list(self):
+        assert(allclose(bx.seqmapping.DNA.translate_list(["ACGTA", "TGCAX"]),
+                          [0 + 3*6, 1 + 2*6, 2 + 1*6, 3 + 0*6, -1]))
+
+    def test_other(self):
         m = bx.seqmapping.CharToIntArrayMapping()
-        m.set_mapping( "A", 0 )
-        m.set_mapping( "B", 7 )
-        assert( allclose( m.translate( "ABCCBA" ), [ 0, 7, -1, -1, 7, 0 ] ) )
-        
-class IntMappingTests( unittest.TestCase ):
+        m.set_mapping("A", 0)
+        m.set_mapping("B", 7)
+        assert(allclose(m.translate("ABCCBA"), [0, 7, -1, -1, 7, 0]))
+
+
+class IntMappingTests(unittest.TestCase):
     __test__ = False
-    def test_simple( self ):
-        m = bx.seqmapping.IntToIntMapping( 4 )
-        m.set_mapping( 0, 0 )
-        m.set_mapping( 2, 0 )
-        m.set_mapping( 1, 1 )
-        m.set_mapping( 3, 1 )
-        assert( allclose( m.translate( array( [ 0, 1, 2, 3, 4 ], 'i' ) ), array( [ 0, 1, 0, 1, -1 ] ) ) )
-   
+
+    def test_simple(self):
+        m = bx.seqmapping.IntToIntMapping(4)
+        m.set_mapping(0, 0)
+        m.set_mapping(2, 0)
+        m.set_mapping(1, 1)
+        m.set_mapping(3, 1)
+        assert(allclose(m.translate(array([0, 1, 2, 3, 4], 'i')), array([0, 1, 0, 1, -1])))
+
+
 eight_species_mapping = """TTTTTTTT 0
 CCCCCCCC 4
 AAAAAAAA 1
@@ -66,20 +72,22 @@ CC*CC*CC 3
 AAAGGAAA 2
 ------G- 2
 """
-       
-rows = [ "AAATTGT-----ATGTCCATCCTTTAAAGGTCATTCCTTTAATGGTCTTTTCTGGACACCACTAGGGGTCAGAAGTAGTTCATCAAAC-----------------TTTCTTCCCTCCC-TACTTCAGTG",
+
+rows = ["AAATTGT-----ATGTCCATCCTTTAAAGGTCATTCCTTTAATGGTCTTTTCTGGACACCACTAGGGGTCAGAAGTAGTTCATCAAAC-----------------TTTCTTCCCTCCC-TACTTCAGTG",
          "AAATTGT-----ATGTCCATCCTTTAAAGGTCATTCCTTTAATGGTCTTTTCTGGACACCACTAGGGGTCAGAAGTAGTTCATCAAAC-----------------TTTCTTCCCTCCC-TACTTCAGTG",
          "AAATTTT-----ATGTCTATCCTTTAAAGGTCATTCCTCTAATAGTCTTTTCTGGACACCACTAGGGGTCAGAAGTAGTTCATTAAAC-----------------TTTCTTCCCTCCC-TACCTCAGTG",
          "AAACTGT-----ATCACCACCTTTTTAAGGTCATTTCTCTAATGATCCTGTT-GCATACCAGTAGGGGGCAGAAGTGTTCCGCTGATTTCCGCCCTCCTCCCCACCCCCCCACCCCCC-TTATTCAAAG",
          "*********************************************************************************************************************************",
          "-TATTAT-----ATGGCCATGTTCAAAAGGTTGTTTCTCTAATGATTCCTTC-TGATACCAGTAGGGGTCAGAAGTGGTCCATTGATT---------------------CTTTTCCTC-TGATTC-AAG",
          "AAATTGA--AAGATCTCACTCTTTGCCAGGTAGTCCATCTAAGGGTCACATATGGATACCAGCAGGGCCT-GAAGAAGCCCATTGAAT------------------------TTTCCC-ATCTTCAAGG",
-         "AAATTCATGATAGTGTCACTCTTAAATAGATGATTC--------TTCACAT---GATGCCAGCAGGGGGC-AGAGCAGGCTGTGAAAT------------------------TTTCCCTTTCTTCAAAG" ]
+         "AAATTCATGATAGTGTCACTCTTAAATAGATGATTC--------TTCACAT---GATGCCAGCAGGGGGC-AGAGCAGGCTGTGAAAT------------------------TTTCCCTTTCTTCAAAG"]
 
-class AlignmentMappingTests( unittest.TestCase ):
+
+class AlignmentMappingTests(unittest.TestCase):
     __test__ = False
-    def test_largescale( self ):
-        f = StringIO( eight_species_mapping )
-        n, m = bx.seqmapping.alignment_mapping_from_file( f )
-        t = bx.seqmapping.DNA.translate_list( rows )
-        i = m.translate( t )
+
+    def test_largescale(self):
+        f = StringIO(eight_species_mapping)
+        n, m = bx.seqmapping.alignment_mapping_from_file(f)
+        t = bx.seqmapping.DNA.translate_list(rows)
+        i = m.translate(t)

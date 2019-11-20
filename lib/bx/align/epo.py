@@ -15,7 +15,7 @@ from ._epo import rem_dash, fastLoadChain, bed_union, cummulative_intervals
 log = logging.getLogger(__name__)
 
 
-class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qSize qStrand qStart qEnd id') ):
+class Chain(namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qSize qStrand qStart qEnd id')):
     """A Chain header as in http://genome.ucsc.edu/goldenPath/help/chain.html
 
     chain coordinates are with respect to the strand, so for example tStart on the + strand is the
@@ -35,7 +35,7 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
 
         assert type(line) == str, "this is a factory from string"
 
-        line = line.rstrip().split()[1:] # the first component is the keyword "chain"
+        line = line.rstrip().split()[1:]  # the first component is the keyword "chain"
         tup = [t[0](t[1]) for t in zip([int, str, int, str, int, int, str, int, str, int, int, str], line)]
         return tuple.__new__(cls, tup)
 
@@ -62,9 +62,9 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
         # size, target, query arrays
         S, T, Q = [], [], []
 
-        #the target strand of the chain must be on the forward strand
-        trg_intervals = trg_comp.intervals(reverse = trg_comp.strand == '-')
-        qr_intervals = qr_comp.intervals(reverse = trg_comp.strand == '-')
+        # the target strand of the chain must be on the forward strand
+        trg_intervals = trg_comp.intervals(reverse=trg_comp.strand == '-')
+        qr_intervals = qr_comp.intervals(reverse=trg_comp.strand == '-')
         if len(trg_intervals) == 0 or len(qr_intervals) == 0:
             log.warning("deletion/insertion only intervals")
             return None
@@ -80,28 +80,28 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
         # intervals are 0-base, halfo-open => lengths = coordinate difference
         while A or B:
             if a[1] < b[1]:
-                T.append(0); Q.append( A[0][0] - a[1] ); S.append( min(a[1], b[1]) - max(a[0], b[0]) )
+                T.append(0); Q.append(A[0][0] - a[1]); S.append(min(a[1], b[1]) - max(a[0], b[0]))
                 a = A.pop(0)
             elif b[1] < a[1]:
-                Q.append(0); T.append( B[0][0] - b[1] ); S.append( min(a[1], b[1]) - max(a[0], b[0]) )
+                Q.append(0); T.append(B[0][0] - b[1]); S.append(min(a[1], b[1]) - max(a[0], b[0]))
                 b = B.pop(0)
             elif A and B:
                 assert 1 > 2, "there are dash columns"
             else:
                 break
-        S.append( min(a[1], b[1]) - max(a[0], b[0]) )
+        S.append(min(a[1], b[1]) - max(a[0], b[0]))
         assert len(T) == len(Q) == len(S) - 1, "(S, T, Q) = (%d, %d, %d)" % tuple(map(len, (S, T, Q)))
 
         tSize = trg_chrom_sizes[trg_comp.chrom]
         qSize = qr_chrom_sizes[qr_comp.chrom]
-        ## UCSC coordinates are 0-based, half-open and e! coordinates are 1-base, closed
-        ## chain_start = epo_start - 1 and chain_end = epo_end
+        # UCSC coordinates are 0-based, half-open and e! coordinates are 1-base, closed
+        # chain_start = epo_start - 1 and chain_end = epo_end
         if qr_comp.strand == '+':
             chain = Chain(0,
                     trg_comp.chrom, tSize, "+",
-                    (trg_comp.start - 1) + tr_start_correction, trg_comp.end  - tr_end_correction,
+                    (trg_comp.start - 1) + tr_start_correction, trg_comp.end - tr_end_correction,
                     qr_comp.chrom, qSize, (qr_comp.strand == trg_comp.strand and '+' or '-'),
-                    (qr_comp.start - 1) + qr_start_correction, qr_comp.end  - qr_end_correction,
+                    (qr_comp.start - 1) + qr_start_correction, qr_comp.end - qr_end_correction,
                     qr_comp.gabid)
         else:
             chain = Chain(0,
@@ -113,10 +113,10 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
 
         # strand correction. in UCSC coordinates this is: size - coord
         if chain.qStrand == '-':
-            chain = chain._replace(qEnd = chain.qSize - chain.qStart,
-                    qStart = chain.qSize - chain.qEnd)
+            chain = chain._replace(qEnd=chain.qSize - chain.qStart,
+                    qStart=chain.qSize - chain.qEnd)
 
-        assert chain.tEnd - chain.tStart  == sum(S) + sum(T), "[%s] %d != %d" % (str(chain),
+        assert chain.tEnd - chain.tStart == sum(S) + sum(T), "[%s] %d != %d" % (str(chain),
                 chain.tEnd - chain.tStart, sum(S) + sum(T))
         assert chain.qEnd - chain.qStart == sum(S) + sum(Q), "[%s] %d != %d" % (str(chain),
                 chain.qEnd - chain.qStart, sum(S) + sum(Q))
@@ -158,15 +158,15 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
             fname = path[:-3]
 
         if fname.endswith('.pkl'):
-            #you asked for the pickled file. I'll give it to you
+            # you asked for the pickled file. I'll give it to you
             log.debug("loading pickled file %s ..." % fname)
-            return cPickle.load( open(fname, "rb") )
+            return cPickle.load(open(fname, "rb"))
         elif os.path.isfile("%s.pkl" % fname):
-            #there is a cached version I can give to you
+            # there is a cached version I can give to you
             log.info("loading pickled file %s.pkl ..." % fname)
             if os.stat(path).st_mtime > os.stat("%s.pkl" % fname).st_mtime:
                 log.critical("*** pickled file %s.pkl is not up to date ***" % (path))
-            return cPickle.load( open("%s.pkl" % fname, "rb") )
+            return cPickle.load(open("%s.pkl" % fname, "rb"))
 
         data = fastLoadChain(path, cls._strfactory)
         if pickle and not os.path.isfile('%s.pkl' % fname):
@@ -174,6 +174,7 @@ class Chain( namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qS
             with open('%s.pkl' % fname, 'wb') as fd:
                 cPickle.dump(data, fd)
         return data
+
 
 class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar')):
     "this format is how alignments are delivered from e!"
@@ -198,12 +199,12 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
         chrom = cmp[2]
         if not chrom.startswith("chr"):
             chrom = "chr%s" % chrom
-        instance =  tuple.__new__(cls,
+        instance = tuple.__new__(cls,
                 (cmp[0], cmp[1],
                     chrom, int(cmp[3]), int(cmp[4]),
-                    {'1' : '+', '-1' : '-'}[cmp[5]], cmp[6]))
+                    {'1': '+', '-1': '-'}[cmp[5]], cmp[6]))
         span = instance.end - instance.start + 1
-        m_num = sum( (t[1] == "M" and [t[0]] or [0])[0] for t in instance.cigar_iter(False) )
+        m_num = sum((t[1] == "M" and [t[0]] or [0])[0] for t in instance.cigar_iter(False))
         if span != m_num:
             log.warning("[{gabid}] {species}.{chrom}:{start}-{end}.".format(**instance._asdict()) + "(span) %d != %d (matches)" % (span, m_num))
             return None
@@ -219,7 +220,7 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
         with open(fname) as fd:
             for el in (cls._strfactory(_) for _ in fd):
                 if el:
-                    data.setdefault(el.gabid, []).append( el )
+                    data.setdefault(el.gabid, []).append(el)
         log.info("parsed %d elements from %s" % (len(data), fname))
         return data
 
@@ -242,8 +243,8 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
             parsed_cigar = parsed_cigar[::-1]
         for _l, t in parsed_cigar:
             # 1M is encoded as M
-            l = (_l and int(_l) or 1) # int(_l) cannot be 0
-            data.append( (l, t) )
+            l = (_l and int(_l) or 1)  # int(_l) cannot be 0
+            data.append((l, t))
         return data
 
     def intervals(self, reverse, thr=0):
@@ -259,22 +260,20 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
 
         :return: list of pairs"""
 
-        d = [(thr,thr)]
+        d = [(thr, thr)]
         dl = 0
         for tup in self.cigar_iter(reverse):
             if tup[1] == "D":
                 dl = tup[0]
             else:
                 s = d[-1][1] + dl
-                d.append( (s, s+tup[0]) )
+                d.append((s, s+tup[0]))
 
         assert d[0] == (thr, thr)
         # assert that nr. of Ms in the interval == sum of produced intervals
-        assert sum( t[0] for t in self.cigar_iter(False) if t[1] == "M" ) == sum( t[1]-t[0] for t in d )
+        assert sum(t[0] for t in self.cigar_iter(False) if t[1] == "M") == sum(t[1]-t[0] for t in d)
 
-        d_sum = sum( t[1]-t[0] for t in d )
+        d_sum = sum(t[1]-t[0] for t in d)
         assert self.end - self.start + 1 == d_sum, "[ (%d, %d) = %d ] != %d" % (self.start, self.end,
                 self.end-self.start+1, d_sum)
-        return d[1:] #clip the (thr, thr) entry
-
-
+        return d[1:]  # clip the (thr, thr) entry

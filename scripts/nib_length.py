@@ -11,5 +11,5 @@ import sys
 
 from bx.seq import nib as seq_nib
 
-nib = seq_nib.NibFile( file( sys.argv[1] ) )
+nib = seq_nib.NibFile(file(sys.argv[1]))
 print(nib.length)

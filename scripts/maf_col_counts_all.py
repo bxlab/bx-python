@@ -25,41 +25,45 @@ counts = {}
 
 nspecies = None
 
-for block in bx.align.maf.Reader( sys.stdin ):
+for block in bx.align.maf.Reader(sys.stdin):
     # Ensure all blocks have the same number of rows
-    if nspecies: assert len( block.components ) == nspecies
-    else: nspecies = len( block.components )
+    if nspecies:
+        assert len(block.components) == nspecies
+    else:
+        nspecies = len(block.components)
     # Increment count for each column
-    for col in zip( * [ iter( comp.text.upper() ) for comp in block.components ] ):
-        col = ''.join( col )
-        try: counts[ col ] += 1
-        except: counts[ col ] = 1
+    for col in zip(* [iter(comp.text.upper()) for comp in block.components]):
+        col = ''.join(col)
+        try:
+            counts[col] += 1
+        except:
+            counts[col] = 1
 
 # counts = [ ( value, key ) for key, value in counts.iteritems() ]
 # counts.sort()
 # counts.reverse()
 
-## for count, col in counts:
+# for count, col in counts:
 ##     print "".join(col), count
 
-options, args = doc_optparse.parse( __doc__ )
+options, args = doc_optparse.parse(__doc__)
 
 wildcard = False
-if options.wildcard: 
+if options.wildcard:
     wildcard = True
     max_wildcard = nspecies - 1
 if options.maxwildcards:
     wildcard = True
-    max_wildcard = int( options.maxwildcards ) 
+    max_wildcard = int(options.maxwildcards)
 
 nucs = "ACGT-"
 if wildcard:
     nucs += "*"
 
-for col in cross_lists( *( [ nucs ] * nspecies ) ):
-    col = ''.join( col )
-    if wildcard and col.count( "*" ) > max_wildcard:
+for col in cross_lists(*([nucs] * nspecies)):
+    col = ''.join(col)
+    if wildcard and col.count("*") > max_wildcard:
         continue
-    if col.count( "-" ) == nspecies:
+    if col.count("-") == nspecies:
         continue
-    print(col, counts.get( col, 0 ))
+    print(col, counts.get(col, 0))

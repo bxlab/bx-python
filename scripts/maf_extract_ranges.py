@@ -26,48 +26,53 @@ def __main__():
 
     # Parse Command Line
 
-    options, args = doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse(__doc__)
 
     try:
-        range_filename = args[ 0 ]
-        refindex = int( args[ 1 ] )
-        if options.mincols: mincols = int( options.mincols )
-        else: mincols = 10
+        range_filename = args[0]
+        refindex = int(args[1])
+        if options.mincols:
+            mincols = int(options.mincols)
+        else:
+            mincols = 10
     except:
         doc_optparse.exit()
 
     # Load Intervals
 
     intersecter = intervals.Intersecter()
-    for line in file( range_filename ):
+    for line in file(range_filename):
         fields = line.split()
-        intersecter.add_interval( intervals.Interval( int( fields[0] ), int( fields[1] ) ) )
+        intersecter.add_interval(intervals.Interval(int(fields[0]), int(fields[1])))
 
     # Start MAF on stdout
 
-    out = bx.align.maf.Writer( sys.stdout )
+    out = bx.align.maf.Writer(sys.stdout)
 
     # Iterate over input MAF
 
-    for maf in bx.align.maf.Reader( sys.stdin ):
-        ref = maf.components[ refindex ]
+    for maf in bx.align.maf.Reader(sys.stdin):
+        ref = maf.components[refindex]
         # Find overlap with reference component
-        intersections = intersecter.find( ref.get_forward_strand_start(), ref.get_forward_strand_end() )
+        intersections = intersecter.find(ref.get_forward_strand_start(), ref.get_forward_strand_end())
         # Keep output maf ordered
         intersections.sort()
         # Write each intersecting block
-        for interval in intersections: 
-            start = max( interval.start, ref.get_forward_strand_start() )
-            end = min( interval.end, ref.get_forward_strand_end() )
-            sliced = maf.slice_by_component( refindex, start, end ) 
+        for interval in intersections:
+            start = max(interval.start, ref.get_forward_strand_start())
+            end = min(interval.end, ref.get_forward_strand_end())
+            sliced = maf.slice_by_component(refindex, start, end)
             good = True
-            for c in sliced.components: 
-                if c.size < 1: 
+            for c in sliced.components:
+                if c.size < 1:
                     good = False
-            if good and sliced.text_size > mincols: out.write( sliced )
-         
+            if good and sliced.text_size > mincols:
+                out.write(sliced)
+
     # Close output MAF
 
     out.close()
 
-if __name__ == "__main__": __main__()
+
+if __name__ == "__main__":
+    __main__()

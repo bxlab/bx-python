@@ -12,10 +12,13 @@ import copy
 import bx.align.lav
 import bx.align.maf
 
+
 def usage(s=None):
 	message = __doc__
-	if (s == None): sys.exit (message)
-	else:           sys.exit ("%s\n%s" % (s,message))
+	if (s == None):
+		sys.exit(message)
+	else:
+		sys.exit("%s\n%s" % (s, message))
 
 
 def main():
@@ -28,7 +31,7 @@ def main():
 	for arg in sys.argv[1:]:
 		if ("=" in arg):
 			ix = arg.find("=")
-			pathSubs.append((arg[:ix],arg[ix+1:]))
+			pathSubs.append((arg[:ix], arg[ix+1:]))
 		elif (arg == "--silent"):
 			silent = True
 		else:
@@ -39,15 +42,15 @@ def main():
 	out = bx.align.maf.Writer(sys.stdout)
 
 	lavsRead = mafsWritten = 0
-	for lavBlock in bx.align.lav.Reader(sys.stdin,path_subs=pathSubs):
+	for lavBlock in bx.align.lav.Reader(sys.stdin, path_subs=pathSubs):
 		lavsRead += 1
 
-		out.write (lavBlock)
+		out.write(lavBlock)
 		mafsWritten += 1
 
 	if (not silent):
-		sys.stderr.write ("%d blocks read, %d written\n" % (lavsRead,mafsWritten))
+		sys.stderr.write("%d blocks read, %d written\n" % (lavsRead, mafsWritten))
 
 
-if __name__ == "__main__": main()
-
+if __name__ == "__main__":
+	main()

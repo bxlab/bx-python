@@ -25,7 +25,7 @@ import math
 import struct
 import sys
 
-from bx.seq.seq import SeqFile,SeqReader
+from bx.seq.seq import SeqFile, SeqReader
 
 from . import _nib
 
@@ -38,13 +38,15 @@ NIB_LENGTH_SIZE = 4
 class NibFile(SeqFile):
 
     def __init__(self, file, revcomp=False, name="", gap=None):
-        SeqFile.__init__(self,file,revcomp,name,gap)
+        SeqFile.__init__(self, file, revcomp, name, gap)
 
         self.byte_order = ">"
         magic = struct.unpack(">L", file.read(NIB_MAGIC_SIZE))[0]
         if (magic != NIB_MAGIC_NUMBER):
-            if magic == NIB_MAGIC_NUMBER_SWAP: self.byte_order = "<"
-            else: raise Exception("Not a NIB file")
+            if magic == NIB_MAGIC_NUMBER_SWAP:
+                self.byte_order = "<"
+            else:
+                raise Exception("Not a NIB file")
         self.magic = magic
         self.length = struct.unpack("%sL" % self.byte_order, file.read(NIB_LENGTH_SIZE))[0]
 
@@ -60,28 +62,29 @@ class NibFile(SeqFile):
         self.file.seek(NIB_MAGIC_SIZE + NIB_LENGTH_SIZE + block_start)
         raw = self.file.read(block_len)
         # Unpack compressed block into a character string and return
-        return _nib.translate_raw_data( raw, start, length  )
+        return _nib.translate_raw_data(raw, start, length)
+
 
 class NibReader(SeqReader):
-    
+
     def __init__(self, file, revcomp=False, name="", gap=None):
-        SeqReader.__init__(self,file,revcomp,name,gap)
+        SeqReader.__init__(self, file, revcomp, name, gap)
 
     def __next__(self):
-        if (self.seqs_read != 0): return  # nib files have just one sequence
-        seq = NibFile(self.file,self.revcomp,self.name,self.gap)
+        if (self.seqs_read != 0):
+            return  # nib files have just one sequence
+        seq = NibFile(self.file, self.revcomp, self.name, self.gap)
         self.seqs_read += 1
         return seq
 
 
 class NibWriter(object):
 
-    def __init__(self,file):
+    def __init__(self, file):
         self.file = file
 
-    def write(self,seq):
+    def write(self, seq):
         assert (False), "NibWriter.write() is not implemented yet"
 
     def close(self):
         self.file.close()
-

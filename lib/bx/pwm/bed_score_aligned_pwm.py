@@ -15,8 +15,10 @@ from bx.pwm.pwm_score_maf import MafBlockScorer
 from . import position_weight_matrix as pwmx
 import Numeric
 
+
 def isnan(x):
-    return not x==x
+    return not x == x
+
 
 def main():
 
@@ -26,20 +28,22 @@ def main():
 
     # read in intervals
     regions = {}
-    for line in open( sys.argv[1] ):
-        if line.startswith('#'): continue
+    for line in open(sys.argv[1]):
+        if line.startswith('#'):
+            continue
         fields = line.strip().split()
-        chrom, start, end = fields[0], int( fields[1] ), int( fields[2] )
+        chrom, start, end = fields[0], int(fields[1]), int(fields[2])
         try:
             name = fields[3]
         except:
             name = None
-        if chrom not in regions: regions[chrom] = intervals.Intersecter()
-        regions[chrom].add( start, end, name )
+        if chrom not in regions:
+            regions[chrom] = intervals.Intersecter()
+        regions[chrom].add(start, end, name)
 
     pwm = {}
-    for wm in pwmx.Reader(open( sys.argv[4] )):
-        pwm[ wm.id] = wm
+    for wm in pwmx.Reader(open(sys.argv[4])):
+        pwm[wm.id] = wm
         print(wm.id, len(wm), file=sys.stderr)
 
     inmaf = open(sys.argv[2])
@@ -48,7 +52,7 @@ def main():
     species = []
 
     for sp in sys.argv[3].split(','):
-        species.append( sp )
+        species.append(sp)
 
     for maf in align_maf.Reader(inmaf):
         mafchrom = maf.components[0].src.split('.')[1]
@@ -57,34 +61,36 @@ def main():
         reftext = maf.components[0].text
 
         # maf block scores for each matrix
-        for scoremax,width,headers in MafBlockScorer(pwm,species, maf):
+        for scoremax, width, headers in MafBlockScorer(pwm, species, maf):
             #print >>sys.stderr,headers
             blocklength = width
-            mafsrc,mafstart,mafend = headers[0]
+            mafsrc, mafstart, mafend = headers[0]
             mafchrom = mafsrc.split('.')[1]
 
             # lists of scores for each position in scoremax
-            for mx_name,mx in scoremax.items():
+            for mx_name, mx in scoremax.items():
                 #print >>sys.stderr, mx_name, len(pwm[mx_name])
 
                 for offset in range(blocklength):
-    
+
                     # scan all species with threshold
                     for i in range(len(species)):
                         if mx[i][offset] > threshold:
-                            refstart = mafstart + offset - reftext.count('-',0,offset)
+                            refstart = mafstart + offset - reftext.count('-', 0, offset)
                             refend = refstart + len(pwm[mx_name])
 
-                            data = " ".join([ "%.2f" % mx[x][offset] for x in range(len(species))])
+                            data = " ".join(["%.2f" % mx[x][offset] for x in range(len(species))])
                             # quote the motif
-                            r = regions[mafchrom].find( refstart, refend )
-                            if mafchrom in regions and len( r ) > 0:
+                            r = regions[mafchrom].find(refstart, refend)
+                            if mafchrom in regions and len(r) > 0:
                                 region_label = r[0].value
                             else:
                                 #region_label = 0
                                 continue
-                            v_name = mx_name.replace(' ','_')
-                            print(mafchrom,refstart,refend,region_label,v_name,data)
+                            v_name = mx_name.replace(' ', '_')
+                            print(mafchrom, refstart, refend, region_label, v_name, data)
                             break
 
-if __name__ == '__main__': main()
+
+if __name__ == '__main__':
+    main()

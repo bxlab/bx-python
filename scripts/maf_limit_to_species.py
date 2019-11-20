@@ -16,25 +16,27 @@ import sys
 
 from itertools import *
 
+
 def main():
 
-    species = sys.argv[1].split( ',' )
+    species = sys.argv[1].split(',')
 
-    maf_reader = bx.align.maf.Reader( sys.stdin )
-    maf_writer = bx.align.maf.Writer( sys.stdout )
+    maf_reader = bx.align.maf.Reader(sys.stdin)
+    maf_writer = bx.align.maf.Writer(sys.stdout)
 
-    for m in maf_reader:        
-        new_components = []    
+    for m in maf_reader:
+        new_components = []
         for comp in m.components:
-            if comp.src.split( '.' )[0] in species:
-                new_components.append( comp )
+            if comp.src.split('.')[0] in species:
+                new_components.append(comp)
         m.components = new_components
         m.remove_all_gap_columns()
-        if len( m.components ) > 1:
-            maf_writer.write( m )
-        
+        if len(m.components) > 1:
+            maf_writer.write(m)
+
     maf_reader.close()
     maf_writer.close()
 
-if __name__ == "__main__": 
+
+if __name__ == "__main__":
     main()

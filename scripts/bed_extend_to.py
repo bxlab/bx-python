@@ -12,12 +12,12 @@ import sys
 
 from bx.intervals.io import GenomicIntervalReader
 
-length = int( sys.argv[1] )
+length = int(sys.argv[1])
 chrom_len = None
-if len( sys.argv ) > 2:
-    chrom_len = dict( ( fields[0], int( fields[1] ) ) for fields in map( str.split, open( sys.argv[2] ) ) )
+if len(sys.argv) > 2:
+    chrom_len = dict((fields[0], int(fields[1])) for fields in map(str.split, open(sys.argv[2])))
 
-for interval in GenomicIntervalReader( sys.stdin ):
+for interval in GenomicIntervalReader(sys.stdin):
     if interval.end - interval.start < length:
         start = interval.start
         end = interval.end
@@ -26,7 +26,7 @@ for interval in GenomicIntervalReader( sys.stdin ):
             end = start + length
         else:
             start = end - length
-        # Trim 
+        # Trim
         if start < 0:
             start = 0
         if chrom_len and end > chrom_len[interval.chrom]:

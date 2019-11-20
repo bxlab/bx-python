@@ -18,14 +18,14 @@ from bx.bitset_builders import *
 
 bed_filenames = sys.argv[1:]
 if bed_filenames:
-    input = chain( * ( open(_) for _ in bed_filenames ) )
+    input = chain(* (open(_) for _ in bed_filenames))
 else:
     input = sys.stdin
 
-bitsets = binned_bitsets_from_file( input )
+bitsets = binned_bitsets_from_file(input)
 
 total = 0
 for chrom in bitsets:
-    total += bitsets[chrom].count_range( 0, bitsets[chrom].size )
+    total += bitsets[chrom].count_range(0, bitsets[chrom].size)
 
 print(total)

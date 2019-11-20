@@ -20,16 +20,20 @@ counts = {}
 
 nspecies = None
 
-for block in bx.align.maf.Reader( sys.stdin ):
+for block in bx.align.maf.Reader(sys.stdin):
     # Ensure all blocks have the same number of rows
-    if nspecies: assert len( block.components ) == nspecies
-    else: nspecies = len( block.components )
+    if nspecies:
+        assert len(block.components) == nspecies
+    else:
+        nspecies = len(block.components)
     # Increment count for each column
-    for col in zip( * [ iter( comp.text.upper() ) for comp in block.components ] ):
-        try: counts[ col ] += 1
-        except: counts[ col ] = 1
+    for col in zip(* [iter(comp.text.upper()) for comp in block.components]):
+        try:
+            counts[col] += 1
+        except:
+            counts[col] = 1
 
-counts = [ ( value, key ) for key, value in counts.items() ]
+counts = [(value, key) for key, value in counts.items()]
 counts.sort()
 counts.reverse()
 

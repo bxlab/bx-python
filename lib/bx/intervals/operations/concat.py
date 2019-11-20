@@ -18,6 +18,7 @@ from warnings import warn
 from bx.intervals.io import *
 from bx.intervals.operations import *
 
+
 def concat(readers, comments=True, header=True, sameformat=True):
     # Save columns from the first input
     chrom_col = readers[0].chrom_col
@@ -30,7 +31,8 @@ def concat(readers, comments=True, header=True, sameformat=True):
     for intervals in readers:
         for interval in intervals:
             if isinstance(interval, GenomicInterval):
-                if not nfields: nfields = interval.nfields
+                if not nfields:
+                    nfields = interval.nfields
                 out_interval = interval.copy()
                 if sameformat or firstdataset:
                     # everything except the first input has to be
@@ -46,16 +48,17 @@ def concat(readers, comments=True, header=True, sameformat=True):
                     start = out_interval.start
                     end = out_interval.end
                     strand = out_interval.strand
-                    out_interval.fields = ["." for col in range(nfields)]  
+                    out_interval.fields = ["." for col in range(nfields)]
                     out_interval.fields[chrom_col] = chrom
                     out_interval.fields[start_col] = str(start)
                     out_interval.fields[end_col] = str(end)
                     # Strand is optional, might not exist in output
-                    if strand_col < len( out_interval.fields ):
+                    if strand_col < len(out_interval.fields):
                         out_interval.fields[strand_col] = strand
                     yield out_interval
             elif isinstance(interval, Header) and header:
                 yield interval
             elif isinstance(interval, Comment) and comments:
                 yield interval
-        if output and firstdataset: firstdataset = False
+        if output and firstdataset:
+            firstdataset = False

@@ -59,46 +59,48 @@ s orange 19 61 - 100 AGGGATGCGTT--TCACTGCTATCGTCGTA----TTCAGACTTCG-CTATCT------G
 
 """
 
+
 def test_reader():
 
-    reader = maf.Reader( StringIO( test_maf ) )
-    assert reader.attributes["version"] == "1" 
-    assert reader.attributes["scoring"] == "humor.v4" 
+    reader = maf.Reader(StringIO(test_maf))
+    assert reader.attributes["version"] == "1"
+    assert reader.attributes["scoring"] == "humor.v4"
 
     a = next(reader)
     assert a.score == 0.128
-    assert len( a.components ) == 3
-    check_component( a.components[0], "human_hoxa", 100, 8,  "+", 100257, "ACA-TTACT" )
-    check_component( a.components[1], "horse_hoxa", 120, 9, "-",  98892, "ACAATTGCT" )
-    check_component( a.components[2], "fugu_hoxa",    88, 7,  "+",  90788, "ACA--TGCT" )
-    
+    assert len(a.components) == 3
+    check_component(a.components[0], "human_hoxa", 100, 8, "+", 100257, "ACA-TTACT")
+    check_component(a.components[1], "horse_hoxa", 120, 9, "-", 98892, "ACAATTGCT")
+    check_component(a.components[2], "fugu_hoxa", 88, 7, "+", 90788, "ACA--TGCT")
+
     a = next(reader)
     assert a.score == 0.071
-    assert len( a.components ) == 3
-    check_component( a.components[0], "human_unc", 9077, 8, "+", 10998, "ACAGTATT" )
-    check_component( a.components[1], "horse_unc", 4555, 6, "-",  5099, "ACA--ATT" )
-    check_component( a.components[2], "fugu_unc",   4000, 4, "+",  4038, "AC----TT" )
+    assert len(a.components) == 3
+    check_component(a.components[0], "human_unc", 9077, 8, "+", 10998, "ACAGTATT")
+    check_component(a.components[1], "horse_unc", 4555, 6, "-", 5099, "ACA--ATT")
+    check_component(a.components[2], "fugu_unc", 4000, 4, "+", 4038, "AC----TT")
 
     a = next(reader)
     assert a is None
 
     reader.close()
 
+
 def test_writer():
 
     val = StringIO()
-    writer = maf.Writer( val, { 'scoring':'foobar' } )
-    
+    writer = maf.Writer(val, {'scoring': 'foobar'})
+
     a = align.Alignment()
     a.score = 7009
 
-    a.components.append( align.Component( src="human_hoxa", start=100, size=9,  strand="+", src_size=1000257, text="ACA-TTACT" ) )
-    a.components.append( align.Component( src="horse_hoxa", start=120, size=10, strand="-",   src_size=98892, text="ACAATTGCT" ) )
+    a.components.append(align.Component(src="human_hoxa", start=100, size=9, strand="+", src_size=1000257, text="ACA-TTACT"))
+    a.components.append(align.Component(src="horse_hoxa", start=120, size=10, strand="-", src_size=98892, text="ACAATTGCT"))
 
-    check_component( a.components[0], "human_hoxa", 100, 9,  "+", 1000257, "ACA-TTACT" )
-    check_component( a.components[1], "horse_hoxa", 120, 10, "-",   98892, "ACAATTGCT" )
+    check_component(a.components[0], "human_hoxa", 100, 9, "+", 1000257, "ACA-TTACT")
+    check_component(a.components[1], "horse_hoxa", 120, 10, "-", 98892, "ACAATTGCT")
 
-    writer.write( a )
+    writer.write(a)
 
     assert val.getvalue() == """##maf version=1 scoring=foobar
 a score=7009
@@ -108,55 +110,55 @@ s horse_hoxa 120 10 -   98892 ACAATTGCT
 """
 
 
-
 def test_slice():
 
     a = align.Alignment()
     a.score = "7009"
-    a.components.append( align.Component( src="human_hoxa", start=100, size=9,  strand="+", src_size=100257, text="ACA-TTACT" ) )
-    a.components.append( align.Component( src="horse_hoxa", start=120, size=10, strand="-",   src_size=98892, text="ACAATTGCT" ) )
+    a.components.append(align.Component(src="human_hoxa", start=100, size=9, strand="+", src_size=100257, text="ACA-TTACT"))
+    a.components.append(align.Component(src="horse_hoxa", start=120, size=10, strand="-", src_size=98892, text="ACAATTGCT"))
 
-    b = a.slice_by_component( 0, 101, 105 )
+    b = a.slice_by_component(0, 101, 105)
 
-    check_component( b.components[0], src="human_hoxa", start=101, size=4, strand="+", src_size=100257, text="CA-TT" )
-    check_component( b.components[1], src="horse_hoxa", start=121, size=5, strand="-", src_size=98892, text ="CAATT" )
+    check_component(b.components[0], src="human_hoxa", start=101, size=4, strand="+", src_size=100257, text="CA-TT")
+    check_component(b.components[1], src="horse_hoxa", start=121, size=5, strand="-", src_size=98892, text="CAATT")
 
 	# test slicing with + strand src
-    reader = maf.Reader( StringIO( test_maf_3 ) )
+    reader = maf.Reader(StringIO(test_maf_3))
     a = next(reader)
-    b = a.slice_by_component( 0, 40, 62 )
-    check_component( b.components[0], src="apple",  start=40, size=22, strand="+", src_size=110, text="TTCGTCACT------GTCGTAAGGGTTC" )
-    check_component( b.components[1], src="orange", start=28, size=22, strand="-", src_size=100, text="TT--TCACTGCTATCGTCGTA----TTC" )
+    b = a.slice_by_component(0, 40, 62)
+    check_component(b.components[0], src="apple", start=40, size=22, strand="+", src_size=110, text="TTCGTCACT------GTCGTAAGGGTTC")
+    check_component(b.components[1], src="orange", start=28, size=22, strand="-", src_size=100, text="TT--TCACTGCTATCGTCGTA----TTC")
 
 	# test slicing with - strand src
-    b = a.slice_by_component( 1, 30, 68 )
-    check_component( b.components[0], src="apple",  start=46, size=41, strand="+", src_size=110, text="ACT------GTCGTAAGGGTTCAGA--CTGTCTATGTATACACAAGTTG" )
-    check_component( b.components[1], src="orange", start=32, size=38, strand="-", src_size=100, text="ACTGCTATCGTCGTA----TTCAGACTTCG-CTATCT------GAGTTG" )
+    b = a.slice_by_component(1, 30, 68)
+    check_component(b.components[0], src="apple", start=46, size=41, strand="+", src_size=110, text="ACT------GTCGTAAGGGTTCAGA--CTGTCTATGTATACACAAGTTG")
+    check_component(b.components[1], src="orange", start=32, size=38, strand="-", src_size=100, text="ACTGCTATCGTCGTA----TTCAGACTTCG-CTATCT------GAGTTG")
 
     a = next(reader)
     assert a is None
 
 
 def test_with_synteny():
-    reader = maf.Reader( StringIO( test_maf_2 ), parse_e_rows=True )
-    
-    a = next(reader)
-    check_component( a.components[0], "hg17.chr1", 2005, 34, "+", 245522847, "TGTAACTTAATACCACAACCAGGCATAGGGG--AAA-------------")
-    check_component( a.components[1], "rheMac2.chr11", 9625228, 31, "+", 134511895, "TGTAACCTCTTACTGCAACAAGGCACAGGGG------------------")
-    print(a.components[1].synteny_left)
-    assert a.components[1].synteny_left == ( maf.MAF_CONTIG_STATUS, 0 )
-    assert a.components[1].synteny_right == ( maf.MAF_INSERT_STATUS, 1678 )
+    reader = maf.Reader(StringIO(test_maf_2), parse_e_rows=True)
 
-    rat = a.get_component_by_src_start( "rn3." )
-    check_component( rat, "rn3.chr4", 29161032, 1524, "-", 187371129, None )
+    a = next(reader)
+    check_component(a.components[0], "hg17.chr1", 2005, 34, "+", 245522847, "TGTAACTTAATACCACAACCAGGCATAGGGG--AAA-------------")
+    check_component(a.components[1], "rheMac2.chr11", 9625228, 31, "+", 134511895, "TGTAACCTCTTACTGCAACAAGGCACAGGGG------------------")
+    print(a.components[1].synteny_left)
+    assert a.components[1].synteny_left == (maf.MAF_CONTIG_STATUS, 0)
+    assert a.components[1].synteny_right == (maf.MAF_INSERT_STATUS, 1678)
+
+    rat = a.get_component_by_src_start("rn3.")
+    check_component(rat, "rn3.chr4", 29161032, 1524, "-", 187371129, None)
     assert rat.synteny_empty == maf.MAF_INSERT_STATUS
-    
+
+
 def test_write_with_synteny():
-    reader = maf.Reader( StringIO( test_maf_2 ), parse_e_rows=True )
+    reader = maf.Reader(StringIO(test_maf_2), parse_e_rows=True)
     a = next(reader)
     val = StringIO()
-    writer = maf.Writer( val, { 'scoring':'foobar' } )
-    writer.write( a )
+    writer = maf.Writer(val, {'scoring': 'foobar'})
+    writer.write(a)
     actual = val.getvalue()
     expected = """##maf version=1 scoring=foobar
 a score=3656.0
@@ -183,10 +185,11 @@ e mm7.chr6                28091695 3290 - 149646834 I
     print(expected)
     assert actual == expected
 
-def check_component( c, src, start, size, strand, src_size, text ):
+
+def check_component(c, src, start, size, strand, src_size, text):
     assert c.src == src
-    assert c.start == start 
-    assert c.size == size 
-    assert c.strand == strand 
-    assert c.src_size == src_size 
+    assert c.start == start
+    assert c.size == size
+    assert c.strand == strand
+    assert c.src_size == src_size
     assert c.text == text

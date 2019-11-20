@@ -33,55 +33,64 @@ import optparse, re, sys, traceback
 
 USAGE = re.compile(r'(?s)\s*usage: (.*?)(\n[ \t]*\n|$)')
 
-def nonzero(self): # will become the nonzero method of optparse.Values       
+
+def nonzero(self):  # will become the nonzero method of optparse.Values
     "True if options were given"
     for v in self.__dict__.values():
-        if v is not None: return True
+        if v is not None:
+            return True
     return False
 
-optparse.Values.__nonzero__ = nonzero # dynamically fix optparse.Values
 
-class ParsingError(Exception): pass
+optparse.Values.__nonzero__ = nonzero  # dynamically fix optparse.Values
 
-optionstring=""
+
+class ParsingError(Exception):
+    pass
+
+
+optionstring = ""
+
 
 def exception(msg=""):
     print("Exception while parsing command line:", file=sys.stderr)
     print(traceback.format_exc(), file=sys.stderr)
-    exit( msg )
+    exit(msg)
+
 
 def exit(msg=""):
-    raise SystemExit(msg or optionstring.replace("%prog",sys.argv[0]))
+    raise SystemExit(msg or optionstring.replace("%prog", sys.argv[0]))
+
 
 def parse(docstring, arglist=None):
     global optionstring
     optionstring = docstring
     match = USAGE.search(optionstring)
-    if not match: raise ParsingError("Cannot find the option string")
+    if not match:
+        raise ParsingError("Cannot find the option string")
     optlines = match.group(1).splitlines()
     try:
-        p = optparse.OptionParser(optlines[0],conflict_handler="resolve")
+        p = optparse.OptionParser(optlines[0], conflict_handler="resolve")
         for line in optlines[1:]:
-            opt, help=line.split(':')[:2]
+            opt, help = line.split(':')[:2]
             # Make both short and long optional (but at least one)
-            ## Old: short,long=opt.split(',')[:2]
+            # Old: short,long=opt.split(',')[:2]
             opt_strings = []
             action = "store_true"
-            for k in opt.split( ', ' ):
+            for k in opt.split(', '):
                 k = k.strip()
-                if k.startswith( "--" ) and "=" in k:
+                if k.startswith("--") and "=" in k:
                     action = "store"
-                    k = k.split( "=" )[0]
-                opt_strings.append( k )
-            p.add_option( *opt_strings, **dict( action = action, help = help.strip() ) )
-        helpstring = docstring.replace("%prog",sys.argv[0])
+                    k = k.split("=")[0]
+                opt_strings.append(k)
+            p.add_option(*opt_strings, **dict(action=action, help=help.strip()))
+        helpstring = docstring.replace("%prog", sys.argv[0])
         # p.add_option( "-h", "--help", action="callback", callback=help_callback, callback_args=(helpstring,) )
-    except (IndexError,ValueError):
+    except (IndexError, ValueError):
         raise ParsingError("Cannot parse the option string correctly")
     return p.parse_args(arglist)
 
-def help_callback( option, opt, value, parser, help ):
+
+def help_callback(option, opt, value, parser, help):
     print(help, file=sys.stderr)
-    sys.exit( 1 )
-    
-    
+    sys.exit(1)

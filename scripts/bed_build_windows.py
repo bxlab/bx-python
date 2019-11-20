@@ -21,24 +21,26 @@ from bx.bitset_builders import binned_bitsets_from_file
 
 
 def main():
-    region_fname, exclude_fname, window_size = sys.argv[1], sys.argv[2], int( sys.argv[3] ) 
-    exclude_bitsets = binned_bitsets_from_file( open( exclude_fname ) )
-    for line in open( region_fname ):
+    region_fname, exclude_fname, window_size = sys.argv[1], sys.argv[2], int(sys.argv[3])
+    exclude_bitsets = binned_bitsets_from_file(open(exclude_fname))
+    for line in open(region_fname):
         fields = line.split()
-        chr, start, end = fields[0], 0, int( fields[1] )
+        chr, start, end = fields[0], 0, int(fields[1])
         if chr not in exclude_bitsets:
-            do_windows( chr, start, end, window_size )
+            do_windows(chr, start, end, window_size)
         else:
             bits = exclude_bitsets[chr]
             assert end < bits.size
             e = 0
             while 1:
-                s = bits.next_clear( e )
-                if s > end: break
-                e = bits.next_set( s )
-                do_windows( chr, s, min( e, end ), window_size )
+                s = bits.next_clear(e)
+                if s > end:
+                    break
+                e = bits.next_set(s)
+                do_windows(chr, s, min(e, end), window_size)
 
-def do_windows( chr, start, end, window_size ):
+
+def do_windows(chr, start, end, window_size):
     length = end - start
     window_count = length // window_size
     if window_count == 0:
@@ -48,10 +50,11 @@ def do_windows( chr, start, end, window_size ):
     ## skip_amounts = [0] * ( window_count + 1 )
     ## for i in range( 0, lost ): skip_amounts[ random.randrange( 0, window_count + 1 ) ] += 1
     s = 0
-    for i in range( 0, window_count ):
+    for i in range(0, window_count):
         s += skip_amount
         print(chr, start + s, start + s + window_size)
         s += window_size
-        
+
+
 if __name__ == "__main__":
     main()

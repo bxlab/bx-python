@@ -15,26 +15,29 @@ import copy
 import bx.align.maf
 import bx.align.axt
 
+
 def usage(s=None):
 	message = """
 maf_to_axt primary_species secondary_species < maf_file > axt_file
 """
-	if (s == None): sys.exit (message)
-	else:           sys.exit ("%s\n%s" % (s,message))
+	if (s == None):
+		sys.exit(message)
+	else:
+		sys.exit("%s\n%s" % (s, message))
 
 
 def main():
 
 	# parse the command line
 
-	primary   = None
+	primary = None
 	secondary = None
 
 	args = sys.argv[1:]
 	while (len(args) > 0):
 		arg = args.pop(0)
 		val = None
-		fields = arg.split("=",1)
+		fields = arg.split("=", 1)
 		if (len(fields) == 2):
 			arg = fields[0]
 			val = fields[1]
@@ -64,37 +67,40 @@ def main():
 		axtsRead += 1
 
 		p = mafBlock.get_component_by_src_start(primary)
-		if (p == None): continue
+		if (p == None):
+			continue
 		s = mafBlock.get_component_by_src_start(secondary)
-		if (s == None): continue
+		if (s == None):
+			continue
 
-		axtBlock = bx.align.Alignment (mafBlock.score, mafBlock.attributes)
-		axtBlock.add_component (clone_component(p))
-		axtBlock.add_component (clone_component(s))
+		axtBlock = bx.align.Alignment(mafBlock.score, mafBlock.attributes)
+		axtBlock.add_component(clone_component(p))
+		axtBlock.add_component(clone_component(s))
 
-		remove_mutual_gaps (axtBlock)
+		remove_mutual_gaps(axtBlock)
 		if (axtBlock.text_size == 0):
 			continue
 
-		out.write (axtBlock)
+		out.write(axtBlock)
 		mafsWritten += 1
 
-	sys.stderr.write ("%d blocks read, %d written\n" % (axtsRead,mafsWritten))
+	sys.stderr.write("%d blocks read, %d written\n" % (axtsRead, mafsWritten))
 
 
 def clone_component(c):
-	return bx.align.Component (c.src, c.start, c.size, c.strand, c.src_size, \
+	return bx.align.Component(c.src, c.start, c.size, c.strand, c.src_size,
 	                           copy.copy(c.text))
 
 
-def remove_mutual_gaps (block):
+def remove_mutual_gaps(block):
 
-	if (len(block.components) == 0): return
+	if (len(block.components) == 0):
+		return
 
 	nonGaps = []
 
 	for c in block.components:
-		for ix in range(0,block.text_size):
+		for ix in range(0, block.text_size):
 			if (ix not in nonGaps) and (c.text[ix] != "-"):
 				nonGaps.append(ix)
 
@@ -106,5 +112,5 @@ def remove_mutual_gaps (block):
 	block.text_size = len(nonGaps)
 
 
-if __name__ == "__main__": main()
-
+if __name__ == "__main__":
+	main()

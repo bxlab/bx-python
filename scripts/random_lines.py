@@ -11,7 +11,7 @@ from __future__ import print_function
 import random
 import sys
 
-ndesired = int( sys.argv[1] )
+ndesired = int(sys.argv[1])
 
-for line in random.sample( sys.stdin.readlines(), ndesired ):
+for line in random.sample(sys.stdin.readlines(), ndesired):
     print(line, end=' ')

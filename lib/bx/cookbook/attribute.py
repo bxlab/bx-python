@@ -59,10 +59,12 @@ __created__ = '10/21/02'
 
 import sys
 
+
 def mangle(classname, attrname):
     """mangles name according to python name-mangling 
        conventions for private variables"""
     return "_%s__%s" % (classname, attrname)
+
 
 def class_space(classlevel=3):
     "returns the calling class' name and dictionary"
@@ -72,16 +74,22 @@ def class_space(classlevel=3):
     return classname, classdict
 
 # convenience function
+
+
 def readable(**kwds):
     "returns one read-only property for each (key,value) pair in kwds"
     return _attribute(permission='r', **kwds)
 
 # convenience function
+
+
 def writable(**kwds):
     "returns one write-only property for each (key,value) pair in kwds"
-    return _attribute(permission='w', **kwds) 
+    return _attribute(permission='w', **kwds)
 
 # needed because of the way class_space is resolved in _attribute
+
+
 def attribute(permission='rwd', **kwds):
     """returns one property for each (key,value) pair in kwds;
        each property provides the specified level of access(permission):
@@ -89,7 +97,9 @@ def attribute(permission='rwd', **kwds):
     """
     return _attribute(permission, **kwds)
 
-# based on code by Guido van Rossum, comp.lang.python 2001-07-31        
+# based on code by Guido van Rossum, comp.lang.python 2001-07-31
+
+
 def _attribute(permission='rwd', **kwds):
     """returns one property for each (key,value) pair in kwds;
        each property provides the specified level of access(permission):
@@ -102,20 +112,23 @@ def _attribute(permission='rwd', **kwds):
         if 'r' in permission:
             def fget(self):
                 value = default
-                try: value = getattr(self, attrname)
-                except AttributeError: setattr(self, attrname, default)
+                try:
+                    value = getattr(self, attrname)
+                except AttributeError:
+                    setattr(self, attrname, default)
                 return value
         if 'w' in permission:
             def fset(self, value):
                 setattr(self, attrname, value)
         if 'd' in permission:
-            def fdel(self): 
-                try: delattr(self, attrname)
-                except AttributeError: pass
-                # calling fget can restore this attribute, so remove property 
+            def fdel(self):
+                try:
+                    delattr(self, attrname)
+                except AttributeError:
+                    pass
+                # calling fget can restore this attribute, so remove property
                 delattr(self.__class__, propname)
         return property(fget=fget, fset=fset, fdel=fdel, doc=doc)
-        
+
     for attrname, default in kwds.items():
         classdict[attrname] = _property(attrname, default)
-

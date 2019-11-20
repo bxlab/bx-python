@@ -22,26 +22,29 @@ try:
     from Cheetah.Template import Template
 except:
     print("This script requires the Cheetah template modules", file=sys.stderr)
-    sys.exit( -1 )
+    sys.exit(-1)
+
 
 def main():
 
     # Parse command line arguments
-    options, args = doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse(__doc__)
 
     try:
-        template = Template( args[0] )
+        template = Template(args[0])
         format = options.format
-        if not format: format = "maf"
+        if not format:
+            format = "maf"
     except:
         doc_optparse.exception()
 
-    reader = align.get_reader( format, sys.stdin ) 
+    reader = align.get_reader(format, sys.stdin)
 
-    for a in reader: 
+    for a in reader:
         template.a = a
         template.c = a.components
         print(template)
 
-if __name__ == "__main__": 
+
+if __name__ == "__main__":
 	main()

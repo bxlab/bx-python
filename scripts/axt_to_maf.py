@@ -25,10 +25,13 @@ import copy
 import bx.align.axt
 import bx.align.maf
 
+
 def usage(s=None):
 	message = __doc__
-	if (s == None): sys.exit (message)
-	else:           sys.exit ("%s\n%s" % (s,message))
+	if (s == None):
+		sys.exit(message)
+	else:
+		sys.exit("%s\n%s" % (s, message))
 
 
 def main():
@@ -38,9 +41,9 @@ def main():
 	# parse the command line
 	##########
 
-	primary   = None
+	primary = None
 	secondary = None
-	silent    = False
+	silent = False
 
 	# pick off options
 
@@ -48,7 +51,7 @@ def main():
 	while (len(args) > 0):
 		arg = args.pop(0)
 		val = None
-		fields = arg.split("=",1)
+		fields = arg.split("=", 1)
 		if (len(fields) == 2):
 			arg = fields[0]
 			val = fields[1]
@@ -87,8 +90,8 @@ def main():
 	##########
 
 	speciesToLengths = {}
-	speciesToLengths[primary]   = read_lengths (primaryLengths)
-	speciesToLengths[secondary] = read_lengths (secondaryLengths)
+	speciesToLengths[primary] = read_lengths(primaryLengths)
+	speciesToLengths[secondary] = read_lengths(secondaryLengths)
 
 	##########
 	# read the alignments
@@ -98,64 +101,68 @@ def main():
 
 	axtsRead = 0
 	axtsWritten = 0
-	for axtBlock in bx.align.axt.Reader(sys.stdin,\
-			species_to_lengths = speciesToLengths,
-			species1           = primary,
-			species2           = secondary):
+	for axtBlock in bx.align.axt.Reader(sys.stdin,
+			species_to_lengths=speciesToLengths,
+			species1=primary,
+			species2=secondary):
 		axtsRead += 1
 
 		p = axtBlock.get_component_by_src_start(primary)
-		if (p == None): continue
+		if (p == None):
+			continue
 		s = axtBlock.get_component_by_src_start(secondary)
-		if (s == None): continue
+		if (s == None):
+			continue
 
-		mafBlock = bx.align.Alignment (axtBlock.score, axtBlock.attributes)
-		mafBlock.add_component (clone_component(p))
-		mafBlock.add_component (clone_component(s))
+		mafBlock = bx.align.Alignment(axtBlock.score, axtBlock.attributes)
+		mafBlock.add_component(clone_component(p))
+		mafBlock.add_component(clone_component(s))
 
-		out.write (mafBlock)
+		out.write(mafBlock)
 		axtsWritten += 1
 
 	if (not silent):
-		sys.stderr.write ("%d blocks read, %d written\n" % (axtsRead,axtsWritten))
+		sys.stderr.write("%d blocks read, %d written\n" % (axtsRead, axtsWritten))
 
 
 def clone_component(c):
-	return bx.align.Component (c.src, c.start, c.size, c.strand, c.src_size, \
+	return bx.align.Component(c.src, c.start, c.size, c.strand, c.src_size,
 	                           copy.copy(c.text))
 
 
-def read_lengths (fileName):
+def read_lengths(fileName):
 
 	chromToLength = {}
 
-	f = file (fileName, "r")
+	f = file(fileName, "r")
 
-	for lineNumber,line in enumerate(f):
+	for lineNumber, line in enumerate(f):
 		line = line.strip()
-		if (line == ""): continue
-		if (line.startswith("#")): continue
+		if (line == ""):
+			continue
+		if (line.startswith("#")):
+			continue
 
-		fields = line.split ()
+		fields = line.split()
 		if (len(fields) != 2):
-			raise ValueError("bad lengths line (%s:%d): %s" % (fileName,lineNumber,line))
+			raise ValueError("bad lengths line (%s:%d): %s" % (fileName, lineNumber, line))
 
 		chrom = fields[0]
 		try:
 			length = int(fields[1])
 		except:
-			raise ValueError("bad lengths line (%s:%d): %s" % (fileName,lineNumber,line))
+			raise ValueError("bad lengths line (%s:%d): %s" % (fileName, lineNumber, line))
 
 		if (chrom in chromToLength):
-			raise ValueError("%s appears more than once (%s:%d): %s" \
-			    % (chrom,fileName,lineNumber))
+			raise ValueError("%s appears more than once (%s:%d): %s"
+			    % (chrom, fileName, lineNumber))
 
 		chromToLength[chrom] = length
 
-	f.close ()
+	f.close()
 
 	return chromToLength
 
 
-if __name__ == "__main__": main()
-
+if __name__ == "__main__":
+	main()

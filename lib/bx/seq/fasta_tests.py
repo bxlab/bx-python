@@ -20,15 +20,17 @@ valid_seq = "TGGAGGCATTTGTGATTCAATAGATGCAGAAAGAAACCTTCCTAGAGCTG" \
           + "tgttctttgttaagatgctacataagcccaaattctaaccacccctttga" \
           + "gttacccatcatcaagtttctcccatgtg"
 
-valid_seq_len = len( valid_seq )
+valid_seq_len = len(valid_seq)
 
-class FASTATestCase( unittest.TestCase ):
 
-    def test_get( self ):
-        fastafile = fasta.FastaFile( open(test_fa, "rb" ) )
+class FASTATestCase(unittest.TestCase):
+
+    def test_get(self):
+        fastafile = fasta.FastaFile(open(test_fa, "rb"))
         check_get(fastafile, 0, valid_seq_len)
         check_get(fastafile, 0, 40)
         check_get(fastafile, valid_seq_len - 40, 40)
 
-def check_get( fastafile, start, len ):
-    assert fastafile.get( start, len ) == valid_seq[start:start+len]
+
+def check_get(fastafile, start, len):
+    assert fastafile.get(start, len) == valid_seq[start:start+len]

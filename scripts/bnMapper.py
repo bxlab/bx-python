@@ -24,12 +24,13 @@ elem_t = np.dtype([('chrom', np.str_, 30), ('start', np.int64), ('end', np.int64
 narrowPeak_t = np.dtype([('chrom', np.str_, 30), ('start', np.int64), ('end', np.int64), ('id', np.str_, 100),
                          ('score', np.int64), ('strand', np.str_, 1), ('signalValue', np.float),
                          ('pValue', np.float), ('qValue', np.float), ('peak', np.int64)])
-LOG_LEVELS = {"info" : logging.INFO, "debug" : logging.DEBUG, "silent" : logging.ERROR}
+LOG_LEVELS = {"info": logging.INFO, "debug": logging.DEBUG, "silent": logging.ERROR}
 
 logging.basicConfig()
 log = logging.getLogger()
 
-class GIntervalTree( IntervalTree ):
+
+class GIntervalTree(IntervalTree):
     """a set of IntervalTrees that is indexed by chromosomes"""
 
     def __init__(self, data=[]):
@@ -44,7 +45,7 @@ class GIntervalTree( IntervalTree ):
         :return: None
         """
 
-        self._trees.setdefault(chrom, IntervalTree()).insert_interval( element )
+        self._trees.setdefault(chrom, IntervalTree()).insert_interval(element)
 
     def find(self, chrom, start, end):
         """find the intersecting elements
@@ -54,11 +55,12 @@ class GIntervalTree( IntervalTree ):
         :param end: end
         :return: a list of intersecting elements"""
 
-        tree = self._trees.get( chrom, None )
+        tree = self._trees.get(chrom, None)
         if tree:
-            return tree.find( start, end )
-        #return always a list
+            return tree.find(start, end)
+        # return always a list
         return []
+
 
 def transform(elem, chain_CT_CQ, max_gap):
     """transform the coordinates of this elem into the other species.
@@ -68,59 +70,62 @@ def transform(elem, chain_CT_CQ, max_gap):
     (chain, CT, CQ) = chain_CT_CQ
     start, end = max(elem['start'], chain.tStart) - chain.tStart, min(elem['end'], chain.tEnd) - chain.tStart
 
-    assert np.all( (CT[:,1] - CT[:,0]) == (CQ[:,1] - CQ[:,0]) )
+    assert np.all((CT[:, 1] - CT[:, 0]) == (CQ[:, 1] - CQ[:, 0]))
     to_chrom = chain.qName
     to_gab_start = chain.qStart
 
-    start_idx = np.where( CT[:,1] > start )[0][0]
-    end_idx = np.where( CT[:,0] < end )[0][-1]
+    start_idx = np.where(CT[:, 1] > start)[0][0]
+    end_idx = np.where(CT[:, 0] < end)[0][-1]
 
-    if start_idx > end_idx: #maps to a gap region on the other species
+    if start_idx > end_idx:  # maps to a gap region on the other species
         return []
 
-    ## apply the gap threshold
+    # apply the gap threshold
     if max_gap >= 0 and start_idx < end_idx - 1:
-        if np.max(CT[(start_idx+1):end_idx,0] - CT[start_idx:(end_idx-1),1]) > max_gap or np.max(CQ[(start_idx+1):end_idx,0] - CQ[start_idx:(end_idx-1),1]) > max_gap:
+        if np.max(CT[(start_idx+1):end_idx, 0] - CT[start_idx:(end_idx-1), 1]) > max_gap or np.max(CQ[(start_idx+1):end_idx, 0] - CQ[start_idx:(end_idx-1), 1]) > max_gap:
             return []
 
     assert start < CT[start_idx, 1]
-    assert  CT[end_idx, 0] < end
-    to_start = CQ[start_idx, 0] + max(0, start - CT[start_idx,0]) # correct if on middle of interval
+    assert CT[end_idx, 0] < end
+    to_start = CQ[start_idx, 0] + max(0, start - CT[start_idx, 0])  # correct if on middle of interval
     to_end = CQ[end_idx, 1] - max(0, CT[end_idx, 1] - end)        # idem
 
-    if start_idx == end_idx: #elem falls in a single run of matches
+    if start_idx == end_idx:  # elem falls in a single run of matches
         slices = [(to_start, to_end)]
     else:
-        slices = [(to_start, CQ[start_idx,1])]
-        slices += [(CQ[i,0], CQ[i,1]) for i in range(start_idx+1, end_idx)]
-        slices.append( (CQ[end_idx,0], to_end) )
+        slices = [(to_start, CQ[start_idx, 1])]
+        slices += [(CQ[i, 0], CQ[i, 1]) for i in range(start_idx+1, end_idx)]
+        slices.append((CQ[end_idx, 0], to_end))
     if chain.qStrand == '-':
         Sz = chain.qEnd - chain.qStart
-        slices =  [(Sz-t[1], Sz-t[0]) for t in slices]
+        slices = [(Sz-t[1], Sz-t[0]) for t in slices]
     return [(to_chrom, to_gab_start + t[0], to_gab_start + t[1], elem['id']) for t in slices]
+
 
 def union_elements(elements):
     """elements = [(chr, s, e, id), ...], this is to join elements that have a
     deletion in the 'to' species
     """
 
-    if len(elements) < 2: return elements
-    assert set( [e[3] for e in elements] ) == set( [elements[0][3]] ), "more than one id"
+    if len(elements) < 2:
+        return elements
+    assert set([e[3] for e in elements]) == set([elements[0][3]]), "more than one id"
     el_id = elements[0][3]
 
     unioned_elements = []
     for ch, chgrp in groupby(elements, key=itemgetter(0)):
-        for (s, e) in elem_u( np.array([itemgetter(1, 2)(_) for _ in chgrp], dtype=np.uint) ):
+        for (s, e) in elem_u(np.array([itemgetter(1, 2)(_) for _ in chgrp], dtype=np.uint)):
             if (s < e):
-                unioned_elements.append( (ch, s, e, el_id) )
+                unioned_elements.append((ch, s, e, el_id))
     assert len(unioned_elements) <= len(elements)
     return unioned_elements
+
 
 def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
     BED4_FRM = "%s\t%d\t%d\t%s\n"
     BED12_FRM = "%s\t%d\t%d\t%s\t1000\t+\t%d\t%d\t0,0,0\t%d\t%s\t%s\n"
     NPEAK_FRM = "%s\t%d\t%d\t%s\t%d\t%s\t%f\t%f\t%f\t%d\n"
-    assert len( set(from_elem_list['chrom']) ) <= 1
+    assert len(set(from_elem_list['chrom'])) <= 1
 
     mapped_elem_count = 0
     mapped_summit_count = 0
@@ -158,7 +163,7 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
         """ End AGD modifications """
 
         # apply threshold
-        if (from_elem[2] - from_elem[1]) * opt.threshold > reduce(lambda b,a: a[2]-a[1] + b, to_elem_slices, 0):
+        if (from_elem[2] - from_elem[1]) * opt.threshold > reduce(lambda b, a: a[2]-a[1] + b, to_elem_slices, 0):
             log.debug("%s did not pass threshold" % (str(from_elem)))
             continue
 
@@ -175,17 +180,17 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
             elif opt.format == "BED12":
                 out_fd.write(BED12_FRM % (to_elem_list[0][0], start, end, from_elem['id'],
                         start, end, len(to_elem_list),
-                        ",".join( "%d" % (e[2]-e[1]) for e in to_elem_list ),
-                        ",".join( "%d" % (e[1]-start) for e in to_elem_list ) )
+                        ",".join("%d" % (e[2]-e[1]) for e in to_elem_list),
+                        ",".join("%d" % (e[1]-start) for e in to_elem_list))
                         )
             else:
                 # narrowPeak convention is to report the peak location relative to start
                 peak = int((start + end)/2) - start
                 if opt.in_format == "narrowPeak":
                     # Map the peak location
-                    #sys.stderr.write("{}\n".format(from_elem))
+                    # sys.stderr.write("{}\n".format(from_elem))
                     matching_block_ids = [attrgetter("value")(_) for _ in tree.find(chrom, from_elem['peak'], from_elem['peak'])]
-                    p_elem_slices = [_ for _ in (transform( np.array((chrom, from_elem['peak'], from_elem['peak'], '.'), dtype=elem_t), all_epo[i], opt.gap) for i in matching_block_ids) if _]
+                    p_elem_slices = [_ for _ in (transform(np.array((chrom, from_elem['peak'], from_elem['peak'], '.'), dtype=elem_t), all_epo[i], opt.gap) for i in matching_block_ids) if _]
                     if len(p_elem_slices) >= 1:
                         mapped_summit_count += 1
                         sys.stderr.write("{}\n".format(p_elem_slices))
@@ -195,7 +200,7 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
                         else:
                             mapped_summit_count -= 1
                             log.debug("Warning: elem {} summit mapped location falls outside the mapped element start and end. Using the mapped elem midpoint instead.".format(from_elem))
-                        
+
                     else:
                         log.debug("Warning: elem {} summit maps to a gap region in the target alignment. Using the mapped elem midpoint instead.".format(from_elem))
                 out_fd.write(NPEAK_FRM % (to_elem_list[0][0], start, end, from_elem['id'],
@@ -205,7 +210,7 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
     if opt.format == "narrowPeak" and opt.in_format == "narrowPeak":
         log.info("%s: %d peak summits from %d mapped elements mapped" % (chrom, mapped_summit_count, mapped_elem_count))
 
-    
+
 def transform_file(ELEMS, ofname, EPO, TREE, opt):
     "transform/map the elements of this file and dump the output on 'ofname'"
 
@@ -215,37 +220,39 @@ def transform_file(ELEMS, ofname, EPO, TREE, opt):
         if opt.screen:
             for elem in ELEMS.flat:
                 matching_blocks = [attrgetter("value")(_) for _ in TREE.find(elem['chrom'], elem['start'], elem['end'])]
-                assert set( matching_blocks ) <= set( EPO.keys() )
+                assert set(matching_blocks) <= set(EPO.keys())
                 if matching_blocks:
                     out_fd.write(BED4_FRM % elem)
         else:
-            for chrom in set( ELEMS['chrom'] ):
+            for chrom in set(ELEMS['chrom']):
                 transform_by_chrom(EPO,
                         ELEMS[ELEMS['chrom'] == chrom],
                         TREE, chrom, opt, out_fd)
     log.info("DONE!")
 
+
 def loadChains(path):
     "name says it."
 
     EPO = epo.Chain._parse_file(path, True)
-    ## convert coordinates w.r.t the forward strand (into slices)
-    ## compute cummulative intervals
-    for i in range( len(EPO) ):
+    # convert coordinates w.r.t the forward strand (into slices)
+    # compute cummulative intervals
+    for i in range(len(EPO)):
         ch, S, T, Q = EPO[i]
         if ch.tStrand == '-':
-            ch = ch._replace(tEnd = ch.tSize - ch.tStart,
-                    tStart = ch.tSize - ch.tEnd)
+            ch = ch._replace(tEnd=ch.tSize - ch.tStart,
+                    tStart=ch.tSize - ch.tEnd)
         if ch.qStrand == '-':
-            ch = ch._replace(qEnd = ch.qSize - ch.qStart,
-                    qStart = ch.qSize - ch.qEnd)
+            ch = ch._replace(qEnd=ch.qSize - ch.qStart,
+                    qStart=ch.qSize - ch.qEnd)
         EPO[i] = (ch,
                 epo.cummulative_intervals(S, T),
                 epo.cummulative_intervals(S, Q)
                 )
-    ##now each element of epo is (chain_header, target_intervals, query_intervals)
-    assert all( t[0].tStrand == '+' for t in EPO ), "all target strands should be +"
+    # now each element of epo is (chain_header, target_intervals, query_intervals)
+    assert all(t[0].tStrand == '+' for t in EPO), "all target strands should be +"
     return EPO
+
 
 def loadFeatures(path, opt):
     """
@@ -255,21 +262,22 @@ def loadFeatures(path, opt):
 
     log.info("loading from %s ..." % path)
     data = []
-    if opt.in_format == "BED":        
+    if opt.in_format == "BED":
         with open(path) as fd:
             for line in fd:
                 cols = line.split()
-                data.append( (cols[0], int(cols[1]), int(cols[2]), cols[3]) )
+                data.append((cols[0], int(cols[1]), int(cols[2]), cols[3]))
         data = np.array(data, dtype=elem_t)
     else:
         with open(path) as fd:
             for line in fd:
                 cols = line.split()
-                data.append( (cols[0], int(cols[1]), int(cols[2]), cols[3], int(cols[4]),
+                data.append((cols[0], int(cols[1]), int(cols[2]), cols[3], int(cols[4]),
                               cols[5], float(cols[6]), float(cols[7]), float(cols[8]),
-                              int(cols[-1])+int(cols[1])) )
+                              int(cols[-1])+int(cols[1])))
         data = np.array(data, dtype=narrowPeak_t)
     return data
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__, epilog="Olgert Denas (Taylor Lab)",
@@ -300,16 +308,15 @@ if __name__ == "__main__":
     opt = parser.parse_args()
     log.setLevel(LOG_LEVELS[opt.verbose])
 
-    #check for output if input is a directory arguments
+    # check for output if input is a directory arguments
     if len(opt.input) > 1 and (not os.path.isdir(opt.output)):
         parser.error("For multiple inputs, output is mandatory and should be a dir.")
 
+    # loading alignments from opt.alignment
+    EPO = dict((ch[0].id, ch) for ch in loadChains(opt.alignment))
 
-    #loading alignments from opt.alignment
-    EPO = dict( (ch[0].id, ch) for ch in loadChains(opt.alignment) )
-
-    ## create an interval tree based on chain headers (from_species side)
-    ## for fast feature-to-chain_header searching
+    # create an interval tree based on chain headers (from_species side)
+    # for fast feature-to-chain_header searching
     log.info("indexing %d chains ..." % (len(EPO),))
     TREE = GIntervalTree()
     for gabid in EPO:
@@ -327,4 +334,4 @@ if __name__ == "__main__":
                 log.warning("overwriting %s ..." % outpath)
             transform_file(loadFeatures(inpath), outpath, EPO, TREE, opt)
     else:
-        transform_file(loadFeatures( opt.input[0], opt ), opt.output, EPO, TREE, opt)
+        transform_file(loadFeatures(opt.input[0], opt), opt.output, EPO, TREE, opt)

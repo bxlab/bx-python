@@ -46,6 +46,7 @@ __docformat__ = 'reStructuredText en'
 DEFAULT_SIZE = 16
 """Default size of a new LRUCache object, if no 'size' argument is given."""
 
+
 class CacheKeyError(KeyError):
     """Error raised when cache requests fail
 
@@ -53,6 +54,7 @@ class CacheKeyError(KeyError):
     this error is raised. To avoid it, you may want to check for the existence
     of a cache record before reading or deleting it."""
     pass
+
 
 class LRUCache(object):
     """Least-Recently-Used (LRU) cache.
@@ -209,6 +211,7 @@ class LRUCache(object):
         else:
             node = self.__dict[key]
             return node.mtime
+
 
 if __name__ == "__main__":
     cache = LRUCache(25)

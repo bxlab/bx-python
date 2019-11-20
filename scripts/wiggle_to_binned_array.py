@@ -20,9 +20,9 @@ from bx_extras.fpconst import isNaN
 
 
 def main():
-    
+
     # Parse command line
-    options, args = doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse(__doc__)
     try:
         if options.comp:
             comp_type = options.comp
@@ -36,22 +36,23 @@ def main():
     scores = BinnedArray()
 
     ## last_chrom = None
-    for i, ( chrom, pos, val ) in enumerate( bx.wiggle.Reader( misc.open_compressed( score_fname ) ) ):
-        #if last_chrom is None: 
+    for i, (chrom, pos, val) in enumerate(bx.wiggle.Reader(misc.open_compressed(score_fname))):
+        # if last_chrom is None:
         #    last_chrom = chrom
-        #else: 
+        # else:
         #    assert chrom == last_chrom, "This script expects a 'wiggle' input on only one chromosome"
         scores[pos] = val
         # Status
         if i % 10000 == 0:
             print(i, "scores processed")
 
-    out = open( out_fname, "w" )
+    out = open(out_fname, "w")
     if comp_type:
-        scores.to_file( out, comp_type=comp_type )
-    else:    
-        scores.to_file( out )
+        scores.to_file(out, comp_type=comp_type)
+    else:
+        scores.to_file(out)
     out.close()
+
 
 if __name__ == "__main__":
     main()

@@ -23,33 +23,37 @@ from itertools import *
 
 from bx.cookbook import doc_optparse
 
+
 def main():
 
-    options, args = doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse(__doc__)
 
     try:
         species = args
         # Allow a comma separated list, TODO: allow a newick format tree
-        if len( species ) == 1 and ',' in species[0]: species = species[0].split( ',' )
-        fuse = not( bool( options.nofuse ) ) 
+        if len(species) == 1 and ',' in species[0]:
+            species = species[0].split(',')
+        fuse = not(bool(options.nofuse))
     except:
         doc_optparse.exit()
 
-    maf_reader = bx.align.maf.Reader( sys.stdin )
-    maf_writer = bx.align.maf.Writer( sys.stdout )
+    maf_reader = bx.align.maf.Reader(sys.stdin)
+    maf_writer = bx.align.maf.Writer(sys.stdout)
 
-    if fuse: 
-        maf_writer = FusingAlignmentWriter( maf_writer )
-   
-    for m in maf_reader:            
-        new_components = get_components_for_species( m, species )	
-        if new_components: 
-            remove_all_gap_columns( new_components )          
+    if fuse:
+        maf_writer = FusingAlignmentWriter(maf_writer)
+
+    for m in maf_reader:
+        new_components = get_components_for_species(m, species)
+        if new_components:
+            remove_all_gap_columns(new_components)
             m.components = new_components
-            m.score = 0.0 
-            maf_writer.write( m )
+            m.score = 0.0
+            maf_writer.write(m)
 
     maf_reader.close()
     maf_writer.close()
-    
-if __name__ == "__main__": main()
+
+
+if __name__ == "__main__":
+    main()

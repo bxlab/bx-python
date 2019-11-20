@@ -17,6 +17,7 @@ from bx.intervals.operations import *
 
 from .quicksect import IntervalTree
 
+
 def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
     # Read rightSet into memory:
     rightlen = 0
@@ -24,8 +25,9 @@ def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
     rightTree = IntervalTree()
     for item in rightSet:
         if isinstance(item, GenomicInterval):
-            rightTree.insert( item, rightSet.linenum, item.fields )
-            if rightlen == 0: rightlen = item.nfields
+            rightTree.insert(item, rightSet.linenum, item.fields)
+            if rightlen == 0:
+                rightlen = item.nfields
 
     for interval in leftSet:
         if leftlen == 0 and isinstance(interval, GenomicInterval):
@@ -34,14 +36,14 @@ def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
             yield interval
         else:
             result = []
-            rightTree.intersect( interval, lambda node: result.append( node ) )
+            rightTree.intersect(interval, lambda node: result.append(node))
             overlap_not_met = 0
             for item in result:
-                if item.start in range(interval.start,interval.end+1) and item.end not in range(interval.start,interval.end+1):
+                if item.start in range(interval.start, interval.end+1) and item.end not in range(interval.start, interval.end+1):
                     overlap = interval.end-item.start
-                elif item.end in range(interval.start,interval.end+1) and item.start not in range(interval.start,interval.end+1):
+                elif item.end in range(interval.start, interval.end+1) and item.start not in range(interval.start, interval.end+1):
                     overlap = item.end-interval.start
-                elif item.start in range(interval.start,interval.end+1) and item.end in range(interval.start,interval.end+1):
+                elif item.start in range(interval.start, interval.end+1) and item.end in range(interval.start, interval.end+1):
                     overlap = item.end-item.start
                 else:   #the intersecting item's start and end are outside the interval range
                     overlap = interval.end-interval.start
@@ -50,19 +52,20 @@ def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
                     continue
                 outfields = list(interval)
                 outfields.extend(item.other)
-                setattr( item, "visited", True )
+                setattr(item, "visited", True)
                 yield outfields
             if (len(result) == 0 or overlap_not_met == len(result)) and rightfill:
                 outfields = list(interval)
-                for x in range(rightlen): outfields.append(".")
+                for x in range(rightlen):
+                    outfields.append(".")
                 yield outfields
 
     if leftfill:
-        def report_unvisited( node, results ):
+        def report_unvisited(node, results):
             if not hasattr(node, "visited"):
-                results.append( node )
+                results.append(node)
         results = []
-        rightTree.traverse( lambda x: report_unvisited( x, results ) )
+        rightTree.traverse(lambda x: report_unvisited(x, results))
         for item in results:
             outfields = list()
             for x in range(leftlen):
@@ -89,11 +92,12 @@ def interval_cmp(a, b):
 
     return 0
 
+
 def findintersect(interval, sortedlist, mincols):
     # find range of intervals that intersect via a binary search
     # find lower bound
     x = len(sortedlist) / 2
-    n = int(math.pow(2,math.ceil(math.log(len(sortedlist),2))))
+    n = int(math.pow(2, math.ceil(math.log(len(sortedlist), 2))))
 
     not_found = True
     not_done = True
@@ -119,17 +123,18 @@ def findintersect(interval, sortedlist, mincols):
     print("\t".join(sortedlist[x][0].fields))
     print("not_found = " + str(not_found))
     if not_found:
-        return 0,-1
+        return 0, -1
 
     lowerbound = x
     middlebound = x
     upperbound = x
-    while (lowerbound > -1) and (findoverlap(sortedlist[lowerbound-1][0],interval) >= mincols):
+    while (lowerbound > -1) and (findoverlap(sortedlist[lowerbound-1][0], interval) >= mincols):
         lowerbound -= 1
-    while (upperbound+1 < len(sortedlist)) and (findoverlap(sortedlist[upperbound+1][0],interval) >= mincols):
+    while (upperbound+1 < len(sortedlist)) and (findoverlap(sortedlist[upperbound+1][0], interval) >= mincols):
         upperbound += 1
 
     return lowerbound, upperbound
+
 
 def findoverlap(a, b):
     # overlapping

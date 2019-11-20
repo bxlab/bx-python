@@ -22,45 +22,51 @@ def __main__():
 
     # Parse Command Line
 
-    options, args = doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse(__doc__)
 
     try:
         maf_files = args
-        if options.prefix: prefix = options.prefix
-        else: prefix = None
+        if options.prefix:
+            prefix = options.prefix
+        else:
+            prefix = None
     except:
         doc_optparse.exit()
 
     # Open indexed access to mafs
-    indexes = [ bx.align.maf.Indexed( maf_file, maf_file + ".index" ) for maf_file in maf_files ]
+    indexes = [bx.align.maf.Indexed(maf_file, maf_file + ".index") for maf_file in maf_files]
 
-    # Iterate over input ranges 
+    # Iterate over input ranges
 
     for line in sys.stdin:
         fields = line.split()
-        src, start, end = fields[0], int( fields[1] ), int( fields[2] )
-        if prefix: src = prefix + src
+        src, start, end = fields[0], int(fields[1]), int(fields[2])
+        if prefix:
+            src = prefix + src
 
         total_length = end - start
 
         # Find overlap with reference component
         blocks = []
-        for index in indexes: blocks += index.get( src, start, end )
+        for index in indexes:
+            blocks += index.get(src, start, end)
 
         coverage = dict()
         for block in blocks:
-            overlap_start = max( start, block.components[0].start )
-            overlap_end = min( end, block.components[0].end )
+            overlap_start = max(start, block.components[0].start)
+            overlap_end = min(end, block.components[0].end)
             length = overlap_end - overlap_start
             assert length > 0
             for c in block.components[1:]:
-                species = c.src.split( '.' )[0]
-                try: coverage[ species ] += length
-                except: coverage[ species ] = length
+                species = c.src.split('.')[0]
+                try:
+                    coverage[species] += length
+                except:
+                    coverage[species] = length
 
         print(line, end=' ')
         for key, value in coverage.items():
-            print("   ", key.ljust(10), "%0.2f" % ( value / total_length ))
+            print("   ", key.ljust(10), "%0.2f" % (value / total_length))
 
 
 if __name__ == "__main__":

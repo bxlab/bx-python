@@ -16,27 +16,28 @@ from bx.bitset import *
 from bx.bitset_builders import *
 from bx.cookbook import doc_optparse
 
-options, args = doc_optparse.parse( __doc__ )
+options, args = doc_optparse.parse(__doc__)
 try:
     in_fname, in2_fname = args
 except:
     doc_optparse.exit()
 
-bits1 = binned_bitsets_from_file( open( in_fname ) )
-bits2 = binned_bitsets_from_file( open( in2_fname ) )
+bits1 = binned_bitsets_from_file(open(in_fname))
+bits2 = binned_bitsets_from_file(open(in2_fname))
 
 bitsets = dict()
 
 for key in bits1:
     if key in bits2:
-        bits1[key].iand( bits2[key] )
+        bits1[key].iand(bits2[key])
         bitsets[key] = bits1[key]
 
 for chrom in bitsets:
     bits = bitsets[chrom]
     end = 0
     while 1:
-        start = bits.next_set( end )
-        if start == bits.size: break
-        end = bits.next_clear( start )
-        print("%s\t%d\t%d" % ( chrom, start, end ))
+        start = bits.next_set(end)
+        if start == bits.size:
+            break
+        end = bits.next_clear(start)
+        print("%s\t%d\t%d" % (chrom, start, end))

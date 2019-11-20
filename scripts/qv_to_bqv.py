@@ -23,13 +23,13 @@ from bx.cookbook import *
 def main():
     args = sys.argv[1:]
     try:
-        qual_file = args[ 0 ]
-        output_file = args[ 1 ]
+        qual_file = args[0]
+        output_file = args[1]
     except:
         print("usage: qual_file output_file")
         sys.exit()
 
-    qual = fileinput.FileInput( qual_file )
+    qual = fileinput.FileInput(qual_file)
     outfile = None
     outbin = None
     base_count = 0
@@ -47,7 +47,7 @@ def main():
             region = line.lstrip(">")
             outfname = output_file + "." + region + ".bqv"
             print("Writing region " + region + " to file " + outfname)
-            outfile = open( outfname , "wb")
+            outfile = open(outfname, "wb")
             outbin = BinnedArrayWriter(outfile, typecode='b', default=0)
             base_count = 0
             mega_count = 0
@@ -67,6 +67,7 @@ def main():
         print("\nFinished region " + region + " at " + str(base_count) + " base pairs.")
         outbin.finish()
         outfile.close()
+
 
 if __name__ == "__main__":
     main()

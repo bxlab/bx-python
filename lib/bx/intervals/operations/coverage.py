@@ -11,19 +11,21 @@ from warnings import warn
 from bx.intervals.io import *
 from bx.intervals.operations import *
 
+
 def coverage(readers, comments=True):
     # The incoming lens dictionary is a dictionary of chromosome lengths which are used to initialize the bitsets.
     primary = readers[0]
     intersect = readers[1:]
     # Handle any ValueError, IndexError and OverflowError exceptions that may be thrown when
     # the bitsets are being created by skipping the problem lines
-    intersect[0] = BitsetSafeReaderWrapper( intersect[0], lens={} )
+    intersect[0] = BitsetSafeReaderWrapper(intersect[0], lens={})
     bitsets = intersect[0].binned_bitsets()
     intersect = intersect[1:]
     for andset in intersect:
         bitset2 = andset.binned_bitsets()
         for chrom in bitsets:
-            if chrom not in bitset2: continue
+            if chrom not in bitset2:
+                continue
             bitsets[chrom].ior(bitset2[chrom])
         intersect = intersect[1:]
 
@@ -43,7 +45,7 @@ def coverage(readers, comments=True):
                     primary.skipped += 1
                     # no reason to stuff an entire bad file into memmory
                     if primary.skipped < 10:
-                        primary.skipped_lines.append( ( primary.linenum, primary.current_line, "Interval start after end!" ) )
+                        primary.skipped_lines.append((primary.linenum, primary.current_line, "Interval start after end!"))
                 except:
                     pass
                 continue
@@ -52,14 +54,14 @@ def coverage(readers, comments=True):
                 percent = 0.0
             else:
                 try:
-                    bases_covered = bitsets[ chrom ].count_range( start, end-start )
+                    bases_covered = bitsets[chrom].count_range(start, end-start)
                 except IndexError as e:
                     try:
                         # This will only work if primary is a NiceReaderWrapper
                         primary.skipped += 1
                         # no reason to stuff an entire bad file into memmory
                         if primary.skipped < 10:
-                            primary.skipped_lines.append( ( primary.linenum, primary.current_line, str( e ) ) )
+                            primary.skipped_lines.append((primary.linenum, primary.current_line, str(e)))
                     except:
                         pass
                     continue

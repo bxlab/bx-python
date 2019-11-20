@@ -12,6 +12,7 @@ from warnings import warn
 from bx.intervals.io import *
 from bx.intervals.operations import *
 
+
 def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens={}, comments=True):
     # The incoming lens dictionary is a dictionary of chromosome lengths which are used to initialize the bitsets.
     # Read all but first into bitsets and intersect to one
@@ -19,16 +20,17 @@ def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True,
     intersect = readers[1:]
     # Handle any ValueError, IndexError and OverflowError exceptions that may be thrown when
     # the bitsets are being created by skipping the problem lines
-    intersect[0] = BitsetSafeReaderWrapper( intersect[0], lens=lens )
-    bitsets = intersect[0].binned_bitsets( upstream_pad=upstream_pad, downstream_pad=downstream_pad, lens=lens )
+    intersect[0] = BitsetSafeReaderWrapper(intersect[0], lens=lens)
+    bitsets = intersect[0].binned_bitsets(upstream_pad=upstream_pad, downstream_pad=downstream_pad, lens=lens)
     intersect = intersect[1:]
     for andset in intersect:
-        bitset2 = andset.binned_bitsets(upstream_pad = upstream_pad, downstream_pad = downstream_pad, lens = lens)
+        bitset2 = andset.binned_bitsets(upstream_pad=upstream_pad, downstream_pad=downstream_pad, lens=lens)
         for chrom in bitsets:
-            if chrom not in bitset2: continue
+            if chrom not in bitset2:
+                continue
             bitsets[chrom].iand(bitset2[chrom])
         intersect = intersect[1:]
-    
+
     # Read remaining intervals and intersect
     for interval in primary:
         if isinstance(interval, Header):
@@ -37,8 +39,8 @@ def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True,
             yield interval
         elif isinstance(interval, GenomicInterval):
             chrom = interval.chrom
-            start = int( interval.start )
-            end = int( interval.end )
+            start = int(interval.start)
+            end = int(interval.end)
             if chrom not in bitsets:
                 continue
             if start > end:
@@ -47,18 +49,18 @@ def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True,
                     primary.skipped += 1
                     # no reason to stuff an entire bad file into memmory
                     if primary.skipped < 10:
-                        primary.skipped_lines.append( ( primary.linenum, primary.current_line, "Interval start after end!" ) )
+                        primary.skipped_lines.append((primary.linenum, primary.current_line, "Interval start after end!"))
                 except:
                     pass
                 continue
             out_intervals = []
             # Intersect or Overlap
             try:
-                if bitsets[ chrom ].count_range( start, end-start ) >= mincols:                
+                if bitsets[chrom].count_range(start, end-start) >= mincols:
                     if pieces:
-                        out_intervals = bits_set_in_range( bitsets[chrom], start, end )
+                        out_intervals = bits_set_in_range(bitsets[chrom], start, end)
                     else:
-                        out_intervals = [ ( start, end ) ]
+                        out_intervals = [(start, end)]
                 # Write the intervals
                 for start, end in out_intervals:
                     new_interval = interval.copy()
@@ -71,7 +73,7 @@ def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True,
                     primary.skipped += 1
                     # no reason to stuff an entire bad file into memmory
                     if primary.skipped < 10:
-                        primary.skipped_lines.append( ( primary.linenum, primary.current_line, str( e ) ) )
+                        primary.skipped_lines.append((primary.linenum, primary.current_line, str(e)))
                 except:
                     pass
                 continue

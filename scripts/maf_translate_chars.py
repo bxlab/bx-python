@@ -21,19 +21,21 @@ import sys
 from bx.align import maf
 import string
 
-table = string.maketrans( "#=X@", "-***")
+table = string.maketrans("#=X@", "-***")
+
 
 def main():
 
-    maf_reader = maf.Reader( sys.stdin )
-    maf_writer = maf.Writer( sys.stdout )
+    maf_reader = maf.Reader(sys.stdin)
+    maf_writer = maf.Writer(sys.stdout)
 
     for m in maf_reader:
         for c in m.components:
-            c.text = c.text.translate( table )
-        maf_writer.write( m )    
-    
+            c.text = c.text.translate(table)
+        maf_writer.write(m)
+
     maf_writer.close()
-    
-if __name__ == "__main__": 
+
+
+if __name__ == "__main__":
     main()

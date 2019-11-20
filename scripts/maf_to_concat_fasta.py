@@ -21,44 +21,53 @@ def __main__():
     # Parse command line arguments
 
     parser = OptionParser()
-    parser.add_option( "--fill", action="store", default=None, type="string", help="" )
-    parser.add_option( "--wrap", action="store", default=None, type="int", help="" )
-    parser.add_option( "--nowrap", action="store_true", default=False, dest="nowrap", help="" )
+    parser.add_option("--fill", action="store", default=None, type="string", help="")
+    parser.add_option("--wrap", action="store", default=None, type="int", help="")
+    parser.add_option("--nowrap", action="store_true", default=False, dest="nowrap", help="")
 
-    ( options, args ) = parser.parse_args()
+    (options, args) = parser.parse_args()
 
     species = []
-    for arg in args: species.extend(arg.split(','))
+    for arg in args:
+        species.extend(arg.split(','))
 
     fill = ""
-    if options.fill: fill = eval( options.fill )
+    if options.fill:
+        fill = eval(options.fill)
 
     wrap = 50
-    if   (options.wrap != None): wrap = options.wrap
-    elif (options.nowrap):       wrap = 0
+    if (options.wrap != None):
+        wrap = options.wrap
+    elif (options.nowrap):
+        wrap = 0
 
     # create the concatenated sequences
 
     texts = {}
-    for s in species: texts[s] = []
-    maf_reader = maf.Reader( sys.stdin )
+    for s in species:
+        texts[s] = []
+    maf_reader = maf.Reader(sys.stdin)
     for m in maf_reader:
         for s in species:
-            c = m.get_component_by_src_start( s ) 
-            if c: texts[s].append( c.text )
-            else: texts[s].append( "-" * m.text_size )
+            c = m.get_component_by_src_start(s)
+            if c:
+                texts[s].append(c.text)
+            else:
+                texts[s].append("-" * m.text_size)
     for s in species:
         print(">" + s)
-        print_n( fill.join( texts[s] ), wrap )
+        print_n(fill.join(texts[s]), wrap)
 
-def print_n( s, n, f = sys.stdout ):
+
+def print_n(s, n, f=sys.stdout):
     if (n <= 0):
         print(s, file=f)
     else:
         p = 0
-        while p < len( s ):
-            print(s[p:min(p+n,len(s))], file=f)
+        while p < len(s):
+            print(s[p:min(p+n, len(s))], file=f)
             p += n
+
 
 if __name__ == "__main__":
     __main__()
