@@ -13,21 +13,20 @@ from __future__ import division, print_function
 
 import sys
 
-import psyco_full
 from bx.align import maf
 
 
 def __main__():
 
-    maf_reader = maf.Reader( sys.stdin )
+    maf_reader = maf.Reader(sys.stdin)
 
     for m in maf_reader:
         match = 0
         total = 0
-        for i in range( 0, m.text_size ):
-            a = m.components[0].text[i].lower() 
-            b = m.components[1].text[i].lower()            
-            if a == '-' or b == '-': 
+        for i in range(0, m.text_size):
+            a = m.components[0].text[i].lower()
+            b = m.components[1].text[i].lower()
+            if a == '-' or b == '-':
                 continue
             elif a == b:
                 match += 1

@@ -8,30 +8,27 @@ usage: %prog bed1 bed2
 """
 from __future__ import division, print_function
 
-import string
 import sys
 
 import bx.intervals.intersection
 import bx.intervals.io
-import psyco_full
 
 
 def main():
-
     intersecters = {}
 
     # Read second set into intersecter
-    for interval in bx.intervals.io.GenomicIntervalReader( open( sys.argv[2] ) ):
+    for interval in bx.intervals.io.GenomicIntervalReader(open(sys.argv[2])):
         if interval.chrom not in intersecters:
-            intersecters[ interval.chrom ] = bx.intervals.Intersecter()
-        intersecters[ interval.chrom ].add_interval( interval )
+            intersecters[interval.chrom] = bx.intervals.Intersecter()
+        intersecters[interval.chrom].add_interval(interval)
 
     # Join with first set
-    for interval in bx.intervals.io.GenomicIntervalReader( open( sys.argv[1] ) ):
+    for interval in bx.intervals.io.GenomicIntervalReader(open(sys.argv[1])):
         if interval.chrom in intersecters:
-            intersection = intersecters[ interval.chrom ].find( interval.start, interval.end )
+            intersection = intersecters[interval.chrom].find(interval.start, interval.end)
             for interval2 in intersection:
-                print("\t".join( [ str( interval ), str( interval2 ) ] ))
+                print("\t".join([str(interval), str(interval2)]))
 
 
 if __name__ == "__main__":

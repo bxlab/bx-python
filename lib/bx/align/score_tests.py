@@ -3,7 +3,11 @@ Tests for `bx.align.score`.
 """
 import unittest
 
-from numpy import array, cumsum, allclose
+from numpy import (
+    allclose,
+    array,
+    cumsum,
+)
 from six import StringIO
 
 import bx.align.maf

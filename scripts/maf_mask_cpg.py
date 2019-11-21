@@ -19,25 +19,26 @@ from bx.cookbook import doc_optparse
 
 
 def main():
-    options, args = doc_optparse.parse( __doc__ )
+    options, args = doc_optparse.parse(__doc__)
     try:
         if options.mask:
             mask = options.mask
         else:
             mask = "?"
-    except:
+    except Exception:
         doc_optparse.exception()
 
-    reader = bx.align.maf.Reader( sys.stdin )
-    writer = bx.align.maf.Writer( sys.stdout )
+    reader = bx.align.maf.Reader(sys.stdin)
+    writer = bx.align.maf.Writer(sys.stdout)
 
     if options.restricted:
-        cpgfilter = bx.align.sitemask.cpg.Restricted( mask=mask )
+        cpgfilter = bx.align.sitemask.cpg.Restricted(mask=mask)
     else:
-        cpgfilter = bx.align.sitemask.cpg.Inclusive( mask=mask )
-    cpgfilter.run( reader, writer.write )
+        cpgfilter = bx.align.sitemask.cpg.Inclusive(mask=mask)
+    cpgfilter.run(reader, writer.write)
 
-    print(str( float(cpgfilter.masked)/float(cpgfilter.total) * 100 ) + "% bases masked.", file=sys.stderr)
+    print(str(float(cpgfilter.masked)/float(cpgfilter.total) * 100) + "% bases masked.", file=sys.stderr)
+
 
 if __name__ == "__main__":
     main()

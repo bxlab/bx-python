@@ -20,142 +20,149 @@ axt_to_maf primary:lengths_file secondary:lengths_file < axt_file > maf_file
 
 __author__ = "Bob Harris (rsharris@bx.psu.edu)"
 
-import sys
 import copy
+import sys
+
 import bx.align.axt
 import bx.align.maf
 
+
 def usage(s=None):
-	message = __doc__
-	if (s == None): sys.exit (message)
-	else:           sys.exit ("%s\n%s" % (s,message))
+    message = __doc__
+    if (s is None):
+        sys.exit(message)
+    else:
+        sys.exit("%s\n%s" % (s, message))
 
 
 def main():
-	global debug
+    global debug
 
-	##########
-	# parse the command line
-	##########
+    ##########
+    # parse the command line
+    ##########
 
-	primary   = None
-	secondary = None
-	silent    = False
+    primary = None
+    secondary = None
+    silent = False
 
-	# pick off options
+    # pick off options
 
-	args = sys.argv[1:]
-	while (len(args) > 0):
-		arg = args.pop(0)
-		val = None
-		fields = arg.split("=",1)
-		if (len(fields) == 2):
-			arg = fields[0]
-			val = fields[1]
-			if (val == ""):
-				usage("missing a value in %s=" % arg)
+    args = sys.argv[1:]
+    while (len(args) > 0):
+        arg = args.pop(0)
+        val = None
+        fields = arg.split("=", 1)
+        if (len(fields) == 2):
+            arg = fields[0]
+            val = fields[1]
+            if (val == ""):
+                usage("missing a value in %s=" % arg)
 
-		if (arg == "--silent") and (val == None):
-			silent = True
-		elif (primary == None) and (val == None):
-			primary = arg
-		elif (secondary == None) and (val == None):
-			secondary = arg
-		else:
-			usage("unknown argument: %s" % arg)
+        if (arg == "--silent") and (val is None):
+            silent = True
+        elif (primary is None) and (val is None):
+            primary = arg
+        elif (secondary is None) and (val is None):
+            secondary = arg
+        else:
+            usage("unknown argument: %s" % arg)
 
-	if (primary == None):
-		usage("missing primary species")
+    if (primary is None):
+        usage("missing primary species")
 
-	if (secondary == None):
-		usage("missing secondary species")
+    if (secondary is None):
+        usage("missing secondary species")
 
-	fields = primary.split(":")
-	if (len(fields) != 2):
-		usage("bad primary species (must be species:lengths_file")
-	primary = fields[0]
-	primaryLengths = fields[1]
+    fields = primary.split(":")
+    if (len(fields) != 2):
+        usage("bad primary species (must be species:lengths_file")
+    primary = fields[0]
+    primaryLengths = fields[1]
 
-	fields = secondary.split(":")
-	if (len(fields) != 2):
-		usage("bad secondary species (must be species:lengths_file")
-	secondary = fields[0]
-	secondaryLengths = fields[1]
+    fields = secondary.split(":")
+    if (len(fields) != 2):
+        usage("bad secondary species (must be species:lengths_file")
+    secondary = fields[0]
+    secondaryLengths = fields[1]
 
-	##########
-	# read the lengths
-	##########
+    ##########
+    # read the lengths
+    ##########
 
-	speciesToLengths = {}
-	speciesToLengths[primary]   = read_lengths (primaryLengths)
-	speciesToLengths[secondary] = read_lengths (secondaryLengths)
+    speciesToLengths = {}
+    speciesToLengths[primary] = read_lengths(primaryLengths)
+    speciesToLengths[secondary] = read_lengths(secondaryLengths)
 
-	##########
-	# read the alignments
-	##########
+    ##########
+    # read the alignments
+    ##########
 
-	out = bx.align.maf.Writer(sys.stdout)
+    out = bx.align.maf.Writer(sys.stdout)
 
-	axtsRead = 0
-	axtsWritten = 0
-	for axtBlock in bx.align.axt.Reader(sys.stdin,\
-			species_to_lengths = speciesToLengths,
-			species1           = primary,
-			species2           = secondary):
-		axtsRead += 1
+    axtsRead = 0
+    axtsWritten = 0
+    for axtBlock in bx.align.axt.Reader(
+            sys.stdin,
+            species_to_lengths=speciesToLengths,
+            species1=primary,
+            species2=secondary):
+        axtsRead += 1
 
-		p = axtBlock.get_component_by_src_start(primary)
-		if (p == None): continue
-		s = axtBlock.get_component_by_src_start(secondary)
-		if (s == None): continue
+        p = axtBlock.get_component_by_src_start(primary)
+        if (p is None):
+            continue
+        s = axtBlock.get_component_by_src_start(secondary)
+        if (s is None):
+            continue
 
-		mafBlock = bx.align.Alignment (axtBlock.score, axtBlock.attributes)
-		mafBlock.add_component (clone_component(p))
-		mafBlock.add_component (clone_component(s))
+        mafBlock = bx.align.Alignment(axtBlock.score, axtBlock.attributes)
+        mafBlock.add_component(clone_component(p))
+        mafBlock.add_component(clone_component(s))
 
-		out.write (mafBlock)
-		axtsWritten += 1
+        out.write(mafBlock)
+        axtsWritten += 1
 
-	if (not silent):
-		sys.stderr.write ("%d blocks read, %d written\n" % (axtsRead,axtsWritten))
+    if (not silent):
+        sys.stderr.write("%d blocks read, %d written\n" % (axtsRead, axtsWritten))
 
 
 def clone_component(c):
-	return bx.align.Component (c.src, c.start, c.size, c.strand, c.src_size, \
-	                           copy.copy(c.text))
+    return bx.align.Component(c.src, c.start, c.size, c.strand, c.src_size, copy.copy(c.text))
 
 
-def read_lengths (fileName):
+def read_lengths(fileName):
 
-	chromToLength = {}
+    chromToLength = {}
 
-	f = file (fileName, "r")
+    f = open(fileName, "r")
 
-	for lineNumber,line in enumerate(f):
-		line = line.strip()
-		if (line == ""): continue
-		if (line.startswith("#")): continue
+    for lineNumber, line in enumerate(f):
+        line = line.strip()
+        if (line == ""):
+            continue
+        if (line.startswith("#")):
+            continue
 
-		fields = line.split ()
-		if (len(fields) != 2):
-			raise ValueError("bad lengths line (%s:%d): %s" % (fileName,lineNumber,line))
+        fields = line.split()
+        if (len(fields) != 2):
+            raise ValueError("bad lengths line (%s:%d): %s" % (fileName, lineNumber, line))
 
-		chrom = fields[0]
-		try:
-			length = int(fields[1])
-		except:
-			raise ValueError("bad lengths line (%s:%d): %s" % (fileName,lineNumber,line))
+        chrom = fields[0]
+        try:
+            length = int(fields[1])
+        except ValueError:
+            raise ValueError("bad lengths line (%s:%d): %s" % (fileName, lineNumber, line))
 
-		if (chrom in chromToLength):
-			raise ValueError("%s appears more than once (%s:%d): %s" \
-			    % (chrom,fileName,lineNumber))
+        if (chrom in chromToLength):
+            raise ValueError("%s appears more than once (%s:%d): %s" % (chrom, fileName, lineNumber))
 
-		chromToLength[chrom] = length
+        chromToLength[chrom] = length
 
-	f.close ()
+    f.close()
 
-	return chromToLength
+    return chromToLength
 
 
-if __name__ == "__main__": main()
-
+if __name__ == "__main__":
+    main()

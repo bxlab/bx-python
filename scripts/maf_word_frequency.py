@@ -13,38 +13,38 @@ from __future__ import division, print_function
 import string
 import sys
 
-import psyco; psyco.profile()
+import psyco
 
-from bx.cookbook import doc_optparse
+from bx.align import maf
 
-from align import maf
+psyco.profile()
 
 
 def __main__():
 
-    motif_len = int( sys.argv[1] )
+    motif_len = int(sys.argv[1])
 
     big_map = {}
     total = 0
-    
-    maf_reader = maf.Reader( sys.stdin )
+
+    maf_reader = maf.Reader(sys.stdin)
 
     for m in maf_reader:
-        texts = [ c.text.upper() for c in m.components ]
-        for i in range( m.text_size - motif_len ):
-            motif = string.join( [ text[ i : i + motif_len ] for text in texts ] )
+        texts = [c.text.upper() for c in m.components]
+        for i in range(m.text_size - motif_len):
+            motif = string.join([text[i: i + motif_len] for text in texts])
             if motif in big_map:
-                big_map[ motif ] += 1
+                big_map[motif] += 1
             else:
-                big_map[ motif ] = 1
+                big_map[motif] = 1
             total += 1
 
-    items = list(zip( big_map.values(), big_map.keys() ))
-    items.sort()
+    items = sorted(zip(big_map.values(), big_map.keys()))
     items.reverse()
 
-    for count, motif in items: 
-        print("%d\t%0.10f\t%s" % ( count, count / total, motif ))
+    for count, motif in items:
+        print("%d\t%0.10f\t%s" % (count, count / total, motif))
+
 
 if __name__ == "__main__":
     __main__()

@@ -87,7 +87,6 @@ import os as _os
 import re as _re
 import sys as _sys
 import textwrap as _textwrap
-
 from gettext import gettext as _
 
 try:
@@ -106,8 +105,7 @@ try:
 except NameError:
     # for python < 2.4 compatibility:
     def sorted(iterable, reverse=False):
-        result = list(iterable)
-        result.sort()
+        result = sorted(iterable)
         if reverse:
             result.reverse()
         return result
@@ -129,6 +127,7 @@ _UNRECOGNIZED_ARGS_ATTR = '_unrecognized_args'
 # =============================
 # Utility functions and classes
 # =============================
+
 
 class _AttributeHolder(object):
     """Abstract base class that provides __repr__.
@@ -638,8 +637,7 @@ class HelpFormatter(object):
 
     def _fill_text(self, text, width, indent):
         text = self._whitespace_matcher.sub(' ', text).strip()
-        return _textwrap.fill(text, width, initial_indent=indent,
-                                           subsequent_indent=indent)
+        return _textwrap.fill(text, width, initial_indent=indent, subsequent_indent=indent)
 
     def _get_help_string(self, action):
         return action.help
@@ -692,7 +690,7 @@ def _get_action_name(argument):
     if argument is None:
         return None
     elif argument.option_strings:
-        return  '/'.join(argument.option_strings)
+        return '/'.join(argument.option_strings)
     elif argument.metavar not in (None, SUPPRESS):
         return argument.metavar
     elif argument.dest not in (None, SUPPRESS):
@@ -723,7 +721,6 @@ class ArgumentError(Exception):
 
 class ArgumentTypeError(Exception):
     """An error from trying to convert a command line string to a type."""
-    pass
 
 
 # ==============
@@ -1161,6 +1158,7 @@ class FileType(object):
 # Optional and Positional Parsing
 # ===========================
 
+
 class Namespace(_AttributeHolder):
     """Simple object for storing attributes.
 
@@ -1263,10 +1261,10 @@ class _ActionsContainer(object):
                 return action.default
         return self._defaults.get(dest, None)
 
-
     # =======================
     # Adding argument actions
     # =======================
+
     def add_argument(self, *args, **kwargs):
         """
         add_argument(dest, ..., name=value, ...)
@@ -1462,12 +1460,11 @@ class _ActionsContainer(object):
     def _handle_conflict_error(self, action, conflicting_actions):
         message = _('conflicting option string(s): %s')
         conflict_string = ', '.join([option_string
-                                     for option_string, action
+                                     for option_string, _2
                                      in conflicting_actions])
         raise ArgumentError(action, message % conflict_string)
 
     def _handle_conflict_resolve(self, action, conflicting_actions):
-
         # remove all conflicting options
         for option_string, action in conflicting_actions:
 
@@ -2074,8 +2071,7 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
 
         # if multiple actions match, the option string was ambiguous
         if len(option_tuples) > 1:
-            options = ', '.join([option_string
-                for action, option_string, explicit_arg in option_tuples])
+            options = ', '.join([_1 for _0, _1, _2 in option_tuples])
             tup = arg_string, options
             self.error(_('ambiguous option: %s could match %s') % tup)
 
@@ -2205,8 +2201,8 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
 
         # when nargs='*' on a positional, if there were no command-line
         # args, use the default if it is anything other than None
-        elif (not arg_strings and action.nargs == ZERO_OR_MORE and
-              not action.option_strings):
+        elif (not arg_strings and action.nargs == ZERO_OR_MORE
+              and not action.option_strings):
             if action.default is not None:
                 value = action.default
             else:

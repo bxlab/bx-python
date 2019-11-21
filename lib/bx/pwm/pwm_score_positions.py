@@ -8,13 +8,13 @@ from __future__ import print_function
 import sys
 
 import bx.pwm.position_weight_matrix as pwmx
-import psyco_full
-from bx import intervals
 from bx.align import maf as align_maf
 from bx.pwm.pwm_score_maf import MafBlockScorer
 
+
 def isnan(x):
-    return not x==x
+    return not x == x
+
 
 def main():
 
@@ -24,17 +24,16 @@ def main():
 
     pwm = {}
     format = sys.argv[1]
-    for wm in pwmx.Reader(open(sys.argv[2]),format=format):
-        pwm[ wm.id ] = wm
+    for wm in pwmx.Reader(open(sys.argv[2]), format=format):
+        pwm[wm.id] = wm
 
-    
     inmaf = open(sys.argv[3])
     threshold = float(sys.argv[4])
 
     species = []
 
     for sp in sys.argv[5].split(','):
-        species.append( sp )
+        species.append(sp)
 
     for maf in align_maf.Reader(inmaf):
         mafchrom = maf.components[0].src.split('.')[1]
@@ -43,23 +42,25 @@ def main():
         reftext = maf.components[0].text
 
         # maf block scores for each matrix
-        for scoremax,width,headers in MafBlockScorer(pwm, species, maf):
+        for scoremax, width, headers in MafBlockScorer(pwm, species, maf):
             blocklength = width
-            mafsrc,mafstart,mafend = headers[0]
+            mafsrc, mafstart, mafend = headers[0]
             mafchrom = mafsrc.split('.')[1]
 
             # lists of scores for each position in scoremax
-            for id,mx in scoremax.items():
+            for id, mx in scoremax.items():
                 for offset in range(blocklength):
 
                     # scan all species with threshold
                     for i in range(len(species)):
                         if mx[i][offset] > threshold:
-                            refstart = mafstart + offset - reftext.count('-',0,offset)
+                            refstart = mafstart + offset - reftext.count('-', 0, offset)
                             refend = refstart + len(pwm[id])
-                            data = " ".join([ "%.2f" % mx[x][offset] for x in range(len(species))])
+                            data = " ".join(["%.2f" % mx[x][offset] for x in range(len(species))])
                             # underscore spaces in the name
-                            print(mafchrom,refstart,refend,id.replace(' ','_'),data)
+                            print(mafchrom, refstart, refend, id.replace(' ', '_'), data)
                             break
 
-if __name__ == '__main__': main()
+
+if __name__ == '__main__':
+    main()

@@ -7,18 +7,15 @@ from __future__ import print_function
 
 import sys
 
-import psyco_full
-from bx import intervals
 from bx.align import maf as align_maf
 from bx.pwm.pwm_score_maf import MafMotifScorer
 
-from . import position_weight_matrix as pwmx
 
 def isnan(x):
-    return not x==x
+    return not x == x
+
 
 def main():
-
     if len(sys.argv) < 4:
         print("%s motif inmaf spec1,spec2,... " % sys.argv[0], file=sys.stderr)
         sys.exit(0)
@@ -30,7 +27,7 @@ def main():
     species = []
 
     for sp in sys.argv[3].split(','):
-        species.append( sp )
+        species.append(sp)
 
     for maf in align_maf.Reader(inmaf):
         mafchrom = maf.components[0].src.split('.')[1]
@@ -39,10 +36,9 @@ def main():
         reftext = maf.components[0].text
 
         # maf block scores for each matrix
-        for scoremax,width,headers in MafMotifScorer(species, maf,targmotif):
-            #print >>sys.stderr,headers
+        for scoremax, width, headers in MafMotifScorer(species, maf, targmotif):
             blocklength = width
-            mafsrc,mafstart,mafend = headers[0]
+            mafsrc, mafstart, mafend = headers[0]
             mafchrom = mafsrc.split('.')[1]
 
             # lists of scores for each position in scoremax
@@ -52,11 +48,13 @@ def main():
                 # scan all species with threshold
                 for i in range(len(species)):
                     if mx[i][offset] > threshold:
-                        refstart = mafstart + offset - reftext.count('-',0,offset)
-                        refend = refstart + len( targmotif )
-                        data = " ".join([ "%.2f" % mx[x][offset] for x in range(len(species))])
+                        refstart = mafstart + offset - reftext.count('-', 0, offset)
+                        refend = refstart + len(targmotif)
+                        data = " ".join(["%.2f" % mx[x][offset] for x in range(len(species))])
                         # quote the motif
-                        print(mafchrom,refstart,refend,"'"+targmotif+"'",data)
+                        print(mafchrom, refstart, refend, "'"+targmotif+"'", data)
                         break
 
-if __name__ == '__main__': main()
+
+if __name__ == '__main__':
+    main()

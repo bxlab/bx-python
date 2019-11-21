@@ -12,6 +12,7 @@ DNA_COMP = "                                             -                  " \
            "                                                                " \
            "                                                                "
 
+
 class SeqFile(object):
     """
     A biological sequence is a sequence of bytes or characters.  Usually these
@@ -35,68 +36,75 @@ class SeqFile(object):
     """
 
     def __init__(self, file=None, revcomp=False, name="", gap=None):
-        
-        
-        self.file = file
-        if   (revcomp == True):  self.revcomp = "-5'"
-        elif (revcomp == "+3'"): self.revcomp = "-5'"
-        elif (revcomp == "+5'"): self.revcomp = "-3'"
-        elif (revcomp == "maf"): self.revcomp = "-5'"
-        else:                    self.revcomp = revcomp
-        self.name = name
-        if (gap == None): self.gap = "-"
-        else:             self.gap = gap
 
-        self.text   = None  # (subclasses fill in text and
-        self.length = 0     #  length or they most override get())
+        self.file = file
+        if revcomp:
+            self.revcomp = "-5'"
+        elif revcomp == "+3'":
+            self.revcomp = "-5'"
+        elif revcomp == "+5'":
+            self.revcomp = "-3'"
+        elif revcomp == "maf":
+            self.revcomp = "-5'"
+        else:
+            self.revcomp = revcomp
+        self.name = name
+        if gap is None:
+            self.gap = "-"
+        else:
+            self.gap = gap
+
+        self.text = None  # (subclasses fill in text and
+        self.length = 0  # length or they most override get())
 
     def close(self):
-        assert (self.file != None)
+        assert (self.file is not None)
         self.file.close()
         self.file = None
 
-    def extract_name(self,line):
+    def extract_name(self, line):
         try:
             return line.split()[0]
-        except:
+        except Exception:
             return ""
 
-    def set_text(self,text):
-        self.text   = text
+    def set_text(self, text):
+        self.text = text
         self.length = len(text)
 
-    def __str__ (self):
+    def __str__(self):
         text = ""
-        if (self.name != None): text += self.name + " "
-        text += self.get(0,self.length)
+        if self.name is not None:
+            text += self.name + " "
+        text += self.get(0, self.length)
         return text
 
     def get(self, start, length):
         """
-        Fetch subsequence starting at position `start` with length `length`. 
-        This method is picky about parameters, the requested interval must 
+        Fetch subsequence starting at position `start` with length `length`.
+        This method is picky about parameters, the requested interval must
         have non-negative length and fit entirely inside the NIB sequence,
         the returned string will contain exactly 'length' characters, or an
         AssertionError will be generated.
         """
         # Check parameters
-        assert length >= 0, "Length must be non-negative (got %d)" % length 
-        assert start >= 0,"Start must be greater than 0 (got %d)" % start
+        assert length >= 0, "Length must be non-negative (got %d)" % length
+        assert start >= 0, "Start must be greater than 0 (got %d)" % start
         assert start + length <= self.length, \
-            "Interval beyond end of sequence (%s..%s > %s)" % ( start, start + length, self.length )
+            "Interval beyond end of sequence (%s..%s > %s)" % (start, start + length, self.length)
         # Fetch sequence and reverse complement if necesary
         if not self.revcomp:
-            return self.raw_fetch( start, length )
+            return self.raw_fetch(start, length)
         if self.revcomp == "-3'":
-            return self.reverse_complement(self.raw_fetch(start,length))
+            return self.reverse_complement(self.raw_fetch(start, length))
         assert self.revcomp == "-5'", "unrecognized reverse complement scheme"
         start = self.length - (start+length)
-        return self.reverse_complement(self.raw_fetch(start,length))
+        return self.reverse_complement(self.raw_fetch(start, length))
 
     def raw_fetch(self, start, length):
         return self.text[start:start+length]
 
-    def reverse_complement(self,text):
+    def reverse_complement(self, text):
         comp = [ch for ch in text.translate(DNA_COMP)]
         comp.reverse()
         return "".join(comp)
@@ -104,12 +112,12 @@ class SeqFile(object):
 
 class SeqReader(Iterator):
     """Iterate over all sequences in a file in order"""
-    
+
     def __init__(self, file, revcomp=False, name="", gap=None):
-        self.file      = file
-        self.revcomp   = revcomp
-        self.name      = name
-        self.gap       = gap
+        self.file = file
+        self.revcomp = revcomp
+        self.name = name
+        self.gap = gap
         self.seqs_read = 0
 
     def close(self):
@@ -119,18 +127,18 @@ class SeqReader(Iterator):
         return SeqReaderIter(self)
 
     def __next__(self):  # subclasses should override this method and return the
-        return       # .. next sequence (of type SeqFile or a subclass) read
-                     # .. from self.file
+        return   # .. next sequence (of type SeqFile or a subclass) read from self.file
 
 
 class SeqReaderIter(Iterator):
-    def __init__(self,reader):
+    def __init__(self, reader):
         self.reader = reader
-    def __iter__(self): 
+
+    def __iter__(self):
         return self
+
     def __next__(self):
         v = next(self.reader)
-        if not v: raise StopIteration
+        if not v:
+            raise StopIteration
         return v
-
-

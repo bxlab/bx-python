@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 from __future__ import print_function
 
-from collections import OrderedDict
 import logging
-import os
 import sys
+from collections import OrderedDict
 from itertools import product
 
 import numpy as np
@@ -15,10 +14,12 @@ from bx.cookbook import argparse
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()
 
+
 def outFile(s):
     if (s in ('-', 'stdout')) or (s is None):
         return sys.stdout
     return open(s, 'w')
+
 
 def loadChrSizes(path):
     data = OrderedDict()
@@ -27,8 +28,9 @@ def loadChrSizes(path):
             data[ch] = int(s)
     return data
 
+
 def convert_action(trg_comp, qr_comp, ts, qs, opt):
-    for i, (a,b) in enumerate(product(trg_comp, qr_comp)):
+    for i, (a, b) in enumerate(product(trg_comp, qr_comp)):
         try:
             ch, S, T, Q = Chain._make_from_epo(a, b, ts, qs)
             if np.sum(S) == 0:
@@ -36,22 +38,22 @@ def convert_action(trg_comp, qr_comp, ts, qs, opt):
                 continue
             new_id = "%si%d" % (ch.id, i)
             print(str(ch._replace(id=new_id)), file=opt.output)
-            for s, t, q in  zip(S, T, Q):
+            for s, t, q in zip(S, T, Q):
                 print("%d %d %d" % (s, t, q), file=opt.output)
             print("%d\n" % S[-1], file=opt.output)
         except KeyError:
             log.warning("skipping chromosome/contig (%s, %s)" % (a.chrom, b.chrom))
 
+
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="""EPO alignments (.out) to .chain converter.""",
-            epilog="Olgert Denas (Taylor Lab)",
-            formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description="""EPO alignments (.out) to .chain converter.""",
+        epilog="Olgert Denas (Taylor Lab)",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument("input", help="File to process.")
-    parser.add_argument("--species", nargs=2, default=["homo_sapiens", "mus_musculus"],
-            help="Names of target and query species (respectively) in the alignment.")
-    parser.add_argument("--chrsizes", nargs=2, required=True,
-            help="Chromosome sizes for the given species.")
+    parser.add_argument("--species", nargs=2, default=["homo_sapiens", "mus_musculus"], help="Names of target and query species (respectively) in the alignment.")
+    parser.add_argument("--chrsizes", nargs=2, required=True, help="Chromosome sizes for the given species.")
     parser.add_argument("-o", '--output', metavar="FILE", default='stdout', type=outFile, help="Output file")
 
     opt = parser.parse_args()

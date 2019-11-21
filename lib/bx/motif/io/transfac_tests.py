@@ -80,16 +80,17 @@ RT  An inhibitory domain of E12 transcription factor prevents
 RT  DNA binding in E12 homodimers but not in E12 heterodimers
 RL  Cell 64:459-470 (1991).
 XX
-"""
+"""  # noqa: W291
+
 
 def test_reader():
-    input = StringIO( sample )
-    motifs = list( transfac.TransfacReader( input ) )
-    assert len( motifs ) == 2
+    input = StringIO(sample)
+    motifs = list(transfac.TransfacReader(input))
+    assert len(motifs) == 2
     # Single value parse
     assert motifs[1].accession == "M00002"
     # Value list parse
-    assert motifs[1].dates == [ '19.10.92 (created); ewi.', '16.10.95 (updated); ewi.' ]
+    assert motifs[1].dates == ['19.10.92 (created); ewi.', '16.10.95 (updated); ewi.']
     # Matrix parse
-    assert motifs[1].matrix.sorted_alphabet == ['A','C','G','T']
-    assert allclose( motifs[1].matrix.values[0], [400,400,300,0] )
+    assert motifs[1].matrix.sorted_alphabet == ['A', 'C', 'G', 'T']
+    assert allclose(motifs[1].matrix.values[0], [400, 400, 300, 0])

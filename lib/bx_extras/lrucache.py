@@ -37,7 +37,11 @@ discarded. [1]_
 from __future__ import print_function
 
 import time
-from heapq import heappush, heappop, heapify
+from heapq import (
+    heapify,
+    heappop,
+    heappush,
+)
 
 __version__ = "0.2"
 __all__ = ['CacheKeyError', 'LRUCache', 'DEFAULT_SIZE']
@@ -46,13 +50,14 @@ __docformat__ = 'reStructuredText en'
 DEFAULT_SIZE = 16
 """Default size of a new LRUCache object, if no 'size' argument is given."""
 
+
 class CacheKeyError(KeyError):
     """Error raised when cache requests fail
 
     When a cache record is accessed which no longer exists (or never did),
     this error is raised. To avoid it, you may want to check for the existence
     of a cache record before reading or deleting it."""
-    pass
+
 
 class LRUCache(object):
     """Least-Recently-Used (LRU) cache.
@@ -68,12 +73,12 @@ class LRUCache(object):
     cache['foo'] = get_file_contents('foo') # or whatever
 
     if 'foo' in cache: # if it's still in cache...
-	    # use cached version
+            # use cached version
         contents = cache['foo']
     else:
-	    # recalculate
+            # recalculate
         contents = get_file_contents('foo')
-	    # store in cache for next time
+            # store in cache for next time
         cache['foo'] = contents
 
     print cache.size # Maximum size
@@ -131,7 +136,7 @@ class LRUCache(object):
         # Check arguments
         if size <= 0:
             raise ValueError(size)
-        elif type(size) is not type(0):
+        elif not isinstance(size, int):
             raise TypeError(size)
         object.__init__(self)
         self.__heap = []
@@ -209,6 +214,7 @@ class LRUCache(object):
         else:
             node = self.__dict[key]
             return node.mtime
+
 
 if __name__ == "__main__":
     cache = LRUCache(25)

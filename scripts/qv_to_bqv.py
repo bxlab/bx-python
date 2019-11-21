@@ -4,7 +4,7 @@
 Convert a qual (qv) file to several BinnedArray files for fast seek.
 This script takes approximately 4 seconds per 1 million base pairs.
 
-The input format is fasta style quality -- fasta headers followed by 
+The input format is fasta style quality -- fasta headers followed by
 whitespace separated integers.
 
 usage: %prog qual_file output_file
@@ -12,28 +12,26 @@ usage: %prog qual_file output_file
 from __future__ import print_function
 
 import fileinput
-import string
 import sys
 
-import psyco_full
-from bx.binned_array import *
-from bx.cookbook import *
+from bx.binned_array import BinnedArrayWriter
 
 
 def main():
     args = sys.argv[1:]
     try:
-        qual_file = args[ 0 ]
-        output_file = args[ 1 ]
-    except:
+        qual_file = args[0]
+        output_file = args[1]
+    except IndexError:
         print("usage: qual_file output_file")
         sys.exit()
 
-    qual = fileinput.FileInput( qual_file )
+    qual = fileinput.FileInput(qual_file)
     outfile = None
     outbin = None
     base_count = 0
     mega_count = 0
+    region = ""
 
     for line in qual:
         line = line.rstrip("\r\n")
@@ -47,7 +45,7 @@ def main():
             region = line.lstrip(">")
             outfname = output_file + "." + region + ".bqv"
             print("Writing region " + region + " to file " + outfname)
-            outfile = open( outfname , "wb")
+            outfile = open(outfname, "wb")
             outbin = BinnedArrayWriter(outfile, typecode='b', default=0)
             base_count = 0
             mega_count = 0
@@ -67,6 +65,7 @@ def main():
         print("\nFinished region " + region + " at " + str(base_count) + " base pairs.")
         outbin.finish()
         outfile.close()
+
 
 if __name__ == "__main__":
     main()

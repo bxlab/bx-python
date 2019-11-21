@@ -1,5 +1,5 @@
 """
-Concatenate sets of intervals. 
+Concatenate sets of intervals.
 
 Preserves format of the first input -- it is possible to concat two files that
 have different column orders. Of course, the meta-data of the second will be
@@ -9,14 +9,12 @@ cuts extra columns on subsequent input, and pads missing columns. If
 sameformat=False then extra columns are filled with ".".
 """
 
-import psyco_full
+from bx.intervals.io import GenomicInterval
+from bx.tabular.io import (
+    Comment,
+    Header,
+)
 
-import traceback
-import fileinput
-from warnings import warn
-
-from bx.intervals.io import *
-from bx.intervals.operations import *
 
 def concat(readers, comments=True, header=True, sameformat=True):
     # Save columns from the first input
@@ -30,7 +28,8 @@ def concat(readers, comments=True, header=True, sameformat=True):
     for intervals in readers:
         for interval in intervals:
             if isinstance(interval, GenomicInterval):
-                if not nfields: nfields = interval.nfields
+                if not nfields:
+                    nfields = interval.nfields
                 out_interval = interval.copy()
                 if sameformat or firstdataset:
                     # everything except the first input has to be
@@ -46,16 +45,17 @@ def concat(readers, comments=True, header=True, sameformat=True):
                     start = out_interval.start
                     end = out_interval.end
                     strand = out_interval.strand
-                    out_interval.fields = ["." for col in range(nfields)]  
+                    out_interval.fields = ["." for col in range(nfields)]
                     out_interval.fields[chrom_col] = chrom
                     out_interval.fields[start_col] = str(start)
                     out_interval.fields[end_col] = str(end)
                     # Strand is optional, might not exist in output
-                    if strand_col < len( out_interval.fields ):
+                    if strand_col < len(out_interval.fields):
                         out_interval.fields[strand_col] = strand
                     yield out_interval
             elif isinstance(interval, Header) and header:
                 yield interval
             elif isinstance(interval, Comment) and comments:
                 yield interval
-        if output and firstdataset: firstdataset = False
+        if output and firstdataset:
+            firstdataset = False

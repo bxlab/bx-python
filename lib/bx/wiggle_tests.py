@@ -40,52 +40,55 @@ fixedStep chrom=chr19 start=59307401 step=300 span=3
 """
 
 interval_reader_result = [
-"chr19,59302000,59302005,+,-1.0",
-"chr19,59302300,59302305,+,-0.75",
-"chr19,59304700,59304704,+,10.0",
-"chr19,59304900,59304904,+,12.5",
-"chr19,59307400,59307403,+,1000.0",
-"chr19,59307700,59307703,+,900.0",
-"chr19,59308000,59308003,+,800.0"
+    "chr19,59302000,59302005,+,-1.0",
+    "chr19,59302300,59302305,+,-0.75",
+    "chr19,59304700,59304704,+,10.0",
+    "chr19,59304900,59304904,+,12.5",
+    "chr19,59307400,59307403,+,1000.0",
+    "chr19,59307700,59307703,+,900.0",
+    "chr19,59308000,59308003,+,800.0"
 ]
 
 position_reader_result = [
-"chr19,59302000,-1.0",
-"chr19,59302001,-1.0",
-"chr19,59302002,-1.0",
-"chr19,59302003,-1.0",
-"chr19,59302004,-1.0",
-"chr19,59302300,-0.75",
-"chr19,59302301,-0.75",
-"chr19,59302302,-0.75",
-"chr19,59302303,-0.75",
-"chr19,59302304,-0.75",
-"chr19,59304700,10.0",
-"chr19,59304701,10.0",
-"chr19,59304702,10.0",
-"chr19,59304703,10.0",
-"chr19,59304900,12.5",
-"chr19,59304901,12.5",
-"chr19,59304902,12.5",
-"chr19,59304903,12.5",
-"chr19,59307400,1000.0",
-"chr19,59307401,1000.0",
-"chr19,59307402,1000.0",
-"chr19,59307700,900.0",
-"chr19,59307701,900.0",
-"chr19,59307702,900.0",
-"chr19,59308000,800.0",
-"chr19,59308001,800.0",
-"chr19,59308002,800.0"
+    "chr19,59302000,-1.0",
+    "chr19,59302001,-1.0",
+    "chr19,59302002,-1.0",
+    "chr19,59302003,-1.0",
+    "chr19,59302004,-1.0",
+    "chr19,59302300,-0.75",
+    "chr19,59302301,-0.75",
+    "chr19,59302302,-0.75",
+    "chr19,59302303,-0.75",
+    "chr19,59302304,-0.75",
+    "chr19,59304700,10.0",
+    "chr19,59304701,10.0",
+    "chr19,59304702,10.0",
+    "chr19,59304703,10.0",
+    "chr19,59304900,12.5",
+    "chr19,59304901,12.5",
+    "chr19,59304902,12.5",
+    "chr19,59304903,12.5",
+    "chr19,59307400,1000.0",
+    "chr19,59307401,1000.0",
+    "chr19,59307402,1000.0",
+    "chr19,59307700,900.0",
+    "chr19,59307701,900.0",
+    "chr19,59307702,900.0",
+    "chr19,59308000,800.0",
+    "chr19,59308001,800.0",
+    "chr19,59308002,800.0"
 ]
+
+
 class TestWiggleReader(unittest.TestCase):
     def test_reader(self):
-        #Test position reader
-        assert position_reader_result == [ ",".join( map( str, value ) ) for value in wiggle.Reader( StringIO( test_wig ) ) ]
-    
+        # Test position reader
+        assert position_reader_result == [",".join(map(str, value)) for value in wiggle.Reader(StringIO(test_wig))]
+
     def test_interval_reader(self):
-        #Test interval reader reader
-        assert interval_reader_result == [ ",".join( map( str, value ) ) for value in wiggle.IntervalReader( StringIO( test_wig ) ) ]
-    
+        # Test interval reader reader
+        assert interval_reader_result == [",".join(map(str, value)) for value in wiggle.IntervalReader(StringIO(test_wig))]
+
+
 if __name__ == '__main__':
     unittest.main()

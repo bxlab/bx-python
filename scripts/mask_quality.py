@@ -22,37 +22,36 @@ import sys
 import bx.align.axt
 import bx.align.maf
 import bx.binned_array
-from bx.align.sitemask.quality import *
+from bx.align.sitemask.quality import Simple
 from bx.cookbook import doc_optparse
 
 
 def main():
-    
-    options, args = doc_optparse.parse( __doc__ )
+
+    options, args = doc_optparse.parse(__doc__)
     try:
         inputformat = options.input
         outputformat = options.output
         mask = options.mask
         minqual = int(options.quality)
-        qtype = options.type
         speciesAndLens = options.list
         inputfile = args[0]
         outputfile = args[1]
-    except:
+    except Exception:
         doc_optparse.exception()
 
-    outstream = open( outputfile, "w" )
-    instream = open( inputfile, "r" )
+    outstream = open(outputfile, "w")
+    instream = open(inputfile, "r")
 
     qualfiles = {}
 
     # read lens
     specieslist = speciesAndLens.split(":")
     species_to_lengths = {}
-    
+
     for entry in specieslist:
         fields = entry.split(",")
-        lenstream = fileinput.FileInput( fields[1] )
+        lenstream = fileinput.FileInput(fields[1])
         lendict = dict()
         for line in lenstream:
             region = line.split()
@@ -62,19 +61,19 @@ def main():
             qualfiles[fields[0]] = fields[2]
 
     specieslist = [a.split(":")[0] for a in specieslist]
-    
+
     # open quality binned_arrays
     reader = None
     writer = None
-    
+
     if inputformat == "axt":
         # load axt
         if len(specieslist) != 2:
             print("AXT is pairwise only.")
             sys.exit()
-        reader = bx.align.axt.Reader(instream, species1=specieslist[0], \
-                                     species2=specieslist[1], \
-                                     species_to_lengths = species_to_lengths)
+        reader = bx.align.axt.Reader(instream, species1=specieslist[0],
+                                     species2=specieslist[1],
+                                     species_to_lengths=species_to_lengths)
     elif outputformat == "maf":
         # load maf
         reader = bx.align.maf.Reader(instream, species_to_lengths=species_to_lengths)
@@ -89,13 +88,13 @@ def main():
         # setup maf
         writer = bx.align.maf.Writer(outstream, attributes=reader.attributes)
 
-    qualfilter = Simple( mask=mask, qualspecies = species_to_lengths, \
-                         qualfiles = qualfiles, minqual = minqual, cache=50 )
+    qualfilter = Simple(mask=mask, qualspecies=species_to_lengths, qualfiles=qualfiles, minqual=minqual, cache=50)
 
-    qualfilter.run( reader, writer.write )
+    qualfilter.run(reader, writer.write)
 
     print("For "+str(qualfilter.total)+" base pairs, "+str(qualfilter.masked)+" base pairs were masked.")
     print(str(float(qualfilter.masked)/float(qualfilter.total) * 100)+"%")
-    
+
+
 if __name__ == "__main__":
     main()

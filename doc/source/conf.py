@@ -14,15 +14,9 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os
-
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
-#sys.path.append(os.path.abspath('.'))
-## curr_dir = os.path.dirname( __file__ )
-## bx_dir = os.path.join( curr_dir, '..', '..', 'lib')
-## sys.path.insert( 0, bx_dir )
 import bx
 
 # General configuration
@@ -132,7 +126,7 @@ html_static_path = ['static']
 
 # Custom sidebar templates, maps document names to template names.
 html_index = 'index.html'
-html_sidebars = { 'index': 'indexsidebar.html'}
+html_sidebars = {'index': 'indexsidebar.html'}
 
 # Additional templates that should be rendered to pages, maps page names to
 # template names.
@@ -175,10 +169,9 @@ htmlhelp_basename = 'bx-doc'
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
-latex_documents = [
-  ('index', 'bx-python.tex', ur'bx-python Documentation',
-   ur'James Taylor', 'manual'),
-]
+latex_documents = [(
+    'index', 'bx-python.tex', u'bx-python Documentation',
+    u'James Taylor', 'manual'), ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.

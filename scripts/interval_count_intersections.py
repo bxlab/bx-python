@@ -11,10 +11,8 @@ usage: %prog bed1 bed2 > out
 """
 from __future__ import division, print_function
 
-import string
 import sys
 
-import psyco_full
 from bx import intervals
 from bx import misc
 
@@ -25,26 +23,28 @@ def main():
 
     # Read ranges
 
-    for chr, start, end in read_intervals( misc.open_compressed( sys.argv[1] ) ):
-        if chr not in intersecters: intersecters[ chr ] = intervals.Intersecter()
-        intersecters[ chr ].add_interval( intervals.Interval( start, end ) )
+    for chr, start, end in read_intervals(misc.open_compressed(sys.argv[1])):
+        if chr not in intersecters:
+            intersecters[chr] = intervals.Intersecter()
+        intersecters[chr].add_interval(intervals.Interval(start, end))
 
     # Count intersection
 
     total = 0
 
-    for chr, start, end in read_intervals( misc.open_compressed( sys.argv[2] ) ):
+    for chr, start, end in read_intervals(misc.open_compressed(sys.argv[2])):
         if chr in intersecters:
-            intersection = intersecters[ chr ].find( start, end )
-            if intersection: 
-                #print chr, intersection
+            intersection = intersecters[chr].find(start, end)
+            if intersection:
                 total += 1
 
     print(total)
 
-def read_intervals( input ):
+
+def read_intervals(input):
     for line in input:
         fields = line.split()
-        yield fields[0], int( fields[1] ), int( fields[2] )
+        yield fields[0], int(fields[1]), int(fields[2])
+
 
 main()

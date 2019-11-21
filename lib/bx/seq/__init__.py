@@ -4,4 +4,4 @@ sequence classes and `nib` and `qdna` for specifics of various
 formats.
 """
 
-from bx.seq.core import *
+from bx.seq.core import *  # noqa: F40
