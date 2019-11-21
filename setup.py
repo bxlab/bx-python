@@ -21,7 +21,7 @@ def main():
 
     metadata = dict(
         name="bx-python",
-        version="0.8.5",
+        version="0.8.6",
         setup_requires=['numpy', 'cython'],
         install_requires=['numpy', 'six'],
         py_modules=['psyco_full'],
