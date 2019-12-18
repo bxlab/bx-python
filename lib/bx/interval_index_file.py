@@ -82,7 +82,6 @@ offset+16+B:  ...          (B bytes) value for interval 2
 """
 
 import os.path
-import sys
 from bisect import (
     insort,
     insort_right,
@@ -124,7 +123,7 @@ for i in range(BIN_LEVELS - 2):
     BIN_OFFSETS_MAX.insert(0, (BIN_OFFSETS_MAX[0] << BIN_NEXT_SHIFT))
 # The maximum size for the top bin is actually bigger than the signed integers
 # we use to store positions in the file, so we'll change it to prevent confusion
-BIN_OFFSETS_MAX[0] = sys.maxsize
+BIN_OFFSETS_MAX[0] = 2**63
 
 # Constants for the minimum and maximum size of the overall interval
 MIN = 0
@@ -137,12 +136,14 @@ def offsets_for_max_size(max_size):
     """
     Return the subset of offsets needed to contain intervals over (0,max_size)
     """
-    for i, max in enumerate(reversed(BIN_OFFSETS_MAX)):
-        if max_size < max:
+    offset_index = None
+    for i, off_max in enumerate(reversed(BIN_OFFSETS_MAX)):
+        if max_size <= off_max:
+            offset_index = i
             break
-    else:
+    if offset_index is None:
         raise Exception("%d is larger than the maximum possible size (%d)" % (max_size, BIN_OFFSETS_MAX[0]))
-    return BIN_OFFSETS[(len(BIN_OFFSETS) - i - 1) :]
+    return BIN_OFFSETS[(len(BIN_OFFSETS) - offset_index - 1):]
 
 
 def bin_for_range(start, end, offsets=None):
