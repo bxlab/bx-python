@@ -1,5 +1,8 @@
 language: python
-cache: pip
+cache:
+ pip: true
+ directories:
+    - $HOME/.ccache
 os:
   - linux
 python:
@@ -17,7 +20,9 @@ env:
     - PYTHON=python
     - TWINE_USERNAME=nsoranzo
     - secure: 'kFoqHCxat/ETS2SUc2q9M7YvzvnlR7sgHmx7SRvVgTyLkk1efpJ++YPwDBEYZ3v+GLf2nRfc20GxtZkH6ey1f//aj4CT2q2CJiUsKAlkFAOHzKo/3mTLl/WDHkPAr9MW7AdnbNk6W8sIPCKqFsyKL2FTH70dBcxa1e7trQ2RC64hnOOkt/tm2cQhj6sX0gROggN5QrpHE8tDZb9ugF0uf92L/CGxeClAebWgb7zVChHDMTNsmnOvWUF9m6LZOvkgFmuIeh70EPuOWh6LxU/n5JyevYIGO5vVDbjgfmNELlG2KUTm6dWeoyofcj6hUqYmQsmI1ATrf7ThY1+b6asQGy+Exp/76MBXiYRh+RgVKifwaZMOWehzfjDQvPYOGvf6rXOVGeVZ+nBkskr0HARsX1KnyDE+k+XPoP7zqvW6mCic9ZQ+IdQJtxMHOTxxFjuPAlunvaUqDNM9VP6YEWOI4UqIOO1nQh4E2zkPhXI2yY744q+BV/5+3HHqNQj1+5qFPoZeyDEuNXwgDCjrJ8i3hna/LTTvRigx6/YQL1PF/C30R4h/nkqp8ghA4VpNRPnQ8nOO+oD6AdN7Pswc3C4qGPEwoeqfNzEIR1KfEWzB7HsfTFbgyGFFNGuQ/P26DMK+kPBNZ6GhZ9wb5/xT226OA+ovcAmVGn/Hnt/qVaylXNk='
-
+    - USE_CCACHE=1
+    - CCACHE_MAXSIZE=250M
+    - PATH="/usr/lib/ccache:$PATH"
 _deploy_common: &deploy_common
   install:
     - $PYTHON -m pip install cibuildwheel twine
@@ -32,6 +37,21 @@ matrix:
       script:
         - flake8 .
 
+    - stage: test
+      dist: bionic
+      env: C_COMPILER=i686-linux-gnu-gcc CFLAGS=-m32
+      addons:
+        apt:
+          packages:
+            - gcc-i686-linux-gnu
+      before_install:
+              - |
+                  sudo dpkg --add-architecture i386 && sudo apt update \
+                  && sudo apt install -y python3.7:i386 python3.7-minimal:i386 python3.7-dev:i386 python3-pip liblzo2-dev:i386
+              - |
+                  export PYTHON=python3.7 && sudo -H $PYTHON -m pip install -U pip \
+                  && sudo -H $PYTHON -m pip install wheel virtualenv setuptools
+              - $PYTHON -m virtualenv ${HOME}/.env && source ${HOME}/.env/bin/activate
     - stage: deploy
       python: '3.5'
       services:
@@ -65,9 +85,10 @@ addons:
       - liblzo2-dev
 
 install:
+  - if [ -n "${C_COMPILER}" ]; then export CC="${C_COMPILER}"; fi
   - $PYTHON -m pip install Cython nose numpy python-lzo six
   - $PYTHON setup.py build_ext --inplace
   - $PYTHON setup.py install
 
 script:
-  - nosetests
+  - $PYTHON -m nose
