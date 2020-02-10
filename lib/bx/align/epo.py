@@ -170,19 +170,21 @@ class Chain(namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qSi
         if fname.endswith('.pkl'):
             # you asked for the pickled file. I'll give it to you
             log.debug("loading pickled file %s ..." % fname)
-            return cPickle.load(open(fname, "rb"))
+            with open(fname, "rb") as f:
+                return cPickle.load(f)
         elif os.path.isfile("%s.pkl" % fname):
             # there is a cached version I can give to you
             log.info("loading pickled file %s.pkl ..." % fname)
             if os.stat(path).st_mtime > os.stat("%s.pkl" % fname).st_mtime:
                 log.critical("*** pickled file %s.pkl is not up to date ***" % (path))
-            return cPickle.load(open("%s.pkl" % fname, "rb"))
+            with open("%s.pkl" % fname, "rb") as f:
+                return cPickle.load(f)
 
         data = fastLoadChain(path, cls._strfactory)
         if pickle and not os.path.isfile('%s.pkl' % fname):
             log.info("pckling to %s.pkl" % (fname))
-            with open('%s.pkl' % fname, 'wb') as fd:
-                cPickle.dump(data, fd)
+            with open('%s.pkl' % fname, 'wb') as f:
+                cPickle.dump(data, f)
         return data
 
 

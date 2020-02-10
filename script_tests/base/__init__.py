@@ -84,7 +84,7 @@ class BaseScriptTest(object):
         else:
             env['PYTHONPATH'] = "./lib"
         # Run the command
-        assert subprocess.call(real_command, stdin=stdin, stdout=stdout, stderr=stderr, shell=True, env=env) == 0
+        subprocess.check_call(real_command, stdin=stdin, stdout=stdout, stderr=stderr, shell=True, env=env)
         # Check the outputs
         for key, value in output_files.items():
             value.check(output_fnames[key])

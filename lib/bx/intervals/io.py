@@ -201,14 +201,14 @@ class NiceReaderWrapper(GenomicIntervalReader):
     ...                        "#I am a comment",
     ...                        "chr2\\tbar\\t20\\t300\\txxx" ], start_col=2, end_col=3 )
     >>> assert isinstance(next(r), Header)
+    >>> assert len([_ for _ in r]) == 4
     """
 
     def __init__(self, reader, **kwargs):
         GenomicIntervalReader.__init__(self, reader, **kwargs)
         self.outstream = kwargs.get("outstream", None)
         self.print_delegate = kwargs.get("print_delegate", None)
-        self.input_wrapper = iter(self.input)
-        self.input_iter = self.iterwrapper()
+        self.input_iter = iter(self.input)
         self.skipped = 0
         self.skipped_lines = []
 
@@ -229,11 +229,6 @@ class NiceReaderWrapper(GenomicIntervalReader):
                 if self.skipped < 10:
                     self.skipped_lines.append((self.linenum, self.current_line, str(e)))
 
-    def iterwrapper(self):
-        while True:
-            self.current_line = next(self.input_wrapper)
-            yield self.current_line
-
 
 class BitsetSafeReaderWrapper(NiceReaderWrapper):
     def __init__(self, reader, lens={}):
@@ -247,7 +242,7 @@ class BitsetSafeReaderWrapper(NiceReaderWrapper):
 
     def __next__(self):
         while True:
-            rval = NiceReaderWrapper.next(self)
+            rval = super(BitsetSafeReaderWrapper, self).__next__()
             if isinstance(rval, GenomicInterval) and rval.end > self.lens.get(rval.chrom, MAX):
                 self.skipped += 1
                 # no reason to stuff an entire bad file into memory
