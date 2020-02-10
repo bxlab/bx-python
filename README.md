@@ -4,7 +4,7 @@
 
 # bx-python
 
-The bx-python project is a python library and associated set of scripts to allow for rapid implementation of genome scale analyses. The library contains a variety of useful modules, but the particular strengths are:
+The bx-python project is a Python library and associated set of scripts for rapid implementation of genome scale analyses. The library contains a variety of useful modules, but the particular strengths are:
 
   * Classes for reading and working with genome-scale multiple local alignments (in MAF, AXT, and LAV formats)
   * Generic data structure for indexing on disk files that contain blocks of data associated with intervals on various sequences (used, for example, to provide random access to individual alignments in huge files; optimized for use over network filesystems)
@@ -24,7 +24,7 @@ The package can be installed with pip:
 
 It is available in [bioconda](https://anaconda.org/bioconda/bx-python) (recommended):
 
-```conda install -c bioconda bx-python```
+```conda install -c conda-forge -c bioconda bx-python```
 
 Or can be built from a checkout of the repository:
 

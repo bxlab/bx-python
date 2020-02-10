@@ -3,11 +3,6 @@ import sys
 from distutils.core import Command
 from glob import glob
 
-if sys.version_info < (2, 6):
-    sys.exit("ERROR: bx-python requires Python 2.6 or greater")
-elif sys.version_info > (3, ) and sys.version_info < (3, 3):
-    sys.exit("ERROR: bx-python requires Python 3.3 or greater")
-
 try:
     from setuptools import setup, find_packages
 except ImportError:
@@ -21,7 +16,8 @@ def main():
 
     metadata = dict(
         name="bx-python",
-        version="0.8.6",
+        version="0.8.7",
+        python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*',
         setup_requires=['numpy', 'cython'],
         install_requires=['numpy', 'six'],
         py_modules=['psyco_full'],
