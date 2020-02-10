@@ -232,7 +232,10 @@ class NiceReaderWrapper(GenomicIntervalReader):
 
     def iterwrapper(self):
         while True:
-            self.current_line = next(self.input_wrapper)
+            try:
+                self.current_line = next(self.input_wrapper)
+            except StopIteration:
+                return
             yield self.current_line
 
 
