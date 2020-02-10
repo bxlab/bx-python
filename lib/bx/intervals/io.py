@@ -201,6 +201,7 @@ class NiceReaderWrapper(GenomicIntervalReader):
     ...                        "#I am a comment",
     ...                        "chr2\\tbar\\t20\\t300\\txxx" ], start_col=2, end_col=3 )
     >>> assert isinstance(next(r), Header)
+    >>> assert len([_ for _ in r]) == 4
     """
 
     def __init__(self, reader, **kwargs):
