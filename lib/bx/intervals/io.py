@@ -201,6 +201,7 @@ class NiceReaderWrapper(GenomicIntervalReader):
     ...                        "#I am a comment",
     ...                        "chr2\\tbar\\t20\\t300\\txxx" ], start_col=2, end_col=3 )
     >>> assert isinstance(next(r), Header)
+    >>> assert r.current_line == '#chrom\\tname\\tstart\\tend\\textra', r.current_line
     >>> assert len([_ for _ in r]) == 4
     """
 
@@ -231,11 +232,8 @@ class NiceReaderWrapper(GenomicIntervalReader):
                     self.skipped_lines.append((self.linenum, self.current_line, str(e)))
 
     def iterwrapper(self):
-        while True:
-            try:
-                self.current_line = next(self.input_wrapper)
-            except StopIteration:
-                return
+        # Generator which keeps track of the current line as an object attribute.
+        for self.current_line in self.input_wrapper:
             yield self.current_line
 
 
