@@ -208,7 +208,8 @@ class NiceReaderWrapper(GenomicIntervalReader):
         GenomicIntervalReader.__init__(self, reader, **kwargs)
         self.outstream = kwargs.get("outstream", None)
         self.print_delegate = kwargs.get("print_delegate", None)
-        self.input_iter = iter(self.input)
+        self.input_wrapper = iter(self.input)
+        self.input_iter = self.iterwrapper()
         self.skipped = 0
         self.skipped_lines = []
 
@@ -228,6 +229,11 @@ class NiceReaderWrapper(GenomicIntervalReader):
                 # no reason to stuff an entire bad file into memory
                 if self.skipped < 10:
                     self.skipped_lines.append((self.linenum, self.current_line, str(e)))
+
+    def iterwrapper(self):
+        while True:
+            self.current_line = next(self.input_wrapper)
+            yield self.current_line
 
 
 class BitsetSafeReaderWrapper(NiceReaderWrapper):
