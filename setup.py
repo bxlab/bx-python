@@ -1,4 +1,7 @@
+import ast
+import os
 import platform
+import re
 import sys
 from distutils.core import Command
 from glob import glob
@@ -11,12 +14,22 @@ except ImportError:
 
 from setuptools import Extension  # noqa: E402
 
+version_file = os.path.join('lib', 'bx', '__init__.py')
+reg = re.compile(r'__version__\s*=\s*(.+)')
+with open(version_file) as f:
+    for line in f:
+        m = reg.match(line)
+        if m:
+            version = ast.literal_eval(m.group(1))
+            break
+    else:
+        raise Exception("Version not found in " + version_file)
+
 
 def main():
-
     metadata = dict(
         name="bx-python",
-        version="0.8.7",
+        version=version,
         python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*',
         setup_requires=['numpy', 'cython'],
         install_requires=['numpy', 'six'],
