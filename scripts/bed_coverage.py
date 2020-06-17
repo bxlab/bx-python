@@ -16,7 +16,7 @@ from bx.bitset_builders import binned_bitsets_from_file
 
 bed_filenames = sys.argv[1:]
 if bed_filenames:
-    input = chain(* (open(_) for _ in bed_filenames))
+    input = chain.from_iterable(map(open, bed_filenames))
 else:
     input = sys.stdin
 
