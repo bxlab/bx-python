@@ -1,8 +1,9 @@
 """
 Access to files containing sequence data in 'twobit' format.
 """
-from collections import Mapping
 from struct import calcsize, unpack
+
+from six.moves.collections_abc import Mapping
 
 from . import _twobit
 
@@ -72,7 +73,7 @@ class TwoBitFile(Mapping):
         self.reserved = self.read("L")
         # Read index of sequence names to offsets
         index = dict()
-        for i in range(self.seq_count):
+        for _ in range(self.seq_count):
             name = self.read_p_string()
             offset = self.read("L")
             index[name] = TwoBitSequence(self, offset)
