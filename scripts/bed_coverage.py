@@ -9,14 +9,14 @@ usage: %prog bed files ...
 """
 from __future__ import print_function
 
+import fileinput
 import sys
-from itertools import chain
 
 from bx.bitset_builders import binned_bitsets_from_file
 
 bed_filenames = sys.argv[1:]
 if bed_filenames:
-    input = chain(* (open(_) for _ in bed_filenames))
+    input = fileinput.input(bed_filenames)
 else:
     input = sys.stdin
 

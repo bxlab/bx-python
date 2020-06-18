@@ -68,9 +68,9 @@ addons:
       - liblzo2-dev
 
 install:
-  - $PYTHON -m pip install Cython nose numpy python-lzo six
+  - $PYTHON -m pip install Cython nose numpy python-lzo
   - $PYTHON setup.py build_ext --inplace
-  - $PYTHON setup.py install
+  - $PYTHON -m pip install .
 
 script:
   - nosetests

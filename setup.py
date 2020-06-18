@@ -32,7 +32,9 @@ def main():
         version=version,
         python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*',
         setup_requires=['numpy', 'cython'],
-        install_requires=['numpy', 'six'],
+        install_requires=[
+            'numpy',
+            'six>=1.13.0'],
         py_modules=['psyco_full'],
         package_dir={'': 'lib'},
         package_data={'': ['*.ps']},

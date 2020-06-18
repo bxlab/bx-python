@@ -16,7 +16,8 @@ from __future__ import division, print_function
 import os
 import os.path
 import sys
-from collections import Mapping
+
+from six.moves.collections_abc import Mapping
 
 import bx.wiggle
 from bx import misc

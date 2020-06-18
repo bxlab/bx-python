@@ -6,7 +6,12 @@ from __future__ import print_function
 
 import math
 import random
-import time
+
+try:
+    from time import process_time
+except ImportError:
+    # For compatibility with Python < 3.3
+    from time import clock as process_time
 
 
 class IntervalTree(object):
@@ -130,7 +135,7 @@ class IntervalNode(object):
 def main():
     test = None
     intlist = []
-    for x in range(20000):
+    for _ in range(20000):
         start = random.randint(0, 1000000)
         end = start + random.randint(1, 1000)
         if test:
@@ -138,19 +143,19 @@ def main():
         else:
             test = IntervalNode(start, end)
         intlist.append((start, end))
-    starttime = time.clock()
+    starttime = process_time()
     for x in range(5000):
         start = random.randint(0, 10000000)
         end = start + random.randint(1, 1000)
         result = []
         test.intersect(start, end, lambda x: result.append(x.linenum))
-    print("%f for tree method" % (time.clock() - starttime))
-    starttime = time.clock()
-    for x in range(5000):
+    print("%f for tree method" % (process_time() - starttime))
+    starttime = process_time()
+    for _ in range(5000):
         start = random.randint(0, 10000000)
         end = start + random.randint(1, 1000)
         bad_sect(intlist, start, end)
-    print("%f for linear (bad) method" % (time.clock() - starttime))
+    print("%f for linear (bad) method" % (process_time() - starttime))
 
 
 def test_func(node):
