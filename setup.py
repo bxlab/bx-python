@@ -24,6 +24,8 @@ with open(version_file) as f:
             break
     else:
         raise Exception("Version not found in " + version_file)
+with open('README.rst') as f:
+    long_description = f.read()
 
 
 def main():
@@ -44,7 +46,12 @@ def main():
         author="James Taylor, Bob Harris, David King, Brent Pedersen, Kanwei Li, and others",
         author_email="james@jamestaylor.org",
         description="Tools for manipulating biological data, particularly multiple sequence alignments",
+        long_description=long_description,
         url="https://github.com/bxlab/bx-python",
+        project_urls={
+            "Bug Tracker": "https://github.com/bxlab/bx-python/issues",
+            "Source Code": "https://github.com/bxlab/bx-python",
+        },
         license="MIT",
         classifiers=[
             "Development Status :: 5 - Production/Stable",
