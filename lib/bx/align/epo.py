@@ -169,20 +169,23 @@ class Chain(namedtuple('Chain', 'score tName tSize tStrand tStart tEnd qName qSi
 
         if fname.endswith('.pkl'):
             # you asked for the pickled file. I'll give it to you
-            log.debug("loading pickled file %s ..." % fname)
+            log.debug("loading pickled file %s ...", fname)
             with open(fname, "rb") as f:
                 return cPickle.load(f)
         elif os.path.isfile("%s.pkl" % fname):
             # there is a cached version I can give to you
-            log.info("loading pickled file %s.pkl ..." % fname)
+            log.info("loading pickled file %s.pkl ...", fname)
             if os.stat(path).st_mtime > os.stat("%s.pkl" % fname).st_mtime:
-                log.critical("*** pickled file %s.pkl is not up to date ***" % (path))
-            with open("%s.pkl" % fname, "rb") as f:
-                return cPickle.load(f)
+                log.critical("*** pickled file %s.pkl is not up to date ***", fname)
+            try:
+                with open("%s.pkl" % fname, "rb") as f:
+                    return cPickle.load(f)
+            except Exception:
+                log.warning("Loading pickled file %s.pkl failed", fname)
 
         data = fastLoadChain(path, cls._strfactory)
         if pickle and not os.path.isfile('%s.pkl' % fname):
-            log.info("pckling to %s.pkl" % (fname))
+            log.info("pickling to %s.pkl", fname)
             with open('%s.pkl' % fname, 'wb') as f:
                 cPickle.dump(data, f)
         return data
@@ -233,7 +236,7 @@ class EPOitem(namedtuple('Epo_item', 'species gabid chrom start end strand cigar
             for el in (cls._strfactory(_) for _ in fd):
                 if el:
                     data.setdefault(el.gabid, []).append(el)
-        log.info("parsed %d elements from %s" % (len(data), fname))
+        log.info("parsed %d elements from %s", len(data), fname)
         return data
 
     def cigar_iter(self, reverse):

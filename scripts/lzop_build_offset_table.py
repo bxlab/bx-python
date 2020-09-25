@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
 """
 Read a compressed file as created by 'lzop' from stdin and write a table to
@@ -12,7 +12,7 @@ from __future__ import print_function
 import struct
 import sys
 
-MAGIC = "\x89\x4c\x5a\x4f\x00\x0d\x0a\x1a\x0a"
+MAGIC = b"\x89\x4c\x5a\x4f\x00\x0d\x0a\x1a\x0a"
 
 F_ADLER32_D = 0x00000001
 F_ADLER32_C = 0x00000002
@@ -41,7 +41,12 @@ class UnpackWrapper(object):
 
 
 def main():
-    f = UnpackWrapper(sys.stdin)
+    try:
+        binary_stdin = sys.stdin.buffer
+    except AttributeError:
+        # Python 2
+        binary_stdin = sys.stdin
+    f = UnpackWrapper(binary_stdin)
     # Read header
     magic = f.read(9)
     assert magic == MAGIC, "Not LZOP file"

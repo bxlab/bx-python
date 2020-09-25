@@ -66,7 +66,7 @@ class BaseScriptTest(object):
             all_fnames[key] = input_fnames[key]
             if key == 'stdin':
                 stdin = open(input_fnames[key], 'r')
-        for key, value in output_files.items():
+        for key in output_files.keys():
             _, tf_name = tempfile.mkstemp()
             output_fnames[key] = tf_name
             all_fnames[key] = output_fnames[key]

@@ -29,6 +29,7 @@ class SeekableLzopFile(Iterator):
         self.init_table()
         self.file = open(self.filename, "rb")
         self.dirty = True
+        self.closed = False
         self.at_eof = False
         self.file_pos = 0
         self.current_block_index = -1
@@ -55,6 +56,7 @@ class SeekableLzopFile(Iterator):
 
     def close(self):
         self.file.close()
+        self.closed = True
 
     def load_block(self, index):
         if self.cache is not None and index in self.cache:
@@ -110,6 +112,37 @@ class SeekableLzopFile(Iterator):
     def tell(self):
         return self.file_pos
 
+    def read(self, sizehint=-1):
+        if sizehint < 0:
+            chunks = []
+            while True:
+                val = self._read(1024*1024)
+                if val:
+                    chunks.append(val)
+                else:
+                    break
+            return b"".join(chunks)
+        else:
+            return self._read(sizehint)
+
+    def _read(self, size):
+        if self.dirty:
+            self.fix_dirty()
+        val = b''
+        while size:
+            part = self.current_block.read(size)
+            size -= len(part)
+            if part:
+                val += part
+            elif self.current_block_index == self.nblocks - 1:
+                self.at_eof = True
+                break
+            else:
+                self.current_block_index += 1
+                self.current_block = BytesIO(self.load_block(self.current_block_index))
+        self.file_pos += len(val)
+        return val
+
     def readline(self):
         if self.dirty:
             self.fix_dirty()
@@ -137,6 +170,19 @@ class SeekableLzopFile(Iterator):
 
     def __iter__(self):
         return self
+
+    def flush(self):
+        pass
+
+    def readable(self):
+        return True
+
+    def seekable(self):
+        return True
+
+    def writable(self):
+        return False
+
 
 # --- Factor out ---
 

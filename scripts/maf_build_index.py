@@ -18,6 +18,7 @@ import bx.align.maf
 from bx import interval_index_file
 from bx.cookbook import doc_optparse
 from bx.misc.seekbzip2 import SeekableBzip2File
+from bx.misc.seeklzop import SeekableLzopFile
 
 
 def main():
@@ -36,7 +37,6 @@ def main():
             # Strip .bz2 from the filename before adding ".index"
             maf_file = maf_file[:-4]
         elif maf_file.endswith(".lzo"):
-            from bx.misc.seeklzop import SeekableLzopFile
             table_file = maf_file + "t"
             if not os.path.exists(table_file):
                 doc_optparse.exit("To index lzo compressed files first "

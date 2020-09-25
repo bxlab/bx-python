@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 """
 Create a bed file listing all the divergent sites between two specific species
 in a maf.

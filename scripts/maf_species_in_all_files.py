@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
 """
 Takes a list of maf filenames on the command line and prints a comma separated
