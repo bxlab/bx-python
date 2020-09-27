@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
 usage: %prog species1,species2,... nrequired < maf

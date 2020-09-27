@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
 Read a MAF from stdin and break into several mafs based on the source of

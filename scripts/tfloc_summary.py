@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
 
 """
 Read TFLOC output from stdin and write out a summary in which the nth line

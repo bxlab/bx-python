@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 """
 For each interval in `bed1` count the number of intersecting regions in `bed2`.
 

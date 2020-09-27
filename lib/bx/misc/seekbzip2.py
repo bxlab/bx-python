@@ -21,6 +21,7 @@ class SeekableBzip2File(Iterator):
         self.init_bz2()
         self.pos = 0
         self.dirty = True
+        self.closed = False
 
     def init_bz2(self):
         self.seek_bz2 = SeekBzip2(self.filename)
@@ -47,6 +48,7 @@ class SeekableBzip2File(Iterator):
 
     def close(self):
         self.seek_bz2.close()
+        self.closed = True
 
     def fix_dirty(self):
         # Our virtual position in the uncompressed data is out of sync
@@ -141,8 +143,20 @@ class SeekableBzip2File(Iterator):
     def __iter__(self):
         return self
 
+    def flush(self):
+        pass
+
+    def readable(self):
+        return True
+
     def readlines(self, sizehint=-1):
         return [ln for ln in self]
 
+    def seekable(self):
+        return True
+
     def xreadlines(self):
         return iter(self)
+
+    def writable(self):
+        return False

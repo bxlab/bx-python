@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
 """
 WARNING: bz2/bz2t support and file cache support are new and not as well
