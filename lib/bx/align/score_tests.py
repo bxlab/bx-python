@@ -2,13 +2,13 @@
 Tests for `bx.align.score`.
 """
 import unittest
+from io import StringIO
 
 from numpy import (
     allclose,
     array,
     cumsum,
 )
-from six import StringIO
 
 import bx.align.maf
 import bx.align.score

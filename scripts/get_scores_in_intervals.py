@@ -8,7 +8,6 @@ TODO: Support binned array format scores also.
 
 usage: %prog score_file interval_file [out_file]
 """
-from __future__ import division, print_function
 
 import sys
 

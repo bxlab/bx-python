@@ -9,7 +9,6 @@ TODO: General sequence handling would be nice, as well as merging with
 
 usage: %prog nib_dir < range_file
 """
-from __future__ import print_function
 
 import sys
 
@@ -34,7 +33,7 @@ def __main__():
         if chrom in nibs:
             nib = nibs[chrom]
         else:
-            nibs[chrom] = nib = bx.seq.nib.NibFile(open("%s/%s.nib" % (nib_dir, chrom)))
+            nibs[chrom] = nib = bx.seq.nib.NibFile(open(f"{nib_dir}/{chrom}.nib"))
         print_wrapped(nib.get(start, end - start))
 
 

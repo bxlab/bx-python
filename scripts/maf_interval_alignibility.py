@@ -9,7 +9,6 @@ usage: %prog maf_files [options] < interval_file
     -p, --prefix=PREFIX: Prefix to add to each interval chrom (usually reference species)
    -C, --usecache:   Use a cache that keeps blocks of the MAF files in memory (requires ~20MB per MAF)
 """
-from __future__ import division, print_function
 
 import sys
 

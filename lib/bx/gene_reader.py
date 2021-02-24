@@ -8,7 +8,6 @@ formats.
 
 For gff/gtf, the start_codon stop_codon line types are merged with CDSs.
 """
-from __future__ import print_function
 
 import sys
 
@@ -25,7 +24,7 @@ def GeneReader(fh, format='gff'):
 
     known_formats = ('gff', 'gtf', 'bed')
     if format not in known_formats:
-        print('%s format not in %s' % (format, ",".join(known_formats)), file=sys.stderr)
+        print('{} format not in {}'.format(format, ",".join(known_formats)), file=sys.stderr)
         raise Exception('?')
 
     if format == 'bed':
@@ -89,7 +88,7 @@ def CDSReader(fh, format='gff'):
 
     known_formats = ('gff', 'gtf', 'bed')
     if format not in known_formats:
-        print('%s format not in %s' % (format, ",".join(known_formats)), file=sys.stderr)
+        print('{} format not in {}'.format(format, ",".join(known_formats)), file=sys.stderr)
         raise Exception('?')
 
     if format == 'bed':
@@ -175,7 +174,7 @@ def FeatureReader(fh, format='gff', alt_introns_subtract="exons", gtf_parse=None
 
     known_formats = ('gff', 'gtf', 'bed')
     if format not in known_formats:
-        print('%s format not in %s' % (format, ",".join(known_formats)), file=sys.stderr)
+        print('{} format not in {}'.format(format, ",".join(known_formats)), file=sys.stderr)
         raise Exception('?')
 
     if format == 'bed':

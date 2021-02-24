@@ -3,7 +3,6 @@ Classes to support "biological sequence" files.
 
 :Author: Bob Harris (rsharris@bx.psu.edu)
 """
-from six import Iterator
 
 # DNA reverse complement table
 
@@ -13,7 +12,7 @@ DNA_COMP = "                                             -                  " \
            "                                                                "
 
 
-class SeqFile(object):
+class SeqFile:
     """
     A biological sequence is a sequence of bytes or characters.  Usually these
     represent DNA (A,C,G,T), proteins, or some variation of those.
@@ -91,7 +90,7 @@ class SeqFile(object):
         assert length >= 0, "Length must be non-negative (got %d)" % length
         assert start >= 0, "Start must be greater than 0 (got %d)" % start
         assert start + length <= self.length, \
-            "Interval beyond end of sequence (%s..%s > %s)" % (start, start + length, self.length)
+            "Interval beyond end of sequence ({}..{} > {})".format(start, start + length, self.length)
         # Fetch sequence and reverse complement if necesary
         if not self.revcomp:
             return self.raw_fetch(start, length)
@@ -110,7 +109,7 @@ class SeqFile(object):
         return "".join(comp)
 
 
-class SeqReader(Iterator):
+class SeqReader:
     """Iterate over all sequences in a file in order"""
 
     def __init__(self, file, revcomp=False, name="", gap=None):
@@ -130,7 +129,7 @@ class SeqReader(Iterator):
         return   # .. next sequence (of type SeqFile or a subclass) read from self.file
 
 
-class SeqReaderIter(Iterator):
+class SeqReaderIter:
     def __init__(self, reader):
         self.reader = reader
 

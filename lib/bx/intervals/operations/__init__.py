@@ -2,7 +2,6 @@
 High level operations on genomic intervals. Most accept and produce iterables
 of `bx.io.inervals.io.GenomicInterval` objects.
 """
-from __future__ import print_function
 
 BED_DEFAULT_COLS = 0, 1, 2, 5
 MAX_END = 512*1024*1024

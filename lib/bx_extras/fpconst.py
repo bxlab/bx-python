@@ -25,8 +25,7 @@ __version__ = "0.7.0"
 
 import operator
 import struct
-
-from six.moves import reduce
+from functools import reduce
 
 ident = "$Id: fpconst.py,v 1.12 2004/05/22 04:38:17 warnes Exp $"
 

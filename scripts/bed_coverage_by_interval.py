@@ -6,8 +6,6 @@ For each interval in `bed1` print the fraction of bases covered by `bed2`.
 usage: %prog bed1 bed2 [mask]
 """
 
-from __future__ import division, print_function
-
 import sys
 
 from bx.bitset import BinnedBitSet
@@ -48,7 +46,7 @@ for line in open(bed1_fname):
     if mask and chr in mask:
         bases_masked = mask[chr].count_range(start, end-start)
         length -= bases_masked
-    assert bases_covered <= length, "%r, %r, %r" % (bases_covered, bases_masked, length)
+    assert bases_covered <= length, f"{bases_covered!r}, {bases_masked!r}, {length!r}"
     if length == 0:
         print(0.0)
     else:

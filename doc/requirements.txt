@@ -1,3 +1,2 @@
 https://bitbucket.org/james_taylor/python-lzo-static/get/63987d89fd1b.zip
 numpy
-six

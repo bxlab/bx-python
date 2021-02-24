@@ -27,7 +27,6 @@ characters ",", ":", "=", "\\n", so be careful in using them. If
 the docstring is not correctly formatted you will get a SyntaxError
 or worse, the script will not work as expected.
 """
-from __future__ import print_function
 
 import optparse
 import re

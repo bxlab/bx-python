@@ -9,7 +9,6 @@ Note: all blocks must have exactly the same number of species.
 
 usage: %prog < maf > column_counts
 """
-from __future__ import print_function
 
 import sys
 

@@ -5,7 +5,6 @@ Read a MAF from standard input and print average GC content of each alignment
 
 usage: %prog < maf > out
 """
-from __future__ import division, print_function
 
 import sys
 

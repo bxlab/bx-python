@@ -2,7 +2,6 @@
 Intersects ... faster.  Suports GenomicInterval datatype and multiple
 chromosomes.
 """
-from __future__ import print_function
 
 import math
 import random
@@ -14,7 +13,7 @@ except ImportError:
     from time import clock as process_time
 
 
-class IntervalTree(object):
+class IntervalTree:
     def __init__(self):
         self.chroms = {}
 
@@ -39,7 +38,7 @@ class IntervalTree(object):
             item.traverse(func)
 
 
-class IntervalNode(object):
+class IntervalNode:
     def __init__(self, start, end, linenum=0, other=None):
         # Python lacks the binomial distribution, so we convert a
         # uniform into a binomial because it naturally scales with

@@ -1,11 +1,8 @@
 #!/usr/bin/env python
-from __future__ import print_function
 
 import math
-import string
 import sys
 
-import six
 from numpy import float32, putmask, shape, zeros
 
 # This is the average of all species in the alignment outside of exons
@@ -19,7 +16,7 @@ from numpy import float32, putmask, shape, zeros
 ENCODE_NONCODING_BACKGROUND = {'A': 0.2863776, 'T': 0.2878264, 'G': 0.2128400, 'C': 0.2129560}
 
 
-class Align(object):
+class Align:
     def __init__(self, seqrows, headers=None):
         self.rows = seqrows
         self.nrows = len(seqrows)
@@ -41,7 +38,7 @@ class Align(object):
         return "\n".join(self.rows)
 
 
-class AlignScoreMatrix (object):
+class AlignScoreMatrix:
     def __init__(self, align):
         nan = float('nan')
 
@@ -147,12 +144,9 @@ def score_align_motif(align, motif, gapmask=None, byPosition=True):
 # ----------
 
 
-class PositionWeightMatrix (object):
+class PositionWeightMatrix:
 
-    if six.PY2:
-        complementMap = string.maketrans("ACGTacgt", "TGCAtgca")
-    else:
-        complementMap = str.maketrans("ACGTacgt", "TGCAtgca")
+    complementMap = str.maketrans("ACGTacgt", "TGCAtgca")
 
     # IUPAC-IUB
     symbols = {
@@ -213,7 +207,7 @@ class PositionWeightMatrix (object):
                 try:
                     (w, s) = self.parse_weight(count)
                 except ValueError:
-                    raise ValueError("pwm row %s has bad weight %s" % (" ".join(fields), w))
+                    raise ValueError("pwm row {} has bad weight {}".format(" ".join(fields), w))
 
                 # replace row counts with (values,scale)
                 rows[i][x] = (w, s)
@@ -316,7 +310,7 @@ class PositionWeightMatrix (object):
             sumx[q:q+len(self)] += selfx
 
         newRows = []
-        for i, x in enumerate(sumx):
+        for x in sumx:
             y = list(x)
             y.append(consensus_symbol(y))
             y = [str(yi) for yi in y]
@@ -611,7 +605,7 @@ class PositionWeightMatrix (object):
         s = 1
 
         if len(fields) == 2:
-            for cnt in range(0, len(fields[1])):
+            for _ in range(0, len(fields[1])):
                 s *= 10
             w = s*w + int(fields[1])
 
@@ -663,7 +657,7 @@ def score_align_gaps(align):
 # -----------
 
 
-class Reader (object):
+class Reader:
     """Iterate over all interesting weight matrices in a file"""
 
     def __init__(self, file, tfIds=None, name=None, format='basic', background=None, score_correction=True):
@@ -749,7 +743,7 @@ class Reader (object):
                 if self.tfIds is not None and (tfId not in self.tfIds):
                     continue          # ignore it, this isn't a desired matrix
                 if tfId in self.tfToPwm:
-                    raise ValueError("transcription factor %s appears twice (%s)" % (tfId, self.where()))
+                    raise ValueError(f"transcription factor {tfId} appears twice ({self.where()})")
                 pwmRows = []  # start collecting a desired matrix
                 continue
 

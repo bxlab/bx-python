@@ -8,8 +8,6 @@ pseudo-random acccess.
 read only access to an on disk binned array.
 """
 
-from __future__ import division
-
 import math
 import sys
 from struct import (
@@ -26,7 +24,6 @@ from numpy import (
     resize,
     zeros
 )
-from six import binary_type
 
 from bx_extras.lrucache import LRUCache
 
@@ -66,17 +63,17 @@ MAX = 512*1024*1024
 
 
 def bytesify(s):
-    if isinstance(s, binary_type):
+    if isinstance(s, bytes):
         return s
     else:
         return s.encode()
 
 
-class BinnedArray(object):
+class BinnedArray:
     def __init__(self, bin_size=512*1024, default=NaN, max_size=MAX, typecode="f"):
         self.max_size = max_size
         self.bin_size = bin_size
-        self.nbins = int(math.ceil((max_size / self.bin_size)))
+        self.nbins = int(math.ceil(max_size / self.bin_size))
         self.bins = [None] * self.nbins
         self.default = default
         self.typecode = typecode
@@ -178,7 +175,7 @@ class BinnedArray(object):
             write_packed(f, ">2I", pos, size)
 
 
-class FileBinnedArray(object):
+class FileBinnedArray:
     def __init__(self, f, cache=32):
         # If cache=None, then everything is allowed to stay in memory,
         # this is the default behavior.
@@ -211,7 +208,7 @@ class FileBinnedArray(object):
         # Read bin sizes and offsets
         self.bin_pos = []
         self.bin_sizes = []
-        for i in range(nbins):
+        for _ in range(nbins):
             pos, size = read_packed(f, ">2I")
             self.bin_pos.append(pos)
             self.bin_sizes.append(size)
@@ -275,13 +272,13 @@ class FileBinnedArray(object):
             return self.get(key)
 
 
-class BinnedArrayWriter(object):
+class BinnedArrayWriter:
     def __init__(self, f, bin_size=512*1024, default=NaN, max_size=MAX, typecode="f", comp_type='zlib'):
         # All parameters in the constructor are immutable after creation
         self.f = f
         self.max_size = max_size
         self.bin_size = bin_size
-        self.nbins = int(math.ceil((max_size / self.bin_size)))
+        self.nbins = int(math.ceil(max_size / self.bin_size))
         self.default = default
         self.typecode = typecode
         self.bin = 0

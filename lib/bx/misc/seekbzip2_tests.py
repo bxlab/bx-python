@@ -71,7 +71,7 @@ if T and os.path.exists(T):
             line = f.readline()
             if line == b"":
                 break
-            assert line.rstrip(b"\r\n") == raw_lines[i], "%r != %r" % (line.rstrip(b"\r\n"), raw_lines[i])
+            assert line.rstrip(b"\r\n") == raw_lines[i], "{!r} != {!r}".format(line.rstrip(b"\r\n"), raw_lines[i])
             pos += len(line)
             ftell = f.tell()
             assert ftell == pos, "%d != %d" % (ftell, pos)

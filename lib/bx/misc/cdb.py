@@ -1,5 +1,5 @@
-from six.moves import reduce
-from six.moves.collections_abc import Mapping
+from collections.abc import Mapping
+from functools import reduce
 
 from bx.misc.binary_file import (
     BinaryFileReader,

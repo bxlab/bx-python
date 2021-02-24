@@ -6,12 +6,11 @@ not work as well).
 
 http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/168639
 """
-from __future__ import print_function
 
 import sys
 
 
-class ProgressBar(object):
+class ProgressBar:
     def __init__(self, minValue=0, maxValue=10, totalWidth=72):
         self.progBar = "[]"   # This holds the progress bar string
         self.min = minValue

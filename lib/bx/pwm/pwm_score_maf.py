@@ -1,5 +1,4 @@
 #!/usr/bin/python2.4
-from __future__ import print_function
 
 import sys
 

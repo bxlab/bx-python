@@ -13,7 +13,6 @@ usage: %prog bed_file_1 bed_file_2
     -v, --reverse: Print regions that DO NOT overlap
     -b, --booleans: Just print '1' if interval overlaps or '0' otherwise
 """
-from __future__ import print_function
 
 from warnings import warn
 

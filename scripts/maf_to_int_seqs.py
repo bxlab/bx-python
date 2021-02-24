@@ -10,7 +10,6 @@ this number of species will be ignored.
 
 usage: %prog mapping_file
 """
-from __future__ import division, print_function
 
 import sys
 

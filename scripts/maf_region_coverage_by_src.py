@@ -8,7 +8,6 @@ usage: %prog maf_files  [options] < interval_file
    -s, --src=s:      Use this src for all intervals
    -p, --prefix=p:   Prepend this to each src before lookup
 """
-from __future__ import division, print_function
 
 import sys
 from collections import defaultdict

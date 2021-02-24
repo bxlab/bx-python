@@ -69,7 +69,7 @@ def IntervalReader(f):
             raise ValueError("Unexpected input line: %s" % line.strip())
 
 
-class Reader(object):
+class Reader:
     """
     Iterator yielding chrom, position, value.
     Values are zero-based.

@@ -6,7 +6,7 @@ storing trees and rate matrices).
 from numpy import zeros
 
 
-class TreeModel(object):
+class TreeModel:
     def __init__(self):
         self.alphabet = None
         self.radix = 0

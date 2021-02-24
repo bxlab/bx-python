@@ -1,6 +1,5 @@
 import unittest
-
-from six import StringIO
+from io import StringIO
 
 import bx.pwm.position_weight_matrix as pwm
 
@@ -79,7 +78,7 @@ class PWMTestCase (unittest.TestCase):
         wm = wms[0]
         dScores = wm.score_seq(dSeq)
         assert len(dScores) == 2
-        assert "%.4f %.4f %.4f %.4f" % (dScores[0][0], dScores[0][1], dScores[1][0], dScores[1][1]) == dScoresExpected
+        assert "{:.4f} {:.4f} {:.4f} {:.4f}".format(dScores[0][0], dScores[0][1], dScores[1][0], dScores[1][1]) == dScoresExpected
 
         qdSeq = []
         for (ix, nt) in enumerate(dSeq):
@@ -87,8 +86,8 @@ class PWMTestCase (unittest.TestCase):
             qdSeq[ix][nt] = 1.0
         qScores = wm.score_seq(qdSeq)
         assert len(qScores) == 2
-        assert "%.4f %.4f %.4f %.4f" % (qScores[0][0], qScores[0][1], qScores[1][0], qScores[1][1]) == dScoresExpected
+        assert "{:.4f} {:.4f} {:.4f} {:.4f}".format(qScores[0][0], qScores[0][1], qScores[1][0], qScores[1][1]) == dScoresExpected
 
         qScores = wm.score_seq(qSeq)
         assert len(qScores) == 1
-        assert "%.4f %.4f" % (qScores[0][0], qScores[0][1]) == qScoresExpected
+        assert "{:.4f} {:.4f}".format(qScores[0][0], qScores[0][1]) == qScoresExpected

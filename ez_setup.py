@@ -64,7 +64,7 @@ def _build_egg(egg, archive_filename, to_dir):
     # returning the result
     log.warn(egg)
     if not os.path.exists(egg):
-        raise IOError('Could not build the egg.')
+        raise OSError('Could not build the egg.')
 
 
 class ContextualZipFile(zipfile.ZipFile):
@@ -81,7 +81,7 @@ class ContextualZipFile(zipfile.ZipFile):
         """Construct a ZipFile or ContextualZipFile as appropriate."""
         if hasattr(zipfile.ZipFile, '__exit__'):
             return zipfile.ZipFile(*args, **kwargs)
-        return super(ContextualZipFile, cls).__new__(cls)
+        return super().__new__(cls)
 
 
 @contextlib.contextmanager

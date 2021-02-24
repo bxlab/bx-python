@@ -30,8 +30,6 @@ Typical use:
         print seq.get(0,seq.length)
 
 """
-from __future__ import print_function
-
 
 from bx.seq.seq import SeqFile, SeqReader
 
@@ -95,7 +93,7 @@ class FastaReader(SeqReader):
         return seq
 
 
-class FastaWriter(object):
+class FastaWriter:
 
     def __init__(self, file, columns=50):
         self.file = file

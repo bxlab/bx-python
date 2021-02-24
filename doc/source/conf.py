@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # BxPython documentation build configuration file, created by
 # sphinx-quickstart on Fri May 08 10:18:22 2009.
@@ -39,8 +38,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'bx-python'
-copyright = u'2017, James Taylor'
+project = 'bx-python'
+copyright = '2017, James Taylor'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -170,8 +169,8 @@ htmlhelp_basename = 'bx-doc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [(
-    'index', 'bx-python.tex', u'bx-python Documentation',
-    u'James Taylor', 'manual'), ]
+    'index', 'bx-python.tex', 'bx-python Documentation',
+    'James Taylor', 'manual'), ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.

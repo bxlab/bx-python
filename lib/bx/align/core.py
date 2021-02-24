@@ -2,10 +2,7 @@
 Classes that represent alignments between multiple sequences.
 """
 import random
-import string
 import weakref
-
-import six
 
 from bx.misc.readlengths import read_lengths_file
 
@@ -15,15 +12,12 @@ from bx.misc.readlengths import read_lengths_file
 #            "                                                                " \
 #            "                                                                "
 
-if six.PY2:
-    DNA_COMP = string.maketrans("ACGTacgt", "TGCAtgca")
-else:
-    DNA_COMP = str.maketrans("ACGTacgt", "TGCAtgca")
+DNA_COMP = str.maketrans("ACGTacgt", "TGCAtgca")
 
 
-class Alignment(object):
+class Alignment:
 
-    def __init__(self, score=0, attributes={}, species_to_lengths=None):
+    def __init__(self, score=0, attributes=None, species_to_lengths=None):
         # species_to_lengths is needed only for file formats that don't provide
         # chromosome lengths;  it maps each species name to one of these:
         #   - the name of a file that contains a list of chromosome length pairs
@@ -31,6 +25,8 @@ class Alignment(object):
         #   - a single length value (useful when we just have one sequence and no chromosomes)
         # internally a file name is replaced by a dict, but only on an "as
         # needed" basis
+        if attributes is None:
+            attributes = {}
         self.score = score
         self.text_size = 0
         self.attributes = attributes
@@ -67,7 +63,7 @@ class Alignment(object):
     def __str__(self):
         s = "a score=" + str(self.score)
         for key in self.attributes:
-            s += " %s=%s" % (key, self.attributes[key])
+            s += " {}={}".format(key, self.attributes[key])
         s += "\n"
         # Components
         for c in self.components:
@@ -89,7 +85,7 @@ class Alignment(object):
             chrom_to_length = read_lengths_file(chrom_to_length)
             self.species_to_lengths[species] = chrom_to_length
         if chrom not in chrom_to_length:
-            raise ValueError("no src_size (%s has no length for %s)" % (species, chrom))
+            raise ValueError(f"no src_size ({species} has no length for {chrom})")
         return chrom_to_length[chrom]
 
     def get_component_by_src(self, src):
@@ -223,7 +219,7 @@ class Alignment(object):
         return new
 
 
-class Component(object):
+class Component:
 
     def __init__(self, src='', start=0, size=0, strand=None, src_size=None, text=''):
         self._alignment = None
@@ -410,10 +406,12 @@ def get_reader(format, infile, species_to_lengths=None):
         raise ValueError("Unknown alignment format %s" % format)
 
 
-def get_writer(format, outfile, attributes={}):
+def get_writer(format, outfile, attributes=None):
     import bx.align.axt
     import bx.align.lav
     import bx.align.maf
+    if attributes is None:
+        attributes = {}
     if format == "maf":
         return bx.align.maf.Writer(outfile, attributes)
     elif format == "axt":

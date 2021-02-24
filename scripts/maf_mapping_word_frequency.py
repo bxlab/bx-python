@@ -9,7 +9,6 @@ that word occurs in the block.
 
 usage: %prog motif_len mapping_file < maf_file > counts
 """
-from __future__ import division, print_function
 
 import sys
 

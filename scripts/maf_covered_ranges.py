@@ -3,7 +3,6 @@
 """
 usage: %prog species1,species2,... nrequired < maf
 """
-from __future__ import print_function
 
 import sys
 

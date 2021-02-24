@@ -2,12 +2,12 @@
 Tests for `bx.seqmapping`.
 """
 import unittest
+from io import StringIO
 
 from numpy import (
     allclose,
     array,
 )
-from six import StringIO
 
 import bx.seqmapping
 

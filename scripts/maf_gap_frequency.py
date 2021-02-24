@@ -6,7 +6,6 @@ each block.
 
 usage: %prog < maf > out
 """
-from __future__ import division, print_function
 
 import sys
 

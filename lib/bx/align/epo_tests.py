@@ -173,7 +173,7 @@ class TestEpo(unittest.TestCase):
             for s, t, q in zip(S, T, Q):
                 if not (cch(c1, th, th+s) and cch(c2, th, th+s)):
                     pdb.set_trace()
-                assert cch(c1, th, th+s) and cch(c2, th, th+s), "%s and %s" % (c1[th:th+s], c2[th:th+s])
+                assert cch(c1, th, th+s) and cch(c2, th, th+s), "{} and {}".format(c1[th:th+s], c2[th:th+s])
                 if t > q:
                     cch(c1, th+s, th+s+t) and c1[th+s:th+s+t] == '-'*t
                 else:

@@ -53,7 +53,7 @@ def __main__():
             # Finish the last chunk
             if maf_writer:
                 maf_writer.close()
-                interval_file.write("%s %s\n" % (chunk_min, chunk_max))
+                interval_file.write(f"{chunk_min} {chunk_max}\n")
                 chunk_min = INF
                 chunk_max = 0
             # Decide if the new chunk will be written
@@ -73,7 +73,7 @@ def __main__():
 
     if maf_writer:
         maf_writer.close()
-        interval_file.write("%s %s\n" % (chunk_min, chunk_max))
+        interval_file.write(f"{chunk_min} {chunk_max}\n")
         interval_file.close()
 
 

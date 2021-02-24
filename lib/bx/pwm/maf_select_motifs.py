@@ -3,7 +3,6 @@
 Returns all positions of a maf with any pwm score > threshold
 The positions are projected onto human coordinates
 """
-from __future__ import print_function
 
 import sys
 
@@ -40,7 +39,7 @@ def main():
 def mafwrite(alignment, kvec=None, jvec=None, file=sys.stdout):
     file.write("a score=" + str(alignment.score))
     for key in alignment.attributes:
-        file.write(" %s=%s" % (key, alignment.attributes[key]))
+        file.write(" {}={}".format(key, alignment.attributes[key]))
     file.write("\n")
     rows = []
     if not kvec:

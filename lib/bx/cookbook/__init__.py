@@ -10,8 +10,7 @@ def flatten(*args):
     for arg in args:
         if type(arg) in seq_types:
             for elem in arg:
-                for f in flatten(elem):
-                    yield f
+                yield from flatten(elem)
         else:
             yield arg
 
@@ -39,7 +38,7 @@ def cachedmethod(function):
     return types.MethodType(Memoize(function), None)
 
 
-class Memoize(object):
+class Memoize:
     def __init__(self, function):
         self._cache = {}
         self._callable = function
@@ -57,7 +56,7 @@ class Memoize(object):
         return kwds and (args, ImmutableDict(kwds)) or args
 
 
-class memoized(object):
+class memoized:
     """Decorator that caches a function's return value each time it is called.
     If called later with the same arguments, the cached value is returned, and
     not re-evaluated.

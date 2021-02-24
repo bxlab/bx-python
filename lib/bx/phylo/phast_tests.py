@@ -2,11 +2,12 @@
 Tests for `bx.phylo.phast`.
 """
 
+from io import StringIO
+
 from numpy import (
     allclose,
     array
 )
-from six import StringIO
 
 from bx.phylo.phast import TreeModel
 

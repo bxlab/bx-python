@@ -24,7 +24,7 @@ maf_to_axt primary_species secondary_species < maf_file > axt_file
     if s is None:
         sys.exit(message)
     else:
-        sys.exit("%s\n%s" % (s, message))
+        sys.exit(f"{s}\n{message}")
 
 
 def main():

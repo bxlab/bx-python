@@ -4,12 +4,9 @@ Support for the `MAF`_ multiple sequence alignment format used by `multiz`_.
 .. _MAF: http://genome.ucsc.edu/FAQ/FAQformat.html#format5
 .. _multiz: http://www.bx.psu.edu/miller_lab/
 """
-from io import TextIOWrapper
-
-from six import (
-    Iterator,
-    PY3,
+from io import (
     StringIO,
+    TextIOWrapper,
 )
 
 from bx import interval_index_file
@@ -42,10 +39,8 @@ class MAFIndexedAccess(interval_index_file.AbstractIndexedAccess):
         return read_next_maf(file, **kwargs)
 
     def open_data(self):
-        data = super(MAFIndexedAccess, self).open_data()
-        if PY3:
-            return TextIOWrapper(data, encoding="ascii")
-        return data
+        data = super().open_data()
+        return TextIOWrapper(data, encoding="ascii")
 
 
 class MAFMultiIndexedAccess(interval_index_file.AbstractMultiIndexedAccess):
@@ -62,7 +57,7 @@ MultiIndexed = MAFMultiIndexedAccess
 """Deprecated: `MAFMultiIndexedAccess` is also available under the name `MultiIndexed`."""
 
 
-class Reader(Iterator):
+class Reader:
     """
     Iterate over all maf blocks in a file in order
     """
@@ -86,7 +81,7 @@ class Reader(Iterator):
         self.file.close()
 
 
-class ReaderIter(Iterator):
+class ReaderIter:
     """
     Adapts a `Reader` to the iterator protocol.
     """
@@ -104,9 +99,11 @@ class ReaderIter(Iterator):
         return v
 
 
-class Writer(object):
+class Writer:
 
-    def __init__(self, file, attributes={}):
+    def __init__(self, file, attributes=None):
+        if attributes is None:
+            attributes = {}
         self.file = file
         # Write header, Webb's maf code wants version first, we accomodate
         if 'version' not in attributes:
@@ -115,13 +112,13 @@ class Writer(object):
         for key in attributes:
             if key == 'version':
                 continue
-            self.file.writelines(" %s=%s" % (key, attributes[key]))
+            self.file.writelines(" {}={}".format(key, attributes[key]))
         self.file.write("\n")
 
     def write(self, alignment):
         self.file.write("a score=" + str(alignment.score))
         for key in alignment.attributes:
-            self.file.write(" %s=%s" % (key, alignment.attributes[key]))
+            self.file.write(" {}={}".format(key, alignment.attributes[key]))
         self.file.write("\n")
         # Components
         rows = []

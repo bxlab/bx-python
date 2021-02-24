@@ -10,7 +10,6 @@ NOTE: See 'align_print_template.py' for a more general variation of this
 
 usage: %prog refindex [options]
 """
-from __future__ import division, print_function
 
 import sys
 

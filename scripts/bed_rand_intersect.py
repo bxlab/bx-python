@@ -15,7 +15,6 @@ TODO: There are a few versions of this floating around, including a
 
 usage: %prog bounding_region_file intervals1 intervals2 nsamples
 """
-from __future__ import division, print_function
 
 import sys
 

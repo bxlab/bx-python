@@ -35,9 +35,9 @@ class lavTestCase(unittest.TestCase):
 
 def check_component(c, src, start, size, strand, src_size, text):
     # ..print "\"%s\" == \"%s\"" % (c.src,src)
-    assert c.src == src, "c.src = %s (expected %s)" % (c.src, src)
-    assert c.start == start, "c.start = %s (expected %s)" % (c.start, start)
-    assert c.size == size, "c.size = %s (expected %s)" % (c.size, size)
-    assert c.strand == strand, "c.strand = %s (expected %s)" % (c.strand, strand)
-    assert c.src_size == src_size, "c.src_size = %s (expected %s)" % (c.src_size, src_size)
-    assert c.text == text, "c.text = \"%s\" (expected \"%s\")" % (c.text, text)
+    assert c.src == src, f"c.src = {c.src} (expected {src})"
+    assert c.start == start, f"c.start = {c.start} (expected {start})"
+    assert c.size == size, f"c.size = {c.size} (expected {size})"
+    assert c.strand == strand, f"c.strand = {c.strand} (expected {strand})"
+    assert c.src_size == src_size, f"c.src_size = {c.src_size} (expected {src_size})"
+    assert c.text == text, f"c.text = \"{c.text}\" (expected \"{text}\")"

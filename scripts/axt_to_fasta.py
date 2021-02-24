@@ -5,8 +5,6 @@ input and writes a FASTA file to standard out.
 
 usage: %prog < axt_file > fasta_file
 """
-from __future__ import print_function
-
 
 __author__ = "Bob Harris (rsharris@bx.psu.edu)"
 
@@ -22,7 +20,7 @@ axt_to_fasta < axt_file > fasta_file
     if s is None:
         sys.exit(message)
     else:
-        sys.exit("%s\n%s" % (s, message))
+        sys.exit(f"{s}\n{message}")
 
 
 def main():
@@ -49,7 +47,7 @@ def main():
 # $$$ this should be moved to a bx.align.fasta module
 
 def print_component_as_fasta(c, id=None):
-    header = ">%s_%s_%s" % (c.src, c.start, c.start + c.size)
+    header = ">{}_{}_{}".format(c.src, c.start, c.start + c.size)
     if id is not None:
         header += " " + id
     print(header)

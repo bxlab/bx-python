@@ -34,8 +34,6 @@ discarded. [1]_
 # TODO: Remove this file in favor of functools.lru_cache
 # when the minimum Python version is high enough
 
-from __future__ import print_function
-
 import time
 from heapq import (
     heapify,
@@ -59,7 +57,7 @@ class CacheKeyError(KeyError):
     of a cache record before reading or deleting it."""
 
 
-class LRUCache(object):
+class LRUCache:
     """Least-Recently-Used (LRU) cache.
 
     Instances of this class provide a least-recently-used (LRU) cache. They
@@ -99,7 +97,7 @@ class LRUCache(object):
         print j, cache[j] # iterator produces keys, not values
     """
 
-    class __Node(object):
+    class __Node:
         """Record of a cached value. Not for public consumption."""
 
         def __init__(self, key, obj, timestamp):

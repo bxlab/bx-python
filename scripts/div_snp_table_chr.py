@@ -8,7 +8,6 @@ usage: %prog feature.bed ar.bed snp.bed div_directory [options]
     -s, --suffix=S: append suffix to chromosomes to get filenames from div_directory
     -l, --lens=l: Set chromosome ends using LEN file
 """
-from __future__ import print_function
 
 import sys
 

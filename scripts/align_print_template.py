@@ -10,9 +10,6 @@ usage: %prog template [options]
     -f, --format = maf: Input format, maf (default) or axt
 """
 
-from __future__ import division, print_function
-
-
 import sys
 
 from bx import align

@@ -11,13 +11,11 @@ usage: %prog score_file interval_file [out_file] [options]
     -b, --binned: 'score_file' is actually a directory of binned array files
     -m, --mask=FILE: bed file containing regions not to consider valid
 """
-from __future__ import division, print_function
 
 import os
 import os.path
 import sys
-
-from six.moves.collections_abc import Mapping
+from collections.abc import Mapping
 
 import bx.wiggle
 from bx import misc

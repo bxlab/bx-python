@@ -6,7 +6,6 @@ contains the number of sites found in the nth alignment of the input.
 
 TODO: This is very special case, should it be here?
 """
-from __future__ import print_function
 
 import sys
 from collections import defaultdict

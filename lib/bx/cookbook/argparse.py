@@ -129,7 +129,7 @@ _UNRECOGNIZED_ARGS_ATTR = '_unrecognized_args'
 # =============================
 
 
-class _AttributeHolder(object):
+class _AttributeHolder:
     """Abstract base class that provides __repr__.
 
     The __repr__ method returns a string in the format::
@@ -144,8 +144,8 @@ class _AttributeHolder(object):
         for arg in self._get_args():
             arg_strings.append(repr(arg))
         for name, value in self._get_kwargs():
-            arg_strings.append('%s=%r' % (name, value))
-        return '%s(%s)' % (type_name, ', '.join(arg_strings))
+            arg_strings.append(f'{name}={value!r}')
+        return '{}({})'.format(type_name, ', '.join(arg_strings))
 
     def _get_kwargs(self):
         return sorted(self.__dict__.items())
@@ -164,7 +164,7 @@ def _ensure_value(namespace, name, value):
 # Formatting Help
 # ===============
 
-class HelpFormatter(object):
+class HelpFormatter:
     """Formatter for generating usage messages and argument help strings.
 
     Only the name of this class is considered a public API. All the methods
@@ -212,7 +212,7 @@ class HelpFormatter(object):
         assert self._current_indent >= 0, 'Indent decreased below 0.'
         self._level -= 1
 
-    class _Section(object):
+    class _Section:
 
         def __init__(self, formatter, parent, heading=None):
             self.formatter = formatter
@@ -397,7 +397,7 @@ class HelpFormatter(object):
                 usage = '\n'.join(lines)
 
         # prefix with 'usage:'
-        return '%s%s\n\n' % (prefix, usage)
+        return f'{prefix}{usage}\n\n'
 
     def _format_actions_usage(self, actions, groups):
         # find group indices and identify actions in groups
@@ -467,7 +467,7 @@ class HelpFormatter(object):
                 else:
                     default = action.dest.upper()
                     args_string = self._format_args(action, default)
-                    part = '%s %s' % (option_string, args_string)
+                    part = f'{option_string} {args_string}'
 
                 # make it look optional if it's not required or in a group
                 if not action.required and action not in group_actions:
@@ -488,7 +488,7 @@ class HelpFormatter(object):
         close = r'[\])]'
         text = _re.sub(r'(%s) ' % open, r'\1', text)
         text = _re.sub(r' (%s)' % close, r'\1', text)
-        text = _re.sub(r'%s *%s' % (open, close), r'', text)
+        text = _re.sub(fr'{open} *{close}', r'', text)
         text = _re.sub(r'\(([^|]*)\)', r'\1', text)
         text = text.strip()
 
@@ -568,7 +568,7 @@ class HelpFormatter(object):
                 default = action.dest.upper()
                 args_string = self._format_args(action, default)
                 for option_string in action.option_strings:
-                    parts.append('%s %s' % (option_string, args_string))
+                    parts.append(f'{option_string} {args_string}')
 
             return ', '.join(parts)
 
@@ -627,8 +627,7 @@ class HelpFormatter(object):
             pass
         else:
             self._indent()
-            for subaction in get_subactions():
-                yield subaction
+            yield from get_subactions()
             self._dedent()
 
     def _split_lines(self, text, width):
@@ -837,7 +836,7 @@ class _StoreAction(Action):
                              'true or store const may be more appropriate')
         if const is not None and nargs != OPTIONAL:
             raise ValueError('nargs must be %r to supply const' % OPTIONAL)
-        super(_StoreAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
@@ -863,7 +862,7 @@ class _StoreConstAction(Action):
                  required=False,
                  help=None,
                  metavar=None):
-        super(_StoreConstAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=0,
@@ -884,7 +883,7 @@ class _StoreTrueAction(_StoreConstAction):
                  default=False,
                  required=False,
                  help=None):
-        super(_StoreTrueAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             const=True,
@@ -901,7 +900,7 @@ class _StoreFalseAction(_StoreConstAction):
                  default=True,
                  required=False,
                  help=None):
-        super(_StoreFalseAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             const=False,
@@ -929,7 +928,7 @@ class _AppendAction(Action):
                              'the append const action may be more appropriate')
         if const is not None and nargs != OPTIONAL:
             raise ValueError('nargs must be %r to supply const' % OPTIONAL)
-        super(_AppendAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
@@ -957,7 +956,7 @@ class _AppendConstAction(Action):
                  required=False,
                  help=None,
                  metavar=None):
-        super(_AppendConstAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=0,
@@ -981,7 +980,7 @@ class _CountAction(Action):
                  default=None,
                  required=False,
                  help=None):
-        super(_CountAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=0,
@@ -1001,7 +1000,7 @@ class _HelpAction(Action):
                  dest=SUPPRESS,
                  default=SUPPRESS,
                  help=None):
-        super(_HelpAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             default=default,
@@ -1021,7 +1020,7 @@ class _VersionAction(Action):
                  dest=SUPPRESS,
                  default=SUPPRESS,
                  help="show program's version number and exit"):
-        super(_VersionAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             default=default,
@@ -1059,7 +1058,7 @@ class _SubParsersAction(Action):
         self._name_parser_map = {}
         self._choices_actions = []
 
-        super(_SubParsersAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=PARSER,
@@ -1070,7 +1069,7 @@ class _SubParsersAction(Action):
     def add_parser(self, name, **kwargs):
         # set prog from the existing prefix
         if kwargs.get('prog') is None:
-            kwargs['prog'] = '%s %s' % (self._prog_prefix, name)
+            kwargs['prog'] = f'{self._prog_prefix} {name}'
 
         # create a pseudo-action to hold the choice help
         if 'help' in kwargs:
@@ -1115,7 +1114,7 @@ class _SubParsersAction(Action):
 # Type classes
 # ==============
 
-class FileType(object):
+class FileType:
     """Factory for creating file object types
 
     Instances of FileType are typically passed as type= arguments to the
@@ -1152,7 +1151,7 @@ class FileType(object):
     def __repr__(self):
         args = [self._mode, self._bufsize]
         args_str = ', '.join([repr(arg) for arg in args if arg is not None])
-        return '%s(%s)' % (type(self).__name__, args_str)
+        return '{}({})'.format(type(self).__name__, args_str)
 
 # ===========================
 # Optional and Positional Parsing
@@ -1182,14 +1181,14 @@ class Namespace(_AttributeHolder):
         return key in self.__dict__
 
 
-class _ActionsContainer(object):
+class _ActionsContainer:
 
     def __init__(self,
                  description,
                  prefix_chars,
                  argument_default,
                  conflict_handler):
-        super(_ActionsContainer, self).__init__()
+        super().__init__()
 
         self.description = description
         self.argument_default = argument_default
@@ -1486,7 +1485,7 @@ class _ArgumentGroup(_ActionsContainer):
         update('conflict_handler', container.conflict_handler)
         update('prefix_chars', container.prefix_chars)
         update('argument_default', container.argument_default)
-        super_init = super(_ArgumentGroup, self).__init__
+        super_init = super().__init__
         super_init(description=description, **kwargs)
 
         # group attributes
@@ -1502,19 +1501,19 @@ class _ArgumentGroup(_ActionsContainer):
             container._has_negative_number_optionals
 
     def _add_action(self, action):
-        action = super(_ArgumentGroup, self)._add_action(action)
+        action = super()._add_action(action)
         self._group_actions.append(action)
         return action
 
     def _remove_action(self, action):
-        super(_ArgumentGroup, self)._remove_action(action)
+        super()._remove_action(action)
         self._group_actions.remove(action)
 
 
 class _MutuallyExclusiveGroup(_ArgumentGroup):
 
     def __init__(self, container, required=False):
-        super(_MutuallyExclusiveGroup, self).__init__(container)
+        super().__init__(container)
         self.required = required
         self._container = container
 
@@ -1571,7 +1570,7 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
                 """"add_argument(..., action='version', version="N", ...)" """
                 """instead""", DeprecationWarning)
 
-        superinit = super(ArgumentParser, self).__init__
+        superinit = super().__init__
         superinit(description=description,
                   prefix_chars=prefix_chars,
                   argument_default=argument_default,
@@ -1995,7 +1994,7 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
                         new_arg_strings.extend(arg_strings)
                     finally:
                         args_file.close()
-                except IOError:
+                except OSError:
                     err = _sys.exc_info()[1]
                     self.error(str(err))
 

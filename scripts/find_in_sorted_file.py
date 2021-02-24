@@ -10,14 +10,13 @@ TODO: The finder class might actually be useful, it strides through a file
 
 usage: %prog start_pos stop_pos
 """
-from __future__ import print_function
 
 import sys
 
 max_cats = 1000
 
 
-class Finder(object):
+class Finder:
     def __init__(self, file, segments):
         self.file = file
         self.segments = segments

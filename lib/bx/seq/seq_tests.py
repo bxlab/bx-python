@@ -44,8 +44,8 @@ class SEQTestCase (unittest.TestCase):
             text = "%s" % seq
             fields = text.split()
             assert (len(fields) == 2), "SeqReader.__str__ returns incorrect sequence string \"%s\" (%d)" % text
-            assert (fields[0] == valid2_fa[ix][0]), "FastaReader returned the wrong name (%s,%s)" % (fields[0], valid2_fa[ix][0])
-            assert (fields[1] == valid2_fa[ix][1]), "FastaReader returned the wrong text (%s,%s)" % (fields[1], valid2_fa[ix][1])
+            assert (fields[0] == valid2_fa[ix][0]), "FastaReader returned the wrong name ({},{})".format(fields[0], valid2_fa[ix][0])
+            assert (fields[1] == valid2_fa[ix][1]), "FastaReader returned the wrong text ({},{})".format(fields[1], valid2_fa[ix][1])
 
 
 def check_get(seqfile, valid_seq, start, len):

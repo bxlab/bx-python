@@ -19,7 +19,6 @@ offset 0x08:  ...        data sequence;  most significant nybble in each
                          byte is first in sequence
 ============ =========== ======================================================
 """
-from __future__ import division
 
 import math
 import struct
@@ -76,7 +75,7 @@ class NibReader(SeqReader):
         return seq
 
 
-class NibWriter(object):
+class NibWriter:
 
     def __init__(self, file):
         self.file = file

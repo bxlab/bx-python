@@ -7,7 +7,6 @@ provided on the command line or to stdin.
 
 usage: %prog bed files ...
 """
-from __future__ import print_function
 
 import fileinput
 import sys

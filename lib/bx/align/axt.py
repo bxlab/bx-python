@@ -5,8 +5,6 @@ alignments.
 .. _AXT: http://genome.ucsc.edu/goldenPath/help/axt.html
 """
 
-from six import Iterator
-
 from bx import interval_index_file
 from bx.align import (
     Alignment,
@@ -17,7 +15,7 @@ from bx.align import (
 # Tools for dealing with pairwise alignments in AXT format
 
 
-class MultiIndexed(object):
+class MultiIndexed:
     """Similar to 'indexed' but wraps more than one axt_file"""
 
     def __init__(self, axt_filenames, keep_open=False):
@@ -30,7 +28,7 @@ class MultiIndexed(object):
         return blocks
 
 
-class Indexed(object):
+class Indexed:
     """Indexed access to a axt using overlap queries, requires an index file"""
 
     def __init__(self, axt_filename, index_filename=None, keep_open=False, species1=None, species2=None, species_to_lengths=None, support_ids=False):
@@ -69,7 +67,7 @@ class Indexed(object):
                 f.close()
 
 
-class Reader(Iterator):
+class Reader:
     """Iterate over all axt blocks in a file in order"""
 
     def __init__(self, file, species1=None, species2=None, species_to_lengths=None, support_ids=False):
@@ -95,7 +93,7 @@ class Reader(Iterator):
         self.file.close()
 
 
-class ReaderIter(Iterator):
+class ReaderIter:
     def __init__(self, reader):
         self.reader = reader
 
@@ -109,9 +107,11 @@ class ReaderIter(Iterator):
         return v
 
 
-class Writer(object):
+class Writer:
 
-    def __init__(self, file, attributes={}):
+    def __init__(self, file, attributes=None):
+        if attributes is None:
+            attributes = {}
         self.file = file
         self.block = 0
         self.src_split = True

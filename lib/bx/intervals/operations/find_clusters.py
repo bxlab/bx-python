@@ -44,7 +44,7 @@ def find_clusters(reader, mincols=1, minregions=2):
 
 # DEPRECATED: Use the ClusterTree in bx.intervals.cluster for this.
 # It does the same thing, but is a C implementation.
-class ClusterNode(object):
+class ClusterNode:
     def __init__(self, start, end, linenum, mincols, minregions):
         # Python lacks the binomial distribution, so we convert a
         # uniform into a binomial because it naturally scales with
@@ -124,21 +124,16 @@ class ClusterNode(object):
 
     def getintervals(self):
         if self.left:
-            for start, end in self.left.getintervals(self.minregions):
-                yield start, end
+            yield from self.left.getintervals(self.minregions)
         if len(self.lines) >= self.minregions:
             yield self.start, self.end
         if self.right:
-            for start, end in self.right.getintervals(self.minregions):
-                yield start, end
+            yield from self.right.getintervals(self.minregions)
 
     def getlines(self):
         if self.left:
-            for line in self.left.getlines():
-                yield line
+            yield from self.left.getlines()
         if len(self.lines) >= self.minregions:
-            for line in self.lines:
-                yield line
+            yield from self.lines
         if self.right:
-            for line in self.right.getlines():
-                yield line
+            yield from self.right.getlines()

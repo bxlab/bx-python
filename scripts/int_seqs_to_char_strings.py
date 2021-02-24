@@ -7,7 +7,6 @@ learning algorithms that only take string input.
 
 usage: %prog < int_seqs > strings
 """
-from __future__ import print_function
 
 import sys
 

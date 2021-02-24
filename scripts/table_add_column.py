@@ -8,7 +8,6 @@ usage: %prog expression colname < table
     -H, --header:    keep header in output
     -C, --comments:  keep comments in output
 """
-from __future__ import print_function
 
 import sys
 

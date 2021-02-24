@@ -4,7 +4,6 @@ intervals MUST be sorted by chrom(lexicographically),
 start(arithmetically) and end(arithmetically).  This works by simply
 walking through the inputs in O(n) time.
 """
-from __future__ import print_function
 
 import math
 

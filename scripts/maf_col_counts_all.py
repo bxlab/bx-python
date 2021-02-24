@@ -13,7 +13,6 @@ usage: %prog [options] < maf > column_counts
     -w, --wildcard: include wildcards
     -m, --maxwildcards=N: only allow N missing species
 """
-from __future__ import print_function
 
 import sys
 

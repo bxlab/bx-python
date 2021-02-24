@@ -93,8 +93,6 @@ from struct import (
 )
 from warnings import warn
 
-import six
-
 from bx.misc import filecache
 
 try:
@@ -162,7 +160,7 @@ def bin_for_range(start, end, offsets=None):
     raise Exception("Interval (%d,%d) out of range")
 
 
-class AbstractMultiIndexedAccess(object):
+class AbstractMultiIndexedAccess:
     """
     Allows accessing multiple indexes / files as if they were one
     """
@@ -181,20 +179,19 @@ class AbstractMultiIndexedAccess(object):
         return [block for block in self.get_as_iterator(src, start, end)]
 
     def get_as_iterator(self, src, start, end):
-        for block, index, offset in self.get_as_iterator_with_index_and_offset(src, start, end):
+        for block, _index, _offset in self.get_as_iterator_with_index_and_offset(src, start, end):
             yield block
 
     def get_as_iterator_with_index_and_offset(self, src, start, end):
         for index in self.indexes:
-            for block, idx, offset in index.get_as_iterator_with_index_and_offset(src, start, end):
-                yield block, idx, offset
+            yield from index.get_as_iterator_with_index_and_offset(src, start, end)
 
     def close(self):
         for index in self.indexes:
             index.close()
 
 
-class AbstractIndexedAccess(object):
+class AbstractIndexedAccess:
     """Indexed access to a data using overlap queries, requires an index file"""
 
     def __init__(self, data_filename, index_filename=None, keep_open=False, use_cache=False, **kwargs):
@@ -263,11 +260,11 @@ class AbstractIndexedAccess(object):
         return [val for val in self.get_as_iterator(src, start, end)]
 
     def get_as_iterator(self, src, start, end):
-        for val, index, offset in self.get_as_iterator_with_index_and_offset(src, start, end):
+        for val, _index, _offset in self.get_as_iterator_with_index_and_offset(src, start, end):
             yield val
 
     def get_as_iterator_with_index_and_offset(self, src, start, end):
-        for val_start, val_end, val in self.indexes.find(src, start, end):
+        for _val_start, _val_end, val in self.indexes.find(src, start, end):
             yield self.get_at_offset(val), self, val
 
     def get_at_offset(self, offset):
@@ -286,7 +283,7 @@ class AbstractIndexedAccess(object):
         raise TypeError("Abstract Method")
 
 
-class Indexes(object):
+class Indexes:
     """A set of indexes, each identified by a unique name"""
 
     def __init__(self, filename=None):
@@ -314,25 +311,24 @@ class Indexes(object):
     def open(self, filename):
         self.filename = filename
         self.offsets = dict()  # (will map key to (offset,value_size))
-        f = open(filename, 'rb')
-        magic, version, length = read_packed(f, ">3I")
-        if magic != MAGIC:
-            raise Exception("File does not have expected header")
-        if version > VERSION:
-            warn("File claims version %d, I don't known anything about versions beyond %d. Attempting to continue", version, VERSION)
-        self.version = version
-        for i in range(length):
-            key_len = read_packed(f, ">I")
-            key = f.read(key_len).decode()
-            offset = read_packed(f, ">I")
-            if version == 0:
-                value_size = 4
-            else:
-                value_size = read_packed(f, ">I")
-                assert value_size % 4 == 0, "unsupported value size: %s" % value_size
-            self.indexes[key] = None
-            self.offsets[key] = (offset, value_size)
-        f.close()
+        with open(filename, 'rb') as f:
+            magic, version, length = read_packed(f, ">3I")
+            if magic != MAGIC:
+                raise Exception("File does not have expected header")
+            if version > VERSION:
+                warn("File claims version %d, I don't known anything about versions beyond %d. Attempting to continue", version, VERSION)
+            self.version = version
+            for _ in range(length):
+                key_len = read_packed(f, ">I")
+                key = f.read(key_len).decode()
+                offset = read_packed(f, ">I")
+                if version == 0:
+                    value_size = 4
+                else:
+                    value_size = read_packed(f, ">I")
+                    assert value_size % 4 == 0, "unsupported value size: %s" % value_size
+                self.indexes[key] = None
+                self.offsets[key] = (offset, value_size)
 
     def write(self, f):
         keys = sorted(self.indexes.keys())
@@ -350,7 +346,7 @@ class Indexes(object):
             key = str(key)
             # Write the string prefixed by its length (pascal!)
             write_packed(f, ">I", len(key))
-            f.write(six.b(key))
+            f.write(key.encode())
             # Write offset
             write_packed(f, ">I", base)
             base += self.indexes[key].bytes_required()
@@ -361,7 +357,7 @@ class Indexes(object):
             self.indexes[key].write(f)
 
 
-class Index(object):
+class Index:
 
     def __init__(self, min=MIN, max=DEFAULT_MAX, filename=None, offset=0, value_size=None, version=None):
         self._value_size = value_size
@@ -409,12 +405,12 @@ class Index(object):
         # Read bin indexes
         self.bin_offsets = []
         self.bin_sizes = []
-        for i in range(self.bin_count):
+        for _ in range(self.bin_count):
             o, s = read_packed(f, ">2I")
             self.bin_offsets.append(o)
             self.bin_sizes.append(s)
         # Initialize bins to None, indicating that they need to be loaded
-        self.bins = [None for i in range(self.bin_count)]
+        self.bins = [None for _ in range(self.bin_count)]
 
     def add(self, start, end, val):
         """Add the interval (start,end) with associated value val to the index"""
@@ -442,8 +438,7 @@ class Index(object):
         for i in range(self.bin_count):
             if self.bins[i] is None:
                 self.load_bin(i)
-            for entry in self.bins[i]:
-                yield entry
+            yield from self.bins[i]
 
     def load_bin(self, index):
         bin = []

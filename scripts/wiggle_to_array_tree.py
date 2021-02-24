@@ -6,7 +6,6 @@ Read data in UCSC wiggle format and write it to an "array tree" file.
 usage: %prog array_length output.array_tree < input.wig
 """
 
-from __future__ import division
 
 import sys
 

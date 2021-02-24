@@ -9,7 +9,6 @@ whitespace separated integers.
 
 usage: %prog qual_file output_file
 """
-from __future__ import print_function
 
 import fileinput
 import sys

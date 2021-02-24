@@ -1,4 +1,3 @@
-
 """
 T="/Users/james/cache/hg18/align/multiz28way/chr10.maf"
 C="/Users/james/cache/hg18/align/multiz28way/chr10.maf.lzo"

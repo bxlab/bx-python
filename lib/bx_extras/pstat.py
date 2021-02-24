@@ -104,7 +104,6 @@ functions/methods.  Their inclusion here is for function name consistency.
 ##
 # 11/08/98 ... fixed aput to output large arrays correctly
 
-from __future__ import print_function
 
 import copy
 import string

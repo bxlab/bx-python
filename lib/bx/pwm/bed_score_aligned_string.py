@@ -3,7 +3,6 @@
 Returns all positions of a maf with any pwm score > threshold
 The positions are projected onto human coordinates
 """
-from __future__ import print_function
 
 import sys
 

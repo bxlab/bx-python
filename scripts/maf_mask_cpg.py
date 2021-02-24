@@ -8,7 +8,6 @@ usage: %prog < input > output
     -m, --mask=N: Character to use as mask ('?' is default)
     -r, --restricted: Use restricted definition of CpGs
 """
-from __future__ import print_function
 
 import sys
 

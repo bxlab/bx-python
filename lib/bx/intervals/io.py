@@ -1,7 +1,6 @@
 """
 Support for reading and writing genomic intervals from delimited text files.
 """
-from __future__ import print_function
 
 from bx.bitset import (
     BinnedBitSet,
@@ -135,7 +134,9 @@ class GenomicIntervalReader(TableReader):
     """
 
     def __init__(self, input, chrom_col=0, start_col=1, end_col=2, strand_col=5,
-                 default_strand="+", return_header=True, return_comments=True, force_header=None, fix_strand=False, comment_lines_startswith=["#", "track "], allow_spaces=False):
+                 default_strand="+", return_header=True, return_comments=True, force_header=None, fix_strand=False, comment_lines_startswith=None, allow_spaces=False):
+        if comment_lines_startswith is None:
+            comment_lines_startswith = ["#", "track "]
         TableReader.__init__(self, input, return_header, return_comments, force_header, comment_lines_startswith)
         self.chrom_col = chrom_col
         self.start_col = start_col
@@ -165,9 +166,11 @@ class GenomicIntervalReader(TableReader):
         # Ran out of separators and still have errors, raise our problem
         raise err
 
-    def binned_bitsets(self, upstream_pad=0, downstream_pad=0, lens={}):
+    def binned_bitsets(self, upstream_pad=0, downstream_pad=0, lens=None):
         # The incoming lens dictionary is a dictionary of chromosome lengths
         # which are used to initialize the bitsets.
+        if lens is None:
+            lens = {}
         last_chrom = None
         last_bitset = None
         bitsets = dict()
@@ -182,7 +185,7 @@ class GenomicIntervalReader(TableReader):
                         except ValueError as e:
                             # We will only reach here when constructing this bitset from the lens dict
                             # since the value of MAX is always safe.
-                            raise Exception("Invalid chrom length %s in 'lens' dictionary. %s" % (str(size), str(e)))
+                            raise Exception("Invalid chrom length {} in 'lens' dictionary. {}".format(str(size), str(e)))
                         bitsets[chrom] = bbs
                     last_chrom = chrom
                     last_bitset = bitsets[chrom]
@@ -220,11 +223,11 @@ class NiceReaderWrapper(GenomicIntervalReader):
     def __next__(self):
         while True:
             try:
-                nextitem = super(NiceReaderWrapper, self).__next__()
+                nextitem = super().__next__()
                 return nextitem
             except ParseError as e:
                 if self.outstream:
-                    if self.print_delegate and hasattr(self.print_delegate, "__call__"):
+                    if self.print_delegate and callable(self.print_delegate):
                         self.print_delegate(self.outstream, e, self)
                 self.skipped += 1
                 # no reason to stuff an entire bad file into memory
@@ -238,18 +241,20 @@ class NiceReaderWrapper(GenomicIntervalReader):
 
 
 class BitsetSafeReaderWrapper(NiceReaderWrapper):
-    def __init__(self, reader, lens={}):
+    def __init__(self, reader, lens=None):
         # This class handles any ValueError, IndexError and OverflowError exceptions that may be thrown when
         # the bitsets are being created by skipping the problem lines.
         # The incoming lens dictionary is a dictionary of chromosome lengths
         # which are used to initialize the bitsets.
         # It is assumed that the reader is an interval reader, i.e. it has chr_col, start_col, end_col and strand_col attributes.
+        if lens is None:
+            lens = {}
         NiceReaderWrapper.__init__(self, reader.input, chrom_col=reader.chrom_col, start_col=reader.start_col, end_col=reader.end_col, strand_col=reader.strand_col)
         self.lens = lens
 
     def __next__(self):
         while True:
-            rval = super(BitsetSafeReaderWrapper, self).__next__()
+            rval = super().__next__()
             if isinstance(rval, GenomicInterval) and rval.end > self.lens.get(rval.chrom, MAX):
                 self.skipped += 1
                 # no reason to stuff an entire bad file into memory

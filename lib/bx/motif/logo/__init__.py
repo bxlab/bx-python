@@ -1,3 +1,4 @@
+from io import StringIO
 from string import Template
 
 import pkg_resources
@@ -7,7 +8,6 @@ from numpy import (
     transpose,
     where
 )
-from six import StringIO
 
 PAD = 2
 

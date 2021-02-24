@@ -9,7 +9,6 @@ TODO: This could use bitsets rather than the intervals package, would it be
 
 usage: %prog bed1 bed2 > out
 """
-from __future__ import division, print_function
 
 import sys
 

@@ -9,7 +9,6 @@ TODO: Can this be generalized to be made more useful?
 
 usage: %prog bed_outfile_prefix < maf
 """
-from __future__ import division, print_function
 
 import sys
 
@@ -43,7 +42,7 @@ def main():
         for comp in block.components[1:]:
             comp_species, comp_chrom = comp.src.split('.')[:2]
             if comp_species not in out_files:
-                f = open("%s%s.bed" % (out_prefix, comp_species), "w")
+                f = open(f"{out_prefix}{comp_species}.bed", "w")
                 out_files[comp_species] = f
             pid = block_pid(ref_comp, comp)
             if pid:

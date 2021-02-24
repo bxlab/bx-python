@@ -213,13 +213,9 @@ SUPPORT FUNCTIONS:  writecc
 # changed name of skewness and askewness to skew and askew
 # fixed (a)histogram (which sometimes counted points <lowerlimit)
 
-from __future__ import print_function
-
 import copy
 import math
 import string
-
-from six.moves import input
 
 from . import pstat               # required 3rd party module
 
@@ -229,7 +225,7 @@ __version__ = 0.6
 # DISPATCH CODE
 
 
-class Dispatch(object):
+class Dispatch:
     """
 The Dispatch class, care of David Ascher, allows different functions to
 be called depending on the argument types.  This way, there can be one
@@ -508,7 +504,7 @@ Returns: list of bin values, lowerreallimit, binsize, extrapoints
         binsize = (upperreallimit-lowerreallimit)/float(numbins)
     else:     # no limits given for histogram, both must be calc'd
         estbinwidth = (max(inlist)-min(inlist))/float(numbins) + 1  # 1=>cover all
-        binsize = ((max(inlist)-min(inlist)+estbinwidth))/float(numbins)
+        binsize = (max(inlist)-min(inlist)+estbinwidth)/float(numbins)
         lowerreallimit = min(inlist) - binsize/2  # lower real limit,1st bin
     bins = [0]*(numbins)
     extrapoints = 0

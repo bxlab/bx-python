@@ -12,7 +12,6 @@ between the windows.
 
 usage: %prog len_file gap_file window_size
 """
-from __future__ import print_function
 
 import sys
 

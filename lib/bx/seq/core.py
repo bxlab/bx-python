@@ -38,7 +38,7 @@ def seq_file(file, format=None, revcomp=False, name="", gap=None, contig=None):
             format = ""
         else:
             format = " " + format
-        raise ValueError("Unknown sequence format%s in %s" % (format, file.name))
+        raise ValueError(f"Unknown sequence format{format} in {file.name}")
 
 
 def seq_reader(file, format=None, revcomp=False, name="", gap=None):

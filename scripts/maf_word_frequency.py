@@ -8,7 +8,6 @@ TODO: reconcile this and maf_mapping_word_frequency.py
 
 usage: %prog n < maf_file
 """
-from __future__ import division, print_function
 
 import string
 import sys

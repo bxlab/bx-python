@@ -4,11 +4,9 @@ pairwise aligner.
 
 .. _blastz: http://www.bx.psu.edu/miller_lab/
 """
-from __future__ import print_function
 
 import sys
-
-from six import Iterator, StringIO
+from io import StringIO
 
 import bx.seq
 from bx.align import (
@@ -19,7 +17,7 @@ from bx.align import (
 )
 
 
-class Reader(Iterator):
+class Reader:
     """Iterate over all lav blocks in a file in order"""
 
     def __init__(self, file, path_subs=None, fail_to_ns=False):
@@ -53,7 +51,7 @@ class Reader(Iterator):
         self.seq2_gap = None
 
     def __next__(self):
-        while (True):
+        while True:
             line = self.fetch_line(strip=None, requireLine=False)
             assert (line), "unexpected end of file (missing #:eof)"
             line = line.rstrip()
@@ -80,7 +78,7 @@ class Reader(Iterator):
             if line.endswith("{"):
                 self.parse_unknown_stanza()
                 continue
-            assert (False), "incomprehensible line (line %d, \"%s\")" % (self.lineNumber, line)
+            raise ValueError("incomprehensible line (line %d, \"%s\")" % (self.lineNumber, line))
         return self.build_alignment(score, pieces)
 
     def __iter__(self):
@@ -110,7 +108,7 @@ class Reader(Iterator):
                     revcomp = False
                     contig = 1
                 else:
-                    assert (False), "failed to open %s" % self.seq1_filename
+                    raise Exception("failed to open %s" % self.seq1_filename)
             self.seq1_file = bx.seq.seq_file(f, revcomp=revcomp, contig=contig)
             self.seq1_gap = self.seq1_file.gap
             try:
@@ -142,7 +140,7 @@ class Reader(Iterator):
                     revcomp = False
                     contig = 1
                 else:
-                    assert (False), "failed to open %s" % self.seq1_filename
+                    raise Exception("failed to open %s" % self.seq1_filename)
             self.seq2_file = bx.seq.seq_file(f, revcomp=revcomp, contig=contig)
             self.seq2_gap = self.seq2_file.gap
             try:
@@ -341,8 +339,8 @@ class Reader(Iterator):
     def h_stanza(self):
         if self.seq1_header is None:
             return ""
-        s = "  \"%s%s\"\n" % (self.seq1_header_prefix, self.seq1_header)
-        s += "  \"%s%s\"\n" % (self.seq2_header_prefix, self.seq2_header)
+        s = f"  \"{self.seq1_header_prefix}{self.seq1_header}\"\n"
+        s += f"  \"{self.seq2_header_prefix}{self.seq2_header}\"\n"
         return "h {\n%s}" % s
 
     def build_alignment(self, score, pieces):
@@ -351,7 +349,7 @@ class Reader(Iterator):
         self.open_seqs()
         text1 = text2 = ""
         end1 = end2 = None
-        for (start1, start2, length, pctId) in pieces:
+        for (start1, start2, length, _pctId) in pieces:
             if end1 is not None:
                 if start1 == end1:  # insertion in sequence 2
                     text1 += self.seq1_gap * (start2-end2)
@@ -417,7 +415,7 @@ class Reader(Iterator):
         return ".".join(header)
 
 
-class ReaderIter(Iterator):
+class ReaderIter:
     def __init__(self, reader):
         self.reader = reader
 
@@ -439,13 +437,15 @@ class LavAsPiecesReader(Reader):
         return (score, pieces)
 
 
-class Writer(object):
+class Writer:
 
     # blockHash is a hash from (src1,strand1,src2,strand2) to a list of blocks;
     # the blocks are collected on each call to write(), but the actual writing
     # does not occur until close().
 
-    def __init__(self, file, attributes={}):
+    def __init__(self, file, attributes=None):
+        if attributes is None:
+            attributes = {}
         self.file = file
         self.fname1 = None
         self.fname2 = None
@@ -513,8 +513,8 @@ class Writer(object):
         strand1 = rc_or_nothing(self.strand1)
         strand2 = rc_or_nothing(self.strand2)
         print("h {", file=self.file)
-        print("  \"> %s%s\"" % (self.src1, strand1), file=self.file)
-        print("  \"> %s%s\"" % (self.src2, strand2), file=self.file)
+        print(f"  \"> {self.src1}{strand1}\"", file=self.file)
+        print(f"  \"> {self.src2}{strand2}\"", file=self.file)
         print("}", file=self.file)
 
     def write_a_stanza(self, alignment):

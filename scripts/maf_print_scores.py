@@ -11,7 +11,6 @@ usage: %prog [options]
    -r, --recalculate: don't use the score from the maf, recalculate (using hox70 matrix)
    -l, --lnorm: divide (normalize) score by alignment text length
 """
-from __future__ import division, print_function
 
 import sys
 

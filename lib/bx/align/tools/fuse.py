@@ -72,7 +72,7 @@ def fuse(m1, m2):
     return n
 
 
-class FusingAlignmentWriter(object):
+class FusingAlignmentWriter:
     """
     Wrapper for an alignment Writer which attempts to fuse adjacent blocks
     """

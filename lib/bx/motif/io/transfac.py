@@ -1,14 +1,11 @@
 """
 Classes for reading and writing motif data.
 """
-from __future__ import print_function
-
-from six import Iterator
 
 from bx.motif.pwm import FrequencyMatrix
 
 
-class TransfacMotif(object):
+class TransfacMotif:
 
     def __init__(self):
         self.accession = None
@@ -41,7 +38,7 @@ transfac_actions = {
 }
 
 
-class TransfacReader(Iterator):
+class TransfacReader:
     """
     Reads motifs in TRANSFAC format.
     """
@@ -177,7 +174,7 @@ class TransfacReader(Iterator):
             return motif
 
 
-class TransfacWriter(object):
+class TransfacWriter:
     """
     Writes motifs in TRANSFAC format.
     """
@@ -208,7 +205,7 @@ class TransfacWriter(object):
                 if getattr(motif, key) is not None:
                     value = getattr(motif, key)
                     for k, v in value.items():
-                        print(prefix, "  ", "%s=%s" % (k, v), file=output)
+                        print(prefix, "  ", f"{k}={v}", file=output)
                     print("XX", file=output)
             elif action == "store_block":
                 key = actions[1]

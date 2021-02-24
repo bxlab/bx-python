@@ -40,8 +40,7 @@ Recognized properties (at present only one):
   - codebook: A string in qdna code file format (see QdnaCodebook class for details).
 """
 import struct
-
-from six import StringIO
+from io import StringIO
 
 from bx.seq.seq import SeqFile, SeqReader
 
@@ -169,7 +168,7 @@ qdna code file format:
 """
 
 
-class QdnaCodebook(object):
+class QdnaCodebook:
 
     def __init__(self, file):
         (self.alphabet, self.codeToProbs) = self.read_codebook(file)
@@ -236,7 +235,7 @@ class QdnaCodebook(object):
         return (alphabet, codeToProbs)
 
 
-class QdnaWriter(object):
+class QdnaWriter:
 
     def __init__(self, file):
         self.file = file

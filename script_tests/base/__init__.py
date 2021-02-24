@@ -1,16 +1,13 @@
-from __future__ import print_function
-
 import filecmp
 import os
 import string
 import subprocess
 import tempfile
 import unittest
+from io import StringIO
 
-from six import StringIO
 
-
-class TestFile(object):
+class TestFile:
     def __init__(self, text=None, filename=None):
         assert text is None or filename is None, "Cannot specify both text and filename for input"
         self.text = text
@@ -28,14 +25,14 @@ class TestFile(object):
             self.tempfile = False
 
     def check(self, other_fname):
-        assert filecmp.cmp(self.filename, other_fname), "Files do not match (%s, %s)" % (self.filename, other_fname)
+        assert filecmp.cmp(self.filename, other_fname), f"Files do not match ({self.filename}, {other_fname})"
 
     def __del__(self):
         if self.tempfile:
             os.remove(self.filename)
 
 
-class BaseScriptTest(object):
+class BaseScriptTest:
     """
     Helper class for testing a command line tool
     """
@@ -65,7 +62,7 @@ class BaseScriptTest(object):
             input_fnames[key] = value.filename
             all_fnames[key] = input_fnames[key]
             if key == 'stdin':
-                stdin = open(input_fnames[key], 'r')
+                stdin = open(input_fnames[key])
         for key in output_files.keys():
             _, tf_name = tempfile.mkstemp()
             output_fnames[key] = tf_name

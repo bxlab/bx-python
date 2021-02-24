@@ -20,7 +20,7 @@ def usage(s=None):
     if s is None:
         sys.exit(message)
     else:
-        sys.exit("%s\n%s" % (s, message))
+        sys.exit(f"{s}\n{message}")
 
 
 def main():

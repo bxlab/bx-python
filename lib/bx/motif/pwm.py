@@ -18,7 +18,7 @@ from numpy import (
 from . import _pwm
 
 
-class BaseMatrix(object):
+class BaseMatrix:
     """
     Base class for position specific matrices.
     """

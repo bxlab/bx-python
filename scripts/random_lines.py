@@ -6,7 +6,6 @@ memory!
 
 TODO: Replace this with a more elegant implementation.
 """
-from __future__ import print_function
 
 import random
 import sys

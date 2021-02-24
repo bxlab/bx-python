@@ -14,7 +14,6 @@ usage: %prog expression < table
     --force-header:     assume the first line is a header even if it does not start with "#"
     -c, --cols=1,2:     names or indexes of columns to keep
 """
-from __future__ import print_function
 
 import sys
 

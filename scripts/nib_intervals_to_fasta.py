@@ -6,7 +6,6 @@ those ranges to stdout
 
 usage: %prog range_file nib_file
 """
-from __future__ import print_function
 
 import bx.seq.nib
 from bx.cookbook import doc_optparse

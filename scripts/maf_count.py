@@ -11,7 +11,6 @@ usage: %prog [options]
    -e, --each: print a count for each alignment rather than whole file
    -r, --ref=N: reference sequence (first by default, 0..n)
 """
-from __future__ import print_function
 
 import sys
 

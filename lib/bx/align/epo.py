@@ -1,14 +1,12 @@
-
 """Classes and utilities for mutliple alignments from the EPO pipeline"""
 
-from __future__ import with_statement
 
 import logging
 import os
+import pickle as cPickle
 import re
 from collections import namedtuple
 
-from six.moves import cPickle
 
 from ._epo import (  # noqa: F401
     bed_union,

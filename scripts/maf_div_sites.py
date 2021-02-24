@@ -5,7 +5,6 @@ in a maf.
 
 usage: %prog maf_file reference_species_name other_species_name
 """
-from __future__ import print_function
 
 import sys
 

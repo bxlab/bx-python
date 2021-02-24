@@ -3,7 +3,6 @@ Support for parsing phylogenetic tree's in newick format.
 
 TODO: Tree/Edge should be a generic data structure, not newick specific.
 """
-from __future__ import print_function
 
 from functools import total_ordering
 
@@ -33,14 +32,14 @@ def print_(p, s):
 
 
 @total_ordering
-class Tree(object):
+class Tree:
     def __init__(self, label, edges=None):
         self.label = label
         self.edges = edges
 
     def pretty(self):
         if self.edges:
-            return "Tree( '%s',\n%s\n)" % (self.label, indent("\n".join(repr(edge) for edge in self.edges)))
+            return "Tree( '{}',\n{}\n)".format(self.label, indent("\n".join(repr(edge) for edge in self.edges)))
         else:
             return "Tree( '%s' )" % self.label
 
@@ -51,17 +50,17 @@ class Tree(object):
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
-        return "Tree( %s, %s )" % (repr(self.label), repr(self.edges))
+        return "Tree( {}, {} )".format(repr(self.label), repr(self.edges))
 
 
 @total_ordering
-class Edge(object):
+class Edge:
     def __init__(self, length, tip):
         self.length = length
         self.tip = tip
 
     def pretty(self):
-        return "Edge( %s, \n%s\n)" % (repr(self.length), indent(repr(self.tip)))
+        return "Edge( {}, \n{}\n)".format(repr(self.length), indent(repr(self.tip)))
 
     def __lt__(self, other):
         return self.__dict__ < other.__dict__
@@ -70,7 +69,7 @@ class Edge(object):
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
-        return "Edge( %s, %s )" % (repr(self.length), repr(self.tip))
+        return "Edge( {}, {} )".format(repr(self.length), repr(self.tip))
 
 
 def create_parser():
@@ -112,7 +111,7 @@ def create_parser():
     return tree
 
 
-class NewickParser(object):
+class NewickParser:
     """
     Class wrapping a parser for building Trees from newick format strings
     """

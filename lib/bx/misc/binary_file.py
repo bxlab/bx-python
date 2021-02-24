@@ -5,11 +5,10 @@ import struct
 import sys
 
 import numpy
-from six import binary_type
 
 
 def bytesify(s):
-    if isinstance(s, binary_type):
+    if isinstance(s, bytes):
         return s
     else:
         return s.encode()
@@ -24,7 +23,7 @@ class BadMagicNumber(IOError):
     pass
 
 
-class BinaryFileReader(object):
+class BinaryFileReader:
     """
     Wrapper for doing binary reads on any file like object.
 
@@ -55,7 +54,7 @@ class BinaryFileReader(object):
             self.byteswap_needed = (sys.byteorder != "big")
 
     def unpack(self, format, buffer, byte_count=None):
-        pattern = "%s%s" % (self.endian_code, format)
+        pattern = f"{self.endian_code}{format}"
         if byte_count is None:
             byte_count = struct.calcsize(pattern)
         return struct.unpack(pattern, buffer)
@@ -65,7 +64,7 @@ class BinaryFileReader(object):
         Read enough bytes to unpack according to `format` and return the
         tuple of unpacked values.
         """
-        pattern = "%s%s" % (self.endian_code, format)
+        pattern = f"{self.endian_code}{format}"
         if byte_count is None:
             byte_count = struct.calcsize(pattern)
         return struct.unpack(pattern, self.file.read(byte_count))
@@ -117,7 +116,7 @@ class BinaryFileReader(object):
         return self.read_and_unpack("f", 4)[0]
 
 
-class BinaryFileWriter(object):
+class BinaryFileWriter:
     """
     Wrapper for doing binary writes on any file like object.
 
@@ -136,7 +135,7 @@ class BinaryFileWriter(object):
             self.write_uint32(magic)
 
     def pack(self, format, buffer):
-        pattern = "%s%s" % (self.endian_code, format)
+        pattern = f"{self.endian_code}{format}"
         return struct.pack(pattern, buffer)
 
     def pack_and_write(self, format, value):
@@ -144,7 +143,7 @@ class BinaryFileWriter(object):
         Read enough bytes to unpack according to `format` and return the
         tuple of unpacked values.
         """
-        pattern = "%s%s" % (self.endian_code, format)
+        pattern = f"{self.endian_code}{format}"
         return self.file.write(struct.pack(pattern, value))
 
     def write_c_string(self, value):

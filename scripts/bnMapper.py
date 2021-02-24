@@ -9,11 +9,11 @@ span multiple chains or multiple chromosomes are silently filtered out. TODO:
 import logging
 import os
 import sys
+from functools import reduce
 from itertools import groupby
 from operator import attrgetter, itemgetter
 
 import numpy as np
-from six.moves import reduce
 
 from bx.align import epo
 from bx.align.epo import bed_union as elem_u
@@ -36,7 +36,7 @@ log = logging.getLogger()
 class GIntervalTree(IntervalTree):
     """a set of IntervalTrees that is indexed by chromosomes"""
 
-    def __init__(self, data=[]):
+    def __init__(self):
         self._trees = {}
 
     def add(self, chrom, element):
@@ -112,7 +112,7 @@ def union_elements(elements):
 
     if len(elements) < 2:
         return elements
-    assert set([e[3] for e in elements]) == set([elements[0][3]]), "more than one id"
+    assert {e[3] for e in elements} == {elements[0][3]}, "more than one id"
     el_id = elements[0][3]
 
     unioned_elements = []
@@ -196,16 +196,16 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
                     p_elem_slices = [_ for _ in (transform(np.array((chrom, from_elem['peak'], from_elem['peak'], '.'), dtype=elem_t), all_epo[i], opt.gap) for i in matching_block_ids) if _]
                     if len(p_elem_slices) >= 1:
                         mapped_summit_count += 1
-                        sys.stderr.write("{}\n".format(p_elem_slices))
+                        sys.stderr.write(f"{p_elem_slices}\n")
                         # Make sure the peak is between the start and end positions
                         if p_elem_slices[0][0][1] >= start and p_elem_slices[0][0][1] <= end:
                             peak = p_elem_slices[0][0][1] - start
                         else:
                             mapped_summit_count -= 1
-                            log.debug("Warning: elem {} summit mapped location falls outside the mapped element start and end. Using the mapped elem midpoint instead.".format(from_elem))
+                            log.debug(f"Warning: elem {from_elem} summit mapped location falls outside the mapped element start and end. Using the mapped elem midpoint instead.")
 
                     else:
-                        log.debug("Warning: elem {} summit maps to a gap region in the target alignment. Using the mapped elem midpoint instead.".format(from_elem))
+                        log.debug(f"Warning: elem {from_elem} summit maps to a gap region in the target alignment. Using the mapped elem midpoint instead.")
                 out_fd.write(NPEAK_FRM % (to_elem_list[0][0], start, end, from_elem['id'],
                                           from_elem['score'], from_elem['strand'], from_elem['signalValue'],
                                           from_elem['pValue'], from_elem['qValue'], peak))
@@ -309,7 +309,7 @@ if __name__ == "__main__":
         parser.error("For multiple inputs, output is mandatory and should be a dir.")
 
     # loading alignments from opt.alignment
-    EPO = dict((ch[0].id, ch) for ch in loadChains(opt.alignment))
+    EPO = {ch[0].id: ch for ch in loadChains(opt.alignment)}
 
     # create an interval tree based on chain headers (from_species side)
     # for fast feature-to-chain_header searching

@@ -12,7 +12,6 @@ options:
                         Limit to region: one of coding, utr3, utr5, transcribed [default]
   -e, --exons           Only print intervals overlapping an exon
 """
-from __future__ import print_function
 
 import optparse
 import string

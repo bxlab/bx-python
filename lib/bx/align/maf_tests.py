@@ -1,10 +1,8 @@
 """
 Tests for `bx.align.maf`.
 """
-from __future__ import print_function
 
-
-from six import StringIO
+from io import StringIO
 
 import bx.align as align
 import bx.align.maf as maf

@@ -11,8 +11,6 @@ TODO: This could be much more general, should just take the translation table
 usage: %prog < maf > maf
 """
 
-from __future__ import division
-
 import string
 import sys
 

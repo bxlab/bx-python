@@ -63,7 +63,7 @@ import sys
 def mangle(classname, attrname):
     """mangles name according to python name-mangling
        conventions for private variables"""
-    return "_%s__%s" % (classname, attrname)
+    return f"_{classname}__{attrname}"
 
 
 def class_space(classlevel=3):

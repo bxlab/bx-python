@@ -3,8 +3,6 @@ Reading and writing delimited data files (with headers and comments).
 """
 from itertools import count
 
-from six import Iterator
-
 FIRST_LINE_IS_HEADER = object()
 
 
@@ -20,7 +18,7 @@ class ParseError(Exception):
             return Exception.__str__(self)
 
 
-class TableRow(object):
+class TableRow:
     """
     A row of a table
     """
@@ -48,7 +46,7 @@ class TableRow(object):
         return "\t".join(self.fields)
 
 
-class Header(object):
+class Header:
     """
     Header of a table -- contains column names and a mapping from them
     to column indexes
@@ -74,7 +72,7 @@ class Header(object):
         return "#" + "\t".join(self.fields)
 
 
-class Comment(object):
+class Comment:
     def __init__(self, line):
         self.line = line
 
@@ -84,7 +82,7 @@ class Comment(object):
         return "#" + self.line
 
 
-class TableReader(Iterator):
+class TableReader:
     """
     Reader for iterating tabular data
     """

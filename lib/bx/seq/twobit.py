@@ -1,9 +1,8 @@
 """
 Access to files containing sequence data in 'twobit' format.
 """
+from collections.abc import Mapping
 from struct import calcsize, unpack
-
-from six.moves.collections_abc import Mapping
 
 from . import _twobit
 
@@ -14,7 +13,7 @@ TWOBIT_MAGIC_SIZE = 4
 TWOBIT_VERSION = 0
 
 
-class TwoBitSequence(object):
+class TwoBitSequence:
     def __init__(self, tbf, header_offset=None):
         self.tbf = tbf
         self.header_offset = header_offset
@@ -42,7 +41,7 @@ class TwoBitSequence(object):
             end = self.size
         out_size = end - start
         if out_size < 1:
-            raise Exception("end before start (%s,%s)" % (start, end))
+            raise Exception(f"end before start ({start},{end})")
         # Find position of packed portion
         dna = _twobit.read(self.tbf.file, self, start, end, self.tbf.do_mask)
         # Return

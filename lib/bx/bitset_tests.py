@@ -7,7 +7,7 @@ import unittest
 import bx.bitset
 
 
-class AbstractTests(object):
+class AbstractTests:
 
     def assert_bits(self, bits, list):
         assert bits.size == len(list), "Bitset size and verification list size do not match"

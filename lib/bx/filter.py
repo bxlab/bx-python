@@ -4,7 +4,7 @@ subclassed).
 """
 
 
-class Filter(object):
+class Filter:
     def __init__(self, **kwargs):
         raise Exception("AbstractClass")
 

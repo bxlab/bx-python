@@ -1,5 +1,6 @@
+from io import StringIO
+
 from numpy import allclose
-from six import StringIO
 
 from . import transfac
 

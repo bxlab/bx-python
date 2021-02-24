@@ -11,7 +11,7 @@ def read_lengths_file(name):
     """
 
     chrom_to_length = {}
-    f = open(name, "rt")
+    f = open(name)
     for line in f:
         line = line.strip()
         if line == '' or line[0] == '#':

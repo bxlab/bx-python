@@ -20,7 +20,7 @@ def tile_interval(sources, index, ref_src, start, end, seq_db=None):
     """
     # First entry in sources should also be on the reference species
     assert sources[0].split('.')[0] == ref_src.split('.')[0], \
-        "%s != %s" % (sources[0].split('.')[0], ref_src.split('.')[0])
+        "{} != {}".format(sources[0].split('.')[0], ref_src.split('.')[0])
     base_len = end - start
     blocks = index.get(ref_src, start, end)
     # From low to high score

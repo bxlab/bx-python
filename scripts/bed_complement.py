@@ -8,8 +8,6 @@ a source name followed by a size, separated by whitespace).
 usage: %prog bed_file chrom_length_file
 """
 
-from __future__ import print_function
-
 from bx.bitset_builders import binned_bitsets_from_file
 from bx.cookbook import doc_optparse
 

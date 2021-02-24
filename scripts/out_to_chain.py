@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-from __future__ import print_function
 
 import logging
 import sys
@@ -42,7 +41,7 @@ def convert_action(trg_comp, qr_comp, ts, qs, opt):
                 print("%d %d %d" % (s, t, q), file=opt.output)
             print("%d\n" % S[-1], file=opt.output)
         except KeyError:
-            log.warning("skipping chromosome/contig (%s, %s)" % (a.chrom, b.chrom))
+            log.warning(f"skipping chromosome/contig ({a.chrom}, {b.chrom})")
 
 
 if __name__ == '__main__':

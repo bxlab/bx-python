@@ -5,7 +5,6 @@ Print the number of bases in a nib file.
 
 usage: %prog nib_file
 """
-from __future__ import print_function
 
 import sys
 

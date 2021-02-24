@@ -143,7 +143,7 @@ def do_interval(sources, index, out, ref_src, start, end, ref_2bit, missing_data
     last_stop = start
     # Rows in maf blocks come in in arbitrary order, we'll convert things
     # to the destred order of the tiled block
-    source_to_index = dict((name, i) for (i, name) in enumerate(sources))
+    source_to_index = {name: i for (i, name) in enumerate(sources)}
     # This gets all the maf blocks overlapping our interval of interest
     # NOTE: Unlike maf_tile we're expecting
     # things to be single coverage in the reference species, so we won't

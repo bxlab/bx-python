@@ -6,7 +6,6 @@ any pair of intervals with any basewise overlap will be printed side-by-side.
 
 usage: %prog bed1 bed2
 """
-from __future__ import division, print_function
 
 import sys
 

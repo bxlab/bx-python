@@ -9,7 +9,6 @@ TODO: Allow specifying the character of the wildcard base.
 
 usage: %prog min_good min_species < maf > maf
 """
-from __future__ import division
 
 import sys
 

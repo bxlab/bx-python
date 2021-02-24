@@ -9,7 +9,6 @@ TODO: no need to read the feature_file into memory here, just iterate in
 
 usage: %prog feature_file < ...
 """
-from __future__ import print_function
 
 import sys
 

@@ -11,7 +11,6 @@ usage: %prog nibdir genefile [options]
     -a, --allpositions: 1st, 2nd and 3rd positions are evaluated for degeneracy given the sequence at the other two positions.  Many 1d sites in 1st codon positions become 2d sites when considered this way.
     -n, --include_name: include the 'name' or 'id' field from the source file on every line of output
 """
-from __future__ import print_function
 
 import os
 import re

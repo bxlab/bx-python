@@ -4,7 +4,6 @@
 Read some whitespace separated data from stdin and pretty print it so that
 the columns line up.
 """
-from __future__ import print_function
 
 import sys
 

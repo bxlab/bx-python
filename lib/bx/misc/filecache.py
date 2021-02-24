@@ -1,8 +1,4 @@
-from __future__ import division
-
 from io import BytesIO
-
-from six import Iterator
 
 from bx_extras.lrucache import LRUCache
 
@@ -10,7 +6,7 @@ DEFAULT_CACHE_SIZE = 10
 DEFAULT_BLOCK_SIZE = 1024*1024*2
 
 
-class FileCache(Iterator):
+class FileCache:
     """
     Wrapper for a file that cache blocks of data in memory.
 

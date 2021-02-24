@@ -2,8 +2,7 @@
 Tests for `bx.wiggle`.
 """
 import unittest
-
-from six import StringIO
+from io import StringIO
 
 from bx import wiggle
 

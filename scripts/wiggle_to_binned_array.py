@@ -7,7 +7,6 @@ single chromosome and does no sanity checks!
 usage: %prog score_file out_file < wiggle_data
     -c, --comp=type: compression type (none, zlib, lzo)
 """
-from __future__ import division, print_function
 
 import bx.wiggle
 from bx import misc

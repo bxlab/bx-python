@@ -7,7 +7,6 @@ covered in both of the inputs will be output.
 
 usage: %prog bed_file_1 bed_file_2
 """
-from __future__ import print_function
 
 from bx.bitset_builders import binned_bitsets_from_file
 from bx.cookbook import doc_optparse

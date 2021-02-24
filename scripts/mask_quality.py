@@ -14,7 +14,6 @@ usage: %prog input output
     -t, --type=N: base_pair or nqs
     -l, --list=N: colon seperated list of species,len_file[,qualityfile].
 """
-from __future__ import print_function
 
 import fileinput
 import sys
@@ -41,7 +40,7 @@ def main():
         doc_optparse.exception()
 
     outstream = open(outputfile, "w")
-    instream = open(inputfile, "r")
+    instream = open(inputfile)
 
     qualfiles = {}
 

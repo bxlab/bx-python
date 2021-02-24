@@ -8,7 +8,6 @@ usage %prog [options] species1,species2,... < maf_file > fasta_file
     --fill="expression": Insert this between blocks
     --wrap=columns: Wrap FASTA to this many columns
 """
-from __future__ import print_function
 
 import sys
 from optparse import OptionParser

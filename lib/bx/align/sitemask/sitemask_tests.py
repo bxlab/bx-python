@@ -2,8 +2,7 @@
 Tests for `bx.align.maf.sitemask`.
 """
 import tempfile
-
-from six import StringIO
+from io import StringIO
 
 import bx.align.maf
 from . import cpg

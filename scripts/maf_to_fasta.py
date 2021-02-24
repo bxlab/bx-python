@@ -5,7 +5,6 @@ Read a maf and print the text as a fasta file.
 
 usage: %prog < maf > fasta
 """
-from __future__ import division, print_function
 
 import sys
 

@@ -7,7 +7,6 @@ strand, and any fields beyond chrom/start/stop are lost.
 
 usage: %prog bed files ...
 """
-from __future__ import print_function
 
 import fileinput
 import sys

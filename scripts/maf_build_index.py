@@ -12,8 +12,6 @@ usage: %prog maf_file index_file
 import os.path
 from io import TextIOWrapper
 
-from six import PY3
-
 import bx.align.maf
 from bx import interval_index_file
 from bx.cookbook import doc_optparse
@@ -59,8 +57,7 @@ def main():
     except Exception:
         doc_optparse.exception()
 
-    if PY3:
-        maf_in = TextIOWrapper(maf_in, encoding="ascii")
+    maf_in = TextIOWrapper(maf_in, encoding="ascii")
     maf_reader = bx.align.maf.Reader(maf_in)
 
     indexes = interval_index_file.Indexes()

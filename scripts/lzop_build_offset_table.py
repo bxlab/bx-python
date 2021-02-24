@@ -7,7 +7,6 @@ compressed block.
 
 usage: %prog < FILENAME.lzo > FILENAME.lzot
 """
-from __future__ import print_function
 
 import struct
 import sys
@@ -28,7 +27,7 @@ assert struct.calcsize("!H") == 2
 assert struct.calcsize("!I") == 4
 
 
-class UnpackWrapper(object):
+class UnpackWrapper:
     def __init__(self, file):
         self.file = file
 

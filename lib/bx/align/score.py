@@ -11,7 +11,7 @@ from numpy import (
 )
 
 
-class ScoringScheme(object):
+class ScoringScheme:
     # note that gap_open and gap_extend are penalties, which means you should make them positive
     def __init__(self, gap_open, gap_extend, default=-100, alphabet1="ACGT", alphabet2=None, gap1="-", gap2=None, text1_range=128, text2_range=None, typecode=int32):
         if text2_range is None:
@@ -129,7 +129,7 @@ def read_scoring_scheme(f, gap_open, gap_extend, gap1="-", gap2=None, **kwargs):
     """
     close_it = False
     if (isinstance(f, str)):
-        f = open(f, "rt")
+        f = open(f)
         close_it = True
     ss = build_scoring_scheme("".join([line for line in f]), gap_open, gap_extend, gap1=gap1, gap2=gap2, **kwargs)
     if (close_it):
