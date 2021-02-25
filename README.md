@@ -26,7 +26,7 @@ It is available in [bioconda](https://anaconda.org/bioconda/bx-python) (recommen
 
 ```conda install -c conda-forge -c bioconda bx-python```
 
-It is available in [Debian](https://tracker.debian.org/pkg/python-bx) and Ubuntu:
+It is available in [Debian](https://tracker.debian.org/pkg/python-bx) and [Ubuntu](https://packages.ubuntu.com/python3-bx):
 
 ```sudo apt install python3-bx```
 
