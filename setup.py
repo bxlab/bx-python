@@ -71,14 +71,6 @@ def main():
         dependency_links=[],
         cmdclass=command_classes)
 
-    numpy = None
-    try:
-        import numpy
-        # Suppress numpy tests
-        numpy.test = None
-    except Exception:
-        pass
-
     if len(sys.argv) >= 2 and \
             ('--help' in sys.argv[1:] or sys.argv[1] in ('--help-commands', 'egg_info', '--version', 'clean')):
         # For these actions, NumPy is not required.
@@ -88,8 +80,12 @@ def main():
         # the system.
         pass
     else:
-        if numpy is None:
-            raise Exception("numpy must be installed to build")
+        try:
+            import numpy
+            # Suppress numpy tests
+            numpy.test = None
+        except Exception as e:
+            raise Exception(f"numpy must be installed to build: {e}")
         metadata['packages'] = find_packages('lib')
         metadata['ext_modules'] = get_extension_modules(numpy_include=numpy.get_include())
 

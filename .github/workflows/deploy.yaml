@@ -15,7 +15,10 @@ jobs:
         run: python -m cibuildwheel --output-dir dist
         env:
           CIBW_BEFORE_BUILD_LINUX: yum install -y zlib-devel && pip install Cython numpy
-          CIBW_BEFORE_BUILD_MACOS: pip install Cython numpy
+          # If there is no wheel for numpy on macOS (e.g. for PyPy3.6), we need
+          # to build it using OpenBLAS, see
+          # https://github.com/numpy/numpy/issues/15947#issuecomment-686159427
+          CIBW_BEFORE_BUILD_MACOS: brew install openblas && OPENBLAS="$(brew --prefix openblas)" pip install Cython numpy
           CIBW_SKIP: '{cp,pp}27-* {cp,pp}35-*'
       - name: Build sdist
         if: matrix.os == 'ubuntu-latest'
