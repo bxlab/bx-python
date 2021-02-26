@@ -1,7 +1,7 @@
 name: Deploy
 on: [push, pull_request]
 jobs:
-  deploy:
+  build_packages:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -28,8 +28,21 @@ jobs:
           python setup.py sdist
       - name: Check packages
         run: twine check dist/*
+      - uses: actions/upload-artifact@v2
+        with:
+          name: packages
+          path: dist/
+
+  upload_pypi:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && github.repository_owner == 'bxlab'
+    needs: build_packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: packages
+          path: dist
       - name: Publish to PyPI
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && github.repository_owner == 'bxlab'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
