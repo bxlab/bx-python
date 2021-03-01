@@ -6,8 +6,6 @@ import struct
 from io import BytesIO
 
 try:
-    import pkg_resources
-    pkg_resources.require('python_lzo')
     import lzo
 except Exception:
     pass

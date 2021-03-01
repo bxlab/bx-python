@@ -113,8 +113,6 @@ command_classes['build_py'] = build_py
 
 # Use epydoc if found
 try:
-    import pkg_resources
-    pkg_resources.require("epydoc")
     import epydoc.cli
     import os
     import os.path

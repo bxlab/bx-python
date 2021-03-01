@@ -1,7 +1,7 @@
+import os.path
 from io import StringIO
 from string import Template
 
-import pkg_resources
 from numpy import (
     ceil,
     log2,
@@ -52,7 +52,10 @@ def eps_logo(matrix, base_width, height, colors=DNA_DEFAULT_COLORS):
     alphabet = matrix.sorted_alphabet
     rval = StringIO()
     # Read header ans substitute in width / height
-    header = Template(pkg_resources.resource_string(__name__, "template.ps"))
+    template_path = os.path.join(os.path.dirname(__file__), 'template.ps')
+    with open(template_path) as fh:
+        template_str = fh.read()
+    header = Template(template_str)
     rval.write(header.substitute(
         bounding_box_width=ceil(base_width * matrix.width) + PAD,
         bounding_box_height=ceil(height) + PAD))
