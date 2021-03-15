@@ -1,74 +1,24 @@
-import ast
 import os
+import os.path
 import platform
-import re
 import sys
 from distutils.core import Command
 from glob import glob
 
-try:
-    from setuptools import setup, find_packages
-except ImportError:
-    from ez_setup import use_setuptools
-    use_setuptools()
-
-from setuptools import Extension  # noqa: E402
-
-version_file = os.path.join('lib', 'bx', '__init__.py')
-reg = re.compile(r'__version__\s*=\s*(.+)')
-with open(version_file) as f:
-    for line in f:
-        m = reg.match(line)
-        if m:
-            version = ast.literal_eval(m.group(1))
-            break
-    else:
-        raise Exception("Version not found in " + version_file)
-with open('README.md') as f:
-    long_description = f.read()
+from setuptools import (
+    Extension,
+    find_packages,
+    setup,
+)
+from setuptools.command.sdist import sdist
 
 
 def main():
     metadata = dict(
-        name="bx-python",
-        version=version,
-        python_requires='>=3.6',
-        setup_requires=['numpy', 'cython'],
-        install_requires=[
-            'numpy',
-        ],
-        py_modules=['psyco_full'],
         package_dir={'': 'lib'},
         package_data={'': ['*.ps']},
         scripts=glob("scripts/*.py"),
         test_suite='nose.collector',
-        tests_require=['nose', 'python-lzo'],
-        author="James Taylor, Bob Harris, David King, Brent Pedersen, Kanwei Li, and others",
-        author_email="james@jamestaylor.org",
-        description="Tools for manipulating biological data, particularly multiple sequence alignments",
-        long_description=long_description,
-        long_description_content_type='text/markdown',
-        url="https://github.com/bxlab/bx-python",
-        project_urls={
-            "Bug Tracker": "https://github.com/bxlab/bx-python/issues",
-            "Source Code": "https://github.com/bxlab/bx-python",
-        },
-        license="MIT",
-        classifiers=[
-            "Development Status :: 5 - Production/Stable",
-            "Intended Audience :: Developers",
-            "Intended Audience :: Science/Research",
-            "License :: OSI Approved :: MIT License",
-            "Operating System :: POSIX",
-            "Programming Language :: Python :: 3",
-            "Programming Language :: Python :: 3.6",
-            "Programming Language :: Python :: 3.7",
-            "Programming Language :: Python :: 3.8",
-            "Programming Language :: Python :: 3.9",
-            "Topic :: Scientific/Engineering :: Bio-Informatics",
-            "Topic :: Software Development :: Libraries :: Python Modules"],
-        zip_safe=False,
-        dependency_links=[],
         cmdclass=command_classes)
 
     if len(sys.argv) >= 2 and \
@@ -99,14 +49,20 @@ command_classes = {}
 try:
     import Cython.Distutils
     command_classes['build_ext'] = Cython.Distutils.build_ext
-except Exception:
+
+    class build_ext_sdist(sdist):
+        def run(self):
+            # Make sure the compiled Cython files in the distribution are up-to-date
+            self.run_command("build_ext")
+            super().run()
+
+    command_classes['sdist'] = build_ext_sdist
+except ImportError:
     pass
 
 # Use epydoc if found
 try:
     import epydoc.cli
-    import os
-    import os.path
 
     # Create command class to build API documentation
     class BuildAPIDocs(Command):
