@@ -7,7 +7,6 @@ from glob import glob
 
 from setuptools import (
     Extension,
-    find_packages,
     setup,
 )
 from setuptools.command.sdist import sdist
@@ -15,10 +14,7 @@ from setuptools.command.sdist import sdist
 
 def main():
     metadata = dict(
-        package_dir={'': 'lib'},
-        package_data={'': ['*.ps']},
         scripts=glob("scripts/*.py"),
-        test_suite='nose.collector',
         cmdclass=command_classes)
 
     if len(sys.argv) >= 2 and \
@@ -36,7 +32,6 @@ def main():
             numpy.test = None
         except Exception as e:
             raise Exception(f"numpy must be installed to build: {e}")
-        metadata['packages'] = find_packages('lib')
         metadata['ext_modules'] = get_extension_modules(numpy_include=numpy.get_include())
 
     setup(**metadata)
