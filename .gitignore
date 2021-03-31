@@ -29,3 +29,6 @@ nose*.egg
 
 # Virtualenv
 .venv
+
+# Built sdist directory
+dist
