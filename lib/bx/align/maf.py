@@ -151,7 +151,7 @@ def from_string(string, **kwargs):
 def read_next_maf(file, species_to_lengths=None, parse_e_rows=False):
     """
     Read the next MAF block from `file` and return as an `Alignment`
-    instance. If `parse_i_rows` is true, empty components will be created
+    instance. If `parse_e_rows` is true, empty components will be created
     when e rows are encountered.
     """
     alignment = Alignment(species_to_lengths=species_to_lengths)
