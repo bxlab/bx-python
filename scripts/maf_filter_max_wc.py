@@ -20,7 +20,7 @@ def main():
     min_good = int(sys.argv[1])
     min_species = int(sys.argv[2])
 
-    maf_reader = maf.Reader(sys.stdin)
+    maf_reader = maf.Reader(sys.stdin, parse_e_rows=True)
     maf_writer = maf.Writer(sys.stdout)
 
     for m in maf_reader:

@@ -31,7 +31,7 @@ def __main__():
     out_dir = args[1]
     prob = options.prob
 
-    maf_reader = bx.align.maf.Reader(sys.stdin)
+    maf_reader = bx.align.maf.Reader(sys.stdin, parse_e_rows=True)
 
     maf_writer = None
 

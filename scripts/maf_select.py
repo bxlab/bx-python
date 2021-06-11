@@ -23,7 +23,7 @@ def __main__():
 
     feature_vector = [int(line) for line in open(feature_file)]
 
-    maf_reader = bx.align.maf.Reader(sys.stdin)
+    maf_reader = bx.align.maf.Reader(sys.stdin, parse_e_rows=True)
     maf_writer = bx.align.maf.Writer(sys.stdout)
 
     index = 0

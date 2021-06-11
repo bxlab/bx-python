@@ -15,7 +15,7 @@ from bx import align
 
 def __main__():
 
-    maf_reader = align.maf.Reader(sys.stdin)
+    maf_reader = align.maf.Reader(sys.stdin, parse_e_rows=True)
     maf_writer = align.maf.Writer(sys.stdout)
 
     for m in maf_reader:

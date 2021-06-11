@@ -33,7 +33,7 @@ def main():
     except Exception:
         doc_optparse.exit()
 
-    maf_reader = bx.align.maf.Reader(sys.stdin)
+    maf_reader = bx.align.maf.Reader(sys.stdin, parse_e_rows=True)
     maf_writer = bx.align.maf.Writer(sys.stdout)
 
     if fuse:

@@ -49,7 +49,7 @@ def __main__():
 
     # Iterate over input MAF
 
-    for maf in bx.align.maf.Reader(sys.stdin):
+    for maf in bx.align.maf.Reader(sys.stdin, parse_e_rows=True):
         ref = maf.components[refindex]
         # Find overlap with reference component
         intersections = sorted(intersecter.find(ref.get_forward_strand_start(), ref.get_forward_strand_end()))
@@ -61,7 +61,7 @@ def __main__():
             sliced = maf.slice_by_component(refindex, start, end)
             good = True
             for c in sliced.components:
-                if c.size < 1:
+                if c.size < 1 and not c.empty:
                     good = False
             if good and sliced.text_size > mincols:
                 out.write(sliced)

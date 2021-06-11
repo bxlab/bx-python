@@ -19,7 +19,7 @@ def __main__():
 
     (options, args) = parser.parse_args()
 
-    maf_reader = maf.Reader(sys.stdin)
+    maf_reader = maf.Reader(sys.stdin, parse_e_rows=True)
     maf_writer = maf.Writer(sys.stdout)
 
     if not options.cols:

@@ -16,7 +16,7 @@ import bx.align.maf
 def main():
     species = sys.argv[1].split(',')
 
-    maf_reader = bx.align.maf.Reader(sys.stdin)
+    maf_reader = bx.align.maf.Reader(sys.stdin, parse_e_rows=True)
     maf_writer = bx.align.maf.Writer(sys.stdout)
 
     for m in maf_reader:
