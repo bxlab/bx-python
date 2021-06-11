@@ -108,9 +108,6 @@ class Alignment:
     def slice(self, start, end):
         new = Alignment(score=self.score, attributes=self.attributes)
         for component in self.components:
-            # FIXME: Is this the right solution?
-            if component.empty:
-                continue
             new.components.append(component.slice(start, end))
         new.text_size = end - start
         return new
@@ -149,8 +146,11 @@ class Alignment:
         return self.slice(start_col, end_col)
 
     def column_iter(self):
+        # FIXME: The empty component are not present
+        # in column_iter.
+        # Maybe it would be good to use - and =
         for i in range(self.text_size):
-            yield [c.text[i] for c in self.components]
+            yield [c.text[i] for c in self.components if not c.empty]
 
     def limit_to_species(self, species):
         new = Alignment(score=self.score, attributes=self.attributes)
@@ -167,6 +167,8 @@ class Alignment:
         """
         seqs = []
         for c in self.components:
+            if c.empty:
+                seqs.append(None)
             try:
                 seqs.append(list(c.text))
             except TypeError:
@@ -236,7 +238,7 @@ class Component:
         self.synteny_right = None
         self.synteny_empty = None
         # If true, this component actually represents a non-aligning region,
-        # and has no text.
+        # and text is None.
         self.empty = False
         # Index maps a coordinate (distance along + strand from + start) to alignment column
         self.index = None
@@ -289,16 +291,33 @@ class Component:
             strand = "-"
         else:
             strand = "+"
-        comp = [ch for ch in self.text.translate(DNA_COMP)]
-        comp.reverse()
-        text = "".join(comp)
+        if self.empty:
+            text = None
+        else:
+            comp = [ch for ch in self.text.translate(DNA_COMP)]
+            comp.reverse()
+            text = "".join(comp)
         new = Component(self.src, start, self.size, strand, self._src_size, text)
+        if self.empty:
+            new.empty = True
+            new.synteny_empty = self.synteny_empty
+        # Propagate supplementary info
+        if self.synteny_left:
+            new.synteny_right = self.synteny_left
+        if self.synteny_right:
+            new.synteny_left = self.synteny_right
         new._alignment = self._alignment
         return new
 
     def slice(self, start, end):
         new = Component(src=self.src, start=self.start, strand=self.strand, src_size=self._src_size)
         new._alignment = self._alignment
+        if self.empty:
+            new.empty = True
+            new.size = self.size
+            new.text = None
+            new.synteny_empty = self.synteny_empty
+            return new
         new.text = self.text[start:end]
 
         # for i in range( 0, start ):
@@ -312,8 +331,14 @@ class Component:
         # one of the ends changes. In general the 'i' rows of a MAF only
         # make sense in context (relative to the previous and next alignments
         # in a stream, slicing breaks that).
-        new.synteny_left = self.synteny_left
-        new.synteny_right = self.synteny_right
+        # LD: Indeed, I think it is wrong to keep them. Let's keep the info
+        # only when the boundaries are kept.
+        if self.synteny_left:
+            if start == 0:
+                new.synteny_left = self.synteny_left
+        if self.synteny_right:
+            if end == self.size:
+                new.synteny_right = self.synteny_right
 
         return new
 
@@ -337,6 +362,8 @@ class Component:
         pos is relative to the + strand, regardless of the component's strand.
 
         """
+        if self.empty:
+            raise ValueError("There is no column index. It is empty.")
         start, end = self.get_forward_strand_start(), self.get_forward_strand_end()
         if pos < start or pos > end:
             raise ValueError("Range error: %d not in %d-%d" % (pos, start, end))
@@ -438,10 +465,11 @@ def get_indexed(format, filename, index_filename=None, keep_open=False, species_
 
 def shuffle_columns(a):
     """Randomize the columns of an alignment"""
-    mask = range(a.text_size)
+    mask = list(range(a.text_size))
     random.shuffle(mask)
     for c in a.components:
-        c.text = ''.join([c.text[i] for i in mask])
+        if not c.empty:
+            c.text = ''.join([c.text[i] for i in mask])
 
 
 def src_split(src):  # splits src into species,chrom
