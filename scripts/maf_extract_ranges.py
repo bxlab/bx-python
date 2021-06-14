@@ -9,6 +9,9 @@ NOTE: See maf_extract_ranges_indexed.py which works better / faster for many
 
 NOTE: chromosome/src information in the MAF is ignored by this variant.
 
+NOTE: if a single alignment in a block become empty during slicing, the block
+      is ignored.
+
 usage: %prog interval_file refindex [options] < maf_file
    -m, --mincols=10: Minimum length (columns) required for alignment to be output
 """
