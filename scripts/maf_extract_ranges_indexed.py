@@ -103,7 +103,7 @@ def main():
                     if sliced.get_component_by_src(src).size < 1:
                         continue
                     # Keep only components that are not empty
-                    sliced.components = [c for c in sliced.components if c.size > 0]
+                    sliced.components = [c for c in sliced.components if c.size > 0 or c.empty]
                     # Reverse complement if needed
                     if strand is not None and ref.strand != strand:
                         sliced = sliced.reverse_complement()
