@@ -337,7 +337,7 @@ class Component:
             if start == 0:
                 new.synteny_left = self.synteny_left
         if self.synteny_right:
-            if end == self.size:
+            if end == len(self.text):
                 new.synteny_right = self.synteny_right
 
         return new
