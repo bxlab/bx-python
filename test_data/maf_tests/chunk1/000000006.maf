@@ -1,0 +1,8 @@
+##maf version=1
+a score=2607.0
+s mm8.chr7              80082895 114 + 145134094 CTTCTCAGAGTGTAGT-----------CCTTGGGCTACC-TCCTCCTAAGTCACTGGG-----------------------AGCTGGTCA-AGAGG------CTCAGACCAGCAGTTTCAGAATCTCTTGGGAGGGCCT--------GGAGTCCGGGTGATGTT 
+s rn4.chr1             136012340 112 + 267910886 CTTCTCAGA--GTAGT-----------CCTTGGGCCACC-TCCTTCTAAGTTACTGAG-----------------------AGCTGGTCA-AGAGG------CTCAGACCAGCAGTTTCAGAATCTCTTGGGAGGGCCT--------GGAGTCAAGGTACTGTT 
+s rheMac2.chr7          69865323 119 + 169801366 CTTCTTGTTGACTAGTGTCACCCCCACCCGAGGGCTTCCTTCCTCATTTGCTGCCAGGTGTAAAGCTGAGCTTC-------agctgggcgcagtgg------ctcacacccataatcctagca--ttttgggag------------------------------ 
+s bosTau2.scaffold2397     93908 136 +    117874 cttctcaaagtgtgct-----------ccatgagcctcc-tacttcagaatcccctgg---------gagattcaaaaccttgcatgttc-tcaggccccatcacgggccagcatcgtcagagtcttcagggtcagctcgtggatctagagtgtaggt------ 
+s canFam2.chr3          56031142 126 +  94715083 cttttcagagggtggt-----------ccctgggcctcc-cactttggaattgcctgg---------gag-ctcatagaattgcccgttg-tcagg--ccatcccagggcagtggcagcag-gcctctagggcaggcct------------ttcaggtgacttt 
+
