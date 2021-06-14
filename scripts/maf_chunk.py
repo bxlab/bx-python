@@ -14,10 +14,11 @@ usage: %prog [options] chunk_size out_dir < maf
 import random
 import sys
 from optparse import OptionParser
+import numpy as np
 
 import bx.align.maf
 
-INF = "inf"
+INF = np.inf
 
 
 def __main__():
@@ -46,8 +47,6 @@ def __main__():
     interval_file = open("%s/intervals.txt" % out_dir, "w")
 
     for m in maf_reader:
-        chunk_min = min(chunk_min, m.components[0].start)
-        chunk_max = max(chunk_max, m.components[0].end)
         if not maf_writer or count + m.text_size > chunk_size:
             current_chunk += 1
             # Finish the last chunk
@@ -70,11 +69,14 @@ def __main__():
             maf_writer.write(m)
         # count += m.text_size
         count += m.components[0].size
+        chunk_min = min(chunk_min, m.components[0].start)
+        chunk_max = max(chunk_max, m.components[0].end)
 
     if maf_writer:
         maf_writer.close()
         interval_file.write(f"{chunk_min} {chunk_max}\n")
-        interval_file.close()
+    
+    interval_file.close()
 
 
 if __name__ == "__main__":
