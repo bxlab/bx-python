@@ -75,7 +75,7 @@ def __main__():
     if maf_writer:
         maf_writer.close()
         interval_file.write(f"{chunk_min} {chunk_max}\n")
-    
+
     interval_file.close()
 
 
