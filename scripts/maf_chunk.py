@@ -14,6 +14,7 @@ usage: %prog [options] chunk_size out_dir < maf
 import random
 import sys
 from optparse import OptionParser
+
 import numpy as np
 
 import bx.align.maf
