@@ -4,7 +4,7 @@ jobs:
   build_packages:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false #wheel build failing due to musllinux, so added this to run other job even after failure in one job
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
         arch: [auto]
@@ -15,10 +15,10 @@ jobs:
       TEST_COMMAND: python -c 'import bx, bx.align, bx.align.sitemask, bx.align.tools, bx.arrays, bx.bbi, bx.cookbook, bx.intervals, bx.intervals.operations, bx.intseq, bx.misc, bx.motif, bx.motif.io, bx.motif.logo, bx.phylo, bx.pwm, bx.seq, bx.tabular, bx_extras'
     steps:
       - uses: actions/checkout@v2
-      - name: Set up QEMU
+      - uses: actions/setup-python@v2
+      - name: Set up QEMU to build non-native architectures
         if: ${{ matrix.arch == 'aarch64' }}
         uses: docker/setup-qemu-action@v1
-      - uses: actions/setup-python@v2
       - name: Install required Python packages
         run: |
           python -m pip install --upgrade pip setuptools wheel
@@ -26,12 +26,20 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir dist
         env:
-          CIBW_BEFORE_BUILD_LINUX: yum install -y zlib-devel
+          CIBW_ARCHS: ${{matrix.arch}}
+          CIBW_BEFORE_ALL_LINUX: |
+            if command -v yum; then
+                yum -y install zlib-devel
+            elif command -v apk; then
+                apk add zlib-dev
+            else
+                apt-get -y install libz-dev
+            fi
           # If there is no wheel for numpy on macOS (e.g. for PyPy3.6), we need
           # to build it using OpenBLAS (both before building the wheel and when
           # testing it), see
           # https://github.com/numpy/numpy/issues/15947#issuecomment-683355728
-          CIBW_BEFORE_BUILD_MACOS: |
+          CIBW_BEFORE_ALL_MACOS: |
             brew install openblas && cat > ~/.numpy-site.cfg <<EOF
             [openblas]
             libraries = openblas
@@ -39,7 +47,6 @@ jobs:
             include_dirs = $(brew --prefix openblas)/include
             runtime_library_dirs = $(brew --prefix openblas)/lib
             EOF
-          CIBW_ARCHS: ${{matrix.arch}}
           CIBW_SKIP: '{cp,pp}27-* {cp,pp}35-*'
           CIBW_TEST_COMMAND: ${{ env.TEST_COMMAND }}
       - name: Build sdist
