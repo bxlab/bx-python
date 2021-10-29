@@ -50,7 +50,9 @@ jobs:
             include_dirs = $(brew --prefix openblas)/include
             runtime_library_dirs = $(brew --prefix openblas)/lib
             EOF
-          CIBW_SKIP: '{cp,pp}27-* {cp,pp}35-*'
+          # Skip building musllinux wheels for aarch64, each one currently takes
+          # more than 2 hours to build.
+          CIBW_SKIP: '*-musllinux_aarch64'
           CIBW_TEST_COMMAND: ${{ env.TEST_COMMAND }}
       - name: Check packages
         run: twine check dist/*
