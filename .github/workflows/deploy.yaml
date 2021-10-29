@@ -1,47 +1,60 @@
 name: Deploy
 on: [push, pull_request]
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  build_packages:
+  build_wheels:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-    env:
-      TEST_COMMAND: python -c 'import bx, bx.align, bx.align.sitemask, bx.align.tools, bx.arrays, bx.bbi, bx.cookbook, bx.intervals, bx.intervals.operations, bx.intseq, bx.misc, bx.motif, bx.motif.io, bx.motif.logo, bx.phylo, bx.pwm, bx.seq, bx.tabular, bx_extras'
+        arch: [auto]
+        include:
+          - os: ubuntu-latest
+            arch: aarch64
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - name: Set up QEMU to build non-native architectures
+        if: ${{ matrix.arch == 'aarch64' }}
+        uses: docker/setup-qemu-action@v1
+      - name: Install required Python packages
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install 'cibuildwheel>=2.2.0' twine
+      - name: Build wheels
+        run: python -m cibuildwheel --output-dir dist
+        env:
+          CIBW_ARCHS: ${{matrix.arch}}
+          # Skip building musllinux wheels for aarch64, each one currently takes
+          # more than 2 hours to build.
+          CIBW_SKIP: '*-musllinux_aarch64'
+      - name: Check packages
+        run: twine check dist/*
+      - uses: actions/upload-artifact@v2
+        with:
+          name: packages
+          path: dist/
+
+  build_sdist:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       - name: Install required Python packages
         run: |
           python -m pip install --upgrade pip setuptools wheel
-          python -m pip install 'cibuildwheel>=2.0.0a4' twine
-      - name: Build wheels
-        run: python -m cibuildwheel --output-dir dist
-        env:
-          CIBW_BEFORE_BUILD_LINUX: yum install -y zlib-devel
-          # If there is no wheel for numpy on macOS (e.g. for PyPy3.6), we need
-          # to build it using OpenBLAS (both before building the wheel and when
-          # testing it), see
-          # https://github.com/numpy/numpy/issues/15947#issuecomment-683355728
-          CIBW_BEFORE_BUILD_MACOS: |
-            brew install openblas && cat > ~/.numpy-site.cfg <<EOF
-            [openblas]
-            libraries = openblas
-            library_dirs = $(brew --prefix openblas)/lib
-            include_dirs = $(brew --prefix openblas)/include
-            runtime_library_dirs = $(brew --prefix openblas)/lib
-            EOF
-          CIBW_SKIP: '{cp,pp}27-* {cp,pp}35-*'
-          CIBW_TEST_COMMAND: ${{ env.TEST_COMMAND }}
+          python -m pip install build twine
       - name: Build sdist
-        if: matrix.os == 'ubuntu-latest'
         run: |
-          python -m pip install build
           python -m build --sdist
           python -m venv test_venv
           . test_venv/bin/activate
           python -m pip install dist/*.tar.gz
-          ${{ env.TEST_COMMAND }}
+          # Test with the same command specified for cibuildwheel in pyproject.toml
+          python -c 'import bx, bx.align, bx.align.sitemask, bx.align.tools, bx.arrays, bx.bbi, bx.cookbook, bx.intervals, bx.intervals.operations, bx.intseq, bx.misc, bx.motif, bx.motif.io, bx.motif.logo, bx.phylo, bx.pwm, bx.seq, bx.tabular, bx_extras'
       - name: Check packages
         run: twine check dist/*
       - uses: actions/upload-artifact@v2
@@ -51,7 +64,7 @@ jobs:
 
   upload_pypi:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && github.repository_owner == 'bxlab'
-    needs: build_packages
+    needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2
