@@ -1,5 +1,8 @@
 name: Lint and test
 on: [push, pull_request]
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   lint:
     runs-on: ubuntu-latest
