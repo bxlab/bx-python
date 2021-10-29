@@ -40,8 +40,8 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      C_COMPILER:i686-linux-gnu-gcc
-      CFLAGS:-m32
+      C_COMPILER: i686-linux-gnu-gcc
+      CFLAGS: -m32
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
