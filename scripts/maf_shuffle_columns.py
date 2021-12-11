@@ -11,12 +11,13 @@ usage: %prog < maf > maf
 import sys
 
 from bx import align
+from bx.align import maf
 
 
 def __main__():
 
-    maf_reader = align.maf.Reader(sys.stdin)
-    maf_writer = align.maf.Writer(sys.stdout)
+    maf_reader = maf.Reader(sys.stdin, parse_e_rows=True)
+    maf_writer = maf.Writer(sys.stdout)
 
     for m in maf_reader:
 

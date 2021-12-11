@@ -58,10 +58,10 @@ def thread(mafs, species):
         new_maf = deepcopy(m)
         new_components = get_components_for_species(new_maf, species)
         if new_components:
-            remove_all_gap_columns(new_components)
             new_maf.components = new_components
             new_maf.score = 0.0
             new_maf.text_size = len(new_components[0].text)
+            new_maf.remove_all_gap_columns()
             yield new_maf
 
 
@@ -77,28 +77,3 @@ def get_components_for_species(alignment, species):
         return [index[s] for s in species]
     except Exception:
         return None
-
-
-def remove_all_gap_columns(components):
-    """
-    Remove any columns containing only gaps from a set of alignment components,
-    text of components is modified IN PLACE.
-
-    TODO: Optimize this with Pyrex.
-    """
-    seqs = [list(c.text) for c in components]
-    i = 0
-    text_size = len(seqs[0])
-    while i < text_size:
-        all_gap = True
-        for seq in seqs:
-            if seq[i] != '-':
-                all_gap = False
-        if all_gap:
-            for seq in seqs:
-                del seq[i]
-            text_size -= 1
-        else:
-            i += 1
-    for i in range(len(components)):
-        components[i].text = ''.join(seqs[i])

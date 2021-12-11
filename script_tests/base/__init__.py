@@ -40,6 +40,7 @@ class BaseScriptTest:
         # Accumulate parameters
         input_files = dict()
         output_files = dict()
+        out_dir = None
         stdin = stdout = stderr = None
         for key in dir(self):
             if key == 'command_line':
@@ -54,6 +55,9 @@ class BaseScriptTest:
                 assert isinstance(value, TestFile)
                 arg_name = key[7:]
                 output_files[arg_name] = value
+            elif key == 'out_dir':
+                out_dir = getattr(self, key)
+                assert os.path.isdir(out_dir)
         # Build the command line
         input_fnames = dict()
         output_fnames = dict()
@@ -73,6 +77,13 @@ class BaseScriptTest:
             if key == 'stderr':
                 stderr = open(output_fnames[key], 'w')
                 stdout.flush()
+        if out_dir is not None:
+            temp_out_dir = tempfile.mkdtemp()
+            all_fnames['out_dir'] = temp_out_dir
+            for root, _, files in os.walk(out_dir):
+                for file in files:
+                    output_files[os.path.join(root, file)] = TestFile(filename=os.path.join(root, file))
+                    output_fnames[os.path.join(root, file)] = os.path.join(temp_out_dir, file)
         real_command = string.Template(command_line).substitute(all_fnames)
         # Augment PYTHONPATH, bit of a HACK here! need to suck this data from setuptools or something?
         env = dict(os.environ)

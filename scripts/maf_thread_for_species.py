@@ -15,8 +15,7 @@ import sys
 import bx.align.maf
 from bx.align.tools.fuse import FusingAlignmentWriter
 from bx.align.tools.thread import (
-    get_components_for_species,
-    remove_all_gap_columns
+    get_components_for_species
 )
 from bx.cookbook import doc_optparse
 
@@ -34,7 +33,7 @@ def main():
     except Exception:
         doc_optparse.exit()
 
-    maf_reader = bx.align.maf.Reader(sys.stdin)
+    maf_reader = bx.align.maf.Reader(sys.stdin, parse_e_rows=True)
     maf_writer = bx.align.maf.Writer(sys.stdout)
 
     if fuse:
@@ -43,9 +42,9 @@ def main():
     for m in maf_reader:
         new_components = get_components_for_species(m, species)
         if new_components:
-            remove_all_gap_columns(new_components)
             m.components = new_components
             m.score = 0.0
+            m.remove_all_gap_columns()
             maf_writer.write(m)
 
     maf_reader.close()

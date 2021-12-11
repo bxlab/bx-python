@@ -36,12 +36,14 @@ def fuse(m1, m2):
     >>> block1 = bx.align.maf.from_string( '''
     ... a score=0.0
     ... s hg18.chr10 52686 44 + 135374737 GTGCTAACTTACTGCTCCACAGAAAACATCAATTCTGCTCATGC
+    ... i hg18.chr10 N 0 C 0
     ... s panTro1.chrUn_random 208115356 44 - 240967748 GTGCTAACTGACTGCTCCAGAGAAAACATCAATTCTGTTCATGT
     ... ''' )
 
     >>> block2 = bx.align.maf.from_string( '''
     ... a score=0.0
     ... s hg18.chr10 52730 69 + 135374737 GCAGGTACAATTCATCAAGAAAGGAATTACAACTTCAGAAATGTGTTCAAAATATATCCATACTTTGAC
+    ... i hg18.chr10 C 0 I 12
     ... s panTro1.chrUn_random 208115400 69 - 240967748 GCAGCTACTATTCATCAAGAAAGGGATTACAACTTCAGAAATGTGTTCAAAGTGTATCCATACTTTGAT
     ... ''' )
 
@@ -50,10 +52,12 @@ def fuse(m1, m2):
     >>> print(fused)
     a score=0.0
     s hg18.chr10 52686 113 + 135374737 GTGCTAACTTACTGCTCCACAGAAAACATCAATTCTGCTCATGCGCAGGTACAATTCATCAAGAAAGGAATTACAACTTCAGAAATGTGTTCAAAATATATCCATACTTTGAC
+    i hg18.chr10 N 0 I 12
     s panTro1.chrUn_random 208115356 113 - 240967748 GTGCTAACTGACTGCTCCAGAGAAAACATCAATTCTGTTCATGTGCAGCTACTATTCATCAAGAAAGGGATTACAACTTCAGAAATGTGTTCAAAGTGTATCCATACTTTGAT
     <BLANKLINE>
     """
-    # Check if the blocks are adjacent, return none if not.
+    # Check if the blocks are adjacent and easily fusable
+    # return none if not.
     if len(m1.components) != len(m2.components):
         return None
     for c1, c2 in zip(m1.components, m2.components):
@@ -63,11 +67,15 @@ def fuse(m1, m2):
             return None
         if c1.end != c2.start:
             return None
+        if c1.empty or c2.empty:
+            return None
     # Try to fuse:
     n = deepcopy(m1)
     for c1, c2 in zip(n.components, m2.components):
         c1.text += c2.text
         c1.size += c2.size
+        # Propagate the synteny right
+        c1.synteny_right = c2.synteny_right
     n.text_size = len(n.components[0].text)
     return n
 

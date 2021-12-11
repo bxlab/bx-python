@@ -1,0 +1,31 @@
+##maf version=1
+a score=-22139.0
+s mm10.chr12         56694975  11 + 120129022 GTCCTGTGCTC-- 
+s loxAfr3.scaffold_9 12283154  10 +  83325590 CGG---TGCGATC 
+i loxAfr3.scaffold_9                          C 0 C 0       
+e bosTau7.chr21      47705583 182 +  69078422 I             
+
+a score=-247111.0
+s mm10.chr12         56694986  40 + 120129022 CTCTTTAGTCTGGTTTTTTAATTTTTTTTTCC-TCACTGCA 
+s loxAfr3.scaffold_9 12283164  24 +  83325590 ---------GCTTGTAGTTAAGTTCTC---GGTACA----- 
+i loxAfr3.scaffold_9                          C 0 C 0                                   
+e bosTau7.chr21      47705583 182 +  69078422 I                                         
+
+a score=18354.0
+s mm10.chr12         56695026   1 + 120129022 C 
+e bosTau7.chr21      47705583 182 +  69078422 I 
+e loxAfr3.scaffold_9 12283188   0 +  83325590 C 
+
+a score=36657.0
+s mm10.chr12         56695027 7 + 120129022 CTGGCCT   
+s bosTau7.chr21      47705765 7 +  69078422 GGCCTCC   
+i bosTau7.chr21                             I 182 C 0 
+e loxAfr3.scaffold_9 12283188 0 +  83325590 C         
+
+a score=99018.0
+s mm10.chr12         56695034 37 + 120129022 CTGCTAGGATCCTGCTTGACTGAGGTTTAGCCCCTC-A 
+s bosTau7.chr21      47705772 33 +  69078422 ATCTCTGGCTCCT-----GCTCgtgtttagtcgctcag 
+i bosTau7.chr21                              C 0 C 0                                
+s loxAfr3.scaffold_9 12283188 30 +  83325590 ------TTAGCCTGCTTGGCGAGGGTTCGCCC-TGA-G 
+i loxAfr3.scaffold_9                         C 0 C 0                                
+

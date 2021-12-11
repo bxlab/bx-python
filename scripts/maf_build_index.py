@@ -58,7 +58,7 @@ def main():
         doc_optparse.exception()
 
     maf_in = TextIOWrapper(maf_in, encoding="ascii")
-    maf_reader = bx.align.maf.Reader(maf_in)
+    maf_reader = bx.align.maf.Reader(maf_in, parse_e_rows=True)
 
     indexes = interval_index_file.Indexes()
 

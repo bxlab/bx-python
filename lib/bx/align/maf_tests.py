@@ -55,6 +55,18 @@ s orange 19 61 - 100 AGGGATGCGTT--TCACTGCTATCGTCGTA----TTCAGACTTCG-CTATCT------G
 
 """
 
+complex_maf = align.Alignment()
+complex_maf.score = "7009"
+complex_maf.components.append(align.Component(src="human_hoxa", start=100, size=8, strand="+", src_size=100257, text="ACA-TTACT"))
+complex_maf.components.append(align.Component(src="horse_hoxa", start=120, size=9, strand="-", src_size=98892, text="ACAATTGCT"))
+complex_maf.components[-1].synteny_left = (maf.MAF_NEW_STATUS, 0)
+complex_maf.components[-1].synteny_right = (maf.MAF_CONTIG_STATUS, 0)
+complex_maf.components.append(align.Component(src="unknown_1", start=150, size=3, strand="-", src_size=98892, text="---ATT---"))
+complex_maf.components.append(align.Component(src="unknown_2", start=12, size=1000, strand="+", src_size=1200, text=None))
+complex_maf.components[-1].empty = True
+complex_maf.components[-1].synteny_empty = maf.MAF_INSERT_STATUS
+complex_maf.text_size = 9
+
 
 def test_reader():
 
@@ -108,15 +120,14 @@ s horse_hoxa 120 10 -   98892 ACAATTGCT
 
 def test_slice():
 
-    a = align.Alignment()
-    a.score = "7009"
-    a.components.append(align.Component(src="human_hoxa", start=100, size=9, strand="+", src_size=100257, text="ACA-TTACT"))
-    a.components.append(align.Component(src="horse_hoxa", start=120, size=10, strand="-", src_size=98892, text="ACAATTGCT"))
-
-    b = a.slice_by_component(0, 101, 105)
+    b = complex_maf.slice_by_component(0, 101, 105)
 
     check_component(b.components[0], src="human_hoxa", start=101, size=4, strand="+", src_size=100257, text="CA-TT")
     check_component(b.components[1], src="horse_hoxa", start=121, size=5, strand="-", src_size=98892, text="CAATT")
+    check_component(b.components[2], src="unknown_1", start=150, size=3, strand="-", src_size=98892, text="--ATT")
+    check_component(b.components[3], src="unknown_2", start=12, size=1000, strand="+", src_size=1200, text=None)
+    assert b.components[3].empty
+    assert b.components[3].synteny_empty == maf.MAF_INSERT_STATUS
 
     # test slicing with + strand src
     reader = maf.Reader(StringIO(test_maf_3))
@@ -134,7 +145,51 @@ def test_slice():
     assert a is None
 
 
-def test_with_synteny():
+def test_reverse_complement():
+
+    b = complex_maf.reverse_complement()
+
+    check_component(b.components[0], src="human_hoxa", start=100257-100-8, size=8, strand="-", src_size=100257, text="AGTAA-TGT")
+    check_component(b.components[1], src="horse_hoxa", start=98892-120-9, size=9, strand="+", src_size=98892, text="AGCAATTGT")
+    assert b.components[1].synteny_right == (maf.MAF_NEW_STATUS, 0)
+    assert b.components[1].synteny_left == (maf.MAF_CONTIG_STATUS, 0)
+    check_component(b.components[2], src="unknown_1", start=98892-150-3, size=3, strand="+", src_size=98892, text="---AAT---")
+    check_component(b.components[3], src="unknown_2", start=1200-12-1000, size=1000, strand="-", src_size=1200, text=None)
+    assert b.components[3].empty
+    assert b.components[3].synteny_empty == maf.MAF_INSERT_STATUS
+
+
+def test_column_iter():
+    expected = [['A', 'A', '-'],
+                ['C', 'C', '-'],
+                ['A', 'A', '-'],
+                ['-', 'A', 'A'],
+                ['T', 'T', 'T'],
+                ['T', 'T', 'T'],
+                ['A', 'G', '-'],
+                ['C', 'C', '-'],
+                ['T', 'T', '-']]
+    for i, c in enumerate(complex_maf.column_iter()):
+        assert c == expected[i]
+
+
+def test_remove_all_gap_column():
+    complex_maf_gap = align.Alignment()
+    complex_maf_gap.score = "7009"
+    complex_maf_gap.components.append(align.Component(src="human_hoxa", start=100, size=8, strand="+", src_size=100257, text="-ACA--TTACT"))
+    complex_maf_gap.components.append(align.Component(src="horse_hoxa", start=120, size=9, strand="-", src_size=98892, text="-ACA-ATTGCT"))
+    complex_maf_gap.components[-1].synteny_left = (maf.MAF_NEW_STATUS, 0)
+    complex_maf_gap.components[-1].synteny_right = (maf.MAF_CONTIG_STATUS, 0)
+    complex_maf_gap.components.append(align.Component(src="unknown_1", start=150, size=3, strand="-", src_size=98892, text="-----ATT---"))
+    complex_maf_gap.components.append(align.Component(src="unknown_2", start=12, size=1000, strand="+", src_size=1200, text=None))
+    complex_maf_gap.components[-1].empty = True
+    complex_maf_gap.components[-1].synteny_empty = maf.MAF_INSERT_STATUS
+    complex_maf_gap.text_size = 11
+    complex_maf_gap.remove_all_gap_columns()
+    assert complex_maf_gap == complex_maf
+
+
+def test_read_with_synteny():
     reader = maf.Reader(StringIO(test_maf_2), parse_e_rows=True)
 
     a = next(reader)
