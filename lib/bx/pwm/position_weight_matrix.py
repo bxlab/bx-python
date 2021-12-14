@@ -267,7 +267,7 @@ class PositionWeightMatrix:
     # Reference 2: Gertz et al.: Genome Res. 2005 Aug;15(8):1145-52.
     def information_content_calculation(self, i, counts):
         # Reference 1)
-        return 2 + sum([self.information_base_content(base, i, counts) for base in self.alphabet])
+        return 2 + sum(self.information_base_content(base, i, counts) for base in self.alphabet)
 
         # Reference 2)
         # return sum( [ self.information_base_content(base,i,counts) for base in self.alphabet ] )
@@ -522,8 +522,8 @@ class PositionWeightMatrix:
             raw = 0
             try:
                 for i, nt in enumerate(subseq):
-                    numer = sum([subseq[i][nt] * self.probs[i][nt] for nt in subseq[i]])
-                    denom = sum([subseq[i][nt] * self.background[nt] for nt in subseq[i]])
+                    numer = sum(subseq[i][nt] * self.probs[i][nt] for nt in subseq[i])
+                    denom = sum(subseq[i][nt] * self.background[nt] for nt in subseq[i])
                     raw += math.log(numer/denom, 2)
                 scaled = self.scaled(raw)
             except KeyError:
@@ -559,7 +559,7 @@ class PositionWeightMatrix:
         #             ----------------------
         #             sum(f(base,{A,C,G,T}))
 
-        return float(freq[i][base]) / sum([freq[i][nt] for nt in self.alphabet])
+        return float(freq[i][base]) / sum(freq[i][nt] for nt in self.alphabet)
 
     def corrected_probability_score(self, freq, base, i):
         # p(base,i) = f(base,i) + s(base)
@@ -812,7 +812,7 @@ def sum_of_squares(x, y=None):
     xmean = float(sum(x)) / len(x)
     ymean = float(sum(y)) / len(y)
     assert len(x) == len(y)
-    return sum([float(xi)*float(yi) for xi, yi in zip(x, y)]) - len(x)*xmean*ymean
+    return sum(float(xi)*float(yi) for xi, yi in zip(x, y)) - len(x)*xmean*ymean
 
 
 def consensus_symbol(pattern):
@@ -857,7 +857,7 @@ def consensus_symbol(pattern):
     if tops[1] > 0.5 and tops[1] >= 2 * tops[0]:
         return symbols[f.index(tops[1])]
     elif tops[0] < 0.5 and sum(tops) >= 0.75:
-        degen = frozenset([symbols[f.index(v)] for v in tops])
+        degen = frozenset(symbols[f.index(v)] for v in tops)
         for degenSymbol, wobbles in wobblers.items():
             # print >>sys.stderr,wobbles
             if degen == wobbles:

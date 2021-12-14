@@ -201,7 +201,7 @@ class IntervalTreeTest(unittest.TestCase):
     def test_public_interval(self):
 
         def fn(ival):
-            return self.assert_(ival.interval)
+            return self.assertTrue(ival.interval)
 
         self.iv.traverse(fn)
 

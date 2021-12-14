@@ -150,7 +150,7 @@ def CDSReader(fh, format='gff'):
         # for gene in genelist.values():
         for gene in grouplist:
             chrom, strand, cds_exons = genelist[gene]
-            seqlen = sum([a[1]-a[0] for a in cds_exons])
+            seqlen = sum(a[1]-a[0] for a in cds_exons)
             overhang = seqlen % 3
             if overhang > 0:
                 if strand == '+':
@@ -288,7 +288,7 @@ def FeatureReader(fh, format='gff', alt_introns_subtract="exons", gtf_parse=None
                 introns = bitset_union(introns)
 
             # assure CDS is a multiple of 3, trim from last exon if necessary
-            seqlen = sum([a[1]-a[0] for a in cds_exons])
+            seqlen = sum(a[1]-a[0] for a in cds_exons)
             overhang = seqlen % 3
             if overhang > 0:
                 if strand == '+':

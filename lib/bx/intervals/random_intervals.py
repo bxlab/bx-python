@@ -82,7 +82,7 @@ def throw_random_intervals(lengths, regions, save_interval_func=None, allow_over
                           region with start and end modified.
     """
     # Copy regions
-    regions = sorted([(x[1]-x[0], x[0], x) for x in regions])
+    regions = sorted((x[1]-x[0], x[0], x) for x in regions)
     # Sort (long regions first)
     regions.reverse()
     # Throw

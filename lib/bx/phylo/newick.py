@@ -50,7 +50,7 @@ class Tree:
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
-        return "Tree( {}, {} )".format(repr(self.label), repr(self.edges))
+        return f"Tree( {repr(self.label)}, {repr(self.edges)} )"
 
 
 @total_ordering
@@ -60,7 +60,7 @@ class Edge:
         self.tip = tip
 
     def pretty(self):
-        return "Edge( {}, \n{}\n)".format(repr(self.length), indent(repr(self.tip)))
+        return f"Edge( {repr(self.length)}, \n{indent(repr(self.tip))}\n)"
 
     def __lt__(self, other):
         return self.__dict__ < other.__dict__
@@ -69,7 +69,7 @@ class Edge:
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
-        return "Edge( {}, {} )".format(repr(self.length), repr(self.tip))
+        return f"Edge( {repr(self.length)}, {repr(self.tip)} )"
 
 
 def create_parser():

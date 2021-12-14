@@ -51,8 +51,8 @@ def bitset_complement(exons):
     bits.invert()
 
     # only complement within the range of the list
-    ex_start = min([a[0] for a in exons])
-    ex_end = max([a[1] for a in exons])
+    ex_start = min(a[0] for a in exons)
+    ex_end = max(a[1] for a in exons)
     end = ex_start
     len = ex_end
     while True:

@@ -63,7 +63,7 @@ class Alignment:
     def __str__(self):
         s = "a score=" + str(self.score)
         for key in self.attributes:
-            s += " {}={}".format(key, self.attributes[key])
+            s += f" {key}={self.attributes[key]}"
         s += "\n"
         # Components
         for c in self.components:

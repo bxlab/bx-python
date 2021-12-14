@@ -3829,7 +3829,7 @@ try:                         # DEFINE THESE *ONLY* IF NUMERIC IS AVAILABLE
     Returns: array shape of a, with -1 where a<0 and +1 where a>=0
     """
         a = N.asarray(a)
-        if ((isinstance(a, type(1.4))) or (isinstance(a, type(1)))):
+        if ((isinstance(a, float)) or (isinstance(a, int))):
             return a-a-N.less(a, 0)+N.greater(a, 0)
         else:
             return N.zeros(N.shape(a))-N.less(a, 0)+N.greater(a, 0)

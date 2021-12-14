@@ -185,7 +185,7 @@ class GenomicIntervalReader(TableReader):
                         except ValueError as e:
                             # We will only reach here when constructing this bitset from the lens dict
                             # since the value of MAX is always safe.
-                            raise Exception("Invalid chrom length {} in 'lens' dictionary. {}".format(str(size), str(e)))
+                            raise Exception(f"Invalid chrom length {str(size)} in 'lens' dictionary. {str(e)}")
                         bitsets[chrom] = bbs
                     last_chrom = chrom
                     last_bitset = bitsets[chrom]

@@ -280,7 +280,7 @@ class HelpFormatter:
                 invocations.append(get_invocation(subaction))
 
             # update the maximum item length
-            invocation_length = max([len(s) for s in invocations])
+            invocation_length = max(len(s) for s in invocations)
             action_length = invocation_length + self._current_indent
             self._action_max_length = max(self._action_max_length,
                                           action_length)
@@ -1151,7 +1151,7 @@ class FileType:
     def __repr__(self):
         args = [self._mode, self._bufsize]
         args_str = ', '.join([repr(arg) for arg in args if arg is not None])
-        return '{}({})'.format(type(self).__name__, args_str)
+        return f'{type(self).__name__}({args_str})'
 
 # ===========================
 # Optional and Positional Parsing
@@ -1911,10 +1911,10 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
         while start_index <= max_option_string_index:
 
             # consume any Positionals preceding the next option
-            next_option_string_index = min([
+            next_option_string_index = min(
                 index
                 for index in option_string_indices
-                if index >= start_index])
+                if index >= start_index)
             if start_index != next_option_string_index:
                 positionals_end_index = consume_positionals(start_index)
 

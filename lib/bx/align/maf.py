@@ -112,13 +112,13 @@ class Writer:
         for key in attributes:
             if key == 'version':
                 continue
-            self.file.writelines(" {}={}".format(key, attributes[key]))
+            self.file.writelines(f" {key}={attributes[key]}")
         self.file.write("\n")
 
     def write(self, alignment):
         self.file.write("a score=" + str(alignment.score))
         for key in alignment.attributes:
-            self.file.write(" {}={}".format(key, alignment.attributes[key]))
+            self.file.write(f" {key}={alignment.attributes[key]}")
         self.file.write("\n")
         # Components
         rows = []

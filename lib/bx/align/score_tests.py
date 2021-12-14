@@ -74,10 +74,14 @@ class BasicTests(unittest.TestCase):
 
     def test_accumulate(self):
         ss = bx.align.score.hox70
-        self.assert_(allclose(bx.align.score.accumulate_scores(ss, "-----CTTT", "CTTAGTTTA"),
-                              cumsum(array([-430, -30, -30, -30, -30, -31, 91, 91, -123]))))
-        self.assert_(allclose(bx.align.score.accumulate_scores(ss, "-----CTTT", "CTTAGTTTA", skip_ref_gaps=True),
-                              cumsum(array([-581, 91, 91, -123]))))
+        self.assertTrue(allclose(
+            bx.align.score.accumulate_scores(ss, "-----CTTT", "CTTAGTTTA"),
+            cumsum(array([-430, -30, -30, -30, -30, -31, 91, 91, -123]))
+        ))
+        self.assertTrue(allclose(
+            bx.align.score.accumulate_scores(ss, "-----CTTT", "CTTAGTTTA", skip_ref_gaps=True),
+            cumsum(array([-581, 91, 91, -123]))
+        ))
 
     def test_nonsymm_scoring(self):
         ss = nonsymm_scheme

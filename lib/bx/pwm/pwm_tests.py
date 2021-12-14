@@ -78,7 +78,7 @@ class PWMTestCase (unittest.TestCase):
         wm = wms[0]
         dScores = wm.score_seq(dSeq)
         assert len(dScores) == 2
-        assert "{:.4f} {:.4f} {:.4f} {:.4f}".format(dScores[0][0], dScores[0][1], dScores[1][0], dScores[1][1]) == dScoresExpected
+        assert f"{dScores[0][0]:.4f} {dScores[0][1]:.4f} {dScores[1][0]:.4f} {dScores[1][1]:.4f}" == dScoresExpected
 
         qdSeq = []
         for (ix, nt) in enumerate(dSeq):
@@ -86,8 +86,8 @@ class PWMTestCase (unittest.TestCase):
             qdSeq[ix][nt] = 1.0
         qScores = wm.score_seq(qdSeq)
         assert len(qScores) == 2
-        assert "{:.4f} {:.4f} {:.4f} {:.4f}".format(qScores[0][0], qScores[0][1], qScores[1][0], qScores[1][1]) == dScoresExpected
+        assert f"{qScores[0][0]:.4f} {qScores[0][1]:.4f} {qScores[1][0]:.4f} {qScores[1][1]:.4f}" == dScoresExpected
 
         qScores = wm.score_seq(qSeq)
         assert len(qScores) == 1
-        assert "{:.4f} {:.4f}".format(qScores[0][0], qScores[0][1]) == qScoresExpected
+        assert f"{qScores[0][0]:.4f} {qScores[0][1]:.4f}" == qScoresExpected

@@ -39,7 +39,7 @@ def main():
 def mafwrite(alignment, kvec=None, jvec=None, file=sys.stdout):
     file.write("a score=" + str(alignment.score))
     for key in alignment.attributes:
-        file.write(" {}={}".format(key, alignment.attributes[key]))
+        file.write(f" {key}={alignment.attributes[key]}")
     file.write("\n")
     rows = []
     if not kvec:

@@ -383,7 +383,7 @@ class ParseResults:
         return self
 
     def __repr__(self):
-        return "({}, {})".format(repr(self.__toklist), repr(self.__tokdict))
+        return f"({repr(self.__toklist)}, {repr(self.__tokdict)})"
 
     def __str__(self):
         out = "["
@@ -1665,7 +1665,7 @@ class Word(Token):
                     return s
 
             if self.initCharsOrig != self.bodyCharsOrig:
-                self.strRepr = "W:({},{})".format(charsAsStr(self.initCharsOrig), charsAsStr(self.bodyCharsOrig))
+                self.strRepr = f"W:({charsAsStr(self.initCharsOrig)},{charsAsStr(self.bodyCharsOrig)})"
             else:
                 self.strRepr = "W:(%s)" % charsAsStr(self.initCharsOrig)
 
@@ -2204,7 +2204,7 @@ class ParseExpression(ParserElement):
             pass
 
         if self.strRepr is None:
-            self.strRepr = "{}:({})".format(self.__class__.__name__, str(self.exprs))
+            self.strRepr = f"{self.__class__.__name__}:({str(self.exprs)})"
         return self.strRepr
 
     def streamline(self):
@@ -2599,7 +2599,7 @@ class ParseElementEnhance(ParserElement):
             pass
 
         if self.strRepr is None and self.expr is not None:
-            self.strRepr = "{}:({})".format(self.__class__.__name__, str(self.expr))
+            self.strRepr = f"{self.__class__.__name__}:({str(self.expr)})"
         return self.strRepr
 
 
@@ -3410,7 +3410,7 @@ def withAttribute(*args, **attrDict):
             if attrName not in tokens:
                 raise ParseException(s, l, "no matching attribute " + attrName)
             if attrValue != withAttribute.ANY_VALUE and tokens[attrName] != attrValue:
-                raise ParseException(s, l, "attribute '{}' has value '{}', must be '{}'".format(attrName, tokens[attrName], attrValue))
+                raise ParseException(s, l, f"attribute '{attrName}' has value '{tokens[attrName]}', must be '{attrValue}'")
     return pa
 
 

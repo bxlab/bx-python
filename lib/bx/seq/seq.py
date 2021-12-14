@@ -90,7 +90,7 @@ class SeqFile:
         assert length >= 0, "Length must be non-negative (got %d)" % length
         assert start >= 0, "Start must be greater than 0 (got %d)" % start
         assert start + length <= self.length, \
-            "Interval beyond end of sequence ({}..{} > {})".format(start, start + length, self.length)
+            f"Interval beyond end of sequence ({start}..{start + length} > {self.length})"
         # Fetch sequence and reverse complement if necesary
         if not self.revcomp:
             return self.raw_fetch(start, length)

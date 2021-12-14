@@ -47,7 +47,7 @@ def main():
 # $$$ this should be moved to a bx.align.fasta module
 
 def print_component_as_fasta(c, id=None):
-    header = ">{}_{}_{}".format(c.src, c.start, c.start + c.size)
+    header = f">{c.src}_{c.start}_{c.start + c.size}"
     if id is not None:
         header += " " + id
     print(header)
