@@ -29,7 +29,7 @@ def setup():
     global source
     global target
     source = []
-    for i in range(13):
+    for _ in range(13):
         if random() < 0.5:
             source = concatenate((source, random(CHUNK_SIZE_RANDOM)))
         else:
@@ -48,7 +48,7 @@ def test_simple():
     for i in range(len(source)):
         assert source[i] == target[i], "No match, index: %d, source: %f, target: %f, len( source ): %d" % (i, source[i], target[i], len(source))
     # Verify with slices
-    for i in range(10):
+    for _ in range(10):
         a = int(random() * len(source))
         b = int(random() * len(source))
         if b < a:
@@ -65,7 +65,7 @@ def test_file():
         assert source[i] == target2[i], "No match, index: %d, source: %d, target: %d" % (i, source[i], target2[i])
     # Verify with slices
     target2 = FileBinnedArray(open("/tmp/foo", 'rb'))
-    for i in range(10):
+    for _ in range(10):
         a = int(random() * len(source))
         b = int(random() * len(source))
         if b < a:
@@ -83,7 +83,7 @@ def test_file_lzo():
         assert source[i] == target3[i], "No match, index: %d, source: %d, target: %d" % (i, source[i], target3[i])
     # Verify with slices
     target3 = FileBinnedArray(open("/tmp/foo3", 'rb'))
-    for i in range(10):
+    for _ in range(10):
         a = int(random() * len(source))
         b = int(random() * len(source))
         if b < a:

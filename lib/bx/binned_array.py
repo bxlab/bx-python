@@ -19,7 +19,7 @@ from struct import (
 from numpy import (
     array,
     concatenate,
-    fromstring,
+    frombuffer,
     NaN,
     resize,
     zeros
@@ -43,9 +43,9 @@ VERSION = 2
 
 # Compression types
 
-comp_types = dict()
-
-comp_types['none'] = (lambda x: x, lambda x: x)
+comp_types = {
+    'none': (lambda x: x, lambda x: x)
+}
 
 try:
     import zlib
@@ -150,7 +150,7 @@ class BinnedArray:
         # around that by byteswapping the array
         if platform_is_little_endian:
             a = a.byteswap()
-        f.write(a.tostring())
+        f.write(a.tobytes())
         # Save current position (start of bin offsets)
         index_start_pos = f.tell()
         # Skip forward to save space for index
@@ -163,9 +163,9 @@ class BinnedArray:
             else:
                 assert bin.dtype.char == self.typecode
                 if platform_is_little_endian:
-                    s = bin.byteswap().tostring()
+                    s = bin.byteswap().tobytes()
                 else:
-                    s = bin.tostring()
+                    s = bin.tobytes()
                 compressed = compress(s)
                 bin_pos_and_size.append((f.tell(), len(compressed)))
                 f.write(compressed)
@@ -201,7 +201,7 @@ class FileBinnedArray:
         self.decompress = comp_types[self.comp_type][1]
         # Read default value
         s = f.read(calcsize(self.typecode))
-        a = fromstring(s, self.typecode)
+        a = frombuffer(s, self.typecode)
         if platform_is_little_endian:
             a = a.byteswap()
         self.default = a[0]
@@ -220,7 +220,7 @@ class FileBinnedArray:
         assert self.bin_pos[index] != 0
         self.f.seek(self.bin_pos[index])
         raw = self.f.read(self.bin_sizes[index])
-        a = fromstring(self.decompress(raw), self.typecode)
+        a = frombuffer(self.decompress(raw), self.typecode)
         if platform_is_little_endian:
             a = a.byteswap()
         assert len(a) == self.bin_size
@@ -307,7 +307,7 @@ class BinnedArrayWriter:
         # around that by byteswapping the array
         if platform_is_little_endian:
             a = a.byteswap()
-        self.f.write(a.tostring())
+        self.f.write(a.tobytes())
         # Save current position (start of bin offsets)
         self.index_pos = self.f.tell()
         self.data_offset = self.index_pos + (self.nbins * calcsize(">2I"))
@@ -344,9 +344,9 @@ class BinnedArrayWriter:
         if self.buffer_contains_values:
             pos = self.f.tell()
             if platform_is_little_endian:
-                s = self.buffer.byteswap().tostring()
+                s = self.buffer.byteswap().tobytes()
             else:
-                s = self.buffer.tostring()
+                s = self.buffer.tobytes()
             compressed = self.compress(s)
             size = len(compressed)
             assert len(self.bin_index) == self.bin

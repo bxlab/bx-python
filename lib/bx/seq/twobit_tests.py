@@ -40,7 +40,7 @@ def test_random_subseq_matches(filename):
             assert k in t.index
             # assert t.index[k].size == len(s)
             length = len(s)
-            for i in range(100):
+            for _ in range(100):
                 start = random.randint(0, length-2)
                 end = random.randint(start+1, length)
                 assert t[k].get(start, end) == s[start:end]
