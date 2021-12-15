@@ -2,7 +2,7 @@
 Tests for `bx.phylo.newick`.
 """
 
-from nose.tools import ok_
+import pytest
 
 from bx.phylo.newick import (
     Edge,
@@ -29,10 +29,6 @@ results = [(Tree('label', [Edge(6.0, Tree('B', None)), Edge(5.0, Tree('Q X', [Ed
            (Tree(None, [Edge(None, Tree(None, [Edge(None, Tree('A', None)), Edge(None, Tree('D', None))])), Edge(None, Tree(None, [Edge(None, Tree('C', None)), Edge(None, Tree('B', None))]))])), ]
 
 
-def tests():
-    for i in range(len(trees)):
-        def _():
-            return ok_(newick_parser.parse_string(trees[i]) == results[i])
-
-        _.description = "check tree parsing " + str(i)
-        yield _,
+@pytest.mark.parametrize("tree,result", zip(trees, results))
+def test_newick_tree(tree, result):
+    assert newick_parser.parse_string(tree) == result

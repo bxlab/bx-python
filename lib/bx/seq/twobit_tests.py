@@ -1,5 +1,7 @@
 import random
 
+import pytest
+
 from . import twobit
 
 
@@ -21,17 +23,10 @@ def quick_fasta_iter(f):
         current_sequence = []
 
 
-def test():
-    """
-    Nose test generator
-    """
-    for t in ["test", "testN", "testMask"]:
-        test_fa = "test_data/seq_tests/%s.fa" % t
-        test_twobit = "test_data/seq_tests/%s.2bit" % t
-        yield check_random_subseq_matches, test_fa, test_twobit
-
-
-def check_random_subseq_matches(test_fa, test_twobit):
+@pytest.mark.parametrize("filename", ["test", "testN", "testMask"])
+def test_random_subseq_matches(filename):
+    test_fa = f"test_data/seq_tests/{filename}.fa"
+    test_twobit = f"test_data/seq_tests/{filename}.2bit"
     # Load Fasta data
     expected = {}
     with open(test_fa) as f:

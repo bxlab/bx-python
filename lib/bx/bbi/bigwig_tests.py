@@ -1,9 +1,8 @@
 import os
 import sys
-import unittest
-from functools import partial
 
 import numpy
+import pytest
 
 try:
     sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -21,7 +20,8 @@ def allclose(a, b, tol=0.00001):
     return numpy.all(numpy.isnan(d) | (d < tol))
 
 
-class TestBigWig(unittest.TestCase):
+class TestBigWig:
+    @pytest.fixture(autouse=True)
     def setUp(self):
         f = open("test_data/bbi_tests/test.bw", 'rb')
         self.bw = BigWigFile(file=f)
@@ -40,8 +40,8 @@ class TestBigWig(unittest.TestCase):
         data = self.bw.query("chr1", 10000, 20000, 1)
         maxs = [x['max'] for x in data]
         mins = [x['min'] for x in data]
-        self.assertEqual([float(_) for _ in maxs], [0.289000004529953])
-        self.assertEqual([float(_) for _ in mins], [-3.9100000858306885])
+        assert [float(_) for _ in maxs] == [0.289000004529953]
+        assert [float(_) for _ in mins] == [-3.9100000858306885]
 
     def test_get_leaf(self):
         data = self.bw.query("chr1", 11000, 11005, 5)
@@ -52,20 +52,15 @@ class TestBigWig(unittest.TestCase):
         data = self.bw.query("chr1", 11000, 11005, 1)
         maxs = [x['max'] for x in data]
         mins = [x['min'] for x in data]
-        self.assertEqual([float(_) for _ in maxs], [0.050842501223087311])
-        self.assertEqual([float(_) for _ in mins], [-2.4589500427246094])
+        assert [float(_) for _ in maxs] == [0.050842501223087311]
+        assert [float(_) for _ in mins] == [-2.4589500427246094]
 
     def test_wrong_nochrom(self):
         data = self.bw.query("chr2", 0, 10000, 10)
-        self.assertEqual(data, None)
+        assert data is None
 
-# Nose test generator
-
-
-def test_summaries_from_file():
-    bw = BigWigFile(file=open("test_data/bbi_tests/test.bw", 'rb'))
-
-    def check_summary(line):
+    @pytest.mark.parametrize("line", open("test_data/bbi_tests/test.expectation").readlines())
+    def test_summary_from_file(self, line):
         fields = line.split()
         chrom = fields[0]
         start = int(fields[1])
@@ -73,7 +68,7 @@ def test_summaries_from_file():
         n = int(fields[3])
         t = fields[4]
         values = [float(v.replace('n/a', 'NaN')) for v in fields[5:]]
-        sd = bw.summarize(chrom, start, end, n)
+        sd = self.bw.summarize(chrom, start, end, n)
         if t == 'mean':
             print(sd.sum_data / sd.valid_count)
             print(values)
@@ -84,11 +79,3 @@ def test_summaries_from_file():
             assert allclose(sd.max_val, values)
         # elif t == 'std':
         #    assert numpy.allclose( sd.max_val, values )
-    for i, line in enumerate(open("test_data/bbi_tests/test.expectation")):
-        f = partial(check_summary, line)
-        f.description = "Test summaries line %d: %s" % (i, line[:40])
-        yield (f, )
-
-
-if __name__ == '__main__':
-    unittest.main()
