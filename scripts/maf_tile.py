@@ -15,7 +15,6 @@ usage: %prog tree maf_files...
     -m, --missingData: Inserts wildcards for missing block rows instead of '-'
 """
 
-import string
 import sys
 
 import bx.align as align
@@ -23,7 +22,7 @@ import bx.align.maf
 import bx.seq.nib
 from bx.cookbook import doc_optparse
 
-tree_tx = string.maketrans("(),", "   ")
+tree_tx = str.maketrans("(),", "   ")
 
 
 def main():
