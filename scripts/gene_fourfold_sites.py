@@ -14,7 +14,6 @@ usage: %prog nibdir genefile [options]
 
 import os
 import re
-import string
 import sys
 
 from bx.cookbook import doc_optparse
@@ -123,7 +122,7 @@ def getnib(nibdir):
     return seqs
 
 
-REVMAP = string.maketrans("ACGTacgt", "TGCAtgca")
+REVMAP = str.maketrans("ACGTacgt", "TGCAtgca")
 
 
 def revComp(seq):

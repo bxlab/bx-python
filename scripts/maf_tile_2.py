@@ -29,7 +29,6 @@ usage: %prog list,of,species,to,keep seq_db_file indexed_maf_files ...
     -s, --strand:      Use strand information for intervals, reveres complement if '-'
 """
 
-import string
 import sys
 
 from cookbook import doc_optparse
@@ -38,7 +37,7 @@ import bx.align as align
 import bx.align.maf as maf
 import bx.seq.nib
 
-tree_tx = string.maketrans("(),", "   ")
+tree_tx = str.maketrans("(),", "   ")
 
 
 def main():

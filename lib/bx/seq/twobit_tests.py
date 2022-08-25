@@ -36,7 +36,6 @@ def test_random_subseq_matches(filename):
     with open(test_twobit, 'rb') as f:
         t = twobit.TwoBitFile(f)
         for k, s in expected.items():
-            k = k.encode()
             assert k in t.index
             # assert t.index[k].size == len(s)
             length = len(s)

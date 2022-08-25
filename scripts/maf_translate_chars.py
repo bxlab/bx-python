@@ -11,12 +11,11 @@ TODO: This could be much more general, should just take the translation table
 usage: %prog < maf > maf
 """
 
-import string
 import sys
 
 from bx.align import maf
 
-table = string.maketrans("#=X@", "-***")
+table = str.maketrans("#=X@", "-***")
 
 
 def main():
