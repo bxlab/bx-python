@@ -29,7 +29,7 @@ def main():
         # Allow a comma separated list, TODO: allow a newick format tree
         if len(species) == 1 and ',' in species[0]:
             species = species[0].split(',')
-        fuse = not(bool(options.nofuse))
+        fuse = not (bool(options.nofuse))
     except Exception:
         doc_optparse.exit()
 

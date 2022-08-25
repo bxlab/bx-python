@@ -34,7 +34,7 @@ ident = "$Id: fpconst.py,v 1.12 2004/05/22 04:38:17 warnes Exp $"
 _big_endian = struct.pack('i', 1)[:1] != b'\x01'
 
 # and define appropriate constants
-if(_big_endian):
+if (_big_endian):
     NaN = struct.unpack('d', b'\x7F\xF8\x00\x00\x00\x00\x00\x00')[0]
     PosInf = struct.unpack('d', b'\x7F\xF0\x00\x00\x00\x00\x00\x00')[0]
     NegInf = -PosInf
@@ -131,43 +131,43 @@ def isNegInf(value):
 
 
 def test_isNaN():
-    assert(not isNaN(PosInf))
-    assert(not isNaN(NegInf))
-    assert(isNaN(NaN))
-    assert(not isNaN(1.0))
-    assert(not isNaN(-1.0))
+    assert (not isNaN(PosInf))
+    assert (not isNaN(NegInf))
+    assert (isNaN(NaN))
+    assert (not isNaN(1.0))
+    assert (not isNaN(-1.0))
 
 
 def test_isInf():
-    assert(isInf(PosInf))
-    assert(isInf(NegInf))
-    assert(not isInf(NaN))
-    assert(not isInf(1.0))
-    assert(not isInf(-1.0))
+    assert (isInf(PosInf))
+    assert (isInf(NegInf))
+    assert (not isInf(NaN))
+    assert (not isInf(1.0))
+    assert (not isInf(-1.0))
 
 
 def test_isFinite():
-    assert(not isFinite(PosInf))
-    assert(not isFinite(NegInf))
-    assert(not isFinite(NaN))
-    assert(isFinite(1.0))
-    assert(isFinite(-1.0))
+    assert (not isFinite(PosInf))
+    assert (not isFinite(NegInf))
+    assert (not isFinite(NaN))
+    assert (isFinite(1.0))
+    assert (isFinite(-1.0))
 
 
 def test_isPosInf():
-    assert(isPosInf(PosInf))
-    assert(not isPosInf(NegInf))
-    assert(not isPosInf(NaN))
-    assert(not isPosInf(1.0))
-    assert(not isPosInf(-1.0))
+    assert (isPosInf(PosInf))
+    assert (not isPosInf(NegInf))
+    assert (not isPosInf(NaN))
+    assert (not isPosInf(1.0))
+    assert (not isPosInf(-1.0))
 
 
 def test_isNegInf():
-    assert(not isNegInf(PosInf))
-    assert(isNegInf(NegInf))
-    assert(not isNegInf(NaN))
-    assert(not isNegInf(1.0))
-    assert(not isNegInf(-1.0))
+    assert (not isNegInf(PosInf))
+    assert (isNegInf(NegInf))
+    assert (not isNegInf(NaN))
+    assert (not isNegInf(1.0))
+    assert (not isNegInf(-1.0))
 
 # overall test
 

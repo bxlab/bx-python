@@ -329,7 +329,7 @@ def accumulate_scores(scoring_scheme, text1, text2, skip_ref_gaps=False):
         else:
             score += scoring_scheme._get_score((ord(a), ord(b)))
             last_gap_a = last_gap_b = False
-        if not(skip_ref_gaps) or a != scoring_scheme.gap1:
+        if not (skip_ref_gaps) or a != scoring_scheme.gap1:
             rval[pos] = score
             pos += 1
     return rval

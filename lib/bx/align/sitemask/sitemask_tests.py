@@ -45,7 +45,7 @@ def test_cpg_inclusive():
     j = 0
     for line in open(out.name):
         line = line.strip()
-        if not(line):
+        if not (line):
             continue
         assert cpg_inclusive_result[j] == ",".join(line.split())
         j += 1
@@ -61,7 +61,7 @@ def test_cpg_restricted():
     j = 0
     for line in open(out.name):
         line = line.strip()
-        if not(line):
+        if not (line):
             continue
         assert cpg_restricted_result[j] == ",".join(line.split())
         j += 1
@@ -77,7 +77,7 @@ def test_non_cpg():
     j = 0
     for line in open(out.name):
         line = line.strip()
-        if not(line):
+        if not (line):
             continue
         assert noncpg_result[j] == ",".join(line.split())
         j += 1
