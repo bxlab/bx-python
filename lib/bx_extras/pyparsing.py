@@ -137,11 +137,11 @@ class ParseBaseException(Exception):
             - col - returns the column number of the exception text
             - line - returns the line containing the exception text
         """
-        if(aname == "lineno"):
+        if (aname == "lineno"):
             return lineno(self.loc, self.pstr)
-        elif(aname in ("col", "column")):
+        elif (aname in ("col", "column")):
             return col(self.loc, self.pstr)
-        elif(aname == "line"):
+        elif (aname == "line"):
             return line(self.loc, self.pstr)
         else:
             raise AttributeError(aname)
@@ -1617,7 +1617,7 @@ class Word(Token):
             loc = result.end()
             return loc, result.group()
 
-        if not(instring[loc] in self.initChars):
+        if not (instring[loc] in self.initChars):
             # ~ raise ParseException( instring, loc, self.errmsg )
             exc = self.myException
             exc.loc = loc
@@ -1956,7 +1956,7 @@ class White(Token):
             self.minLen = exact
 
     def parseImpl(self, instring, loc, doActions=True):
-        if not(instring[loc] in self.matchWhite):
+        if not (instring[loc] in self.matchWhite):
             exc = self.myException
             exc.loc = loc
             exc.pstr = instring
@@ -2026,7 +2026,7 @@ class LineStart(_PositionToken):
         return loc
 
     def parseImpl(self, instring, loc, doActions=True):
-        if not(loc == 0
+        if not (loc == 0
                 or (loc == self.preParse(instring, 0))
                 or (instring[loc-1] == "\n")):  # col(loc, instring) != 1:
             exc = self.myException
@@ -2219,7 +2219,7 @@ class ParseExpression(ParserElement):
         if len(self.exprs) == 2:
             other = self.exprs[0]
             if (isinstance(other, self.__class__)
-                    and not(other.parseAction)
+                    and not (other.parseAction)
                     and other.resultsName is None
                     and not other.debug):
                 self.exprs = other.exprs[:] + [self.exprs[1]]
@@ -2229,7 +2229,7 @@ class ParseExpression(ParserElement):
 
             other = self.exprs[-1]
             if (isinstance(other, self.__class__)
-                    and not(other.parseAction)
+                    and not (other.parseAction)
                     and other.resultsName is None
                     and not other.debug):
                 self.exprs = self.exprs[:-1] + other.exprs[:]
@@ -3575,7 +3575,7 @@ def indentedBlock(blockStatementExpr, indentStack, indent=True):
         if l >= len(s):
             return
         curCol = col(l, s)
-        if not(indentStack and curCol < indentStack[-1] and curCol <= indentStack[-2]):
+        if not (indentStack and curCol < indentStack[-1] and curCol <= indentStack[-2]):
             raise ParseException(s, l, "not an unindent")
         indentStack.pop()
 

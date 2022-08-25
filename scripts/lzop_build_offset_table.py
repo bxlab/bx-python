@@ -57,7 +57,7 @@ def main():
     assert 1 <= method <= 3, "Only LZO compression is currently supported"
     f.get("!B")  # level
     flags = f.get("!I")
-    assert not(flags & F_H_FILTER), "LZOP filters not supported"
+    assert not (flags & F_H_FILTER), "LZOP filters not supported"
     has_compressed_crc = (flags & F_CRC32_C or flags & F_ADLER32_C)
     has_uncompressed_crc = (flags & F_CRC32_D or flags & F_ADLER32_D)
     f.get("!I")  # mode
@@ -79,7 +79,7 @@ def main():
         size = f.get("!I")
         if size == 0:
             break
-        assert not(expect_no_more), \
+        assert not (expect_no_more), \
             "Encountered an undersized block that was not the last block"
         if block_size is None:
             print("s", size)

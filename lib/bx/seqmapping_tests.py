@@ -16,12 +16,12 @@ class CharMappingTests(unittest.TestCase):
     __test__ = False
 
     def test_DNA(self):
-        assert(allclose(
+        assert (allclose(
             bx.seqmapping.DNA.translate("ACGTacgt-?X"),
             [0, 1, 2, 3, 0, 1, 2, 3, 4, -1, -1]))
 
     def test_DNA_list(self):
-        assert(allclose(
+        assert (allclose(
             bx.seqmapping.DNA.translate_list(["ACGTA", "TGCAX"]),
             [0 + 3*6, 1 + 2*6, 2 + 1*6, 3 + 0*6, -1]))
 
@@ -29,7 +29,7 @@ class CharMappingTests(unittest.TestCase):
         m = bx.seqmapping.CharToIntArrayMapping()
         m.set_mapping("A", 0)
         m.set_mapping("B", 7)
-        assert(allclose(m.translate("ABCCBA"), [0, 7, -1, -1, 7, 0]))
+        assert (allclose(m.translate("ABCCBA"), [0, 7, -1, -1, 7, 0]))
 
 
 class IntMappingTests(unittest.TestCase):
@@ -41,7 +41,7 @@ class IntMappingTests(unittest.TestCase):
         m.set_mapping(2, 0)
         m.set_mapping(1, 1)
         m.set_mapping(3, 1)
-        assert(allclose(m.translate(array([0, 1, 2, 3, 4], 'i')), array([0, 1, 0, 1, -1])))
+        assert (allclose(m.translate(array([0, 1, 2, 3, 4], 'i')), array([0, 1, 0, 1, -1])))
 
 
 eight_species_mapping = """TTTTTTTT 0

@@ -211,7 +211,7 @@ class Alignment:
         return True
 
     def __ne__(self, other):
-        return not(self.__eq__(other))
+        return not (self.__eq__(other))
 
     def __deepcopy__(self, memo):
         from copy import deepcopy
@@ -405,7 +405,7 @@ class Component:
                 and self.empty == other.empty)
 
     def __ne__(self, other):
-        return not(self.__eq__(other))
+        return not (self.__eq__(other))
 
     def __deepcopy__(self, memo):
         new = Component(src=self.src, start=self.start, size=self.size, strand=self.strand, src_size=self._src_size, text=self.text)
