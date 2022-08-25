@@ -27,7 +27,6 @@ usage: %prog list,of,species,to,keep ref.2bit indexed_maf_files ...
     -s, --strand:      Use strand information for intervals, reveres complement if '-'
 """
 
-import string
 import sys
 
 import bx.align as align
@@ -36,7 +35,7 @@ import bx.seq.nib
 import bx.seq.twobit
 from bx.cookbook import doc_optparse
 
-tree_tx = string.maketrans("(),", "   ")
+tree_tx = str.maketrans("(),", "   ")
 
 
 def main():
@@ -44,7 +43,7 @@ def main():
     options, args = doc_optparse.parse(__doc__)
     try:
         sources = args[0].translate(tree_tx).split()
-        ref_2bit = bx.seq.twobit.TwoBitFile(open(args[1]))
+        ref_2bit = bx.seq.twobit.TwoBitFile(open(args[1], "rb"))
         index = maf.MultiIndexed(args[2:])
 
         out = maf.Writer(sys.stdout)

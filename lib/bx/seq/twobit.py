@@ -3,6 +3,12 @@ Access to files containing sequence data in 'twobit' format.
 """
 from collections.abc import Mapping
 from struct import calcsize, unpack
+from typing import (
+    BinaryIO,
+    Dict,
+    List,
+    Tuple,
+)
 
 from . import _twobit
 
@@ -14,13 +20,16 @@ TWOBIT_VERSION = 0
 
 
 class TwoBitSequence:
+    masked_block_sizes: List
+    masked_block_starts: List
+    n_block_sizes: List
+    n_block_starts: List
+
     def __init__(self, tbf, header_offset=None):
         self.tbf = tbf
         self.header_offset = header_offset
         self.sequence_offset = None
         self.size = None
-        self.n_blocks = None
-        self.masked_blocks = None
         self.loaded = False
 
     def __getitem__(self, slice):
@@ -49,7 +58,7 @@ class TwoBitSequence:
 
 
 class TwoBitFile(Mapping):
-    def __init__(self, file, do_mask=True):
+    def __init__(self, file: BinaryIO, do_mask: bool = True):
         self.do_mask = do_mask
         # Read magic and determine byte order
         self.byte_order = ">"
@@ -71,14 +80,14 @@ class TwoBitFile(Mapping):
         # Header contains some reserved space
         self.reserved = self.read("L")
         # Read index of sequence names to offsets
-        index = dict()
+        index: Dict[str, TwoBitSequence] = dict()
         for _ in range(self.seq_count):
             name = self.read_p_string()
             offset = self.read("L")
             index[name] = TwoBitSequence(self, offset)
         self.index = index
 
-    def __getitem__(self, name):
+    def __getitem__(self, name: str) -> TwoBitSequence:
         seq = self.index[name]
         if not seq.loaded:
             self.load_sequence(name)
@@ -87,10 +96,10 @@ class TwoBitFile(Mapping):
     def __iter__(self):
         return iter(self.index.keys())
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.index)
 
-    def load_sequence(self, name):
+    def load_sequence(self, name: str) -> None:
         seq = self.index[name]
         # Seek to start of sequence block
         self.file.seek(seq.header_offset)
@@ -106,7 +115,7 @@ class TwoBitFile(Mapping):
         # Mark as loaded
         seq.loaded = True
 
-    def read_block_coords(self):
+    def read_block_coords(self) -> Tuple[list, list]:
         block_count = self.read("L")
         if block_count == 0:
             return [], []
@@ -114,16 +123,16 @@ class TwoBitFile(Mapping):
         sizes = self.read(str(block_count) + "L", untuple=False)
         return list(starts), list(sizes)
 
-    def read(self, pattern, untuple=True):
+    def read(self, pattern: str, untuple: bool = True):
         rval = unpack(self.byte_order + pattern,
                       self.file.read(calcsize(self.byte_order + pattern)))
         if untuple and len(rval) == 1:
             return rval[0]
         return rval
 
-    def read_p_string(self):
+    def read_p_string(self) -> str:
         """
         Read a length-prefixed string
         """
         length = self.read("B")
-        return self.file.read(length)
+        return self.file.read(length).decode()
