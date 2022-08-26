@@ -10,7 +10,7 @@ from bx.intervals.io import (
 )
 from bx.tabular.io import (
     Comment,
-    Header
+    Header,
 )
 
 
@@ -47,7 +47,9 @@ def coverage(readers, comments=True):
                     primary.skipped += 1
                     # no reason to stuff an entire bad file into memmory
                     if primary.skipped < 10:
-                        primary.skipped_lines.append((primary.linenum, primary.current_line, "Interval start after end!"))
+                        primary.skipped_lines.append(
+                            (primary.linenum, primary.current_line, "Interval start after end!")
+                        )
                 except Exception:
                     pass
                 continue
@@ -56,7 +58,7 @@ def coverage(readers, comments=True):
                 percent = 0.0
             else:
                 try:
-                    bases_covered = bitsets[chrom].count_range(start, end-start)
+                    bases_covered = bitsets[chrom].count_range(start, end - start)
                 except IndexError as e:
                     try:
                         # This will only work if primary is a NiceReaderWrapper

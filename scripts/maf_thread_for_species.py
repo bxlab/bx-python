@@ -14,9 +14,7 @@ import sys
 
 import bx.align.maf
 from bx.align.tools.fuse import FusingAlignmentWriter
-from bx.align.tools.thread import (
-    get_components_for_species
-)
+from bx.align.tools.thread import get_components_for_species
 from bx.cookbook import doc_optparse
 
 
@@ -27,8 +25,8 @@ def main():
     try:
         species = args
         # Allow a comma separated list, TODO: allow a newick format tree
-        if len(species) == 1 and ',' in species[0]:
-            species = species[0].split(',')
+        if len(species) == 1 and "," in species[0]:
+            species = species[0].split(",")
         fuse = not (bool(options.nofuse))
     except Exception:
         doc_optparse.exit()

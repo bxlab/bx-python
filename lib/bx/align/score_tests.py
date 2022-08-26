@@ -13,21 +13,25 @@ from numpy import (
 import bx.align.maf
 import bx.align.score
 
-aligns = [("CCACTAGTTTTTAAATAATCTACTATCAAATAAAAGATTTGTTAATAATAAATTTTAAATCATTAACACTT",
-           "CCATTTGGGTTCAAAAATTGATCTATCA----------TGGTGGATTATTATTTAGCCATTAAGGACAAAT",
-           -111),
-          ("CCACTAGTTTTTAAATAATCTAC-----AATAAAAGATTTGTTAATAAT---AAATTTTAAATCATTAA-----CACTT",
-           "CCATTTGGGTTCAAAAATTGATCTATCA----------TGGTGGAT---TATTATTT-----AGCCATTAAGGACAAAT",
-           -3626),
-          ("CCACTAGTTTTTGATTC",
-           "CCATTTGGGTTC-----",
-           -299),
-          ("CTTAGTTTTTGATCACC",
-           "-----CTTGGGTTTACC",
-           -299),
-          ("gggaattgaacaatgagaacacatggacacaggaaggggaacatcacacacc----------ggggcctgttgtggggtggggggaag",
-           "ggaactagaacaagggagacacatacaaacaacaacaacaacaacacagcccttcccttcaaagagcttatagtctgatggaggagag",
-           1690)]
+aligns = [
+    (
+        "CCACTAGTTTTTAAATAATCTACTATCAAATAAAAGATTTGTTAATAATAAATTTTAAATCATTAACACTT",
+        "CCATTTGGGTTCAAAAATTGATCTATCA----------TGGTGGATTATTATTTAGCCATTAAGGACAAAT",
+        -111,
+    ),
+    (
+        "CCACTAGTTTTTAAATAATCTAC-----AATAAAAGATTTGTTAATAAT---AAATTTTAAATCATTAA-----CACTT",
+        "CCATTTGGGTTCAAAAATTGATCTATCA----------TGGTGGAT---TATTATTT-----AGCCATTAAGGACAAAT",
+        -3626,
+    ),
+    ("CCACTAGTTTTTGATTC", "CCATTTGGGTTC-----", -299),
+    ("CTTAGTTTTTGATCACC", "-----CTTGGGTTTACC", -299),
+    (
+        "gggaattgaacaatgagaacacatggacacaggaaggggaacatcacacacc----------ggggcctgttgtggggtggggggaag",
+        "ggaactagaacaagggagacacatacaaacaacaacaacaacaacacagcccttcccttcaaagagcttatagtctgatggaggagag",
+        1690,
+    ),
+]
 
 mafs = """##maf
 a score=2883.0
@@ -40,28 +44,31 @@ s panTro1.chr1          49673 40 + 229575298 TGCGTGATTAATGCCTGAGATTGTGTGAAGTAAAA
 s rheMac1.SCAFFOLD45837 26063 33 -     31516 TGTGTGATTAATGCCTGAGATTGTGTGAAGTAA-------
 """
 
-nonsymm_scheme = bx.align.score.build_scoring_scheme("""  A    C    G    T
+nonsymm_scheme = bx.align.score.build_scoring_scheme(
+    """  A    C    G    T
                                                            91    0  -31 -123
                                                          -114  100 -125  -31
                                                           -31 -125  100 -114
-                                                         -123  -31 -114   91 """, 400, 30)
+                                                         -123  -31 -114   91 """,
+    400,
+    30,
+)
 
-aligns_for_nonsymm_scheme = [("AAAACCCCGGGGTTTT",
-                              "ACGTACGTACGTACGT",
-                              -580)]
+aligns_for_nonsymm_scheme = [("AAAACCCCGGGGTTTT", "ACGTACGTACGTACGT", -580)]
 
-asymm_scheme = bx.align.score.build_scoring_scheme("""    01   02    A    C    G    T
+asymm_scheme = bx.align.score.build_scoring_scheme(
+    """    01   02    A    C    G    T
                                                        01  200 -200  -50  100  -50  100
                                                        02 -200  200  100  -50  100  -50 """,
-                                                   0, 0, gap1='\x00')
+    0,
+    0,
+    gap1="\x00",
+)
 
-aligns_for_asymm_scheme = [("\x01\x01\x01\x01\x01\x01",
-                            "ACGT\x01\x02",
-                            100)]
+aligns_for_asymm_scheme = [("\x01\x01\x01\x01\x01\x01", "ACGT\x01\x02", 100)]
 
 
 class BasicTests(unittest.TestCase):
-
     def test_scoring_text(self):
         ss = bx.align.score.hox70
         for t1, t2, score in aligns:
@@ -74,14 +81,18 @@ class BasicTests(unittest.TestCase):
 
     def test_accumulate(self):
         ss = bx.align.score.hox70
-        self.assertTrue(allclose(
-            bx.align.score.accumulate_scores(ss, "-----CTTT", "CTTAGTTTA"),
-            cumsum(array([-430, -30, -30, -30, -30, -31, 91, 91, -123]))
-        ))
-        self.assertTrue(allclose(
-            bx.align.score.accumulate_scores(ss, "-----CTTT", "CTTAGTTTA", skip_ref_gaps=True),
-            cumsum(array([-581, 91, 91, -123]))
-        ))
+        self.assertTrue(
+            allclose(
+                bx.align.score.accumulate_scores(ss, "-----CTTT", "CTTAGTTTA"),
+                cumsum(array([-430, -30, -30, -30, -30, -31, 91, 91, -123])),
+            )
+        )
+        self.assertTrue(
+            allclose(
+                bx.align.score.accumulate_scores(ss, "-----CTTT", "CTTAGTTTA", skip_ref_gaps=True),
+                cumsum(array([-581, 91, 91, -123])),
+            )
+        )
 
     def test_nonsymm_scoring(self):
         ss = nonsymm_scheme

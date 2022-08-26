@@ -10,11 +10,13 @@ from warnings import warn
 
 from bx.bitset import (
     BinnedBitSet,
-    MAX
+    MAX,
 )
 
 
-def binned_bitsets_from_file(f, chrom_col=0, start_col=1, end_col=2, strand_col=5, upstream_pad=0, downstream_pad=0, lens={}):
+def binned_bitsets_from_file(
+    f, chrom_col=0, start_col=1, end_col=2, strand_col=5, upstream_pad=0, downstream_pad=0, lens={}
+):
     """
     Read a file into a dictionary of bitsets. The defaults arguments
 
@@ -48,11 +50,13 @@ def binned_bitsets_from_file(f, chrom_col=0, start_col=1, end_col=2, strand_col=
             end = min(size, end + downstream_pad)
         if start > end:
             warn("Interval start after end!")
-        last_bitset.set_range(start, end-start)
+        last_bitset.set_range(start, end - start)
     return bitsets
 
 
-def binned_bitsets_from_bed_file(f, chrom_col=0, start_col=1, end_col=2, strand_col=5, upstream_pad=0, downstream_pad=0, lens={}):
+def binned_bitsets_from_bed_file(
+    f, chrom_col=0, start_col=1, end_col=2, strand_col=5, upstream_pad=0, downstream_pad=0, lens={}
+):
     """
     Read a file into a dictionary of bitsets. The defaults arguments
 
@@ -96,7 +100,7 @@ def binned_bitsets_from_bed_file(f, chrom_col=0, start_col=1, end_col=2, strand_
             end = min(size, end + downstream_pad)
         if start > end:
             warn("Interval start after end!")
-        last_bitset.set_range(start, end-start)
+        last_bitset.set_range(start, end - start)
     return bitsets
 
 
@@ -108,7 +112,6 @@ def binned_bitsets_proximity(f, chrom_col=0, start_col=1, end_col=2, strand_col=
     for line in f:
         if line.startswith("#"):
             continue
-#        print "input=%s" % ( line ),
         fields = line.split()
         strand = "+"
         if len(fields) >= strand_col + 1:
@@ -131,9 +134,8 @@ def binned_bitsets_proximity(f, chrom_col=0, start_col=1, end_col=2, strand_col=
                 end = min(MAX, end + upstream)
             if downstream:
                 start = max(0, start - downstream)
-#        print "set: start=%d\tend=%d" % ( start, end )
-        if end-start > 0:
-            last_bitset.set_range(start, end-start)
+        if end - start > 0:
+            last_bitset.set_range(start, end - start)
     return bitsets
 
 
@@ -163,5 +165,5 @@ def binned_bitsets_by_chrom(f, chrom, chrom_col=0, start_col=1, end_col=2):
         fields = line.split()
         if fields[chrom_col] == chrom:
             start, end = int(fields[start_col]), int(fields[end_col])
-            bitset.set_range(start, end-start)
+            bitset.set_range(start, end - start)
     return bitset

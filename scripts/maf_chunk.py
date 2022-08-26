@@ -24,8 +24,7 @@ INF = np.inf
 
 def __main__():
     parser = OptionParser("usage: %prog chunk_size out_dir")
-    parser.add_option("--prob", action="store", default=None, type="float",
-                      help="Probability of writing a given chunk")
+    parser.add_option("--prob", action="store", default=None, type="float", help="Probability of writing a given chunk")
 
     (options, args) = parser.parse_args()
 

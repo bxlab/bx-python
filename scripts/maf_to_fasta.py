@@ -37,7 +37,7 @@ def __main__():
 def print_n(s, n, f=sys.stdout):
     p = 0
     while p < len(s):
-        print(s[p:min(p+n, len(s))], file=f)
+        print(s[p : min(p + n, len(s))], file=f)
         p += n
 
 

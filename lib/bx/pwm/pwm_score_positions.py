@@ -31,11 +31,11 @@ def main():
 
     species = []
 
-    for sp in sys.argv[5].split(','):
+    for sp in sys.argv[5].split(","):
         species.append(sp)
 
     for maf in align_maf.Reader(inmaf):
-        mafchrom = maf.components[0].src.split('.')[1]
+        mafchrom = maf.components[0].src.split(".")[1]
         mafstart = maf.components[0].start
         mafend = maf.components[0].end
         reftext = maf.components[0].text
@@ -44,7 +44,7 @@ def main():
         for scoremax, width, headers in MafBlockScorer(pwm, species, maf):
             blocklength = width
             mafsrc, mafstart, mafend = headers[0]
-            mafchrom = mafsrc.split('.')[1]
+            mafchrom = mafsrc.split(".")[1]
 
             # lists of scores for each position in scoremax
             for id, mx in scoremax.items():
@@ -53,13 +53,13 @@ def main():
                     # scan all species with threshold
                     for i in range(len(species)):
                         if mx[i][offset] > threshold:
-                            refstart = mafstart + offset - reftext.count('-', 0, offset)
+                            refstart = mafstart + offset - reftext.count("-", 0, offset)
                             refend = refstart + len(pwm[id])
                             data = " ".join(["%.2f" % mx[x][offset] for x in range(len(species))])
                             # underscore spaces in the name
-                            print(mafchrom, refstart, refend, id.replace(' ', '_'), data)
+                            print(mafchrom, refstart, refend, id.replace(" ", "_"), data)
                             break
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

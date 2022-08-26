@@ -36,7 +36,7 @@ def main():
         cpgfilter = bx.align.sitemask.cpg.Inclusive(mask=mask)
     cpgfilter.run(reader, writer.write)
 
-    print(str(float(cpgfilter.masked)/float(cpgfilter.total) * 100) + "% bases masked.", file=sys.stderr)
+    print(str(float(cpgfilter.masked) / float(cpgfilter.total) * 100) + "% bases masked.", file=sys.stderr)
 
 
 if __name__ == "__main__":

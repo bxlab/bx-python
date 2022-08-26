@@ -32,9 +32,10 @@ cdef extern from "unistd.h":
 cdef extern from "stdlib.h":
     void free( void *ptr )
  
-import sys
 import os
-    
+import sys
+
+
 cdef class SeekBzip2:
 
     cdef bunzip_data * bd

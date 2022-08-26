@@ -12,8 +12,10 @@ usage: %prog bed1 bed2 > out
 
 import sys
 
-from bx import intervals
-from bx import misc
+from bx import (
+    intervals,
+    misc,
+)
 
 
 def main():

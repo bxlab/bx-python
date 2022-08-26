@@ -33,7 +33,7 @@ def main():
     for arg in sys.argv[1:]:
         if "=" in arg:
             ix = arg.find("=")
-            pathSubs.append((arg[:ix], arg[ix+1:]))
+            pathSubs.append((arg[:ix], arg[ix + 1 :]))
         elif arg == "--silent":
             silent = True
         else:

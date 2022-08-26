@@ -4,6 +4,7 @@ Extensions used by the `pwm` module.
 
 from cpython.version cimport PY_MAJOR_VERSION
 
+
 cdef extern from "Python.h":
     int PyBytes_AsStringAndSize(object obj, char **buffer, Py_ssize_t* length) except -1
 

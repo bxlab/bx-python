@@ -25,7 +25,7 @@ def __main__():
         for i in range(0, m.text_size):
             a = m.components[0].text[i].lower()
             b = m.components[1].text[i].lower()
-            if a == '-' or b == '-':
+            if a == "-" or b == "-":
                 continue
             elif a == b:
                 match += 1

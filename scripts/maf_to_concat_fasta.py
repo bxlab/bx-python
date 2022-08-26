@@ -27,7 +27,7 @@ def __main__():
 
     species = []
     for arg in args:
-        species.extend(arg.split(','))
+        species.extend(arg.split(","))
 
     fill = ""
     if options.fill:
@@ -63,7 +63,7 @@ def print_n(s, n, f=sys.stdout):
     else:
         p = 0
         while p < len(s):
-            print(s[p:min(p+n, len(s))], file=f)
+            print(s[p : min(p + n, len(s))], file=f)
             p += n
 
 

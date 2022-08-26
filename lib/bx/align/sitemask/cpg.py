@@ -12,7 +12,7 @@ from ._cpg import (
 
 # Restricted.  Only mask out sites that are defitely CpG
 class Restricted(Masker):
-    def __init__(self, mask='?'):
+    def __init__(self, mask="?"):
         self.mask = mask
         self.masked = 0
         self.total = 0
@@ -22,9 +22,7 @@ class Restricted(Masker):
             return block
         if len(block.components) < 2:
             return
-        cpglist = list_cpg_restricted(
-            block.components[0].text.upper(),
-            block.components[1].text.upper())
+        cpglist = list_cpg_restricted(block.components[0].text.upper(), block.components[1].text.upper())
 
         # now we have a fast list of CpG columns, iterate/mask
         self.masked += len(cpglist)
@@ -34,11 +32,12 @@ class Restricted(Masker):
 
         return block
 
+
 # Inclusive. Mask out all sites that are not non-CpG sites.
 
 
 class Inclusive(Masker):
-    def __init__(self, mask='?'):
+    def __init__(self, mask="?"):
         self.mask = mask
         self.masked = 0
         self.total = 0
@@ -48,9 +47,7 @@ class Inclusive(Masker):
             return block
         if len(block.components) < 2:
             return
-        cpglist = list_cpg(
-            block.components[0].text.upper(),
-            block.components[1].text.upper())
+        cpglist = list_cpg(block.components[0].text.upper(), block.components[1].text.upper())
 
         self.masked += len(cpglist)
         self.total += len(block.components[0].text)
@@ -59,11 +56,12 @@ class Inclusive(Masker):
 
         return block
 
+
 # Mak nonCpG sites
 
 
 class nonCpG(Masker):
-    def __init__(self, mask='?'):
+    def __init__(self, mask="?"):
         self.mask = mask
         self.masked = 0
         self.total = 0
@@ -73,9 +71,7 @@ class nonCpG(Masker):
             return block
         if len(block.components) < 2:
             return
-        noncpglist = list_non_cpg(
-            block.components[0].text.upper(),
-            block.components[1].text.upper())
+        noncpglist = list_non_cpg(block.components[0].text.upper(), block.components[1].text.upper())
 
         # now we have a fast list of non-CpG columns, iterate/mask
         self.masked += len(noncpglist)

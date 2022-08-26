@@ -7,7 +7,10 @@ from itertools import product
 
 import numpy as np
 
-from bx.align.epo import Chain, EPOitem
+from bx.align.epo import (
+    Chain,
+    EPOitem,
+)
 from bx.cookbook import argparse
 
 logging.basicConfig(level=logging.INFO)
@@ -15,9 +18,9 @@ log = logging.getLogger()
 
 
 def outFile(s):
-    if (s in ('-', 'stdout')) or (s is None):
+    if (s in ("-", "stdout")) or (s is None):
         return sys.stdout
-    return open(s, 'w')
+    return open(s, "w")
 
 
 def loadChrSizes(path):
@@ -44,16 +47,22 @@ def convert_action(trg_comp, qr_comp, ts, qs, opt):
             log.warning(f"skipping chromosome/contig ({a.chrom}, {b.chrom})")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""EPO alignments (.out) to .chain converter.""",
         epilog="Olgert Denas (Taylor Lab)",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
 
     parser.add_argument("input", help="File to process.")
-    parser.add_argument("--species", nargs=2, default=["homo_sapiens", "mus_musculus"], help="Names of target and query species (respectively) in the alignment.")
+    parser.add_argument(
+        "--species",
+        nargs=2,
+        default=["homo_sapiens", "mus_musculus"],
+        help="Names of target and query species (respectively) in the alignment.",
+    )
     parser.add_argument("--chrsizes", nargs=2, required=True, help="Chromosome sizes for the given species.")
-    parser.add_argument("-o", '--output', metavar="FILE", default='stdout', type=outFile, help="Output file")
+    parser.add_argument("-o", "--output", metavar="FILE", default="stdout", type=outFile, help="Output file")
 
     opt = parser.parse_args()
 

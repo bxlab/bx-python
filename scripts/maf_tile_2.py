@@ -60,7 +60,7 @@ def main():
         if use_strand and len(fields) > 5:
             strand = fields[5]
         else:
-            strand = '+'
+            strand = "+"
         do_interval(sources, index, out, ref_src, int(start), int(end), seq_db, missing_data, strand)
 
     out.close()
@@ -69,7 +69,7 @@ def main():
 def load_seq_db(fname):
     db = {}
     for line in open(fname):
-        fields = line.split(',')
+        fields = line.split(",")
         src = fields[1] + "." + fields[2]
         seq = fields[4]
         db[src] = seq.strip()
@@ -84,8 +84,12 @@ def get_fill_char(maf_status):
     # assert maf_status not in (maf.MAF_CONTIG_NESTED_STATUS, maf.MAF_NEW_NESTED_STATUS,
     #                           maf.MAF_MAYBE_NEW_NESTED_STATUS ), \
     #     "Nested rows do not make sense in a single coverage MAF (or do they?)"
-    if maf_status in (maf.MAF_NEW_STATUS, maf.MAF_MAYBE_NEW_STATUS,
-                      maf.MAF_NEW_NESTED_STATUS, maf.MAF_MAYBE_NEW_NESTED_STATUS):
+    if maf_status in (
+        maf.MAF_NEW_STATUS,
+        maf.MAF_MAYBE_NEW_STATUS,
+        maf.MAF_NEW_NESTED_STATUS,
+        maf.MAF_MAYBE_NEW_NESTED_STATUS,
+    ):
         return "*"
     elif maf_status in (maf.MAF_INVERSE_STATUS, maf.MAF_INSERT_STATUS):
         return "="
@@ -105,7 +109,7 @@ def guess_fill_char(left_comp, right_comp):
     return "*"
     # First check that the blocks have the same src (not just species) and
     # orientation
-    if (left_comp.src == right_comp.src and left_comp.strand != right_comp.strand):
+    if left_comp.src == right_comp.src and left_comp.strand != right_comp.strand:
         # Are they completely contiguous? Easy to call that a gap
         if left_comp.end == right_comp.start:
             return "-"
@@ -125,7 +129,7 @@ def remove_all_gap_columns(texts):
     while i < text_size:
         all_gap = True
         for seq in seqs:
-            if seq[i] not in ('-', '#', '*', '=', 'X', '@'):
+            if seq[i] not in ("-", "#", "*", "=", "X", "@"):
                 all_gap = False
         if all_gap:
             for seq in seqs:
@@ -133,7 +137,7 @@ def remove_all_gap_columns(texts):
             text_size -= 1
         else:
             i += 1
-    return [''.join(s) for s in seqs]
+    return ["".join(s) for s in seqs]
 
 
 def do_interval(sources, index, out, ref_src, start, end, seq_db, missing_data, strand):
@@ -144,8 +148,10 @@ def do_interval(sources, index, out, ref_src, start, end, seq_db, missing_data, 
     """
     ref_src_size = None
     # Make sure the reference component is also the first in the source list
-    assert sources[0].split('.')[0] == ref_src.split('.')[0], "%s != %s" \
-        % (sources[0].split('.')[0], ref_src.split('.')[0])
+    assert sources[0].split(".")[0] == ref_src.split(".")[0], "{} != {}".format(
+        sources[0].split(".")[0],
+        ref_src.split(".")[0],
+    )
     # Counter for the last reference species base we have processed
     last_stop = start
     # Rows in maf blocks come in in arbitrary order, we'll convert things
@@ -174,10 +180,10 @@ def do_interval(sources, index, out, ref_src, start, end, seq_db, missing_data, 
         block = block.slice_by_component(ref, max(start, ref.start), min(end, ref.end))
         ref = block.get_component_by_src_start(ref_src)
         # print block
-        assert last_components[0] is None or ref.start >= last_components[0].end, \
-            "MAF must be sorted and single coverage in reference species!"
-        assert ref.strand == "+", \
-            "MAF must have all reference species blocks on the plus strand"
+        assert (
+            last_components[0] is None or ref.start >= last_components[0].end
+        ), "MAF must be sorted and single coverage in reference species!"
+        assert ref.strand == "+", "MAF must have all reference species blocks on the plus strand"
         # Store the size of the reference sequence for building fake block
         if ref_src_size is None:
             ref_src_size = ref.src_size
@@ -217,12 +223,13 @@ def do_interval(sources, index, out, ref_src, start, end, seq_db, missing_data, 
                         fill_char = guess_fill_char(last_components[source_index], comp)
                     else:
                         fill_char = get_fill_char(left_status)
-                    tiled_rows[source_index] += (fill_char * cols_to_fill)
+                    tiled_rows[source_index] += fill_char * cols_to_fill
                     cols_needing_fill[source_index] = 0
                 # Okay, filled up to current position, now append the text
                 tiled_rows[source_index] += comp.text
-                assert len(tiled_rows[source_index]) == len(tiled_rows[0]), \
-                    "length of tiled row should match reference row"
+                assert len(tiled_rows[source_index]) == len(
+                    tiled_rows[0]
+                ), "length of tiled row should match reference row"
                 last_components[source_index] = comp
                 last_status[source_index] = right_status
             else:
@@ -244,15 +251,14 @@ def do_interval(sources, index, out, ref_src, start, end, seq_db, missing_data, 
         if fill_needed > 0:
             if last_components[source_index] is None:
                 # print >>sys.stderr, "Never saw any components for %s, filling with @" % source
-                fill_char = '@'
+                fill_char = "@"
             else:
                 if last_status[source_index] is None:
-                    fill_char = '*'
+                    fill_char = "*"
                 else:
                     fill_char = get_fill_char(last_status[source_index])
             tiled_rows[source_index] += fill_char * fill_needed
-        assert len(tiled_rows[source_index]) == len(tiled_rows[0]), \
-            "length of tiled row should match reference row"
+        assert len(tiled_rows[source_index]) == len(tiled_rows[0]), "length of tiled row should match reference row"
     # Okay, now make up the fake alignment from the tiled rows.
     tiled_rows = remove_all_gap_columns(tiled_rows)
     a = align.Alignment()
@@ -262,11 +268,11 @@ def do_interval(sources, index, out, ref_src, start, end, seq_db, missing_data, 
         if i == 0:
             if ref_src_size is None:
                 ref_src_size = bx.seq.nib.NibFile(open(seq_db[ref_src])).length
-            c = align.Component(ref_src, start, end-start, "+", ref_src_size, text)
+            c = align.Component(ref_src, start, end - start, "+", ref_src_size, text)
         else:
             c = align.Component(name + ".fake", 0, size, "?", size, text)
         a.add_component(c)
-    if strand == '-':
+    if strand == "-":
         a = a.reverse_complement()
     out.write(a)
 

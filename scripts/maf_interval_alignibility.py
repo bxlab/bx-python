@@ -31,13 +31,11 @@ def main():
     except Exception:
         doc_optparse.exit()
     # Open indexed access to mafs
-    index = bx.align.maf.MultiIndexed(maf_files,
-                                      parse_e_rows=True,
-                                      use_cache=use_cache)
+    index = bx.align.maf.MultiIndexed(maf_files, parse_e_rows=True, use_cache=use_cache)
     # Print header
-    print("#chr", "start", "end", end=' ')
+    print("#chr", "start", "end", end=" ")
     for s in species:
-        print(s, end=' ')
+        print(s, end=" ")
     print()
     # Iterate over input ranges
     for line in sys.stdin:
@@ -61,8 +59,7 @@ def main():
             # Determine the piece of the human interval this block covers,
             # relative to the start of the interval of interest
             ref = block.get_component_by_src(src)
-            assert ref.strand == "+", \
-                "Reference species blocks must be on '+' strand"
+            assert ref.strand == "+", "Reference species blocks must be on '+' strand"
             rel_start = max(start, ref.start) - start
             rel_end = min(end, ref.end) - start
             # Check alignability for each species
@@ -82,7 +79,7 @@ def main():
                 else:
                     aligned_bits[i][rel_start:rel_end] = True
         # Now determine the total alignment coverage of each interval
-        print(chr, start, end, end=' ')
+        print(chr, start, end, end=" ")
         for i, s in enumerate(species):
             aligned = sum(aligned_bits[i])
             missing = sum(missing_bits[i])
@@ -90,11 +87,11 @@ def main():
             # present, or more than 100bp and less that 50bp present (yes,
             # arbitrary)
             if length < 100 and missing > (length / 2):
-                print("NA", end=' ')
+                print("NA", end=" ")
             elif length >= 100 and missing > 50:
-                print("NA", end=' ')
+                print("NA", end=" ")
             else:
-                print(aligned / (length - missing), end=' ')
+                print(aligned / (length - missing), end=" ")
 
         print()
 

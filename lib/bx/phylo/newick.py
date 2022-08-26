@@ -16,7 +16,7 @@ from bx_extras.pyparsing import (
     Optional,
     QuotedString,
     Suppress,
-    Word
+    Word,
 )
 
 __all__ = ["Tree", "Edge", "NewickParser", "newick_parser"]
@@ -85,8 +85,10 @@ def create_parser():
     """
     # Basic tokens
     real = Combine(
-        Word("+-" + nums, nums) + Optional("." + Optional(Word(nums)))
-        + Optional(CaselessLiteral("E") + Word("+-" + nums, nums)))
+        Word("+-" + nums, nums)
+        + Optional("." + Optional(Word(nums)))
+        + Optional(CaselessLiteral("E") + Word("+-" + nums, nums))
+    )
     lpar = Suppress("(")
     rpar = Suppress(")")
     colon = Suppress(":")
@@ -100,13 +102,12 @@ def create_parser():
     # Need to forward declare this due to circularity
     node_list = Forward()
     # A node might have an list of edges (for a subtree), a label, and/or a branch length
-    node = (Optional(node_list, None) + Optional(label, "") + Optional(colon + branch_length, None)) \
-        .setParseAction(lambda s, l, t: Edge(t[2], Tree(t[1] or None, t[0])))
-    node_list << (lpar + delimitedList(node) + rpar) \
-        .setParseAction(lambda s, l, t: [t.asList()])
+    node = (Optional(node_list, None) + Optional(label, "") + Optional(colon + branch_length, None)).setParseAction(
+        lambda s, l, t: Edge(t[2], Tree(t[1] or None, t[0]))
+    )
+    node_list << (lpar + delimitedList(node) + rpar).setParseAction(lambda s, l, t: [t.asList()])
     # The root cannot have a branch length
-    tree = (node_list + Optional(label, "") + semi)\
-        .setParseAction(lambda s, l, t: Tree(t[1] or None, t[0]))
+    tree = (node_list + Optional(label, "") + semi).setParseAction(lambda s, l, t: Tree(t[1] or None, t[0]))
     # Return the outermost element
     return tree
 

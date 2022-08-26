@@ -28,8 +28,7 @@ def main():
         if maf_file.endswith(".bz2"):
             table_file = maf_file + "t"
             if not os.path.exists(table_file):
-                doc_optparse.exit("To index bz2 compressed files first "
-                                  "create a bz2t file with bzip-table.")
+                doc_optparse.exit("To index bz2 compressed files first " "create a bz2t file with bzip-table.")
             # Open with SeekableBzip2File so we have tell support
             maf_in = SeekableBzip2File(maf_file, table_file)
             # Strip .bz2 from the filename before adding ".index"
@@ -37,8 +36,9 @@ def main():
         elif maf_file.endswith(".lzo"):
             table_file = maf_file + "t"
             if not os.path.exists(table_file):
-                doc_optparse.exit("To index lzo compressed files first "
-                                  "create a lzot file with lzop_build_offset_table.")
+                doc_optparse.exit(
+                    "To index lzo compressed files first " "create a lzot file with lzop_build_offset_table."
+                )
             # Open with SeekableBzip2File so we have tell support
             maf_in = SeekableLzopFile(maf_file, table_file)
             # Strip .lzo from the filename before adding ".index"
@@ -69,11 +69,11 @@ def main():
         if block is None:
             break
         for c in block.components:
-            if species is not None and c.src.split('.')[0] not in species:
+            if species is not None and c.src.split(".")[0] not in species:
                 continue
             indexes.add(c.src, c.forward_strand_start, c.forward_strand_end, pos, max=c.src_size)
 
-    out = open(index_file, 'wb')
+    out = open(index_file, "wb")
     indexes.write(out)
     out.close()
 

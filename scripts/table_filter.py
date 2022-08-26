@@ -30,7 +30,7 @@ def __main__():
         keep_comments = bool(options.comments)
         cols = []
         if options.cols:
-            for c in options.cols.split(','):
+            for c in options.cols.split(","):
                 try:
                     v = int(c)
                 except ValueError:
@@ -49,7 +49,7 @@ def __main__():
 
     # Compile expression for SPEED
     if expr:
-        expr = compile(expr, '<expr arg>', 'eval')
+        expr = compile(expr, "<expr arg>", "eval")
 
     for element in bx.tabular.io.TableReader(sys.stdin, force_header=force_header):
         if isinstance(element, bx.tabular.io.Header):

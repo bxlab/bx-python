@@ -14,7 +14,10 @@ usage: %prog [options]
 
 import sys
 
-from bx.align import maf, score
+from bx.align import (
+    maf,
+    score,
+)
 from bx.cookbook import doc_optparse
 
 
@@ -29,11 +32,16 @@ def main():
     except Exception:
         doc_optparse.exit()
 
-    hox70 = score.build_scoring_scheme("""  A    C    G    T
+    hox70 = score.build_scoring_scheme(
+        """  A    C    G    T
                                       91 -114  -31 -123
                                     -114  100 -125  -31
                                      -31 -125  100 -114
-                                    -123  -31 -114   91 """, 400, 30, default=0)
+                                    -123  -31 -114   91 """,
+        400,
+        30,
+        default=0,
+    )
 
     maf_reader = maf.Reader(sys.stdin)
 

@@ -48,7 +48,7 @@ def main():
 def load_seq_db(fname):
     db = {}
     for line in open(fname):
-        fields = line.split(',')
+        fields = line.split(",")
         src = fields[1] + "." + fields[2]
         seq = fields[4]
         db[src] = seq.strip()
@@ -57,7 +57,9 @@ def load_seq_db(fname):
 
 def do_interval(sources, index, out, ref_src, start, end, seq_db, missing_data):
 
-    assert sources[0].split('.')[0] == ref_src.split('.')[0], "{} != {}".format(sources[0].split('.')[0], ref_src.split('.')[0])
+    assert sources[0].split(".")[0] == ref_src.split(".")[0], "{} != {}".format(
+        sources[0].split(".")[0], ref_src.split(".")[0]
+    )
 
     base_len = end - start
 
@@ -75,7 +77,7 @@ def do_interval(sources, index, out, ref_src, start, end, seq_db, missing_data):
         slice_start = max(start, ref.start)
         slice_end = min(end, ref.end)
         for j in range(slice_start, slice_end):
-            mask[j-start] = i
+            mask[j - start] = i
 
     tiled = []
     for i in range(len(sources)):
@@ -83,7 +85,7 @@ def do_interval(sources, index, out, ref_src, start, end, seq_db, missing_data):
 
     for ss, ee, index in intervals_from_mask(mask):
         if index < 0:
-            tiled[0].append(bx.seq.nib.NibFile(open(seq_db[ref_src])).get(start+ss, ee-ss))
+            tiled[0].append(bx.seq.nib.NibFile(open(seq_db[ref_src])).get(start + ss, ee - ss))
             for row in tiled[1:]:
                 if missing_data:
                     row.append("*" * (ee - ss))
@@ -114,7 +116,7 @@ def do_interval(sources, index, out, ref_src, start, end, seq_db, missing_data):
         if i == 0:
             if ref_src_size is None:
                 ref_src_size = bx.seq.nib.NibFile(open(seq_db[ref_src])).length
-            c = align.Component(ref_src, start, end-start, "+", ref_src_size, text)
+            c = align.Component(ref_src, start, end - start, "+", ref_src_size, text)
         else:
             c = align.Component(name + ".fake", 0, size, "?", size, text)
         a.add_component(c)

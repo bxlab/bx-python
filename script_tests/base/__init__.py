@@ -36,6 +36,7 @@ class BaseScriptTest:
     """
     Helper class for testing a command line tool
     """
+
     def test_script(self):
         # Accumulate parameters
         input_files = dict()
@@ -43,19 +44,19 @@ class BaseScriptTest:
         out_dir = None
         stdin = stdout = stderr = None
         for key in dir(self):
-            if key == 'command_line':
+            if key == "command_line":
                 command_line = getattr(self, key)
-            elif key.startswith('input_'):
+            elif key.startswith("input_"):
                 value = getattr(self, key)
                 assert isinstance(value, TestFile)
                 arg_name = key[6:]
                 input_files[arg_name] = value
-            elif key.startswith('output_'):
+            elif key.startswith("output_"):
                 value = getattr(self, key)
                 assert isinstance(value, TestFile)
                 arg_name = key[7:]
                 output_files[arg_name] = value
-            elif key == 'out_dir':
+            elif key == "out_dir":
                 out_dir = getattr(self, key)
                 assert os.path.isdir(out_dir)
         # Build the command line
@@ -65,21 +66,21 @@ class BaseScriptTest:
         for key, value in input_files.items():
             input_fnames[key] = value.filename
             all_fnames[key] = input_fnames[key]
-            if key == 'stdin':
+            if key == "stdin":
                 stdin = open(input_fnames[key])
         for key in output_files.keys():
             _, tf_name = tempfile.mkstemp()
             output_fnames[key] = tf_name
             all_fnames[key] = output_fnames[key]
-            if key == 'stdout':
-                stdout = open(output_fnames[key], 'w')
+            if key == "stdout":
+                stdout = open(output_fnames[key], "w")
                 stdout.flush()
-            if key == 'stderr':
-                stderr = open(output_fnames[key], 'w')
+            if key == "stderr":
+                stderr = open(output_fnames[key], "w")
                 stdout.flush()
         if out_dir is not None:
             temp_out_dir = tempfile.mkdtemp()
-            all_fnames['out_dir'] = temp_out_dir
+            all_fnames["out_dir"] = temp_out_dir
             for root, _, files in os.walk(out_dir):
                 for file in files:
                     output_files[os.path.join(root, file)] = TestFile(filename=os.path.join(root, file))
@@ -87,10 +88,10 @@ class BaseScriptTest:
         real_command = string.Template(command_line).substitute(all_fnames)
         # Augment PYTHONPATH, bit of a HACK here! need to suck this data from setuptools or something?
         env = dict(os.environ)
-        if 'PYTHONPATH' in env:
-            env['PYTHONPATH'] = "./lib:" + env['PYTHONPATH']
+        if "PYTHONPATH" in env:
+            env["PYTHONPATH"] = "./lib:" + env["PYTHONPATH"]
         else:
-            env['PYTHONPATH'] = "./lib"
+            env["PYTHONPATH"] = "./lib"
         # Run the command
         subprocess.check_call(real_command, stdin=stdin, stdout=stdout, stderr=stderr, shell=True, env=env)
         # Check the outputs

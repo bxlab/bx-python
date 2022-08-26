@@ -13,7 +13,7 @@ def isnan(x):
     return True
 
 
-NaN = float('nan')
+NaN = float("nan")
 
 
 def main():
@@ -27,25 +27,25 @@ def main():
 
     # read alignment species
     species = []
-    for sp in splist.split(','):
+    for sp in splist.split(","):
         species.append(sp)
 
     # read weight matrices
     pwm = {}
-    for wm in pwmx.Reader(open(pwm_file), format='basic'):
+    for wm in pwmx.Reader(open(pwm_file), format="basic"):
         pwm[wm.id] = wm
 
     fbunch = {}
     for scoremax, index, headers in MafScorer(pwm, species, inmaf):
         for k, matrix in scoremax.items():
-            fname = k + '.mx'
+            fname = k + ".mx"
             if fname not in fbunch:
-                fbunch[fname] = open(fname, 'w')
+                fbunch[fname] = open(fname, "w")
                 print("Writing", fname, file=sys.stderr)
 
             for i in range(len(matrix)):
                 for j in range(len(matrix[i])):
-                    print("%.2f" % matrix[i][j], end=' ', file=fbunch[fname])
+                    print("%.2f" % matrix[i][j], end=" ", file=fbunch[fname])
                 print(file=fbunch[fname])
 
     for file in fbunch.values():
@@ -91,17 +91,17 @@ def MafMotifSelect(mafblock, pwm, motif=None, threshold=0):
     # record the text sizes from the alignment rows
 
     for start in range(ncols - minSeqLen):
-        if align.rows[0][start] == '-':
+        if align.rows[0][start] == "-":
             continue
         subseq = ""
         pwm_score_vec = []
         motif_score_vec = []
         max_cols = 0
         for ir in range(nrows):
-            expanded = align.rows[ir].count('-', start, minSeqLen)
-            subtext = align.rows[ir][start: minSeqLen+expanded]
+            expanded = align.rows[ir].count("-", start, minSeqLen)
+            subtext = align.rows[ir][start : minSeqLen + expanded]
             max_cols = max(len(subtext), max_cols)
-            subseq = subtext.replace('-', '')
+            subseq = subtext.replace("-", "")
             revseq = pwmx.reverse_complement(subseq)
             # pwm score
             nill, f_score = pwm.score_seq(subseq)[0]
@@ -178,7 +178,7 @@ def MafBlockScorer(pwm, species, maf):
     headers = [(c.src, c.start, c.end) for c in maf.components]
 
     # expand block rows to full
-    mafBlockSpecies = [specName.src.split('.')[0] for specName in maf.components]
+    mafBlockSpecies = [specName.src.split(".")[0] for specName in maf.components]
     alignlist = []
     for sp in species:
         try:
@@ -201,7 +201,7 @@ def MafMotifScorer(species, maf, motifs):
     headers = [(c.src, c.start, c.end) for c in maf.components]
 
     # expand block rows to full
-    mafBlockSpecies = [specName.src.split('.')[0] for specName in maf.components]
+    mafBlockSpecies = [specName.src.split(".")[0] for specName in maf.components]
     alignlist = []
     for sp in species:
         try:
@@ -223,5 +223,5 @@ def MafMotifScorer(species, maf, motifs):
     yield scoremax, width, headers
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

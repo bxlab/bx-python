@@ -16,7 +16,7 @@ def main():
     for m in bx.align.maf.Reader(sys.stdin):
         gaps = 0
         for col in m.column_iter():
-            if '-' in col:
+            if "-" in col:
                 gaps += 1
         print(gaps / m.text_size)
 

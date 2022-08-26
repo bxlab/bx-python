@@ -25,7 +25,7 @@ if F and os.path.exists(F):
         chunk = 1221
         pos = 0
         for i in range((len(raw_data) // chunk) + 1):
-            a = raw_data[pos:pos+chunk]
+            a = raw_data[pos : pos + chunk]
             b = f.read(chunk)
             assert a == b
             pos += chunk
@@ -41,12 +41,13 @@ if F and os.path.exists(F):
 
             f.seek(seek_to)
             a = f.read(chunk)
-            b = raw_data[seek_to: seek_to + chunk]
+            b = raw_data[seek_to : seek_to + chunk]
 
             assert a == b, "'%s' != '%s' on %dth attempt" % (encode(a, "hex"), encode(b, "hex"), i)
 
             assert f.tell() == min(seek_to + chunk, len(raw_data))
         f.close()
+
 
 if T and os.path.exists(T):
 

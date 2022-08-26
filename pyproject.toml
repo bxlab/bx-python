@@ -2,6 +2,11 @@
 requires = ["cython", "oldest-supported-numpy", "setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[tool.black]
+include = '\.pyi?$'
+line-length = 120
+target-version = ['py37']
+
 [tool.cibuildwheel]
 test-command = "python -c 'import bx, bx.align, bx.align.sitemask, bx.align.tools, bx.arrays, bx.bbi, bx.cookbook, bx.intervals, bx.intervals.operations, bx.intseq, bx.misc, bx.motif, bx.motif.io, bx.motif.logo, bx.phylo, bx.pwm, bx.seq, bx.tabular, bx_extras'"
 
@@ -30,3 +35,6 @@ include_dirs = $(brew --prefix openblas)/include
 runtime_library_dirs = $(brew --prefix openblas)/lib
 EOF
 """
+
+[tool.darker]
+isort = true

@@ -3,7 +3,12 @@
 import math
 import sys
 
-from numpy import float32, putmask, shape, zeros
+from numpy import (
+    float32,
+    putmask,
+    shape,
+    zeros,
+)
 
 # This is the average of all species in the alignment outside of exons
 #        > mean(r)
@@ -13,7 +18,7 @@ from numpy import float32, putmask, shape, zeros
 #        A          T          C          G
 #        0.01316192 0.01371148 0.01293836 0.01386655
 
-ENCODE_NONCODING_BACKGROUND = {'A': 0.2863776, 'T': 0.2878264, 'G': 0.2128400, 'C': 0.2129560}
+ENCODE_NONCODING_BACKGROUND = {"A": 0.2863776, "T": 0.2878264, "G": 0.2128400, "C": 0.2129560}
 
 
 class Align:
@@ -26,10 +31,13 @@ class Align:
                 if ncol is None:
                     ncol = len(row)
                 elif ncol != len(row):
-                    raise ValueError("Align: __init__:alignment block:row %d does not have %d columns, it has %d" % (rownum, ncol, len(row)))
+                    raise ValueError(
+                        "Align: __init__:alignment block:row %d does not have %d columns, it has %d"
+                        % (rownum, ncol, len(row))
+                    )
             except Exception:
                 print(row)
-                raise Exception('')
+                raise Exception("")
         self.ncols = ncol
         self.dims = (self.nrows, self.ncols)
         self.headers = headers
@@ -40,7 +48,7 @@ class Align:
 
 class AlignScoreMatrix:
     def __init__(self, align):
-        nan = float('nan')
+        nan = float("nan")
 
         matrix = zeros((align.nrows, align.ncols), float32)
 
@@ -75,11 +83,11 @@ def score_align_motif(align, motif, gapmask=None, byPosition=True):
 
         for start in range(ncols):
 
-            if align.rows[ir][start] == '-':
+            if align.rows[ir][start] == "-":
                 continue
-            elif align.rows[ir][start] == 'n':
+            elif align.rows[ir][start] == "n":
                 continue
-            elif align.rows[ir][start] == 'N':
+            elif align.rows[ir][start] == "N":
                 continue
 
             # get enough sequence for the weight matrix
@@ -91,13 +99,13 @@ def score_align_motif(align, motif, gapmask=None, byPosition=True):
                     break
                 char = align.rows[ir][ic].upper()
                 ic += 1
-                if char == '-' or char == 'N':
+                if char == "-" or char == "N":
                     continue
                 else:
                     subseq += char
 
             if len(subseq) == minSeqLen:
-                end = ic+1
+                end = ic + 1
                 for_score = int(match_consensus(subseq, motif))
                 revseq = reverse_complement(subseq)
                 rev_score = int(match_consensus(revseq, motif))
@@ -120,8 +128,9 @@ def score_align_motif(align, motif, gapmask=None, byPosition=True):
     # mask gap characters
     if gapmask is None:
         gapmask = score_align_gaps(align)
-    putmask(scoremax, gapmask, float('nan'))
+    putmask(scoremax, gapmask, float("nan"))
     return scoremax
+
 
 # -----------
 #
@@ -150,20 +159,21 @@ class PositionWeightMatrix:
 
     # IUPAC-IUB
     symbols = {
-        'A': frozenset(['A']),
-        'C': frozenset(['C']),
-        'G': frozenset(['G']),
-        'T': frozenset(['T']),
-        'R': frozenset(['A', 'G']),
-        'Y': frozenset(['C', 'T']),
-        'M': frozenset(['A', 'C']),
-        'K': frozenset(['G', 'T']),
-        'S': frozenset(['G', 'C']),
-        'W': frozenset(['A', 'T']),
-        'H': frozenset(['A', 'C', 'T']),
-        'B': frozenset(['G', 'T', 'C']),
-        'V': frozenset(['G', 'C', 'A']),
-        'D': frozenset(['G', 'T', 'A'])}
+        "A": frozenset(["A"]),
+        "C": frozenset(["C"]),
+        "G": frozenset(["G"]),
+        "T": frozenset(["T"]),
+        "R": frozenset(["A", "G"]),
+        "Y": frozenset(["C", "T"]),
+        "M": frozenset(["A", "C"]),
+        "K": frozenset(["G", "T"]),
+        "S": frozenset(["G", "C"]),
+        "W": frozenset(["A", "T"]),
+        "H": frozenset(["A", "C", "T"]),
+        "B": frozenset(["G", "T", "C"]),
+        "V": frozenset(["G", "C", "A"]),
+        "D": frozenset(["G", "T", "A"]),
+    }
 
     def __init__(self, id, rows, alphabet, background=None, score_correction=True):
 
@@ -179,11 +189,11 @@ class PositionWeightMatrix:
             sorted_alphabet = []
             sorted_alphabet[:] = self.alphabet[:]
             sorted_alphabet.sort()
-            if ['A', 'C', 'G', 'T'] == sorted_alphabet:
+            if ["A", "C", "G", "T"] == sorted_alphabet:
                 self.background = ENCODE_NONCODING_BACKGROUND
             else:
                 for x in self.alphabet:
-                    self.background[x] = float(1)/len(self.alphabet)
+                    self.background[x] = float(1) / len(self.alphabet)
 
         if score_correction:
             self.score_correction = self.corrected_probability_score
@@ -213,11 +223,6 @@ class PositionWeightMatrix:
                 rows[i][x] = (w, s)
                 scale = max(s, scale)
 
-            # except:
-                # print >>sys.stderr,rows
-                # raise ValueError
-                # raise ValueError, "pwm row %s has wrong field count" % " ".join(fields)
-
             self.consensus.append(consensus)
 
         hashRows = []
@@ -230,7 +235,7 @@ class PositionWeightMatrix:
             hashRows.append(dict())
             for x, sym in enumerate(alphabet):
                 (w, s) = rows[i][x]
-                hashRows[i][sym] = w * scale/s
+                hashRows[i][sym] = w * scale / s
                 assert hashRows[i][sym] >= 0
                 if sym not in self.matrix_base_counts:
                     self.matrix_base_counts[sym] = 0
@@ -291,23 +296,23 @@ class PositionWeightMatrix:
         if p == q == 0:
             width = max(len(self), len(other))
         elif p > 0:
-            width = max(len(other)+p, len(self))
+            width = max(len(other) + p, len(self))
         elif q > 0:
-            width = max(len(self)+q, len(other))
+            width = max(len(self) + q, len(other))
 
-        sumx = zeros((width, len(self.alphabet)), dtype='int')
+        sumx = zeros((width, len(self.alphabet)), dtype="int")
         selfx = self.to_count_matrix()
         otherx = other.to_count_matrix()
 
         if p == q == 0:
-            sumx[:len(self)] += selfx
-            sumx[:len(other)] += otherx
+            sumx[: len(self)] += selfx
+            sumx[: len(other)] += otherx
         elif p > 0:
-            sumx[p:p+len(other)] += otherx
-            sumx[:len(self)] += selfx
+            sumx[p : p + len(other)] += otherx
+            sumx[: len(self)] += selfx
         else:
-            sumx[:len(other)] += otherx
-            sumx[q:q+len(self)] += selfx
+            sumx[: len(other)] += otherx
+            sumx[q : q + len(self)] += selfx
 
         newRows = []
         for x in sumx:
@@ -315,7 +320,7 @@ class PositionWeightMatrix:
             y.append(consensus_symbol(y))
             y = [str(yi) for yi in y]
             newRows.append(y)
-        return PositionWeightMatrix(self.id+other.id, newRows, self.alphabet, self.background)
+        return PositionWeightMatrix(self.id + other.id, newRows, self.alphabet, self.background)
 
     def __old_add__(self, other, maxp=None):
 
@@ -326,9 +331,9 @@ class PositionWeightMatrix:
             prsq = self.correlation(other)
             maxp = prsq.index(max(prsq))
 
-        leftpad = ' ' * maxp
+        leftpad = " " * maxp
         rightsize = bigN - smallN
-        rightpad = ' ' * rightsize
+        rightpad = " " * rightsize
         leftStrings = []
         rightStrings = []
 
@@ -345,7 +350,7 @@ class PositionWeightMatrix:
 
         sumx = zeros([bigN, len(self.alphabet)])
         sumx += larger.to_count_matrix()
-        sumx[maxp:maxp+smallN] += smaller.to_count_matrix()
+        sumx[maxp : maxp + smallN] += smaller.to_count_matrix()
 
         newRows = []
         for i, x in enumerate(sumx):
@@ -355,7 +360,7 @@ class PositionWeightMatrix:
             newRows.append(y)
 
         # return PositionWeightMatrix(self.id+other.id,newRows[maxp:maxp+smallN],self.alphabet,self.background)
-        return PositionWeightMatrix(self.id+other.id, newRows, self.alphabet, self.background)
+        return PositionWeightMatrix(self.id + other.id, newRows, self.alphabet, self.background)
 
     def to_matrix(self):
         m = zeros([len(self), len(self.alphabet)])
@@ -365,7 +370,7 @@ class PositionWeightMatrix:
         return m
 
     def to_count_matrix(self):
-        m = zeros([len(self), len(self.alphabet)], dtype='int')
+        m = zeros([len(self), len(self.alphabet)], dtype="int")
         for i in range(len(self)):
             for j, a in enumerate(self.alphabet):
                 m[i][j] = self.counts[i][a]
@@ -384,28 +389,28 @@ class PositionWeightMatrix:
         rsq = []
         ixtuple = []
         # self staggered over other, scan self backwards until flush
-        for q in range(len(other)-1, -1, -1):
+        for q in range(len(other) - 1, -1, -1):
             r = 0
             n = 0
             for p in range(len(self)):
-                if q+p < len(other):
-                    r += rsquared(list(selfx[p]), list(otherx[q+p]))
+                if q + p < len(other):
+                    r += rsquared(list(selfx[p]), list(otherx[q + p]))
                     n += 1
                 else:
                     n += 1
-            rsq.append(r/n)
+            rsq.append(r / n)
             ixtuple.append((0, q))
         # other staggered below self , scan other forward
         for p in range(1, len(self)):
             r = 0
             n = 0
             for q in range(len(other)):
-                if p+q < len(self):
-                    r += rsquared(list(selfx[p+q]), list(otherx[q]))
+                if p + q < len(self):
+                    r += rsquared(list(selfx[p + q]), list(otherx[q]))
                     n += 1
                 else:
                     n += 1
-            rsq.append(r/n)
+            rsq.append(r / n)
             ixtuple.append((p, 0))
         return rsq, ixtuple
 
@@ -423,10 +428,10 @@ class PositionWeightMatrix:
 
         # slide small over large, for ave rsq
         for p in range(bigN):
-            if p+smallN <= bigN:
+            if p + smallN <= bigN:
                 r = 0
                 for q in range(smallN):
-                    r += rsquared(list(smaller[q]), list(larger[p+q]))
+                    r += rsquared(list(smaller[q]), list(larger[p + q]))
                 position_rsq.append(r / smallN)
         return position_rsq
 
@@ -445,11 +450,11 @@ class PositionWeightMatrix:
                 continue
 
             for start in range(ncols):
-                if align.rows[ir][start] == '-':
+                if align.rows[ir][start] == "-":
                     continue
-                elif align.rows[ir][start] == 'n':
+                elif align.rows[ir][start] == "n":
                     continue
-                elif align.rows[ir][start] == 'N':
+                elif align.rows[ir][start] == "N":
                     continue
 
                 # get enough sequence for the weight matrix
@@ -458,13 +463,13 @@ class PositionWeightMatrix:
                 for ic in range(start, ncols):
 
                     char = align.rows[ir][ic]
-                    if char == '-' or char == 'N':
+                    if char == "-" or char == "N":
                         continue
                     else:
                         subseq += char
 
                     if len(subseq) == minSeqLen:
-                        end = ic+1
+                        end = ic + 1
 
                         # forward
                         scores = self.score_seq(subseq)
@@ -488,7 +493,7 @@ class PositionWeightMatrix:
         # mask gap characters
         if gapmask is None:
             gapmask = score_align_gaps(align)
-        putmask(scoremax, gapmask, float('nan'))
+        putmask(scoremax, gapmask, float("nan"))
         return scoremax
 
     # seq can be a string, a list of characters, or a quantum sequence (a list
@@ -502,14 +507,14 @@ class PositionWeightMatrix:
         for start in range(len(seq)):
             if start + len(self) > len(seq):
                 break
-            subseq = seq[start:start+len(self)]
+            subseq = seq[start : start + len(self)]
             raw = 0
             try:
                 for i, nt in enumerate(subseq):
                     raw += self.rows[i][nt.upper()]
                 scaled = self.scaled(raw)
             except KeyError:
-                raw, scaled = float('nan'), float('nan')
+                raw, scaled = float("nan"), float("nan")
             scores.append((raw, scaled))
         return scores
 
@@ -518,20 +523,20 @@ class PositionWeightMatrix:
         for start in range(len(seq)):
             if start + len(self) > len(seq):
                 break
-            subseq = seq[start:start+len(self)]
+            subseq = seq[start : start + len(self)]
             raw = 0
             try:
                 for i, nt in enumerate(subseq):
                     numer = sum(subseq[i][nt] * self.probs[i][nt] for nt in subseq[i])
                     denom = sum(subseq[i][nt] * self.background[nt] for nt in subseq[i])
-                    raw += math.log(numer/denom, 2)
+                    raw += math.log(numer / denom, 2)
                 scaled = self.scaled(raw)
             except KeyError:
-                raw, scaled = float('nan'), float('nan')
+                raw, scaled = float("nan"), float("nan")
             except OverflowError:
-                raw, scaled = float('nan'), float('nan')
+                raw, scaled = float("nan"), float("nan")
             except ValueError:
-                raw, scaled = float('nan'), float('nan')
+                raw, scaled = float("nan"), float("nan")
             scores.append((raw, scaled))
         return scores
 
@@ -547,6 +552,7 @@ class PositionWeightMatrix:
     def pseudocount(self, base=None):
         def f(count):
             return math.sqrt(count + 1)
+
         if base in self.alphabet:
             return f(self.matrix_base_counts[base])
         elif base is None:
@@ -585,15 +591,15 @@ class PositionWeightMatrix:
         # print >>sys.stderr, "k %d %c" % (i,base),freq[i][base]
         b = background[base]
         try:
-            return math.log(p/b, 2)
+            return math.log(p / b, 2)
         except OverflowError:
             # print >>sys.stderr,"base=%c, math.log(%.3f / %.3f)" % (base,p,b)
             # print >>sys.stderr,self.id
-            return float('nan')
+            return float("nan")
         except ValueError:
             # print >>sys.stderr,"base=%c, math.log(%.3f / %.3f)" % (base,p,b)
             # print >>sys.stderr,self.id
-            return float('nan')
+            return float("nan")
 
     def parse_weight(self, weightString):
 
@@ -607,9 +613,9 @@ class PositionWeightMatrix:
         if len(fields) == 2:
             for _ in range(0, len(fields[1])):
                 s *= 10
-            w = s*w + int(fields[1])
+            w = s * w + int(fields[1])
 
-        return (w, s)    # w = the weight
+        return (w, s)  # w = the weight
         # s = the scale used (a power of 10)
 
     def __str__(self):
@@ -619,7 +625,14 @@ class PositionWeightMatrix:
         for ix in range(0, len(self.rows)):
             weights = ["%d" % self.counts[ix][nt] for nt in self.alphabet]
             # lines.append(("%02d\t" % ix) + "\t".join(weights) + "\t" + self.consensus[ix])
-            lines.append(("%02d\t" % ix) + "\t".join(weights) + "\t" + str(sum(self.counts[ix].values())) + "\t" + self.consensus[ix])
+            lines.append(
+                ("%02d\t" % ix)
+                + "\t".join(weights)
+                + "\t"
+                + str(sum(self.counts[ix].values()))
+                + "\t"
+                + self.consensus[ix]
+            )
 
         return "\n".join(lines)
 
@@ -643,11 +656,12 @@ def score_align_gaps(align):
             continue
         # scan for gaps
         for pos in range(ncols):
-            if align.rows[ir][pos] == '-':
+            if align.rows[ir][pos] == "-":
                 scoremax[ir][pos] = 1
             else:
                 scoremax[ir][pos] = 0
     return scoremax
+
 
 # -----------
 #
@@ -660,7 +674,7 @@ def score_align_gaps(align):
 class Reader:
     """Iterate over all interesting weight matrices in a file"""
 
-    def __init__(self, file, tfIds=None, name=None, format='basic', background=None, score_correction=True):
+    def __init__(self, file, tfIds=None, name=None, format="basic", background=None, score_correction=True):
         self.tfIds = tfIds
         self.file = file
         self.name = name
@@ -679,9 +693,9 @@ class Reader:
             return "line %d in %s" % (self.lineNumber, self.name)
 
     def __iter__(self):
-        if self.format == 'basic':
+        if self.format == "basic":
             return self.read_as_basic()
-        elif self.format == 'transfac':
+        elif self.format == "transfac":
             return self.read_as_transfac()
         else:
             raise ValueError("unknown weight matrix file format: '%s'" % self.format)
@@ -690,8 +704,8 @@ class Reader:
         tfId = None
         pwmRows = None
 
-        alphabet = ['A', 'C', 'G', 'T']
-        while (True):
+        alphabet = ["A", "C", "G", "T"]
+        while True:
             line = self.file.readline()
             if not line:
                 break
@@ -712,7 +726,9 @@ class Reader:
                 # print >>sys.stderr,[ "%.2f" % (float(v)/sum(vals)) for v in vals], tokens[-1]
                 pwmRows.append(tokens)
         if pwmRows is not None:  # we've finished collecting a desired matrix
-            yield PositionWeightMatrix(tfId, pwmRows, alphabet, background=self.background, score_correction=self.score_correction)
+            yield PositionWeightMatrix(
+                tfId, pwmRows, alphabet, background=self.background, score_correction=self.score_correction
+            )
 
     def read_as_transfac(self):
         self.tfToPwm = {}
@@ -730,7 +746,13 @@ class Reader:
                 if pwmRows is not None:  # we've finished collecting a desired matrix
                     try:
                         # FIXME: alphabet is undefined here!
-                        yield PositionWeightMatrix(tfId, pwmRows, alphabet, background=self.background, score_correction=self.score_correction)  # noqa: F821
+                        yield PositionWeightMatrix(
+                            tfId,
+                            pwmRows,
+                            alphabet,  # noqa: F821
+                            background=self.background,
+                            score_correction=self.score_correction,
+                        )
                     except Exception:
                         print("Failed to read", tfId, file=sys.stderr)
                     tfId = None
@@ -741,7 +763,7 @@ class Reader:
                     raise ValueError("bad line, need two fields (%s)" % self.where())
                 tfId = tokens[1]
                 if self.tfIds is not None and (tfId not in self.tfIds):
-                    continue          # ignore it, this isn't a desired matrix
+                    continue  # ignore it, this isn't a desired matrix
                 if tfId in self.tfToPwm:
                     raise ValueError(f"transcription factor {tfId} appears twice ({self.where()})")
                 pwmRows = []  # start collecting a desired matrix
@@ -754,7 +776,7 @@ class Reader:
                 continue
 
             # name, if present, added to ID
-            if line.startswith('NA'):
+            if line.startswith("NA"):
                 words = line.strip().split()
                 tfId = tfId + "\t" + " ".join(words[1:])
 
@@ -770,7 +792,7 @@ class Reader:
                 tokens = line.split()
                 try:
                     index = int(tokens[0])
-                    if index != len(pwmRows)+1:
+                    if index != len(pwmRows) + 1:
                         raise ValueError
                 except Exception:
                     raise ValueError("bad line, bad index (%s)" % self.where())
@@ -782,7 +804,9 @@ class Reader:
                 pwmRows = None
                 continue
         if pwmRows is not None:  # we've finished collecting a desired matrix
-            yield PositionWeightMatrix(tfId, pwmRows, alphabet, background=self.background, score_correction=self.score_correction)
+            yield PositionWeightMatrix(
+                tfId, pwmRows, alphabet, background=self.background, score_correction=self.score_correction
+            )
         # clean up
         self.tfToPwm = None
 
@@ -800,7 +824,7 @@ def reverse_complement(nukes):
 
 def rsquared(x, y):
     try:
-        return sum_of_squares(x, y)**2 / (sum_of_squares(x) * sum_of_squares(y))
+        return sum_of_squares(x, y) ** 2 / (sum_of_squares(x) * sum_of_squares(y))
     except ZeroDivisionError:
         # return float('nan')
         return 0
@@ -812,7 +836,7 @@ def sum_of_squares(x, y=None):
     xmean = float(sum(x)) / len(x)
     ymean = float(sum(y)) / len(y)
     assert len(x) == len(y)
-    return sum(float(xi)*float(yi) for xi, yi in zip(x, y)) - len(x)*xmean*ymean
+    return sum(float(xi) * float(yi) for xi, yi in zip(x, y)) - len(x) * xmean * ymean
 
 
 def consensus_symbol(pattern):
@@ -826,24 +850,25 @@ def consensus_symbol(pattern):
 
     # IUPAC-IUB nomenclature for wobblers
     wobblers = {
-        'R': frozenset(['A', 'G']),
-        'Y': frozenset(['C', 'T']),
-        'M': frozenset(['A', 'C']),
-        'K': frozenset(['G', 'T']),
-        'S': frozenset(['G', 'C']),
-        'W': frozenset(['A', 'T']),
-        'H': frozenset(['A', 'C', 'T']),
-        'B': frozenset(['G', 'T', 'C']),
-        'V': frozenset(['G', 'C', 'A']),
-        'D': frozenset(['G', 'T', 'A'])}
+        "R": frozenset(["A", "G"]),
+        "Y": frozenset(["C", "T"]),
+        "M": frozenset(["A", "C"]),
+        "K": frozenset(["G", "T"]),
+        "S": frozenset(["G", "C"]),
+        "W": frozenset(["A", "T"]),
+        "H": frozenset(["A", "C", "T"]),
+        "B": frozenset(["G", "T", "C"]),
+        "V": frozenset(["G", "C", "A"]),
+        "D": frozenset(["G", "T", "A"]),
+    }
 
-    symbols = ['A', 'C', 'G', 'T']
+    symbols = ["A", "C", "G", "T"]
 
     if isinstance(pattern, dict):
         pattern = [pattern[u] for u in symbols]
 
     total = sum(pattern)
-    f = [(space/1e5)+(float(x)/total) for space, x in enumerate(pattern)]
+    f = [(space / 1e5) + (float(x) / total) for space, x in enumerate(pattern)]
     copy = []
     copy[:] = f[:]
     copy.sort()
@@ -863,9 +888,9 @@ def consensus_symbol(pattern):
             if degen == wobbles:
                 return degenSymbol
     else:
-        return 'N'
+        return "N"
     print(pattern, file=sys.stderr)
-    raise Exception('?')
+    raise Exception("?")
 
 
 # import C extensions
@@ -875,12 +900,13 @@ try:
     def match_consensus(sequence, pattern):
 
         return c_match_consensus(sequence, pattern, len(sequence))
+
     # print >>sys.stderr, "C match_consensus used"
 except ImportError:
     # print >>sys.stderr, "python match_consensus used"
     def match_consensus(sequence, pattern, size):
         for s, p in zip(sequence, pattern):
-            if p == 'N':
+            if p == "N":
                 continue
             if s not in PositionWeightMatrix.symbols[p]:
                 return False

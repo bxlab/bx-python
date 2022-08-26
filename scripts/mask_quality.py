@@ -70,9 +70,9 @@ def main():
         if len(specieslist) != 2:
             print("AXT is pairwise only.")
             sys.exit()
-        reader = bx.align.axt.Reader(instream, species1=specieslist[0],
-                                     species2=specieslist[1],
-                                     species_to_lengths=species_to_lengths)
+        reader = bx.align.axt.Reader(
+            instream, species1=specieslist[0], species2=specieslist[1], species_to_lengths=species_to_lengths
+        )
     elif outputformat == "maf":
         # load maf
         reader = bx.align.maf.Reader(instream, species_to_lengths=species_to_lengths)
@@ -91,8 +91,8 @@ def main():
 
     qualfilter.run(reader, writer.write)
 
-    print("For "+str(qualfilter.total)+" base pairs, "+str(qualfilter.masked)+" base pairs were masked.")
-    print(str(float(qualfilter.masked)/float(qualfilter.total) * 100)+"%")
+    print("For " + str(qualfilter.total) + " base pairs, " + str(qualfilter.masked) + " base pairs were masked.")
+    print(str(float(qualfilter.masked) / float(qualfilter.total) * 100) + "%")
 
 
 if __name__ == "__main__":

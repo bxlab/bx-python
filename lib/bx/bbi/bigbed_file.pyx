@@ -4,13 +4,18 @@ BigBed file.
 
 from bbi_file cimport *
 from cirtree_file cimport CIRTreeFile
+
 import numpy
-cimport numpy
+
 from types cimport *
+
+cimport numpy
+
+import zlib
+from io import BytesIO
+
 from bx.intervals.io import GenomicInterval
 from bx.misc.binary_file import BinaryFileReader
-from io import BytesIO
-import zlib
 
 DEF big_bed_sig = 0x8789F2EB
 

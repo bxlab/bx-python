@@ -3,6 +3,7 @@ Various useful utilities, mostly taken from the ASPN Python cookbook.
 """
 
 import types
+
 seq_types = type(()), type([])
 
 
@@ -21,7 +22,7 @@ def cross_lists(*sets):
     digits = [next(it) for it in wheels]
     while True:
         yield digits[:]
-        for i in range(len(digits)-1, -1, -1):
+        for i in range(len(digits) - 1, -1, -1):
             try:
                 digits[i] = next(wheels[i])
                 break
@@ -30,6 +31,7 @@ def cross_lists(*sets):
                 digits[i] = next(wheels[i])
         else:
             break
+
 
 # Cached / memoized methods
 
@@ -83,7 +85,7 @@ class memoized:
 
 
 class ImmutableDict(dict):
-    '''A hashable dict.'''
+    """A hashable dict."""
 
     def __init__(self, *args, **kwds):
         dict.__init__(self, *args, **kwds)

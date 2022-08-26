@@ -4,7 +4,7 @@ Support for reading and writing genomic intervals from delimited text files.
 
 from bx.bitset import (
     BinnedBitSet,
-    MAX
+    MAX,
 )
 from bx.tabular.io import (
     ParseError,
@@ -98,7 +98,9 @@ class GenomicInterval(TableRow):
         return "\t".join(self.fields)
 
     def copy(self):
-        return GenomicInterval(self.reader, list(self.fields), self.chrom_col, self.start_col, self.end_col, self.strand_col, self.strand)
+        return GenomicInterval(
+            self.reader, list(self.fields), self.chrom_col, self.start_col, self.end_col, self.strand_col, self.strand
+        )
 
 
 class GenomicIntervalReader(TableReader):
@@ -133,8 +135,21 @@ class GenomicIntervalReader(TableReader):
     >>> assert isinstance(elements[4], GenomicInterval)
     """
 
-    def __init__(self, input, chrom_col=0, start_col=1, end_col=2, strand_col=5,
-                 default_strand="+", return_header=True, return_comments=True, force_header=None, fix_strand=False, comment_lines_startswith=None, allow_spaces=False):
+    def __init__(
+        self,
+        input,
+        chrom_col=0,
+        start_col=1,
+        end_col=2,
+        strand_col=5,
+        default_strand="+",
+        return_header=True,
+        return_comments=True,
+        force_header=None,
+        fix_strand=False,
+        comment_lines_startswith=None,
+        allow_spaces=False,
+    ):
         if comment_lines_startswith is None:
             comment_lines_startswith = ["#", "track "]
         TableReader.__init__(self, input, return_header, return_comments, force_header, comment_lines_startswith)
@@ -156,9 +171,15 @@ class GenomicIntervalReader(TableReader):
         for i, sep in enumerate(seps):
             try:
                 return GenomicInterval(
-                    self, line.split(sep), self.chrom_col, self.start_col,
-                    self.end_col, self.strand_col, self.default_strand,
-                    fix_strand=self.fix_strand)
+                    self,
+                    line.split(sep),
+                    self.chrom_col,
+                    self.start_col,
+                    self.end_col,
+                    self.strand_col,
+                    self.default_strand,
+                    fix_strand=self.fix_strand,
+                )
             except Exception as e:
                 # Catch and store the initial error
                 if i == 0:
@@ -191,7 +212,7 @@ class GenomicIntervalReader(TableReader):
                     last_bitset = bitsets[chrom]
                 start = max(int(interval[self.start_col]), 0)
                 end = min(int(interval[self.end_col]), last_bitset.size)
-                last_bitset.set_range(start, end-start)
+                last_bitset.set_range(start, end - start)
         return bitsets
 
 
@@ -249,7 +270,14 @@ class BitsetSafeReaderWrapper(NiceReaderWrapper):
         # It is assumed that the reader is an interval reader, i.e. it has chr_col, start_col, end_col and strand_col attributes.
         if lens is None:
             lens = {}
-        NiceReaderWrapper.__init__(self, reader.input, chrom_col=reader.chrom_col, start_col=reader.start_col, end_col=reader.end_col, strand_col=reader.strand_col)
+        NiceReaderWrapper.__init__(
+            self,
+            reader.input,
+            chrom_col=reader.chrom_col,
+            start_col=reader.start_col,
+            end_col=reader.end_col,
+            strand_col=reader.strand_col,
+        )
         self.lens = lens
 
     def __next__(self):

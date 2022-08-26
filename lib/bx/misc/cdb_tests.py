@@ -7,7 +7,7 @@ def test():
 
     d = {}
     for i in range(10000):
-        d['foo' + str(i)] = 'bar' + str(i)
+        d["foo" + str(i)] = "bar" + str(i)
 
     # Open temporary file and get name
     file = NamedTemporaryFile()
@@ -18,14 +18,14 @@ def test():
     file.flush()
 
     # Open on disk
-    file2 = open(file_name, 'rb')
+    file2 = open(file_name, "rb")
     cdb = FileCDBDict(file2)
 
     for key, value in d.items():
         assert cdb[key] == value
 
     try:
-        cdb['notin']
+        cdb["notin"]
         assert False, "KeyError was not raised"
     except KeyError:
         pass

@@ -41,10 +41,10 @@ for line in open(bed1_fname):
     chr, start, end = fields[0], int(fields[1]), int(fields[2])
     bases_covered = 0
     if chr in bitsets:
-        bases_covered = bitsets[chr].count_range(start, end-start)
+        bases_covered = bitsets[chr].count_range(start, end - start)
     length = end - start
     if mask and chr in mask:
-        bases_masked = mask[chr].count_range(start, end-start)
+        bases_masked = mask[chr].count_range(start, end - start)
         length -= bases_masked
     assert bases_covered <= length, f"{bases_covered!r}, {bases_masked!r}, {length!r}"
     if length == 0:

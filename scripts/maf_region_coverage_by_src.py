@@ -56,10 +56,10 @@ def __main__():
             length = overlap_end - overlap_start
             assert length > 0
             for c in block.components[1:]:
-                species = c.src.split('.')[0]
+                species = c.src.split(".")[0]
                 coverage[species] += length
 
-        print(line, end=' ')
+        print(line, end=" ")
         for key, value in coverage.items():
             print("   ", key.ljust(10), "%0.2f" % (value / total_length))
 

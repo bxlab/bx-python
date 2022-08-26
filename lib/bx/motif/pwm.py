@@ -12,7 +12,7 @@ from numpy import (
     nan,
     newaxis,
     ones,
-    zeros
+    zeros,
 )
 
 from . import _pwm

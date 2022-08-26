@@ -87,7 +87,9 @@ class TableReader:
     Reader for iterating tabular data
     """
 
-    def __init__(self, input, return_header=True, return_comments=True, force_header=None, comment_lines_startswith=["#"]):
+    def __init__(
+        self, input, return_header=True, return_comments=True, force_header=None, comment_lines_startswith=["#"]
+    ):
         self.input = input
         self.return_comments = return_comments
         self.return_header = return_header
@@ -105,7 +107,7 @@ class TableReader:
         line = line.rstrip("\r\n")
         # Catch blank lines (throw a warning?)
         # This will end up adding a '#' at the beginning of blank lines
-        if line == '':
+        if line == "":
             if self.return_comments:
                 return Comment(line)
             else:

@@ -35,7 +35,7 @@ def __main__():
 
     # Compile expression for SPEED
     if expr:
-        expr = compile(expr, '<expr arg>', 'eval')
+        expr = compile(expr, "<expr arg>", "eval")
 
     maf_reader = maf.Reader(sys.stdin, parse_e_rows=True)
     maf_writer = maf.Writer(sys.stdout)

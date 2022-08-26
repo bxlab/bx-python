@@ -8,23 +8,29 @@ mirrors Jim Kent's 'bbiRead.c' mostly.
 """
 
 from cpython.version cimport PY_MAJOR_VERSION
+
 import sys
 
 cimport cython
 
 from collections import deque
-from bpt_file cimport BPTFile
-from cirtree_file cimport CIRTreeFile
+
 from types cimport *
 
+from bpt_file cimport BPTFile
+from cirtree_file cimport CIRTreeFile
 from libc cimport limits
 
 import numpy
+
 cimport numpy
 
-from bx.misc.binary_file import BinaryFileReader
+import math
+import zlib
 from io import BytesIO
-import zlib, math
+
+from bx.misc.binary_file import BinaryFileReader
+
 
 cdef extern from "Python.h":
     char * PyBytes_AsString( object )

@@ -30,7 +30,7 @@ def main():
         else:
             suffix = ""
 
-        print("\nReading feature", end=' ', file=sys.stderr)
+        print("\nReading feature", end=" ", file=sys.stderr)
         interval_file = open(args[0])
         feature = binned_bitsets_from_file(interval_file, lens=lens)
         interval_file.close()
@@ -45,15 +45,15 @@ def main():
             intervals[chrom].append([start, end])
         interval_file.close()
 
-        print("\nReading ar", end=' ', file=sys.stderr)
+        print("\nReading ar", end=" ", file=sys.stderr)
         ar = binned_bitsets_from_file(open(args[1]), lens=lens)
 
-        print("\nReading snps", end=' ', file=sys.stderr)
+        print("\nReading snps", end=" ", file=sys.stderr)
         snp = binned_bitsets_from_file(open(args[2]), lens=lens)
         snp_mask = clone_inverted(snp)
         snp_copy = clone(snp)
 
-        print("\nMasking AR", end=' ', file=sys.stderr)
+        print("\nMasking AR", end=" ", file=sys.stderr)
         ar_mask = clone_inverted(ar)
         print(file=sys.stderr)
 
@@ -87,9 +87,9 @@ def main():
         if chr not in ar:
             continue
 
-        print("reading %s ..." % chr, end=' ', file=sys.stderr)
+        print("reading %s ..." % chr, end=" ", file=sys.stderr)
         try:
-            div = binned_bitsets_from_file(open(dirname + "/%s.bed" % (chr+suffix)), lens=lens)
+            div = binned_bitsets_from_file(open(dirname + "/%s.bed" % (chr + suffix)), lens=lens)
         except Exception:
             print("%s.bed not found" % chr, file=sys.stderr)
             continue
@@ -97,12 +97,12 @@ def main():
         div[chr].iand(snp_mask[chr])  # div/snp sites count snp-only
         div_copy = clone(div)
 
-        print("AR:", chr, end=' ', file=sys.stderr)
+        print("AR:", chr, end=" ", file=sys.stderr)
         snp[chr].iand(ar[chr])
         div[chr].iand(ar[chr])
         snp_count = snp[chr].count_range(0, snp[chr].size)
         ar_snp_count += snp_count
-        print(snp_count, end=' ', file=sys.stderr)
+        print(snp_count, end=" ", file=sys.stderr)
         try:
             div_count = div[chr].count_range(0, div[chr].size)
             ar_div_count += div_count
@@ -112,7 +112,7 @@ def main():
 
         div = div_copy
         snp[chr] = snp_copy[chr]
-        print("feature:", chr, end=' ', file=sys.stderr)
+        print("feature:", chr, end=" ", file=sys.stderr)
         feature[chr].iand(ar_mask[chr])  # clip to non-AR only
         snp[chr].iand(feature[chr])
         div[chr].iand(feature[chr])
@@ -124,8 +124,8 @@ def main():
         # Note: can loop over feature intervals here for individual counts
         if chr in intervals:
             for start, end in intervals[chr]:
-                ind_div_count = div[chr].count_range(start, end-start)
-                ind_snp_count = snp[chr].count_range(start, end-start)
+                ind_div_count = div[chr].count_range(start, end - start)
+                ind_snp_count = snp[chr].count_range(start, end - start)
                 print(chr, start, end, ind_div_count, ind_snp_count)
 
     print("feature snp\t%d" % feature_snp_count)

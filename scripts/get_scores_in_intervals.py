@@ -34,7 +34,7 @@ def main():
         score_file = open(args[0])
         interval_file = open(args[1])
         if len(args) > 2:
-            out_file = open(args[2], 'w')
+            out_file = open(args[2], "w")
         else:
             out_file = sys.stdout
     except Exception:

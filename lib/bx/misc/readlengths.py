@@ -14,7 +14,7 @@ def read_lengths_file(name):
     f = open(name)
     for line in f:
         line = line.strip()
-        if line == '' or line[0] == '#':
+        if line == "" or line[0] == "#":
             continue
         try:
             fields = line.split()

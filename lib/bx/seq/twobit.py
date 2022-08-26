@@ -2,7 +2,10 @@
 Access to files containing sequence data in 'twobit' format.
 """
 from collections.abc import Mapping
-from struct import calcsize, unpack
+from struct import (
+    calcsize,
+    unpack,
+)
 from typing import (
     BinaryIO,
     Dict,
@@ -124,8 +127,7 @@ class TwoBitFile(Mapping):
         return list(starts), list(sizes)
 
     def read(self, pattern: str, untuple: bool = True):
-        rval = unpack(self.byte_order + pattern,
-                      self.file.read(calcsize(self.byte_order + pattern)))
+        rval = unpack(self.byte_order + pattern, self.file.read(calcsize(self.byte_order + pattern)))
         if untuple and len(rval) == 1:
             return rval[0]
         return rval

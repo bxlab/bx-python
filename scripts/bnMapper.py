@@ -11,7 +11,10 @@ import os
 import sys
 from functools import reduce
 from itertools import groupby
-from operator import attrgetter, itemgetter
+from operator import (
+    attrgetter,
+    itemgetter,
+)
 
 import numpy as np
 
@@ -23,10 +26,21 @@ from bx.intervals.intersection import (
     IntervalTree,
 )
 
-elem_t = np.dtype([('chrom', np.str_, 30), ('start', np.int64), ('end', np.int64), ('id', np.str_, 100)])
-narrowPeak_t = np.dtype([('chrom', np.str_, 30), ('start', np.int64), ('end', np.int64), ('id', np.str_, 100),
-                         ('score', np.int64), ('strand', np.str_, 1), ('signalValue', np.float),
-                         ('pValue', np.float), ('qValue', np.float), ('peak', np.int64)])
+elem_t = np.dtype([("chrom", np.str_, 30), ("start", np.int64), ("end", np.int64), ("id", np.str_, 100)])
+narrowPeak_t = np.dtype(
+    [
+        ("chrom", np.str_, 30),
+        ("start", np.int64),
+        ("end", np.int64),
+        ("id", np.str_, 100),
+        ("score", np.int64),
+        ("strand", np.str_, 1),
+        ("signalValue", np.float),
+        ("pValue", np.float),
+        ("qValue", np.float),
+        ("peak", np.int64),
+    ]
+)
 LOG_LEVELS = {"info": logging.INFO, "debug": logging.DEBUG, "silent": logging.ERROR}
 
 logging.basicConfig()
@@ -71,7 +85,7 @@ def transform(elem, chain_CT_CQ, max_gap):
     elem intersects this chain's ginterval.
     :return: a list of the type [(to_chr, start, end, elem[id]) ... ]"""
     (chain, CT, CQ) = chain_CT_CQ
-    start, end = max(elem['start'], chain.tStart) - chain.tStart, min(elem['end'], chain.tEnd) - chain.tStart
+    start, end = max(elem["start"], chain.tStart) - chain.tStart, min(elem["end"], chain.tEnd) - chain.tStart
 
     assert np.all((CT[:, 1] - CT[:, 0]) == (CQ[:, 1] - CQ[:, 0]))
     to_chrom = chain.qName
@@ -85,24 +99,27 @@ def transform(elem, chain_CT_CQ, max_gap):
 
     # apply the gap threshold
     if max_gap >= 0 and start_idx < end_idx - 1:
-        if np.max(CT[(start_idx+1):end_idx, 0] - CT[start_idx:(end_idx-1), 1]) > max_gap or np.max(CQ[(start_idx+1):end_idx, 0] - CQ[start_idx:(end_idx-1), 1]) > max_gap:
+        if (
+            np.max(CT[(start_idx + 1) : end_idx, 0] - CT[start_idx : (end_idx - 1), 1]) > max_gap
+            or np.max(CQ[(start_idx + 1) : end_idx, 0] - CQ[start_idx : (end_idx - 1), 1]) > max_gap
+        ):
             return []
 
     assert start < CT[start_idx, 1]
     assert CT[end_idx, 0] < end
     to_start = CQ[start_idx, 0] + max(0, start - CT[start_idx, 0])  # correct if on middle of interval
-    to_end = CQ[end_idx, 1] - max(0, CT[end_idx, 1] - end)        # idem
+    to_end = CQ[end_idx, 1] - max(0, CT[end_idx, 1] - end)  # idem
 
     if start_idx == end_idx:  # elem falls in a single run of matches
         slices = [(to_start, to_end)]
     else:
         slices = [(to_start, CQ[start_idx, 1])]
-        slices += [(CQ[i, 0], CQ[i, 1]) for i in range(start_idx+1, end_idx)]
+        slices += [(CQ[i, 0], CQ[i, 1]) for i in range(start_idx + 1, end_idx)]
         slices.append((CQ[end_idx, 0], to_end))
-    if chain.qStrand == '-':
+    if chain.qStrand == "-":
         Sz = chain.qEnd - chain.qStart
-        slices = [(Sz-t[1], Sz-t[0]) for t in slices]
-    return [(to_chrom, to_gab_start + t[0], to_gab_start + t[1], elem['id']) for t in slices]
+        slices = [(Sz - t[1], Sz - t[0]) for t in slices]
+    return [(to_chrom, to_gab_start + t[0], to_gab_start + t[1], elem["id"]) for t in slices]
 
 
 def union_elements(elements):
@@ -128,12 +145,12 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
     BED4_FRM = "%s\t%d\t%d\t%s\n"
     BED12_FRM = "%s\t%d\t%d\t%s\t1000\t+\t%d\t%d\t0,0,0\t%d\t%s\t%s\n"
     NPEAK_FRM = "%s\t%d\t%d\t%s\t%d\t%s\t%f\t%f\t%f\t%d\n"
-    assert len(set(from_elem_list['chrom'])) <= 1
+    assert len(set(from_elem_list["chrom"])) <= 1
 
     mapped_elem_count = 0
     mapped_summit_count = 0
     for from_elem in from_elem_list:
-        matching_block_ids = [attrgetter("value")(_) for _ in tree.find(chrom, from_elem['start'], from_elem['end'])]
+        matching_block_ids = [attrgetter("value")(_) for _ in tree.find(chrom, from_elem["start"], from_elem["end"])]
 
         # do the actual mapping
         to_elem_slices = [_ for _ in (transform(from_elem, all_epo[i], opt.gap) for i in matching_block_ids) if _]
@@ -166,7 +183,7 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
         """ End AGD modifications """
 
         # apply threshold
-        if (from_elem[2] - from_elem[1]) * opt.threshold > reduce(lambda b, a: a[2]-a[1] + b, to_elem_slices, 0):
+        if (from_elem[2] - from_elem[1]) * opt.threshold > reduce(lambda b, a: a[2] - a[1] + b, to_elem_slices, 0):
             log.debug("%s did not pass threshold" % (str(from_elem)))
             continue
 
@@ -181,19 +198,41 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
                 for tel in to_elem_list:
                     out_fd.write(BED4_FRM % tel)
             elif opt.format == "BED12":
-                out_fd.write(BED12_FRM % (
-                    to_elem_list[0][0], start, end, from_elem['id'],
-                    start, end, len(to_elem_list),
-                    ",".join("%d" % (e[2]-e[1]) for e in to_elem_list),
-                    ",".join("%d" % (e[1]-start) for e in to_elem_list)))
+                out_fd.write(
+                    BED12_FRM
+                    % (
+                        to_elem_list[0][0],
+                        start,
+                        end,
+                        from_elem["id"],
+                        start,
+                        end,
+                        len(to_elem_list),
+                        ",".join("%d" % (e[2] - e[1]) for e in to_elem_list),
+                        ",".join("%d" % (e[1] - start) for e in to_elem_list),
+                    )
+                )
             else:
                 # narrowPeak convention is to report the peak location relative to start
-                peak = int((start + end)/2) - start
+                peak = int((start + end) / 2) - start
                 if opt.in_format == "narrowPeak":
                     # Map the peak location
                     # sys.stderr.write("{}\n".format(from_elem))
-                    matching_block_ids = [attrgetter("value")(_) for _ in tree.find(chrom, from_elem['peak'], from_elem['peak'])]
-                    p_elem_slices = [_ for _ in (transform(np.array((chrom, from_elem['peak'], from_elem['peak'], '.'), dtype=elem_t), all_epo[i], opt.gap) for i in matching_block_ids) if _]
+                    matching_block_ids = [
+                        attrgetter("value")(_) for _ in tree.find(chrom, from_elem["peak"], from_elem["peak"])
+                    ]
+                    p_elem_slices = [
+                        _
+                        for _ in (
+                            transform(
+                                np.array((chrom, from_elem["peak"], from_elem["peak"], "."), dtype=elem_t),
+                                all_epo[i],
+                                opt.gap,
+                            )
+                            for i in matching_block_ids
+                        )
+                        if _
+                    ]
                     if len(p_elem_slices) >= 1:
                         mapped_summit_count += 1
                         sys.stderr.write(f"{p_elem_slices}\n")
@@ -202,13 +241,29 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
                             peak = p_elem_slices[0][0][1] - start
                         else:
                             mapped_summit_count -= 1
-                            log.debug(f"Warning: elem {from_elem} summit mapped location falls outside the mapped element start and end. Using the mapped elem midpoint instead.")
+                            log.debug(
+                                f"Warning: elem {from_elem} summit mapped location falls outside the mapped element start and end. Using the mapped elem midpoint instead."
+                            )
 
                     else:
-                        log.debug(f"Warning: elem {from_elem} summit maps to a gap region in the target alignment. Using the mapped elem midpoint instead.")
-                out_fd.write(NPEAK_FRM % (to_elem_list[0][0], start, end, from_elem['id'],
-                                          from_elem['score'], from_elem['strand'], from_elem['signalValue'],
-                                          from_elem['pValue'], from_elem['qValue'], peak))
+                        log.debug(
+                            f"Warning: elem {from_elem} summit maps to a gap region in the target alignment. Using the mapped elem midpoint instead."
+                        )
+                out_fd.write(
+                    NPEAK_FRM
+                    % (
+                        to_elem_list[0][0],
+                        start,
+                        end,
+                        from_elem["id"],
+                        from_elem["score"],
+                        from_elem["strand"],
+                        from_elem["signalValue"],
+                        from_elem["pValue"],
+                        from_elem["qValue"],
+                        peak,
+                    )
+                )
     log.info("%s: %d of %d elements mapped" % (chrom, mapped_elem_count, from_elem_list.shape[0]))
     if opt.format == "narrowPeak" and opt.in_format == "narrowPeak":
         log.info("%s: %d peak summits from %d mapped elements mapped" % (chrom, mapped_summit_count, mapped_elem_count))
@@ -219,16 +274,16 @@ def transform_file(ELEMS, ofname, EPO, TREE, opt):
 
     BED4_FRM = "%s\t%d\t%d\t%s\n"
     log.info("%s (%d) elements ..." % (opt.screen and "screening" or "transforming", ELEMS.shape[0]))
-    with open(ofname, 'w') as out_fd:
+    with open(ofname, "w") as out_fd:
         if opt.screen:
             for elem in ELEMS.flat:
-                matching_blocks = [attrgetter("value")(_) for _ in TREE.find(elem['chrom'], elem['start'], elem['end'])]
+                matching_blocks = [attrgetter("value")(_) for _ in TREE.find(elem["chrom"], elem["start"], elem["end"])]
                 assert set(matching_blocks) <= set(EPO.keys())
                 if matching_blocks:
                     out_fd.write(BED4_FRM % elem)
         else:
-            for chrom in set(ELEMS['chrom']):
-                transform_by_chrom(EPO, ELEMS[ELEMS['chrom'] == chrom], TREE, chrom, opt, out_fd)
+            for chrom in set(ELEMS["chrom"]):
+                transform_by_chrom(EPO, ELEMS[ELEMS["chrom"] == chrom], TREE, chrom, opt, out_fd)
     log.info("DONE!")
 
 
@@ -240,13 +295,13 @@ def loadChains(path):
     # compute cummulative intervals
     for i in range(len(EPO)):
         ch, S, T, Q = EPO[i]
-        if ch.tStrand == '-':
+        if ch.tStrand == "-":
             ch = ch._replace(tEnd=ch.tSize - ch.tStart, tStart=ch.tSize - ch.tEnd)
-        if ch.qStrand == '-':
+        if ch.qStrand == "-":
             ch = ch._replace(qEnd=ch.qSize - ch.qStart, qStart=ch.qSize - ch.qEnd)
         EPO[i] = (ch, epo.cummulative_intervals(S, T), epo.cummulative_intervals(S, Q))
     # now each element of epo is (chain_header, target_intervals, query_intervals)
-    assert all(t[0].tStrand == '+' for t in EPO), "all target strands should be +"
+    assert all(t[0].tStrand == "+" for t in EPO), "all target strands should be +"
     return EPO
 
 
@@ -268,38 +323,80 @@ def loadFeatures(path, opt):
         with open(path) as fd:
             for line in fd:
                 cols = line.split()
-                data.append((
-                    cols[0], int(cols[1]), int(cols[2]), cols[3], int(cols[4]),
-                    cols[5], float(cols[6]), float(cols[7]), float(cols[8]),
-                    int(cols[-1])+int(cols[1])))
+                data.append(
+                    (
+                        cols[0],
+                        int(cols[1]),
+                        int(cols[2]),
+                        cols[3],
+                        int(cols[4]),
+                        cols[5],
+                        float(cols[6]),
+                        float(cols[7]),
+                        float(cols[8]),
+                        int(cols[-1]) + int(cols[1]),
+                    )
+                )
         data = np.array(data, dtype=narrowPeak_t)
     return data
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description=__doc__, epilog="Olgert Denas (Taylor Lab)", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__, epilog="Olgert Denas (Taylor Lab)", formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
 
-    parser.add_argument("input", nargs='+',
-                        help="Input to process. If more than a file is specified, all files will be mapped and placed on --output, which should be a directory.")
+    parser.add_argument(
+        "input",
+        nargs="+",
+        help="Input to process. If more than a file is specified, all files will be mapped and placed on --output, which should be a directory.",
+    )
     parser.add_argument("alignment", help="Alignment file (.chain or .pkl)")
 
-    parser.add_argument("-f", '--format', choices=("BED4", "BED12", "narrowPeak"), default="BED4",
-                        help="Output format. BED4 output reports all aligned blocks as separate BED records. BED12 reports a single BED record for each mapped element, with individual blocks given in the BED12 fields. NarrowPeak reports a single narrowPeak record for each mapped element, in which the chromosome, start, end, and peak positions are mapped to the target species and all other columns are passed through unchanged.")
-    parser.add_argument("-o", '--output', metavar="FILE", default='stdout',
-                        type=lambda s: ((s in ('stdout', '-') and "/dev/stdout") or s),
-                        help="Output file. Mandatory if more than on file in input.")
-    parser.add_argument("-t", '--threshold', metavar="FLOAT", default=0., type=float,
-                        help="Mapping threshold i.e., |elem| * threshold <= |mapped_elem|")
-    parser.add_argument("-s", '--screen', default=False, action='store_true',
-                        help="Only report elements in the alignment (without mapping). -t has not effect here (TODO)")
-    parser.add_argument('-g', '--gap', type=int, default=-1,
-                        help="Ignore elements with an insertion/deletion of this or bigger size.")
-    parser.add_argument('-v', '--verbose', type=str, choices=list(LOG_LEVELS.keys()), default='info',
-                        help='Verbosity level')
-    parser.add_argument("-k", '--keep_split', default=False, action='store_true',
-                        help="If elements span multiple chains, report the segment with the longest overlap instead of silently dropping them. (This is the default behavior for liftOver.)")
-    parser.add_argument("-i", "--in_format", choices=["BED", "narrowPeak"], default="BED",
-                        help="Input file format.")
+    parser.add_argument(
+        "-f",
+        "--format",
+        choices=("BED4", "BED12", "narrowPeak"),
+        default="BED4",
+        help="Output format. BED4 output reports all aligned blocks as separate BED records. BED12 reports a single BED record for each mapped element, with individual blocks given in the BED12 fields. NarrowPeak reports a single narrowPeak record for each mapped element, in which the chromosome, start, end, and peak positions are mapped to the target species and all other columns are passed through unchanged.",
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        metavar="FILE",
+        default="stdout",
+        type=lambda s: ((s in ("stdout", "-") and "/dev/stdout") or s),
+        help="Output file. Mandatory if more than on file in input.",
+    )
+    parser.add_argument(
+        "-t",
+        "--threshold",
+        metavar="FLOAT",
+        default=0.0,
+        type=float,
+        help="Mapping threshold i.e., |elem| * threshold <= |mapped_elem|",
+    )
+    parser.add_argument(
+        "-s",
+        "--screen",
+        default=False,
+        action="store_true",
+        help="Only report elements in the alignment (without mapping). -t has not effect here (TODO)",
+    )
+    parser.add_argument(
+        "-g", "--gap", type=int, default=-1, help="Ignore elements with an insertion/deletion of this or bigger size."
+    )
+    parser.add_argument(
+        "-v", "--verbose", type=str, choices=list(LOG_LEVELS.keys()), default="info", help="Verbosity level"
+    )
+    parser.add_argument(
+        "-k",
+        "--keep_split",
+        default=False,
+        action="store_true",
+        help="If elements span multiple chains, report the segment with the longest overlap instead of silently dropping them. (This is the default behavior for liftOver.)",
+    )
+    parser.add_argument("-i", "--in_format", choices=["BED", "narrowPeak"], default="BED", help="Input file format.")
 
     opt = parser.parse_args()
     log.setLevel(LOG_LEVELS[opt.verbose])

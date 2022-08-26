@@ -6,7 +6,7 @@ import bisect
 
 from bx.bitset import BitSet
 
-random = __import__('random')
+random = __import__("random")
 
 
 class MaxtriesException(Exception):
@@ -52,8 +52,8 @@ def throw_random_gap_list(lengths, mask, save_interval_func, allow_overlap=False
         if start == mask.size:
             break
         end = mask.next_set(start)
-        if end-start >= min_length:
-            gaps.append((end-start, start, None))
+        if end - start >= min_length:
+            gaps.append((end - start, start, None))
     # Sort (long regions first)
     gaps.sort()
     gaps.reverse()
@@ -82,11 +82,11 @@ def throw_random_intervals(lengths, regions, save_interval_func=None, allow_over
                           region with start and end modified.
     """
     # Copy regions
-    regions = sorted((x[1]-x[0], x[0], x) for x in regions)
+    regions = sorted((x[1] - x[0], x[0], x) for x in regions)
     # Sort (long regions first)
     regions.reverse()
     # Throw
-    if (save_interval_func is not None):
+    if save_interval_func is not None:
         throw_random_private(lengths, regions, save_interval_func, allow_overlap)
         return
     else:
@@ -181,7 +181,8 @@ def throw_random_private(lengths, regions, save_interval_func, allow_overlap=Fal
             if candidates == 0:
                 raise MaxtriesException(
                     "No region can fit an interval of length %d (we threw %d of %d)"
-                    % (length, num_thrown, len(lengths)))
+                    % (length, num_thrown, len(lengths))
+                )
             hi_rgn -= 1
         # Select a candidate
         s = random.randrange(candidates)
@@ -195,11 +196,11 @@ def throw_random_private(lengths, regions, save_interval_func, allow_overlap=Fal
         lo = 0
         hi = hi_rgn
         while hi > lo:
-            mid = (lo + hi + 1) / 2     # (we round up to prevent infinite loop)
+            mid = (lo + hi + 1) / 2  # (we round up to prevent infinite loop)
             if s < cc[mid]:
-                hi = mid-1  # (s <  num candidates from 0..mid-1)
+                hi = mid - 1  # (s <  num candidates from 0..mid-1)
             else:
-                lo = mid    # (s >= num candidates from 0..mid-1)
+                lo = mid  # (s >= num candidates from 0..mid-1)
         s -= cc[lo]
         # If we are not allowing overlaps we will remove the placed interval
         # from the region list
@@ -210,7 +211,13 @@ def throw_random_private(lengths, regions, save_interval_func, allow_overlap=Fal
             rgn_length, rgn_start, rgn_extra = regions.pop(lo)
             rgn_end = rgn_start + rgn_length
             assert s >= 0
-            assert rgn_start + s + length <= rgn_end, "Expected: %d + %d + %d == %d <= %d" % (rgn_start, s, length, rgn_start + s + length, rgn_end)
+            assert rgn_start + s + length <= rgn_end, "Expected: %d + %d + %d == %d <= %d" % (
+                rgn_start,
+                s,
+                length,
+                rgn_start + s + length,
+                rgn_end,
+            )
             regions.reverse()
             if s >= min_length:
                 bisect.insort(regions, (s, rgn_start, rgn_extra))
@@ -219,7 +226,7 @@ def throw_random_private(lengths, regions, save_interval_func, allow_overlap=Fal
             regions.reverse()
             prev_length = None  # (force cc array construction)
         # Save the new interval
-        if (three_args):
+        if three_args:
             save_interval_func(rgn_start + s, rgn_start + s + length, rgn_extra)
         else:
             save_interval_func(rgn_start + s, rgn_start + s + length)

@@ -3,14 +3,20 @@ BigWig file.
 """
 
 from collections import deque
+
 from bbi_file cimport *
 from cirtree_file cimport CIRTreeFile
+
 import numpy
-cimport numpy
+
 from types cimport *
-from bx.misc.binary_file import BinaryFileReader
-from io import BytesIO
+
+cimport numpy
+
 import zlib
+from io import BytesIO
+
+from bx.misc.binary_file import BinaryFileReader
 
 DEF big_wig_sig = 0x888FFC26
 DEF bwg_bed_graph = 1

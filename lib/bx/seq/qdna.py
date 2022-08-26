@@ -42,14 +42,16 @@ Recognized properties (at present only one):
 import struct
 from io import StringIO
 
-from bx.seq.seq import SeqFile, SeqReader
+from bx.seq.seq import (
+    SeqFile,
+    SeqReader,
+)
 
-qdnaMagic = 0xC4B47197    # big endian magic number for qdna files
+qdnaMagic = 0xC4B47197  # big endian magic number for qdna files
 qdnaMagicSwap = 0x9771B4C4
 
 
 class QdnaFile(SeqFile):
-
     def __init__(self, file, revcomp=False, name="", gap=None, codebook=None):
         SeqFile.__init__(self, file, revcomp, name, gap)
         if gap is None:
@@ -69,13 +71,11 @@ class QdnaFile(SeqFile):
 
         # process header
 
-        self.version = struct.unpack("%sL" % self.byte_order,
-                                     self.file.read(4))[0]
+        self.version = struct.unpack("%sL" % self.byte_order, self.file.read(4))[0]
         if self.version not in [0x100, 0x200]:
             raise ValueError("unsupported quantum-dna (version=%08X)" % self.version)
 
-        self.headerLength = struct.unpack("%sL" % self.byte_order,
-                                          self.file.read(4))[0]
+        self.headerLength = struct.unpack("%sL" % self.byte_order, self.file.read(4))[0]
         if self.headerLength < 0x10:
             raise ValueError("unsupported quantum-dna (header len=%08X)" % self.headerLength)
         if self.version == 0x100 and self.headerLength != 0x10:
@@ -87,8 +87,7 @@ class QdnaFile(SeqFile):
 
         self.propOffset = 0
         if self.headerLength >= 0x14:
-            self.propOffset = struct.unpack("%sL" % self.byte_order,
-                                            self.file.read(4))[0]
+            self.propOffset = struct.unpack("%sL" % self.byte_order, self.file.read(4))[0]
 
         self.name = ""
         if self.nameOffset != 0:
@@ -97,7 +96,7 @@ class QdnaFile(SeqFile):
 
         if self.propOffset != 0:
             self.file.seek(self.propOffset)
-            while (True):
+            while True:
                 name = self.read_string()
                 if len(name) == 0:
                     break
@@ -114,7 +113,7 @@ class QdnaFile(SeqFile):
 
     def read_string(self):
         s = b""
-        while (True):
+        while True:
             ch = self.file.read(1)
             if ch == b"\0":
                 break
@@ -133,7 +132,6 @@ class QdnaFile(SeqFile):
 
 
 class QdnaReader(SeqReader):
-
     def __init__(self, file, revcomp=False, name="", gap=None, codebook=None):
         SeqReader.__init__(self, file, revcomp, name, gap)
         self.codebook = codebook
@@ -169,7 +167,6 @@ qdna code file format:
 
 
 class QdnaCodebook:
-
     def __init__(self, file):
         (self.alphabet, self.codeToProbs) = self.read_codebook(file)
 
@@ -185,8 +182,7 @@ class QdnaCodebook:
         for sym in self.alphabet:
             if sym not in vec:
                 vec[sym] = 0.0
-        return ("%02X\t" % ord(codeNum)) \
-            + "\t".join(["%.6f" % vec[sym] for sym in self.alphabet])
+        return ("%02X\t" % ord(codeNum)) + "\t".join(["%.6f" % vec[sym] for sym in self.alphabet])
 
     def __getitem__(self, codeNum):
         return self.codeToProbs[codeNum]
@@ -226,7 +222,7 @@ class QdnaCodebook:
                     p = float(fields[ix])
                     if p < 0 or p > 1:
                         raise ValueError
-                    vec[alphabet[ix-1]] = p
+                    vec[alphabet[ix - 1]] = p
             except Exception:
                 raise ValueError("%s is a bad probability value (line %d)" % (fields[ix], lineNum))
 
@@ -236,7 +232,6 @@ class QdnaCodebook:
 
 
 class QdnaWriter:
-
     def __init__(self, file):
         self.file = file
 

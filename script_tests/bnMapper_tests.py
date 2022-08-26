@@ -35,7 +35,9 @@ class Test6(base.BaseScriptTest, unittest.TestCase):
 
 
 class Test7(base.BaseScriptTest, unittest.TestCase):
-    command_line = "./scripts/bnMapper.py ./test_data/epo_tests/hg19_one_peak.bed ./test_data/epo_tests/hg19.mm9.rBest.chain.gz"
+    command_line = (
+        "./scripts/bnMapper.py ./test_data/epo_tests/hg19_one_peak.bed ./test_data/epo_tests/hg19.mm9.rBest.chain.gz"
+    )
     output_stdout = base.TestFile(filename="./test_data/epo_tests/hg19_one_peak.mapped.bed")
 
 

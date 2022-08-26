@@ -51,18 +51,18 @@ class MyClass(object):
     baz = property(fget=get_baz, fset=set_baz, fdel=del_baz, doc="baz")
 """
 
-__all__ = ['attribute', 'readable', 'writable']
-__version__ = '3.0'
-__author__ = 'Sean Ross'
-__credits__ = ['Guido van Rossum', 'Garth Kidd']
-__created__ = '10/21/02'
+__all__ = ["attribute", "readable", "writable"]
+__version__ = "3.0"
+__author__ = "Sean Ross"
+__credits__ = ["Guido van Rossum", "Garth Kidd"]
+__created__ = "10/21/02"
 
 import sys
 
 
 def mangle(classname, attrname):
     """mangles name according to python name-mangling
-       conventions for private variables"""
+    conventions for private variables"""
     return f"_{classname}__{attrname}"
 
 
@@ -73,44 +73,49 @@ def class_space(classlevel=3):
     classdict = frame.f_locals
     return classname, classdict
 
+
 # convenience function
 
 
 def readable(**kwds):
     "returns one read-only property for each (key,value) pair in kwds"
-    return _attribute(permission='r', **kwds)
+    return _attribute(permission="r", **kwds)
+
 
 # convenience function
 
 
 def writable(**kwds):
     "returns one write-only property for each (key,value) pair in kwds"
-    return _attribute(permission='w', **kwds)
+    return _attribute(permission="w", **kwds)
+
 
 # needed because of the way class_space is resolved in _attribute
 
 
-def attribute(permission='rwd', **kwds):
+def attribute(permission="rwd", **kwds):
     """returns one property for each (key,value) pair in kwds;
-       each property provides the specified level of access(permission):
-           'r': readable, 'w':writable, 'd':deletable
+    each property provides the specified level of access(permission):
+        'r': readable, 'w':writable, 'd':deletable
     """
     return _attribute(permission, **kwds)
+
 
 # based on code by Guido van Rossum, comp.lang.python 2001-07-31
 
 
-def _attribute(permission='rwd', **kwds):
+def _attribute(permission="rwd", **kwds):
     """returns one property for each (key,value) pair in kwds;
-       each property provides the specified level of access(permission):
-           'r': readable, 'w':writable, 'd':deletable
+    each property provides the specified level of access(permission):
+        'r': readable, 'w':writable, 'd':deletable
     """
     classname, classdict = class_space()
 
     def _property(attrname, default):
         propname, attrname = attrname, mangle(classname, attrname)
         fget, fset, fdel, doc = None, None, None, propname
-        if 'r' in permission:
+        if "r" in permission:
+
             def fget(self):
                 value = default
                 try:
@@ -118,10 +123,14 @@ def _attribute(permission='rwd', **kwds):
                 except AttributeError:
                     setattr(self, attrname, default)
                 return value
-        if 'w' in permission:
+
+        if "w" in permission:
+
             def fset(self, value):
                 setattr(self, attrname, value)
-        if 'd' in permission:
+
+        if "d" in permission:
+
             def fdel(self):
                 try:
                     delattr(self, attrname)
@@ -129,6 +138,7 @@ def _attribute(permission='rwd', **kwds):
                     pass
                 # calling fget can restore this attribute, so remove property
                 delattr(self.__class__, propname)
+
         return property(fget=fget, fset=fset, fdel=fdel, doc=doc)
 
     for attrname, default in kwds.items():

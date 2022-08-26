@@ -11,7 +11,7 @@ import sys
 
 from bx.arrays.array_tree import (
     array_tree_dict_from_reader,
-    FileArrayTreeDict
+    FileArrayTreeDict,
 )
 from bx.arrays.wiggle import WiggleReader
 

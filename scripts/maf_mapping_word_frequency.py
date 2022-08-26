@@ -12,9 +12,7 @@ usage: %prog motif_len mapping_file < maf_file > counts
 
 import sys
 
-from numpy import (
-    zeros
-)
+from numpy import zeros
 
 import bx.align.maf
 from bx import seqmapping
@@ -33,15 +31,15 @@ def main():
         ints = alpha_map.translate(ints)
         # Count words
         radix = alpha_map.get_out_size()
-        counts = zeros(radix ** word_length, int)
+        counts = zeros(radix**word_length, int)
         total = 0
         for i in range(word_length, len(ints)):
             index = 0
             factor = 1
             skip = False
             for j in range(word_length):
-                assert 0 < i-j < len(ints)
-                letter = ints[i-j]
+                assert 0 < i - j < len(ints)
+                letter = ints[i - j]
                 if letter < 0:
                     skip = True
                     break
@@ -53,7 +51,7 @@ def main():
                 counts[index] += 1
                 total += 1
         # Write ints separated by tabs
-        print('\t'.join([str(total)] + [str(_) for _ in counts]))
+        print("\t".join([str(total)] + [str(_) for _ in counts]))
 
 
 if __name__ == "__main__":

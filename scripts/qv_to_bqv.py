@@ -45,7 +45,7 @@ def main():
             outfname = output_file + "." + region + ".bqv"
             print("Writing region " + region + " to file " + outfname)
             outfile = open(outfname, "wb")
-            outbin = BinnedArrayWriter(outfile, typecode='b', default=0)
+            outbin = BinnedArrayWriter(outfile, typecode="b", default=0)
             base_count = 0
             mega_count = 0
         else:
@@ -57,7 +57,7 @@ def main():
                     outbin.write(outval)
                     base_count += 1
                 if (mega_count * 1000000) <= base_count:
-                    sys.stdout.write(str(mega_count)+" ")
+                    sys.stdout.write(str(mega_count) + " ")
                     sys.stdout.flush()
                     mega_count = base_count // 1000000 + 1
     if outbin and outfile:

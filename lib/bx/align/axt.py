@@ -9,7 +9,7 @@ from bx import interval_index_file
 from bx.align import (
     Alignment,
     Component,
-    src_split
+    src_split,
 )
 
 # Tools for dealing with pairwise alignments in AXT format
@@ -31,7 +31,16 @@ class MultiIndexed:
 class Indexed:
     """Indexed access to a axt using overlap queries, requires an index file"""
 
-    def __init__(self, axt_filename, index_filename=None, keep_open=False, species1=None, species2=None, species_to_lengths=None, support_ids=False):
+    def __init__(
+        self,
+        axt_filename,
+        index_filename=None,
+        keep_open=False,
+        species1=None,
+        species2=None,
+        species_to_lengths=None,
+        support_ids=False,
+    ):
         if index_filename is None:
             index_filename = axt_filename + ".index"
         self.indexes = interval_index_file.Indexes(filename=index_filename)
@@ -44,7 +53,7 @@ class Indexed:
         if self.species2 is None:
             self.species2 = "species2"
         self.species_to_lengths = species_to_lengths
-        self.support_ids = support_ids            # for extra text at end of axt header lines
+        self.support_ids = support_ids  # for extra text at end of axt header lines
         if keep_open:
             self.f = open(axt_filename)
         else:
@@ -80,7 +89,7 @@ class Reader:
         if self.species2 is None:
             self.species2 = "species2"
         self.species_to_lengths = species_to_lengths
-        self.support_ids = support_ids            # for extra text at end of axt header lines
+        self.support_ids = support_ids  # for extra text at end of axt header lines
         self.attributes = {}
 
     def __next__(self):
@@ -108,7 +117,6 @@ class ReaderIter:
 
 
 class Writer:
-
     def __init__(self, file, attributes=None):
         if attributes is None:
             attributes = {}
@@ -120,9 +128,7 @@ class Writer:
 
     def write(self, alignment):
         if len(alignment.components) != 2:
-            raise ValueError(
-                "%d-component alignment is not compatible with axt" %
-                len(alignment.components))
+            raise ValueError("%d-component alignment is not compatible with axt" % len(alignment.components))
         c1 = alignment.components[0]
         c2 = alignment.components[1]
 
@@ -137,10 +143,19 @@ class Writer:
             chr1, chr2 = c1.src, c2.src
 
         self.file.write(
-            "%d %s %d %d %s %d %d %s %s\n" %
-            (self.block, chr1, c1.start+1, c1.start+c1.size,
-             chr2, c2.start+1, c2.start+c2.size, c2.strand,
-             alignment.score))
+            "%d %s %d %d %s %d %d %s %s\n"
+            % (
+                self.block,
+                chr1,
+                c1.start + 1,
+                c1.start + c1.size,
+                chr2,
+                c2.start + 1,
+                c2.start + c2.size,
+                c2.strand,
+                alignment.score,
+            )
+        )
         self.file.write("%s\n" % c1.text)
         self.file.write("%s\n" % c2.text)
         self.file.write("\n")
@@ -148,6 +163,7 @@ class Writer:
 
     def close(self):
         self.file.close()
+
 
 # ---- Helper methods ---------------------------------------------------------
 
@@ -183,8 +199,9 @@ def read_next_axt(file, species1, species2, species_to_lengths=None, support_ids
     component.src = fields[1]
     if species1 != "":
         component.src = species1 + "." + component.src
-    component.start = int(fields[2]) - 1  # (axt intervals are origin-1
-    end = int(fields[3])                  # and inclusive on both ends)
+    # axt intervals are origin-1 and inclusive on both ends
+    component.start = int(fields[2]) - 1
+    end = int(fields[3])
     component.size = end - component.start
     component.strand = "+"
     component.text = seq1.strip()
@@ -217,5 +234,5 @@ def readline(file, skip_blank=False):
         line = file.readline()
         if not line:
             return None
-        if line[0] != '#' and not (skip_blank and line.isspace()):
+        if line[0] != "#" and not (skip_blank and line.isspace()):
             return line

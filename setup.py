@@ -13,12 +13,11 @@ from setuptools.command.sdist import sdist
 
 
 def main():
-    metadata = dict(
-        scripts=glob("scripts/*.py"),
-        cmdclass=command_classes)
+    metadata = dict(scripts=glob("scripts/*.py"), cmdclass=command_classes)
 
-    if len(sys.argv) >= 2 and \
-            ('--help' in sys.argv[1:] or sys.argv[1] in ('--help-commands', 'egg_info', '--version', 'clean')):
+    if len(sys.argv) >= 2 and (
+        "--help" in sys.argv[1:] or sys.argv[1] in ("--help-commands", "egg_info", "--version", "clean")
+    ):
         # For these actions, NumPy is not required.
         #
         # They are required to succeed without Numpy for example when
@@ -28,11 +27,12 @@ def main():
     else:
         try:
             import numpy
+
             # Suppress numpy tests
             numpy.test = None
         except Exception as e:
             raise Exception(f"numpy must be installed to build: {e}")
-        metadata['ext_modules'] = get_extension_modules(numpy_include=numpy.get_include())
+        metadata["ext_modules"] = get_extension_modules(numpy_include=numpy.get_include())
 
     setup(**metadata)
 
@@ -43,7 +43,8 @@ def main():
 command_classes = {}
 try:
     import Cython.Distutils
-    command_classes['build_ext'] = Cython.Distutils.build_ext
+
+    command_classes["build_ext"] = Cython.Distutils.build_ext
 
     class build_ext_sdist(sdist):
         def run(self):
@@ -51,7 +52,7 @@ try:
             self.run_command("build_ext")
             super().run()
 
-    command_classes['sdist'] = build_ext_sdist
+    command_classes["sdist"] = build_ext_sdist
 except ImportError:
     pass
 
@@ -89,8 +90,9 @@ try:
             # Restore args and working directory
             sys.argv = old_argv
             os.chdir(old_cwd)
+
     # Add to extra_commands
-    command_classes['build_apidocs'] = BuildAPIDocs
+    command_classes["build_apidocs"] = BuildAPIDocs
 except Exception:
     pass
 
@@ -105,12 +107,13 @@ except Exception:
 def get_extension_modules(numpy_include=None):
     extensions = []
     # Bitsets
-    extensions.append(Extension("bx.bitset",
-                                ["lib/bx/bitset.pyx",
-                                 "src/binBits.c",
-                                 "src/kent/bits.c",
-                                 "src/kent/common.c"],
-                                include_dirs=["src/kent", "src"]))
+    extensions.append(
+        Extension(
+            "bx.bitset",
+            ["lib/bx/bitset.pyx", "src/binBits.c", "src/kent/bits.c", "src/kent/common.c"],
+            include_dirs=["src/kent", "src"],
+        )
+    )
     # Interval intersection
     extensions.append(Extension("bx.intervals.intersection", ["lib/bx/intervals/intersection.pyx"]))
     # Alignment object speedups
@@ -122,28 +125,36 @@ def get_extension_modules(numpy_include=None):
     # Translation if character / integer strings
     extensions.append(Extension("bx._seqmapping", ["lib/bx/_seqmapping.pyx"]))
     # BGZF
-    extensions.append(Extension("bx.misc.bgzf",
-                                ["lib/bx/misc/bgzf.pyx", "src/samtools/bgzf.c"],
-                                include_dirs=["src/samtools"],
-                                libraries=['z']))
+    extensions.append(
+        Extension(
+            "bx.misc.bgzf",
+            ["lib/bx/misc/bgzf.pyx", "src/samtools/bgzf.c"],
+            include_dirs=["src/samtools"],
+            libraries=["z"],
+        )
+    )
 
     # The following extensions won't (currently) compile on windows
-    if platform.system() not in ('Microsoft', 'Windows'):
+    if platform.system() not in ("Microsoft", "Windows"):
         # Interval clustering
-        extensions.append(Extension("bx.intervals.cluster",
-                                    ["lib/bx/intervals/cluster.pyx",
-                                     "src/cluster.c"],
-                                    include_dirs=["src"]))
+        extensions.append(
+            Extension("bx.intervals.cluster", ["lib/bx/intervals/cluster.pyx", "src/cluster.c"], include_dirs=["src"])
+        )
         # Position weight matrices
-        extensions.append(Extension("bx.pwm._position_weight_matrix",
-                                    ["lib/bx/pwm/_position_weight_matrix.pyx", "src/pwm_utils.c"],
-                                    include_dirs=["src"]))
+        extensions.append(
+            Extension(
+                "bx.pwm._position_weight_matrix",
+                ["lib/bx/pwm/_position_weight_matrix.pyx", "src/pwm_utils.c"],
+                include_dirs=["src"],
+            )
+        )
 
-        extensions.append(Extension("bx.motif._pwm", ["lib/bx/motif/_pwm.pyx"],
-                                    include_dirs=[numpy_include]))
+        extensions.append(Extension("bx.motif._pwm", ["lib/bx/motif/_pwm.pyx"], include_dirs=[numpy_include]))
 
         # Sparse arrays with summaries organized as trees on disk
-        extensions.append(Extension("bx.arrays.array_tree", ["lib/bx/arrays/array_tree.pyx"], include_dirs=[numpy_include]))
+        extensions.append(
+            Extension("bx.arrays.array_tree", ["lib/bx/arrays/array_tree.pyx"], include_dirs=[numpy_include])
+        )
 
         # Reading UCSC "big binary index" files
         extensions.append(Extension("bx.bbi.bpt_file", ["lib/bx/bbi/bpt_file.pyx"]))
@@ -160,19 +171,21 @@ def get_extension_modules(numpy_include=None):
         extensions.append(Extension("bx.arrays.wiggle", ["lib/bx/arrays/wiggle.pyx"]))
 
         # CpG masking
-        extensions.append(Extension("bx.align.sitemask._cpg",
-                                    ["lib/bx/align/sitemask/_cpg.pyx",
-                                     "lib/bx/align/sitemask/find_cpg.c"]))
+        extensions.append(
+            Extension("bx.align.sitemask._cpg", ["lib/bx/align/sitemask/_cpg.pyx", "lib/bx/align/sitemask/find_cpg.c"])
+        )
 
         # Counting n-grams in integer strings
-        extensions.append(Extension("bx.intseq.ngramcount", ["lib/bx/intseq/ngramcount.pyx"],
-                                    include_dirs=["src"]))
+        extensions.append(Extension("bx.intseq.ngramcount", ["lib/bx/intseq/ngramcount.pyx"], include_dirs=["src"]))
 
         # Seekable access to bzip2 files
-        extensions.append(Extension("bx.misc._seekbzip2",
-                                    ["lib/bx/misc/_seekbzip2.pyx",
-                                     "src/bunzip/micro-bunzip.c"],
-                                    include_dirs=["src/bunzip"]))
+        extensions.append(
+            Extension(
+                "bx.misc._seekbzip2",
+                ["lib/bx/misc/_seekbzip2.pyx", "src/bunzip/micro-bunzip.c"],
+                include_dirs=["src/bunzip"],
+            )
+        )
     return extensions
 
 

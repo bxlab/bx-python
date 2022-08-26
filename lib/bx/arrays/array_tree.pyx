@@ -4,11 +4,15 @@ __all__ = [ 'ArrayTree', 'FileArrayTreeDict', 'array_tree_dict_from_reader' ]
 
 import numpy
 from numpy import *
+
 cimport numpy
 
 cimport bx.arrays.wiggle
 
-from bx.misc.binary_file import BinaryFileWriter, BinaryFileReader
+from bx.misc.binary_file import (
+    BinaryFileReader,
+    BinaryFileWriter,
+)
 from bx.misc.cdb import FileCDBDict
 
 """

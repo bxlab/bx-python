@@ -157,10 +157,13 @@ def main():
                 print(total_samples[i, featnum], file=sys.stderr)
     fraction_overlap = total_samples / total_lengths2
     print("\t".join(intervals2_fnames))
-    print("\t".join(map(str, total_actual/total_lengths2)))
+    print("\t".join(map(str, total_actual / total_lengths2)))
     for row in fraction_overlap:
         print("\t".join(map(str, row)))
-    print("observed overlap: %d, sample mean: %d, sample stdev: %d" % (total_actual, stats.amean(total_samples), stats.asamplestdev(total_samples)))
+    print(
+        "observed overlap: %d, sample mean: %d, sample stdev: %d"
+        % (total_actual, stats.amean(total_samples), stats.asamplestdev(total_samples))
+    )
     print("z-score:", (total_actual - stats.amean(total_samples)) / stats.asamplestdev(total_samples))
     print("percentile:", sum(total_actual > total_samples) / nsamples)
 
