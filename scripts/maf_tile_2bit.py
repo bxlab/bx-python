@@ -136,7 +136,7 @@ def do_interval(sources, index, out, ref_src, start, end, ref_2bit, missing_data
     """
     ref_src_size = None
     # Make sure the reference component is also the first in the source list
-    assert sources[0].split(".")[0] == ref_src.split(".")[0], "%s != %s" % (
+    assert sources[0].split(".")[0] == ref_src.split(".")[0], "{} != {}".format(
         sources[0].split(".")[0],
         ref_src.split(".")[0],
     )

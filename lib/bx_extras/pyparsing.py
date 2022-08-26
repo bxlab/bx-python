@@ -1878,7 +1878,7 @@ class QuotedString(Token):
                 "|(?:"
                 + ")|(?:".join(
                     [
-                        "{}[^{}]".format(re.escape(self.endQuoteChar[:i]), _escapeRegexRangeChars(self.endQuoteChar[i]))
+                        f"{re.escape(self.endQuoteChar[:i])}[^{_escapeRegexRangeChars(self.endQuoteChar[i])}]"
                         for i in range(len(self.endQuoteChar) - 1, 0, -1)
                     ]
                 )

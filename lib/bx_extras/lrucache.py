@@ -126,7 +126,7 @@ class LRUCache:
             return not self.__eq__(other)
 
         def __repr__(self):
-            return "<%s %s => %s (%s)>" % (self.__class__, self.key, self.obj, time.asctime(time.localtime(self.atime)))
+            return f"<{self.__class__} {self.key} => {self.obj} ({time.asctime(time.localtime(self.atime))})>"
 
     def __init__(self, size=DEFAULT_SIZE):
         # Check arguments
