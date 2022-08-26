@@ -19,7 +19,10 @@ from collections.abc import Mapping
 
 import bx.wiggle
 from bx import misc
-from bx.binned_array import BinnedArray, FileBinnedArray
+from bx.binned_array import (
+    BinnedArray,
+    FileBinnedArray,
+)
 from bx.bitset_builders import binned_bitsets_from_file
 from bx.cookbook import doc_optparse
 from bx_extras.fpconst import isNaN
@@ -84,7 +87,7 @@ def main():
         score_fname = args[0]
         interval_fname = args[1]
         if len(args) > 2:
-            out_file = open(args[2], 'w')
+            out_file = open(args[2], "w")
         else:
             out_file = sys.stdout
         binned = bool(options.binned)
@@ -123,7 +126,7 @@ def main():
                     max_score = max(score, max_score)
                     min_score = min(score, min_score)
         if count > 0:
-            avg = total/count
+            avg = total / count
         else:
             avg = "nan"
             min_score = "nan"

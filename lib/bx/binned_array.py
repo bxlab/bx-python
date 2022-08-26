@@ -22,12 +22,12 @@ from numpy import (
     frombuffer,
     NaN,
     resize,
-    zeros
+    zeros,
 )
 
 from bx_extras.lrucache import LRUCache
 
-platform_is_little_endian = (sys.byteorder == 'little')
+platform_is_little_endian = sys.byteorder == "little"
 
 MAGIC = 0x4AB04612
 
@@ -43,23 +43,23 @@ VERSION = 2
 
 # Compression types
 
-comp_types = {
-    'none': (lambda x: x, lambda x: x)
-}
+comp_types = {"none": (lambda x: x, lambda x: x)}
 
 try:
     import zlib
-    comp_types['zlib'] = (zlib.compress, zlib.decompress)
+
+    comp_types["zlib"] = (zlib.compress, zlib.decompress)
 except Exception:
     pass
 
 try:
     import lzo
-    comp_types['lzo'] = (lzo.compress, lzo.decompress)
+
+    comp_types["lzo"] = (lzo.compress, lzo.decompress)
 except Exception:
     pass
 
-MAX = 512*1024*1024
+MAX = 512 * 1024 * 1024
 
 
 def bytesify(s):
@@ -70,7 +70,7 @@ def bytesify(s):
 
 
 class BinnedArray:
-    def __init__(self, bin_size=512*1024, default=NaN, max_size=MAX, typecode="f"):
+    def __init__(self, bin_size=512 * 1024, default=NaN, max_size=MAX, typecode="f"):
         self.max_size = max_size
         self.bin_size = bin_size
         self.nbins = int(math.ceil(max_size / self.bin_size))
@@ -116,11 +116,11 @@ class BinnedArray:
                     size = 0
             else:
                 if delta < size:
-                    rval.append(self.bins[bin][offset:offset+delta])
+                    rval.append(self.bins[bin][offset : offset + delta])
                     size -= delta
                     start += delta
                 else:
-                    rval.append(self.bins[bin][offset:offset+size])
+                    rval.append(self.bins[bin][offset : offset + size])
                     size = 0
         return concatenate(rval)
 
@@ -135,13 +135,13 @@ class BinnedArray:
     def __setitem__(self, key, value):
         return self.set(key, value)
 
-    def to_file(self, f, comp_type='zlib'):
+    def to_file(self, f, comp_type="zlib"):
         # Get compress method
         compress, _ = comp_types[comp_type]
         # Write header
         write_packed(f, ">5I", MAGIC, VERSION, self.max_size, self.bin_size, self.nbins)
         # save type code
-        f.write(pack('c', bytesify(self.typecode)))
+        f.write(pack("c", bytesify(self.typecode)))
         # save compression type
         f.write(bytesify(comp_type[0:4].ljust(4)))
         # write default value
@@ -190,14 +190,14 @@ class FileBinnedArray:
         self.bins = LRUCache(size=cache)
         # Read typecode
         if V >= 1:
-            self.typecode = (unpack('c', f.read(1))[0]).decode()
+            self.typecode = (unpack("c", f.read(1))[0]).decode()
         else:
-            self.typecode = 'f'
+            self.typecode = "f"
         # Read compression type
         if V >= 2:
             self.comp_type = f.read(4).strip().decode()
         else:
-            self.comp_type = 'zlib'
+            self.comp_type = "zlib"
         self.decompress = comp_types[self.comp_type][1]
         # Read default value
         s = f.read(calcsize(self.typecode))
@@ -255,11 +255,11 @@ class FileBinnedArray:
                     size = 0
             else:
                 if delta < size:
-                    rval.append(self.bins[bin][offset:offset+delta])
+                    rval.append(self.bins[bin][offset : offset + delta])
                     size -= delta
                     start += delta
                 else:
-                    rval.append(self.bins[bin][offset:offset+size])
+                    rval.append(self.bins[bin][offset : offset + size])
                     size = 0
         return concatenate(rval)
 
@@ -273,7 +273,7 @@ class FileBinnedArray:
 
 
 class BinnedArrayWriter:
-    def __init__(self, f, bin_size=512*1024, default=NaN, max_size=MAX, typecode="f", comp_type='zlib'):
+    def __init__(self, f, bin_size=512 * 1024, default=NaN, max_size=MAX, typecode="f", comp_type="zlib"):
         # All parameters in the constructor are immutable after creation
         self.f = f
         self.max_size = max_size
@@ -297,7 +297,7 @@ class BinnedArrayWriter:
         # Write header
         write_packed(self.f, ">5I", MAGIC, VERSION, self.max_size, self.bin_size, self.nbins)
         # save type code
-        self.f.write(pack('c', bytesify(self.typecode)))
+        self.f.write(pack("c", bytesify(self.typecode)))
         # write default value
         a = array(self.default, self.typecode)
         # write comp type

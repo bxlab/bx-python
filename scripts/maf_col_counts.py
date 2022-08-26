@@ -25,7 +25,7 @@ for block in bx.align.maf.Reader(sys.stdin):
     else:
         nspecies = len(block.components)
     # Increment count for each column
-    for col in zip(* [iter(comp.text.upper()) for comp in block.components]):
+    for col in zip(*[iter(comp.text.upper()) for comp in block.components]):
         try:
             counts[col] += 1
         except Exception:

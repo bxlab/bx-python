@@ -13,4 +13,4 @@ import sys
 ndesired = int(sys.argv[1])
 
 for line in random.sample(sys.stdin.readlines(), ndesired):
-    print(line, end=' ')
+    print(line, end=" ")

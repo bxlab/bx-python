@@ -23,7 +23,7 @@ def main():
 
         if not ref or not other:
             continue
-        ref_chrom = ref.src.split('.')[1]
+        ref_chrom = ref.src.split(".")[1]
         ref_start = ref.start
         chrom_size = ref.get_src_size()
 
@@ -32,9 +32,9 @@ def main():
 
         pos = ref_start
         for i, j in zip(ref.text.upper(), other.text.upper()):
-            if i != '-':
+            if i != "-":
                 if i != j:  # mismatch
-                    if i != 'N' and j != 'N' and j != '-':
+                    if i != "N" and j != "N" and j != "-":
                         # set if all valid chars
                         bitsets[ref_chrom].set(pos)
                 pos += 1

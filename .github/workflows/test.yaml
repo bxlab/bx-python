@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install flake8
-        run: pip install flake8 flake8-import-order
+        run: pip install flake8
       - name: Lint
         run: flake8 .
   test:

@@ -32,7 +32,7 @@ def main():
             int_seq = alpha_map.translate(int_seq)
         # Write ints separated by spaces
         for i in int_seq:
-            print(i, end=' ')
+            print(i, end=" ")
         print()
 
 

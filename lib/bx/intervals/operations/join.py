@@ -32,14 +32,20 @@ def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
             rightTree.intersect(interval, lambda node: result.append(node))
             overlap_not_met = 0
             for item in result:
-                if item.start in range(interval.start, interval.end+1) and item.end not in range(interval.start, interval.end+1):
-                    overlap = interval.end-item.start
-                elif item.end in range(interval.start, interval.end+1) and item.start not in range(interval.start, interval.end+1):
-                    overlap = item.end-interval.start
-                elif item.start in range(interval.start, interval.end+1) and item.end in range(interval.start, interval.end+1):
-                    overlap = item.end-item.start
+                if item.start in range(interval.start, interval.end + 1) and item.end not in range(
+                    interval.start, interval.end + 1
+                ):
+                    overlap = interval.end - item.start
+                elif item.end in range(interval.start, interval.end + 1) and item.start not in range(
+                    interval.start, interval.end + 1
+                ):
+                    overlap = item.end - interval.start
+                elif item.start in range(interval.start, interval.end + 1) and item.end in range(
+                    interval.start, interval.end + 1
+                ):
+                    overlap = item.end - item.start
                 else:  # the intersecting item's start and end are outside the interval range
-                    overlap = interval.end-interval.start
+                    overlap = interval.end - interval.start
                 if overlap < mincols:
                     overlap_not_met += 1
                     continue
@@ -54,9 +60,11 @@ def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
                 yield outfields
 
     if leftfill:
+
         def report_unvisited(node, results):
             if not hasattr(node, "visited"):
                 results.append(node)
+
         results = []
         rightTree.traverse(lambda x: report_unvisited(x, results))
         for item in results:
@@ -120,9 +128,9 @@ def findintersect(interval, sortedlist, mincols):
 
     lowerbound = x
     upperbound = x
-    while (lowerbound > -1) and (findoverlap(sortedlist[lowerbound-1][0], interval) >= mincols):
+    while (lowerbound > -1) and (findoverlap(sortedlist[lowerbound - 1][0], interval) >= mincols):
         lowerbound -= 1
-    while (upperbound+1 < len(sortedlist)) and (findoverlap(sortedlist[upperbound+1][0], interval) >= mincols):
+    while (upperbound + 1 < len(sortedlist)) and (findoverlap(sortedlist[upperbound + 1][0], interval) >= mincols):
         upperbound += 1
 
     return lowerbound, upperbound

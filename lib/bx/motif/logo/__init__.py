@@ -6,17 +6,17 @@ from numpy import (
     ceil,
     log2,
     transpose,
-    where
+    where,
 )
 
 PAD = 2
 
 # Colors from rgb.txt,
 DNA_DEFAULT_COLORS = {
-    'A': "0.00 1.00 0.00",  # green
-    'C': "0.00 0.00 1.00",  # blue
-    'G': "1.00 0.65 0.00",  # orange red
-    'T': "1.00 0.00 0.00"  # red
+    "A": "0.00 1.00 0.00",  # green
+    "C": "0.00 0.00 1.00",  # blue
+    "G": "1.00 0.65 0.00",  # orange red
+    "T": "1.00 0.00 0.00",  # red
 }
 
 # Template is adapted from Jim Kent's lib/dnaMotif.pss to support aritrary
@@ -37,7 +37,7 @@ def freqs_to_heights(matrix):
     # Ensure normalized
     f = f / sum(f, axis=0)
     # Shannon entropy (the where replaces 0 with 1 so that '0 log 0 == 0')
-    H = - sum(f * log2(where(f, f, 1)), axis=0)
+    H = -sum(f * log2(where(f, f, 1)), axis=0)
     # Height
     return transpose(f * (log2(n) - H))
 
@@ -52,19 +52,21 @@ def eps_logo(matrix, base_width, height, colors=DNA_DEFAULT_COLORS):
     alphabet = matrix.sorted_alphabet
     rval = StringIO()
     # Read header ans substitute in width / height
-    template_path = os.path.join(os.path.dirname(__file__), 'template.ps')
+    template_path = os.path.join(os.path.dirname(__file__), "template.ps")
     with open(template_path) as fh:
         template_str = fh.read()
     header = Template(template_str)
-    rval.write(header.substitute(
-        bounding_box_width=ceil(base_width * matrix.width) + PAD,
-        bounding_box_height=ceil(height) + PAD))
+    rval.write(
+        header.substitute(
+            bounding_box_width=ceil(base_width * matrix.width) + PAD, bounding_box_height=ceil(height) + PAD
+        )
+    )
     # Determine heights
     heights = freqs_to_heights(matrix)
     height_scale = height / log2(len(alphabet))
     # Draw each "row" of the matrix
     for i, row in enumerate(heights):
-        x = (i * base_width)
+        x = i * base_width
         y = 0
         for j, base_height in enumerate(row):
             char = alphabet[j]
@@ -72,7 +74,7 @@ def eps_logo(matrix, base_width, height, colors=DNA_DEFAULT_COLORS):
             # print matrix.alphabet[j], base_height, height_scale, page_height
             if page_height > 1:
                 # Draw letter
-                rval.write("%s setrgbcolor\n" % colors.get(char, '0 0 0'))
+                rval.write("%s setrgbcolor\n" % colors.get(char, "0 0 0"))
                 rval.write("%3.2f " % x)
                 rval.write("%3.2f " % y)
                 rval.write("%3.2f " % (x + base_width))

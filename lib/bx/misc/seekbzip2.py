@@ -67,7 +67,7 @@ class SeekableBzip2File:
         if sizehint < 0:
             chunks = []
             while True:
-                val = self._read(1024*1024)
+                val = self._read(1024 * 1024)
                 if val:
                     chunks.append(val)
                 else:

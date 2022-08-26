@@ -58,8 +58,8 @@ def main():
     f.get("!B")  # level
     flags = f.get("!I")
     assert not (flags & F_H_FILTER), "LZOP filters not supported"
-    has_compressed_crc = (flags & F_CRC32_C or flags & F_ADLER32_C)
-    has_uncompressed_crc = (flags & F_CRC32_D or flags & F_ADLER32_D)
+    has_compressed_crc = flags & F_CRC32_C or flags & F_ADLER32_C
+    has_uncompressed_crc = flags & F_CRC32_D or flags & F_ADLER32_D
     f.get("!I")  # mode
     f.get("!I")  # time
     f.get("!I")  # time_offset
@@ -79,8 +79,7 @@ def main():
         size = f.get("!I")
         if size == 0:
             break
-        assert not (expect_no_more), \
-            "Encountered an undersized block that was not the last block"
+        assert not (expect_no_more), "Encountered an undersized block that was not the last block"
         if block_size is None:
             print("s", size)
             block_size = size
@@ -94,8 +93,7 @@ def main():
             f.get("!I")  # compressed_crc
         print("o", f.file.tell(), compressed_size, size)
         compressed_data = f.read(compressed_size)
-        assert len(compressed_data) == compressed_size, \
-            "EOF reading compressed data"
+        assert len(compressed_data) == compressed_size, "EOF reading compressed data"
 
 
 if __name__ == "__main__":

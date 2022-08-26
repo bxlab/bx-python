@@ -12,18 +12,18 @@ from io import (
 from bx import interval_index_file
 from bx.align import (
     Alignment,
-    Component
+    Component,
 )
 
-MAF_INVERSE_STATUS = 'V'
-MAF_INSERT_STATUS = 'I'
-MAF_CONTIG_STATUS = 'C'
-MAF_CONTIG_NESTED_STATUS = 'c'
-MAF_NEW_STATUS = 'N'
-MAF_NEW_NESTED_STATUS = 'n'
-MAF_MAYBE_NEW_STATUS = 'S'
-MAF_MAYBE_NEW_NESTED_STATUS = 's'
-MAF_MISSING_STATUS = 'M'
+MAF_INVERSE_STATUS = "V"
+MAF_INSERT_STATUS = "I"
+MAF_CONTIG_STATUS = "C"
+MAF_CONTIG_NESTED_STATUS = "c"
+MAF_NEW_STATUS = "N"
+MAF_NEW_NESTED_STATUS = "n"
+MAF_MAYBE_NEW_STATUS = "S"
+MAF_MAYBE_NEW_NESTED_STATUS = "s"
+MAF_MISSING_STATUS = "M"
 
 
 class MAFIndexedAccess(interval_index_file.AbstractIndexedAccess):
@@ -47,6 +47,7 @@ class MAFMultiIndexedAccess(interval_index_file.AbstractMultiIndexedAccess):
     """
     Indexed access to multiple MAF files.
     """
+
     indexed_access_class = MAFIndexedAccess
 
 
@@ -67,7 +68,7 @@ class Reader:
         self.maf_kwargs = kwargs
         # Read and verify maf header, store any attributes
         fields = self.file.readline().split()
-        if fields[0] != '##maf':
+        if fields[0] != "##maf":
             raise Exception("File does not have MAF header")
         self.attributes = parse_attributes(fields[1:])
 
@@ -100,17 +101,16 @@ class ReaderIter:
 
 
 class Writer:
-
     def __init__(self, file, attributes=None):
         if attributes is None:
             attributes = {}
         self.file = file
         # Write header, Webb's maf code wants version first, we accomodate
-        if 'version' not in attributes:
-            attributes['version'] = 1
-        self.file.write("##maf version=%s" % attributes['version'])
+        if "version" not in attributes:
+            attributes["version"] = 1
+        self.file.write("##maf version=%s" % attributes["version"])
         for key in attributes:
-            if key == 'version':
+            if key == "version":
                 continue
             self.file.writelines(f" {key}={attributes[key]}")
         self.file.write("\n")
@@ -141,6 +141,7 @@ class Writer:
     def close(self):
         self.file.close()
 
+
 # ---- Helper methods -------------------------------------------------------
 
 
@@ -160,12 +161,12 @@ def read_next_maf(file, species_to_lengths=None, parse_e_rows=False):
     if not line:
         return None
     fields = line.split()
-    if fields[0] != 'a':
+    if fields[0] != "a":
         raise Exception("Expected 'a ...' line")
     alignment.attributes = parse_attributes(fields[1:])
-    if 'score' in alignment.attributes:
-        alignment.score = alignment.attributes['score']
-        del alignment.attributes['score']
+    if "score" in alignment.attributes:
+        alignment.score = alignment.attributes["score"]
+        del alignment.attributes["score"]
     else:
         alignment.score = 0
     # Sequence lines
@@ -179,7 +180,7 @@ def read_next_maf(file, species_to_lengths=None, parse_e_rows=False):
             break
         # Parse row
         fields = line.split()
-        if fields[0] == 's':
+        if fields[0] == "s":
             # An 's' row contains sequence for a component
             component = Component()
             component.src = fields[1]
@@ -192,7 +193,7 @@ def read_next_maf(file, species_to_lengths=None, parse_e_rows=False):
             # Add to set
             alignment.add_component(component)
             last_component = component
-        elif fields[0] == 'e':
+        elif fields[0] == "e":
             # An 'e' row, when no bases align for a given species this tells
             # us something about the synteny
             if parse_e_rows:
@@ -205,18 +206,17 @@ def read_next_maf(file, species_to_lengths=None, parse_e_rows=False):
                 component.src_size = int(fields[5])
                 component.text = None
                 synteny = fields[6].strip()
-                assert len(synteny) == 1, \
-                    "Synteny status in 'e' rows should be denoted with a single character code"
+                assert len(synteny) == 1, "Synteny status in 'e' rows should be denoted with a single character code"
                 component.synteny_empty = synteny
                 alignment.add_component(component)
                 last_component = component
-        elif fields[0] == 'i':
+        elif fields[0] == "i":
             # An 'i' row, indicates left and right synteny status for the
             # previous component, we hope ;)
             assert fields[1] == last_component.src, "'i' row does not follow matching 's' row"
             last_component.synteny_left = (fields[2], int(fields[3]))
             last_component.synteny_right = (fields[4], int(fields[5]))
-        elif fields[0] == 'q':
+        elif fields[0] == "q":
             assert fields[1] == last_component.src, "'q' row does not follow matching 's' row"
             # TODO: Should convert this to an integer array?
             last_component.quality = fields[2]
@@ -230,7 +230,7 @@ def readline(file, skip_blank=False):
         line = file.readline()
         if not line:
             return None
-        if line[0] != '#' and not (skip_blank and line.isspace()):
+        if line[0] != "#" and not (skip_blank and line.isspace()):
             return line
 
 
@@ -238,7 +238,7 @@ def parse_attributes(fields):
     """Parse list of key=value strings into a dict"""
     attributes = {}
     for field in fields:
-        pair = field.split('=')
+        pair = field.split("=")
         attributes[pair[0]] = pair[1]
     return attributes
 

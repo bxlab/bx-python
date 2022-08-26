@@ -6,7 +6,13 @@ from .interval_index_file import Indexes
 
 
 def test_offsets():
-    assert interval_index_file.offsets_for_max_size(512*1024*1024 - 1) == [512 + 64 + 8 + 1, 64 + 8 + 1, 8 + 1, 1, 0]
+    assert interval_index_file.offsets_for_max_size(512 * 1024 * 1024 - 1) == [
+        512 + 64 + 8 + 1,
+        64 + 8 + 1,
+        8 + 1,
+        1,
+        0,
+    ]
 
 
 def test_interval_index_file():

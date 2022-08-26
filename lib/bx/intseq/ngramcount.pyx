@@ -4,6 +4,7 @@ Tools for counting words (n-grams) in integer sequences.
 
 import numpy
 
+
 cdef extern from "Python.h":
     ctypedef int Py_intptr_t
 

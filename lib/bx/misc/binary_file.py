@@ -13,6 +13,7 @@ def bytesify(s):
     else:
         return s.encode()
 
+
 # Standard size:
 # short is 8 bits
 # int and long are 32 bits
@@ -44,14 +45,15 @@ class BinaryFileReader:
             else:
                 raise BadMagicNumber(
                     "File does not have expected magic number: %x != %x or %x"
-                    % (magic, struct.unpack(">I", bytes)[0], struct.unpack("<I", bytes)[0]))
+                    % (magic, struct.unpack(">I", bytes)[0], struct.unpack("<I", bytes)[0])
+                )
         # Set endian code
         if self.is_little_endian:
             self.endian_code = "<"
-            self.byteswap_needed = (sys.byteorder != "little")
+            self.byteswap_needed = sys.byteorder != "little"
         else:
             self.endian_code = ">"
-            self.byteswap_needed = (sys.byteorder != "big")
+            self.byteswap_needed = sys.byteorder != "big"
 
     def unpack(self, format, buffer, byte_count=None):
         pattern = f"{self.endian_code}{format}"
@@ -77,10 +79,10 @@ class BinaryFileReader:
         while True:
             ch = self.file.read(1)
             assert len(ch) == 1, "Unexpected end of file"
-            if ch == b'\0':
+            if ch == b"\0":
                 break
             rval.append(ch)
-        return b''.join(rval)
+        return b"".join(rval)
 
     def read_raw_array(self, dtype, size):
         a = numpy.fromfile(self.file, dtype=dtype, count=size)
@@ -151,7 +153,7 @@ class BinaryFileWriter:
         Read a zero terminated (C style) string
         """
         self.file.write(value)
-        self.file.write(b'\0')
+        self.file.write(b"\0")
 
     def write_raw_array(self, value):
         value.tofile(self.file)

@@ -1,5 +1,6 @@
 from cpython.version cimport PY_MAJOR_VERSION
 
+
 cdef extern from "Python.h":
     char * PyBytes_AsString( object )
     object PyBytes_FromStringAndSize( char *, Py_ssize_t )
@@ -10,9 +11,10 @@ cdef extern from "ctype.h":
 cdef extern from "string.h":
     void * memset( void *, int, size_t )
 
-import struct, sys
-
+import struct
+import sys
 from bisect import bisect
+
 
 cdef char* valToNt
 valToNt = "TCAG"

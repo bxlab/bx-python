@@ -23,7 +23,10 @@ offset 0x08:  ...        data sequence;  most significant nybble in each
 import math
 import struct
 
-from bx.seq.seq import SeqFile, SeqReader
+from bx.seq.seq import (
+    SeqFile,
+    SeqReader,
+)
 from . import _nib
 
 NIB_MAGIC_NUMBER = 0x6BE93D3A
@@ -33,13 +36,12 @@ NIB_LENGTH_SIZE = 4
 
 
 class NibFile(SeqFile):
-
     def __init__(self, file, revcomp=False, name="", gap=None):
         SeqFile.__init__(self, file, revcomp, name, gap)
 
         self.byte_order = ">"
         magic = struct.unpack(">L", file.read(NIB_MAGIC_SIZE))[0]
-        if (magic != NIB_MAGIC_NUMBER):
+        if magic != NIB_MAGIC_NUMBER:
             if magic == NIB_MAGIC_NUMBER_SWAP:
                 self.byte_order = "<"
             else:
@@ -63,12 +65,11 @@ class NibFile(SeqFile):
 
 
 class NibReader(SeqReader):
-
     def __init__(self, file, revcomp=False, name="", gap=None):
         SeqReader.__init__(self, file, revcomp, name, gap)
 
     def __next__(self):
-        if (self.seqs_read != 0):
+        if self.seqs_read != 0:
             return  # nib files have just one sequence
         seq = NibFile(self.file, self.revcomp, self.name, self.gap)
         self.seqs_read += 1
@@ -76,12 +77,11 @@ class NibReader(SeqReader):
 
 
 class NibWriter:
-
     def __init__(self, file):
         self.file = file
 
     def write(self, seq):
-        assert (False), "NibWriter.write() is not implemented yet"
+        assert False, "NibWriter.write() is not implemented yet"
 
     def close(self):
         self.file.close()

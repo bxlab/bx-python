@@ -6,10 +6,12 @@ Classes to support "biological sequence" files.
 
 # DNA reverse complement table
 
-DNA_COMP = "                                             -                  " \
-           " TVGH  CD  M KN   YSA BWXR       tvgh  cd  m kn   ysa bwxr      " \
-           "                                                                " \
-           "                                                                "
+DNA_COMP = (
+    "                                             -                  "
+    " TVGH  CD  M KN   YSA BWXR       tvgh  cd  m kn   ysa bwxr      "
+    "                                                                "
+    "                                                                "
+)
 
 
 class SeqFile:
@@ -57,7 +59,7 @@ class SeqFile:
         self.length = 0  # length or they most override get())
 
     def close(self):
-        assert (self.file is not None)
+        assert self.file is not None
         self.file.close()
         self.file = None
 
@@ -89,19 +91,20 @@ class SeqFile:
         # Check parameters
         assert length >= 0, "Length must be non-negative (got %d)" % length
         assert start >= 0, "Start must be greater than 0 (got %d)" % start
-        assert start + length <= self.length, \
-            f"Interval beyond end of sequence ({start}..{start + length} > {self.length})"
+        assert (
+            start + length <= self.length
+        ), f"Interval beyond end of sequence ({start}..{start + length} > {self.length})"
         # Fetch sequence and reverse complement if necesary
         if not self.revcomp:
             return self.raw_fetch(start, length)
         if self.revcomp == "-3'":
             return self.reverse_complement(self.raw_fetch(start, length))
         assert self.revcomp == "-5'", "unrecognized reverse complement scheme"
-        start = self.length - (start+length)
+        start = self.length - (start + length)
         return self.reverse_complement(self.raw_fetch(start, length))
 
     def raw_fetch(self, start, length):
-        return self.text[start:start+length]
+        return self.text[start : start + length]
 
     def reverse_complement(self, text):
         comp = [ch for ch in text.translate(DNA_COMP)]
@@ -125,8 +128,10 @@ class SeqReader:
     def __iter__(self):
         return SeqReaderIter(self)
 
-    def __next__(self):  # subclasses should override this method and return the
-        return   # .. next sequence (of type SeqFile or a subclass) read from self.file
+    def __next__(self):
+        # subclasses should override this method and return the next sequence
+        # (of type SeqFile or a subclass) read from self.file
+        return
 
 
 class SeqReaderIter:

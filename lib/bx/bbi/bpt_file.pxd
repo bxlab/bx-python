@@ -2,6 +2,7 @@ from bx.misc.binary_file import BinaryFileReader
 
 from types cimport *
 
+
 cdef class BPTFile:
     """
     On disk B+ tree compatible with Jim Kent's bPlusTree.c

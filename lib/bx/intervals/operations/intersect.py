@@ -7,7 +7,7 @@ additional fields.
 
 from bx.intervals.io import (
     BitsetSafeReaderWrapper,
-    GenomicInterval
+    GenomicInterval,
 )
 from bx.intervals.operations import bits_set_in_range
 from bx.tabular.io import (
@@ -52,14 +52,16 @@ def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True,
                     primary.skipped += 1
                     # no reason to stuff an entire bad file into memmory
                     if primary.skipped < 10:
-                        primary.skipped_lines.append((primary.linenum, primary.current_line, "Interval start after end!"))
+                        primary.skipped_lines.append(
+                            (primary.linenum, primary.current_line, "Interval start after end!")
+                        )
                 except Exception:
                     pass
                 continue
             out_intervals = []
             # Intersect or Overlap
             try:
-                if bitsets[chrom].count_range(start, end-start) >= mincols:
+                if bitsets[chrom].count_range(start, end - start) >= mincols:
                     if pieces:
                         out_intervals = bits_set_in_range(bitsets[chrom], start, end)
                     else:

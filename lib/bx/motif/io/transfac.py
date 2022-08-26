@@ -6,7 +6,6 @@ from bx.motif.pwm import FrequencyMatrix
 
 
 class TransfacMotif:
-
     def __init__(self):
         self.accession = None
         self.id = None
@@ -34,7 +33,7 @@ transfac_actions = {
     # For CREAD format files
     "TY": ("store_single", "type"),
     "AT": ("store_single_key_value", "attributes"),
-    "BS": ("store_single_list", "sites")
+    "BS": ("store_single_list", "sites"),
 }
 
 
@@ -129,7 +128,7 @@ class TransfacReader:
             # Add a single line value to a dictionary
             if action[0] == "store_single_key_value":
                 key = action[1]
-                k, v = rest.strip().split('=', 1)
+                k, v = rest.strip().split("=", 1)
                 if not getattr(motif, key):
                     setattr(motif, key, {})
                 getattr(motif, key)[k] = v
@@ -220,6 +219,13 @@ class TransfacWriter:
                     matrix = getattr(motif, key)
                     print(prefix, "  ", " ".join(s.rjust(6) for s in matrix.alphabet), file=output)
                     for i in range(matrix.width):
-                        print("%02d" % (i + 1), "  ", " ".join(str(matrix.values[i, matrix.char_to_index[ord(s)]]).rjust(6) for s in matrix.alphabet), file=output)
+                        print(
+                            "%02d" % (i + 1),
+                            "  ",
+                            " ".join(
+                                str(matrix.values[i, matrix.char_to_index[ord(s)]]).rjust(6) for s in matrix.alphabet
+                            ),
+                            file=output,
+                        )
                     print("XX", file=output)
         print("//")

@@ -50,7 +50,7 @@ class ClusterNode:
         # uniform into a binomial because it naturally scales with
         # tree size.  Also, python's uniform is perfect since the
         # upper limit is not inclusive, which gives us undefined here.
-        self.priority = math.ceil((-1.0 / math.log(.5)) * math.log(-1.0 / (random.uniform(0, 1) - 1)))
+        self.priority = math.ceil((-1.0 / math.log(0.5)) * math.log(-1.0 / (random.uniform(0, 1) - 1)))
         self.start = start
         self.end = end
         self.left = None

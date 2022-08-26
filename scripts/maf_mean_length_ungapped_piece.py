@@ -21,7 +21,7 @@ def main():
         in_ungapped = False
 
         for col in m.column_iter():
-            is_gap = ('-' in col)
+            is_gap = "-" in col
             if not is_gap:
                 ungapped_columns += 1
             if in_ungapped and is_gap:

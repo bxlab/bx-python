@@ -45,7 +45,7 @@ interval_reader_result = [
     "chr19,59304900,59304904,+,12.5",
     "chr19,59307400,59307403,+,1000.0",
     "chr19,59307700,59307703,+,900.0",
-    "chr19,59308000,59308003,+,800.0"
+    "chr19,59308000,59308003,+,800.0",
 ]
 
 position_reader_result = [
@@ -75,7 +75,7 @@ position_reader_result = [
     "chr19,59307702,900.0",
     "chr19,59308000,800.0",
     "chr19,59308001,800.0",
-    "chr19,59308002,800.0"
+    "chr19,59308002,800.0",
 ]
 
 
@@ -86,8 +86,10 @@ class TestWiggleReader(unittest.TestCase):
 
     def test_interval_reader(self):
         # Test interval reader reader
-        assert interval_reader_result == [",".join(map(str, value)) for value in wiggle.IntervalReader(StringIO(test_wig))]
+        assert interval_reader_result == [
+            ",".join(map(str, value)) for value in wiggle.IntervalReader(StringIO(test_wig))
+        ]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

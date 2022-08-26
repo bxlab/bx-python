@@ -63,7 +63,7 @@ class SeekableLzopFile:
             self.file.seek(offset)
             data = self.file.read(csize)
             # Need to prepend a header for python-lzo module (silly)
-            data = b''.join((b'\xf0', struct.pack("!I", size), data))
+            data = b"".join((b"\xf0", struct.pack("!I", size), data))
             value = lzo.decompress(data)
             if self.cache is not None:
                 self.cache[index] = value
@@ -112,7 +112,7 @@ class SeekableLzopFile:
         if sizehint < 0:
             chunks = []
             while True:
-                val = self._read(1024*1024)
+                val = self._read(1024 * 1024)
                 if val:
                     chunks.append(val)
                 else:
@@ -124,7 +124,7 @@ class SeekableLzopFile:
     def _read(self, size):
         if self.dirty:
             self.fix_dirty()
-        val = b''
+        val = b""
         while size:
             part = self.current_block.read(size)
             size -= len(part)
@@ -149,7 +149,7 @@ class SeekableLzopFile:
             line = self.current_block.readline()
             self.file_pos += len(line)
             rval.append(line)
-            if len(line) > 0 and line[-1] == b'\n':
+            if len(line) > 0 and line[-1] == b"\n":
                 break
             elif self.current_block_index == self.nblocks - 1:
                 self.at_eof = True

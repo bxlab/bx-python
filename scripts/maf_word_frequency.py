@@ -31,7 +31,7 @@ def __main__():
     for m in maf_reader:
         texts = [c.text.upper() for c in m.components]
         for i in range(m.text_size - motif_len):
-            motif = string.join([text[i: i + motif_len] for text in texts])
+            motif = string.join(text[i : i + motif_len] for text in texts)
             if motif in big_map:
                 big_map[motif] += 1
             else:

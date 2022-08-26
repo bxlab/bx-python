@@ -13,7 +13,7 @@ from bx.align import (
     Alignment,
     Component,
     src_merge,
-    src_split
+    src_split,
 )
 
 
@@ -23,9 +23,11 @@ class Reader:
     def __init__(self, file, path_subs=None, fail_to_ns=False):
         self.file = file
         self.lineNumber = 0
-        self.path_subs = path_subs   # list of (prefix,replacement) to allow
-        if self.path_subs is None:  # .. redirection of sequence file paths
-            self.path_subs = []       # .. on different machines
+        # list of (prefix, replacement) to allow redirection of sequence file
+        # paths on different machines
+        self.path_subs = path_subs
+        if self.path_subs is None:
+            self.path_subs = []
         self.fail_to_ns = fail_to_ns  # True => if sequences fail to open, create a fake file of all Ns
 
         self.d_stanza_text = None
@@ -53,13 +55,13 @@ class Reader:
     def __next__(self):
         while True:
             line = self.fetch_line(strip=None, requireLine=False)
-            assert (line), "unexpected end of file (missing #:eof)"
+            assert line, "unexpected end of file (missing #:eof)"
             line = line.rstrip()
             if line == "":  # (allow blank lines between stanzas)
                 continue
             if line == "#:eof":
                 line = self.file.readline().rstrip()
-                assert (not line), "extra line after #:eof (line %d, \"%s\")" % (self.lineNumber, line)
+                assert not line, 'extra line after #:eof (line %d, "%s")' % (self.lineNumber, line)
                 return None
             if line == "#:lav":
                 continue
@@ -78,7 +80,7 @@ class Reader:
             if line.endswith("{"):
                 self.parse_unknown_stanza()
                 continue
-            raise ValueError("incomprehensible line (line %d, \"%s\")" % (self.lineNumber, line))
+            raise ValueError('incomprehensible line (line %d, "%s")' % (self.lineNumber, line))
         return self.build_alignment(score, pieces)
 
     def __iter__(self):
@@ -157,8 +159,9 @@ class Reader:
 
         length1 = self.seq1_file.length
         length2 = self.seq2_file.length
-        assert (species1 != species2) or (chrom1 != chrom2) or (length1 == length2), \
-            "conflicting lengths for %s (%d and %d)" % (self.seq1_src, length1, length2)
+        assert (
+            (species1 != species2) or (chrom1 != chrom2) or (length1 == length2)
+        ), "conflicting lengths for %s (%d and %d)" % (self.seq1_src, length1, length2)
 
         self.species_to_lengths = {}
         self.species_to_lengths[species1] = {}
@@ -177,22 +180,17 @@ class Reader:
     def parse_s_stanza(self):
         self.close_seqs()
         line = self.fetch_line(report=" in s-stanza")
-        (self.seq1_filename,
-         self.seq1_start,
-         self.seq1_end,
-         self.seq1_strand,
-         self.seq1_contig) = self.parse_s_seq(line)
+        (self.seq1_filename, self.seq1_start, self.seq1_end, self.seq1_strand, self.seq1_contig) = self.parse_s_seq(
+            line
+        )
 
         line = self.fetch_line(report=" in s-stanza")
-        (self.seq2_filename,
-         self.seq2_start,
-         self.seq2_end,
-         self.seq2_strand,
-         self.seq2_contig) = self.parse_s_seq(line)
+        (self.seq2_filename, self.seq2_start, self.seq2_end, self.seq2_strand, self.seq2_contig) = self.parse_s_seq(
+            line
+        )
 
         line = self.fetch_line(report=" in s-stanza")
-        assert (line == "}"), "improper s-stanza terminator (line %d, \"%s\")" \
-            % (self.lineNumber, line)
+        assert line == "}", 'improper s-stanza terminator (line %d, "%s")' % (self.lineNumber, line)
 
     def parse_s_seq(self, line):
         fields = line.split()
@@ -205,7 +203,7 @@ class Reader:
         else:
             strand = "+"
         if filename.endswith("-"):
-            assert (strand == "-"), "strand mismatch in \"%s\"" % line
+            assert strand == "-", 'strand mismatch in "%s"' % line
             filename = filename[:-1]
         filename = do_path_subs(filename, self.path_subs)
         return (filename, start, end, strand, contig)
@@ -236,18 +234,16 @@ class Reader:
             self.seq2_header = "seq2"
 
         line = self.fetch_line(report=" in h-stanza")
-        assert (line == "}"), "improper h-stanza terminator (line %d, \"%s\")" \
-            % (self.lineNumber, line)
+        assert line == "}", 'improper h-stanza terminator (line %d, "%s")' % (self.lineNumber, line)
 
     def parse_a_stanza(self):
         """returns the pair (score,pieces)
-           where pieces is a list of ungapped segments (start1,start2,length,pctId)
-           with start1,start2 origin-0"""
+        where pieces is a list of ungapped segments (start1,start2,length,pctId)
+        with start1,start2 origin-0"""
         # 's' line -- score, 1 field
         line = self.fetch_line(report=" in a-stanza")
         fields = line.split()
-        assert (fields[0] == "s"), "s line expected in a-stanza (line %d, \"%s\")" \
-            % (self.lineNumber, line)
+        assert fields[0] == "s", 's line expected in a-stanza (line %d, "%s")' % (self.lineNumber, line)
         try:
             score = int(fields[1])
         except ValueError:
@@ -256,18 +252,16 @@ class Reader:
         # 'b' line -- begin positions in seqs, 2 fields
         line = self.fetch_line(report=" in a-stanza")
         fields = line.split()
-        assert (fields[0] == "b"), "b line expected in a-stanza (line %d, \"%s\")" \
-            % (self.lineNumber, line)
+        assert fields[0] == "b", 'b line expected in a-stanza (line %d, "%s")' % (self.lineNumber, line)
 
         # 'e' line -- end positions in seqs, 2 fields
         line = self.fetch_line(report=" in a-stanza")
         fields = line.split()
-        assert (fields[0] == "e"), "e line expected in a-stanza (line %d, \"%s\")" \
-            % (self.lineNumber, line)
+        assert fields[0] == "e", 'e line expected in a-stanza (line %d, "%s")' % (self.lineNumber, line)
 
         # 'l' lines
         pieces = []
-        while (True):
+        while True:
             line = self.fetch_line(report=" in a-stanza")
             fields = line.split()
             if fields[0] != "l":
@@ -280,17 +274,16 @@ class Reader:
                 pctId = int(fields[5])
             except ValueError:
                 pctId = float(fields[5])
-            assert (length2 == length), "length mismatch in a-stanza"
-            pieces.append((start1+self.seq1_start, start2+self.seq2_start, length, pctId))
-        assert (line == "}"), "improper a-stanza terminator (line %d, \"%s\")" \
-            % (self.lineNumber, line)
+            assert length2 == length, "length mismatch in a-stanza"
+            pieces.append((start1 + self.seq1_start, start2 + self.seq2_start, length, pctId))
+        assert line == "}", 'improper a-stanza terminator (line %d, "%s")' % (self.lineNumber, line)
         return (score, pieces)
 
     def parse_unknown_stanza(self):
         lines = []
-        while (True):
+        while True:
             line = self.fetch_line()
-            assert (line), "unexpected end of file (missing #:eof)"
+            assert line, "unexpected end of file (missing #:eof)"
             if line == "}":
                 break
             lines.append(line)
@@ -305,8 +298,7 @@ class Reader:
             line = self.file.readline().strip().strip(strip)
         self.lineNumber += 1
         if requireLine:
-            assert (line), "unexpected blank line or end of file%s (line %d)" \
-                % (report, self.lineNumber)
+            assert line, "unexpected blank line or end of file%s (line %d)" % (report, self.lineNumber)
         return line
 
     def d_stanza(self):
@@ -327,20 +319,28 @@ class Reader:
         else:
             seq2_strand = "0"
 
-        s = "  \"%s\" %d %d %s %d\n"\
-            % (self.seq1_filename, self.seq2_start+1, self.seq1_end,
-               seq1_strand, self.seq1_contig)
-        s += "  \"%s\" %d %d %s %d\n"\
-            % (self.seq2_filename, self.seq2_start+1, self.seq2_end,
-               seq2_strand, self.seq2_contig)
+        s = '  "%s" %d %d %s %d\n' % (
+            self.seq1_filename,
+            self.seq2_start + 1,
+            self.seq1_end,
+            seq1_strand,
+            self.seq1_contig,
+        )
+        s += '  "%s" %d %d %s %d\n' % (
+            self.seq2_filename,
+            self.seq2_start + 1,
+            self.seq2_end,
+            seq2_strand,
+            self.seq2_contig,
+        )
 
         return "s {\n%s}" % s
 
     def h_stanza(self):
         if self.seq1_header is None:
             return ""
-        s = f"  \"{self.seq1_header_prefix}{self.seq1_header}\"\n"
-        s += f"  \"{self.seq2_header_prefix}{self.seq2_header}\"\n"
+        s = f'  "{self.seq1_header_prefix}{self.seq1_header}"\n'
+        s += f'  "{self.seq2_header_prefix}{self.seq2_header}"\n'
         return "h {\n%s}" % s
 
     def build_alignment(self, score, pieces):
@@ -352,11 +352,11 @@ class Reader:
         for (start1, start2, length, _pctId) in pieces:
             if end1 is not None:
                 if start1 == end1:  # insertion in sequence 2
-                    text1 += self.seq1_gap * (start2-end2)
-                    text2 += self.seq2_file.get(end2, start2-end2)
+                    text1 += self.seq1_gap * (start2 - end2)
+                    text2 += self.seq2_file.get(end2, start2 - end2)
                 else:  # insertion in sequence 1
-                    text1 += self.seq1_file.get(end1, start1-end1)
-                    text2 += self.seq2_gap * (start1-end1)
+                    text1 += self.seq1_file.get(end1, start1 - end1)
+                    text2 += self.seq2_gap * (start1 - end1)
 
             text1 += self.seq1_file.get(start1, length)
             text2 += self.seq2_file.get(start2, length)
@@ -389,13 +389,13 @@ class Reader:
         slash = path_name.rfind("/")
         if slash == -1:
             return path_name
-        name = path_name[slash+1:]
+        name = path_name[slash + 1 :]
         path_name = path_name[:slash]
         if path_name.endswith("/seq"):
             path_name = path_name[:-4]
         slash = path_name.rfind("/")
         if slash != -1:
-            path_name = path_name[slash+1:]
+            path_name = path_name[slash + 1 :]
         return path_name + "." + name
 
     def header_to_src_name(self, header):
@@ -431,7 +431,7 @@ class ReaderIter:
 
 class LavAsPiecesReader(Reader):
     """Iterate over all lav blocks in a file in order, returning alignments
-       as score and pieces, as returned by Reader.parse_a_stanza"""
+    as score and pieces, as returned by Reader.parse_a_stanza"""
 
     def build_alignment(self, score, pieces):
         return (score, pieces)
@@ -465,9 +465,7 @@ class Writer:
 
     def write(self, alignment):
         if len(alignment.components) != 2:
-            raise ValueError(
-                "%d-component alignment is not compatible with lav" %
-                len(alignment.components))
+            raise ValueError("%d-component alignment is not compatible with lav" % len(alignment.components))
 
         c1 = alignment.components[0]
         c2 = alignment.components[1]
@@ -505,16 +503,16 @@ class Writer:
         fname1 = build_filename(self.fname1, self.src1)
         fname2 = build_filename(self.fname2, self.src2)
         print("s {", file=self.file)
-        print("  \"%s%s\" 1 %d %d 1" % (fname1, strand1, self.length1, flag1), file=self.file)
-        print("  \"%s%s\" 1 %d %d 1" % (fname2, strand2, self.length2, flag2), file=self.file)
+        print('  "%s%s" 1 %d %d 1' % (fname1, strand1, self.length1, flag1), file=self.file)
+        print('  "%s%s" 1 %d %d 1' % (fname2, strand2, self.length2, flag2), file=self.file)
         print("}", file=self.file)
 
     def write_h_stanza(self):
         strand1 = rc_or_nothing(self.strand1)
         strand2 = rc_or_nothing(self.strand2)
         print("h {", file=self.file)
-        print(f"  \"> {self.src1}{strand1}\"", file=self.file)
-        print(f"  \"> {self.src2}{strand2}\"", file=self.file)
+        print(f'  "> {self.src1}{strand1}"', file=self.file)
+        print(f'  "> {self.src2}{strand2}"', file=self.file)
         print("}", file=self.file)
 
     def write_a_stanza(self, alignment):
@@ -542,7 +540,7 @@ class Writer:
                     idCount += 1
             elif piece1 is not None:  # new gap starts
                 size = pos1 - piece1
-                pctId = (200*idCount + size) / (2*size)
+                pctId = (200 * idCount + size) / (2 * size)
                 pieces.append((piece1, piece2, size, pctId))
                 piece1 = None
 
@@ -553,7 +551,7 @@ class Writer:
 
         if piece1 is not None:
             size = pos1 - piece1
-            pctId = (200*idCount + size) / (2*size)
+            pctId = (200 * idCount + size) / (2 * size)
             pieces.append((piece1, piece2, size, pctId))
 
         # write the block
@@ -562,7 +560,7 @@ class Writer:
         end1 = start1 + size
         end2 = start2 + size
 
-        (start1, start2, size, pctId) = pieces[0]   # get start of first piece
+        (start1, start2, size, pctId) = pieces[0]  # get start of first piece
 
         score = int(round(alignment.score))
 
@@ -582,8 +580,10 @@ class Writer:
 
 
 def sort_keys_by_chrom(keys):
-    decorated = sorted((chrom_key(src1), strand1, chrom_key(src2), strand2, (src1, strand1, src2, strand2))
-                       for (src1, strand1, src2, strand2) in keys)
+    decorated = sorted(
+        (chrom_key(src1), strand1, chrom_key(src2), strand2, (src1, strand1, src2, strand2))
+        for (src1, strand1, src2, strand2) in keys
+    )
     return [key for (src1, strand1, src2, strand2, key) in decorated]
 
 
@@ -627,5 +627,5 @@ def rc_or_nothing(strand):
 def do_path_subs(path, path_subs):
     for (prefix, replacement) in path_subs:
         if path.startswith(prefix):
-            return replacement + path[len(prefix):]
+            return replacement + path[len(prefix) :]
     return path

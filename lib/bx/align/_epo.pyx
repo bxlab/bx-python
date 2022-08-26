@@ -1,8 +1,11 @@
 
 
-import logging, gzip
+import gzip
+import logging
 from collections import namedtuple
+
 import numpy
+
 cimport numpy
 
 log = logging.getLogger(__name__)

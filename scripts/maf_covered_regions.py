@@ -22,14 +22,14 @@ def block_pid(comp1, comp2):
     t2 = comp2.text.lower()
     for i in range(0, len(t1)):
         a, b = t1[i], t2[i]
-        if a == '-' or b == '-':
+        if a == "-" or b == "-":
             continue
         elif a == b:
             match += 1
         total += 1
     if total == 0:
         return None
-    return (match / total)
+    return match / total
 
 
 def main():
@@ -38,18 +38,27 @@ def main():
     out_files = dict()
     for block in bx.align.maf.Reader(sys.stdin):
         ref_comp = block.components[0]
-        ref_chrom = ref_comp.src.split('.')[1]
+        ref_chrom = ref_comp.src.split(".")[1]
         for comp in block.components[1:]:
-            comp_species, comp_chrom = comp.src.split('.')[:2]
+            comp_species, comp_chrom = comp.src.split(".")[:2]
             if comp_species not in out_files:
                 f = open(f"{out_prefix}{comp_species}.bed", "w")
                 out_files[comp_species] = f
             pid = block_pid(ref_comp, comp)
             if pid:
                 out_files[comp_species].write(
-                    "%s\t%d\t%d\t%s:%d-%d,%s\t%f\n" %
-                    (ref_chrom, ref_comp.forward_strand_start, ref_comp.forward_strand_end,
-                     comp_chrom, comp.start, comp.end, comp.strand, pid))
+                    "%s\t%d\t%d\t%s:%d-%d,%s\t%f\n"
+                    % (
+                        ref_chrom,
+                        ref_comp.forward_strand_start,
+                        ref_comp.forward_strand_end,
+                        comp_chrom,
+                        comp.start,
+                        comp.end,
+                        comp.strand,
+                        pid,
+                    )
+                )
 
     for f in out_files.values():
         f.close()

@@ -33,7 +33,7 @@ import re
 import sys
 import traceback
 
-USAGE = re.compile(r'(?s)\s*usage: (.*?)(\n[ \t]*\n|$)')
+USAGE = re.compile(r"(?s)\s*usage: (.*?)(\n[ \t]*\n|$)")
 
 
 def nonzero(self):  # will become the nonzero method of optparse.Values
@@ -74,12 +74,12 @@ def parse(docstring, arglist=None):
     try:
         p = optparse.OptionParser(optlines[0], conflict_handler="resolve")
         for line in optlines[1:]:
-            opt, help = line.split(':')[:2]
+            opt, help = line.split(":")[:2]
             # Make both short and long optional (but at least one)
             # Old: short,long=opt.split(',')[:2]
             opt_strings = []
             action = "store_true"
-            for k in opt.split(', '):
+            for k in opt.split(", "):
                 k = k.strip()
                 if k.startswith("--") and "=" in k:
                     action = "store"

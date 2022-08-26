@@ -10,7 +10,7 @@ from warnings import warn
 
 from bx.intervals.io import (
     BitsetSafeReaderWrapper,
-    GenomicInterval
+    GenomicInterval,
 )
 from bx.intervals.operations import bits_clear_in_range
 from bx.tabular.io import (
@@ -56,7 +56,7 @@ def subtract(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, 
                 # Find the intervals that meet the criteria (for the three sensible
                 # permutations of reverse and pieces)
                 try:
-                    if bitsets[chrom].count_range(start, end-start) >= mincols:
+                    if bitsets[chrom].count_range(start, end - start) >= mincols:
                         if pieces:
                             out_intervals = bits_clear_in_range(bitsets[chrom], start, end)
                     else:

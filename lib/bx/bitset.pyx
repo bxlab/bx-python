@@ -10,6 +10,7 @@ testing spans larger than the bin size, it can be much faster.
 
 import sys
 
+
 cdef extern from "common.h":
     ctypedef int boolean
 

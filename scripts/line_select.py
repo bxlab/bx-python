@@ -26,7 +26,7 @@ def __main__():
 
     for index, line in enumerate(sys.stdin):
         if feature_vector[index] == match:
-            print(line, end='')
+            print(line, end="")
 
 
 if __name__ == "__main__":

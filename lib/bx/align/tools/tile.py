@@ -19,8 +19,9 @@ def tile_interval(sources, index, ref_src, start, end, seq_db=None):
     `seq_db`: a mapping for source names in the reference species to nib files
     """
     # First entry in sources should also be on the reference species
-    assert sources[0].split('.')[0] == ref_src.split('.')[0], \
-        "{} != {}".format(sources[0].split('.')[0], ref_src.split('.')[0])
+    assert sources[0].split(".")[0] == ref_src.split(".")[0], "{} != {}".format(
+        sources[0].split(".")[0], ref_src.split(".")[0]
+    )
     base_len = end - start
     blocks = index.get(ref_src, start, end)
     # From low to high score
@@ -32,7 +33,7 @@ def tile_interval(sources, index, ref_src, start, end, seq_db=None):
         slice_start = max(start, ref.start)
         slice_end = min(end, ref.end)
         for j in range(slice_start, slice_end):
-            mask[j-start] = i
+            mask[j - start] = i
     tiled = []
     for i in range(len(sources)):
         tiled.append([])
@@ -41,9 +42,9 @@ def tile_interval(sources, index, ref_src, start, end, seq_db=None):
         if index < 0:
             # Get sequence if available, otherwise just use 'N'
             if seq_db:
-                tiled[0].append(bx.seq.nib.NibFile(open(seq_db[ref_src])).get(start+ss, ee-ss))
+                tiled[0].append(bx.seq.nib.NibFile(open(seq_db[ref_src])).get(start + ss, ee - ss))
             else:
-                tiled[0].append("N" * (ee-ss))
+                tiled[0].append("N" * (ee - ss))
             # Gaps in all other species
             for row in tiled[1:]:
                 row.append("-" * (ee - ss))

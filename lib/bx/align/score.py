@@ -7,13 +7,25 @@ from numpy import (
     float32,
     int32,
     ones,
-    zeros
+    zeros,
 )
 
 
 class ScoringScheme:
     # note that gap_open and gap_extend are penalties, which means you should make them positive
-    def __init__(self, gap_open, gap_extend, default=-100, alphabet1="ACGT", alphabet2=None, gap1="-", gap2=None, text1_range=128, text2_range=None, typecode=int32):
+    def __init__(
+        self,
+        gap_open,
+        gap_extend,
+        default=-100,
+        alphabet1="ACGT",
+        alphabet2=None,
+        gap1="-",
+        gap2=None,
+        text1_range=128,
+        text2_range=None,
+        typecode=int32,
+    ):
         if text2_range is None:
             text2_range = text1_range
         if alphabet2 is None:
@@ -47,17 +59,17 @@ class ScoringScheme:
         self._set_score((a, b), val)
         if foldcase1:
             aCh = chr(a)
-            if (aCh.isupper()):
+            if aCh.isupper():
                 aa = ord(aCh.lower())
-            elif (aCh.islower()):
+            elif aCh.islower():
                 aa = ord(aCh.upper())
             else:
                 foldcase1 = False
         if foldcase2:
             bCh = chr(b)
-            if (bCh.isupper()):
+            if bCh.isupper():
                 bb = ord(bCh.lower())
-            elif (bCh.islower()):
+            elif bCh.islower():
                 bb = ord(bCh.upper())
             else:
                 foldcase2 = False
@@ -84,12 +96,12 @@ class ScoringScheme:
         for a in self.alphabet1:
             for b in self.alphabet2:
                 score = self._get_score((ord(a), ord(b)))
-                if (isinstance(score, float)):
+                if isinstance(score, float):
                     s = "%8.6f" % score
                 else:
                     s = "%s" % score
-                if (len(s)+1 > width):
-                    width = len(s)+1
+                if len(s) + 1 > width:
+                    width = len(s) + 1
         lines = []
         line = []
         if labelRows:
@@ -103,7 +115,7 @@ class ScoringScheme:
             else:
                 s = "%02X" % ord(b)
             line.append("%*s" % (width, s))
-        lines.append(("".join(line))+"\n")
+        lines.append(("".join(line)) + "\n")
         for a in self.alphabet1:
             line = []
             if labelRows:
@@ -113,12 +125,12 @@ class ScoringScheme:
                     line.append("%02X" % ord(a))
             for b in self.alphabet2:
                 score = self._get_score((ord(a), ord(b)))
-                if (isinstance(score, float)):
+                if isinstance(score, float):
                     s = "%8.6f" % score
                 else:
                     s = "%s" % score
                 line.append("%*s" % (width, s))
-            lines.append(("".join(line))+"\n")
+            lines.append(("".join(line)) + "\n")
         return "".join(lines)
 
 
@@ -128,11 +140,11 @@ def read_scoring_scheme(f, gap_open, gap_extend, gap1="-", gap2=None, **kwargs):
     f can be either a file or the name of a file.
     """
     close_it = False
-    if (isinstance(f, str)):
+    if isinstance(f, str):
         f = open(f)
         close_it = True
     ss = build_scoring_scheme("".join([line for line in f]), gap_open, gap_extend, gap1=gap1, gap2=gap2, **kwargs)
-    if (close_it):
+    if close_it:
         f.close()
     return ss
 
@@ -167,12 +179,12 @@ def build_scoring_scheme(s, gap_open, gap_extend, gap1="-", gap2=None, **kwargs)
     a_la_blastz = True
     for i, line in enumerate(lines):
         row_scores = line.split()
-        if len(row_scores) == len(symbols2):        # blastz-style row
+        if len(row_scores) == len(symbols2):  # blastz-style row
             if symbols1 is None:
                 if len(lines) != len(symbols2):
                     raise bad_matrix
                 symbols1 = symbols2
-            elif (rows_have_syms):
+            elif rows_have_syms:
                 raise bad_matrix
         elif len(row_scores) == len(symbols2) + 1:  # row starts with symbol
             if symbols1 is None:
@@ -217,7 +229,18 @@ def build_scoring_scheme(s, gap_open, gap_extend, gap1="-", gap2=None, **kwargs)
         typecode = float32
     if isinstance(gap_extend, float):
         typecode = float32
-    ss = ScoringScheme(gap_open, gap_extend, alphabet1=alphabet1, alphabet2=alphabet2, gap1=gap1, gap2=gap2, text1_range=text1_range, text2_range=text2_range, typecode=typecode, **kwargs)
+    ss = ScoringScheme(
+        gap_open,
+        gap_extend,
+        alphabet1=alphabet1,
+        alphabet2=alphabet2,
+        gap1=gap1,
+        gap2=gap2,
+        text1_range=text1_range,
+        text2_range=text2_range,
+        typecode=typecode,
+        **kwargs,
+    )
     # fill matrix
     for i, row_scores in enumerate(rows):
         for j, score in enumerate(map(int_or_float, row_scores)):
@@ -239,6 +262,7 @@ def int_or_float(s):
     except ValueError:
         return float(s)
 
+
 # convert possible two-char symbol to a single character
 
 
@@ -255,7 +279,7 @@ def score_alignment(scoring_scheme, a):
     score = 0
     ncomps = len(a.components)
     for i in range(ncomps):
-        for j in range(i+1, ncomps):
+        for j in range(i + 1, ncomps):
             score += score_texts(scoring_scheme, a.components[i].text, a.components[j].text)
     return score
 
@@ -335,8 +359,12 @@ def accumulate_scores(scoring_scheme, text1, text2, skip_ref_gaps=False):
     return rval
 
 
-hox70 = build_scoring_scheme("""  A    C    G    T
+hox70 = build_scoring_scheme(
+    """  A    C    G    T
                                   91 -114  -31 -123
                                 -114  100 -125  -31
                                  -31 -125  100 -114
-                                -123  -31 -114   91 """, 400, 30)
+                                -123  -31 -114   91 """,
+    400,
+    30,
+)

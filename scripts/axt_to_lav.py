@@ -96,20 +96,13 @@ def main():
 
     # read the alignments
 
-    out = bx.align.lav.Writer(
-        sys.stdout,
-        attributes={
-            "name_format_1": primaryFile,
-            "name_format_2": secondaryFile})
+    out = bx.align.lav.Writer(sys.stdout, attributes={"name_format_1": primaryFile, "name_format_2": secondaryFile})
 
     axtsRead = 0
     axtsWritten = 0
     for axtBlock in bx.align.axt.Reader(
-            sys.stdin,
-            species_to_lengths=speciesToLengths,
-            species1=primary,
-            species2=secondary,
-            support_ids=True):
+        sys.stdin, species_to_lengths=speciesToLengths, species1=primary, species2=secondary, support_ids=True
+    ):
         axtsRead += 1
         out.write(axtBlock)
         axtsWritten += 1

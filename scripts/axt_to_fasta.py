@@ -31,8 +31,7 @@ def main():
 
     # convert the alignment blocks
 
-    reader = bx.align.axt.Reader(sys.stdin, support_ids=True,
-                                 species1="", species2="")
+    reader = bx.align.axt.Reader(sys.stdin, support_ids=True, species1="", species2="")
 
     for a in reader:
         if "id" in a.attributes:
@@ -45,6 +44,7 @@ def main():
 
 
 # $$$ this should be moved to a bx.align.fasta module
+
 
 def print_component_as_fasta(c, id=None):
     header = f">{c.src}_{c.start}_{c.start + c.size}"

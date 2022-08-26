@@ -26,7 +26,7 @@ def main():
     for m in maf_reader:
         good = 0
         for col in m.column_iter():
-            if col.count('*') <= min_species:
+            if col.count("*") <= min_species:
                 good += 1
         if good >= min_good:
             maf_writer.write(m)

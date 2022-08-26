@@ -14,7 +14,7 @@ import bx.align.maf
 
 
 def main():
-    species = sys.argv[1].split(',')
+    species = sys.argv[1].split(",")
 
     maf_reader = bx.align.maf.Reader(sys.stdin, parse_e_rows=True)
     maf_writer = bx.align.maf.Writer(sys.stdout)
@@ -22,7 +22,7 @@ def main():
     for m in maf_reader:
         new_components = []
         for comp in m.components:
-            if comp.src.split('.')[0] in species:
+            if comp.src.split(".")[0] in species:
                 new_components.append(comp)
         m.components = new_components
         m.remove_all_gap_columns()

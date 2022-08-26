@@ -20,7 +20,7 @@ for file in files:
     s = set()
     for block in bx.align.maf.Reader(open(file)):
         for comp in block.components:
-            s.add(comp.src.split('.')[0])
+            s.add(comp.src.split(".")[0])
     sets.append(s)
 
 inter = reduce(operator.and_, sets)

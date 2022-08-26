@@ -33,8 +33,8 @@ for block in bx.align.maf.Reader(sys.stdin):
     else:
         nspecies = len(block.components)
     # Increment count for each column
-    for col in zip(* [iter(comp.text.upper()) for comp in block.components]):
-        col = ''.join(col)
+    for col in zip(*[iter(comp.text.upper()) for comp in block.components]):
+        col = "".join(col)
         try:
             counts[col] += 1
         except Exception:
@@ -55,7 +55,7 @@ if wildcard:
     nucs += "*"
 
 for col in cross_lists(*([nucs] * nspecies)):
-    col = ''.join(col)
+    col = "".join(col)
     if wildcard and col.count("*") > max_wildcard:
         continue
     if col.count("-") == nspecies:

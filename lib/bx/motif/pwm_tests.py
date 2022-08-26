@@ -1,28 +1,28 @@
 from numpy import (
     allclose,
-    isnan
+    isnan,
 )
 
 from . import pwm
 
 
 def test_create():
-    m = pwm.FrequencyMatrix.from_rows(['A', 'C', 'G', 'T'], get_ctcf_rows())
+    m = pwm.FrequencyMatrix.from_rows(["A", "C", "G", "T"], get_ctcf_rows())
     # Alphabet sort
-    assert m.sorted_alphabet == ['A', 'C', 'G', 'T']
+    assert m.sorted_alphabet == ["A", "C", "G", "T"]
     # Character to index mapping
-    assert m.char_to_index[ord('A')] == 0
-    assert m.char_to_index[ord('C')] == 1
-    assert m.char_to_index[ord('G')] == 2
-    assert m.char_to_index[ord('T')] == 3
-    assert m.char_to_index[ord('Q')] == -1
+    assert m.char_to_index[ord("A")] == 0
+    assert m.char_to_index[ord("C")] == 1
+    assert m.char_to_index[ord("G")] == 2
+    assert m.char_to_index[ord("T")] == 3
+    assert m.char_to_index[ord("Q")] == -1
     # Values
     assert allclose(m.values[0], [2620, 2052, 3013, 2314])
     assert allclose(m.values[19], [3144, 3231, 3056, 567])
 
 
 def test_scoring():
-    m = pwm.FrequencyMatrix.from_rows(['A', 'C', 'G', 'T'], get_ctcf_rows())
+    m = pwm.FrequencyMatrix.from_rows(["A", "C", "G", "T"], get_ctcf_rows())
     # Stormo method
     sm = m.to_stormo_scoring_matrix()
     # Forward matches
@@ -43,7 +43,7 @@ def test_scoring():
 
 
 def test_scoring_with_gaps():
-    m = pwm.FrequencyMatrix.from_rows(['A', 'C', 'G', 'T'], get_ctcf_rows())
+    m = pwm.FrequencyMatrix.from_rows(["A", "C", "G", "T"], get_ctcf_rows())
     # Stormo method
     sm = m.to_stormo_scoring_matrix()
     # Forward matches
@@ -84,5 +84,5 @@ def get_ctcf_rows():
         [3842, 0, 5545, 611],
         [0, 5895, 4104, 0],
         [1615, 4192, 1397, 2794],
-        [3144, 3231, 3056, 567]
+        [3144, 3231, 3056, 567],
     ]

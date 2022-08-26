@@ -3,7 +3,7 @@ from io import BytesIO
 from bx_extras.lrucache import LRUCache
 
 DEFAULT_CACHE_SIZE = 10
-DEFAULT_BLOCK_SIZE = 1024*1024*2
+DEFAULT_BLOCK_SIZE = 1024 * 1024 * 2
 
 
 class FileCache:
@@ -90,7 +90,7 @@ class FileCache:
         while True:
             line = self.current_block.readline()
             rval.append(line)
-            if len(line) > 0 and line[-1] == b'\n':
+            if len(line) > 0 and line[-1] == b"\n":
                 break
             elif self.current_block_index == self.nblocks - 1:
                 self.at_eof = True

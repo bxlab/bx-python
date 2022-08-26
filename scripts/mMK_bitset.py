@@ -26,7 +26,7 @@ def main():
         step_size = int(args[4])
 
     if options.outfile is not None:
-        out_file = open(options.outfile, 'w')
+        out_file = open(options.outfile, "w")
 
     # Generate snp and neutral bitsets
     AR_snp_bitsets = binned_bitsets_from_file(open(snp_filename))
@@ -45,7 +45,7 @@ def main():
             continue
 
         # Chromosome, start, and stop of reference species alignment
-        chr = comp1.src.split('.')[1]
+        chr = comp1.src.split(".")[1]
         start = comp1.start
 
         # Get or create bitset for this chromosome
@@ -58,21 +58,15 @@ def main():
         # Iterate over text and set diverged bit
         pos = start
         for ch1, ch2 in zip(comp1.text.upper(), comp2.text.upper()):
-            if ch1 == '-':
+            if ch1 == "-":
                 continue
-            if ch2 == '-':
+            if ch2 == "-":
                 pos += 1
                 continue
 
             if ch1 != ch2 and not AR_snp_bitsets[chr][pos]:
                 bitset.set(pos)
             pos += 1
-
-    # Debugging Code
-#     for chr in AR_div_bitsets:
-#         for pos in range(0, AR_div_bitsets[chr].size):
-#             if AR_div_bitsets[pos]:
-#                 print >> sys.stderr, chr, pos, pos+1
 
     # Copy div and snp bitsets
     nonAR_snp_bitsets = dict()
@@ -119,9 +113,15 @@ def main():
                 MK_pval = MK_fisher_pvalue(nonAR_snp, nonAR_div, AR_snp, AR_div)
 
             if options.outfile is not None:
-                out_file.write("%s\t%d\t%d\t%d\t%d\t%d\t%d\t%1.15f\n" % (chr, window, window+window_size, nonAR_snp, nonAR_div, AR_snp, AR_div, MK_pval))
+                out_file.write(
+                    "%s\t%d\t%d\t%d\t%d\t%d\t%d\t%1.15f\n"
+                    % (chr, window, window + window_size, nonAR_snp, nonAR_div, AR_snp, AR_div, MK_pval)
+                )
             else:
-                print("%s\t%d\t%d\t%d\t%d\t%d\t%d\t%1.15f" % (chr, window, window+window_size, nonAR_snp, nonAR_div, AR_snp, AR_div, MK_pval))
+                print(
+                    "%s\t%d\t%d\t%d\t%d\t%d\t%d\t%1.15f"
+                    % (chr, window, window + window_size, nonAR_snp, nonAR_div, AR_snp, AR_div, MK_pval)
+                )
 
     if options.outfile is not None:
         out_file.close()
@@ -134,14 +134,14 @@ def MK_fisher_pvalue(win_snp, win_div, AR_snp, AR_div):
 
     fisher_result = r.fisher_test(r.matrix(r.c([win_snp, win_div, AR_snp, AR_div]), nr=2))
 
-    return fisher_result['p.value']
+    return fisher_result["p.value"]
 
 
 def MK_chi_pvalue(win_snp, win_div, AR_snp, AR_div):
 
     chi_result = r.chisq_test(r.matrix(r.c([win_snp, win_div, AR_snp, AR_div]), nr=2))
 
-    return chi_result['p.value']
+    return chi_result["p.value"]
 
 
 main()

@@ -50,14 +50,14 @@ for line in open(in_fname):
     start, end = int(fields[1]), int(fields[2])
     if start > end:
         warn("Bed interval start after end!")
-    if fields[0] in bitsets and bitsets[fields[0]].count_range(start, end-start) >= mincols:
+    if fields[0] in bitsets and bitsets[fields[0]].count_range(start, end - start) >= mincols:
         if booleans:
             if reverse:
                 print(0)
             else:
                 print(1)
         elif not reverse:
-            print(line, end=' ')
+            print(line, end=" ")
     else:
         if booleans:
             if reverse:
@@ -65,4 +65,4 @@ for line in open(in_fname):
             else:
                 print(0)
         elif reverse:
-            print(line, end=' ')
+            print(line, end=" ")

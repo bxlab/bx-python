@@ -62,7 +62,7 @@ def __main__():
 
     for maf in bx.align.maf.Reader(sys.stdin):
         if refname:
-            sourcenames = [cmp.src.split('.')[0] for cmp in maf.components]
+            sourcenames = [cmp.src.split(".")[0] for cmp in maf.components]
             try:
                 refindex = sourcenames.index(refname)
             except Exception:

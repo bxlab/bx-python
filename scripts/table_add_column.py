@@ -29,7 +29,7 @@ def __main__():
 
     # Compile expression for SPEED
     if expr:
-        expr = compile(expr, '<expr arg>', 'eval')
+        expr = compile(expr, "<expr arg>", "eval")
 
     for element in bx.tabular.io.Reader(sys.stdin):
         if isinstance(element, bx.tabular.io.Header):

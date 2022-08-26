@@ -21,6 +21,7 @@ preserves all information about the intervals (unlike bitset projection methods)
 
 import operator
 
+
 cdef extern from "stdlib.h":
     int ceil(float f)
     float log(float f)

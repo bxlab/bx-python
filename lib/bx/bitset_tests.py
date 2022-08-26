@@ -8,7 +8,6 @@ import bx.bitset
 
 
 class AbstractTests:
-
     def assert_bits(self, bits, list):
         assert bits.size == len(list), "Bitset size and verification list size do not match"
         for i in range(bits.size):
@@ -44,7 +43,7 @@ class AbstractTests:
         self.assert_bits(bits, l)
         # Set some positions
         for b, e in ((11, 14), (20, 75), (90, 99)):
-            bits.set_range(b, e-b)
+            bits.set_range(b, e - b)
             for pos in range(b, e):
                 l[pos] = 1
         self.assert_bits(bits, l)
@@ -54,7 +53,7 @@ class AbstractTests:
         bits = self.new_bits(100)
         # Set some positions
         for b, e in ((11, 14), (20, 75), (90, 100)):
-            bits.set_range(b, e-b)
+            bits.set_range(b, e - b)
         self.assertEqual(bits.count_range(0, 0), 0)
         self.assertEqual(bits.count_range(0, 20), 3)
         self.assertEqual(bits.count_range(25, 25), 25)
@@ -66,7 +65,7 @@ class AbstractTests:
         bits = self.new_bits(100)
         # Set some positions
         for b, e in ((11, 14), (20, 75), (90, 100)):
-            bits.set_range(b, e-b)
+            bits.set_range(b, e - b)
         # Next set
         self.assertEqual(bits.next_set(0), 11)
         self.assertEqual(bits.next_set(13), 13)
@@ -83,7 +82,7 @@ class AbstractTests:
         bits1.set_range(20, 40)
         bits2.set_range(50, 25)
         bits1.iand(bits2)
-        l = [0]*100
+        l = [0] * 100
         for i in range(50, 60):
             l[i] = 1
         self.assert_bits(bits1, l)
@@ -94,7 +93,7 @@ class AbstractTests:
         bits1.set_range(20, 40)
         bits2.set_range(50, 25)
         bits1.ior(bits2)
-        l = [0]*100
+        l = [0] * 100
         for i in range(20, 75):
             l[i] = 1
         self.assert_bits(bits1, l)
@@ -103,7 +102,7 @@ class AbstractTests:
         bits = self.new_bits(100)
         bits.set_range(20, 40)
         bits.invert()
-        l = [1]*100
+        l = [1] * 100
         for i in range(20, 60):
             l[i] = 0
         self.assert_bits(bits, l)

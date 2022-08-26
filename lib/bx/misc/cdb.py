@@ -3,12 +3,12 @@ from functools import reduce
 
 from bx.misc.binary_file import (
     BinaryFileReader,
-    BinaryFileWriter
+    BinaryFileWriter,
 )
 
 
 def cdbhash(s):
-    return reduce(lambda h, c: (((h << 5) + h) ^ ord(c)) & 0xffffffff, s, 5381)
+    return reduce(lambda h, c: (((h << 5) + h) ^ ord(c)) & 0xFFFFFFFF, s, 5381)
 
 
 class FileCDBDict(Mapping):
@@ -34,7 +34,7 @@ class FileCDBDict(Mapping):
         if subtable_size == 0:
             raise KeyError
         # Seek into subtable and look for match
-        start = (hash >> 8)
+        start = hash >> 8
         for i in range(subtable_size):
             offset = subtable_offset + ((start + i) % subtable_size) * 8
             self.io.seek(offset)

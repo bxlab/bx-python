@@ -7,13 +7,14 @@ try:
 except Exception:
     sys.path.insert(0, os.path.dirname(os.path.abspath(".")))
 
-from bx.intervals.intersection import Interval
-from bx.intervals.intersection import IntervalNode
-from bx.intervals.intersection import IntervalTree
+from bx.intervals.intersection import (
+    Interval,
+    IntervalNode,
+    IntervalTree,
+)
 
 
 class NeighborTestCase(unittest.TestCase):
-
     def setUp(self):
         iv = IntervalNode(50, 59, Interval(50, 59))
         for i in range(0, 110, 10):
@@ -40,7 +41,7 @@ class NeighborTestCase(unittest.TestCase):
         self.assertEqual(str(iv.left(60, n=2)), str([Interval(50, 59), Interval(40, 49)]))
 
         def get_right_start(b10):
-            r = iv.right(b10+1, n=1)
+            r = iv.right(b10 + 1, n=1)
             assert len(r) == 1
             return r[0].start
 
@@ -48,13 +49,12 @@ class NeighborTestCase(unittest.TestCase):
             self.assertEqual(get_right_start(i), i + 10)
 
         for i in range(0, 100, 10):
-            r = iv.right(i-1, max_dist=10, n=1)
+            r = iv.right(i - 1, max_dist=10, n=1)
             print(r)
             self.assertEqual(r[0].start, i)
 
 
 class UpDownStreamTestCase(unittest.TestCase):
-
     def setUp(self):
         iv = IntervalTree()
         iv.add_interval(Interval(50, 59))
@@ -102,7 +102,7 @@ class UpDownStreamTestCase(unittest.TestCase):
 
 
 class LotsaTestCase(unittest.TestCase):
-    """ put lotsa data in the tree and make sure it works"""
+    """put lotsa data in the tree and make sure it works"""
 
     def setUp(self):
         iv = IntervalNode(1, 2, Interval(1, 2))
@@ -152,9 +152,7 @@ class LotsaTestCase(unittest.TestCase):
 
             results = iv.find(start, end)
             for feat in results:
-                self.assertTrue(
-                    (feat.end >= start and feat.end <= end)
-                    or (feat.start <= end and feat.start >= start))
+                self.assertTrue((feat.end >= start and feat.end <= end) or (feat.start <= end and feat.start >= start))
 
 
 class IntervalTreeTest(unittest.TestCase):
@@ -163,13 +161,13 @@ class IntervalTreeTest(unittest.TestCase):
         iv = IntervalTree()
         n = 0
         for i in range(1, 1000, 80):
-            iv.insert(i, i + 10, dict(value=i*i))
+            iv.insert(i, i + 10, dict(value=i * i))
             # add is synonym for insert.
-            iv.add(i + 20, i + 30, dict(astr=str(i*i)))
+            iv.add(i + 20, i + 30, dict(astr=str(i * i)))
 
             # or insert/add an interval object with start, end attrs.
-            iv.insert_interval(Interval(i + 40, i + 50, value=dict(astr=str(i*i))))
-            iv.add_interval(Interval(i + 60, i + 70, value=dict(astr=str(i*i))))
+            iv.insert_interval(Interval(i + 40, i + 50, value=dict(astr=str(i * i))))
+            iv.add_interval(Interval(i + 60, i + 70, value=dict(astr=str(i * i))))
 
             n += 4
         self.intervals = self.iv = iv
@@ -199,7 +197,6 @@ class IntervalTreeTest(unittest.TestCase):
         self.assertEqual(None, iv.traverse(lambda x: x.append(1)))
 
     def test_public_interval(self):
-
         def fn(ival):
             return self.assertTrue(ival.interval)
 

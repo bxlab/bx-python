@@ -72,7 +72,7 @@ def get_components_for_species(alignment, species):
     if len(alignment.components) < len(species):
         return None
     # Otherwise, build an index of components by species, then lookup
-    index = {c.src.split('.')[0]: c for c in alignment.components}
+    index = {c.src.split(".")[0]: c for c in alignment.components}
     try:
         return [index[s] for s in species]
     except Exception:

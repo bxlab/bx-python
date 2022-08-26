@@ -41,8 +41,8 @@ class Simple(Masker):
             specdict = {}
             for chrom in self.qualspecies[species]:
                 specdict[chrom] = FileBinnedArray(
-                    open(qualfile + "." + chrom + ".bqv", "rb"),
-                    cache=self.cache/len(qualfiles))
+                    open(qualfile + "." + chrom + ".bqv", "rb"), cache=self.cache / len(qualfiles)
+                )
             self.qualities[species] = specdict
 
     def __call__(self, block):
@@ -57,17 +57,17 @@ class Simple(Masker):
             # get quality slice, for + strand
             qual = self.qualities[qualspec][chrom][start:end]
             x = 0
-            while start+x < end:
+            while start + x < end:
                 self.total += 1
                 # got the column in the alignment for this particular base
                 if qual[x] < self.minqual:
-                    col = comp.coord_to_col(start+x)
+                    col = comp.coord_to_col(start + x)
                     self.masked += 1
                     for component in block.components:
                         if component.text[col] != "-":
-                            component.text = component.text[0:col] + \
-                                self.mask + \
-                                component.text[col+1:len(component.text)]
+                            component.text = (
+                                component.text[0:col] + self.mask + component.text[col + 1 : len(component.text)]
+                            )
                 # iterate through quality
                 x += 1
         return block
@@ -104,8 +104,8 @@ class NQS(Masker):
             specdict = {}
             for chrom in self.qualspecies[species]:
                 specdict[chrom] = FileBinnedArray(
-                    open(qualfile + "." + chrom + ".bqv", "rb"),
-                    cache=self.cache/len(qualfiles))
+                    open(qualfile + "." + chrom + ".bqv", "rb"), cache=self.cache / len(qualfiles)
+                )
             self.qualities[species] = specdict
 
     def __call__(self, block):
@@ -118,17 +118,17 @@ class NQS(Masker):
             # get quality slice, for + strand
             qual = self.qualities[qualspec][chrom][start:end]
             x = 0
-            while start+x < end:
+            while start + x < end:
                 self.total += 1
                 # got the column in the alignment for this particular base
                 if qual[x] < self.minqual:
-                    col = comp.coord_to_col(start+x)
+                    col = comp.coord_to_col(start + x)
                     self.masked += 1
                     for component in block.components:
                         if component.text[col] != "-":
-                            component.text = component.text[0:col] + \
-                                self.mask + \
-                                component.text[col+1:len(component.text)]
+                            component.text = (
+                                component.text[0:col] + self.mask + component.text[col + 1 : len(component.text)]
+                            )
                 # iterate through quality
                 x += 1
         return block

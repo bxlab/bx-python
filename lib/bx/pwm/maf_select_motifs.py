@@ -33,7 +33,7 @@ def main():
     for maf in align_maf.Reader(inmaf):
         for mafmotif, pwm_score, motif_score in MafMotifSelect(maf, pwm, motif, threshold):
             print(mafmotif, pwm_score, motif_score)
-            print('zzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
+            print("zzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
 
 
 def mafwrite(alignment, kvec=None, jvec=None, file=sys.stdout):
@@ -70,5 +70,5 @@ def format_tabular(rows, align=None):
     return rval
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

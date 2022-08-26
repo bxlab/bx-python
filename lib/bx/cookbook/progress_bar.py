@@ -12,12 +12,12 @@ import sys
 
 class ProgressBar:
     def __init__(self, minValue=0, maxValue=10, totalWidth=72):
-        self.progBar = "[]"   # This holds the progress bar string
+        self.progBar = "[]"  # This holds the progress bar string
         self.min = minValue
         self.max = maxValue
         self.span = maxValue - minValue
         self.width = totalWidth
-        self.amount = 0       # When amount == max, we are 100% done
+        self.amount = 0  # When amount == max, we are 100% done
         self.update(0)  # Build progress bar string
 
     def update(self, newAmount=0):
@@ -40,20 +40,20 @@ class ProgressBar:
 
         # build a progress bar with hashes and spaces
         if allFull == numHashes:
-            self.progBar = "[" + '='*(numHashes) + "]"
+            self.progBar = "[" + "=" * (numHashes) + "]"
         else:
-            self.progBar = "[" + '='*(numHashes-1) + '>' + ' '*(allFull-numHashes) + "]"
+            self.progBar = "[" + "=" * (numHashes - 1) + ">" + " " * (allFull - numHashes) + "]"
 
         # figure out where to put the percentage, roughly centered
         percentPlace = (len(self.progBar) / 2) - len(str(percentDone))
         percentString = str(percentDone) + "%"
 
         # slice the percentage into the bar
-        self.progBar = self.progBar[0:percentPlace] + percentString + self.progBar[percentPlace+len(percentString):]
+        self.progBar = self.progBar[0:percentPlace] + percentString + self.progBar[percentPlace + len(percentString) :]
 
     def update_and_print(self, newAmount=0, f=sys.stdout):
         self.update(newAmount)
-        print("\r", self, end=' ', file=f)
+        print("\r", self, end=" ", file=f)
         f.flush()
 
     def __str__(self):
@@ -75,7 +75,7 @@ if __name__ == "__main__":
 
     for i in range(1000):
         bar.update(i)
-        print("\r", bar, end=' ')
+        print("\r", bar, end=" ")
         sys.stdout.flush()
 
     print()

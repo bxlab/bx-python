@@ -11,10 +11,12 @@ cdef extern from "Python.h":
     int PyObject_AsWriteBuffer(object, void **, Py_ssize_t *) except -1
     int PyBytes_AsStringAndSize(object, char **, Py_ssize_t *) except -1
 
-from numpy import zeros
-from math import floor
 import random
 import sys
+from math import floor
+
+from numpy import zeros
+
 
 cdef class CharToIntArrayMapping:
     """Mapping for converting strings to int arrays"""

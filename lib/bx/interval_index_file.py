@@ -84,12 +84,12 @@ import os.path
 import sys
 from bisect import (
     insort,
-    insort_right
+    insort_right,
 )
 from struct import (
     calcsize,
     pack,
-    unpack
+    unpack,
 )
 from warnings import warn
 
@@ -105,15 +105,15 @@ try:
 except ImportError:
     seeklzop = None
 
-__all__ = ['Indexes', 'Index']
+__all__ = ["Indexes", "Index"]
 
-MAGIC = 0x2cff800a
+MAGIC = 0x2CFF800A
 VERSION = 2
 
 # These three constants determine the structure of the default binning strategy
-BIN_LEVELS = 6        # Number of levels of bins to build
+BIN_LEVELS = 6  # Number of levels of bins to build
 BIN_FIRST_SHIFT = 17  # Number of bits for the bottom level bin
-BIN_NEXT_SHIFT = 3    # Number of bits for each higher level bin
+BIN_NEXT_SHIFT = 3  # Number of bits for each higher level bin
 
 # Build offset and max size arrays for each bin level
 BIN_OFFSETS = [1, 0]
@@ -129,7 +129,7 @@ BIN_OFFSETS_MAX[0] = sys.maxsize
 MIN = 0
 OLD_MAX = 512 * 1024 * 1024  # Maximum size supported by versions < 2
 DEFAULT_MAX = 512 * 1024 * 1024  # Default max size to use when none is passed
-MAX = 2 ** 31  # Absolute max size (limited by file format)
+MAX = 2**31  # Absolute max size (limited by file format)
 
 
 def offsets_for_max_size(max_size):
@@ -141,7 +141,7 @@ def offsets_for_max_size(max_size):
             break
     else:
         raise Exception("%d is larger than the maximum possible size (%d)" % (max_size, BIN_OFFSETS_MAX[0]))
-    return BIN_OFFSETS[(len(BIN_OFFSETS) - i - 1):]
+    return BIN_OFFSETS[(len(BIN_OFFSETS) - i - 1) :]
 
 
 def bin_for_range(start, end, offsets=None):
@@ -164,13 +164,14 @@ class AbstractMultiIndexedAccess:
     """
     Allows accessing multiple indexes / files as if they were one
     """
+
     indexed_access_class = None
 
     def __init__(self, filenames, index_filenames=None, keep_open=False, use_cache=False, **kwargs):
         # TODO: Handle index_filenames argument
         self.indexes = [
-            self.new_indexed_access(fname, keep_open=keep_open, use_cache=use_cache, **kwargs)
-            for fname in filenames]
+            self.new_indexed_access(fname, keep_open=keep_open, use_cache=use_cache, **kwargs) for fname in filenames
+        ]
 
     def new_indexed_access(self, data_filename, index_filename=None, keep_open=False, **kwargs):
         return self.indexed_access_class(data_filename, index_filename, keep_open, **kwargs)
@@ -239,7 +240,7 @@ class AbstractIndexedAccess:
 
     def open_data(self):
         if self.file_type == "plain":
-            return open(self.data_filename, 'rb')
+            return open(self.data_filename, "rb")
         elif self.file_type == "bz2t":
             f = seekbzip2.SeekableBzip2File(self.data_filename, self.table_filename)
             if self.use_cache:
@@ -251,9 +252,7 @@ class AbstractIndexedAccess:
                 block_cache_size = 20
             else:
                 block_cache_size = 0
-            f = seeklzop.SeekableLzopFile(self.data_filename,
-                                          self.table_filename,
-                                          block_cache_size=block_cache_size)
+            f = seeklzop.SeekableLzopFile(self.data_filename, self.table_filename, block_cache_size=block_cache_size)
             return f
 
     def get(self, src, start, end):
@@ -299,7 +298,9 @@ class Indexes:
     def get(self, name):
         if self.indexes[name] is None:
             offset, value_size = self.offsets[name]
-            self.indexes[name] = Index(filename=self.filename, offset=offset, value_size=value_size, version=self.version)
+            self.indexes[name] = Index(
+                filename=self.filename, offset=offset, value_size=value_size, version=self.version
+            )
         return self.indexes[name]
 
     def find(self, name, start, end):
@@ -311,12 +312,16 @@ class Indexes:
     def open(self, filename):
         self.filename = filename
         self.offsets = dict()  # (will map key to (offset,value_size))
-        with open(filename, 'rb') as f:
+        with open(filename, "rb") as f:
             magic, version, length = read_packed(f, ">3I")
             if magic != MAGIC:
                 raise Exception("File does not have expected header")
             if version > VERSION:
-                warn("File claims version %d, I don't known anything about versions beyond %d. Attempting to continue", version, VERSION)
+                warn(
+                    "File claims version %d, I don't known anything about versions beyond %d. Attempting to continue",
+                    version,
+                    VERSION,
+                )
             self.version = version
             for _ in range(length):
                 key_len = read_packed(f, ">I")
@@ -358,10 +363,9 @@ class Indexes:
 
 
 class Index:
-
     def __init__(self, min=MIN, max=DEFAULT_MAX, filename=None, offset=0, value_size=None, version=None):
         self._value_size = value_size
-        self.max_val = 1   # (1, rather than 0, to force value_size > 0)
+        self.max_val = 1  # (1, rather than 0, to force value_size > 0)
         if filename is None:
             self.new(min, max)
         else:
@@ -372,6 +376,7 @@ class Index:
             return self._value_size
         else:
             return round_up_to_4(bytes_of(self.max_val))
+
     value_size = property(fget=get_value_size)
 
     def new(self, min, max):
@@ -391,7 +396,7 @@ class Index:
         self.filename = filename
         self.offset = offset
         # Open the file and seek to where we expect our header
-        f = open(filename, 'rb')
+        f = open(filename, "rb")
         f.seek(offset)
         # Read min/max
         min, max = read_packed(f, ">2I")
@@ -445,14 +450,14 @@ class Index:
         if self.bin_sizes[index] == 0:
             self.bins[index] = bin
             return
-        f = open(self.filename, 'rb')
+        f = open(self.filename, "rb")
         f.seek(self.bin_offsets[index])
         # One big read for happy NFS
         item_size = self.value_size + calcsize(">2I")
         buffer = f.read(self.bin_sizes[index] * item_size)
         for i in range(self.bin_sizes[index]):
-            start, end = unpack(">2I", buffer[i*item_size:i*item_size+8])
-            val = unpack_uints(buffer[i*item_size+8:(i+1)*item_size])
+            start, end = unpack(">2I", buffer[i * item_size : i * item_size + 8])
+            val = unpack_uints(buffer[i * item_size + 8 : (i + 1) * item_size])
             bin.append((start, end, val))
         self.bins[index] = bin
         f.close()
@@ -507,7 +512,7 @@ def write_packed_uints(f, v, num_bytes):
 
 
 def unpack_uints(parts):
-    chunks = len(parts)/4
+    chunks = len(parts) / 4
     vals = unpack(">%dI" % chunks, parts)
     val = vals[0]
     for v in vals[1:]:

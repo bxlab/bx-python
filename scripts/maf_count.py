@@ -52,7 +52,7 @@ def __main__():
             count += m.text_size
         elif action == "bases":
             if skip:
-                count += (m.components[ref].size - m.components[ref].text.count(skip))
+                count += m.components[ref].size - m.components[ref].text.count(skip)
             else:
                 count += m.components[ref].size
 

@@ -31,7 +31,7 @@ def __main__():
 
     for m in maf_reader:
         c = m.components[refindex].src
-        print(c[c.rfind("chr") + 3:])
+        print(c[c.rfind("chr") + 3 :])
 
 
 if __name__ == "__main__":

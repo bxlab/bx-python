@@ -10,7 +10,7 @@ the positions returned match the BED/interval format which is zero-based, half-o
 
 
 def parse_header(line):
-    return dict([field.split('=') for field in line.split()[1:]])
+    return dict([field.split("=") for field in line.split()[1:]])
 
 
 def IntervalReader(f):
@@ -24,7 +24,7 @@ def IntervalReader(f):
     current_step = None
 
     # always for wiggle data
-    strand = '+'
+    strand = "+"
 
     mode = "bed"
 
@@ -33,21 +33,21 @@ def IntervalReader(f):
             continue
         elif line.startswith("variableStep"):
             header = parse_header(line)
-            current_chrom = header['chrom']
+            current_chrom = header["chrom"]
             current_pos = None
             current_step = None
-            if 'span' in header:
-                current_span = int(header['span'])
+            if "span" in header:
+                current_span = int(header["span"])
             else:
                 current_span = 1
             mode = "variableStep"
         elif line.startswith("fixedStep"):
             header = parse_header(line)
-            current_chrom = header['chrom']
-            current_pos = int(header['start']) - 1
-            current_step = int(header['step'])
-            if 'span' in header:
-                current_span = int(header['span'])
+            current_chrom = header["chrom"]
+            current_pos = int(header["start"]) - 1
+            current_step = int(header["step"])
+            if "span" in header:
+                current_span = int(header["span"])
             else:
                 current_span = 1
             mode = "fixedStep"
