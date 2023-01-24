@@ -35,9 +35,9 @@ narrowPeak_t = np.dtype(
         ("id", np.str_, 100),
         ("score", np.int64),
         ("strand", np.str_, 1),
-        ("signalValue", np.float),
-        ("pValue", np.float),
-        ("qValue", np.float),
+        ("signalValue", float),
+        ("pValue", float),
+        ("qValue", float),
         ("peak", np.int64),
     ]
 )
