@@ -157,7 +157,7 @@ def bin_for_range(start, end, offsets=None):
         else:
             start_bin >>= BIN_NEXT_SHIFT
             end_bin >>= BIN_NEXT_SHIFT
-    raise Exception("Interval (%d,%d) out of range")
+    raise Exception("Interval (%d,%d) out of range" % (start, end))
 
 
 class AbstractMultiIndexedAccess:
