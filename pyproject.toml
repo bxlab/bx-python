@@ -8,7 +8,36 @@ line-length = 120
 target-version = ['py37']
 
 [tool.cibuildwheel]
-test-command = "python -c 'import bx, bx.align, bx.align.sitemask, bx.align.tools, bx.arrays, bx.bbi, bx.cookbook, bx.intervals, bx.intervals.operations, bx.intseq, bx.misc, bx.motif, bx.motif.io, bx.motif.logo, bx.phylo, bx.pwm, bx.seq, bx.tabular, bx_extras'"
+test-command = """
+python -c 'import bx, bx.align, bx.align.axt, bx.align.core, bx.align.epo, \
+bx.align.lav, bx.align.maf, bx.align.score, bx.align.sitemask, \
+bx.align.sitemask.core, bx.align.sitemask.cpg, bx.align.sitemask.quality, \
+bx.align.tools, bx.align.tools.chop, bx.align.tools.fuse, \
+bx.align.tools.thread, bx.arrays, bx.arrays.array_tree, bx.arrays.bed, \
+bx.arrays.wiggle, bx.bbi, bx.bbi.bbi_file, bx.bbi.bigwig_file, \
+bx.bbi.bpt_file, bx.bbi.cirtree_file, bx.binned_array, bx.bitset, \
+bx.bitset_builders, bx.bitset_utils, bx.cookbook, bx.cookbook.argparse, \
+bx.cookbook.attribute, bx.cookbook.doc_optparse, bx.cookbook.progress_bar, \
+bx.filter, bx.gene_reader, bx.interval_index_file, bx.intervals, \
+bx.intervals.cluster, bx.intervals.intersection, bx.intervals.io, \
+bx.intervals.operations, bx.intervals.operations.base_coverage, \
+bx.intervals.operations.complement, bx.intervals.operations.concat, \
+bx.intervals.operations.coverage, bx.intervals.operations.find_clusters, \
+bx.intervals.operations.intersect, bx.intervals.operations.join, \
+bx.intervals.operations.merge, bx.intervals.operations.quicksect, \
+bx.intervals.operations.subtract, bx.intervals.random_intervals, \
+bx.intseq, bx.intseq.ngramcount, bx.misc, bx.misc.bgzf, bx.misc.binary_file, \
+bx.misc.cdb, bx.misc.filecache, bx.misc.readlengths, bx.misc.seekbzip2, \
+bx.misc.seeklzop, bx.motif, bx.motif.io, bx.motif.logo, bx.motif.pwm, \
+bx.phylo, bx.phylo.newick, bx.phylo.phast, bx.pwm, \
+bx.pwm.bed_score_aligned_pwm, bx.pwm.bed_score_aligned_string, \
+bx.pwm.maf_select_motifs, bx.pwm.position_weight_matrix, bx.pwm.pwm_score_maf, \
+bx.pwm.pwm_score_motifs, bx.pwm.pwm_score_positions, bx.seq, bx.seq.core, \
+bx.seq.fasta, bx.seq.nib, bx.seq.qdna, bx.seq.seq, bx.seq.twobit, \
+bx.seqmapping, bx.tabular, bx.tabular.io, bx.wiggle, bx_extras, \
+bx_extras.fpconst, bx_extras.lrucache, bx_extras.pstat, bx_extras.pyparsing, \
+bx_extras.stats'
+"""
 
 [tool.cibuildwheel.linux]
 before-all = """
