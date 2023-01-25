@@ -112,9 +112,9 @@ def fastLoadChain(fname, hf):
             N.append( (int(line[0]), 0, 0) )
             s, t, q = zip( *N )
             data.append( (hd,
-                numpy.array(s, dtype=numpy.int),
-                numpy.array(t, dtype=numpy.int),
-                numpy.array(q, dtype=numpy.int)) )
+                numpy.array(s, dtype=int),
+                numpy.array(t, dtype=int),
+                numpy.array(q, dtype=int)) )
             assert hd.tEnd - hd.tStart == sum(s) + sum(t)
             assert hd.qEnd - hd.qStart == sum(s) + sum(q)
             fd.readline() # a blank line
