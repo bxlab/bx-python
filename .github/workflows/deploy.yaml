@@ -9,9 +9,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        arch: [auto]
         include:
+          - os: ubuntu-latest
+            arch: auto
+          - os: macos-latest
+            arch: x86_64 arm64
           - os: ubuntu-latest
             arch: aarch64
     steps:
@@ -32,9 +34,8 @@ jobs:
           CIBW_ARCHS: ${{matrix.arch}}
           # Skip building musllinux wheels for now, they take too long to build,
           # mainly because numpy doesn't have musllinux wheels on PyPI yet.
-          # Skip also building the PyPy 3.7 wheel for macOS, because numpy
-          # doesn't have a wheel on PyPI and it fails to install.
-          CIBW_SKIP: '*-musllinux* pp37-macosx_x86_64'
+          # Skip also building for PyPy 3.7, which is deprecated upstream.
+          CIBW_SKIP: '*-musllinux* pp37-*'
       - name: Check packages
         run: twine check dist/*
       - uses: actions/upload-artifact@v3
