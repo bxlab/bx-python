@@ -23,7 +23,6 @@ except ImportError:
 
 
 def main():
-
     # Parse command line arguments
     options, args = doc_optparse.parse(__doc__)
 

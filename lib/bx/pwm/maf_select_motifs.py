@@ -16,7 +16,6 @@ def isnan(x):
 
 
 def main():
-
     if len(sys.argv) < 5:
         print("%s transfac|basic pwmfile inmaf threshold [motif]" % sys.argv[0], file=sys.stderr)
         sys.exit(2)

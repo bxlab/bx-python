@@ -11,7 +11,6 @@ test_lav = "test_data/lav_tests/apple_orange.lav"
 
 class lavTestCase(unittest.TestCase):
     def testReader(self):
-
         reader = lav.Reader(open(test_lav))
 
         a = next(reader)

@@ -16,7 +16,6 @@ def isnan(x):
 
 
 def main():
-
     if len(sys.argv) < 6:
         print("%s transfac|basic pwmfile inmaf threshold spec1,spec2,... " % sys.argv[0], file=sys.stderr)
         sys.exit(0)
@@ -49,7 +48,6 @@ def main():
             # lists of scores for each position in scoremax
             for id, mx in scoremax.items():
                 for offset in range(blocklength):
-
                     # scan all species with threshold
                     for i in range(len(species)):
                         if mx[i][offset] > threshold:

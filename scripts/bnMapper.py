@@ -134,7 +134,7 @@ def union_elements(elements):
 
     unioned_elements = []
     for ch, chgrp in groupby(elements, key=itemgetter(0)):
-        for (s, e) in elem_u(np.array([itemgetter(1, 2)(_) for _ in chgrp], dtype=np.uint)):
+        for s, e in elem_u(np.array([itemgetter(1, 2)(_) for _ in chgrp], dtype=np.uint)):
             if s < e:
                 unioned_elements.append((ch, s, e, el_id))
     assert len(unioned_elements) <= len(elements)

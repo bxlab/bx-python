@@ -45,7 +45,6 @@ def __main__():
     count = 0
 
     for m in maf_reader:
-
         if action == "aligns":
             count += 1
         elif action == "cols":

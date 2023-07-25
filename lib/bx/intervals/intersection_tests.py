@@ -157,7 +157,6 @@ class LotsaTestCase(unittest.TestCase):
 
 class IntervalTreeTest(unittest.TestCase):
     def setUp(self):
-
         iv = IntervalTree()
         n = 0
         for i in range(1, 1000, 80):
@@ -174,7 +173,6 @@ class IntervalTreeTest(unittest.TestCase):
         self.nintervals = n
 
     def test_find(self):
-
         r = self.iv.find(100, 200)
         self.assertEqual(len(r), 5)
 
@@ -204,5 +202,4 @@ class IntervalTreeTest(unittest.TestCase):
 
 
 if __name__ == "__main__":
-
     unittest.main()

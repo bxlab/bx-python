@@ -29,7 +29,6 @@ def __main__():
     count = 0
 
     for m in maf_reader:
-
         maf_writer.write(m)
 
         count += m.text_size

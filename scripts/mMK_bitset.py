@@ -128,7 +128,6 @@ def main():
 
 
 def MK_fisher_pvalue(win_snp, win_div, AR_snp, AR_div):
-
     if win_snp == 0 and win_div == 0 and AR_snp == 0 and AR_div == 0:
         return 1.0
 
@@ -138,7 +137,6 @@ def MK_fisher_pvalue(win_snp, win_div, AR_snp, AR_div):
 
 
 def MK_chi_pvalue(win_snp, win_div, AR_snp, AR_div):
-
     chi_result = r.chisq_test(r.matrix(r.c([win_snp, win_div, AR_snp, AR_div]), nr=2))
 
     return chi_result["p.value"]

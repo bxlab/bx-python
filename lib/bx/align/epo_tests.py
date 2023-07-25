@@ -164,7 +164,7 @@ class TestEpo(unittest.TestCase):
                     assert c[th : th + l] == "-" * l
                 th += l
 
-        for (a, b) in self.epo_records:
+        for a, b in self.epo_records:
             ca, cb = cigar_pairs[int(a.gabid)]
             ch(ca, a.cigar_iter(False))
             ch(cb, b.cigar_iter(False))

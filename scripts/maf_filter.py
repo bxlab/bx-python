@@ -19,7 +19,6 @@ from bx.align import maf
 
 
 def __main__():
-
     # Parse command line arguments
 
     parser = OptionParser()
@@ -41,7 +40,6 @@ def __main__():
     maf_writer = maf.Writer(sys.stdout)
 
     for m in maf_reader:
-
         if component_count and len(m.components) != component_count:
             continue
         if min_cols and m.text_size < min_cols:

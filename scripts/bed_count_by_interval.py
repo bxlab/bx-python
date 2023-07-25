@@ -17,7 +17,11 @@ bed1, bed2 = sys.argv[1:3]
 ranges = {}
 for line in open(bed2):
     fields = line.strip().split()
-    chrom, start, end, = (
+    (
+        chrom,
+        start,
+        end,
+    ) = (
         fields[0],
         int(fields[1]),
         int(fields[2]),

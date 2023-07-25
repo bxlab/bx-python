@@ -12,7 +12,6 @@ from bx.align import maf
 
 
 def __main__():
-
     maf_reader = maf.Reader(sys.stdin)
 
     for m in maf_reader:

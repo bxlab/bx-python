@@ -26,7 +26,6 @@ tree_tx = str.maketrans("(),", "   ")
 
 
 def main():
-
     options, args = doc_optparse.parse(__doc__)
     try:
         sources = args[0].translate(tree_tx).split()
@@ -56,7 +55,6 @@ def load_seq_db(fname):
 
 
 def do_interval(sources, index, out, ref_src, start, end, seq_db, missing_data):
-
     assert sources[0].split(".")[0] == ref_src.split(".")[0], "{} != {}".format(
         sources[0].split(".")[0], ref_src.split(".")[0]
     )

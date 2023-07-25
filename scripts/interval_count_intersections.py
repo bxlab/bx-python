@@ -19,7 +19,6 @@ from bx import (
 
 
 def main():
-
     intersecters = {}
 
     # Read ranges

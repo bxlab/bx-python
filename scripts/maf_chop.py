@@ -16,7 +16,6 @@ import bx.align.maf
 
 
 def main():
-
     # Parse command line arguments
 
     parser = OptionParser()

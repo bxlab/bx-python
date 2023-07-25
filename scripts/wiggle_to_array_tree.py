@@ -17,7 +17,6 @@ from bx.arrays.wiggle import WiggleReader
 
 
 def main():
-
     sizes_fname = sys.argv[1]
     out_fname = sys.argv[2]
 

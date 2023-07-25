@@ -20,7 +20,6 @@ psyco.profile()
 
 
 def __main__():
-
     motif_len = int(sys.argv[1])
 
     big_map = {}

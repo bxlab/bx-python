@@ -349,7 +349,7 @@ class Reader:
         self.open_seqs()
         text1 = text2 = ""
         end1 = end2 = None
-        for (start1, start2, length, _pctId) in pieces:
+        for start1, start2, length, _pctId in pieces:
             if end1 is not None:
                 if start1 == end1:  # insertion in sequence 2
                     text1 += self.seq1_gap * (start2 - end2)
@@ -438,7 +438,6 @@ class LavAsPiecesReader(Reader):
 
 
 class Writer:
-
     # blockHash is a hash from (src1,strand1,src2,strand2) to a list of blocks;
     # the blocks are collected on each call to write(), but the actual writing
     # does not occur until close().
@@ -568,7 +567,7 @@ class Writer:
         print("  s %s" % score, file=self.file)
         print("  b %d %d" % (start1 + 1, start2 + 1), file=self.file)
         print("  e %d %d" % (end1, end2), file=self.file)
-        for (start1, start2, size, pctId) in pieces:
+        for start1, start2, size, pctId in pieces:
             print("  l %d %d %d %d %d" % (start1 + 1, start2 + 1, start1 + size, start2 + size, pctId), file=self.file)
         print("}", file=self.file)
 
@@ -625,7 +624,7 @@ def rc_or_nothing(strand):
 
 
 def do_path_subs(path, path_subs):
-    for (prefix, replacement) in path_subs:
+    for prefix, replacement in path_subs:
         if path.startswith(prefix):
             return replacement + path[len(prefix) :]
     return path

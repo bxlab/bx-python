@@ -18,7 +18,6 @@ from bx import seqmapping
 
 
 def main():
-
     if len(sys.argv) > 1:
         _, alpha_map = seqmapping.alignment_mapping_from_file(open(sys.argv[1]))
     else:

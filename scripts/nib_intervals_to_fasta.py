@@ -12,7 +12,6 @@ from bx.cookbook import doc_optparse
 
 
 def __main__():
-
     options, args = doc_optparse.parse(__doc__)
 
     try:

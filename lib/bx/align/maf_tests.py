@@ -77,7 +77,6 @@ complex_maf.text_size = 9
 
 
 def test_reader():
-
     reader = maf.Reader(StringIO(test_maf))
     assert reader.attributes["version"] == "1"
     assert reader.attributes["scoring"] == "humor.v4"
@@ -103,7 +102,6 @@ def test_reader():
 
 
 def test_writer():
-
     val = StringIO()
     writer = maf.Writer(val, {"scoring": "foobar"})
 
@@ -134,7 +132,6 @@ s horse_hoxa 120 10 -   98892 ACAATTGCT
 
 
 def test_slice():
-
     b = complex_maf.slice_by_component(0, 101, 105)
 
     check_component(b.components[0], src="human_hoxa", start=101, size=4, strand="+", src_size=100257, text="CA-TT")
@@ -181,7 +178,6 @@ def test_slice():
 
 
 def test_reverse_complement():
-
     b = complex_maf.reverse_complement()
 
     check_component(

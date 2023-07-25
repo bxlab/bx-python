@@ -1915,7 +1915,6 @@ class QuotedString(Token):
         ret = result.group()
 
         if self.unquoteResults:
-
             # strip off quotes
             ret = ret[self.quoteCharLen : -self.endQuoteCharLen]
 

@@ -39,7 +39,6 @@ tree_tx = str.maketrans("(),", "   ")
 
 
 def main():
-
     options, args = doc_optparse.parse(__doc__)
     try:
         sources = args[0].translate(tree_tx).split()
