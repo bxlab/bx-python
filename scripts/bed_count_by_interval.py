@@ -17,15 +17,9 @@ bed1, bed2 = sys.argv[1:3]
 ranges = {}
 for line in open(bed2):
     fields = line.strip().split()
-    (
-        chrom,
-        start,
-        end,
-    ) = (
-        fields[0],
-        int(fields[1]),
-        int(fields[2]),
-    )
+    chrom = fields[0]
+    start = int(fields[1])
+    end = int(fields[2])
     if chrom not in ranges:
         ranges[chrom] = Intersecter()
     ranges[chrom].add_interval(Interval(start, end))
