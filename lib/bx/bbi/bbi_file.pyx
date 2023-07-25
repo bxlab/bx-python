@@ -15,10 +15,10 @@ cimport cython
 
 from collections import deque
 
-from types cimport *
+from .types cimport *
 
-from bpt_file cimport BPTFile
-from cirtree_file cimport CIRTreeFile
+from .bpt_file cimport BPTFile
+from .cirtree_file cimport CIRTreeFile
 from libc cimport limits
 
 import numpy

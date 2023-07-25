@@ -1,7 +1,7 @@
-from types cimport *
+from .types cimport *
 
-from bpt_file cimport BPTFile
-from cirtree_file cimport CIRTreeFile
+from .bpt_file cimport BPTFile
+from .cirtree_file cimport CIRTreeFile
 
 import numpy
 

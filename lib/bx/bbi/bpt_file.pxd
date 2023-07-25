@@ -1,6 +1,6 @@
 from bx.misc.binary_file import BinaryFileReader
 
-from types cimport *
+from .types cimport *
 
 
 cdef class BPTFile:

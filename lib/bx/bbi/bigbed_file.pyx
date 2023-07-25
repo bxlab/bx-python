@@ -2,12 +2,12 @@
 BigBed file.
 """
 
-from bbi_file cimport *
-from cirtree_file cimport CIRTreeFile
+from .bbi_file cimport *
+from .cirtree_file cimport CIRTreeFile
 
 import numpy
 
-from types cimport *
+from .types cimport *
 
 cimport numpy
 

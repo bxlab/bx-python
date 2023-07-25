@@ -1,4 +1,4 @@
-from types cimport *
+from .types cimport *
 
 
 cdef class CIRTreeFile:
