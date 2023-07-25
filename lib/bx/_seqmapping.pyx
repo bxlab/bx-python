@@ -132,7 +132,7 @@ cdef class IntToIntMapping:
         cdef int *t_buf
         # Get direct access to string
         PyObject_AsReadBuffer( src, <const void **> &s_buf, &s_len )
-        s_len = s_len / sizeof( int )
+        s_len = s_len // sizeof( int )
         assert s_len == len( src ), "`src` argument must be a buffer of 32bit integers"
         # Initialize empty array
         rval = zeros( s_len, 'i' )

@@ -42,7 +42,7 @@ def translate_raw_data( data, int start, int length ):
         p_data = p_data + 1
         i = 1
     # Two output values for each input value
-    for j from 0 <= j < (length-i)/2:
+    for j from 0 <= j < (length-i) // 2:
         #p_rval[i]   = NIB_I2C_TABLE[ ( p_data[0] >> 4 ) & 0xF ];
         #p_rval[i+1] = NIB_I2C_TABLE[ ( p_data[0] >> 0 ) & 0xF ];
         p_rval[i]   = NIB_I2C_TABLE_FIRST [ p_data[0] ]
