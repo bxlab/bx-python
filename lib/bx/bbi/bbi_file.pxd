@@ -1,11 +1,15 @@
-from .types cimport *
-
-from .bpt_file cimport BPTFile
-from .cirtree_file cimport CIRTreeFile
-
 import numpy
 
 cimport numpy
+
+from .bpt_file cimport BPTFile
+from .cirtree_file cimport CIRTreeFile
+from .types cimport (
+    bits16,
+    bits32,
+    bits64,
+    boolean,
+)
 
 
 cdef class SummaryBlock:

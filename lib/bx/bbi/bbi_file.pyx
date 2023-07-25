@@ -9,27 +9,25 @@ mirrors Jim Kent's 'bbiRead.c' mostly.
 
 from cpython.version cimport PY_MAJOR_VERSION
 
+import math
 import sys
-
-cimport cython
-
+import zlib
 from collections import deque
-
-from .types cimport *
-
-from .bpt_file cimport BPTFile
-from .cirtree_file cimport CIRTreeFile
-from libc cimport limits
+from io import BytesIO
 
 import numpy
 
-cimport numpy
-
-import math
-import zlib
-from io import BytesIO
-
 from bx.misc.binary_file import BinaryFileReader
+
+cimport cython
+from libc cimport limits
+
+from .bpt_file cimport BPTFile
+from .cirtree_file cimport CIRTreeFile
+from .types cimport (
+    bits32,
+    bits64,
+)
 
 
 cdef extern from "Python.h":
