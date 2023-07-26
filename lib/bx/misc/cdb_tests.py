@@ -4,7 +4,6 @@ from bx.misc.cdb import FileCDBDict
 
 
 def test():
-
     d = {}
     for i in range(10000):
         d["foo" + str(i)] = "bar" + str(i)

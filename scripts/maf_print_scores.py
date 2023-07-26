@@ -22,7 +22,6 @@ from bx.cookbook import doc_optparse
 
 
 def main():
-
     # Parse command line arguments
     options, args = doc_optparse.parse(__doc__)
 

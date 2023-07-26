@@ -130,7 +130,6 @@ def clone_component(c):
 
 
 def read_lengths(fileName):
-
     chromToLength = {}
 
     f = open(fileName)

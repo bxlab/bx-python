@@ -47,7 +47,7 @@ def test_interval_index_file():
             if end < start:
                 end, start = start, end
             query_intervals = set()
-            for (s, e, i) in intervals:
+            for s, e, i in intervals:
                 if e > start and s < end:
                     query_intervals.add((s, e, i))
             result = ix.find(name, start, end)

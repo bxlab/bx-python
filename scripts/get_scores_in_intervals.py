@@ -27,7 +27,6 @@ def read_scores(f):
 
 
 def main():
-
     # Parse command line
     options, args = doc_optparse.parse(__doc__)
     try:

@@ -34,8 +34,8 @@ jobs:
           CIBW_ARCHS: ${{matrix.arch}}
           # Skip building musllinux wheels for now, they take too long to build,
           # mainly because numpy doesn't have musllinux wheels on PyPI yet.
-          # Skip also building for PyPy 3.7, which is deprecated upstream.
-          CIBW_SKIP: '*-musllinux* pp37-*'
+          # Skip also building for PyPy 3.7-3.8, which are deprecated upstream.
+          CIBW_SKIP: '*-musllinux* pp37-* pp38-*'
       - name: Check packages
         run: twine check dist/*
       - uses: actions/upload-artifact@v3

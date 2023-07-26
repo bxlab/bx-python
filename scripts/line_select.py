@@ -14,7 +14,6 @@ import sys
 
 
 def __main__():
-
     feature_file = sys.argv[1]
 
     if len(sys.argv) > 2:

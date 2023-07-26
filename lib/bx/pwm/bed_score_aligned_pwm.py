@@ -17,7 +17,6 @@ def isnan(x):
 
 
 def main():
-
     if len(sys.argv) < 5:
         print("%s bedfile inmaf spec1,spec2,... motif_file " % sys.argv[0], file=sys.stderr)
         sys.exit(0)

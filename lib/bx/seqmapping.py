@@ -72,7 +72,6 @@ def alignment_mapping_from_file(f, char_mapping=DNA):
 
 
 def second_mapping_from_file(f, first_mapping, char_mapping=DNA):
-
     columns, symbols = [], []
     for line in f:
         column, symbol = line.split()

@@ -12,7 +12,6 @@ from bx.align import maf
 
 
 def __main__():
-
     maf_reader = maf.Reader(sys.stdin)
 
     # Confusing since maf_to_concat_fasta takes names.

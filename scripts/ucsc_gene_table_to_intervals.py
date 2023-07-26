@@ -45,7 +45,6 @@ def main():
 
     # Read table from stdin and handle each gene
     for line in sys.stdin:
-
         # Parse fields from gene tabls
         fields = line.split("\t")
         if options.discard_first_column:

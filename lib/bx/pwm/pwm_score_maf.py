@@ -17,7 +17,6 @@ NaN = float("nan")
 
 
 def main():
-
     pwm_file = sys.argv[1]
     splist = sys.argv[2]
     if len(sys.argv) == 4:
@@ -53,7 +52,6 @@ def main():
 
 
 def MafScorer(pwm, species, inmaf):
-
     index = 0
     scoremax, width = None, None
     for maf in align_maf.Reader(inmaf):
@@ -79,7 +77,6 @@ def MafScorer(pwm, species, inmaf):
 
 
 def MafMotifSelect(mafblock, pwm, motif=None, threshold=0):
-
     if motif is not None and len(motif) != len(pwm):
         raise Exception("pwm and motif must be the same length")
     # generic alignment

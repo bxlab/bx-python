@@ -43,7 +43,6 @@ def main():
             # lists of scores for each position in scoremax
             mx = scoremax
             for offset in range(blocklength):
-
                 # scan all species with threshold
                 for i in range(len(species)):
                     if mx[i][offset] > threshold:

@@ -62,7 +62,7 @@ cdef class SeekBzip2:
         cdef int n_bit
         # Break position into bit and byte offsets
         ## sys.stderr.write( "arg pos: %d\n" % position )
-        n_byte = position / 8;
+        n_byte = position // 8;
         n_bit = position % 8;
         ## sys.stderr.write( "byte pos: %d\n" % n_byte )
         ## sys.stderr.write( "bit pos: %d\n" % n_bit )

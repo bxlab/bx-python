@@ -90,7 +90,6 @@ def clone_component(c):
 
 
 def remove_mutual_gaps(block):
-
     if len(block.components) == 0:
         return
 

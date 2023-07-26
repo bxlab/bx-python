@@ -194,7 +194,7 @@ class QdnaCodebook:
         alphabet = "ACGT"
         codeToProbs = {}
 
-        for (lineNum, line) in enumerate(codeF):
+        for lineNum, line in enumerate(codeF):
             lineNum += 1
             line = line.rstrip()
             stripped = line.strip()

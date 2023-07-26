@@ -9,27 +9,25 @@ mirrors Jim Kent's 'bbiRead.c' mostly.
 
 from cpython.version cimport PY_MAJOR_VERSION
 
+import math
 import sys
-
-cimport cython
-
+import zlib
 from collections import deque
-
-from types cimport *
-
-from bpt_file cimport BPTFile
-from cirtree_file cimport CIRTreeFile
-from libc cimport limits
+from io import BytesIO
 
 import numpy
 
-cimport numpy
-
-import math
-import zlib
-from io import BytesIO
-
 from bx.misc.binary_file import BinaryFileReader
+
+cimport cython
+from libc cimport limits
+
+from .bpt_file cimport BPTFile
+from .cirtree_file cimport CIRTreeFile
+from .types cimport (
+    bits32,
+    bits64,
+)
 
 
 cdef extern from "Python.h":
@@ -95,7 +93,7 @@ cdef class SummarizedData:
             e = self.end
         if s >= e: 
             return
-        base_step = ( self.end - self.start ) / self.size
+        base_step = ( self.end - self.start ) // self.size
         for j from 0 <= j < self.size:
             base_start = self.start + ( base_step * j )
             base_end = base_start + base_step
@@ -206,8 +204,8 @@ cdef class BBIFile:
 
         # Find appropriate zoom level
         cdef bits32 base_size = end - start
-        cdef int full_reduction = base_size / summary_size
-        cdef int zoom = full_reduction / 2
+        cdef int full_reduction = base_size // summary_size
+        cdef int zoom = full_reduction // 2
         if zoom < 0:
             zoom = 0
         cdef ZoomLevel zoom_level = self._best_zoom_level( zoom )
@@ -418,7 +416,7 @@ cdef class ZoomLevel:
         reader.seek( self.index_offset )
         summaries = self._summary_blocks_in_region(chrom_id, start, end)
 
-        base_step = (end - start) / summary_size
+        base_step = (end - start) // summary_size
         base_start = start
         base_end = start
         

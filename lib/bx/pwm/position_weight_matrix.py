@@ -82,7 +82,6 @@ def score_align_motif(align, motif, gapmask=None, byPosition=True):
             continue
 
         for start in range(ncols):
-
             if align.rows[ir][start] == "-":
                 continue
             elif align.rows[ir][start] == "n":
@@ -154,7 +153,6 @@ def score_align_motif(align, motif, gapmask=None, byPosition=True):
 
 
 class PositionWeightMatrix:
-
     complementMap = str.maketrans("ACGTacgt", "TGCAtgca")
 
     # IUPAC-IUB
@@ -176,7 +174,6 @@ class PositionWeightMatrix:
     }
 
     def __init__(self, id, rows, alphabet, background=None, score_correction=True):
-
         self.id = id
         self.alphabet = alphabet
         nsymbols = len(self.alphabet)
@@ -210,7 +207,6 @@ class PositionWeightMatrix:
         scale = 1
 
         for i in range(len(rows)):
-
             # try:
             fields, consensus = rows[i][:nsymbols], rows[i][-1]
             for x, count in enumerate(fields):
@@ -278,7 +274,6 @@ class PositionWeightMatrix:
         # return sum( [ self.information_base_content(base,i,counts) for base in self.alphabet ] )
 
     def information_base_content(self, base, i, counts):
-
         # Reference 1)
         # return self.score_correction(counts,base,i) * math.log ( self.score_correction(counts,base,i), 2)
 
@@ -289,7 +284,6 @@ class PositionWeightMatrix:
         return self.score_seq(seq)
 
     def __add__(self, other):
-
         assert self.alphabet == other.alphabet
         r, (p, q) = self.max_correlation(other)
 
@@ -323,7 +317,6 @@ class PositionWeightMatrix:
         return PositionWeightMatrix(self.id + other.id, newRows, self.alphabet, self.background)
 
     def __old_add__(self, other, maxp=None):
-
         assert self.alphabet == other.alphabet
         bigN = max(len(self), len(other))
         smallN = min(len(self), len(other))
@@ -436,7 +429,6 @@ class PositionWeightMatrix:
         return position_rsq
 
     def score_align(self, align, gapmask=None, byPosition=True):
-
         # a blank score matrix
         nrows, ncols = align.dims
         ascoremax = AlignScoreMatrix(align)
@@ -444,7 +436,6 @@ class PositionWeightMatrix:
 
         minSeqLen = len(self)
         for ir in range(nrows):
-
             # row is missing data
             if isnan(align.rows[ir][0]):
                 continue
@@ -461,7 +452,6 @@ class PositionWeightMatrix:
                 subseq = ""
                 end = 0
                 for ic in range(start, ncols):
-
                     char = align.rows[ir][ic]
                     if char == "-" or char == "N":
                         continue
@@ -602,7 +592,6 @@ class PositionWeightMatrix:
             return float("nan")
 
     def parse_weight(self, weightString):
-
         fields = weightString.split(".")
         if len(fields) > 2:
             raise ValueError
@@ -840,7 +829,6 @@ def sum_of_squares(x, y=None):
 
 
 def consensus_symbol(pattern):
-
     if isinstance(pattern, str):
         try:
             pattern = [int(x) for x in pattern.split()]
@@ -898,7 +886,6 @@ try:
     from ._position_weight_matrix import c_match_consensus
 
     def match_consensus(sequence, pattern):
-
         return c_match_consensus(sequence, pattern, len(sequence))
 
     # print >>sys.stderr, "C match_consensus used"

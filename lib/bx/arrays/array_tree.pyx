@@ -7,8 +7,6 @@ from numpy import *
 
 cimport numpy
 
-cimport bx.arrays.wiggle
-
 from bx.misc.binary_file import (
     BinaryFileReader,
     BinaryFileWriter,

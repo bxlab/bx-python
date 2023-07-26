@@ -23,7 +23,6 @@ INF = "inf"
 
 
 def __main__():
-
     # Parse command line arguments
 
     parser = OptionParser()
@@ -41,7 +40,6 @@ def __main__():
     writers = {}
 
     for m in maf_reader:
-
         if comp is None:
             writer_key = string.join([c.src for c in m.components], "_")
         else:

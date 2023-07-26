@@ -76,10 +76,10 @@ cdef _count_ngrams( int* ints, int n_ints, int* rval, int n, int radix ):
             letter = ints[ i + j ]
             if letter < 0 or letter >= radix:
                 # This word is bad, break out and do not increment counts
-                print "breaking, letter", letter
+                print("breaking, letter", letter)
                 break
             index = index + letter * factor
             factor = factor * radix
         else:
-            print index
+            print(index)
             rval[ index ] = rval[ index ] + 1

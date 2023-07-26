@@ -44,7 +44,7 @@ class SEQTestCase(unittest.TestCase):
 
     def test_get_reader(self):
         reader = bx.seq.seq_reader(open(test2_fa, "rb"))
-        for (ix, seq) in enumerate(reader):
+        for ix, seq in enumerate(reader):
             assert ix < len(valid2_fa), "FastaReader returns too many sequences"
             text = "%s" % seq
             fields = text.split()

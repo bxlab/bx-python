@@ -22,7 +22,6 @@ def usage(s=None):
 
 
 def main():
-
     # parse the command line
 
     silent = False

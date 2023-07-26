@@ -16,7 +16,6 @@ from bx.align import maf
 
 
 def main():
-
     min_good = int(sys.argv[1])
     min_species = int(sys.argv[2])
 

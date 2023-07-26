@@ -2,21 +2,28 @@
 BigWig file.
 """
 
+import zlib
 from collections import deque
-
-from bbi_file cimport *
-from cirtree_file cimport CIRTreeFile
+from io import BytesIO
 
 import numpy
 
-from types cimport *
+from bx.misc.binary_file import BinaryFileReader
 
 cimport numpy
 
-import zlib
-from io import BytesIO
-
-from bx.misc.binary_file import BinaryFileReader
+from .bbi_file cimport (
+    BBIFile,
+    BlockHandler,
+    SummarizedData,
+)
+from .cirtree_file cimport CIRTreeFile
+from .types cimport (
+    bits8,
+    bits16,
+    bits32,
+    UBYTE,
+)
 
 DEF big_wig_sig = 0x888FFC26
 DEF bwg_bed_graph = 1

@@ -81,7 +81,6 @@ def main():
 
     # collect snp and div
     for chr in feature.keys():
-
         if chr not in snp:
             continue
         if chr not in ar:

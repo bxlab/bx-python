@@ -19,7 +19,6 @@ table = str.maketrans("#=X@", "-***")
 
 
 def main():
-
     maf_reader = maf.Reader(sys.stdin)
     maf_writer = maf.Writer(sys.stdout)
 

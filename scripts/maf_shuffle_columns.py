@@ -15,12 +15,10 @@ from bx.align import maf
 
 
 def __main__():
-
     maf_reader = maf.Reader(sys.stdin, parse_e_rows=True)
     maf_writer = maf.Writer(sys.stdout)
 
     for m in maf_reader:
-
         align.shuffle_columns(m)
 
         maf_writer.write(m)

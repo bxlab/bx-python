@@ -134,7 +134,6 @@ def Comp(seq):
 
 
 def main():
-
     options, args = doc_optparse.parse(__doc__)
     try:
         if options.outfile:
@@ -156,12 +155,11 @@ def main():
     nibs = getnib(nibdir)
 
     for chrom, strand, cds_exons, name in CDSReader(open(bedfile), format=format):
-
         cds_seq = ""
 
         # genome_seq_index maps the position in CDS to position on the genome
         genome_seq_index = []
-        for (c_start, c_end) in cds_exons:
+        for c_start, c_end in cds_exons:
             cds_seq += nibs[chrom].get(c_start, c_end - c_start)
             for i in range(c_start, c_end):
                 genome_seq_index.append(i)

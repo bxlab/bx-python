@@ -13,9 +13,7 @@ import bx.align.maf
 
 
 def main():
-
     for m in bx.align.maf.Reader(sys.stdin):
-
         ungapped_columns = 0
         ungapped_runs = 0
         in_ungapped = False
