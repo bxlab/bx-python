@@ -113,7 +113,6 @@ def _attribute(permission="rwd", **kwds):
 
     def _property(attrname, default):
         propname, attrname = attrname, mangle(classname, attrname)
-        fget, fset, fdel, doc = None, None, None, propname
         if "r" in permission:
 
             def fget(self):
@@ -124,10 +123,16 @@ def _attribute(permission="rwd", **kwds):
                     setattr(self, attrname, default)
                 return value
 
+        else:
+            fget = None
+
         if "w" in permission:
 
             def fset(self, value):
                 setattr(self, attrname, value)
+
+        else:
+            fset = None
 
         if "d" in permission:
 
@@ -139,7 +144,9 @@ def _attribute(permission="rwd", **kwds):
                 # calling fget can restore this attribute, so remove property
                 delattr(self.__class__, propname)
 
-        return property(fget=fget, fset=fset, fdel=fdel, doc=doc)
+        else:
+            fdel = None
+        return property(fget=fget, fset=fset, fdel=fdel, doc=propname)
 
     for attrname, default in kwds.items():
         classdict[attrname] = _property(attrname, default)
