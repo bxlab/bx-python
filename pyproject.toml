@@ -55,6 +55,8 @@ fi
 # for PyPy3.7), we need to build it using OpenBLAS (both before building the
 # bx-python wheel and when testing it), see
 # https://github.com/numpy/numpy/issues/15947#issuecomment-683355728
+# The ~/.numpy-site.cfg is supported by numpy <1.26.0 , see
+# https://numpy.org/doc/stable/release/1.26.0-notes.html#numpy-specific-build-customization
 before-all = """
 brew install openblas && cat > ~/.numpy-site.cfg <<EOF
 [openblas]
