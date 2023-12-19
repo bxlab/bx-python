@@ -5,13 +5,15 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 3
 
-    bx.intervals.operations
+   bx.intervals.operations
 
 Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 3
 
    bx.intervals.cluster
    bx.intervals.cluster_tests
@@ -24,6 +26,6 @@ Module contents
 ---------------
 
 .. automodule:: bx.intervals
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

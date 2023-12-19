@@ -1,7 +1,7 @@
-bx.bitset_tests module
-======================
+bx.bitset\_tests module
+=======================
 
 .. automodule:: bx.bitset_tests
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

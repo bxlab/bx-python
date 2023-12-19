@@ -1,7 +1,7 @@
-bx.seq.qdna_tests module
-========================
+bx.seq.qdna\_tests module
+=========================
 
 .. automodule:: bx.seq.qdna_tests
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

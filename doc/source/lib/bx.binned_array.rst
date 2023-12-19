@@ -1,7 +1,7 @@
-bx.binned_array module
-======================
+bx.binned\_array module
+=======================
 
 .. automodule:: bx.binned_array
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

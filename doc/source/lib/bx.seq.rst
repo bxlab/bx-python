@@ -5,6 +5,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 3
 
    bx.seq.core
    bx.seq.fasta
@@ -22,6 +23,6 @@ Module contents
 ---------------
 
 .. automodule:: bx.seq
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

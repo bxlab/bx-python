@@ -1,7 +1,7 @@
-bx_extras.pyparsing module
-==========================
+bx\_extras.pyparsing module
+===========================
 
 .. automodule:: bx_extras.pyparsing
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

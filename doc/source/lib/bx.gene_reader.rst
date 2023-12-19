@@ -1,7 +1,7 @@
-bx.gene_reader module
-=====================
+bx.gene\_reader module
+======================
 
 .. automodule:: bx.gene_reader
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

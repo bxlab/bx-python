@@ -1,7 +1,7 @@
-bx.cookbook.doc_optparse module
-===============================
+bx.cookbook.doc\_optparse module
+================================
 
 .. automodule:: bx.cookbook.doc_optparse
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

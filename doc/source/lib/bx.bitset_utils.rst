@@ -1,7 +1,7 @@
-bx.bitset_utils module
-======================
+bx.bitset\_utils module
+=======================
 
 .. automodule:: bx.bitset_utils
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,7 +1,7 @@
-bx.phylo.newick_tests module
-============================
+bx.phylo.newick\_tests module
+=============================
 
 .. automodule:: bx.phylo.newick_tests
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

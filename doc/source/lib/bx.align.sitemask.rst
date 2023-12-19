@@ -5,6 +5,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 3
 
    bx.align.sitemask.core
    bx.align.sitemask.cpg
@@ -15,6 +16,6 @@ Module contents
 ---------------
 
 .. automodule:: bx.align.sitemask
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

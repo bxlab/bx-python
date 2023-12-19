@@ -5,6 +5,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 3
 
    bx.arrays.array_tree
    bx.arrays.array_tree_tests
@@ -15,6 +16,6 @@ Module contents
 ---------------
 
 .. automodule:: bx.arrays
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

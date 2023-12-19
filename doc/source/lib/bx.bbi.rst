@@ -5,6 +5,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 3
 
    bx.bbi.bbi_file
    bx.bbi.bigbed_file
@@ -17,6 +18,6 @@ Module contents
 ---------------
 
 .. automodule:: bx.bbi
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

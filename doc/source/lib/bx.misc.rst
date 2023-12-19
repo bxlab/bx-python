@@ -5,6 +5,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 3
 
    bx.misc.bgzf
    bx.misc.bgzf_tests
@@ -23,6 +24,6 @@ Module contents
 ---------------
 
 .. automodule:: bx.misc
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

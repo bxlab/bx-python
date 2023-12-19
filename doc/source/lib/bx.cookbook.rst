@@ -5,6 +5,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 3
 
    bx.cookbook.argparse
    bx.cookbook.attribute
@@ -15,6 +16,6 @@ Module contents
 ---------------
 
 .. automodule:: bx.cookbook
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

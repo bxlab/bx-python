@@ -1,7 +1,7 @@
-bx.misc.seeklzop_tests module
-=============================
+bx.misc.seeklzop\_tests module
+==============================
 
 .. automodule:: bx.misc.seeklzop_tests
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

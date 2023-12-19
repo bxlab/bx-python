@@ -1,7 +1,7 @@
-bx.misc.filecache_tests module
-==============================
+bx.misc.filecache\_tests module
+===============================
 
 .. automodule:: bx.misc.filecache_tests
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

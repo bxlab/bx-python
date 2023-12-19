@@ -1,7 +1,7 @@
-bx_extras.fpconst module
-========================
+bx\_extras.fpconst module
+=========================
 
 .. automodule:: bx_extras.fpconst
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

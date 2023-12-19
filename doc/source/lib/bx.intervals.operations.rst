@@ -5,6 +5,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 3
 
    bx.intervals.operations.base_coverage
    bx.intervals.operations.complement
@@ -21,6 +22,6 @@ Module contents
 ---------------
 
 .. automodule:: bx.intervals.operations
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

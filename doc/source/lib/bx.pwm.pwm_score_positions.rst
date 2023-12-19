@@ -1,7 +1,7 @@
-bx.pwm.pwm_score_positions module
-=================================
+bx.pwm.pwm\_score\_positions module
+===================================
 
 .. automodule:: bx.pwm.pwm_score_positions
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,7 +1,7 @@
-bx.pwm.pwm_score_maf module
-===========================
+bx.pwm.pwm\_score\_maf module
+=============================
 
 .. automodule:: bx.pwm.pwm_score_maf
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

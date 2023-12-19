@@ -5,24 +5,26 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 3
 
-    bx.align
-    bx.arrays
-    bx.bbi
-    bx.cookbook
-    bx.intervals
-    bx.intseq
-    bx.misc
-    bx.motif
-    bx.phylo
-    bx.pwm
-    bx.seq
-    bx.tabular
+   bx.align
+   bx.arrays
+   bx.bbi
+   bx.cookbook
+   bx.intervals
+   bx.intseq
+   bx.misc
+   bx.motif
+   bx.phylo
+   bx.pwm
+   bx.seq
+   bx.tabular
 
 Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 3
 
    bx.binned_array
    bx.binned_array_tests
@@ -43,6 +45,6 @@ Module contents
 ---------------
 
 .. automodule:: bx
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,7 +1,7 @@
-bx.intervals.operations.find_clusters module
-============================================
+bx.intervals.operations.find\_clusters module
+=============================================
 
 .. automodule:: bx.intervals.operations.find_clusters
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

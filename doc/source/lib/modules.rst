@@ -2,7 +2,7 @@ lib
 ===
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 3
 
    bx
    bx_extras

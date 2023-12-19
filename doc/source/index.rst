@@ -1,5 +1,5 @@
-About bx-python
-===============
+Welcome to bx-python's documentation!
+=====================================
 
 The bx-python project is a python library and associated set of scripts to allow for rapid implementation of genome scale analyses. The library contains a variety of useful modules, but the particular strengths are:
 
@@ -11,11 +11,9 @@ The bx-python project is a python library and associated set of scripts to allow
 
 These tools have been used in a variety of published research, and are a fundamental part of the ongoing Galaxy and ESPERR projects.
 
-Contents
-========
-
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 4
+   :caption: Contents:
 
    Application Documentation <lib/modules>
 
@@ -25,4 +23,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

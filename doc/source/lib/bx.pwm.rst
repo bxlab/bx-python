@@ -5,6 +5,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 3
 
    bx.pwm.bed_score_aligned_pwm
    bx.pwm.bed_score_aligned_string
@@ -19,6 +20,6 @@ Module contents
 ---------------
 
 .. automodule:: bx.pwm
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

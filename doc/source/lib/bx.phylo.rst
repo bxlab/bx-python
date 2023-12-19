@@ -5,6 +5,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 3
 
    bx.phylo.newick
    bx.phylo.newick_tests
@@ -15,6 +16,6 @@ Module contents
 ---------------
 
 .. automodule:: bx.phylo
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

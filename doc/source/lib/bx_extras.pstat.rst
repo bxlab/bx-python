@@ -1,7 +1,7 @@
-bx_extras.pstat module
-======================
+bx\_extras.pstat module
+=======================
 
 .. automodule:: bx_extras.pstat
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

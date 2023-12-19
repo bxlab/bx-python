@@ -5,14 +5,16 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 3
 
-    bx.align.sitemask
-    bx.align.tools
+   bx.align.sitemask
+   bx.align.tools
 
 Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 3
 
    bx.align.axt
    bx.align.core
@@ -29,6 +31,6 @@ Module contents
 ---------------
 
 .. automodule:: bx.align
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

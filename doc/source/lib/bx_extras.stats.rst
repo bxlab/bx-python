@@ -1,7 +1,7 @@
-bx_extras.stats module
-======================
+bx\_extras.stats module
+=======================
 
 .. automodule:: bx_extras.stats
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
