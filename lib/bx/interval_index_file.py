@@ -80,6 +80,7 @@ offset+16+B:  ...          (B bytes) value for interval 2
 ...          ...           ...
 ============ ===========   =================================================
 """
+
 import os.path
 import sys
 from bisect import (

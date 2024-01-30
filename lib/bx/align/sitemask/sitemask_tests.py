@@ -1,6 +1,7 @@
 """
 Tests for `bx.align.maf.sitemask`.
 """
+
 import tempfile
 from io import StringIO
 

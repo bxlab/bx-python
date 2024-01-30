@@ -1,6 +1,7 @@
 """
 Tests for `bx.wiggle`.
 """
+
 import unittest
 from io import StringIO
 

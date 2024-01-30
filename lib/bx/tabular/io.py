@@ -1,6 +1,7 @@
 """
 Reading and writing delimited data files (with headers and comments).
 """
+
 from itertools import count
 
 FIRST_LINE_IS_HEADER = object()

@@ -1,6 +1,7 @@
 """
 Tests for `bx.misc.seekbzip2`.
 """
+
 import bz2
 import os
 import random

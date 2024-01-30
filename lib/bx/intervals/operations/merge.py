@@ -2,7 +2,6 @@
 Merge overlapping regions in two sets of genomic intervals.
 """
 
-
 from bx.intervals.io import BitsetSafeReaderWrapper
 from bx.intervals.operations import (
     bits_set_in_range,

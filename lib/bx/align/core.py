@@ -1,6 +1,7 @@
 """
 Classes that represent alignments between multiple sequences.
 """
+
 import random
 import weakref
 

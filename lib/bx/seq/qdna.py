@@ -39,6 +39,7 @@ variable (in which case it is an error).
 Recognized properties (at present only one):
   - codebook: A string in qdna code file format (see QdnaCodebook class for details).
 """
+
 import struct
 from io import StringIO
 

@@ -1,6 +1,7 @@
 """
 Tests for `bx.seqmapping`.
 """
+
 import unittest
 from io import StringIO
 

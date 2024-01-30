@@ -1,6 +1,7 @@
 """
 Access to files containing sequence data in 'twobit' format.
 """
+
 from collections.abc import Mapping
 from struct import (
     calcsize,

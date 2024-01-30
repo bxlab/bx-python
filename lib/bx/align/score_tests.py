@@ -1,6 +1,7 @@
 """
 Tests for `bx.align.score`.
 """
+
 import unittest
 from io import StringIO
 

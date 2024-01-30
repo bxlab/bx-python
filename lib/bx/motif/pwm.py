@@ -1,6 +1,7 @@
 """
 Classes for working with position specific matrices.
 """
+
 from copy import copy
 
 import numpy

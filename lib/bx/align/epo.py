@@ -1,6 +1,5 @@
 """Classes and utilities for mutliple alignments from the EPO pipeline"""
 
-
 import logging
 import os
 import pickle as cPickle

@@ -1,6 +1,7 @@
 """
 Semi-random access to bz2 compressed data.
 """
+
 import bisect
 
 from ._seekbzip2 import SeekBzip2

@@ -1,6 +1,7 @@
 """
 Wrappers for doing binary IO on file-like objects
 """
+
 import struct
 import sys
 
