@@ -982,8 +982,7 @@ class _VersionAction(Action):
 class _SubParsersAction(Action):
     class _ChoicesPseudoAction(Action):
         def __init__(self, name, help):
-            sup = super(_SubParsersAction._ChoicesPseudoAction, self)
-            sup.__init__(option_strings=[], dest=name, help=help)
+            super().__init__(option_strings=[], dest=name, help=help)
 
     def __init__(self, option_strings, prog, parser_class, dest=SUPPRESS, help=None, metavar=None):
         self._prog_prefix = prog

@@ -1,8 +1,5 @@
-import os
-import os.path
 import platform
 import sys
-from distutils.core import Command
 from glob import glob
 
 from setuptools import (
@@ -54,46 +51,6 @@ try:
 
     command_classes["sdist"] = build_ext_sdist
 except ImportError:
-    pass
-
-# Use epydoc if found
-try:
-    import epydoc.cli
-
-    # Create command class to build API documentation
-    class BuildAPIDocs(Command):
-        user_options = []
-
-        def initialize_options(self):
-            pass
-
-        def finalize_options(self):
-            pass
-
-        def run(self):
-            # Save working directory and args
-            old_argv = sys.argv
-            old_cwd = os.getcwd()
-            # Build command line for Epydoc
-            sys.argv = """epydoc.py bx --verbose --html --simple-term
-                                       --exclude=._
-                                       --exclude=_tests
-                                       --docformat=reStructuredText
-                                       --output=../doc/docbuild/html/apidoc""".split()
-            # Make output directory
-            if not os.path.exists("./doc/docbuild/html/apidoc"):
-                os.mkdir("./doc/docbuild/html/apidoc")
-            # Move to lib directory (so bx package is in current directory)
-            os.chdir("./lib")
-            # Invoke epydoc
-            epydoc.cli.cli()
-            # Restore args and working directory
-            sys.argv = old_argv
-            os.chdir(old_cwd)
-
-    # Add to extra_commands
-    command_classes["build_apidocs"] = BuildAPIDocs
-except Exception:
     pass
 
 # ---- Extension Modules ----------------------------------------------------
