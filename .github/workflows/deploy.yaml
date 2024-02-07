@@ -11,18 +11,18 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            arch: auto
+            archs: auto
           - os: macos-latest
-            arch: x86_64 arm64
+            archs: x86_64 arm64
           - os: ubuntu-latest
-            arch: aarch64
+            archs: aarch64
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
       - name: Set up QEMU to build non-native architectures
-        if: ${{ matrix.arch == 'aarch64' }}
+        if: ${{ matrix.archs == 'aarch64' }}
         uses: docker/setup-qemu-action@v3
       - name: Install required Python packages
         run: |
@@ -31,16 +31,16 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir dist
         env:
-          CIBW_ARCHS: ${{matrix.arch}}
+          CIBW_ARCHS: ${{ matrix.archs }}
           # Skip building musllinux wheels for the Python versions for which the oldest
           # supported numpy version doesn't have musllinux wheels on PyPI.
           # Skip also building for PyPy 3.8, which is deprecated upstream.
           CIBW_SKIP: "cp38-musllinux_* cp39-musllinux_* cp310-musllinux_* cp311-musllinux_* pp38-*"
       - name: Check packages
         run: twine check dist/*
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          name: packages
+          name: "packages-${{ matrix.os }}-${{ matrix.archs }}"
           path: dist/
 
   build_sdist:
@@ -64,21 +64,24 @@ jobs:
           python -c 'import bx, bx.align, bx.align.sitemask, bx.align.tools, bx.arrays, bx.bbi, bx.cookbook, bx.intervals, bx.intervals.operations, bx.intseq, bx.misc, bx.motif, bx.motif.io, bx.motif.logo, bx.phylo, bx.pwm, bx.seq, bx.tabular, bx_extras'
       - name: Check packages
         run: twine check dist/*
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          name: packages
+          name: packages-sdist
           path: dist/
 
   upload_pypi:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && github.repository_owner == 'bxlab'
     needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: packages
+          merge-multiple: true
           path: dist
+          pattern: packages-*
+      - name: Display structure of downloaded files
+        run: ls -R dist/
       - name: Publish to PyPI
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && github.repository_owner == 'bxlab'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
