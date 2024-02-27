@@ -1,8 +1,8 @@
 import random
 from tempfile import mktemp
 
-from . import interval_index_file
-from .interval_index_file import Indexes
+from bx import interval_index_file
+from bx.interval_index_file import Indexes
 
 
 def test_offsets():

@@ -2,7 +2,7 @@ import random
 
 import pytest
 
-from . import twobit
+from bx.seq import twobit
 
 
 def quick_fasta_iter(f):

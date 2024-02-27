@@ -11,7 +11,7 @@ from numpy import (
 )
 from numpy.random import random_sample as random
 
-from .binned_array import (
+from bx.binned_array import (
     BinnedArray,
     BinnedArrayWriter,
     FileBinnedArray,

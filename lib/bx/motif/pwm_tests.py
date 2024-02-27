@@ -3,7 +3,7 @@ from numpy import (
     isnan,
 )
 
-from . import pwm
+from bx.motif import pwm
 
 
 def test_create():

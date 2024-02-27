@@ -2,7 +2,7 @@ from io import StringIO
 
 from numpy import allclose
 
-from . import transfac
+from bx.motif.io import transfac
 
 sample = """
 VV  TRANSFAC MATRIX TABLE, Rel.3.2 26-06-1997
