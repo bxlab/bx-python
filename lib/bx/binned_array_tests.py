@@ -2,6 +2,7 @@
 Tests for `bx.binned_array`.
 """
 
+import pytest
 from numpy import (
     allclose,
     concatenate,
@@ -22,12 +23,9 @@ CHUNK_SIZE_ZEROS = 897
 # CHUNK_SIZE_RANDOM=9456
 # CHUNK_SIZE_ZEROS=8972
 
-source = target = None
 
-
-def setup():
-    global source
-    global target
+@pytest.fixture(scope="module")
+def source_target():
     source = []
     for _ in range(13):
         if random() < 0.5:
@@ -43,7 +41,8 @@ def setup():
     return source, target
 
 
-def test_simple():
+def test_simple(source_target):
+    source, target = source_target
     # Verify
     for i in range(len(source)):
         assert source[i] == target[i], "No match, index: %d, source: %f, target: %f, len( source ): %d" % (
@@ -66,7 +65,8 @@ def test_simple():
         )
 
 
-def test_file():
+def test_file(source_target):
+    source, target = source_target
     # With a file (zlib)
     target.to_file(open("/tmp/foo", "wb"))
     target2 = FileBinnedArray(open("/tmp/foo", "rb"))
@@ -87,7 +87,8 @@ def test_file():
         )
 
 
-def test_file_lzo():
+def test_file_lzo(source_target):
+    source, target = source_target
     # With a file (lzo)
     target.to_file(open("/tmp/foo3", "wb"), comp_type="lzo")
     target3 = FileBinnedArray(open("/tmp/foo3", "rb"))
@@ -109,7 +110,8 @@ def test_file_lzo():
         )
 
 
-def test_binned_array_writer():
+def test_binned_array_writer(source_target):
+    source, target = source_target
     # Test with ba writer
     o = open("/tmp/foo4", "wb")
     w = BinnedArrayWriter(o, 128, comp_type="lzo")
