@@ -7,7 +7,7 @@ import os
 import random
 from codecs import encode
 
-from . import seekbzip2
+from bx.misc import seekbzip2
 
 F = None
 T = None

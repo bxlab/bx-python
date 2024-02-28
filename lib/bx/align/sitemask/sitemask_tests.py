@@ -6,7 +6,7 @@ import tempfile
 from io import StringIO
 
 import bx.align.maf
-from . import cpg
+from bx.align.sitemask import cpg
 
 test_maf_cpg = """##maf version=1 scoring=none
 a score=0

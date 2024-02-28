@@ -1,14 +1,6 @@
-import os
-import sys
 import unittest
 
-try:
-    sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-except Exception:
-    sys.path.insert(0, os.path.dirname(os.path.abspath(".")))
-
-# from bx.intervals.cluster import ClusterTree
-from .cluster import ClusterTree
+from bx.intervals.cluster import ClusterTree
 
 
 class TestCluster(unittest.TestCase):

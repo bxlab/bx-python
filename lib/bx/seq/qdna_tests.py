@@ -4,7 +4,7 @@ Tests for `bx.seq.qdna`.
 
 import unittest
 
-from . import qdna
+from bx.seq import qdna
 
 test_qdna = "test_data/seq_tests/test.qdna"
 
