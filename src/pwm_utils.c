@@ -1,7 +1,7 @@
 
 #include <ctype.h>
 #include <stdio.h>
-#include <strings.h>
+#include <string.h>
 
 int symbol_match( char, char);
 int pattern_match( char*, char*, int);
