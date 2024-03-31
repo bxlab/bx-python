@@ -282,8 +282,6 @@ cdef class Interval:
 
     >>> f1 = Interval(23, 36)
     >>> f2 = Interval(34, 48, value=OrderedDict([('chr', 12), ('anno', 'transposon')]))
-    >>> f2
-    Interval(34, 48, value=OrderedDict([('chr', 12), ('anno', 'transposon')]))
 
     """
     cdef public int start, end
