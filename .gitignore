@@ -32,3 +32,6 @@ nose*.egg
 
 # Built sdist directory
 dist
+
+# Testing
+.tox/
