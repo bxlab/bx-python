@@ -6,7 +6,7 @@ import pytest
 from numpy import (
     allclose,
     concatenate,
-    NaN,
+    nan,
     zeros,
 )
 from numpy.random import random_sample as random
@@ -34,7 +34,7 @@ def source_target():
             source = concatenate((source, zeros(CHUNK_SIZE_ZEROS, "f")))
     source = source.astype("f")
     # Set on target
-    target = BinnedArray(128, NaN, len(source))
+    target = BinnedArray(128, nan, len(source))
     for i in range(len(source)):
         # if not isNaN( source[i] ):
         target[i] = source[i]

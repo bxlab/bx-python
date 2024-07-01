@@ -20,7 +20,7 @@ from numpy import (
     array,
     concatenate,
     frombuffer,
-    NaN,
+    nan,
     resize,
     zeros,
 )
@@ -70,7 +70,7 @@ def bytesify(s):
 
 
 class BinnedArray:
-    def __init__(self, bin_size=512 * 1024, default=NaN, max_size=MAX, typecode="f"):
+    def __init__(self, bin_size=512 * 1024, default=nan, max_size=MAX, typecode="f"):
         self.max_size = max_size
         self.bin_size = bin_size
         self.nbins = int(math.ceil(max_size / self.bin_size))
@@ -273,7 +273,7 @@ class FileBinnedArray:
 
 
 class BinnedArrayWriter:
-    def __init__(self, f, bin_size=512 * 1024, default=NaN, max_size=MAX, typecode="f", comp_type="zlib"):
+    def __init__(self, f, bin_size=512 * 1024, default=nan, max_size=MAX, typecode="f", comp_type="zlib"):
         # All parameters in the constructor are immutable after creation
         self.f = f
         self.max_size = max_size
