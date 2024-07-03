@@ -12,11 +12,7 @@ usage: %prog n < maf_file
 import string
 import sys
 
-import psyco
-
 from bx.align import maf
-
-psyco.profile()
 
 
 def __main__():
