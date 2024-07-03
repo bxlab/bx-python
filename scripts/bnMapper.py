@@ -292,14 +292,14 @@ def loadChains(path):
 
     EPO = epo.Chain._parse_file(path, True)
     # convert coordinates w.r.t the forward strand (into slices)
-    # compute cummulative intervals
+    # compute cumulative intervals
     for i in range(len(EPO)):
         ch, S, T, Q = EPO[i]
         if ch.tStrand == "-":
             ch = ch._replace(tEnd=ch.tSize - ch.tStart, tStart=ch.tSize - ch.tEnd)
         if ch.qStrand == "-":
             ch = ch._replace(qEnd=ch.qSize - ch.qStart, qStart=ch.qSize - ch.qEnd)
-        EPO[i] = (ch, epo.cummulative_intervals(S, T), epo.cummulative_intervals(S, Q))
+        EPO[i] = (ch, epo.cumulative_intervals(S, T), epo.cumulative_intervals(S, Q))
     # now each element of epo is (chain_header, target_intervals, query_intervals)
     assert all(t[0].tStrand == "+" for t in EPO), "all target strands should be +"
     return EPO

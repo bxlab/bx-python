@@ -186,7 +186,7 @@ def do_interval(sources, index, out, ref_src, start, end, seq_db, missing_data, 
         # Store the size of the reference sequence for building fake block
         if ref_src_size is None:
             ref_src_size = ref.src_size
-        # Handle the reference component seperately, it has no synteny status
+        # Handle the reference component separately, it has no synteny status
         # but we will try to fill in missing sequence
         if ref.start > last_stop:
             # Need to fill in some reference sequence
