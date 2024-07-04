@@ -6,4 +6,3 @@ lib
 
    bx
    bx_extras
-   psyco_full

@@ -1046,10 +1046,8 @@ class ParserElement:
         This speedup may break existing programs that use parse actions that
         have side-effects.  For this reason, packrat parsing is disabled when
         you first import pyparsing.  To activate the packrat feature, your
-        program must call the class method ParserElement.enablePackrat().  If
-        your program uses psyco to "compile as you go", you must call
-        enablePackrat before calling psyco.full().  If you do not do this,
-        Python will crash.  For best results, call enablePackrat() immediately
+        program must call the class method ParserElement.enablePackrat().
+        For best results, call enablePackrat() immediately
         after importing pyparsing.
         """
         if not ParserElement._packratEnabled:
