@@ -9,7 +9,7 @@ from numpy import (
     nan,
     zeros,
 )
-from numpy.random import random_sample as random
+from numpy.random import default_rng
 
 from bx.binned_array import (
     BinnedArray,
@@ -23,13 +23,15 @@ CHUNK_SIZE_ZEROS = 897
 # CHUNK_SIZE_RANDOM=9456
 # CHUNK_SIZE_ZEROS=8972
 
+rng = default_rng()
+
 
 @pytest.fixture(scope="module")
 def source_target():
     source = []
     for _ in range(13):
-        if random() < 0.5:
-            source = concatenate((source, random(CHUNK_SIZE_RANDOM)))
+        if rng.random() < 0.5:
+            source = concatenate((source, rng.random(CHUNK_SIZE_RANDOM)))
         else:
             source = concatenate((source, zeros(CHUNK_SIZE_ZEROS, "f")))
     source = source.astype("f")
@@ -53,8 +55,8 @@ def test_simple(source_target):
         )
     # Verify with slices
     for _ in range(10):
-        a = int(random() * len(source))
-        b = int(random() * len(source))
+        a = int(rng.random() * len(source))
+        b = int(rng.random() * len(source))
         if b < a:
             a, b = b, a
         assert allclose(source[a:b], target[a:b]), "No match, index: %d:%d, source: %s, target: %s" % (
@@ -75,8 +77,8 @@ def test_file(source_target):
     # Verify with slices
     target2 = FileBinnedArray(open("/tmp/foo", "rb"))
     for _ in range(10):
-        a = int(random() * len(source))
-        b = int(random() * len(source))
+        a = int(rng.random() * len(source))
+        b = int(rng.random() * len(source))
         if b < a:
             a, b = b, a
         assert allclose(source[a:b], target[a:b]), "No match, index: %d:%d, source: %s, target: %s" % (
@@ -98,8 +100,8 @@ def test_file_lzo(source_target):
     # Verify with slices
     target3 = FileBinnedArray(open("/tmp/foo3", "rb"))
     for _ in range(10):
-        a = int(random() * len(source))
-        b = int(random() * len(source))
+        a = int(rng.random() * len(source))
+        b = int(rng.random() * len(source))
         if b < a:
             a, b = b, a
         assert allclose(source[a:b], target3[a:b]), "No match, index: %d:%d, source: %s, target: %s" % (

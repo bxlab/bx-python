@@ -81,9 +81,10 @@ target-version = "py38"
 [tool.ruff.lint]
 # Enable: pycodestyle errors (E), Pyflakes (F), flake8-bugbear (B),
 # flake8-comprehensions (C4), flake8-logging-format (G),
-# flake8-implicit-str-concat (ISC) and pyupgrade (UP)
+# flake8-implicit-str-concat (ISC), NumPy-specific rules (NPY)
+# and pyupgrade (UP)
 #select = ["E", "F", "B", "C4", "G", "ISC", "NPY", "UP"]
-select = ["E", "F", "ISC"]
+select = ["E", "F", "ISC", "NPY"]
 # Exceptions:
 # B9 flake8-bugbear opinionated warnings
 # E501 is line length (delegated to black)
