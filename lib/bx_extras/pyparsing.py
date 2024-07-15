@@ -1683,12 +1683,10 @@ class Word(Token):
             if self.bodyCharsOrig == self.initCharsOrig:
                 self.reString = "[%s]+" % _escapeRegexRangeChars(self.initCharsOrig)
             elif len(self.bodyCharsOrig) == 1:
-                self.reString = "{}[{}]*".format(
-                    re.escape(self.initCharsOrig), _escapeRegexRangeChars(self.bodyCharsOrig)
-                )
+                self.reString = f"{re.escape(self.initCharsOrig)}[{_escapeRegexRangeChars(self.bodyCharsOrig)}]*"
             else:
-                self.reString = "[{}][{}]*".format(
-                    _escapeRegexRangeChars(self.initCharsOrig), _escapeRegexRangeChars(self.bodyCharsOrig)
+                self.reString = (
+                    f"[{_escapeRegexRangeChars(self.initCharsOrig)}][{_escapeRegexRangeChars(self.bodyCharsOrig)}]*"
                 )
             if self.asKeyword:
                 self.reString = r"\b" + self.reString + r"\b"
