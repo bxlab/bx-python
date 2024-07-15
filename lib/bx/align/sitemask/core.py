@@ -43,5 +43,5 @@ class MaskPipeline(Pipeline):
             try:
                 masker.__call__
             except AttributeError:
-                raise Exception('Masker in pipeline does not implement "filter( self, block )".')
+                raise Exception('Masker in pipeline does not implement "filter(self, block)".')
             masker(block)
