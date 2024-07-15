@@ -68,7 +68,7 @@ def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
         results = []
         rightTree.traverse(lambda x: report_unvisited(x, results))
         for item in results:
-            outfields = list()
+            outfields = []
             for x in range(leftlen):
                 outfields.append(".")
             outfields.extend(item.other)

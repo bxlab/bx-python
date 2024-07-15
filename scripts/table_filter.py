@@ -61,7 +61,7 @@ def __main__():
             if keep_comments:
                 print(element)
         else:
-            if expr is None or bool(eval(expr, dict(row=element))):
+            if expr is None or bool(eval(expr, {"row": element})):
                 if cols:
                     print("\t".join(element[c] for c in cols))
                 else:

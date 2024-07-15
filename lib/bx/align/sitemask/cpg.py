@@ -83,13 +83,13 @@ class nonCpG(Masker):
 
 
 def mask_columns(masklist, text, mask):
-    templist = list()
+    templist = []
     for position in masklist:
         if text[position] != "-":
             templist.append(position)
     templist.append(len(text))  # Add the end of the text
     # cut string
-    newtext = list()
+    newtext = []
     c = 0
     for position in templist:
         newtext.append(text[c:position])

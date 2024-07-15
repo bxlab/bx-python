@@ -194,7 +194,7 @@ class GenomicIntervalReader(TableReader):
             lens = {}
         last_chrom = None
         last_bitset = None
-        bitsets = dict()
+        bitsets = {}
         for interval in self:
             if isinstance(interval, GenomicInterval):
                 chrom = interval[self.chrom_col]

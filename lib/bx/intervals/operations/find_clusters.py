@@ -18,8 +18,8 @@ from bx.intervals.io import GenomicInterval
 
 
 def find_clusters(reader, mincols=1, minregions=2):
-    extra = dict()
-    chroms = dict()
+    extra = {}
+    chroms = {}
     linenum = -1
     for interval in reader:
         linenum += 1

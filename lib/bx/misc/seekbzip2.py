@@ -149,7 +149,7 @@ class SeekableBzip2File:
         return True
 
     def readlines(self, sizehint=-1):
-        return [ln for ln in self]
+        return list(self)
 
     def seekable(self):
         return True

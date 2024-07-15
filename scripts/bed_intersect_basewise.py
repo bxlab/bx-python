@@ -20,7 +20,7 @@ except ValueError:
 bits1 = binned_bitsets_from_file(open(in_fname))
 bits2 = binned_bitsets_from_file(open(in2_fname))
 
-bitsets = dict()
+bitsets = {}
 
 for key in bits1:
     if key in bits2:

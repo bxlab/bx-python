@@ -39,8 +39,8 @@ class BaseScriptTest:
 
     def test_script(self):
         # Accumulate parameters
-        input_files = dict()
-        output_files = dict()
+        input_files = {}
+        output_files = {}
         out_dir = None
         stdin = stdout = stderr = None
         for key in dir(self):
@@ -60,9 +60,9 @@ class BaseScriptTest:
                 out_dir = getattr(self, key)
                 assert os.path.isdir(out_dir)
         # Build the command line
-        input_fnames = dict()
-        output_fnames = dict()
-        all_fnames = dict()
+        input_fnames = {}
+        output_fnames = {}
+        all_fnames = {}
         for key, value in input_files.items():
             input_fnames[key] = value.filename
             all_fnames[key] = input_fnames[key]

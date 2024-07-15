@@ -178,7 +178,7 @@ class AbstractMultiIndexedAccess:
         return self.indexed_access_class(data_filename, index_filename, keep_open, **kwargs)
 
     def get(self, src, start, end):
-        return [block for block in self.get_as_iterator(src, start, end)]
+        return list(self.get_as_iterator(src, start, end))
 
     def get_as_iterator(self, src, start, end):
         for block, _index, _offset in self.get_as_iterator_with_index_and_offset(src, start, end):
@@ -257,7 +257,7 @@ class AbstractIndexedAccess:
             return f
 
     def get(self, src, start, end):
-        return [val for val in self.get_as_iterator(src, start, end)]
+        return list(self.get_as_iterator(src, start, end))
 
     def get_as_iterator(self, src, start, end):
         for val, _index, _offset in self.get_as_iterator_with_index_and_offset(src, start, end):
@@ -287,7 +287,7 @@ class Indexes:
     """A set of indexes, each identified by a unique name"""
 
     def __init__(self, filename=None):
-        self.indexes = dict()
+        self.indexes = {}
         if filename is not None:
             self.open(filename)
 
@@ -312,7 +312,7 @@ class Indexes:
 
     def open(self, filename):
         self.filename = filename
-        self.offsets = dict()  # (will map key to (offset,value_size))
+        self.offsets = {}  # (will map key to (offset,value_size))
         with open(filename, "rb") as f:
             magic, version, length = read_packed(f, ">3I")
             if magic != MAGIC:

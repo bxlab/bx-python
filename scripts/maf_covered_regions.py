@@ -35,7 +35,7 @@ def block_pid(comp1, comp2):
 def main():
     out_prefix = sys.argv[1]
     print(out_prefix)
-    out_files = dict()
+    out_files = {}
     for block in bx.align.maf.Reader(sys.stdin):
         ref_comp = block.components[0]
         ref_chrom = ref_comp.src.split(".")[1]

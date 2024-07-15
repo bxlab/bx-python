@@ -30,7 +30,7 @@ bits2 = binned_bitsets_from_file(open(in2_fname))
 bits1_covered = coverage(bits1)
 bits2_covered = coverage(bits2)
 
-bitsets = dict()
+bitsets = {}
 
 for key in bits1:
     if key in bits2:

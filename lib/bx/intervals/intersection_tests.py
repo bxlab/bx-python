@@ -160,13 +160,13 @@ class IntervalTreeTest(unittest.TestCase):
         iv = IntervalTree()
         n = 0
         for i in range(1, 1000, 80):
-            iv.insert(i, i + 10, dict(value=i * i))
+            iv.insert(i, i + 10, {"value": i * i})
             # add is synonym for insert.
-            iv.add(i + 20, i + 30, dict(astr=str(i * i)))
+            iv.add(i + 20, i + 30, {"astr": str(i * i)})
 
             # or insert/add an interval object with start, end attrs.
-            iv.insert_interval(Interval(i + 40, i + 50, value=dict(astr=str(i * i))))
-            iv.add_interval(Interval(i + 60, i + 70, value=dict(astr=str(i * i))))
+            iv.insert_interval(Interval(i + 40, i + 50, value={"astr": str(i * i)}))
+            iv.add_interval(Interval(i + 60, i + 70, value={"astr": str(i * i)}))
 
             n += 4
         self.intervals = self.iv = iv

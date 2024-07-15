@@ -28,7 +28,7 @@ def binned_bitsets_from_file(
     """
     last_chrom = None
     last_bitset = None
-    bitsets = dict()
+    bitsets = {}
     for line in f:
         if line.startswith("#") or line.isspace():
             continue
@@ -68,7 +68,7 @@ def binned_bitsets_from_bed_file(
     """
     last_chrom = None
     last_bitset = None
-    bitsets = dict()
+    bitsets = {}
     offset = 0
     for line in f:
         if line.startswith("#") or line.isspace():
@@ -108,7 +108,7 @@ def binned_bitsets_proximity(f, chrom_col=0, start_col=1, end_col=2, strand_col=
     """Read a file into a dictionary of bitsets"""
     last_chrom = None
     last_bitset = None
-    bitsets = dict()
+    bitsets = {}
     for line in f:
         if line.startswith("#"):
             continue
@@ -143,7 +143,7 @@ def binned_bitsets_from_list(list=[]):
     """Read a list into a dictionary of bitsets"""
     last_chrom = None
     last_bitset = None
-    bitsets = dict()
+    bitsets = {}
     for l in list:
         chrom = l[0]
         if chrom != last_chrom:

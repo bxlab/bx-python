@@ -18,7 +18,7 @@ from bx.cookbook import doc_optparse
 
 
 def read_scores(f):
-    scores_by_chrom = dict()
+    scores_by_chrom = {}
     for chrom, pos, val in bx.wiggle.Reader(f):
         if chrom not in scores_by_chrom:
             scores_by_chrom[chrom] = BinnedArray()

@@ -106,9 +106,7 @@ class SeqFile:
         return self.text[start : start + length]
 
     def reverse_complement(self, text):
-        comp = [ch for ch in text.translate(DNA_COMP)]
-        comp.reverse()
-        return "".join(comp)
+        return text.translate(DNA_COMP)[::-1]
 
 
 class SeqReader:

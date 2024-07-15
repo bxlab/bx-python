@@ -304,15 +304,15 @@ class HelpFormatter:
 
         # if usage is specified, use that
         if usage is not None:
-            usage = usage % dict(prog=self._prog)
+            usage = usage % {"prog": self._prog}
 
         # if no optionals or positionals are available, usage is just prog
         elif usage is None and not actions:
-            usage = "%(prog)s" % dict(prog=self._prog)
+            usage = "%(prog)s" % {"prog": self._prog}
 
         # if optionals and positionals are available, calculate usage
         elif usage is None:
-            prog = "%(prog)s" % dict(prog=self._prog)
+            prog = "%(prog)s" % {"prog": self._prog}
 
             # split optionals from positionals
             optionals = []
@@ -486,7 +486,7 @@ class HelpFormatter:
 
     def _format_text(self, text):
         if "%(prog)" in text:
-            text = text % dict(prog=self._prog)
+            text = text % {"prog": self._prog}
         text_width = self._width - self._current_indent
         indent = " " * self._current_indent
         return self._fill_text(text, text_width, indent) + "\n\n"
@@ -704,7 +704,7 @@ class ArgumentError(Exception):
             format = "%(message)s"
         else:
             format = "argument %(argument_name)s: %(message)s"
-        return format % dict(message=self.message, argument_name=self.argument_name)
+        return format % {"message": self.message, "argument_name": self.argument_name}
 
 
 class ArgumentTypeError(Exception):

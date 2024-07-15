@@ -318,7 +318,7 @@ class ParseResults:
                 self.__toklist = toklist[:]
             else:
                 self.__toklist = [toklist]
-            self.__tokdict = dict()
+            self.__tokdict = {}
 
         # this line is related to debugging the asXML bug
         # ~ asList = False
@@ -355,13 +355,13 @@ class ParseResults:
 
     def __setitem__(self, k, v):
         if isinstance(v, _ParseResultsWithOffset):
-            self.__tokdict[k] = self.__tokdict.get(k, list()) + [v]
+            self.__tokdict[k] = self.__tokdict.get(k, []) + [v]
             sub = v[0]
         elif isinstance(k, int):
             self.__toklist[k] = v
             sub = v
         else:
-            self.__tokdict[k] = self.__tokdict.get(k, list()) + [_ParseResultsWithOffset(v, 0)]
+            self.__tokdict[k] = self.__tokdict.get(k, []) + [_ParseResultsWithOffset(v, 0)]
             sub = v
         if isinstance(sub, ParseResults):
             sub.__parent = wkref(self)
@@ -698,7 +698,7 @@ class ParserElement:
     setDefaultWhitespaceChars = staticmethod(setDefaultWhitespaceChars)
 
     def __init__(self, savelist=False):
-        self.parseAction = list()
+        self.parseAction = []
         self.failAction = None
         # ~ self.name = "<unknown>"  # don't define self.name, let subclasses try/except upcall
         self.strRepr = None
@@ -709,7 +709,7 @@ class ParserElement:
         self.copyDefaultWhiteChars = True
         self.mayReturnEmpty = False  # used when checking for left-recursion
         self.keepTabs = False
-        self.ignoreExprs = list()
+        self.ignoreExprs = []
         self.debug = False
         self.streamlined = False
         self.mayIndexError = True  # used to optimize exception handling for subclasses that don't advance parse index
@@ -2585,7 +2585,7 @@ class Each(ParseExpression):
             raise ParseException(instring, loc, "Missing one or more required elements (%s)" % missing)
 
         # add any unmatched Optionals, in case they have default values defined
-        matchOrder += list(e for e in self.exprs if isinstance(e, Optional) and e.expr in tmpOpt)
+        matchOrder += [e for e in self.exprs if isinstance(e, Optional) and e.expr in tmpOpt]
 
         resultlist = []
         for e in matchOrder:
@@ -3531,7 +3531,7 @@ def withAttribute(*args, **attrDict):
         attrs = args[:]
     else:
         attrs = attrDict.items()
-    attrs = [(k, v) for k, v in attrs]
+    attrs = list(attrs)
 
     def pa(s, l, tokens):
         for attrName, attrValue in attrs:

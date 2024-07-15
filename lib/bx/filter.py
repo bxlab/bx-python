@@ -28,7 +28,7 @@ class Filter:
 
 class Pipeline(Filter):
     def __init__(self, **kwargs):
-        self.pipeline = list()
+        self.pipeline = []
 
     def __call__(self, block):
         for function in self.pipeline:

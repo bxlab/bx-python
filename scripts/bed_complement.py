@@ -14,7 +14,7 @@ from bx.cookbook import doc_optparse
 
 def read_len(f):
     """Read a 'LEN' file and return a mapping from chromosome to length"""
-    mapping = dict()
+    mapping = {}
     for line in f:
         fields = line.split()
         mapping[fields[0]] = int(fields[1])

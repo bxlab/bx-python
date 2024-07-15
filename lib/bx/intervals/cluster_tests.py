@@ -49,7 +49,7 @@ class TestCluster(unittest.TestCase):
         pairs = [(2 * i + 1, 2 * i + 2) for i in range(upto)]
         self.insertpairs(pairs)
         self.tree.insert(0, upto * 3, upto)
-        self.assertEqual([(0, upto * 3, [x for x in range(upto + 1)])], self.tree.getregions())
+        self.assertEqual([(0, upto * 3, list(range(upto + 1)))], self.tree.getregions())
 
     def test_minregions(self):
         self.tree = ClusterTree(0, 2)
@@ -92,7 +92,7 @@ class TestCluster(unittest.TestCase):
         ]
         self.insertpairs(pairs)
 
-        self.assertEqual([(1, 20, [x for x in range(14)]), (21, 22, [14])], self.tree.getregions())
+        self.assertEqual([(1, 20, list(range(14))), (21, 22, [14])], self.tree.getregions())
 
     def test_another(self):
         pairs = [
@@ -116,7 +116,7 @@ class TestCluster(unittest.TestCase):
         for s, e, i in pairs:
             self.tree.insert(s, e, i)
 
-        self.assertEqual([(1, 20, [x for x in range(14)]), (21, 22, [14])], self.tree.getregions())
+        self.assertEqual([(1, 20, list(range(14))), (21, 22, [14])], self.tree.getregions())
 
     def test_none(self):
         pairs = []

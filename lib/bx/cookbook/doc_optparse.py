@@ -85,7 +85,7 @@ def parse(docstring, arglist=None):
                     action = "store"
                     k = k.split("=")[0]
                 opt_strings.append(k)
-            p.add_option(*opt_strings, **dict(action=action, help=help.strip()))
+            p.add_option(*opt_strings, **{"action": action, "help": help.strip()})
     except (IndexError, ValueError):
         raise ParsingError("Cannot parse the option string correctly")
     return p.parse_args(arglist)

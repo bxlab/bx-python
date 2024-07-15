@@ -33,8 +33,8 @@ def main():
     neutral_bitsets = binned_bitsets_from_file(open(neutral_filename))
 
     # Generate divergence bitset from maf file
-    AR_div_bitsets = dict()
-    chr_lens = dict()
+    AR_div_bitsets = {}
+    chr_lens = {}
     reader = bx.align.maf.Reader(open(maf_filename))
 
     for block in reader:
@@ -69,12 +69,12 @@ def main():
             pos += 1
 
     # Copy div and snp bitsets
-    nonAR_snp_bitsets = dict()
+    nonAR_snp_bitsets = {}
     for chr in AR_snp_bitsets:
         nonAR_snp_bitsets[chr] = bx.bitset.BinnedBitSet()
         nonAR_snp_bitsets[chr].ior(AR_snp_bitsets[chr])
 
-    nonAR_div_bitsets = dict()
+    nonAR_div_bitsets = {}
     for chr in AR_div_bitsets:
         nonAR_div_bitsets[chr] = bx.bitset.BinnedBitSet()
         nonAR_div_bitsets[chr].ior(AR_div_bitsets[chr])

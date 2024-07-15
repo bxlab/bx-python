@@ -66,18 +66,11 @@ qScoresExpected = "4.1106 0.7810"
 class PWMTestCase(unittest.TestCase):
     def testReader(self):
         # test basic format: i.e. for jaspar
-        wms = [
-            wm for wm in pwm.Reader(StringIO(basicPwm), format="basic", background=background, score_correction=False)
-        ]
+        wms = list(pwm.Reader(StringIO(basicPwm), format="basic", background=background, score_correction=False))
         assert len(wms) == 1
 
         # test transfac format
-        wms = [
-            wm
-            for wm in pwm.Reader(
-                StringIO(transfacPwm), format="transfac", background=background, score_correction=False
-            )
-        ]
+        wms = list(pwm.Reader(StringIO(transfacPwm), format="transfac", background=background, score_correction=False))
         assert len(wms) == 1
 
         wm = wms[0]
@@ -87,7 +80,7 @@ class PWMTestCase(unittest.TestCase):
 
         qdSeq = []
         for ix, nt in enumerate(dSeq):
-            qdSeq.append(dict())
+            qdSeq.append({})
             qdSeq[ix][nt] = 1.0
         qScores = wm.score_seq(qdSeq)
         assert len(qScores) == 2

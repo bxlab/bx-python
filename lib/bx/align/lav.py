@@ -476,7 +476,7 @@ class Writer:
         self.block += 1
 
     def close(self):
-        keys = [key for key in self.blockHash]
+        keys = list(self.blockHash)
         keys = sort_keys_by_chrom(keys)
         for key in keys:
             (src1, strand1, src2, strand2) = key

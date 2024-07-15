@@ -50,7 +50,7 @@ def main():
     for entry in specieslist:
         fields = entry.split(",")
         lenstream = fileinput.FileInput(fields[1])
-        lendict = dict()
+        lendict = {}
         for line in lenstream:
             region = line.split()
             lendict[region[0]] = int(region[1])

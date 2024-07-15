@@ -33,9 +33,9 @@ class ScoringScheme:
         if gap2 is None:
             gap2 = gap1  # (scheme with gap1=gap2=None is legit)
         if isinstance(alphabet1, str):
-            alphabet1 = [ch for ch in alphabet1]
+            alphabet1 = list(alphabet1)
         if isinstance(alphabet2, str):
-            alphabet2 = [ch for ch in alphabet2]
+            alphabet2 = list(alphabet2)
         self.table = ones((text1_range, text2_range), typecode)
         self.table *= default
         self.gap_open = gap_open
@@ -143,7 +143,7 @@ def read_scoring_scheme(f, gap_open, gap_extend, gap1="-", gap2=None, **kwargs):
     if isinstance(f, str):
         f = open(f)
         close_it = True
-    ss = build_scoring_scheme("".join([line for line in f]), gap_open, gap_extend, gap1=gap1, gap2=gap2, **kwargs)
+    ss = build_scoring_scheme("".join(list(f)), gap_open, gap_extend, gap1=gap1, gap2=gap2, **kwargs)
     if close_it:
         f.close()
     return ss

@@ -312,9 +312,7 @@ class Component:
         if self.empty:
             text = None
         else:
-            comp = [ch for ch in self.text.translate(DNA_COMP)]
-            comp.reverse()
-            text = "".join(comp)
+            text = self.text.translate(DNA_COMP)[::-1]
         new = Component(self.src, start, self.size, strand, self._src_size, text)
         if self.empty:
             new.empty = True
@@ -386,7 +384,7 @@ class Component:
         if pos < start or pos > end:
             raise ValueError("Range error: %d not in %d-%d" % (pos, start, end))
         if not self.index:
-            self.index = list()
+            self.index = []
             if self.strand == "-":
                 # nota bene: for - strand self.index[x] maps to one column
                 # higher than is actually associated with the position;  thus

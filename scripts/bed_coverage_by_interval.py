@@ -25,7 +25,7 @@ def clone(bits):
 if len(sys.argv) > 3:
     mask_fname = sys.argv[3]
     mask = binned_bitsets_from_file(open(mask_fname))
-    new_bitsets = dict()
+    new_bitsets = {}
     for key in bitsets:
         if key in mask:
             b = clone(mask[key])

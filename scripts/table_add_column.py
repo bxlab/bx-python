@@ -38,7 +38,7 @@ def __main__():
             if keep_comments:
                 print(element)
         else:
-            val = eval(expr, dict(row=element))
+            val = eval(expr, {"row": element})
             print(str(element) + "\t" + str(val))
 
 

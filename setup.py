@@ -10,7 +10,7 @@ from setuptools.command.sdist import sdist
 
 
 def main():
-    metadata = dict(scripts=glob("scripts/*.py"), cmdclass=command_classes)
+    metadata = {"scripts": glob("scripts/*.py"), "cmdclass": command_classes}
 
     if len(sys.argv) >= 2 and (
         "--help" in sys.argv[1:] or sys.argv[1] in ("--help-commands", "egg_info", "--version", "clean")

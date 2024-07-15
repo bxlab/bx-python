@@ -228,7 +228,7 @@ class PositionWeightMatrix:
 
         # scale counts to integers
         for i in range(len(rows)):
-            hashRows.append(dict())
+            hashRows.append({})
             for x, sym in enumerate(alphabet):
                 (w, s) = rows[i][x]
                 hashRows[i][sym] = w * scale / s

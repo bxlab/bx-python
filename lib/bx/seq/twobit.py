@@ -84,7 +84,7 @@ class TwoBitFile(Mapping):
         # Header contains some reserved space
         self.reserved = self.read("L")
         # Read index of sequence names to offsets
-        index: Dict[str, TwoBitSequence] = dict()
+        index: Dict[str, TwoBitSequence] = {}
         for _ in range(self.seq_count):
             name = self.read_p_string()
             offset = self.read("L")

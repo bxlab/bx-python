@@ -46,7 +46,7 @@ def __main__():
 
     # Load Intervals
 
-    intersecters = dict()
+    intersecters = {}
     for line in open(range_filename):
         fields = line.split()
         src = prefix + fields[0]
