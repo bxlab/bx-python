@@ -12,13 +12,13 @@ test_fa = "test_data/seq_tests/test.fa"
 
 valid_seq = (
     "TGGAGGCATTTGTGATTCAATAGATGCAGAAAGAAACCTTCCTAGAGCTG"
-    + "GCGTTCTCTAACTAAAAGTGGAAAGTTCTGAGGAATGAGGACTGTTATAA"
-    + "ATCCCACCCCACACCGCACCTTCTCCAGGGAAGTTTCATGGCCGTGAAGA"
-    + "GGACAGAAAGTGAGAACCAAGATggaactgaataaacaagcttcacactg"
-    + "ttagtttccccatatgcttaccttcccacagatgccaaccttggaggcct"
-    + "aagaggcctagaatattatcctttgtctgatcatttctctacaaatttat"
-    + "tgttctttgttaagatgctacataagcccaaattctaaccacccctttga"
-    + "gttacccatcatcaagtttctcccatgtg"
+    "GCGTTCTCTAACTAAAAGTGGAAAGTTCTGAGGAATGAGGACTGTTATAA"
+    "ATCCCACCCCACACCGCACCTTCTCCAGGGAAGTTTCATGGCCGTGAAGA"
+    "GGACAGAAAGTGAGAACCAAGATggaactgaataaacaagcttcacactg"
+    "ttagtttccccatatgcttaccttcccacagatgccaaccttggaggcct"
+    "aagaggcctagaatattatcctttgtctgatcatttctctacaaatttat"
+    "tgttctttgttaagatgctacataagcccaaattctaaccacccctttga"
+    "gttacccatcatcaagtttctcccatgtg"
 )
 
 valid_seq_len = len(valid_seq)

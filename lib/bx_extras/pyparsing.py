@@ -1709,7 +1709,7 @@ class Word(Token):
             loc = result.end()
             return loc, result.group()
 
-        if not (instring[loc] in self.initChars):
+        if instring[loc] not in self.initChars:
             # ~ raise ParseException( instring, loc, self.errmsg )
             exc = self.myException
             exc.loc = loc
@@ -2047,7 +2047,7 @@ class White(Token):
             self.minLen = exact
 
     def parseImpl(self, instring, loc, doActions=True):
-        if not (instring[loc] in self.matchWhite):
+        if instring[loc] not in self.matchWhite:
             exc = self.myException
             exc.loc = loc
             exc.pstr = instring

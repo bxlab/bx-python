@@ -28,7 +28,7 @@ def main():
         if maf_file.endswith(".bz2"):
             table_file = maf_file + "t"
             if not os.path.exists(table_file):
-                doc_optparse.exit("To index bz2 compressed files first " "create a bz2t file with bzip-table.")
+                doc_optparse.exit("To index bz2 compressed files first create a bz2t file with bzip-table.")
             # Open with SeekableBzip2File so we have tell support
             maf_in = SeekableBzip2File(maf_file, table_file)
             # Strip .bz2 from the filename before adding ".index"
@@ -37,7 +37,7 @@ def main():
             table_file = maf_file + "t"
             if not os.path.exists(table_file):
                 doc_optparse.exit(
-                    "To index lzo compressed files first " "create a lzot file with lzop_build_offset_table."
+                    "To index lzo compressed files first create a lzot file with lzop_build_offset_table."
                 )
             # Open with SeekableBzip2File so we have tell support
             maf_in = SeekableLzopFile(maf_file, table_file)
