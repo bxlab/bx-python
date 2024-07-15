@@ -36,7 +36,7 @@ def convert_action(trg_comp, qr_comp, ts, qs, opt):
         try:
             ch, S, T, Q = Chain._make_from_epo(a, b, ts, qs)
             if np.sum(S) == 0:
-                log.info("insignificant genomic alignment block %s ..." % ch.id)
+                log.info("insignificant genomic alignment block %s ...", ch.id)
                 continue
             new_id = "%si%d" % (ch.id, i)
             print(str(ch._replace(id=new_id)), file=opt.output)
@@ -44,7 +44,7 @@ def convert_action(trg_comp, qr_comp, ts, qs, opt):
                 print("%d %d %d" % (s, t, q), file=opt.output)
             print("%d\n" % S[-1], file=opt.output)
         except KeyError:
-            log.warning(f"skipping chromosome/contig ({a.chrom}, {b.chrom})")
+            log.warning("skipping chromosome/contig (%s, %s)", a.chrom, b.chrom)
 
 
 if __name__ == "__main__":

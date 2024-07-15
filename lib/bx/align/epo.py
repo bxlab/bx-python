@@ -240,8 +240,14 @@ class EPOitem(namedtuple("Epo_item", "species gabid chrom start end strand cigar
         m_num = sum((t[1] == "M" and [t[0]] or [0])[0] for t in instance.cigar_iter(False))
         if span != m_num:
             log.warning(
-                "[{gabid}] {species}.{chrom}:{start}-{end}.".format(**instance._asdict())
-                + "(span) %d != %d (matches)" % (span, m_num)
+                "[%s] %s.%s:%s-%s.(span) %d != %d (matches)",
+                instance.gabid,
+                instance.species,
+                instance.chrom,
+                instance.start,
+                instance.end,
+                span,
+                m_num,
             )
             return None
         return instance

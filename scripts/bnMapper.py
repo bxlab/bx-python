@@ -166,10 +166,10 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
         """
         max_elem_idx = 0
         if len(to_elem_slices) == 0:
-            log.debug("%s: no match in target: discarding." % (str(from_elem)))
+            log.debug("%s: no match in target: discarding.", from_elem)
             continue
         elif len(to_elem_slices) > 1 and opt.keep_split:
-            log.debug("%s spans multiple chains/chromosomes. Using longest alignment." % (str(from_elem)))
+            log.debug("%s spans multiple chains/chromosomes. Using longest alignment.", from_elem)
             max_elem_len = 0
             for i in range(len(to_elem_slices)):
                 elem_len = to_elem_slices[i][-1][2] - to_elem_slices[i][0][2]
@@ -177,21 +177,21 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
                     max_elem_len = elem_len
                     max_elem_idx = i
         elif len(to_elem_slices) > 1:
-            log.debug("%s spans multiple chains/chromosomes: discarding." % (str(from_elem)))
+            log.debug("%s spans multiple chains/chromosomes: discarding.", from_elem)
             continue
         to_elem_slices = to_elem_slices[max_elem_idx]
         """ End AGD modifications """
 
         # apply threshold
         if (from_elem[2] - from_elem[1]) * opt.threshold > reduce(lambda b, a: a[2] - a[1] + b, to_elem_slices, 0):
-            log.debug("%s did not pass threshold" % (str(from_elem)))
+            log.debug("%s did not pass threshold", from_elem)
             continue
 
         # if to_species had insertions you can join elements
         to_elem_list = sorted(union_elements(to_elem_slices), key=lambda a: a[1])
         if to_elem_list:
             mapped_elem_count += 1
-            log.debug("\tjoined to %d elements" % (len(to_elem_list)))
+            log.debug("\tjoined to %d elements", len(to_elem_list))
             start = to_elem_list[0][1]
             end = to_elem_list[-1][2]
             if opt.format == "BED4":
@@ -242,12 +242,14 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
                         else:
                             mapped_summit_count -= 1
                             log.debug(
-                                f"Warning: elem {from_elem} summit mapped location falls outside the mapped element start and end. Using the mapped elem midpoint instead."
+                                "Warning: elem %s summit mapped location falls outside the mapped element start and end. Using the mapped elem midpoint instead.",
+                                from_elem,
                             )
 
                     else:
                         log.debug(
-                            f"Warning: elem {from_elem} summit maps to a gap region in the target alignment. Using the mapped elem midpoint instead."
+                            "Warning: elem %s summit maps to a gap region in the target alignment. Using the mapped elem midpoint instead.",
+                            from_elem,
                         )
                 out_fd.write(
                     NPEAK_FRM
@@ -264,16 +266,16 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
                         peak,
                     )
                 )
-    log.info("%s: %d of %d elements mapped" % (chrom, mapped_elem_count, from_elem_list.shape[0]))
+    log.info("%s: %d of %d elements mapped", chrom, mapped_elem_count, from_elem_list.shape[0])
     if opt.format == "narrowPeak" and opt.in_format == "narrowPeak":
-        log.info("%s: %d peak summits from %d mapped elements mapped" % (chrom, mapped_summit_count, mapped_elem_count))
+        log.info("%s: %d peak summits from %d mapped elements mapped", chrom, mapped_summit_count, mapped_elem_count)
 
 
 def transform_file(ELEMS, ofname, EPO, TREE, opt):
     "transform/map the elements of this file and dump the output on 'ofname'"
 
     BED4_FRM = "%s\t%d\t%d\t%s\n"
-    log.info("%s (%d) elements ..." % (opt.screen and "screening" or "transforming", ELEMS.shape[0]))
+    log.info("%s (%d) elements ...", opt.screen and "screening" or "transforming", ELEMS.shape[0])
     with open(ofname, "w") as out_fd:
         if opt.screen:
             for elem in ELEMS.flat:
@@ -311,7 +313,7 @@ def loadFeatures(path, opt):
     For narrowPeak, all columns are loaded.
     """
 
-    log.info("loading from %s ..." % path)
+    log.info("loading from %s ...", path)
     data = []
     if opt.in_format == "BED":
         with open(path) as fd:
@@ -410,7 +412,7 @@ if __name__ == "__main__":
 
     # create an interval tree based on chain headers (from_species side)
     # for fast feature-to-chain_header searching
-    log.info("indexing %d chains ..." % (len(EPO),))
+    log.info("indexing %d chains ...", len(EPO))
     TREE = GIntervalTree()
     for gabid in EPO:
         chain, t, q = EPO[gabid]
@@ -420,11 +422,11 @@ if __name__ == "__main__":
     if len(opt.input) > 1:
         for inpath in opt.input:
             if not os.path.isfile(inpath):
-                log.warning("skipping %s (not a file) ..." % inpath)
+                log.warning("skipping %s (not a file) ...", inpath)
                 continue
             outpath = os.path.join(opt.output, os.path.basename(inpath))
             if os.path.isfile(outpath):
-                log.warning("overwriting %s ..." % outpath)
+                log.warning("overwriting %s ...", outpath)
             transform_file(loadFeatures(inpath), outpath, EPO, TREE, opt)
     else:
         transform_file(loadFeatures(opt.input[0], opt), opt.output, EPO, TREE, opt)
