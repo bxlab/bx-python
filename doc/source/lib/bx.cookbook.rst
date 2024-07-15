@@ -10,7 +10,6 @@ Submodules
    bx.cookbook.argparse
    bx.cookbook.attribute
    bx.cookbook.doc_optparse
-   bx.cookbook.progress_bar
 
 Module contents
 ---------------
