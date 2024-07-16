@@ -97,9 +97,9 @@ class ScoringScheme:
             for b in self.alphabet2:
                 score = self._get_score((ord(a), ord(b)))
                 if isinstance(score, float):
-                    s = "%8.6f" % score
+                    s = f"{score:8.6f}"
                 else:
-                    s = "%s" % score
+                    s = f"{score}"
                 if len(s) + 1 > width:
                     width = len(s) + 1
         lines = []
@@ -113,7 +113,7 @@ class ScoringScheme:
             if isDna2:
                 s = b
             else:
-                s = "%02X" % ord(b)
+                s = f"{ord(b):02X}"
             line.append("%*s" % (width, s))
         lines.append(("".join(line)) + "\n")
         for a in self.alphabet1:
@@ -122,13 +122,13 @@ class ScoringScheme:
                 if isDna1:
                     line.append(a)
                 else:
-                    line.append("%02X" % ord(a))
+                    line.append(f"{ord(a):02X}")
             for b in self.alphabet2:
                 score = self._get_score((ord(a), ord(b)))
                 if isinstance(score, float):
-                    s = "%8.6f" % score
+                    s = f"{score:8.6f}"
                 else:
-                    s = "%s" % score
+                    s = f"{score}"
                 line.append("%*s" % (width, s))
             lines.append(("".join(line)) + "\n")
         return "".join(lines)

@@ -43,7 +43,7 @@ class FileBinnedArrayDir(Mapping):
         if key in self.cache:
             value = self.cache[key]
         else:
-            fname = os.path.join(self.dir, "%s.ba" % key)
+            fname = os.path.join(self.dir, f"{key}.ba")
             if os.path.exists(fname):
                 value = FileBinnedArray(open(fname))
                 self.cache[key] = value

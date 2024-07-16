@@ -99,7 +99,7 @@ class FastaWriter:
         self.columns = columns
 
     def write(self, seq):
-        print(">%s" % seq.name, file=self.file)
+        print(f">{seq.name}", file=self.file)
         text = seq.text
         if (self.columns is not None) and (self.columns > 0):
             text = "\n".join(text[ix : ix + self.columns] for ix in range(0, len(text), self.columns))

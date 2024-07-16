@@ -179,7 +179,7 @@ class Chain(namedtuple("Chain", "score tName tSize tStrand tStart tEnd qName qSi
     def _parse_file(cls, path, pickle=False):
         """parse a .chain file into a list of the type [(L{Chain}, arr, arr, arr) ...]
 
-        :param fname: name of the file"""
+        :param path: path of the file"""
 
         fname = path
         if fname.endswith(".gz"):
@@ -190,21 +190,23 @@ class Chain(namedtuple("Chain", "score tName tSize tStrand tStart tEnd qName qSi
             log.debug("loading pickled file %s ...", fname)
             with open(fname, "rb") as f:
                 return cPickle.load(f)
-        elif os.path.isfile("%s.pkl" % fname):
+
+        fname_pkl = f"{fname}.pkl"
+        if os.path.isfile(fname_pkl):
             # there is a cached version I can give to you
-            log.info("loading pickled file %s.pkl ...", fname)
-            if os.stat(path).st_mtime > os.stat("%s.pkl" % fname).st_mtime:
-                log.critical("*** pickled file %s.pkl is not up to date ***", fname)
+            log.info("loading pickled file %s ...", fname_pkl)
+            if os.stat(path).st_mtime > os.stat(fname_pkl).st_mtime:
+                log.critical("*** pickled file %s is not up to date ***", fname_pkl)
             try:
-                with open("%s.pkl" % fname, "rb") as f:
+                with open(fname_pkl, "rb") as f:
                     return cPickle.load(f)
             except Exception:
-                log.warning("Loading pickled file %s.pkl failed", fname)
+                log.warning("Loading pickled file %s failed", fname_pkl)
 
         data = fastLoadChain(path, cls._strfactory)
-        if pickle and not os.path.isfile("%s.pkl" % fname):
-            log.info("pickling to %s.pkl", fname)
-            with open("%s.pkl" % fname, "wb") as f:
+        if pickle and not os.path.isfile(fname_pkl):
+            log.info("pickling to %s", fname_pkl)
+            with open(fname_pkl, "wb") as f:
                 cPickle.dump(data, f)
         return data
 
@@ -232,7 +234,7 @@ class EPOitem(namedtuple("Epo_item", "species gabid chrom start end strand cigar
         cmp = line.rstrip().split()
         chrom = cmp[2]
         if not chrom.startswith("chr"):
-            chrom = "chr%s" % chrom
+            chrom = f"chr{chrom}"
         instance = tuple.__new__(
             cls, (cmp[0], cmp[1], chrom, int(cmp[3]), int(cmp[4]), {"1": "+", "-1": "-"}[cmp[5]], cmp[6])
         )

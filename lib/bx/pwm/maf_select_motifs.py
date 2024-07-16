@@ -17,7 +17,7 @@ def isnan(x):
 
 def main():
     if len(sys.argv) < 5:
-        print("%s transfac|basic pwmfile inmaf threshold [motif]" % sys.argv[0], file=sys.stderr)
+        print(f"{sys.argv[0]} transfac|basic pwmfile inmaf threshold [motif]", file=sys.stderr)
         sys.exit(2)
 
     r = pwmx.Reader(open(sys.argv[2]), format=sys.argv[1])
@@ -46,7 +46,7 @@ def mafwrite(alignment, kvec=None, jvec=None, file=sys.stdout):
     if not jvec:
         jvec = [0 for c in alignment.components]
     for c, x, y in zip(alignment.components, kvec, jvec):
-        rows.append(("s", c.src, str(c.start), str(c.size), c.strand, str(c.src_size), c.text, "%.2f" % x, str(y)))
+        rows.append(("s", c.src, str(c.start), str(c.size), c.strand, str(c.src_size), c.text, f"{x:.2f}", str(y)))
         file.write(format_tabular(rows, "llrrrrrrr"))
 
 

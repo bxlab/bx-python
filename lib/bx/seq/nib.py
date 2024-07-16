@@ -47,7 +47,7 @@ class NibFile(SeqFile):
             else:
                 raise Exception("Not a NIB file")
         self.magic = magic
-        self.length = struct.unpack("%sL" % self.byte_order, file.read(NIB_LENGTH_SIZE))[0]
+        self.length = struct.unpack(f"{self.byte_order}L", file.read(NIB_LENGTH_SIZE))[0]
 
     def raw_fetch(self, start, length):
         # Check parameters

@@ -44,7 +44,7 @@ def main():
 
             for i in range(len(matrix)):
                 for j in range(len(matrix[i])):
-                    print("%.2f" % matrix[i][j], end=" ", file=fbunch[fname])
+                    print(f"{matrix[i][j]:.2f}", end=" ", file=fbunch[fname])
                 print(file=fbunch[fname])
 
     for file in fbunch.values():

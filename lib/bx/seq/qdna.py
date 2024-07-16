@@ -66,29 +66,29 @@ class QdnaFile(SeqFile):
             if magic == qdnaMagicSwap:
                 self.byte_order = "<"
             else:
-                raise ValueError("not a quantum-dna file (magic=%08X)" % magic)
+                raise ValueError(f"not a quantum-dna file (magic={magic:08X})")
 
         self.magic = magic
 
         # process header
 
-        self.version = struct.unpack("%sL" % self.byte_order, self.file.read(4))[0]
+        self.version = struct.unpack(f"{self.byte_order}L", self.file.read(4))[0]
         if self.version not in [0x100, 0x200]:
-            raise ValueError("unsupported quantum-dna (version=%08X)" % self.version)
+            raise ValueError(f"unsupported quantum-dna (version={self.version:08X})")
 
-        self.headerLength = struct.unpack("%sL" % self.byte_order, self.file.read(4))[0]
+        self.headerLength = struct.unpack(f"{self.byte_order}L", self.file.read(4))[0]
         if self.headerLength < 0x10:
-            raise ValueError("unsupported quantum-dna (header len=%08X)" % self.headerLength)
+            raise ValueError(f"unsupported quantum-dna (header len={self.headerLength:08X})")
         if self.version == 0x100 and self.headerLength != 0x10:
-            raise ValueError("unsupported quantum-dna (version 1.0 header len=%08X)" % self.headerLength)
+            raise ValueError(f"unsupported quantum-dna (version 1.0 header len={self.headerLength:08X})")
 
-        self.seqOffset = struct.unpack("%sL" % self.byte_order, self.file.read(4))[0]
-        self.nameOffset = struct.unpack("%sL" % self.byte_order, self.file.read(4))[0]
-        self.length = struct.unpack("%sL" % self.byte_order, self.file.read(4))[0]
+        self.seqOffset = struct.unpack(f"{self.byte_order}L", self.file.read(4))[0]
+        self.nameOffset = struct.unpack(f"{self.byte_order}L", self.file.read(4))[0]
+        self.length = struct.unpack(f"{self.byte_order}L", self.file.read(4))[0]
 
         self.propOffset = 0
         if self.headerLength >= 0x14:
-            self.propOffset = struct.unpack("%sL" % self.byte_order, self.file.read(4))[0]
+            self.propOffset = struct.unpack(f"{self.byte_order}L", self.file.read(4))[0]
 
         self.name = ""
         if self.nameOffset != 0:
@@ -128,7 +128,7 @@ class QdnaFile(SeqFile):
         return self.file.read(length).decode()
 
     def get_quantum(self, start, length):
-        assert self.codebook is not None, "qdna sequence %s has no code book" % self.name
+        assert self.codebook is not None, f"qdna sequence {self.name} has no code book"
         return [self.codebook[codeNum] for codeNum in self.raw_fetch(start, length)]
 
 
@@ -183,7 +183,7 @@ class QdnaCodebook:
         for sym in self.alphabet:
             if sym not in vec:
                 vec[sym] = 0.0
-        return ("%02X\t" % ord(codeNum)) + "\t".join(["%.6f" % vec[sym] for sym in self.alphabet])
+        return (f"{ord(codeNum):02X}\t") + "\t".join([f"{vec[sym]:.6f}" for sym in self.alphabet])
 
     def __getitem__(self, codeNum):
         return self.codeToProbs[codeNum]
@@ -257,13 +257,13 @@ class QdnaWriter:
         assert seq.codebook is None, "QdnaWriter.write() does not support codebooks yet"
         propOffset = 0
 
-        self.file.write(struct.pack("%sL" % seq.byte_order, qdnaMagic))
-        self.file.write(struct.pack("%sL" % seq.byte_order, version))
-        self.file.write(struct.pack("%sL" % seq.byte_order, headerLen))
-        self.file.write(struct.pack("%sL" % seq.byte_order, dataOffset))
-        self.file.write(struct.pack("%sL" % seq.byte_order, nameOffset))
-        self.file.write(struct.pack("%sL" % seq.byte_order, len(text)))
-        self.file.write(struct.pack("%sL" % seq.byte_order, propOffset))
+        self.file.write(struct.pack(f"{seq.byte_order}L", qdnaMagic))
+        self.file.write(struct.pack(f"{seq.byte_order}L", version))
+        self.file.write(struct.pack(f"{seq.byte_order}L", headerLen))
+        self.file.write(struct.pack(f"{seq.byte_order}L", dataOffset))
+        self.file.write(struct.pack(f"{seq.byte_order}L", nameOffset))
+        self.file.write(struct.pack(f"{seq.byte_order}L", len(text)))
+        self.file.write(struct.pack(f"{seq.byte_order}L", propOffset))
         if nameOffset != 0:
             self.file.write(name)
         self.file.write(text)

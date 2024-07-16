@@ -244,7 +244,7 @@ class Dispatch:
 
     def __call__(self, arg1, *args, **kw):
         if type(arg1) not in self._types:
-            raise TypeError("don't know how to dispatch %s arguments" % type(arg1))
+            raise TypeError(f"don't know how to dispatch {type(arg1)} arguments")
         return self._dispatch[type(arg1)](*(arg1,) + args, **kw)
 
 

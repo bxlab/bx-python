@@ -86,11 +86,11 @@ def main():
         if chr not in ar:
             continue
 
-        print("reading %s ..." % chr, end=" ", file=sys.stderr)
+        print(f"reading {chr} ...", end=" ", file=sys.stderr)
         try:
             div = binned_bitsets_from_file(open(dirname + "/%s.bed" % (chr + suffix)), lens=lens)
         except Exception:
-            print("%s.bed not found" % chr, file=sys.stderr)
+            print(f"{chr}.bed not found", file=sys.stderr)
             continue
 
         div[chr].iand(snp_mask[chr])  # div/snp sites count snp-only

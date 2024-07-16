@@ -40,14 +40,14 @@ def main():
             arg = fields[0]
             val = fields[1]
             if val == "":
-                usage("missing a value in %s=" % arg)
+                usage(f"missing a value in {arg}=")
 
         if primary is None and val is None:
             primary = arg
         elif secondary is None and val is None:
             secondary = arg
         else:
-            usage("unknown argument: %s" % arg)
+            usage(f"unknown argument: {arg}")
 
     if primary is None:
         usage("missing primary species")

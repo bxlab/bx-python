@@ -79,7 +79,7 @@ class Alignment:
         elif chrom in self.species_to_lengths:
             chrom_to_length = self.species_to_lengths
         else:
-            raise ValueError("no src_size (no length file for %s)" % species)
+            raise ValueError(f"no src_size (no length file for {species})")
         if isinstance(chrom_to_length, int):  # (if it's a single length)
             return chrom_to_length
         if isinstance(chrom_to_length, str):  # (if it's a file name)
@@ -451,7 +451,7 @@ def get_reader(format, infile, species_to_lengths=None):
     elif format == "lav":
         return bx.align.lav.Reader(infile)
     else:
-        raise ValueError("Unknown alignment format %s" % format)
+        raise ValueError(f"Unknown alignment format {format}")
 
 
 def get_writer(format, outfile, attributes=None):
@@ -468,7 +468,7 @@ def get_writer(format, outfile, attributes=None):
     elif format == "lav":
         return bx.align.lav.Writer(outfile, attributes)
     else:
-        raise ValueError("Unknown alignment format %s" % format)
+        raise ValueError(f"Unknown alignment format {format}")
 
 
 def get_indexed(format, filename, index_filename=None, keep_open=False, species_to_lengths=None):
@@ -483,7 +483,7 @@ def get_indexed(format, filename, index_filename=None, keep_open=False, species_
     elif format == "lav":
         raise Exception("LAV support for Indexed has not been implemented")
     else:
-        raise ValueError("Unknown alignment format %s" % format)
+        raise ValueError(f"Unknown alignment format {format}")
 
 
 def shuffle_columns(a):
@@ -509,7 +509,7 @@ def src_merge(species, chrom, contig=None):  # creates src (inverse of src_split
     else:
         src = species + "." + chrom
     if contig is not None:
-        src += "[%s]" % contig
+        src += f"[{contig}]"
     return src
 
 

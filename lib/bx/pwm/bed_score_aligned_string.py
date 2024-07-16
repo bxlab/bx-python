@@ -17,7 +17,7 @@ def isnan(x):
 
 def main():
     if len(sys.argv) < 5:
-        print("%s bedfile inmaf spec1,spec2,... string [string2,...]" % sys.argv[0], file=sys.stderr)
+        print(f"{sys.argv[0]} bedfile inmaf spec1,spec2,... string [string2,...]", file=sys.stderr)
         sys.exit(0)
 
     # read in intervals
@@ -70,7 +70,7 @@ def main():
                             refstart = mafstart + offset - reftext.count("-", 0, offset)
                             refend = refstart + len(mx_name)
 
-                            data = " ".join(["%.2f" % mx[x][offset] for x in range(len(species))])
+                            data = " ".join([f"{mx[x][offset]:.2f}" for x in range(len(species))])
                             # quote the motif
                             r = regions[mafchrom].find(refstart, refend)
                             if mafchrom in regions and len(r) > 0:

@@ -74,12 +74,12 @@ def eps_logo(matrix, base_width, height, colors=DNA_DEFAULT_COLORS):
             # print matrix.alphabet[j], base_height, height_scale, page_height
             if page_height > 1:
                 # Draw letter
-                rval.write("%s setrgbcolor\n" % colors.get(char, "0 0 0"))
-                rval.write("%3.2f " % x)
-                rval.write("%3.2f " % y)
+                rval.write("{} setrgbcolor\n".format(colors.get(char, "0 0 0")))
+                rval.write(f"{x:3.2f} ")
+                rval.write(f"{y:3.2f} ")
                 rval.write("%3.2f " % (x + base_width))
                 rval.write("%3.2f " % (y + page_height))
-                rval.write("(%s) textInBox\n" % char)
+                rval.write(f"({char}) textInBox\n")
             y += page_height
     rval.write("showpage")
     return rval.getvalue()

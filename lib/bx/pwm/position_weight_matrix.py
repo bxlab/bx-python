@@ -609,7 +609,7 @@ class PositionWeightMatrix:
 
     def __str__(self):
         lines = [self.id]
-        headers = ["%s" % nt for nt in self.alphabet]
+        headers = [f"{nt}" for nt in self.alphabet]
         lines.append("P0\t" + "\t".join(headers))
         for ix in range(0, len(self.rows)):
             weights = ["%d" % self.counts[ix][nt] for nt in self.alphabet]
@@ -687,7 +687,7 @@ class Reader:
         elif self.format == "transfac":
             return self.read_as_transfac()
         else:
-            raise ValueError("unknown weight matrix file format: '%s'" % self.format)
+            raise ValueError(f"unknown weight matrix file format: '{self.format}'")
 
     def read_as_basic(self):
         tfId = None
@@ -749,7 +749,7 @@ class Reader:
 
                 tokens = line.split(None, 2)
                 if len(tokens) != 2:
-                    raise ValueError("bad line, need two fields (%s)" % self.where())
+                    raise ValueError(f"bad line, need two fields ({self.where()})")
                 tfId = tokens[1]
                 if self.tfIds is not None and (tfId not in self.tfIds):
                     continue  # ignore it, this isn't a desired matrix
@@ -773,7 +773,7 @@ class Reader:
             if line.startswith("P0"):
                 alphabet = line.split()[1:]
                 if len(alphabet) < 2:
-                    raise ValueError("bad line, need more dna (%s)" % self.where())
+                    raise ValueError(f"bad line, need more dna ({self.where()})")
                 continue
 
             # handle a 01,02,etc. line
@@ -784,7 +784,7 @@ class Reader:
                     if index != len(pwmRows) + 1:
                         raise ValueError
                 except Exception:
-                    raise ValueError("bad line, bad index (%s)" % self.where())
+                    raise ValueError(f"bad line, bad index ({self.where()})")
                 pwmRows.append(tokens[1:])
                 continue
             # skip low quality entries

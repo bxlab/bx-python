@@ -109,7 +109,7 @@ class Writer:
         # Write header, Webb's maf code wants version first, we accomodate
         if "version" not in attributes:
             attributes["version"] = 1
-        self.file.write("##maf version=%s" % attributes["version"])
+        self.file.write("##maf version={}".format(attributes["version"]))
         for key in attributes:
             if key == "version":
                 continue

@@ -44,7 +44,7 @@ def __main__():
 
     write_current_chunk = True
 
-    interval_file = open("%s/intervals.txt" % out_dir, "w")
+    interval_file = open(f"{out_dir}/intervals.txt", "w")
 
     for m in maf_reader:
         if not maf_writer or count + m.text_size > chunk_size:

@@ -66,7 +66,7 @@ def IntervalReader(f):
             yield current_chrom, current_pos, current_pos + current_span, strand, float(line.split()[0])
             current_pos += current_step
         else:
-            raise ValueError("Unexpected input line: %s" % line.strip())
+            raise ValueError(f"Unexpected input line: {line.strip()}")
 
 
 class Reader:

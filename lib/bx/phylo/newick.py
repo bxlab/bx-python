@@ -41,7 +41,7 @@ class Tree:
         if self.edges:
             return "Tree( '{}',\n{}\n)".format(self.label, indent("\n".join(repr(edge) for edge in self.edges)))
         else:
-            return "Tree( '%s' )" % self.label
+            return f"Tree( '{self.label}' )"
 
     def __lt__(self, other):
         return self.__dict__ < other.__dict__

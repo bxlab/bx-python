@@ -32,7 +32,7 @@ def seq_file(file, format=None, revcomp=False, name="", gap=None, contig=None):
     if format is None:
         format = infer_format(file)
     if (contig is not None) and (format not in ["fasta", None]):
-        raise ValueError("Contigs are not supported for format %s" % format)
+        raise ValueError(f"Contigs are not supported for format {format}")
     if format == "fasta":
         return fasta.FastaFile(file, revcomp=revcomp, name=name, gap=gap, contig=contig)
     elif format == "nib":
@@ -57,7 +57,7 @@ def seq_reader(file, format=None, revcomp=False, name="", gap=None):
     elif format == "qdna":
         return qdna.QdnaReader(file, revcomp=revcomp, name=name, gap=gap)
     else:
-        raise ValueError("Unknown sequence format %s" % format)
+        raise ValueError(f"Unknown sequence format {format}")
 
 
 def seq_writer(outfile, format=None, name=""):
@@ -68,7 +68,7 @@ def seq_writer(outfile, format=None, name=""):
     elif format == "qdna":
         return qdna.QdnaWriter(outfile)
     else:
-        raise ValueError("Unknown sequence format %s" % format)
+        raise ValueError(f"Unknown sequence format {format}")
 
 
 def infer_format(file):

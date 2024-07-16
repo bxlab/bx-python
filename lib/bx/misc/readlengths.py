@@ -23,9 +23,9 @@ def read_lengths_file(name):
             chrom = fields[0]
             length = int(fields[1])
         except Exception:
-            raise ValueError("bad length file line: %s" % line)
+            raise ValueError(f"bad length file line: {line}")
         if chrom in chrom_to_length and length != chrom_to_length[chrom]:
-            raise ValueError("%s has more than one length!" % chrom)
+            raise ValueError(f"{chrom} has more than one length!")
         chrom_to_length[chrom] = length
     f.close()
     return chrom_to_length

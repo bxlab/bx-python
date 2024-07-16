@@ -332,7 +332,7 @@ class Indexes:
                     value_size = 4
                 else:
                     value_size = read_packed(f, ">I")
-                    assert value_size % 4 == 0, "unsupported value size: %s" % value_size
+                    assert value_size % 4 == 0, f"unsupported value size: {value_size}"
                 self.indexes[key] = None
                 self.offsets[key] = (offset, value_size)
 

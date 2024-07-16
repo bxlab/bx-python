@@ -16,7 +16,7 @@ def isnan(x):
 
 def main():
     if len(sys.argv) < 4:
-        print("%s motif inmaf spec1,spec2,... " % sys.argv[0], file=sys.stderr)
+        print(f"{sys.argv[0]} motif inmaf spec1,spec2,... ", file=sys.stderr)
         sys.exit(0)
 
     targmotif = sys.argv[1]
@@ -48,7 +48,7 @@ def main():
                     if mx[i][offset] > threshold:
                         refstart = mafstart + offset - reftext.count("-", 0, offset)
                         refend = refstart + len(targmotif)
-                        data = " ".join(["%.2f" % mx[x][offset] for x in range(len(species))])
+                        data = " ".join([f"{mx[x][offset]:.2f}" for x in range(len(species))])
                         # quote the motif
                         print(mafchrom, refstart, refend, "'" + targmotif + "'", data)
                         break

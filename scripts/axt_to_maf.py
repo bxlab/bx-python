@@ -57,7 +57,7 @@ def main():
             arg = fields[0]
             val = fields[1]
             if val == "":
-                usage("missing a value in %s=" % arg)
+                usage(f"missing a value in {arg}=")
 
         if (arg == "--silent") and (val is None):
             silent = True
@@ -66,7 +66,7 @@ def main():
         elif (secondary is None) and (val is None):
             secondary = arg
         else:
-            usage("unknown argument: %s" % arg)
+            usage(f"unknown argument: {arg}")
 
     if primary is None:
         usage("missing primary species")

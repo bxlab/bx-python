@@ -17,7 +17,7 @@ def isnan(x):
 
 def main():
     if len(sys.argv) < 6:
-        print("%s transfac|basic pwmfile inmaf threshold spec1,spec2,... " % sys.argv[0], file=sys.stderr)
+        print(f"{sys.argv[0]} transfac|basic pwmfile inmaf threshold spec1,spec2,... ", file=sys.stderr)
         sys.exit(0)
 
     pwm = {}
@@ -53,7 +53,7 @@ def main():
                         if mx[i][offset] > threshold:
                             refstart = mafstart + offset - reftext.count("-", 0, offset)
                             refend = refstart + len(pwm[id])
-                            data = " ".join(["%.2f" % mx[x][offset] for x in range(len(species))])
+                            data = " ".join([f"{mx[x][offset]:.2f}" for x in range(len(species))])
                             # underscore spaces in the name
                             print(mafchrom, refstart, refend, id.replace(" ", "_"), data)
                             break

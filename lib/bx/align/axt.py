@@ -156,8 +156,8 @@ class Writer:
                 alignment.score,
             )
         )
-        self.file.write("%s\n" % c1.text)
-        self.file.write("%s\n" % c2.text)
+        self.file.write(f"{c1.text}\n")
+        self.file.write(f"{c2.text}\n")
         self.file.write("\n")
         self.block += 1
 
@@ -182,16 +182,16 @@ def read_next_axt(file, species1, species2, species_to_lengths=None, support_ids
         return
     fields = line.split()
     if len(fields) < 9 or (not support_ids and len(fields) > 9):
-        raise ValueError("bad axt-block header: %s" % line)
+        raise ValueError(f"bad axt-block header: {line}")
     attributes = {}
     if len(fields) > 9:
         attributes["id"] = "_".join(fields[9:])
     seq1 = readline(file)
     if not line or line.isspace():
-        raise ValueError("incomplete axt-block; header: %s" % line)
+        raise ValueError(f"incomplete axt-block; header: {line}")
     seq2 = readline(file)
     if not line or line.isspace():
-        raise ValueError("incomplete axt-block; header: %s" % line)
+        raise ValueError(f"incomplete axt-block; header: {line}")
     # Build 2 component alignment
     alignment = Alignment(attributes=attributes, species_to_lengths=species_to_lengths)
     # Build component for species 1

@@ -110,7 +110,7 @@ class Reader:
                     revcomp = False
                     contig = 1
                 else:
-                    raise Exception("failed to open %s" % self.seq1_filename)
+                    raise Exception(f"failed to open {self.seq1_filename}")
             self.seq1_file = bx.seq.seq_file(f, revcomp=revcomp, contig=contig)
             self.seq1_gap = self.seq1_file.gap
             try:
@@ -123,7 +123,7 @@ class Reader:
             (species1, chrom1) = src_split(name1)
             self.seq1_src = src_merge(species1, chrom1, contig)
             if contig is not None:
-                chrom1 += "[%s]" % contig
+                chrom1 += f"[{contig}]"
 
         if self.seq2_file is None:
             if self.seq2_strand == "+":
@@ -142,7 +142,7 @@ class Reader:
                     revcomp = False
                     contig = 1
                 else:
-                    raise Exception("failed to open %s" % self.seq1_filename)
+                    raise Exception(f"failed to open {self.seq1_filename}")
             self.seq2_file = bx.seq.seq_file(f, revcomp=revcomp, contig=contig)
             self.seq2_gap = self.seq2_file.gap
             try:
@@ -155,7 +155,7 @@ class Reader:
             (species2, chrom2) = src_split(name2)
             self.seq2_src = src_merge(species2, chrom2, contig)
             if contig is not None:
-                chrom2 += "[%s]" % contig
+                chrom2 += f"[{contig}]"
 
         length1 = self.seq1_file.length
         length2 = self.seq2_file.length
@@ -203,7 +203,7 @@ class Reader:
         else:
             strand = "+"
         if filename.endswith("-"):
-            assert strand == "-", 'strand mismatch in "%s"' % line
+            assert strand == "-", f'strand mismatch in "{line}"'
             filename = filename[:-1]
         filename = do_path_subs(filename, self.path_subs)
         return (filename, start, end, strand, contig)
@@ -304,7 +304,7 @@ class Reader:
     def d_stanza(self):
         if self.d_stanza_text is None:
             return ""
-        return "d {\n%s}" % self.d_stanza_text
+        return f"d {{\n{self.d_stanza_text}}}"
 
     def s_stanza(self):
         if self.seq1_filename is None:
@@ -334,14 +334,14 @@ class Reader:
             self.seq2_contig,
         )
 
-        return "s {\n%s}" % s
+        return f"s {{\n{s}}}"
 
     def h_stanza(self):
         if self.seq1_header is None:
             return ""
         s = f'  "{self.seq1_header_prefix}{self.seq1_header}"\n'
         s += f'  "{self.seq2_header_prefix}{self.seq2_header}"\n'
-        return "h {\n%s}" % s
+        return f"h {{\n{s}}}"
 
     def build_alignment(self, score, pieces):
         """converts a score and pieces to an alignment"""
@@ -564,7 +564,7 @@ class Writer:
         score = int(round(alignment.score))
 
         print("a {", file=self.file)
-        print("  s %s" % score, file=self.file)
+        print(f"  s {score}", file=self.file)
         print("  b %d %d" % (start1 + 1, start2 + 1), file=self.file)
         print("  e %d %d" % (end1, end2), file=self.file)
         for start1, start2, size, pctId in pieces:

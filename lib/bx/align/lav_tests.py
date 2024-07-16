@@ -14,7 +14,7 @@ class lavTestCase(unittest.TestCase):
         reader = lav.Reader(open(test_lav))
 
         a = next(reader)
-        assert a.score == 10286, "a.score is wrong: %s" % a.score
+        assert a.score == 10286, f"a.score is wrong: {a.score}"
         assert len(a.components) == 2
         check_component(
             a.components[0],
@@ -36,7 +36,7 @@ class lavTestCase(unittest.TestCase):
         )
 
         a = next(reader)
-        assert a.score == 3586, "a.score is wrong: %s" % a.score
+        assert a.score == 3586, f"a.score is wrong: {a.score}"
         assert len(a.components) == 2
         check_component(
             a.components[0],
