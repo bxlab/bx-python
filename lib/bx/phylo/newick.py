@@ -6,7 +6,7 @@ TODO: Tree/Edge should be a generic data structure, not newick specific.
 
 from functools import total_ordering
 
-from bx_extras.pyparsing import (
+from pyparsing import (
     alphas,
     CaselessLiteral,
     Combine,

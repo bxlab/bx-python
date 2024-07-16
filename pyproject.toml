@@ -40,8 +40,7 @@ bx.pwm.maf_select_motifs, bx.pwm.position_weight_matrix, bx.pwm.pwm_score_maf, \
 bx.pwm.pwm_score_motifs, bx.pwm.pwm_score_positions, bx.seq, bx.seq.core, \
 bx.seq.fasta, bx.seq.nib, bx.seq.qdna, bx.seq.seq, bx.seq.twobit, \
 bx.seqmapping, bx.tabular, bx.tabular.io, bx.wiggle, bx_extras, \
-bx_extras.fpconst, bx_extras.lrucache, bx_extras.pstat, bx_extras.pyparsing, \
-bx_extras.stats'
+bx_extras.fpconst, bx_extras.lrucache, bx_extras.pstat, bx_extras.stats'
 """
 
 [tool.cibuildwheel.linux]

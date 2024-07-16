@@ -11,7 +11,6 @@ Submodules
    bx_extras.fpconst_tests
    bx_extras.lrucache
    bx_extras.pstat
-   bx_extras.pyparsing
    bx_extras.stats
 
 Module contents
