@@ -6,6 +6,7 @@ peaks on TF binding events. Features that when mapped
 span multiple chains or multiple chromosomes are silently filtered out. TODO:
 (1)for narrowPeak input, map the predicted peak position.
 """
+import argparse
 import logging
 import os
 import sys
@@ -20,7 +21,6 @@ import numpy as np
 
 from bx.align import epo
 from bx.align.epo import bed_union as elem_u
-from bx.cookbook import argparse
 from bx.intervals.intersection import (
     Interval,
     IntervalTree,

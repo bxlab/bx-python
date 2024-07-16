@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import argparse
 import logging
 import sys
 from collections import OrderedDict
@@ -11,7 +12,6 @@ from bx.align.epo import (
     Chain,
     EPOitem,
 )
-from bx.cookbook import argparse
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()

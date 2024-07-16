@@ -21,7 +21,7 @@ bx.align.tools, bx.align.tools.chop, bx.align.tools.fuse, \
 bx.align.tools.thread, bx.arrays, bx.arrays.array_tree, bx.arrays.bed, \
 bx.arrays.wiggle, bx.bbi, bx.bbi.bbi_file, bx.bbi.bigwig_file, \
 bx.bbi.bpt_file, bx.bbi.cirtree_file, bx.binned_array, bx.bitset, \
-bx.bitset_builders, bx.bitset_utils, bx.cookbook, bx.cookbook.argparse, \
+bx.bitset_builders, bx.bitset_utils, bx.cookbook, \
 bx.cookbook.attribute, bx.cookbook.doc_optparse, \
 bx.filter, bx.gene_reader, bx.interval_index_file, bx.intervals, \
 bx.intervals.cluster, bx.intervals.intersection, bx.intervals.io, \
