@@ -88,5 +88,4 @@ select = ["E", "F", "C4", "G", "ISC", "NPY", "UP"]
 # B9 flake8-bugbear opinionated warnings
 # E501 is line length (delegated to black)
 # E741 Ambiguous variable name
-# G* are TODOs
 ignore = ["B9", "E501", "E741"]
