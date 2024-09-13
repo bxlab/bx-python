@@ -50,7 +50,7 @@ cdef class BigBedBlockHandler( BlockHandler ):
             chrom_id = block_reader.read_uint32()
             s = block_reader.read_uint32()
             e = block_reader.read_uint32()
-            rest = block_reader.read_c_string()
+            rest = block_reader.read_c_string().decode()
             if chrom_id != self.chrom_id:
                 continue
             if s < self.end and e > self.start:
