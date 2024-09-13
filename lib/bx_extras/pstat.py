@@ -107,18 +107,16 @@ functions/methods.  Their inclusion here is for function name consistency.
 
 import copy
 import string
-import sys
-
-if sys.version_info[0] > 2:
-
-    def cmp(x, y):
-        """
-        Replacement for built-in function cmp that was removed in Python 3
-        """
-        return (x > y) - (x < y)
-
 
 __version__ = 0.4
+
+
+def cmp(x, y):
+    """
+    Replacement for built-in function cmp that was removed in Python 3
+    """
+    return (x > y) - (x < y)
+
 
 # ===========================  LIST FUNCTIONS  ==========================
 ###
@@ -148,24 +146,24 @@ def abut(source, *args):
             if len(source) % len(addon) == 0:  # are they integer multiples?
                 repeats = len(source) / len(addon)  # repeat addon n times
                 origadd = copy.deepcopy(addon)
-                for i in range(repeats - 1):
+                for _ in range(repeats - 1):
                     addon = addon + origadd
             else:
                 repeats = len(source) / len(addon) + 1  # repeat addon x times,
                 origadd = copy.deepcopy(addon)  # x is NOT an integer
-                for i in range(repeats - 1):
+                for _ in range(repeats - 1):
                     addon = addon + origadd
                     addon = addon[0 : len(source)]
         elif len(source) < len(addon):  # is addon list longer?
             if len(addon) % len(source) == 0:  # are they integer multiples?
                 repeats = len(addon) / len(source)  # repeat source n times
                 origsour = copy.deepcopy(source)
-                for i in range(repeats - 1):
+                for _ in range(repeats - 1):
                     source = source + origsour
             else:
                 repeats = len(addon) / len(source) + 1  # repeat source x times,
                 origsour = copy.deepcopy(source)  # x is NOT an integer
-                for i in range(repeats - 1):
+                for _ in range(repeats - 1):
                     source = source + origsour
                 source = source[0 : len(addon)]
 
@@ -423,7 +421,7 @@ def lineincols(inlist, colsize):
             item = str(item)
         size = len(item)
         if size <= colsize:
-            for i in range(colsize - size):
+            for _ in range(colsize - size):
                 outstr = outstr + " "
             outstr = outstr + item
         else:
@@ -448,7 +446,7 @@ def lineincustcols(inlist, colsizes):
             item = inlist[i]
         size = len(item)
         if size <= colsizes[i]:
-            for j in range(colsizes[i] - size):
+            for _ in range(colsizes[i] - size):
                 outstr = outstr + " "
             outstr = outstr + item
         else:
