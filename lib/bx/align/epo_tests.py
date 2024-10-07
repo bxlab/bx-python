@@ -8,7 +8,7 @@ import numpy as np
 
 from bx.align._epo import (
     bed_union,
-    cummulative_intervals,
+    cumulative_intervals,
 )
 from bx.align.epo import (
     Chain,
@@ -26,7 +26,7 @@ class TestBed(unittest.TestCase):
             S.append(random.randint(10, 50))
             D.append(random.randint(10, 50))
         D[-1] = 0
-        C = cummulative_intervals(np.array(S, dtype=np.int64), np.array(D, dtype=np.int64))
+        C = cumulative_intervals(np.array(S, dtype=np.int64), np.array(D, dtype=np.int64))
         for i in range(self.N):
             assert C[i, 1] - C[i, 0] == S[i]
         for i in range(1, self.N):
