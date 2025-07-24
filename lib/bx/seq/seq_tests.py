@@ -48,7 +48,7 @@ class SEQTestCase(unittest.TestCase):
             assert ix < len(valid2_fa), "FastaReader returns too many sequences"
             text = f"{seq}"
             fields = text.split()
-            assert len(fields) == 2, 'SeqReader.__str__ returns incorrect sequence string "%s" (%d)' % text
+            assert len(fields) == 2, f'SeqReader.__str__ returns incorrect sequence string "{text}"'
             assert (
                 fields[0] == valid2_fa[ix][0]
             ), f"FastaReader returned the wrong name ({fields[0]},{valid2_fa[ix][0]})"

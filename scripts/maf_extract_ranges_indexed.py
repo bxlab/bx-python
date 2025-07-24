@@ -86,7 +86,7 @@ def main():
         blocks = index.get(src, start, end)
         # Open file if needed
         if dir:
-            out = bx.align.maf.Writer(open(os.path.join(dir, "%s:%09d-%09d.maf" % (src, start, end)), "w"))
+            out = bx.align.maf.Writer(open(os.path.join(dir, f"{src}:{start:09d}-{end:09d}.maf"), "w"))
         # Write each intersecting block
         if chop:
             for block in blocks:

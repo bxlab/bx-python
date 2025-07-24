@@ -99,12 +99,12 @@ from bx.misc import filecache
 try:
     from bx.misc import seekbzip2
 except ImportError:
-    seekbzip2 = None
+    seekbzip2 = None  # type: ignore[assignment]
 
 try:
     from bx.misc import seeklzop
 except ImportError:
-    seeklzop = None
+    seeklzop = None  # type: ignore[assignment]
 
 __all__ = ["Indexes", "Index"]
 
@@ -141,7 +141,7 @@ def offsets_for_max_size(max_size):
         if max_size < max:
             break
     else:
-        raise Exception("%d is larger than the maximum possible size (%d)" % (max_size, BIN_OFFSETS_MAX[0]))
+        raise Exception(f"{max_size} is larger than the maximum possible size ({BIN_OFFSETS_MAX[0]})")
     return BIN_OFFSETS[(len(BIN_OFFSETS) - i - 1) :]
 
 
@@ -158,7 +158,7 @@ def bin_for_range(start, end, offsets=None):
         else:
             start_bin >>= BIN_NEXT_SHIFT
             end_bin >>= BIN_NEXT_SHIFT
-    raise Exception("Interval (%d,%d) out of range" % (start, end))
+    raise Exception(f"Interval ({start},{end}) out of range")
 
 
 class AbstractMultiIndexedAccess:
@@ -166,7 +166,7 @@ class AbstractMultiIndexedAccess:
     Allows accessing multiple indexes / files as if they were one
     """
 
-    indexed_access_class = None
+    indexed_access_class: type["AbstractIndexedAccess"]
 
     def __init__(self, filenames, index_filenames=None, keep_open=False, use_cache=False, **kwargs):
         # TODO: Handle index_filenames argument
@@ -319,9 +319,7 @@ class Indexes:
                 raise Exception("File does not have expected header")
             if version > VERSION:
                 warn(
-                    "File claims version %d, I don't known anything about versions beyond %d. Attempting to continue",
-                    version,
-                    VERSION,
+                    f"File claims version {version}, I don't known anything about versions beyond {VERSION}. Attempting to continue"
                 )
             self.version = version
             for _ in range(length):
@@ -509,12 +507,12 @@ def write_packed_uints(f, v, num_bytes):
             v >>= 32
             num_bytes -= 4
         parts.reverse()  # (write most-significant chunk first)
-        write_packed(f, ">%dI" % len(parts), *parts)
+        write_packed(f, f">{len(parts)}I", *parts)
 
 
-def unpack_uints(parts):
-    chunks = len(parts) / 4
-    vals = unpack(">%dI" % chunks, parts)
+def unpack_uints(parts: bytes):
+    chunks = len(parts) // 4
+    vals = unpack(f">{chunks}I", parts)
     val = vals[0]
     for v in vals[1:]:
         val = (val << 32) + v

@@ -97,7 +97,7 @@ class Chain(namedtuple("Chain", "score tName tSize tStrand tStart tEnd qName qSi
             else:
                 break
         S.append(min(a[1], b[1]) - max(a[0], b[0]))
-        assert len(T) == len(Q) == len(S) - 1, "(S, T, Q) = (%d, %d, %d)" % tuple(map(len, (S, T, Q)))
+        assert len(T) == len(Q) == len(S) - 1, f"(S, T, Q) = ({len(S)}, {len(T)}, {len(Q)})"
 
         tSize = trg_chrom_sizes[trg_comp.chrom]
         qSize = qr_chrom_sizes[qr_comp.chrom]
@@ -138,16 +138,12 @@ class Chain(namedtuple("Chain", "score tName tSize tStrand tStart tEnd qName qSi
         if chain.qStrand == "-":
             chain = chain._replace(qEnd=chain.qSize - chain.qStart, qStart=chain.qSize - chain.qEnd)
 
-        assert chain.tEnd - chain.tStart == sum(S) + sum(T), "[%s] %d != %d" % (
-            str(chain),
-            chain.tEnd - chain.tStart,
-            sum(S) + sum(T),
-        )
-        assert chain.qEnd - chain.qStart == sum(S) + sum(Q), "[%s] %d != %d" % (
-            str(chain),
-            chain.qEnd - chain.qStart,
-            sum(S) + sum(Q),
-        )
+        assert chain.tEnd - chain.tStart == sum(S) + sum(
+            T
+        ), f"[{str(chain)}] {chain.tEnd - chain.tStart} != {sum(S) + sum(T)}"
+        assert chain.qEnd - chain.qStart == sum(S) + sum(
+            Q
+        ), f"[{str(chain)}] {chain.qEnd - chain.qStart} != {sum(S) + sum(Q)}"
         return chain, S, T, Q
 
     def slice(self, who):
@@ -223,7 +219,7 @@ class EPOitem(namedtuple("Epo_item", "species gabid chrom start end strand cigar
 
     def __str__(self):
         c = self.cigar[:5] + "..." + self.cigar[-5:]
-        return "(%s %s %s %d %d %s %s)" % tuple(self[:6] + (c,))
+        return "({} {} {} {} {} {} {})".format(*tuple(self[:6] + (c,)))
 
     @classmethod
     def _strfactory(cls, line):
@@ -318,10 +314,7 @@ class EPOitem(namedtuple("Epo_item", "species gabid chrom start end strand cigar
         assert sum(t[0] for t in self.cigar_iter(False) if t[1] == "M") == sum(t[1] - t[0] for t in d)
 
         d_sum = sum(t[1] - t[0] for t in d)
-        assert self.end - self.start + 1 == d_sum, "[ (%d, %d) = %d ] != %d" % (
-            self.start,
-            self.end,
-            self.end - self.start + 1,
-            d_sum,
-        )
+        assert (
+            self.end - self.start + 1 == d_sum
+        ), f"[ ({self.start}, {self.end}) = {self.end - self.start + 1} ] != {d_sum}"
         return d[1:]  # clip the (thr, thr) entry

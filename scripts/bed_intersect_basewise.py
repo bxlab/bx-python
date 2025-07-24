@@ -35,4 +35,4 @@ for chrom in bitsets:
         if start == bits.size:
             break
         end = bits.next_clear(start)
-        print("%s\t%d\t%d" % (chrom, start, end))
+        print(f"{chrom}\t{start}\t{end}")

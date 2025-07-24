@@ -35,8 +35,8 @@ _big_endian = struct.pack("i", 1)[:1] != b"\x01"
 
 # and define appropriate constants
 if _big_endian:
-    NaN = struct.unpack("d", b"\x7F\xF8\x00\x00\x00\x00\x00\x00")[0]
-    PosInf = struct.unpack("d", b"\x7F\xF0\x00\x00\x00\x00\x00\x00")[0]
+    NaN = struct.unpack("d", b"\x7f\xf8\x00\x00\x00\x00\x00\x00")[0]
+    PosInf = struct.unpack("d", b"\x7f\xf0\x00\x00\x00\x00\x00\x00")[0]
     NegInf = -PosInf
 else:
     NaN = struct.unpack("d", b"\x00\x00\x00\x00\x00\x00\xf8\xff")[0]

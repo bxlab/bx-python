@@ -29,7 +29,7 @@ def __main__():
         else:
             l = m.components
         for c in l:
-            print(">%s:%d-%d" % (c.src, c.start, c.end))
+            print(f">{c.src}:{c.start}-{c.end}")
             print(c.text)
 
 

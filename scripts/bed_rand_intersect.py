@@ -161,8 +161,7 @@ def main():
     for row in fraction_overlap:
         print("\t".join(map(str, row)))
     print(
-        "observed overlap: %d, sample mean: %d, sample stdev: %d"
-        % (total_actual, stats.amean(total_samples), stats.asamplestdev(total_samples))
+        f"observed overlap: {total_actual}, sample mean: {stats.amean(total_samples)}, sample stdev: {stats.asamplestdev(total_samples)}"
     )
     print("z-score:", (total_actual - stats.amean(total_samples)) / stats.asamplestdev(total_samples))
     print("percentile:", sum(total_actual > total_samples) / nsamples)

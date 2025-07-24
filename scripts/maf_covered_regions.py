@@ -47,17 +47,7 @@ def main():
             pid = block_pid(ref_comp, comp)
             if pid:
                 out_files[comp_species].write(
-                    "%s\t%d\t%d\t%s:%d-%d,%s\t%f\n"
-                    % (
-                        ref_chrom,
-                        ref_comp.forward_strand_start,
-                        ref_comp.forward_strand_end,
-                        comp_chrom,
-                        comp.start,
-                        comp.end,
-                        comp.strand,
-                        pid,
-                    )
+                    f"{ref_chrom}\t{ref_comp.forward_strand_start}\t{ref_comp.forward_strand_end}\t{comp_chrom}:{comp.start}-{comp.end},{comp.strand}\t{pid:f}\n"
                 )
 
     for f in out_files.values():

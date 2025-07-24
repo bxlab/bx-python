@@ -38,11 +38,11 @@ def convert_action(trg_comp, qr_comp, ts, qs, opt):
             if np.sum(S) == 0:
                 log.info("insignificant genomic alignment block %s ...", ch.id)
                 continue
-            new_id = "%si%d" % (ch.id, i)
+            new_id = f"{ch.id}i{i}"
             print(str(ch._replace(id=new_id)), file=opt.output)
             for s, t, q in zip(S, T, Q):
-                print("%d %d %d" % (s, t, q), file=opt.output)
-            print("%d\n" % S[-1], file=opt.output)
+                print(f"{s} {t} {q}", file=opt.output)
+            print(f"{S[-1]}\n", file=opt.output)
         except KeyError:
             log.warning("skipping chromosome/contig (%s, %s)", a.chrom, b.chrom)
 

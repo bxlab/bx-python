@@ -82,7 +82,7 @@ def main():
         out.write(axtBlock)
         mafsWritten += 1
 
-    sys.stderr.write("%d blocks read, %d written\n" % (axtsRead, mafsWritten))
+    sys.stderr.write(f"{axtsRead} blocks read, {mafsWritten} written\n")
 
 
 def clone_component(c):

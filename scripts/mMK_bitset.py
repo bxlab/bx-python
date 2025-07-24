@@ -114,13 +114,11 @@ def main():
 
             if options.outfile is not None:
                 out_file.write(
-                    "%s\t%d\t%d\t%d\t%d\t%d\t%d\t%1.15f\n"
-                    % (chr, window, window + window_size, nonAR_snp, nonAR_div, AR_snp, AR_div, MK_pval)
+                    f"{chr}\t{window}\t{window + window_size}\t{nonAR_snp}\t{nonAR_div}\t{AR_snp}\t{AR_div}\t{MK_pval:1.15f}\n"
                 )
             else:
                 print(
-                    "%s\t%d\t%d\t%d\t%d\t%d\t%d\t%1.15f"
-                    % (chr, window, window + window_size, nonAR_snp, nonAR_div, AR_snp, AR_div, MK_pval)
+                    f"{chr}\t{window}\t{window + window_size}\t{nonAR_snp}\t{nonAR_div}\t{AR_snp}\t{AR_div}\t{MK_pval:1.15f}"
                 )
 
     if options.outfile is not None:

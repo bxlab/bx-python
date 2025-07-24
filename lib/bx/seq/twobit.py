@@ -9,7 +9,7 @@ from struct import (
 )
 from typing import BinaryIO
 
-from . import _twobit
+from . import _twobit  # type: ignore[attr-defined]
 
 TWOBIT_MAGIC_NUMBER = 0x1A412743
 TWOBIT_MAGIC_NUMBER_SWAP = 0x4327411A
@@ -73,7 +73,7 @@ class TwoBitFile(Mapping):
         # Read version
         self.version = self.read("L")
         if self.version != TWOBIT_VERSION:
-            raise Exception("File is version '%d' but I only know about '%d'" % (self.version, TWOBIT_VERSION))
+            raise Exception(f"File is version '{self.version}' but I only know about '{TWOBIT_VERSION}'")
         # Number of sequences in file
         self.seq_count = self.read("L")
         # Header contains some reserved space

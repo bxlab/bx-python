@@ -208,8 +208,8 @@ def transform_by_chrom(all_epo, from_elem_list, tree, chrom, opt, out_fd):
                         start,
                         end,
                         len(to_elem_list),
-                        ",".join("%d" % (e[2] - e[1]) for e in to_elem_list),
-                        ",".join("%d" % (e[1] - start) for e in to_elem_list),
+                        ",".join(f"{e[2] - e[1]}" for e in to_elem_list),
+                        ",".join(f"{e[1] - start}" for e in to_elem_list),
                     )
                 )
             else:

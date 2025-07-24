@@ -50,7 +50,7 @@ def main():
         axtsWritten += 1
 
     if not silent:
-        sys.stderr.write("%d blocks read, %d written\n" % (lavsRead, axtsWritten))
+        sys.stderr.write(f"{lavsRead} blocks read, {axtsWritten} written\n")
 
 
 if __name__ == "__main__":

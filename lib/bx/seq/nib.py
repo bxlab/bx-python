@@ -27,7 +27,7 @@ from bx.seq.seq import (
     SeqFile,
     SeqReader,
 )
-from . import _nib
+from . import _nib  # type: ignore[attr-defined]
 
 NIB_MAGIC_NUMBER = 0x6BE93D3A
 NIB_MAGIC_NUMBER_SWAP = 0x3A3DE96B

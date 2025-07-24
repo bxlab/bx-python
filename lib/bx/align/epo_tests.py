@@ -30,7 +30,7 @@ class TestBed(unittest.TestCase):
         for i in range(self.N):
             assert C[i, 1] - C[i, 0] == S[i]
         for i in range(1, self.N):
-            assert C[i, 0] - C[i - 1, 1] == D[i - 1], "[%d] %d != %d" % (i, C[i, 0] - C[i - 1, 1], D[i - 1])
+            assert C[i, 0] - C[i - 1, 1] == D[i - 1], f"[{i}] {C[i, 0] - C[i - 1, 1]} != {D[i - 1]}"
 
     def test_elem_u(self):
         # back to back, so should return a single interval
@@ -141,7 +141,7 @@ def toCigar(species, id, s):
         C.append(dc + mc)
     MSUM = sum(i[1] - i[0] for i in I)
     start = random.randint(50, 10000)
-    return "%s\t%d\t1\t%d\t%d\t%d\t%s" % (species, id, start, start + MSUM - 1, random.choice((-1, 1)), "".join(C))
+    return "{}\t{}\t1\t{}\t{}\t{}\t{}".format(species, id, start, start + MSUM - 1, random.choice((-1, 1)), "".join(C))
 
 
 class TestEpo(unittest.TestCase):
@@ -207,10 +207,10 @@ class TestEpo(unittest.TestCase):
             qStart = random.randint(0, 1000)
             epo_pair = (
                 EPOitem._strfactory(
-                    "homo_sapiens\t0\t1\t%d\t%d\t1\t%s" % (tStart, tStart + 12 - 1, "4M2D4M%dD4M" % (dash_cols + 3))
+                    "homo_sapiens\t0\t1\t{}\t{}\t1\t{}".format(tStart, tStart + 12 - 1, f"4M2D4M{dash_cols + 3}D4M")
                 ),
                 EPOitem._strfactory(
-                    "mus_musculus\t0\t1\t%d\t%d\t1\t%s" % (qStart, qStart + 14 - 1, "7M%dD7M" % (dash_cols + 3))
+                    "mus_musculus\t0\t1\t{}\t{}\t1\t{}".format(qStart, qStart + 14 - 1, f"7M{dash_cols + 3}D7M")
                 ),
             )
             chain = Chain._make_from_epo(epo_pair[0], epo_pair[1], {"chr1": 500}, {"chr1": 800})
@@ -236,11 +236,12 @@ class TestEpo(unittest.TestCase):
 
             epo_pair = (
                 EPOitem._strfactory(
-                    "homo_sapiens\t0\t1\t%d\t%d\t1\t%s" % (tStart, tStart + tm - 1, "%dD%dM" % (dash_cols + 1, tm))
+                    "homo_sapiens\t0\t1\t{}\t{}\t1\t{}".format(tStart, tStart + tm - 1, f"{dash_cols + 1}D{tm}M")
                 ),
                 EPOitem._strfactory(
-                    "mus_musculus\t0\t1\t%d\t%d\t1\t%s"
-                    % (qStart, qStart + qm + 1 - 1, "M%dD%dM" % (dash_cols + tm - qm, qm))
+                    "mus_musculus\t0\t1\t{}\t{}\t1\t{}".format(
+                        qStart, qStart + qm + 1 - 1, f"M{dash_cols + tm - qm}D{qm}M"
+                    )
                 ),
             )
             chain = Chain._make_from_epo(epo_pair[0], epo_pair[1], {"chr1": 500}, {"chr1": 800})
@@ -248,7 +249,7 @@ class TestEpo(unittest.TestCase):
                 pdb.set_trace()
             assert chain[1][-1] == qm
             # correct also for coordinate interpretation differences between UCSC and EPO
-            assert (qStart + 1) - 1 == chain[0].qStart, "%d != %d" % (qStart + 1, chain[0].qStart)
+            assert (qStart + 1) - 1 == chain[0].qStart, f"{qStart + 1} != {chain[0].qStart}"
 
 
 if __name__ == "__main__":

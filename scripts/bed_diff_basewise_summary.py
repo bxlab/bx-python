@@ -39,6 +39,6 @@ for key in bits1:
 
 both_covered = coverage(bitsets)
 
-print("in both:  \t%d" % both_covered)
-print("only in %s:\t%d" % (in_fname, bits1_covered - both_covered))
-print("only in %s:\t%d" % (in2_fname, bits2_covered - both_covered))
+print(f"in both:  \t{both_covered}")
+print(f"only in {in_fname}:\t{bits1_covered - both_covered}")
+print(f"only in {in2_fname}:\t{bits2_covered - both_covered}")

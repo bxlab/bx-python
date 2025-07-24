@@ -180,8 +180,7 @@ def throw_random_private(lengths, regions, save_interval_func, allow_overlap=Fal
                 hi_rgn += 1
             if candidates == 0:
                 raise MaxtriesException(
-                    "No region can fit an interval of length %d (we threw %d of %d)"
-                    % (length, num_thrown, len(lengths))
+                    f"No region can fit an interval of length {length} (we threw {num_thrown} of {len(lengths)})"
                 )
             hi_rgn -= 1
         # Select a candidate
@@ -211,13 +210,9 @@ def throw_random_private(lengths, regions, save_interval_func, allow_overlap=Fal
             rgn_length, rgn_start, rgn_extra = regions.pop(lo)
             rgn_end = rgn_start + rgn_length
             assert s >= 0
-            assert rgn_start + s + length <= rgn_end, "Expected: %d + %d + %d == %d <= %d" % (
-                rgn_start,
-                s,
-                length,
-                rgn_start + s + length,
-                rgn_end,
-            )
+            assert (
+                rgn_start + s + length <= rgn_end
+            ), f"Expected: {rgn_start} + {s} + {length} == {rgn_start + s + length} <= {rgn_end}"
             regions.reverse()
             if s >= min_length:
                 bisect.insort(regions, (s, rgn_start, rgn_extra))

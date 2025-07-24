@@ -37,7 +37,7 @@ def __main__():
     items.reverse()
 
     for count, motif in items:
-        print("%d\t%0.10f\t%s" % (count, count / total, motif))
+        print(f"{count}\t{count / total:0.10f}\t{motif}")
 
 
 if __name__ == "__main__":

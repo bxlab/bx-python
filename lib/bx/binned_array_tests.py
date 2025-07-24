@@ -47,19 +47,16 @@ def test_simple(source_target):
     source, target = source_target
     # Verify
     for i in range(len(source)):
-        assert source[i] == target[i], "No match, index: %d, source: %f, target: %f, len( source ): %d" % (
-            i,
-            source[i],
-            target[i],
-            len(source),
-        )
+        assert (
+            source[i] == target[i]
+        ), f"No match, index: {i}, source: {source[i]:f}, target: {target[i]:f}, len( source ): {len(source)}"
     # Verify with slices
     for _ in range(10):
         a = int(rng.random() * len(source))
         b = int(rng.random() * len(source))
         if b < a:
             a, b = b, a
-        assert allclose(source[a:b], target[a:b]), "No match, index: %d:%d, source: %s, target: %s" % (
+        assert allclose(source[a:b], target[a:b]), "No match, index: {}:{}, source: {}, target: {}".format(
             a,
             b,
             ",".join(map(str, source[a : a + 10])),
@@ -73,7 +70,7 @@ def test_file(source_target):
     target.to_file(open("/tmp/foo", "wb"))
     target2 = FileBinnedArray(open("/tmp/foo", "rb"))
     for i in range(len(source)):
-        assert source[i] == target2[i], "No match, index: %d, source: %d, target: %d" % (i, source[i], target2[i])
+        assert source[i] == target2[i], f"No match, index: {i}, source: {source[i]}, target: {target2[i]}"
     # Verify with slices
     target2 = FileBinnedArray(open("/tmp/foo", "rb"))
     for _ in range(10):
@@ -81,7 +78,7 @@ def test_file(source_target):
         b = int(rng.random() * len(source))
         if b < a:
             a, b = b, a
-        assert allclose(source[a:b], target[a:b]), "No match, index: %d:%d, source: %s, target: %s" % (
+        assert allclose(source[a:b], target[a:b]), "No match, index: {}:{}, source: {}, target: {}".format(
             a,
             b,
             ",".join(map(str, source[a : a + 10])),
@@ -96,7 +93,7 @@ def test_file_lzo(source_target):
     target3 = FileBinnedArray(open("/tmp/foo3", "rb"))
     # Verify
     for i in range(len(source)):
-        assert source[i] == target3[i], "No match, index: %d, source: %d, target: %d" % (i, source[i], target3[i])
+        assert source[i] == target3[i], f"No match, index: {i}, source: {source[i]}, target: {target3[i]}"
     # Verify with slices
     target3 = FileBinnedArray(open("/tmp/foo3", "rb"))
     for _ in range(10):
@@ -104,7 +101,7 @@ def test_file_lzo(source_target):
         b = int(rng.random() * len(source))
         if b < a:
             a, b = b, a
-        assert allclose(source[a:b], target3[a:b]), "No match, index: %d:%d, source: %s, target: %s" % (
+        assert allclose(source[a:b], target3[a:b]), "No match, index: {}:{}, source: {}, target: {}".format(
             a,
             b,
             ",".join(map(str, source[a : a + 10])),
@@ -124,8 +121,4 @@ def test_binned_array_writer(source_target):
     # Verify
     target4 = FileBinnedArray(open("/tmp/foo4", "rb"))
     for i in range(len(source)):
-        assert allclose(source[i], target4[i]), "No match, index: %d, source: %d, target: %d" % (
-            i,
-            source[i],
-            target4[i],
-        )
+        assert allclose(source[i], target4[i]), f"No match, index: {i}, source: {source[i]}, target: {target4[i]}"

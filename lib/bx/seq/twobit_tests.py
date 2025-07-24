@@ -43,10 +43,6 @@ def test_random_subseq_matches(filename):
                 start = random.randint(0, length - 2)
                 end = random.randint(start + 1, length)
                 assert t[k].get(start, end) == s[start:end]
-                assert t[k][start:end] == s[start:end], "seq: %s, start: %d, end: %d\nExpected:\n%s\nActual:\n%s\n" % (
-                    k,
-                    start,
-                    end,
-                    s[start:end],
-                    t.get(k, start, end),
-                )
+                assert (
+                    t[k][start:end] == s[start:end]
+                ), f"seq: {k}, start: {start}, end: {end}\nExpected:\n{s[start:end]}\nActual:\n{t.get(k, start, end)}\n"

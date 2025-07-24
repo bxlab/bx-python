@@ -128,7 +128,7 @@ class Writer:
 
     def write(self, alignment):
         if len(alignment.components) != 2:
-            raise ValueError("%d-component alignment is not compatible with axt" % len(alignment.components))
+            raise ValueError(f"{len(alignment.components)}-component alignment is not compatible with axt")
         c1 = alignment.components[0]
         c2 = alignment.components[1]
 
@@ -143,18 +143,7 @@ class Writer:
             chr1, chr2 = c1.src, c2.src
 
         self.file.write(
-            "%d %s %d %d %s %d %d %s %s\n"
-            % (
-                self.block,
-                chr1,
-                c1.start + 1,
-                c1.start + c1.size,
-                chr2,
-                c2.start + 1,
-                c2.start + c2.size,
-                c2.strand,
-                alignment.score,
-            )
+            f"{self.block} {chr1} {c1.start + 1} {c1.start + c1.size} {chr2} {c2.start + 1} {c2.start + c2.size} {c2.strand} {alignment.score}\n"
         )
         self.file.write(f"{c1.text}\n")
         self.file.write(f"{c2.text}\n")

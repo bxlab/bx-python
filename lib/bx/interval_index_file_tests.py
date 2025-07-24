@@ -20,7 +20,7 @@ def test_interval_index_file():
     chrs = []
     for i in range(5):
         intervals = []
-        name = "seq%d" % i
+        name = f"seq{i}"
         max = random.randint(0, interval_index_file.MAX)
         # print name, "size", max
         for i in range(500):
@@ -40,7 +40,7 @@ def test_interval_index_file():
     ix = Indexes(fname)
     for i in range(5):
         intervals = chrs[i]
-        name = "seq%d" % i
+        name = f"seq{i}"
         for i in range(100):
             start = random.randint(0, max)
             end = random.randint(0, max)
