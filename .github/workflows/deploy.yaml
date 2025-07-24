@@ -32,11 +32,9 @@ jobs:
         run: python -m cibuildwheel --output-dir dist
         env:
           CIBW_ARCHS: ${{ matrix.archs }}
-          # Skip building musllinux wheels for the CPython versions for which the
-          # numpy version we build against doesn't have musllinux wheels on PyPI.
-          # Skip building for PyPy 3.8, which is deprecated upstream.
-          # Skip building for PyPy on i686 since NumPy 2.0 fails to build on it.
-          CIBW_SKIP: "cp38-musllinux_* pp38-* pp*-manylinux_i686"
+          CIBW_ENABLE: "pypy"
+          # Skip building for PyPy 3.10 https://github.com/pypa/cibuildwheel/issues/2518
+          CIBW_SKIP: "pp310-*"
       - name: Check packages
         run: twine check dist/*
       - uses: actions/upload-artifact@v4
