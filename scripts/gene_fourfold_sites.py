@@ -186,7 +186,7 @@ def main():
             try:
                 assert c3 < len(cds_seq)
             except AssertionError:
-                print("out of sequence at %d for %s, %d" % (c3, chrom, genome_seq_index[first_pos]), file=sys.stderr)
+                print(f"out of sequence at {c3} for {chrom}, {genome_seq_index[first_pos]}", file=sys.stderr)
                 continue
             codon = cds_seq[c1], cds_seq[c2], cds_seq[c3]
             aa = translate(codon, GEN_CODE)

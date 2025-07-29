@@ -220,7 +220,7 @@ class TransfacWriter:
                     print(prefix, "  ", " ".join(s.rjust(6) for s in matrix.alphabet), file=output)
                     for i in range(matrix.width):
                         print(
-                            "%02d" % (i + 1),
+                            f"{i + 1:02d}",
                             "  ",
                             " ".join(
                                 str(matrix.values[i, matrix.char_to_index[ord(s)]]).rjust(6) for s in matrix.alphabet

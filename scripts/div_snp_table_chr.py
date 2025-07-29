@@ -127,10 +127,10 @@ def main():
                 ind_snp_count = snp[chr].count_range(start, end - start)
                 print(chr, start, end, ind_div_count, ind_snp_count)
 
-    print("feature snp\t%d" % feature_snp_count)
-    print("feature div\t%d" % feature_div_count)
-    print("ar snp\t%d" % ar_snp_count)
-    print("ar div\t%d" % ar_div_count)
+    print(f"feature snp\t{feature_snp_count}")
+    print(f"feature div\t{feature_div_count}")
+    print(f"ar snp\t{ar_snp_count}")
+    print(f"ar div\t{ar_div_count}")
 
 
 # copies a dictionary of bitsets

@@ -4,7 +4,7 @@ Various useful utilities, mostly taken from the ASPN Python cookbook.
 
 import types
 
-seq_types = type(()), type([])
+seq_types = (tuple, list)
 
 
 def flatten(*args):

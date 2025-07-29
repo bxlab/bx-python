@@ -44,8 +44,6 @@ def usage(s=None):
 
 
 def main():
-    global debug
-
     primary = None
     secondary = None
     silent = False
@@ -110,7 +108,7 @@ def main():
     out.close()
 
     if not silent:
-        sys.stderr.write("%d blocks read, %d written\n" % (axtsRead, axtsWritten))
+        sys.stderr.write(f"{axtsRead} blocks read, {axtsWritten} written\n")
 
 
 def parse_spec(spec):  # returns (seq_file,species_name,lengths_file)
@@ -137,16 +135,16 @@ def read_lengths(fileName):
 
         fields = line.split()
         if len(fields) != 2:
-            raise ValueError("bad lengths line (%s:%d): %s" % (fileName, lineNumber, line))
+            raise ValueError(f"bad lengths line ({fileName}:{lineNumber}): {line}")
 
         chrom = fields[0]
         try:
             length = int(fields[1])
         except ValueError:
-            raise ValueError("bad lengths line (%s:%d): %s" % (fileName, lineNumber, line))
+            raise ValueError(f"bad lengths line ({fileName}:{lineNumber}): {line}")
 
         if chrom in chromToLength:
-            raise ValueError("%s appears more than once (%s:%d): %s" % (chrom, fileName, lineNumber, line))
+            raise ValueError(f"{chrom} appears more than once ({fileName}:{lineNumber}): {line}")
 
         chromToLength[chrom] = length
 

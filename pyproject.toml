@@ -1,16 +1,55 @@
 [build-system]
 requires = [
     "cython",
-    "numpy>=1.25.0; python_version>='3.9'",
-    "oldest-supported-numpy; python_version<'3.9'",
+    "numpy>=1.25.0",
     "setuptools",
 ]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "bx-python"
+dynamic = ["version"]
+authors = [
+    { name = "James Taylor", email = "james@jamestaylor.org" },
+    { name = "Bob Harris" },
+    { name = "David King" },
+    { name = "Brent Pedersen" },
+    { name = "Kanwei Li" },
+    { name = "Nicola Soranzo", email = "nicola.soranzo@earlham.ac.uk" },
+]
+description = "Tools for manipulating biological data, particularly multiple sequence alignments"
+readme = "README.md"
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "pyparsing",
+]
+
+[project.urls]
+Homepage = "https://github.com/bxlab/bx-python"
+"Bug Tracker" = "https://github.com/bxlab/bx-python/issues"
+"Source Code" = "https://github.com/bxlab/bx-python"
+
 [tool.black]
 include = '\.pyi?$'
 line-length = 120
-target-version = ['py38']
+target-version = ['py39']
 
 [tool.cibuildwheel]
 test-command = """
@@ -75,7 +114,7 @@ EOF
 isort = true
 
 [tool.ruff]
-target-version = "py38"
+target-version = "py39"
 
 [tool.ruff.lint]
 # Enable: pycodestyle errors (E), Pyflakes (F), flake8-bugbear (B),
@@ -89,3 +128,15 @@ select = ["E", "F", "C4", "G", "ISC", "NPY", "UP"]
 # E501 is line length (delegated to black)
 # E741 Ambiguous variable name
 ignore = ["B9", "E501", "E741"]
+
+[tool.setuptools.dynamic]
+version = {attr = "bx.__version__"}
+
+[tool.setuptools.exclude-package-data]
+"*" = ["*.c", "*.h", "*.pxd", "*.pyx"]
+
+[tool.setuptools.package-data]
+"*" = ["*.ps"]
+
+[tool.setuptools.packages.find]
+where = ["lib"]

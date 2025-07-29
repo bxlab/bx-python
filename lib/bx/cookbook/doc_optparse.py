@@ -44,7 +44,8 @@ def nonzero(self):  # will become the nonzero method of optparse.Values
     return False
 
 
-optparse.Values.__nonzero__ = nonzero  # dynamically fix optparse.Values
+# dynamically fix optparse.Values
+optparse.Values.__nonzero__ = nonzero  # type: ignore[attr-defined]
 
 
 class ParsingError(Exception):

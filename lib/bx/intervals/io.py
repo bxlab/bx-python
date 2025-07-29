@@ -47,18 +47,18 @@ class GenomicInterval(TableRow):
         self.nfields = nfields = len(fields)
         # Parse chrom/source column
         if chrom_col >= nfields:
-            raise MissingFieldError("No field for chrom_col (%d)" % chrom_col)
+            raise MissingFieldError(f"No field for chrom_col ({chrom_col})")
         self.chrom = fields[chrom_col].strip()
         # Parse start column and ensure it is an integer
         if start_col >= nfields:
-            raise MissingFieldError("No field for start_col (%d)" % start_col)
+            raise MissingFieldError(f"No field for start_col ({start_col})")
         try:
             self.start = int(fields[start_col])
         except ValueError as e:
             raise FieldFormatError("Could not parse start_col: " + str(e), expected="integer")
         # Parse end column and ensure it is an integer
         if end_col >= nfields:
-            raise MissingFieldError("No field for end_col (%d)" % end_col)
+            raise MissingFieldError(f"No field for end_col ({end_col})")
         try:
             self.end = int(fields[end_col])
         except ValueError as e:

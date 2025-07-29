@@ -204,18 +204,18 @@ class QdnaCodebook:
 
             fields = line.split(None)
             if len(fields) != 5:
-                raise ValueError("wrong vector size (line %d)" % lineNum)
+                raise ValueError(f"wrong vector size (line {lineNum})")
 
             try:
                 codeNum = int(fields[0], 16)
             except ValueError:
-                raise ValueError("bad character code %s (line %d)" % (fields[0], lineNum))
+                raise ValueError(f"bad character code {fields[0]} (line {lineNum})")
 
             if not 0 <= codeNum <= 255:
-                raise ValueError("character code %s is outside the valid range (line %d)" % (fields[0], lineNum))
+                raise ValueError(f"character code {fields[0]} is outside the valid range (line {lineNum})")
 
             if chr(codeNum) in codeToProbs:
-                raise ValueError("character code %s appears more than once (line %d)" % (fields[0], lineNum))
+                raise ValueError(f"character code {fields[0]} appears more than once (line {lineNum})")
 
             try:
                 vec = {}
@@ -225,7 +225,7 @@ class QdnaCodebook:
                         raise ValueError
                     vec[alphabet[ix - 1]] = p
             except Exception:
-                raise ValueError("%s is a bad probability value (line %d)" % (fields[ix], lineNum))
+                raise ValueError(f"{fields[ix]} is a bad probability value (line {lineNum})")
 
             codeToProbs[chr(codeNum)] = vec
 

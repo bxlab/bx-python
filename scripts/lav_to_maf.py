@@ -48,7 +48,7 @@ def main():
         mafsWritten += 1
 
     if not silent:
-        sys.stderr.write("%d blocks read, %d written\n" % (lavsRead, mafsWritten))
+        sys.stderr.write(f"{lavsRead} blocks read, {mafsWritten} written\n")
 
 
 if __name__ == "__main__":

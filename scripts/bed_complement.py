@@ -44,8 +44,8 @@ for chrom in lens:
             end = bits.next_clear(start)
             if end > len:
                 end = len
-            print("%s\t%d\t%d" % (chrom, start, end))
+            print(f"{chrom}\t{start}\t{end}")
             if end == len:
                 break
     else:
-        print("%s\t%d\t%d" % (chrom, 0, lens[chrom]))
+        print(f"{chrom}\t0\t{lens[chrom]}")

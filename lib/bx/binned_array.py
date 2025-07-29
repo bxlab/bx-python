@@ -183,7 +183,7 @@ class FileBinnedArray:
         M, V, max_size, bin_size, nbins = read_packed(f, ">5I")
         assert M == MAGIC
         # assert version less than max supported
-        assert V <= VERSION, "File is version %d but I don't know about anything beyond %d" % (V, VERSION)
+        assert V <= VERSION, f"File is version {V} but I don't know about anything beyond {VERSION}"
         self.max_size = max_size
         self.bin_size = bin_size
         self.nbins = nbins

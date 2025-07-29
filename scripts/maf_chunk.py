@@ -61,7 +61,7 @@ def __main__():
             else:
                 write_current_chunk = True
             if write_current_chunk:
-                maf_writer = bx.align.maf.Writer(open("%s/%09d.maf" % (out_dir, current_chunk), "w"))
+                maf_writer = bx.align.maf.Writer(open(f"{out_dir}/{current_chunk:09d}.maf", "w"))
             else:
                 maf_writer = None
             count = 0

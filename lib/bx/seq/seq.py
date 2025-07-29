@@ -88,8 +88,8 @@ class SeqFile:
         AssertionError will be generated.
         """
         # Check parameters
-        assert length >= 0, "Length must be non-negative (got %d)" % length
-        assert start >= 0, "Start must be greater than 0 (got %d)" % start
+        assert length >= 0, f"Length must be non-negative (got {length})"
+        assert start >= 0, f"Start must be greater than 0 (got {start})"
         assert (
             start + length <= self.length
         ), f"Interval beyond end of sequence ({start}..{start + length} > {self.length})"

@@ -6,11 +6,12 @@ import bz2
 import os
 import random
 from codecs import encode
+from typing import Optional
 
 from bx.misc import seekbzip2
 
-F = None
-T = None
+F: Optional[str] = None
+T: Optional[str] = None
 
 # F="/Users/james/work/seek-bzip2/test_random.dat.bz2"
 # T="/Users/james/cache/hg18/align/multiz28way/chr10.maf.bz2"
@@ -44,7 +45,7 @@ if F and os.path.exists(F):
             a = f.read(chunk)
             b = raw_data[seek_to : seek_to + chunk]
 
-            assert a == b, "'%s' != '%s' on %dth attempt" % (encode(a, "hex"), encode(b, "hex"), i)
+            assert a == b, "'{}' != '{}' on {}th attempt".format(encode(a, "hex"), encode(b, "hex"), i)
 
             assert f.tell() == min(seek_to + chunk, len(raw_data))
         f.close()
@@ -57,10 +58,10 @@ if T and os.path.exists(T):
         f = seekbzip2.SeekableBzip2File(T, T + "t")
         pos = 0
         for i, (line, raw_line) in enumerate(zip(f, raw_file)):
-            assert line == raw_line, "%d: %r != %r" % (i, line.rstrip(b"\n"), raw_line)
+            assert line == raw_line, "{}: {!r} != {!r}".format(i, line.rstrip(b"\n"), raw_line)
             pos += len(line)
             ftell = f.tell()
-            assert ftell == pos, "%d != %d" % (ftell, pos)
+            assert ftell == pos, f"{ftell} != {pos}"
         f.close()
 
     def test_text_reading_2():
@@ -76,6 +77,6 @@ if T and os.path.exists(T):
             assert line.rstrip(b"\r\n") == raw_lines[i], "{!r} != {!r}".format(line.rstrip(b"\r\n"), raw_lines[i])
             pos += len(line)
             ftell = f.tell()
-            assert ftell == pos, "%d != %d" % (ftell, pos)
+            assert ftell == pos, f"{ftell} != {pos}"
             i += 1
         f.close()

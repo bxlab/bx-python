@@ -32,8 +32,7 @@ class Align:
                     ncol = len(row)
                 elif ncol != len(row):
                     raise ValueError(
-                        "Align: __init__:alignment block:row %d does not have %d columns, it has %d"
-                        % (rownum, ncol, len(row))
+                        f"Align: __init__:alignment block:row {rownum} does not have {ncol} columns, it has {len(row)}"
                     )
             except Exception:
                 print(row)
@@ -565,10 +564,6 @@ class PositionWeightMatrix:
         f = float(freq[i][base])
         s = self.pseudocount(base)
         N = self.sites
-        # print >>sys.stderr, "f:%.3f + s:%.3f = %.3f" % (f,s,f + s)
-        # print >>sys.stderr, "-------------------------"
-        # print >>sys.stderr, "N:%d + %d = %d" % (N,self.pseudocount(), N + self.pseudocount())
-        # print >>sys.stderr, "\t\t %.3f\n" % ((f + s) / (N + self.pseudocount()))
 
         assert (f + s) > 0
         return (f + s) / (N + self.pseudocount())
@@ -577,18 +572,12 @@ class PositionWeightMatrix:
         if background is None:
             background = self.background
         p = self.score_correction(freq, base, i)
-        # print >>sys.stderr, p
-        # print >>sys.stderr, "k %d %c" % (i,base),freq[i][base]
         b = background[base]
         try:
             return math.log(p / b, 2)
         except OverflowError:
-            # print >>sys.stderr,"base=%c, math.log(%.3f / %.3f)" % (base,p,b)
-            # print >>sys.stderr,self.id
             return float("nan")
         except ValueError:
-            # print >>sys.stderr,"base=%c, math.log(%.3f / %.3f)" % (base,p,b)
-            # print >>sys.stderr,self.id
             return float("nan")
 
     def parse_weight(self, weightString):
@@ -612,10 +601,9 @@ class PositionWeightMatrix:
         headers = [f"{nt}" for nt in self.alphabet]
         lines.append("P0\t" + "\t".join(headers))
         for ix in range(0, len(self.rows)):
-            weights = ["%d" % self.counts[ix][nt] for nt in self.alphabet]
-            # lines.append(("%02d\t" % ix) + "\t".join(weights) + "\t" + self.consensus[ix])
+            weights = [f"{self.counts[ix][nt]}" for nt in self.alphabet]
             lines.append(
-                ("%02d\t" % ix)
+                f"{ix:02d}\t"
                 + "\t".join(weights)
                 + "\t"
                 + str(sum(self.counts[ix].values()))
@@ -677,9 +665,9 @@ class Reader:
 
     def where(self):
         if self.name is None:
-            return "line %d" % self.lineNumber
+            return f"line {self.lineNumber}"
         else:
-            return "line %d in %s" % (self.lineNumber, self.name)
+            return f"line {self.lineNumber} in {self.name}"
 
     def __iter__(self):
         if self.format == "basic":
@@ -888,10 +876,9 @@ try:
     def match_consensus(sequence, pattern):
         return c_match_consensus(sequence, pattern, len(sequence))
 
-    # print >>sys.stderr, "C match_consensus used"
 except ImportError:
-    # print >>sys.stderr, "python match_consensus used"
-    def match_consensus(sequence, pattern, size):
+
+    def match_consensus(sequence, pattern):
         for s, p in zip(sequence, pattern):
             if p == "N":
                 continue

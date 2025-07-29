@@ -5,12 +5,7 @@ chromosomes.
 
 import math
 import random
-
-try:
-    from time import process_time
-except ImportError:
-    # For compatibility with Python < 3.3
-    from time import clock as process_time
+from time import process_time
 
 
 class IntervalTree:
@@ -158,7 +153,7 @@ def main():
 
 
 def test_func(node):
-    print("[%d, %d), %d" % (node.start, node.end, node.maxend))
+    print(f"[{node.start}, {node.end}), {node.maxend}")
 
 
 def bad_sect(lst, int_start, int_end):

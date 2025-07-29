@@ -43,7 +43,7 @@ class FastaFile(SeqFile):
         self.lookahead = lookahead
         if contig is None:
             contig = 1
-        assert contig >= 1, "contig %d is not legal" % contig
+        assert contig >= 1, f"contig {contig} is not legal"
 
         # nota bene: certainly not the most efficient or elegant implementation
 
@@ -73,7 +73,7 @@ class FastaFile(SeqFile):
                 self.text = line  # (allows headerless fasta)
             else:
                 self.text.extend(line)
-        assert currContig == contig, "contig %d is not legal (file contains only %d)" % (contig, currContig)
+        assert currContig == contig, f"contig {contig} is not legal (file contains only {currContig})"
         if self.text is not None:
             self.text = "".join(self.text)
             self.length = len(self.text)

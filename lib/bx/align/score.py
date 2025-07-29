@@ -114,7 +114,7 @@ class ScoringScheme:
                 s = b
             else:
                 s = f"{ord(b):02X}"
-            line.append("%*s" % (width, s))
+            line.append(f"{s:>{width}}")
         lines.append(("".join(line)) + "\n")
         for a in self.alphabet1:
             line = []
@@ -129,7 +129,7 @@ class ScoringScheme:
                     s = f"{score:8.6f}"
                 else:
                     s = f"{score}"
-                line.append("%*s" % (width, s))
+                line.append(f"{s:>{width}}")
             lines.append(("".join(line)) + "\n")
         return "".join(lines)
 

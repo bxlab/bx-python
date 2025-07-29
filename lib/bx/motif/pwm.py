@@ -16,7 +16,7 @@ from numpy import (
     zeros,
 )
 
-from . import _pwm
+from . import _pwm  # type: ignore[attr-defined]
 
 
 class BaseMatrix:

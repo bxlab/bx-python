@@ -199,7 +199,7 @@ class LRUCache:
                 del self.__dict[lru.key]
 
     def __repr__(self):
-        return "<%s (%d elements)>" % (str(self.__class__), len(self.__heap))
+        return f"<{str(self.__class__)} ({len(self.__heap)} elements)>"
 
     def mtime(self, key):
         """Return the last modification time for the cache record with key.

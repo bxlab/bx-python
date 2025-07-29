@@ -7,14 +7,9 @@ from struct import (
     calcsize,
     unpack,
 )
-from typing import (
-    BinaryIO,
-    Dict,
-    List,
-    Tuple,
-)
+from typing import BinaryIO
 
-from . import _twobit
+from . import _twobit  # type: ignore[attr-defined]
 
 TWOBIT_MAGIC_NUMBER = 0x1A412743
 TWOBIT_MAGIC_NUMBER_SWAP = 0x4327411A
@@ -24,10 +19,10 @@ TWOBIT_VERSION = 0
 
 
 class TwoBitSequence:
-    masked_block_sizes: List
-    masked_block_starts: List
-    n_block_sizes: List
-    n_block_starts: List
+    masked_block_sizes: list
+    masked_block_starts: list
+    n_block_sizes: list
+    n_block_starts: list
 
     def __init__(self, tbf, header_offset=None):
         self.tbf = tbf
@@ -78,13 +73,13 @@ class TwoBitFile(Mapping):
         # Read version
         self.version = self.read("L")
         if self.version != TWOBIT_VERSION:
-            raise Exception("File is version '%d' but I only know about '%d'" % (self.version, TWOBIT_VERSION))
+            raise Exception(f"File is version '{self.version}' but I only know about '{TWOBIT_VERSION}'")
         # Number of sequences in file
         self.seq_count = self.read("L")
         # Header contains some reserved space
         self.reserved = self.read("L")
         # Read index of sequence names to offsets
-        index: Dict[str, TwoBitSequence] = {}
+        index: dict[str, TwoBitSequence] = {}
         for _ in range(self.seq_count):
             name = self.read_p_string()
             offset = self.read("L")
@@ -119,7 +114,7 @@ class TwoBitFile(Mapping):
         # Mark as loaded
         seq.loaded = True
 
-    def read_block_coords(self) -> Tuple[list, list]:
+    def read_block_coords(self) -> tuple[list, list]:
         block_count = self.read("L")
         if block_count == 0:
             return [], []

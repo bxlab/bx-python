@@ -3990,10 +3990,6 @@ try:  # DEFINE THESE *ONLY* IF NUMERIC IS AVAILABLE
 
     # AANOVA CALCULATIONS
 
-    import LinearAlgebra
-
-    LA = LinearAlgebra
-
     def aglm(data, para):
         """
         Calculates a linear model fit ... anova/ancova/lin-regress/t-test/etc. Taken

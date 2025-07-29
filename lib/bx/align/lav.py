@@ -61,7 +61,7 @@ class Reader:
                 continue
             if line == "#:eof":
                 line = self.file.readline().rstrip()
-                assert not line, 'extra line after #:eof (line %d, "%s")' % (self.lineNumber, line)
+                assert not line, f'extra line after #:eof (line {self.lineNumber}, "{line}")'
                 return None
             if line == "#:lav":
                 continue
@@ -80,7 +80,7 @@ class Reader:
             if line.endswith("{"):
                 self.parse_unknown_stanza()
                 continue
-            raise ValueError('incomprehensible line (line %d, "%s")' % (self.lineNumber, line))
+            raise ValueError(f'incomprehensible line (line {self.lineNumber}, "{line}")')
         return self.build_alignment(score, pieces)
 
     def __iter__(self):
@@ -161,7 +161,7 @@ class Reader:
         length2 = self.seq2_file.length
         assert (
             (species1 != species2) or (chrom1 != chrom2) or (length1 == length2)
-        ), "conflicting lengths for %s (%d and %d)" % (self.seq1_src, length1, length2)
+        ), f"conflicting lengths for {self.seq1_src} ({length1} and {length2})"
 
         self.species_to_lengths = {}
         self.species_to_lengths[species1] = {}
@@ -190,7 +190,7 @@ class Reader:
         )
 
         line = self.fetch_line(report=" in s-stanza")
-        assert line == "}", 'improper s-stanza terminator (line %d, "%s")' % (self.lineNumber, line)
+        assert line == "}", f'improper s-stanza terminator (line {self.lineNumber}, "{line}")'
 
     def parse_s_seq(self, line):
         fields = line.split()
@@ -234,7 +234,7 @@ class Reader:
             self.seq2_header = "seq2"
 
         line = self.fetch_line(report=" in h-stanza")
-        assert line == "}", 'improper h-stanza terminator (line %d, "%s")' % (self.lineNumber, line)
+        assert line == "}", f'improper h-stanza terminator (line {self.lineNumber}, "{line}")'
 
     def parse_a_stanza(self):
         """returns the pair (score,pieces)
@@ -243,7 +243,7 @@ class Reader:
         # 's' line -- score, 1 field
         line = self.fetch_line(report=" in a-stanza")
         fields = line.split()
-        assert fields[0] == "s", 's line expected in a-stanza (line %d, "%s")' % (self.lineNumber, line)
+        assert fields[0] == "s", f's line expected in a-stanza (line {self.lineNumber}, "{line}")'
         try:
             score = int(fields[1])
         except ValueError:
@@ -252,12 +252,12 @@ class Reader:
         # 'b' line -- begin positions in seqs, 2 fields
         line = self.fetch_line(report=" in a-stanza")
         fields = line.split()
-        assert fields[0] == "b", 'b line expected in a-stanza (line %d, "%s")' % (self.lineNumber, line)
+        assert fields[0] == "b", f'b line expected in a-stanza (line {self.lineNumber}, "{line}")'
 
         # 'e' line -- end positions in seqs, 2 fields
         line = self.fetch_line(report=" in a-stanza")
         fields = line.split()
-        assert fields[0] == "e", 'e line expected in a-stanza (line %d, "%s")' % (self.lineNumber, line)
+        assert fields[0] == "e", f'e line expected in a-stanza (line {self.lineNumber}, "{line}")'
 
         # 'l' lines
         pieces = []
@@ -276,7 +276,7 @@ class Reader:
                 pctId = float(fields[5])
             assert length2 == length, "length mismatch in a-stanza"
             pieces.append((start1 + self.seq1_start, start2 + self.seq2_start, length, pctId))
-        assert line == "}", 'improper a-stanza terminator (line %d, "%s")' % (self.lineNumber, line)
+        assert line == "}", f'improper a-stanza terminator (line {self.lineNumber}, "{line}")'
         return (score, pieces)
 
     def parse_unknown_stanza(self):
@@ -298,7 +298,7 @@ class Reader:
             line = self.file.readline().strip().strip(strip)
         self.lineNumber += 1
         if requireLine:
-            assert line, "unexpected blank line or end of file%s (line %d)" % (report, self.lineNumber)
+            assert line, f"unexpected blank line or end of file{report} (line {self.lineNumber})"
         return line
 
     def d_stanza(self):
@@ -319,20 +319,8 @@ class Reader:
         else:
             seq2_strand = "0"
 
-        s = '  "%s" %d %d %s %d\n' % (
-            self.seq1_filename,
-            self.seq2_start + 1,
-            self.seq1_end,
-            seq1_strand,
-            self.seq1_contig,
-        )
-        s += '  "%s" %d %d %s %d\n' % (
-            self.seq2_filename,
-            self.seq2_start + 1,
-            self.seq2_end,
-            seq2_strand,
-            self.seq2_contig,
-        )
+        s = f'  "{self.seq1_filename}" {self.seq2_start + 1} {self.seq1_end} {seq1_strand} {self.seq1_contig}\n'
+        s += f'  "{self.seq2_filename}" {self.seq2_start + 1} {self.seq2_end} {seq2_strand} {self.seq2_contig}\n'
 
         return f"s {{\n{s}}}"
 
@@ -464,7 +452,7 @@ class Writer:
 
     def write(self, alignment):
         if len(alignment.components) != 2:
-            raise ValueError("%d-component alignment is not compatible with lav" % len(alignment.components))
+            raise ValueError(f"{len(alignment.components)}-component alignment is not compatible with lav")
 
         c1 = alignment.components[0]
         c2 = alignment.components[1]
@@ -502,8 +490,8 @@ class Writer:
         fname1 = build_filename(self.fname1, self.src1)
         fname2 = build_filename(self.fname2, self.src2)
         print("s {", file=self.file)
-        print('  "%s%s" 1 %d %d 1' % (fname1, strand1, self.length1, flag1), file=self.file)
-        print('  "%s%s" 1 %d %d 1' % (fname2, strand2, self.length2, flag2), file=self.file)
+        print(f'  "{fname1}{strand1}" 1 {self.length1} {flag1} 1', file=self.file)
+        print(f'  "{fname2}{strand2}" 1 {self.length2} {flag2} 1', file=self.file)
         print("}", file=self.file)
 
     def write_h_stanza(self):
@@ -565,10 +553,10 @@ class Writer:
 
         print("a {", file=self.file)
         print(f"  s {score}", file=self.file)
-        print("  b %d %d" % (start1 + 1, start2 + 1), file=self.file)
-        print("  e %d %d" % (end1, end2), file=self.file)
+        print(f"  b {start1 + 1} {start2 + 1}", file=self.file)
+        print(f"  e {end1} {end2}", file=self.file)
         for start1, start2, size, pctId in pieces:
-            print("  l %d %d %d %d %d" % (start1 + 1, start2 + 1, start1 + size, start2 + size, pctId), file=self.file)
+            print(f"  l {start1 + 1} {start2 + 1} {start1 + size} {start2 + size} {pctId}", file=self.file)
         print("}", file=self.file)
 
     def write_lav_marker(self):
