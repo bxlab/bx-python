@@ -94,13 +94,13 @@ def translate(codon, genetic_code):
 
 
 """ parse the doc string to hash the genetic code"""
-GEN_CODE = {}
+GEN_CODE: dict[str, dict[str, dict[str, str]]] = {}
 for line in GENETIC_CODE.split("\n"):
     if line.strip() == "":
         continue
     f = re.split(r"\s|\(|\)|\/", line)
     codon = f[0]
-    c1, c2, c3 = codon
+    c1, c2, c3 = list(codon)
     aminoacid = f[3]
     if c1 not in GEN_CODE:
         GEN_CODE[c1] = {}

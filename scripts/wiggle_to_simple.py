@@ -7,16 +7,17 @@ and fixedStep wiggle lines.
 """
 
 import sys
+from typing import TextIO
 
 import bx.wiggle
 
 if len(sys.argv) > 1:
-    in_file = open(sys.argv[1])
+    in_file: TextIO = open(sys.argv[1])
 else:
     in_file = sys.stdin
 
 if len(sys.argv) > 2:
-    out_file = open(sys.argv[2], "w")
+    out_file: TextIO = open(sys.argv[2], "w")
 else:
     out_file = sys.stdout
 

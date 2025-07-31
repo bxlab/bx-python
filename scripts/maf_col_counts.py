@@ -14,7 +14,7 @@ import sys
 
 import bx.align.maf
 
-counts = {}
+counts: dict[tuple, int] = {}
 
 nspecies = None
 
@@ -31,8 +31,8 @@ for block in bx.align.maf.Reader(sys.stdin):
         except Exception:
             counts[col] = 1
 
-counts = sorted((value, key) for key, value in counts.items())
-counts.reverse()
+sorted_counts = sorted((value, key) for key, value in counts.items())
+sorted_counts.reverse()
 
-for count, col in counts:
+for count, col in sorted_counts:
     print("".join(col), count)

@@ -22,24 +22,25 @@ from bx.cookbook import (
     doc_optparse,
 )
 
-counts = {}
+counts: dict[str, int] = {}
 
 nspecies = None
 
 for block in bx.align.maf.Reader(sys.stdin):
     # Ensure all blocks have the same number of rows
-    if nspecies:
+    if nspecies is not None:
         assert len(block.components) == nspecies
     else:
         nspecies = len(block.components)
     # Increment count for each column
-    for col in zip(*[iter(comp.text.upper()) for comp in block.components]):
-        col = "".join(col)
+    for col_tuple in zip(*[iter(comp.text.upper()) for comp in block.components]):
+        col = "".join(col_tuple)
         try:
             counts[col] += 1
         except Exception:
             counts[col] = 1
 
+assert nspecies is not None
 options, args = doc_optparse.parse(__doc__)
 
 wildcard = False
@@ -54,8 +55,8 @@ nucs = "ACGT-"
 if wildcard:
     nucs += "*"
 
-for col in cross_lists(*([nucs] * nspecies)):
-    col = "".join(col)
+for col_list in cross_lists(*([nucs] * nspecies)):
+    col = "".join(col_list)
     if wildcard and col.count("*") > max_wildcard:
         continue
     if col.count("-") == nspecies:

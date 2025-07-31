@@ -10,7 +10,7 @@ TODO: This is very special case, should it be here?
 import sys
 from collections import defaultdict
 
-counts = defaultdict(int)
+counts: dict[int, int] = defaultdict(int)
 
 max_index = -1
 

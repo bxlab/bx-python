@@ -20,7 +20,7 @@ from operator import (
 import numpy as np
 
 from bx.align import epo
-from bx.align.epo import bed_union as elem_u
+from bx.align.epo import bed_union as elem_u  # type: ignore[attr-defined]
 from bx.intervals.intersection import (
     Interval,
     IntervalTree,
@@ -427,6 +427,6 @@ if __name__ == "__main__":
             outpath = os.path.join(opt.output, os.path.basename(inpath))
             if os.path.isfile(outpath):
                 log.warning("overwriting %s ...", outpath)
-            transform_file(loadFeatures(inpath), outpath, EPO, TREE, opt)
+            transform_file(loadFeatures(inpath, opt), outpath, EPO, TREE, opt)
     else:
         transform_file(loadFeatures(opt.input[0], opt), opt.output, EPO, TREE, opt)
