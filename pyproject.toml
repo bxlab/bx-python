@@ -2,7 +2,7 @@
 requires = [
     "cython",
     "numpy>=1.25.0",
-    "setuptools",
+    "setuptools>=77.0.0",
 ]
 build-backend = "setuptools.build_meta"
 
@@ -19,7 +19,10 @@ authors = [
 ]
 description = "Tools for manipulating biological data, particularly multiple sequence alignments"
 readme = "README.md"
-license = { text = "MIT" }
+license = "MIT"
+license-files = [
+    "LICENSE",
+]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
