@@ -17,6 +17,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
+          cache: pip
       - name: Install tox
         run: pip install tox
       - name: Lint
@@ -35,6 +36,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
+          cache: pip
       - name: Install liblzo2-dev
         run: sudo apt-get update && sudo apt-get -y install liblzo2-dev
       - name: Install tox

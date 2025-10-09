@@ -23,6 +23,7 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
+          cache: pip
       - name: Set up QEMU to build non-native architectures
         if: ${{ matrix.archs == 'aarch64' }}
         uses: docker/setup-qemu-action@v3
@@ -53,6 +54,7 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
+          cache: pip
       - name: Install required Python packages
         run: |
           python -m pip install --upgrade pip setuptools wheel
