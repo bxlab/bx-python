@@ -40,7 +40,7 @@ jobs:
           CIBW_SKIP: "pp310-*"
       - name: Check packages
         run: twine check dist/*
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: "packages-${{ matrix.os }}-${{ matrix.archs }}"
           path: dist/
@@ -69,7 +69,7 @@ jobs:
           python -c 'import bx, bx.align, bx.align.sitemask, bx.align.tools, bx.arrays, bx.bbi, bx.cookbook, bx.intervals, bx.intervals.operations, bx.intseq, bx.misc, bx.motif, bx.motif.io, bx.motif.logo, bx.phylo, bx.pwm, bx.seq, bx.tabular, bx_extras'
       - name: Check packages
         run: twine check dist/*
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: packages-sdist
           path: dist/
