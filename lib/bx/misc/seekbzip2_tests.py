@@ -6,12 +6,11 @@ import bz2
 import os
 import random
 from codecs import encode
-from typing import Optional
 
 from bx.misc import seekbzip2
 
-F: Optional[str] = None
-T: Optional[str] = None
+F: str | None = None
+T: str | None = None
 
 # F="/Users/james/work/seek-bzip2/test_random.dat.bz2"
 # T="/Users/james/cache/hg18/align/multiz28way/chr10.maf.bz2"

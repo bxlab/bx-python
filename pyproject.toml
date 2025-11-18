@@ -29,7 +29,6 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Operating System :: POSIX",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -38,7 +37,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Bio-Informatics",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
     "numpy",
     "pyparsing",
@@ -52,7 +51,6 @@ Homepage = "https://github.com/bxlab/bx-python"
 [tool.black]
 include = '\.pyi?$'
 line-length = 120
-target-version = ['py39']
 
 [tool.cibuildwheel]
 test-command = """
@@ -115,9 +113,6 @@ EOF
 
 [tool.darker]
 isort = true
-
-[tool.ruff]
-target-version = "py39"
 
 [tool.ruff.lint]
 # Enable: pycodestyle errors (E), Pyflakes (F), flake8-bugbear (B),
