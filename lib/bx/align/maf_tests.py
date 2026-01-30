@@ -120,15 +120,12 @@ def test_writer():
 
     writer.write(a)
 
-    assert (
-        val.getvalue()
-        == """##maf version=1 scoring=foobar
+    assert val.getvalue() == """##maf version=1 scoring=foobar
 a score=7009
 s human_hoxa 100  9 + 1000257 ACA-TTACT 
 s horse_hoxa 120 10 -   98892 ACAATTGCT 
 
 """  # noqa: W291
-    )
 
 
 def test_slice():

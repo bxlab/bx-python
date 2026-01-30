@@ -75,7 +75,7 @@ class Reader:
                 self.parse_h_stanza()
                 continue
             if line.startswith("a {"):
-                (score, pieces) = self.parse_a_stanza()
+                score, pieces = self.parse_a_stanza()
                 break
             if line.endswith("{"):
                 self.parse_unknown_stanza()
@@ -120,7 +120,7 @@ class Reader:
                     name1 = self.path_to_src_name(self.seq1_filename)
                 except ValueError:
                     name1 = "seq1"
-            (species1, chrom1) = src_split(name1)
+            species1, chrom1 = src_split(name1)
             self.seq1_src = src_merge(species1, chrom1, contig)
             if contig is not None:
                 chrom1 += f"[{contig}]"
@@ -152,7 +152,7 @@ class Reader:
                     name2 = self.path_to_src_name(self.seq2_filename)
                 except ValueError:
                     name2 = "seq2"
-            (species2, chrom2) = src_split(name2)
+            species2, chrom2 = src_split(name2)
             self.seq2_src = src_merge(species2, chrom2, contig)
             if contig is not None:
                 chrom2 += f"[{contig}]"
@@ -180,14 +180,10 @@ class Reader:
     def parse_s_stanza(self):
         self.close_seqs()
         line = self.fetch_line(report=" in s-stanza")
-        (self.seq1_filename, self.seq1_start, self.seq1_end, self.seq1_strand, self.seq1_contig) = self.parse_s_seq(
-            line
-        )
+        self.seq1_filename, self.seq1_start, self.seq1_end, self.seq1_strand, self.seq1_contig = self.parse_s_seq(line)
 
         line = self.fetch_line(report=" in s-stanza")
-        (self.seq2_filename, self.seq2_start, self.seq2_end, self.seq2_strand, self.seq2_contig) = self.parse_s_seq(
-            line
-        )
+        self.seq2_filename, self.seq2_start, self.seq2_end, self.seq2_strand, self.seq2_contig = self.parse_s_seq(line)
 
         line = self.fetch_line(report=" in s-stanza")
         assert line == "}", f'improper s-stanza terminator (line {self.lineNumber}, "{line}")'
@@ -467,7 +463,7 @@ class Writer:
         keys = list(self.blockHash)
         keys = sort_keys_by_chrom(keys)
         for key in keys:
-            (src1, strand1, src2, strand2) = key
+            src1, strand1, src2, strand2 = key
             alignment = self.blockHash[key][0]
             self.src1 = src1
             self.strand1 = strand1
@@ -485,8 +481,8 @@ class Writer:
 
     def write_s_stanza(self):
         self.write_lav_marker()
-        (strand1, flag1) = minus_or_nothing(self.strand1)
-        (strand2, flag2) = minus_or_nothing(self.strand2)
+        strand1, flag1 = minus_or_nothing(self.strand1)
+        strand2, flag2 = minus_or_nothing(self.strand2)
         fname1 = build_filename(self.fname1, self.src1)
         fname2 = build_filename(self.fname2, self.src2)
         print("s {", file=self.file)
@@ -522,7 +518,7 @@ class Writer:
             nonGap = (ch1 != "-") and (ch2 != "-")
             if nonGap:
                 if piece1 is None:  # new piece starts
-                    (piece1, piece2, idCount) = (pos1, pos2, 0)
+                    piece1, piece2, idCount = (pos1, pos2, 0)
                 if ch1 == ch2:
                     idCount += 1
             elif piece1 is not None:  # new gap starts
@@ -543,11 +539,11 @@ class Writer:
 
         # write the block
 
-        (start1, start2, size, pctId) = pieces[-1]  # get end of final piece
+        start1, start2, size, pctId = pieces[-1]  # get end of final piece
         end1 = start1 + size
         end2 = start2 + size
 
-        (start1, start2, size, pctId) = pieces[0]  # get start of first piece
+        start1, start2, size, pctId = pieces[0]  # get start of first piece
 
         score = int(round(alignment.score))
 
@@ -575,7 +571,7 @@ def sort_keys_by_chrom(keys):
 
 
 def chrom_key(src):
-    (species, chrom) = src_split(src)
+    species, chrom = src_split(src)
     if chrom.startswith("chr"):
         chrom = chrom[3:]
     try:
@@ -591,7 +587,7 @@ def build_filename(fmt, src):
     num = fmt.count("%s")
     if num == 0:
         return fmt
-    (species, chrom) = src_split(src)
+    species, chrom = src_split(src)
     if num == 1:
         return fmt % chrom
     return fmt % (species, chrom)

@@ -210,7 +210,7 @@ class PositionWeightMatrix:
             fields, consensus = rows[i][:nsymbols], rows[i][-1]
             for x, count in enumerate(fields):
                 try:
-                    (w, s) = self.parse_weight(count)
+                    w, s = self.parse_weight(count)
                 except ValueError:
                     raise ValueError("pwm row {} has bad weight {}".format(" ".join(fields), w))
 
@@ -229,7 +229,7 @@ class PositionWeightMatrix:
         for i in range(len(rows)):
             hashRows.append({})
             for x, sym in enumerate(alphabet):
-                (w, s) = rows[i][x]
+                w, s = rows[i][x]
                 hashRows[i][sym] = w * scale / s
                 assert hashRows[i][sym] >= 0
                 if sym not in self.matrix_base_counts:

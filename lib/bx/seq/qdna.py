@@ -169,7 +169,7 @@ qdna code file format:
 
 class QdnaCodebook:
     def __init__(self, file):
-        (self.alphabet, self.codeToProbs) = self.read_codebook(file)
+        self.alphabet, self.codeToProbs = self.read_codebook(file)
 
     def __str__(self):
         codeSet = sorted(codeNum for codeNum in self.codeToProbs)

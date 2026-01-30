@@ -154,6 +154,7 @@ SUPPORT FUNCTIONS:  writecc
                     outputpairedstats
                     findwithin
 """
+
 # CHANGE LOG:
 # ===========
 # 02-11-19 ... fixed attest_ind and attest_rel for div-by-zero Overflows
@@ -300,7 +301,7 @@ def lmedian(inlist, numbins=1000):
     Heiman's Basic Stats (1st Edition), or CRC Probability & Statistics.
 
     Usage:   lmedian (inlist, numbins=1000)"""
-    (hist, smallest, binsize, extras) = histogram(inlist, numbins)  # make histog
+    hist, smallest, binsize, extras = histogram(inlist, numbins)  # make histog
     cumhist = cumsum(hist)  # make cumulative histogram
     for i in range(len(cumhist)):  # get 1st(!) index holding 50%ile score
         if cumhist[i] >= len(inlist) / 2.0:
@@ -2217,7 +2218,7 @@ try:  # DEFINE THESE *ONLY* IF NUMERIC IS AVAILABLE
         Returns: median calculated over ALL values in inarray
         """
         inarray = N.ravel(inarray)
-        (hist, smallest, binsize, extras) = ahistogram(inarray, numbins)
+        hist, smallest, binsize, extras = ahistogram(inarray, numbins)
         cumhist = N.cumsum(hist)  # make cumulative histogram
         otherbins = N.greater_equal(cumhist, len(inarray) / 2.0)
         otherbins = list(otherbins)  # list of 0/1s, 1s start at median bin

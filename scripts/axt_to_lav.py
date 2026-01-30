@@ -77,12 +77,12 @@ def main():
         usage("missing secondary file name and length")
 
     try:
-        (primaryFile, primary, primaryLengths) = parse_spec(primary)
+        primaryFile, primary, primaryLengths = parse_spec(primary)
     except Exception:
         usage("bad primary spec (must be seq_file[:species_name]:lengths_file")
 
     try:
-        (secondaryFile, secondary, secondaryLengths) = parse_spec(secondary)
+        secondaryFile, secondary, secondaryLengths = parse_spec(secondary)
     except Exception:
         usage("bad secondary spec (must be seq_file[:species_name]:lengths_file")
 

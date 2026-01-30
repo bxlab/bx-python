@@ -21,7 +21,7 @@ def main():
     parser = OptionParser()
     parser.add_option("-l", "--length", action="store", type="int", default=100, help="")
 
-    (options, args) = parser.parse_args()
+    options, args = parser.parse_args()
 
     length = options.length
     maf_reader = bx.align.maf.Reader(sys.stdin)

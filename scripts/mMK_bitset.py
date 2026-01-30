@@ -14,7 +14,7 @@ def main():
     parser.add_option("-o", "--outfile", help="Specify file for output")
     parser.add_option("-s", "--species", type="string", default="panTro2")
     parser.add_option("-b", "--build", type="string", default="hg18")
-    (options, args) = parser.parse_args()
+    options, args = parser.parse_args()
 
     if len(args) != 5:
         parser.error("Incorrect number of arguments")

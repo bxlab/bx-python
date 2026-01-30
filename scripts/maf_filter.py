@@ -26,7 +26,7 @@ def __main__():
     parser.add_option("--min_cols", action="store", default=None, type="int", help="")
     parser.add_option("-e", "--expr", action="store", default=None)
 
-    (options, args) = parser.parse_args()
+    options, args = parser.parse_args()
 
     component_count = options.component_count
     min_cols = options.min_cols

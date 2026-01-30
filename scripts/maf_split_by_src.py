@@ -28,7 +28,7 @@ def __main__():
     parser = OptionParser()
     parser.add_option("-o", "--outprefix", action="store", default="")
     parser.add_option("-c", "--component", action="store", default=None)
-    (options, args) = parser.parse_args()
+    options, args = parser.parse_args()
 
     out_prefix = options.outprefix
     comp = options.component

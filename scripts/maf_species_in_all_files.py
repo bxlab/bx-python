@@ -6,6 +6,7 @@ list of the species that occur in all of the mafs.
 
 usage %prog maf1 maf2 ...
 """
+
 import operator
 import sys
 from functools import reduce

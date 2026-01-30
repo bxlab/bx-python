@@ -17,7 +17,7 @@ def __main__():
     parser = OptionParser()
     parser.add_option("-c", "--cols", action="store")
 
-    (options, args) = parser.parse_args()
+    options, args = parser.parse_args()
 
     maf_reader = maf.Reader(sys.stdin, parse_e_rows=True)
     maf_writer = maf.Writer(sys.stdout)

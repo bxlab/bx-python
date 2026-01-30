@@ -23,7 +23,7 @@ def __main__():
     parser.add_option("--wrap", action="store", default=None, type="int", help="")
     parser.add_option("--nowrap", action="store_true", default=False, dest="nowrap", help="")
 
-    (options, args) = parser.parse_args()
+    options, args = parser.parse_args()
 
     species = []
     for arg in args:

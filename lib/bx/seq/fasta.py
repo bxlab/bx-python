@@ -50,7 +50,7 @@ class FastaFile(SeqFile):
         currContig = 1
         while True:
             if self.lookahead is not None:
-                (line, self.lookahead) = (self.lookahead, None)
+                line, self.lookahead = (self.lookahead, None)
             else:
                 line = self.file.readline()
                 if not isinstance(line, str):

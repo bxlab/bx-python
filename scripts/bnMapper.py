@@ -6,6 +6,7 @@ peaks on TF binding events. Features that when mapped
 span multiple chains or multiple chromosomes are silently filtered out. TODO:
 (1)for narrowPeak input, map the predicted peak position.
 """
+
 import argparse
 import logging
 import os
@@ -84,7 +85,7 @@ def transform(elem, chain_CT_CQ, max_gap):
 
     elem intersects this chain's ginterval.
     :return: a list of the type [(to_chr, start, end, elem[id]) ... ]"""
-    (chain, CT, CQ) = chain_CT_CQ
+    chain, CT, CQ = chain_CT_CQ
     start, end = max(elem["start"], chain.tStart) - chain.tStart, min(elem["end"], chain.tEnd) - chain.tStart
 
     assert np.all((CT[:, 1] - CT[:, 0]) == (CQ[:, 1] - CQ[:, 0]))
