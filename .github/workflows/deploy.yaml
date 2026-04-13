@@ -76,6 +76,8 @@ jobs:
 
   upload_pypi:
     needs: [build_wheels, build_sdist]
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v8
@@ -88,6 +90,3 @@ jobs:
       - name: Publish to PyPI
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && github.repository_owner == 'bxlab'
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
