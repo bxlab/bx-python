@@ -43,3 +43,21 @@ jobs:
         run: pip install tox
       - name: Test
         run: tox -e test
+  test-32bit:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    env:
+      C_COMPILER: i686-linux-gnu-gcc
+      CFLAGS: -m32
+    steps:
+      - uses: actions/checkout@v4
+      - name: install 32bit libraries
+        run: sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install -y gcc-i686-linux-gnu python3.10:i386 python3.10-minimal:i386 python3.10-dev:i386 python3-pip liblzo2-dev:i386
+      - name: Install tox
+        run: |
+          export PYTHON=python3.10
+          sudo -H $PYTHON -m pip install -U pip
+          sudo -H $PYTHON -m pip install wheel virtualenv setuptools tox
+      - name: Test
+        run: tox -e test
