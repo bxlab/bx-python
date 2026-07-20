@@ -3,6 +3,7 @@ on: [push, pull_request]
 concurrency:
   group: test-${{ github.ref }}
   cancel-in-progress: true
+permissions: {}
 jobs:
   lint:
     runs-on: ubuntu-latest

@@ -3,6 +3,7 @@ on: [push, pull_request]
 concurrency:
   group: deploy-${{ github.ref }}
   cancel-in-progress: true
+permissions: {}
 jobs:
   build_wheels:
     runs-on: ${{ matrix.os }}
