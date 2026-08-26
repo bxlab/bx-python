@@ -15,8 +15,8 @@ jobs:
             archs: auto
           - os: macos-latest
             archs: x86_64 arm64
-          - os: ubuntu-latest
-            archs: aarch64
+          - os: ubuntu-24.04-arm
+            archs: auto
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -25,20 +25,15 @@ jobs:
         with:
           python-version: '3.x'
           cache: pip
-      - name: Set up QEMU to build non-native architectures
-        if: ${{ matrix.archs == 'aarch64' }}
-        uses: docker/setup-qemu-action@v4
       - name: Install required Python packages
         run: |
           python -m pip install --upgrade pip setuptools wheel
-          python -m pip install 'cibuildwheel>=2.2.0' twine
+          python -m pip install 'cibuildwheel>=3.2.0' twine
       - name: Build wheels
         run: python -m cibuildwheel --output-dir dist
         env:
           CIBW_ARCHS: ${{ matrix.archs }}
           CIBW_ENABLE: "pypy"
-          # Skip building for PyPy 3.10 https://github.com/pypa/cibuildwheel/issues/2518
-          CIBW_SKIP: "pp310-*"
       - name: Check packages
         run: twine check dist/*
       - uses: actions/upload-artifact@v7
