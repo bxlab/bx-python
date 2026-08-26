@@ -4,7 +4,7 @@ Tests for `bx.align.lav`.
 
 import unittest
 
-import bx.align.lav as lav
+from bx.align import lav
 
 test_lav = "test_data/lav_tests/apple_orange.lav"
 

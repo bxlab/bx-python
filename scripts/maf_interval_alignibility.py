@@ -86,9 +86,7 @@ def main():
             # An interval will be called missing if it is < 100bp and <50%
             # present, or more than 100bp and less that 50bp present (yes,
             # arbitrary)
-            if length < 100 and missing > (length / 2):
-                print("NA", end=" ")
-            elif length >= 100 and missing > 50:
+            if length < 100 and missing > (length / 2) or length >= 100 and missing > 50:
                 print("NA", end=" ")
             else:
                 print(aligned / (length - missing), end=" ")

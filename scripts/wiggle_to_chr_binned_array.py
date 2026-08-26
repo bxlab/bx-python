@@ -10,26 +10,23 @@ import sys
 
 import bx.wiggle
 from bx.binned_array import BinnedArray
-from bx.cookbook import doc_optparse
 
 
-def main():
-    options, args = doc_optparse.parse(__doc__)
+def main() -> None:
+    scores: dict[str, BinnedArray] = {}
+    with open(sys.argv[1]) as f:
+        for i, (chrom, pos, val) in enumerate(bx.wiggle.Reader(f)):
+            if chrom not in scores:
+                scores[chrom] = BinnedArray()
+            scores[chrom][pos] = val
 
-    scores = {}
-    for i, (chrom, pos, val) in enumerate(bx.wiggle.Reader(open(sys.argv[1]))):
-        if chrom not in scores:
-            scores[chrom] = BinnedArray()
-        scores[chrom][pos] = val
+            # Status
+            if i % 10000 == 0:
+                print(i, "scores processed")
 
-        # Status
-        if i % 10000 == 0:
-            print(i, "scores processed")
-
-    for chr in scores.keys():
-        out = open(chr, "w")
-        scores[chr].to_file(out)
-        out.close()
+    for chr, binned_array in scores.items():
+        with open(chr, "w") as out:
+            binned_array.to_file(out)
 
 
 if __name__ == "__main__":

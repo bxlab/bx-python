@@ -8,4 +8,4 @@ from bx.align.sitemask.core import (
     MaskPipeline,
 )
 
-__all__ = ["Masker", "MaskPipeline"]
+__all__ = ["MaskPipeline", "Masker"]

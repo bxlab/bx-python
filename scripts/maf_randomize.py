@@ -29,7 +29,7 @@ def __main__():
     if not sample_size:
         sample_size = len(mafs)
 
-    for i in range(0, sample_size):
+    for i in range(sample_size):
         maf_writer.write(mafs[i])
 
 

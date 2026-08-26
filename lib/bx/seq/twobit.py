@@ -43,10 +43,8 @@ class TwoBitSequence:
 
     def get(self, start, end):
         # Trim start / stop
-        if start < 0:
-            start = 0
-        if end > self.size:
-            end = self.size
+        start = max(start, 0)
+        end = min(end, self.size)
         out_size = end - start
         if out_size < 1:
             raise Exception(f"end before start ({start},{end})")

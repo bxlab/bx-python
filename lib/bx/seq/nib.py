@@ -55,8 +55,8 @@ class NibFile(SeqFile):
         assert length >= 0, "Length must be greater than 0"
         assert start + length <= self.length, "Interval beyond end of sequence"
         # Read block of bytes containing sequence
-        block_start = int(math.floor(start / 2))
-        block_end = int(math.floor((start + length - 1) / 2))
+        block_start = math.floor(start / 2)
+        block_end = math.floor((start + length - 1) / 2)
         block_len = block_end + 1 - block_start
         self.file.seek(NIB_MAGIC_SIZE + NIB_LENGTH_SIZE + block_start)
         raw = self.file.read(block_len)

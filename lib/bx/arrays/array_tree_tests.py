@@ -91,7 +91,7 @@ class TestArrayTree(unittest.TestCase):
         lvl1 = at.get_summary(14000000, 1)
         avgs = [float(_) for _ in lvl1.sums / lvl1.counts]
         self.assertEqual(len(avgs), 1000)
-        self.assertEqual(avgs, [200 for i in range(0, 1000)])
+        self.assertEqual(avgs, [200 for i in range(1000)])
 
     def test_get_frequencies(self):
         f = self.filearraytree

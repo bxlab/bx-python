@@ -60,8 +60,7 @@ def bitset_complement(exons):
         if start == bits.size:
             break
         end = bits.next_clear(start)
-        if end > len:
-            end = len
+        end = min(end, len)
         if start != end:
             introns.append((start, end))
         if end == len:

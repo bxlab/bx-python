@@ -42,8 +42,7 @@ for chrom in lens:
             if start == bits.size:
                 break
             end = bits.next_clear(start)
-            if end > len:
-                end = len
+            end = min(end, len)
             print(f"{chrom}\t{start}\t{end}")
             if end == len:
                 break

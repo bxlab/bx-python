@@ -249,11 +249,11 @@ def format_tabular(rows, align=None):
         return ""
     lengths = [len(col) for col in rows[0]]
     for row in rows[1:]:
-        for i in range(0, len(row)):
+        for i in range(len(row)):
             lengths[i] = max(lengths[i], len(row[i]))
     rval = ""
     for row in rows:
-        for i in range(0, len(row)):
+        for i in range(len(row)):
             if align and align[i] == "l":
                 rval += row[i].ljust(lengths[i])
             else:

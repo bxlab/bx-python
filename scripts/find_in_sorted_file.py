@@ -31,7 +31,7 @@ class Finder:
 
         step = end / (self.segments - 1)
 
-        for i in range(0, self.segments - 1):
+        for i in range(self.segments - 1):
             file.seek(i * step, 0)
             file.readline()
             position = file.tell()

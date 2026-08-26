@@ -378,12 +378,12 @@ class Component:
                 # when slice_by_component() and slice_by_coord() flip the ends,
                 # the resulting slice is correct
                 for x in range(len(self.text) - 1, -1, -1):
-                    if not self.text[x] == "-":
+                    if self.text[x] != "-":
                         self.index.append(x + 1)
                 self.index.append(0)
             else:
                 for x in range(len(self.text)):
-                    if not self.text[x] == "-":
+                    if self.text[x] != "-":
                         self.index.append(x)
                 self.index.append(len(self.text))
         x = None

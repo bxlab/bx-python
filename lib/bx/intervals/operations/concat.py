@@ -53,9 +53,7 @@ def concat(readers, comments=True, header=True, sameformat=True):
                     if strand_col < len(out_interval.fields):
                         out_interval.fields[strand_col] = strand
                     yield out_interval
-            elif isinstance(interval, Header) and header:
-                yield interval
-            elif isinstance(interval, Comment) and comments:
+            elif isinstance(interval, Header) and header or isinstance(interval, Comment) and comments:
                 yield interval
         if output and firstdataset:
             firstdataset = False

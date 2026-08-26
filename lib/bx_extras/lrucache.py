@@ -42,7 +42,7 @@ from heapq import (
 )
 
 __version__ = "0.2"
-__all__ = ["CacheKeyError", "LRUCache", "DEFAULT_SIZE"]
+__all__ = ["DEFAULT_SIZE", "CacheKeyError", "LRUCache"]
 __docformat__ = "reStructuredText en"
 
 DEFAULT_SIZE = 16
@@ -199,7 +199,7 @@ class LRUCache:
                 del self.__dict[lru.key]
 
     def __repr__(self):
-        return f"<{str(self.__class__)} ({len(self.__heap)} elements)>"
+        return f"<{self.__class__!s} ({len(self.__heap)} elements)>"
 
     def mtime(self, key):
         """Return the last modification time for the cache record with key.

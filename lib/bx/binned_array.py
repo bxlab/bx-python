@@ -73,7 +73,7 @@ class BinnedArray:
     def __init__(self, bin_size=512 * 1024, default=nan, max_size=MAX, typecode="f"):
         self.max_size = max_size
         self.bin_size = bin_size
-        self.nbins = int(math.ceil(max_size / self.bin_size))
+        self.nbins = math.ceil(max_size / self.bin_size)
         self.bins = [None] * self.nbins
         self.default = default
         self.typecode = typecode
@@ -278,7 +278,7 @@ class BinnedArrayWriter:
         self.f = f
         self.max_size = max_size
         self.bin_size = bin_size
-        self.nbins = int(math.ceil(max_size / self.bin_size))
+        self.nbins = math.ceil(max_size / self.bin_size)
         self.default = default
         self.typecode = typecode
         self.bin = 0

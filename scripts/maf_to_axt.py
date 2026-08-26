@@ -96,7 +96,7 @@ def remove_mutual_gaps(block):
     nonGaps = []
 
     for c in block.components:
-        for ix in range(0, block.text_size):
+        for ix in range(block.text_size):
             if ix not in nonGaps and c.text[ix] != "-":
                 nonGaps.append(ix)
 

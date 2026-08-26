@@ -4,8 +4,8 @@ Tests for `bx.align.maf`.
 
 from io import StringIO
 
-import bx.align as align
-import bx.align.maf as maf
+from bx import align
+from bx.align import maf
 
 # A simple MAF from the rat paper days
 test_maf = """##maf version=1 scoring=humor.v4

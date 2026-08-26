@@ -15,10 +15,10 @@ from .tile import (
 )
 
 __all__ = [
+    "FusingAlignmentWriter",
     "chop_list",
     "fuse",
     "fuse_list",
-    "FusingAlignmentWriter",
     "get_components_for_species",
     "intervals_from_mask",
     "tile_interval",

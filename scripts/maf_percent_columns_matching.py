@@ -20,7 +20,7 @@ def __main__():
     for m in maf_reader:
         match = 0
         total = 0
-        for i in range(0, m.text_size):
+        for i in range(m.text_size):
             a = m.components[0].text[i].lower()
             b = m.components[1].text[i].lower()
             if a == b:

@@ -100,8 +100,7 @@ class ScoringScheme:
                     s = f"{score:8.6f}"
                 else:
                     s = f"{score}"
-                if len(s) + 1 > width:
-                    width = len(s) + 1
+                width = max(width, len(s) + 1)
         lines = []
         line = []
         if labelRows:

@@ -19,7 +19,7 @@ from pyparsing import (
     Word,
 )
 
-__all__ = ["Tree", "Edge", "NewickParser", "newick_parser"]
+__all__ = ["Edge", "NewickParser", "Tree", "newick_parser"]
 
 
 def indent(s):
@@ -50,7 +50,7 @@ class Tree:
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
-        return f"Tree( {repr(self.label)}, {repr(self.edges)} )"
+        return f"Tree( {self.label!r}, {self.edges!r} )"
 
 
 @total_ordering
@@ -60,7 +60,7 @@ class Edge:
         self.tip = tip
 
     def pretty(self):
-        return f"Edge( {repr(self.length)}, \n{indent(repr(self.tip))}\n)"
+        return f"Edge( {self.length!r}, \n{indent(repr(self.tip))}\n)"
 
     def __lt__(self, other):
         return self.__dict__ < other.__dict__
@@ -69,7 +69,7 @@ class Edge:
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
-        return f"Edge( {repr(self.length)}, {repr(self.tip)} )"
+        return f"Edge( {self.length!r}, {self.tip!r} )"
 
 
 def create_parser():

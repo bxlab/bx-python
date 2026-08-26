@@ -29,10 +29,10 @@ usage: %prog list,of,species,to,keep ref.2bit indexed_maf_files ...
 
 import sys
 
-import bx.align as align
-import bx.align.maf as maf
 import bx.seq.nib
 import bx.seq.twobit
+from bx import align
+from bx.align import maf
 from bx.cookbook import doc_optparse
 
 tree_tx = str.maketrans("(),", "   ")

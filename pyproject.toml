@@ -125,7 +125,7 @@ select = ["E", "F", "C4", "G", "ISC", "NPY", "UP"]
 # B9 flake8-bugbear opinionated warnings
 # E501 is line length (delegated to black)
 # E741 Ambiguous variable name
-ignore = ["B9", "E501", "E741"]
+ignore = ["B9", "BLE001", "E501", "E741", "I001", "RET501", "SIM102", "TRY002", "TRY004"]
 
 [tool.setuptools.dynamic]
 version = {attr = "bx.__version__"}

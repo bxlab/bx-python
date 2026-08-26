@@ -1,6 +1,5 @@
 "tests for bx.align.epo"
 
-import pdb
 import random
 import unittest
 
@@ -185,8 +184,6 @@ class TestEpo(unittest.TestCase):
                 c2 = c2[::-1]
             th = 0
             for s, t, q in zip(S, T, Q):
-                if not (cch(c1, th, th + s) and cch(c2, th, th + s)):
-                    pdb.set_trace()
                 assert cch(c1, th, th + s) and cch(c2, th, th + s), f"{c1[th:th + s]} and {c2[th:th + s]}"
                 if t > q:
                     cch(c1, th + s, th + s + t) and c1[th + s : th + s + t] == "-" * t
@@ -245,8 +242,6 @@ class TestEpo(unittest.TestCase):
                 ),
             )
             chain = Chain._make_from_epo(epo_pair[0], epo_pair[1], {"chr1": 500}, {"chr1": 800})
-            if chain[1][-1] != qm:
-                pdb.set_trace()
             assert chain[1][-1] == qm
             # correct also for coordinate interpretation differences between UCSC and EPO
             assert (qStart + 1) - 1 == chain[0].qStart, f"{qStart + 1} != {chain[0].qStart}"

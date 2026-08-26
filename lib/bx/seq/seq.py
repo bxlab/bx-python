@@ -38,9 +38,7 @@ class SeqFile:
 
     def __init__(self, file=None, revcomp=False, name="", gap=None):
         self.file = file
-        if revcomp:
-            self.revcomp = "-5'"
-        elif revcomp == "+3'":
+        if revcomp or revcomp == "+3'":
             self.revcomp = "-5'"
         elif revcomp == "+5'":
             self.revcomp = "-3'"

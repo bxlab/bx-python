@@ -140,10 +140,10 @@ class Chain(namedtuple("Chain", "score tName tSize tStrand tStart tEnd qName qSi
 
         assert chain.tEnd - chain.tStart == sum(S) + sum(
             T
-        ), f"[{str(chain)}] {chain.tEnd - chain.tStart} != {sum(S) + sum(T)}"
+        ), f"[{chain!s}] {chain.tEnd - chain.tStart} != {sum(S) + sum(T)}"
         assert chain.qEnd - chain.qStart == sum(S) + sum(
             Q
-        ), f"[{str(chain)}] {chain.qEnd - chain.qStart} != {sum(S) + sum(Q)}"
+        ), f"[{chain!s}] {chain.qEnd - chain.qStart} != {sum(S) + sum(Q)}"
         return chain, S, T, Q
 
     def slice(self, who):

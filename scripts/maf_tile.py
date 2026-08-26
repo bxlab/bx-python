@@ -17,9 +17,9 @@ usage: %prog tree maf_files...
 
 import sys
 
-import bx.align as align
 import bx.align.maf
 import bx.seq.nib
+from bx import align
 from bx.cookbook import doc_optparse
 
 tree_tx = str.maketrans("(),", "   ")

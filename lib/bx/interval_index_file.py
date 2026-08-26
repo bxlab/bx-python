@@ -106,7 +106,7 @@ try:
 except ImportError:
     seeklzop = None  # type: ignore[assignment]
 
-__all__ = ["Indexes", "Index"]
+__all__ = ["Index", "Indexes"]
 
 MAGIC = 0x2CFF800A
 VERSION = 2

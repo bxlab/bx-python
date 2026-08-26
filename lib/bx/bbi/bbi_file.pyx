@@ -324,7 +324,7 @@ cdef class ZoomLevel:
             block_size = len( block_data )
             # The block should be a bunch of summaries. 
             assert block_size % summary_on_disk_size == 0
-            item_count = block_size / summary_on_disk_size
+            item_count = block_size // summary_on_disk_size
             # Create another reader just for the block, shouldn't be too expensive
             block_reader = BinaryFileReader( BytesIO( block_data ), is_little_endian=reader.is_little_endian )
             for i from 0 <= i < item_count:

@@ -26,8 +26,7 @@ for interval in GenomicIntervalReader(sys.stdin):
         else:
             start = end - length
         # Trim
-        if start < 0:
-            start = 0
+        start = max(start, 0)
         if chrom_len and end > chrom_len[interval.chrom]:
             end = chrom_len[interval.chrom]
         # Set new start and end

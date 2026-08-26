@@ -10,10 +10,6 @@ from bx.align import maf as align_maf
 from bx.pwm.pwm_score_maf import MafMotifScorer
 
 
-def isnan(x):
-    return not x == x
-
-
 def main():
     if len(sys.argv) < 4:
         print(f"{sys.argv[0]} motif inmaf spec1,spec2,... ", file=sys.stderr)

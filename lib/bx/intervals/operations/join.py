@@ -98,7 +98,7 @@ def findintersect(interval, sortedlist, mincols):
     # find range of intervals that intersect via a binary search
     # find lower bound
     x = len(sortedlist) / 2
-    n = int(math.pow(2, math.ceil(math.log(len(sortedlist), 2))))
+    n = int(math.pow(2, math.ceil(math.log2(len(sortedlist)))))
 
     not_found = True
     not_done = True

@@ -46,7 +46,7 @@ def do_windows(chr, start, end, window_size):
     lost = length % window_size
     skip_amount = lost // window_count
     s = 0
-    for i in range(0, window_count):
+    for i in range(window_count):
         s += skip_amount
         print(chr, start + s, start + s + window_size)
         s += window_size

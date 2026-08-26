@@ -4,14 +4,7 @@ import sys
 
 import bx.pwm.position_weight_matrix as pwmx
 from bx.align import maf as align_maf
-
-
-def isnan(x):
-    # return ieeespecial.isnan(x)
-    if x == x:
-        return False
-    return True
-
+from bx.pwm.position_weight_matrix import isnan
 
 NaN = float("nan")
 

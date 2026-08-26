@@ -11,10 +11,6 @@ from bx.align import maf as align_maf
 from bx.pwm.pwm_score_maf import MafBlockScorer
 
 
-def isnan(x):
-    return not x == x
-
-
 def main():
     if len(sys.argv) < 6:
         print(f"{sys.argv[0]} transfac|basic pwmfile inmaf threshold spec1,spec2,... ", file=sys.stderr)

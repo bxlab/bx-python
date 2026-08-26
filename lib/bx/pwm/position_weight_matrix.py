@@ -65,7 +65,7 @@ class AlignScoreMatrix:
 
 
 def score_align_motif(align, motif, gapmask=None, byPosition=True):
-    chr, chr_start, chr_stop = align.headers[0]
+    # chr, chr_start, chr_stop = align.headers[0]
 
     # a blank score matrix
     nrows, ncols = align.dims
@@ -74,18 +74,12 @@ def score_align_motif(align, motif, gapmask=None, byPosition=True):
 
     minSeqLen = len(motif)
     for ir in range(nrows):
-        pass
-
         # row is missing data
         if isnan(align.rows[ir][0]):
             continue
 
         for start in range(ncols):
-            if align.rows[ir][start] == "-":
-                continue
-            elif align.rows[ir][start] == "n":
-                continue
-            elif align.rows[ir][start] == "N":
+            if align.rows[ir][start] == "-" or align.rows[ir][start] == "n" or align.rows[ir][start] == "N":
                 continue
 
             # get enough sequence for the weight matrix
@@ -118,9 +112,7 @@ def score_align_motif(align, motif, gapmask=None, byPosition=True):
                 else:
                     # replace positions matching the width of the pwm
                     for i in range(start, end):
-                        if isnan(scoremax[ir][i]):
-                            scoremax[ir][i] = score
-                        elif score > scoremax[ir][i]:
+                        if isnan(scoremax[ir][i]) or score > scoremax[ir][i]:
                             scoremax[ir][i] = score
                 # break
     # mask gap characters
@@ -284,7 +276,7 @@ class PositionWeightMatrix:
 
     def __add__(self, other):
         assert self.alphabet == other.alphabet
-        r, (p, q) = self.max_correlation(other)
+        _, (p, q) = self.max_correlation(other)
 
         if p == q == 0:
             width = max(len(self), len(other))
@@ -440,11 +432,7 @@ class PositionWeightMatrix:
                 continue
 
             for start in range(ncols):
-                if align.rows[ir][start] == "-":
-                    continue
-                elif align.rows[ir][start] == "n":
-                    continue
-                elif align.rows[ir][start] == "N":
+                if align.rows[ir][start] == "-" or align.rows[ir][start] == "n" or align.rows[ir][start] == "N":
                     continue
 
                 # get enough sequence for the weight matrix
@@ -462,10 +450,10 @@ class PositionWeightMatrix:
 
                         # forward
                         scores = self.score_seq(subseq)
-                        raw, forward_score = scores[0]
+                        _, forward_score = scores[0]
                         # reverse
                         scores = self.score_reverse_seq(subseq)
-                        raw, reverse_score = scores[0]
+                        _, reverse_score = scores[0]
 
                         score = max(forward_score, reverse_score)
 
@@ -475,9 +463,7 @@ class PositionWeightMatrix:
                         else:
                             # replace positions matching the width of the pwm
                             for i in range(start, end):
-                                if isnan(scoremax[ir][i]):
-                                    scoremax[ir][i] = score
-                                elif score > scoremax[ir][i]:
+                                if isnan(scoremax[ir][i]) or score > scoremax[ir][i]:
                                     scoremax[ir][i] = score
         # mask gap characters
         if gapmask is None:
@@ -488,8 +474,8 @@ class PositionWeightMatrix:
     # seq can be a string, a list of characters, or a quantum sequence (a list
     # of hashes from symbols to probability)
 
-    def score_seq(self, seq):
-        if isinstance(seq[0], dict):
+    def score_seq(self, seq: str | list[dict]) -> list:
+        if isinstance(seq, list):
             return self.score_quantum_seq(seq)
 
         scores = []
@@ -497,7 +483,7 @@ class PositionWeightMatrix:
             if start + len(self) > len(seq):
                 break
             subseq = seq[start : start + len(self)]
-            raw = 0
+            raw = 0.0
             try:
                 for i, nt in enumerate(subseq):
                     raw += self.rows[i][nt.upper()]
@@ -507,18 +493,18 @@ class PositionWeightMatrix:
             scores.append((raw, scaled))
         return scores
 
-    def score_quantum_seq(self, seq):
+    def score_quantum_seq(self, seq: list[dict]) -> list:
         scores = []
         for start in range(len(seq)):
             if start + len(self) > len(seq):
                 break
             subseq = seq[start : start + len(self)]
-            raw = 0
+            raw = 0.0
             try:
-                for i, nt in enumerate(subseq):
-                    numer = sum(subseq[i][nt] * self.probs[i][nt] for nt in subseq[i])
-                    denom = sum(subseq[i][nt] * self.background[nt] for nt in subseq[i])
-                    raw += math.log(numer / denom, 2)
+                for i, nt_dict in enumerate(subseq):
+                    numer = sum(prob * self.probs[i][nt] for nt, prob in nt_dict.items())
+                    denom = sum(prob * self.background[nt] for nt, prob in nt_dict.items())
+                    raw += math.log2(numer / denom)
                 scaled = self.scaled(raw)
             except KeyError:
                 raw, scaled = float("nan"), float("nan")
@@ -529,7 +515,7 @@ class PositionWeightMatrix:
             scores.append((raw, scaled))
         return scores
 
-    def score_reverse_seq(self, seq):
+    def score_reverse_seq(self, seq: str) -> list:
         revSeq = reverse_complement(seq)
         scores = self.score_seq(revSeq)
         scores.reverse()
@@ -574,7 +560,7 @@ class PositionWeightMatrix:
         p = self.score_correction(freq, base, i)
         b = background[base]
         try:
-            return math.log(p / b, 2)
+            return math.log2(p / b)
         except OverflowError:
             return float("nan")
         except ValueError:
@@ -589,7 +575,7 @@ class PositionWeightMatrix:
         s = 1
 
         if len(fields) == 2:
-            for _ in range(0, len(fields[1])):
+            for _ in range(len(fields[1])):
                 s *= 10
             w = s * w + int(fields[1])
 
@@ -600,7 +586,7 @@ class PositionWeightMatrix:
         lines = [self.id]
         headers = [f"{nt}" for nt in self.alphabet]
         lines.append("P0\t" + "\t".join(headers))
-        for ix in range(0, len(self.rows)):
+        for ix in range(len(self.rows)):
             weights = [f"{self.counts[ix][nt]}" for nt in self.alphabet]
             lines.append(
                 f"{ix:02d}\t"
@@ -790,12 +776,10 @@ class Reader:
 
 def isnan(x):
     # return ieeespecial.isnan(x)
-    if x == x:
-        return False
-    return True
+    return x != x
 
 
-def reverse_complement(nukes):
+def reverse_complement(nukes: str) -> str:
     return nukes[::-1].translate(PositionWeightMatrix.complementMap)
 
 

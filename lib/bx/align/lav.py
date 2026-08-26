@@ -364,19 +364,15 @@ class Reader:
         # converts, e.g. ".../hg18/seq/chr13.nib" to "hg18.chr13"
         if path_name is None or path_name == "":
             raise ValueError
-        if path_name.endswith(".nib"):
-            path_name = path_name[:-4]
-        if path_name.endswith(".fa"):
-            path_name = path_name[:-3]
-        if path_name.endswith(".fasta"):
-            path_name = path_name[:-6]
+        path_name = path_name.removesuffix(".nib")
+        path_name = path_name.removesuffix(".fa")
+        path_name = path_name.removesuffix(".fasta")
         slash = path_name.rfind("/")
         if slash == -1:
             return path_name
         name = path_name[slash + 1 :]
         path_name = path_name[:slash]
-        if path_name.endswith("/seq"):
-            path_name = path_name[:-4]
+        path_name = path_name.removesuffix("/seq")
         slash = path_name.rfind("/")
         if slash != -1:
             path_name = path_name[slash + 1 :]
@@ -545,7 +541,7 @@ class Writer:
 
         start1, start2, size, pctId = pieces[0]  # get start of first piece
 
-        score = int(round(alignment.score))
+        score = round(alignment.score)
 
         print("a {", file=self.file)
         print(f"  s {score}", file=self.file)
@@ -572,8 +568,7 @@ def sort_keys_by_chrom(keys):
 
 def chrom_key(src):
     species, chrom = src_split(src)
-    if chrom.startswith("chr"):
-        chrom = chrom[3:]
+    chrom = chrom.removeprefix("chr")
     try:
         chrom = int(chrom)
     except ValueError:

@@ -11,10 +11,6 @@ from bx.align import maf as align_maf
 from bx.pwm.pwm_score_maf import MafMotifSelect
 
 
-def isnan(x):
-    return not x == x
-
-
 def main():
     if len(sys.argv) < 5:
         print(f"{sys.argv[0]} transfac|basic pwmfile inmaf threshold [motif]", file=sys.stderr)
@@ -55,11 +51,11 @@ def format_tabular(rows, align=None):
         return ""
     lengths = [len(col) for col in rows[0]]
     for row in rows[1:]:
-        for i in range(0, len(row)):
+        for i in range(len(row)):
             lengths[i] = max(lengths[i], len(row[i]))
     rval = ""
     for row in rows:
-        for i in range(0, len(row)):
+        for i in range(len(row)):
             if align and align[i] == "l":
                 rval += row[i].ljust(lengths[i])
             else:

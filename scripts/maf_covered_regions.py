@@ -20,7 +20,7 @@ def block_pid(comp1, comp2):
     total = 0
     t1 = comp1.text.lower()
     t2 = comp2.text.lower()
-    for i in range(0, len(t1)):
+    for i in range(len(t1)):
         a, b = t1[i], t2[i]
         if a == "-" or b == "-":
             continue

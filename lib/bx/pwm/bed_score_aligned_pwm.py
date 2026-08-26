@@ -12,10 +12,6 @@ from bx.pwm.pwm_score_maf import MafBlockScorer
 from . import position_weight_matrix as pwmx
 
 
-def isnan(x):
-    return not x == x
-
-
 def main():
     if len(sys.argv) < 5:
         print(f"{sys.argv[0]} bedfile inmaf spec1,spec2,... motif_file ", file=sys.stderr)
