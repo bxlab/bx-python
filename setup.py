@@ -6,52 +6,44 @@ from setuptools import (
     Extension,
     setup,
 )
-from setuptools.command.sdist import sdist
 
 
 def main():
-    metadata = {"scripts": glob("scripts/*.py"), "cmdclass": command_classes}
+    metadata = {"scripts": glob("scripts/*.py")}
 
     if len(sys.argv) >= 2 and (
-        "--help" in sys.argv[1:] or sys.argv[1] in ("--help-commands", "egg_info", "--version", "clean")
+        "--help" in sys.argv[1:] or sys.argv[1] in ("--help-commands", "egg_info", "--version", "clean", "sdist")
     ):
-        # For these actions, NumPy is not required.
+        # For these actions, NumPy and Cython are not required.
         #
-        # They are required to succeed without Numpy for example when
-        # pip is used to install when Numpy is not yet present in
-        # the system.
+        # They are required to succeed without them, for example when pip is
+        # used to install when NumPy is not yet present in the system.
+        #
+        # "sdist" does not need to compile anything: the .pyx/.pxd/.h sources
+        # in MANIFEST.in are enough to rebuild later, and skipping ext_modules
+        # here keeps setuptools' sdist file list from also pulling in the
+        # cythonized .c files as extension sources.
         pass
     else:
         try:
             import numpy
+            from Cython.Build import cythonize
 
             # Suppress numpy tests
             numpy.test = None
         except Exception as e:
-            raise Exception(f"numpy must be installed to build: {e}")
-        metadata["ext_modules"] = get_extension_modules(numpy_include=numpy.get_include())
+            raise Exception(f"NumPy and Cython must be installed to build: {e}")
+        ext_modules = get_extension_modules(numpy_include=numpy.get_include())
+        # Force re-cythonization instead of reusing the .c files shipped in the
+        # sdist: those were generated with whichever NumPy/Cython versions were
+        # used for the bx-python release, which can be incompatible with the
+        # NumPy/Cython versions installed in the environment actually doing the
+        # build (e.g. "implicit declaration" errors for PyDataType_* functions
+        # when building against an older NumPy than the one used to release).
+        metadata["ext_modules"] = cythonize(ext_modules, force=True)
 
     setup(**metadata)
 
-
-# ---- Commands -------------------------------------------------------------
-
-# Use build_ext from Cython if found
-command_classes = {}
-try:
-    import Cython.Distutils
-
-    command_classes["build_ext"] = Cython.Distutils.build_ext
-
-    class build_ext_sdist(sdist):
-        def run(self):
-            # Make sure the compiled Cython files in the distribution are up-to-date
-            self.run_command("build_ext")
-            super().run()
-
-    command_classes["sdist"] = build_ext_sdist
-except ImportError:
-    pass
 
 # ---- Extension Modules ----------------------------------------------------
 
