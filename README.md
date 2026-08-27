@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/bxlab/bx-python.svg?branch=master)](https://travis-ci.org/bxlab/bx-python)
+![PyPI Version](https://img.shields.io/pypi/v/bx-python)
 
 [![Read the Docs](https://img.shields.io/readthedocs/bx-python.svg)](https://bx-python.readthedocs.io/)
 
@@ -14,7 +14,7 @@ The bx-python project is a Python library and associated set of scripts for rapi
 
 ## Requirements
 
-Build currently requires liblzo, e.g. sudo apt-get install liblzo2-dev on debian/ubuntu).
+Testing requires liblzo, e.g. sudo apt-get install liblzo2-dev on Debian/Ubuntu.
 
 ## Installing
 
@@ -32,4 +32,4 @@ It is available in [Debian](https://tracker.debian.org/pkg/python-bx) and [Ubunt
 
 Or can be built from a checkout of the repository:
 
-```python setup.py install```
+```pip install .```
