@@ -1,7 +1,6 @@
 include LICENSE
 recursive-include src *.h
 recursive-include src *.c
-recursive-include lib *.h
-recursive-include lib *.c
+include lib/bx/align/sitemask/find_cpg.*
 recursive-include lib *.pyx
 recursive-include lib *.pxd
