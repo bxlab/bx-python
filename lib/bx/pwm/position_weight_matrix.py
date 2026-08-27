@@ -776,7 +776,7 @@ class Reader:
 
 def isnan(x):
     # return ieeespecial.isnan(x)
-    return x != x
+    return x != x  # noqa: PLR0124
 
 
 def reverse_complement(nukes: str) -> str:

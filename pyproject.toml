@@ -121,7 +121,7 @@ isort = true
 # flake8-implicit-str-concat (ISC), NumPy-specific rules (NPY)
 # and pyupgrade (UP)
 #select = ["E", "F", "B", "C4", "G", "ISC", "NPY", "UP"]
-select = ["E", "F", "C4", "G", "ISC", "NPY", "UP"]
+select = ["E", "F", "C4", "G", "ISC", "NPY", "UP", "W291"]
 # Exceptions:
 # B9 flake8-bugbear opinionated warnings
 # E501 is line length (delegated to black)

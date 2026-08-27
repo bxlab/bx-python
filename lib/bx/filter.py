@@ -3,11 +3,10 @@ Classes for implementing `Pipeline`s composed of `Filter`s (intended to be
 subclassed).
 """
 
+import abc
 
-class Filter:
-    def __init__(self, **kwargs):
-        raise Exception("AbstractClass")
 
+class Filter(abc.ABC):
     def run(self, reader, writer):
         for block in reader:
             block = self(block)
@@ -22,8 +21,9 @@ class Filter:
         if block:
             writer(block)
 
+    @abc.abstractmethod
     def __call__(self, block):
-        raise Exception("AbstractMethod")
+        pass
 
 
 class Pipeline(Filter):
@@ -34,17 +34,13 @@ class Pipeline(Filter):
         for function in self.pipeline:
             if not block:
                 return block
-            try:
-                f = function.__call__
-            except AttributeError:
+            if not callable(function):
                 raise TypeError("'" + function.__class__.__name__ + "' is not callable.")
-            block = f(block)
+            block = function(block)
         return block
 
     def append(self, function):
-        try:
-            function.__call__
-        except AttributeError:
+        if not callable(function):
             raise TypeError("'" + function.__class__.__name__ + "' is not callable.")
         return self.pipeline.append(function)
 
@@ -63,9 +59,7 @@ class Pipeline(Filter):
         return self.pipeline[key]
 
     def __setitem__(self, key, value):
-        try:
-            value.__call__
-        except AttributeError:
+        if not callable(value):
             raise TypeError("'" + value.__class__.__name__ + "' is not callable.")
         return self.pipeline.__setitem__(key, value)
 

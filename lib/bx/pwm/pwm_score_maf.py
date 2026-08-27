@@ -18,9 +18,7 @@ def main():
         inmaf = sys.stdin
 
     # read alignment species
-    species = []
-    for sp in splist.split(","):
-        species.append(sp)
+    species = splist.split(",")
 
     # read weight matrices
     pwm = {}
@@ -94,8 +92,8 @@ def MafMotifSelect(mafblock, pwm, motif=None, threshold=0):
             subseq = subtext.replace("-", "")
             revseq = pwmx.reverse_complement(subseq)
             # pwm score
-            nill, f_score = pwm.score_seq(subseq)[0]
-            r_score, nill = pwm.score_seq(revseq)[0]
+            _, f_score = pwm.score_seq(subseq)[0]
+            r_score, _ = pwm.score_seq(revseq)[0]
             pwm_score_vec.append(max(f_score, r_score))
             # consensus score
             if motif is not None:
@@ -135,8 +133,8 @@ def MafMotifSelect(mafblock, pwm, motif=None, threshold=0):
                     revseq = pwmx.reverse_complement( subseq )
                     align_match_lens.append( ic )
                     # pwm score
-                    nill,f_score = pwm.score_seq( subseq )[0]
-                    r_score, nill = pwm.score_seq( revseq )[0]
+                    _, f_score = pwm.score_seq( subseq )[0]
+                    r_score, _ = pwm.score_seq( revseq )[0]
                     pwm_score_vec.append( max(f_score, r_score) )
                     # consensus score
                     if motif is not None:
@@ -163,7 +161,7 @@ def MafMotifSelect(mafblock, pwm, motif=None, threshold=0):
         """
 
 
-def MafBlockScorer(pwm, species, maf):
+def MafBlockScorer(pwm: dict, species, maf):
     width = len(maf.components[0].text)
     headers = [(c.src, c.start, c.end) for c in maf.components]
 
@@ -181,8 +179,8 @@ def MafBlockScorer(pwm, species, maf):
     # record gap positions
     filter = pwmx.score_align_gaps(alignrows)
     # score pwm models
-    for model in pwm.keys():
-        scoremax[model] = pwm[model].score_align(alignrows, filter)
+    for model, wm in pwm.items():
+        scoremax[model] = wm.score_align(alignrows, filter)
     yield scoremax, width, headers
 
 

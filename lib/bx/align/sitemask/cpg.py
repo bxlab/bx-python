@@ -13,9 +13,7 @@ from ._cpg import (
 # Restricted.  Only mask out sites that are defitely CpG
 class Restricted(Masker):
     def __init__(self, mask="?"):
-        self.mask = mask
-        self.masked = 0
-        self.total = 0
+        super().__init__(mask=mask)
 
     def __call__(self, block):
         if not block:
@@ -38,9 +36,7 @@ class Restricted(Masker):
 
 class Inclusive(Masker):
     def __init__(self, mask="?"):
-        self.mask = mask
-        self.masked = 0
-        self.total = 0
+        super().__init__(mask=mask)
 
     def __call__(self, block):
         if not block:
@@ -62,9 +58,7 @@ class Inclusive(Masker):
 
 class nonCpG(Masker):
     def __init__(self, mask="?"):
-        self.mask = mask
-        self.masked = 0
-        self.total = 0
+        super().__init__(mask=mask)
 
     def __call__(self, block):
         if not block:

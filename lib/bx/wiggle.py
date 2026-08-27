@@ -29,7 +29,7 @@ def IntervalReader(f):
     mode = "bed"
 
     for line in f:
-        if line.isspace() or line.startswith("track") or line.startswith("#") or line.startswith("browser"):
+        if line.isspace() or line.startswith(("track", "#", "browser")):
             continue
         elif line.startswith("variableStep"):
             header = parse_header(line)

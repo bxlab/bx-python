@@ -96,7 +96,7 @@ def overlapping_in_bed(fname, r_chr, r_start, r_stop):
     """
     rval = []
     for line in open(fname):
-        if line.startswith("#") or line.startswith("track"):
+        if line.startswith(("#", "track")):
             continue
         fields = line.split()
         chr, start, stop = fields[0], int(fields[1]), int(fields[2])

@@ -9,10 +9,10 @@ from bx.filter import (
 
 
 class Masker(Filter):
-    def __init__(self, **kwargs):
+    def __init__(self, mask="?"):
+        self.mask = mask
         self.masked = 0
         self.total = 0
-        Exception("Abstract class")
 
 
 class MaskPipeline(Pipeline):
@@ -37,11 +37,9 @@ class MaskPipeline(Pipeline):
             return
         # push alignment block through all filters
         self.total += len(block.components[0].text)
-        for masker in self.filters:
+        for masker in self.pipeline:
             if not block:
                 return
-            try:
-                masker.__call__
-            except AttributeError:
-                raise Exception('Masker in pipeline does not implement "filter(self, block)".')
+            if not callable(masker):
+                raise TypeError("Masker in pipeline is not callable.")
             masker(block)

@@ -20,17 +20,14 @@ class Simple(Masker):
     # minqual: minimum quality
     # cache: optional, but sets the number of megabytes allowed in cache per quality masked species
     def __init__(self, qualfiles=None, qualspecies=None, minqual=None, mask="?", cache=100):
+        super().__init__(mask=mask)
         if not qualfiles:
             raise Exception("No quality files.")
         if not qualspecies:
             raise Exception("No species dictionary.")
         if not minqual:
             raise Exception("No minimum quality specified.")
-        self.mask = "?"
         self.minqual = minqual
-        self.mask = mask
-        self.total = 0
-        self.masked = 0
 
         self.qualfiles = qualfiles
         self.qualspecies = qualspecies
@@ -83,17 +80,14 @@ class NQS(Masker):
     # neighborqual: neighborhood minimum quality (bases within 5 bps are masked)
     # cache: optional, but sets the number of megabytes allowed in cache per quality masked species
     def __init__(self, qualfiles=None, qualspecies=None, minqual=None, mask="?", cache=100):
+        super().__init__(mask=mask)
         if not qualfiles:
             raise Exception("No quality files.")
         if not qualspecies:
             raise Exception("No species dictionary.")
         if not minqual:
             raise Exception("No minimum quality specified.")
-        self.mask = "?"
         self.minqual = minqual
-        self.mask = mask
-        self.total = 0
-        self.masked = 0
 
         self.qualfiles = qualfiles
         self.qualspecies = qualspecies

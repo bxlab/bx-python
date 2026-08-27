@@ -51,7 +51,7 @@ def join(leftSet, rightSet, mincols=1, leftfill=True, rightfill=True):
                     continue
                 outfields = list(interval)
                 outfields.extend(item.other)
-                setattr(item, "visited", True)
+                item.visited = True
                 yield outfields
             if (len(result) == 0 or overlap_not_met == len(result)) and rightfill:
                 outfields = list(interval)

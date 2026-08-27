@@ -14,11 +14,10 @@ class TestFile:
         self.filename = filename
         if self.filename is None:
             _, tf_name = tempfile.mkstemp()
-            tf = open(tf_name, "w")
-            sio = StringIO(self.text)
-            for line in sio:
-                print(line.lstrip(" ").rstrip("\r\n"), file=tf)
-            tf.close()
+            with open(tf_name, "w") as tf:
+                sio = StringIO(self.text)
+                for line in sio:
+                    print(line.lstrip(" ").rstrip("\r\n"), file=tf)
             self.tempfile = True
             self.filename = tf_name
         else:
@@ -68,7 +67,7 @@ class BaseScriptTest:
             all_fnames[key] = input_fnames[key]
             if key == "stdin":
                 stdin = open(input_fnames[key])
-        for key in output_files.keys():
+        for key in output_files:
             _, tf_name = tempfile.mkstemp()
             output_fnames[key] = tf_name
             all_fnames[key] = output_fnames[key]

@@ -67,7 +67,7 @@ def main():
         doc_optparse.exit()
 
     if mask:
-        for chrom in mask.keys():
+        for chrom in mask:
             if chrom in feature:
                 feature[chrom].iand(mask[chrom])
             if chrom in ar:
@@ -80,7 +80,7 @@ def main():
     ar_snp_count = 0
 
     # collect snp and div
-    for chr in feature.keys():
+    for chr in feature:
         if chr not in snp:
             continue
         if chr not in ar:

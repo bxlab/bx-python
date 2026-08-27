@@ -16,9 +16,11 @@ from bx.tabular.io import (
 )
 
 
-def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens={}, comments=True):
+def intersect(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens=None, comments=True):
     # The incoming lens dictionary is a dictionary of chromosome lengths which are used to initialize the bitsets.
     # Read all but first into bitsets and intersect to one
+    if lens is None:
+        lens = {}
     primary = readers[0]
     intersect = readers[1:]
     # Handle any ValueError, IndexError and OverflowError exceptions that may be thrown when

@@ -16,7 +16,7 @@ def complement(reader, lens):
     complement_reader = BitsetSafeReaderWrapper(reader, lens=lens)
     bitsets = complement_reader.binned_bitsets(upstream_pad=0, downstream_pad=0, lens=lens)
     # NOT them all
-    for key, value in bitsets.items():
+    for value in bitsets.values():
         value.invert()
     # Read remaining intervals and subtract
     for chrom in bitsets:

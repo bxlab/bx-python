@@ -238,7 +238,7 @@ class Dispatch:
         self._dispatch = {}
         for func, types in tuples:
             for t in types:
-                if t in self._dispatch.keys():
+                if t in self._dispatch:
                     raise ValueError("can't have two dispatches on " + str(t))
                 self._dispatch[t] = func
         self._types = list(self._dispatch.keys())
@@ -4106,7 +4106,7 @@ try:  # DEFINE THESE *ONLY* IF NUMERIC IS AVAILABLE
         Returns: array shape of a, with -1 where a<0 and +1 where a>=0
         """
         a = N.asarray(a)
-        if (isinstance(a, float)) or (isinstance(a, int)):
+        if isinstance(a, (float, int)):
             return a - a - N.less(a, 0) + N.greater(a, 0)
         else:
             return N.zeros(N.shape(a)) - N.less(a, 0) + N.greater(a, 0)

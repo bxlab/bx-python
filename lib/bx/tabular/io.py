@@ -89,8 +89,10 @@ class TableReader:
     """
 
     def __init__(
-        self, input, return_header=True, return_comments=True, force_header=None, comment_lines_startswith=["#"]
+        self, input, return_header=True, return_comments=True, force_header=None, comment_lines_startswith=None
     ):
+        if comment_lines_startswith is None:
+            comment_lines_startswith = ["#"]
         self.input = input
         self.return_comments = return_comments
         self.return_header = return_header

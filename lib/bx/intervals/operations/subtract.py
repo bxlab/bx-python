@@ -19,9 +19,11 @@ from bx.tabular.io import (
 )
 
 
-def subtract(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens={}, comments=True):
+def subtract(readers, mincols=1, upstream_pad=0, downstream_pad=0, pieces=True, lens=None, comments=True):
     # The incoming lens dictionary is a dictionary of chromosome lengths which are used to initialize the bitsets.
     # Read all but first into bitsets and union to one (if confused, read DeMorgan's...)
+    if lens is None:
+        lens = {}
     primary = readers[0]
     union = readers[1:]
     # Handle any ValueError, IndexError and OverflowError exceptions that may be thrown when

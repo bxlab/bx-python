@@ -15,7 +15,7 @@ from bx.bitset import (
 
 
 def binned_bitsets_from_file(
-    f, chrom_col=0, start_col=1, end_col=2, strand_col=5, upstream_pad=0, downstream_pad=0, lens={}
+    f, chrom_col=0, start_col=1, end_col=2, strand_col=5, upstream_pad=0, downstream_pad=0, lens=None
 ):
     """
     Read a file into a dictionary of bitsets. The defaults arguments
@@ -26,6 +26,8 @@ def binned_bitsets_from_file(
     - if 'lens' is provided bitset sizes will be looked up from it, otherwise
       chromosomes will be assumed to be the maximum size
     """
+    if lens is None:
+        lens = {}
     last_chrom = None
     last_bitset = None
     bitsets = {}
@@ -55,7 +57,7 @@ def binned_bitsets_from_file(
 
 
 def binned_bitsets_from_bed_file(
-    f, chrom_col=0, start_col=1, end_col=2, strand_col=5, upstream_pad=0, downstream_pad=0, lens={}
+    f, chrom_col=0, start_col=1, end_col=2, strand_col=5, upstream_pad=0, downstream_pad=0, lens=None
 ):
     """
     Read a file into a dictionary of bitsets. The defaults arguments
@@ -66,6 +68,8 @@ def binned_bitsets_from_bed_file(
     - if 'lens' is provided bitset sizes will be looked up from it, otherwise
       chromosomes will be assumed to be the maximum size
     """
+    if lens is None:
+        lens = {}
     last_chrom = None
     last_bitset = None
     bitsets = {}
@@ -139,8 +143,10 @@ def binned_bitsets_proximity(f, chrom_col=0, start_col=1, end_col=2, strand_col=
     return bitsets
 
 
-def binned_bitsets_from_list(list=[]):
+def binned_bitsets_from_list(list=None):
     """Read a list into a dictionary of bitsets"""
+    if list is None:
+        list = []
     last_chrom = None
     last_bitset = None
     bitsets = {}
