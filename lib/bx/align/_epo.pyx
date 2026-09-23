@@ -165,9 +165,9 @@ cpdef numpy.ndarray[numpy.uint64_t, ndim=2] bed_union( numpy.ndarray[numpy.uint6
 
 #@cython.wraparound(False)
 #@cython.boundscheck(False)
-cpdef numpy.ndarray[numpy.int64_t, ndim=2] cummulative_intervals(numpy.ndarray[numpy.int64_t, ndim=1] S,
+cpdef numpy.ndarray[numpy.int64_t, ndim=2] cumulative_intervals(numpy.ndarray[numpy.int64_t, ndim=1] S,
         numpy.ndarray[numpy.int64_t, ndim=1] D ):
-    """compute cummulative intervals for this side of an aligmnent. S and D are one side of
+    """compute cumulative intervals for this side of an aligmnent. S and D are one side of
     the alignment as described in the chain file format"""
 
     cdef int N = S.shape[0]
