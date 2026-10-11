@@ -167,6 +167,8 @@ class Alignment:
         text of components is modified IN PLACE.
         """
         components = [c for c in self.components if not c.empty and c.text is not None]
+        # A component can occur more than once; rebuild each object only once.
+        components = list({id(c): c for c in components}.values())
         if any("-" not in c.text for c in components):
             return
         # Decide which columns to retain before modifying any component. Deleting
