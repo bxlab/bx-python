@@ -166,36 +166,17 @@ class Alignment:
         Remove any columns containing only gaps from alignment components,
         text of components is modified IN PLACE.
         """
-        seqs = []
-        for c in self.components:
-            if c.empty:
-                seqs.append(None)
-            try:
-                seqs.append(list(c.text))
-            except TypeError:
-                seqs.append(None)
-        i = 0
-        text_size = self.text_size
-        while i < text_size:
-            all_gap = True
-            for seq in seqs:
-                if seq is None:
-                    continue
-                if seq[i] != "-":
-                    all_gap = False
-            if all_gap:
-                for seq in seqs:
-                    if seq is None:
-                        continue
-                    del seq[i]
-                text_size -= 1
-            else:
-                i += 1
-        for i in range(len(self.components)):
-            if seqs[i] is None:
-                continue
-            self.components[i].text = "".join(seqs[i])
-        self.text_size = text_size
+        components = [c for c in self.components if not c.empty and c.text is not None]
+        if any("-" not in c.text for c in components):
+            return
+        # Decide which columns to retain before modifying any component. Deleting
+        # individual gaps from lists repeatedly shifts the remaining alignment.
+        keep = [i for i in range(self.text_size) if any(c.text[i] != "-" for c in components)]
+        if len(keep) == self.text_size:
+            return
+        for component in components:
+            component.text = "".join(component.text[i] for i in keep)
+        self.text_size = len(keep)
 
     def __eq__(self, other):
         if other is None or not isinstance(other, type(self)):

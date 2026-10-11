@@ -4,6 +4,8 @@ Tests for `bx.align.maf`.
 
 from io import StringIO
 
+import pytest
+
 from bx import align
 from bx.align import maf
 
@@ -211,7 +213,8 @@ def test_column_iter():
         assert c == expected[i]
 
 
-def test_remove_all_gap_column():
+@pytest.mark.parametrize("empty_index", [0, 1, 3])
+def test_remove_all_gap_column(empty_index):
     complex_maf_gap = align.Alignment()
     complex_maf_gap.score = "7009"
     complex_maf_gap.components.append(
@@ -231,7 +234,11 @@ def test_remove_all_gap_column():
     complex_maf_gap.components[-1].empty = True
     complex_maf_gap.components[-1].synteny_empty = maf.MAF_INSERT_STATUS
     complex_maf_gap.text_size = 11
+    empty = complex_maf_gap.components.pop()
+    complex_maf_gap.components.insert(empty_index, empty)
     complex_maf_gap.remove_all_gap_columns()
+    # Return the empty row to its fixture position for the equality check.
+    complex_maf_gap.components.append(complex_maf_gap.components.pop(empty_index))
     assert complex_maf_gap == complex_maf
 
 
