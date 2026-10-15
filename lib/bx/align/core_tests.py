@@ -2,6 +2,7 @@
 Tests for `bx.align.core`.
 """
 
+from copy import deepcopy
 from io import StringIO
 
 from bx.align.core import (
@@ -54,3 +55,15 @@ def test_remove_all_gap_columns_with_empty_component():
     alignment.remove_all_gap_columns()
     assert [c.text for c in alignment.components] == ["AC", None, "GT"]
     assert alignment.text_size == 2
+
+
+def test_deepcopy_preserves_shared_objects():
+    species_to_lengths = {"hg": {"chr1": 100}}
+    alignment1 = Alignment(species_to_lengths=species_to_lengths)
+    alignment1.add_component(Component("hg.chr1", 0, 3, "+", None, "ACG"))
+    alignment2 = Alignment(species_to_lengths=species_to_lengths)
+    copy1, copy2 = deepcopy([alignment1, alignment2])
+    assert copy1 == alignment1
+    assert copy1.species_to_lengths is not species_to_lengths
+    assert copy1.species_to_lengths is copy2.species_to_lengths
+    assert copy1.components[0].src_size == 100

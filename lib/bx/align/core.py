@@ -216,10 +216,12 @@ class Alignment:
         from copy import deepcopy
 
         new = Alignment(
-            score=self.score, attributes=deepcopy(self.attributes), species_to_lengths=deepcopy(self.species_to_lengths)
+            score=self.score,
+            attributes=deepcopy(self.attributes, memo),
+            species_to_lengths=deepcopy(self.species_to_lengths, memo),
         )
         for component in self.components:
-            new.add_component(deepcopy(component))
+            new.add_component(deepcopy(component, memo))
         return new
 
 
