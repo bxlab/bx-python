@@ -4,6 +4,8 @@ Classes to support "biological sequence" files.
 :Author: Bob Harris (rsharris@bx.psu.edu)
 """
 
+from typing import Literal
+
 # DNA reverse complement table
 
 DNA_COMP = (
@@ -36,10 +38,12 @@ class SeqFile:
         gap:     gap character that aligners should use for gaps in this sequence
     """
 
-    def __init__(self, file=None, revcomp=False, name="", gap=None):
+    def __init__(
+        self, file=None, revcomp: bool | Literal["maf", "+5'", "+3'", "-5'", "-3'"] = False, name="", gap=None
+    ) -> None:
         self.file = file
-        if revcomp or revcomp == "+3'":
-            self.revcomp = "-5'"
+        if revcomp is True or revcomp == "+3'":
+            self.revcomp: Literal[False, "-5'", "-3'"] = "-5'"
         elif revcomp == "+5'":
             self.revcomp = "-3'"
         elif revcomp == "maf":
@@ -91,14 +95,14 @@ class SeqFile:
         assert (
             start + length <= self.length
         ), f"Interval beyond end of sequence ({start}..{start + length} > {self.length})"
-        # Fetch sequence and reverse complement if necesary
-        if not self.revcomp:
-            return self.raw_fetch(start, length)
-        if self.revcomp == "-3'":
-            return self.reverse_complement(self.raw_fetch(start, length))
-        assert self.revcomp == "-5'", "unrecognized reverse complement scheme"
-        start = self.length - (start + length)
-        return self.reverse_complement(self.raw_fetch(start, length))
+        # Fetch sequence and reverse complement if necessary
+        assert self.revcomp is False or self.revcomp in ("-3'", "-5'"), "unrecognized reverse complement scheme"
+        if self.revcomp == "-5'":
+            start = self.length - (start + length)
+        raw_seq = self.raw_fetch(start, length)
+        if self.revcomp is False:
+            return raw_seq
+        return self.reverse_complement(raw_seq)
 
     def raw_fetch(self, start, length):
         return self.text[start : start + length]
