@@ -126,7 +126,7 @@ class Writer:
         if "src_split" in attributes:
             self.src_split = attributes["src_split"]
 
-    def write(self, alignment):
+    def write(self, alignment: Alignment) -> None:
         if len(alignment.components) != 2:
             raise ValueError(f"{len(alignment.components)}-component alignment is not compatible with axt")
         c1 = alignment.components[0]

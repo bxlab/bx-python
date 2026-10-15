@@ -4,8 +4,39 @@ Classes that represent alignments between multiple sequences.
 
 import random
 import weakref
+from collections.abc import (
+    Container,
+    Iterator,
+)
+from typing import (
+    Any,
+    cast,
+    IO,
+    Literal,
+    TYPE_CHECKING,
+    TypeAlias,
+)
 
 from bx.misc.readlengths import read_lengths_file
+
+if TYPE_CHECKING:
+    import bx.align.axt
+    import bx.align.lav
+    import bx.align.maf
+
+__all__ = [
+    "Alignment",
+    "AlignmentFormat",
+    "Component",
+    "DNA_COMP",
+    "get_indexed",
+    "get_reader",
+    "get_writer",
+    "shuffle_columns",
+    "SpeciesToLengths",
+    "src_merge",
+    "src_split",
+]
 
 # DNA reverse complement table
 # DNA_COMP = "                                             -                  " \
@@ -15,9 +46,21 @@ from bx.misc.readlengths import read_lengths_file
 
 DNA_COMP = str.maketrans("ACGTacgt", "TGCAtgca")
 
+# Maps a species name to a chromosome lengths file name, to a dict mapping
+# chromosome names to their length, or to a single length value
+SpeciesToLengths: TypeAlias = dict[str | None, str | dict[str, int] | int]
+
+# Alignment file formats supported by `get_reader()` and `get_writer()`
+AlignmentFormat: TypeAlias = Literal["maf", "axt", "lav"]
+
 
 class Alignment:
-    def __init__(self, score=0, attributes=None, species_to_lengths=None):
+    def __init__(
+        self,
+        score: int | float | str = 0,
+        attributes: dict[str, Any] | None = None,
+        species_to_lengths: SpeciesToLengths | None = None,
+    ) -> None:
         # species_to_lengths is needed only for file formats that don't provide
         # chromosome lengths;  it maps each species name to one of these:
         #   - the name of a file that contains a list of chromosome length pairs
@@ -30,13 +73,14 @@ class Alignment:
         self.score = score
         self.text_size = 0
         self.attributes = attributes
+        self.species_to_lengths: SpeciesToLengths
         if species_to_lengths is None:
             self.species_to_lengths = {}
         else:
             self.species_to_lengths = species_to_lengths
-        self.components = []
+        self.components: list[Component] = []
 
-    def add_component(self, component):
+    def add_component(self, component: "Component") -> None:
         component._alignment = weakref.ref(self)
         self.components.append(component)
         if component.text is not None:
@@ -45,10 +89,10 @@ class Alignment:
             elif self.text_size != len(component.text):
                 raise Exception("Components must have same text length")
 
-    def get_score(self):
+    def get_score(self) -> int | float | str:
         return self.__score
 
-    def set_score(self, score):
+    def set_score(self, score: int | float | str) -> None:
         if isinstance(score, str):
             try:
                 score = int(score)
@@ -61,7 +105,7 @@ class Alignment:
 
     score = property(fget=get_score, fset=set_score)
 
-    def __str__(self):
+    def __str__(self) -> str:
         s = "a score=" + str(self.score)
         for key in self.attributes:
             s += f" {key}={self.attributes[key]}"
@@ -72,12 +116,12 @@ class Alignment:
             s += "\n"
         return s
 
-    def src_size(self, src):
+    def src_size(self, src: str) -> int:
         species, chrom = src_split(src)
         if species in self.species_to_lengths:
             chrom_to_length = self.species_to_lengths[species]
         elif chrom in self.species_to_lengths:
-            chrom_to_length = self.species_to_lengths
+            chrom_to_length = cast(dict[str, int], self.species_to_lengths)
         else:
             raise ValueError(f"no src_size (no length file for {species})")
         if isinstance(chrom_to_length, int):  # (if it's a single length)
@@ -89,38 +133,38 @@ class Alignment:
             raise ValueError(f"no src_size ({species} has no length for {chrom})")
         return chrom_to_length[chrom]
 
-    def get_component_by_src(self, src):
+    def get_component_by_src(self, src: str) -> "Component | None":
         for c in self.components:
             if c.src == src:
                 return c
         return None
 
-    def get_components_by_src(self, src):
+    def get_components_by_src(self, src: str) -> Iterator["Component"]:
         for c in self.components:
             if c.src == src:
                 yield c
 
-    def get_component_by_src_start(self, src):
+    def get_component_by_src_start(self, src: str) -> "Component | None":
         for c in self.components:
             if c.src.startswith(src):
                 return c
         return None
 
-    def slice(self, start, end):
+    def slice(self, start: int, end: int) -> "Alignment":
         new = Alignment(score=self.score, attributes=self.attributes)
         for component in self.components:
             new.components.append(component.slice(start, end))
         new.text_size = end - start
         return new
 
-    def reverse_complement(self):
+    def reverse_complement(self) -> "Alignment":
         new = Alignment(score=self.score, attributes=self.attributes)
         for component in self.components:
             new.components.append(component.reverse_complement())
         new.text_size = self.text_size
         return new
 
-    def slice_by_component(self, component_index, start, end):
+    def slice_by_component(self, component_index: "int | str | Component", start: int, end: int) -> "Alignment":
         """
         Return a slice of the alignment, corresponding to an coordinate interval in a specific component.
 
@@ -133,27 +177,36 @@ class Alignment:
 
         """
         if isinstance(component_index, int):
-            ref = self.components[component_index]
+            ref: Component | None = self.components[component_index]
         elif isinstance(component_index, str):
             ref = self.get_component_by_src(component_index)
         elif isinstance(component_index, Component):
             ref = component_index
         else:
             raise ValueError("can't figure out what to do")
+        if ref is None:
+            raise ValueError(f"no component with src {component_index}")
         start_col = ref.coord_to_col(start)
         end_col = ref.coord_to_col(end)
         if ref.strand == "-":
             start_col, end_col = (end_col, start_col)
         return self.slice(start_col, end_col)
 
-    def column_iter(self):
+    def column_iter(self) -> Iterator[list[str]]:
         # FIXME: The empty component are not present
         # in column_iter.
         # Maybe it would be good to use - and =
         for i in range(self.text_size):
-            yield [c.text[i] for c in self.components if not c.empty]
+            col = []
+            for c in self.components:
+                if c.empty:
+                    continue
+                if c.text is None:
+                    raise ValueError(f"Non-empty component {c.src} has no text")
+                col.append(c.text[i])
+            yield col
 
-    def limit_to_species(self, species):
+    def limit_to_species(self, species: Container[str]) -> "Alignment":
         new = Alignment(score=self.score, attributes=self.attributes)
         new.text_size = self.text_size
         for component in self.components:
@@ -161,12 +214,12 @@ class Alignment:
                 new.add_component(component)
         return new
 
-    def remove_all_gap_columns(self):
+    def remove_all_gap_columns(self) -> None:
         """
         Remove any columns containing only gaps from alignment components,
         text of components is modified IN PLACE.
         """
-        seqs = []
+        seqs: list[list[str] | None] = []
         for c in self.components:
             if c.empty or c.text is None:
                 seqs.append(None)
@@ -189,13 +242,13 @@ class Alignment:
                 text_size -= 1
             else:
                 i += 1
-        for i in range(len(self.components)):
-            if seqs[i] is None:
+        for component, seq in zip(self.components, seqs):
+            if seq is None:
                 continue
-            self.components[i].text = "".join(seqs[i])
+            component.text = "".join(seq)
         self.text_size = text_size
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         if other is None or not isinstance(other, type(self)):
             return False
         if self.score != other.score:
@@ -209,10 +262,7 @@ class Alignment:
                 return False
         return True
 
-    def __ne__(self, other):
-        return not (self.__eq__(other))
-
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo: dict[int, Any]) -> "Alignment":
         from copy import deepcopy
 
         new = Alignment(
@@ -226,8 +276,16 @@ class Alignment:
 
 
 class Component:
-    def __init__(self, src="", start=0, size=0, strand=None, src_size=None, text=""):
-        self._alignment = None
+    def __init__(
+        self,
+        src: str = "",
+        start: int = 0,
+        size: int = 0,
+        strand: Literal["+", "-", "?"] | None = None,
+        src_size: int | None = None,
+        text: str | None = "",
+    ) -> None:
+        self._alignment: weakref.ref[Alignment] | None = None
         self.src = src
         # Nota Bene: start, size, strand are as they appear in a MAF file:
         # origin-zero, end excluded, and minus strand counts from end of sequence
@@ -236,19 +294,19 @@ class Component:
         self.strand = strand
         self._src_size = src_size
         self.text = text
-        self.quality = None
+        self.quality: str | None = None
         # Optional fields to keep track of synteny status (only makes sense
         # when the alignment is part of an ordered set)
-        self.synteny_left = None
-        self.synteny_right = None
-        self.synteny_empty = None
+        self.synteny_left: tuple[str, int] | None = None
+        self.synteny_right: tuple[str, int] | None = None
+        self.synteny_empty: str | None = None
         # If true, this component actually represents a non-aligning region,
         # and text is None.
         self.empty = False
         # Index maps a coordinate (distance along + strand from + start) to alignment column
-        self.index = None
+        self.index: list[int] | None = None
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.empty:
             rval = f"e {self.src} {self.start} {self.size} {self.strand} {self.src_size} {self.synteny_empty}"
         else:
@@ -257,24 +315,25 @@ class Component:
                 rval += f"\ni {self.src} {self.synteny_left[0]} {self.synteny_left[1]} {self.synteny_right[0]} {self.synteny_right[1]}"
         return rval
 
-    def get_end(self):
+    def get_end(self) -> int:
         return self.start + self.size
 
     end = property(fget=get_end)
 
-    def get_src_size(self):
+    def get_src_size(self) -> int:
         if self._src_size is None:
-            if self._alignment is None:
+            alignment = self._alignment() if self._alignment is not None else None
+            if alignment is None:
                 raise Exception("component has no src_size")
-            self._src_size = self._alignment().src_size(self.src)
+            self._src_size = alignment.src_size(self.src)
         return self._src_size
 
-    def set_src_size(self, src_size):
+    def set_src_size(self, src_size: int | None) -> None:
         self._src_size = src_size
 
     src_size = property(fget=get_src_size, fset=set_src_size)
 
-    def get_forward_strand_start(self):
+    def get_forward_strand_start(self) -> int:
         if self.strand == "-":
             return self.src_size - self.end
         else:
@@ -282,7 +341,7 @@ class Component:
 
     forward_strand_start = property(fget=get_forward_strand_start)
 
-    def get_forward_strand_end(self):
+    def get_forward_strand_end(self) -> int:
         if self.strand == "-":
             return self.src_size - self.start
         else:
@@ -290,15 +349,13 @@ class Component:
 
     forward_strand_end = property(fget=get_forward_strand_end)
 
-    def reverse_complement(self):
+    def reverse_complement(self) -> "Component":
         start = self.src_size - self.end
-        if self.strand == "+":
-            strand = "-"
-        else:
-            strand = "+"
+        strand: Literal["+", "-"] = "-" if self.strand == "+" else "+"
         if self.empty:
             text = None
         else:
+            assert self.text is not None
             text = self.text.translate(DNA_COMP)[::-1]
         new = Component(self.src, start, self.size, strand, self._src_size, text)
         if self.empty:
@@ -312,7 +369,7 @@ class Component:
         new._alignment = self._alignment
         return new
 
-    def slice(self, start, end):
+    def slice(self, start: int, end: int) -> "Component":
         new = Component(src=self.src, start=self.start, strand=self.strand, src_size=self._src_size)
         new._alignment = self._alignment
         if self.empty:
@@ -321,6 +378,7 @@ class Component:
             new.text = None
             new.synteny_empty = self.synteny_empty
             return new
+        assert self.text is not None
         new.text = self.text[start:end]
 
         # for i in range( 0, start ):
@@ -345,7 +403,7 @@ class Component:
 
         return new
 
-    def slice_by_coord(self, start, end):
+    def slice_by_coord(self, start: int, end: int) -> "Component":
         """
         Return the slice of the component corresponding to a coordinate interval.
 
@@ -358,14 +416,14 @@ class Component:
             start_col, end_col = (end_col, start_col)
         return self.slice(start_col, end_col)
 
-    def coord_to_col(self, pos):
+    def coord_to_col(self, pos: int) -> int:
         """
         Return the alignment column index corresponding to coordinate pos.
 
         pos is relative to the + strand, regardless of the component's strand.
 
         """
-        if self.empty:
+        if self.empty or self.text is None:
             raise ValueError("There is no column index. It is empty.")
         start, end = self.get_forward_strand_start(), self.get_forward_strand_end()
         if pos < start or pos > end:
@@ -386,14 +444,12 @@ class Component:
                     if self.text[x] != "-":
                         self.index.append(x)
                 self.index.append(len(self.text))
-        x = None
         try:
-            x = self.index[pos - start]
+            return self.index[pos - start]
         except IndexError:
             raise Exception("Error in index.")
-        return x
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         if other is None or not isinstance(other, type(self)):
             return False
         return (
@@ -409,10 +465,7 @@ class Component:
             and self.empty == other.empty
         )
 
-    def __ne__(self, other):
-        return not (self.__eq__(other))
-
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo: dict[int, Any]) -> "Component":
         new = Component(
             src=self.src, start=self.start, size=self.size, strand=self.strand, src_size=self._src_size, text=self.text
         )
@@ -426,7 +479,9 @@ class Component:
         return new
 
 
-def get_reader(format, infile, species_to_lengths=None):
+def get_reader(
+    format: AlignmentFormat, infile: IO[str], species_to_lengths: SpeciesToLengths | None = None
+) -> "bx.align.maf.Reader | bx.align.axt.Reader | bx.align.lav.Reader":
     import bx.align.axt
     import bx.align.lav
     import bx.align.maf
@@ -441,7 +496,9 @@ def get_reader(format, infile, species_to_lengths=None):
         raise ValueError(f"Unknown alignment format {format}")
 
 
-def get_writer(format, outfile, attributes=None):
+def get_writer(
+    format: AlignmentFormat, outfile: IO[str], attributes: dict[str, Any] | None = None
+) -> "bx.align.maf.Writer | bx.align.axt.Writer | bx.align.lav.Writer":
     import bx.align.axt
     import bx.align.lav
     import bx.align.maf
@@ -458,13 +515,19 @@ def get_writer(format, outfile, attributes=None):
         raise ValueError(f"Unknown alignment format {format}")
 
 
-def get_indexed(format, filename, index_filename=None, keep_open=False, species_to_lengths=None):
+def get_indexed(
+    format: AlignmentFormat,
+    filename: str,
+    index_filename: str | None = None,
+    keep_open: bool = False,
+    species_to_lengths: SpeciesToLengths | None = None,
+) -> "bx.align.maf.MAFIndexedAccess | bx.align.axt.Indexed":
     import bx.align.axt
     import bx.align.lav
     import bx.align.maf
 
     if format == "maf":
-        return bx.align.maf.Indexed(filename, index_filename, keep_open, species_to_lengths=species_to_lengths)
+        return bx.align.maf.MAFIndexedAccess(filename, index_filename, keep_open, species_to_lengths=species_to_lengths)
     elif format == "axt":
         return bx.align.axt.Indexed(filename, index_filename, keep_open, species_to_lengths=species_to_lengths)
     elif format == "lav":
@@ -473,16 +536,17 @@ def get_indexed(format, filename, index_filename=None, keep_open=False, species_
         raise ValueError(f"Unknown alignment format {format}")
 
 
-def shuffle_columns(a):
+def shuffle_columns(a: Alignment) -> None:
     """Randomize the columns of an alignment"""
     mask = list(range(a.text_size))
     random.shuffle(mask)
     for c in a.components:
-        if not c.empty:
-            c.text = "".join(c.text[i] for i in mask)
+        if not c.empty and c.text is not None:
+            text = c.text
+            c.text = "".join(text[i] for i in mask)
 
 
-def src_split(src):  # splits src into species,chrom
+def src_split(src: str) -> tuple[str | None, str]:  # splits src into species,chrom
     dot = src.rfind(".")
     if dot == -1:
         return None, src
@@ -490,7 +554,7 @@ def src_split(src):  # splits src into species,chrom
         return src[:dot], src[dot + 1 :]
 
 
-def src_merge(species, chrom, contig=None):  # creates src (inverse of src_split)
+def src_merge(species: str | None, chrom: str, contig: int | None = None) -> str:  # creates src (inverse of src_split)
     if species is None:
         src = chrom
     else:
@@ -507,7 +571,7 @@ try:
     from ._core import coord_to_col
 except ImportError:
 
-    def coord_to_col(start, text, pos):
+    def coord_to_col(start: int, text: str, pos: int) -> int:
         col = 0
         while start < pos:
             if text[col] != "-":

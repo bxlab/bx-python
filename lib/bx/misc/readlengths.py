@@ -5,12 +5,12 @@ number of bases the sequence.
 """
 
 
-def read_lengths_file(name):
+def read_lengths_file(name: str) -> dict[str, int]:
     """
     Returns a hash from sequence name to length.
     """
 
-    chrom_to_length = {}
+    chrom_to_length: dict[str, int] = {}
     with open(name) as f:
         for line in f:
             line = line.strip()

@@ -7,6 +7,10 @@ pairwise aligner.
 
 import sys
 from io import StringIO
+from typing import (
+    IO,
+    Literal,
+)
 
 import bx.seq
 from bx.align import (
@@ -89,13 +93,13 @@ class Reader:
     def close(self):
         self.file.close()
 
-    def open_seqs(self):
+    def open_seqs(self) -> None:
         if self.seq1_file is not None and self.seq2_file is not None:
             return
 
         if self.seq1_file is None:
             if self.seq1_strand == "+":
-                revcomp = False
+                revcomp: Literal[False, "-5'"] = False
             else:
                 revcomp = "-5'"
             if self.seq1_contig == 1:
@@ -103,7 +107,7 @@ class Reader:
             else:
                 contig = self.seq1_contig
             try:
-                f = open(self.seq1_filename, "rb")
+                f: IO = open(self.seq1_filename, "rb")
             except Exception:
                 if self.fail_to_ns:
                     f = StringIO(">seq1\n" + ("n" * (self.seq1_end - self.seq1_start)))
@@ -142,7 +146,7 @@ class Reader:
                     revcomp = False
                     contig = 1
                 else:
-                    raise Exception(f"failed to open {self.seq1_filename}")
+                    raise Exception(f"failed to open {self.seq2_filename}")
             self.seq2_file = bx.seq.seq_file(f, revcomp=revcomp, contig=contig)
             self.seq2_gap = self.seq2_file.gap
             try:
@@ -163,11 +167,10 @@ class Reader:
             (species1 != species2) or (chrom1 != chrom2) or (length1 == length2)
         ), f"conflicting lengths for {self.seq1_src} ({length1} and {length2})"
 
-        self.species_to_lengths = {}
-        self.species_to_lengths[species1] = {}
-        self.species_to_lengths[species2] = {}  # (OK if it clobbers line above)
-        self.species_to_lengths[species1][chrom1] = self.seq1_file.length
-        self.species_to_lengths[species2][chrom2] = self.seq2_file.length
+        self.species_to_lengths = {species1: {chrom1: length1}}
+        self.species_to_lengths.setdefault(species2, {})[
+            chrom2
+        ] = length2  # reuses the dict above if species2 == species1
 
     def close_seqs(self):
         if self.seq1_file is not None:
