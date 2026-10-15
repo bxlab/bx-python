@@ -432,9 +432,9 @@ def get_reader(format, infile, species_to_lengths=None):
     import bx.align.maf
 
     if format == "maf":
-        return bx.align.maf.Reader(infile, species_to_lengths)
+        return bx.align.maf.Reader(infile, species_to_lengths=species_to_lengths)
     elif format == "axt":
-        return bx.align.axt.Reader(infile, species_to_lengths)
+        return bx.align.axt.Reader(infile, species_to_lengths=species_to_lengths)
     elif format == "lav":
         return bx.align.lav.Reader(infile)
     else:
@@ -464,9 +464,9 @@ def get_indexed(format, filename, index_filename=None, keep_open=False, species_
     import bx.align.maf
 
     if format == "maf":
-        return bx.align.maf.Indexed(filename, index_filename, keep_open, species_to_lengths)
+        return bx.align.maf.Indexed(filename, index_filename, keep_open, species_to_lengths=species_to_lengths)
     elif format == "axt":
-        return bx.align.axt.Indexed(filename, index_filename, keep_open, species_to_lengths)
+        return bx.align.axt.Indexed(filename, index_filename, keep_open, species_to_lengths=species_to_lengths)
     elif format == "lav":
         raise Exception("LAV support for Indexed has not been implemented")
     else:
