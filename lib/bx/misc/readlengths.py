@@ -5,27 +5,26 @@ number of bases the sequence.
 """
 
 
-def read_lengths_file(name):
+def read_lengths_file(name: str) -> dict[str, int]:
     """
     Returns a hash from sequence name to length.
     """
 
-    chrom_to_length = {}
-    f = open(name)
-    for line in f:
-        line = line.strip()
-        if line == "" or line[0] == "#":
-            continue
-        try:
-            fields = line.split()
-            if len(fields) != 2:
-                raise
-            chrom = fields[0]
-            length = int(fields[1])
-        except Exception:
-            raise ValueError(f"bad length file line: {line}")
-        if chrom in chrom_to_length and length != chrom_to_length[chrom]:
-            raise ValueError(f"{chrom} has more than one length!")
-        chrom_to_length[chrom] = length
-    f.close()
+    chrom_to_length: dict[str, int] = {}
+    with open(name) as f:
+        for line in f:
+            line = line.strip()
+            if line == "" or line[0] == "#":
+                continue
+            try:
+                fields = line.split()
+                if len(fields) != 2:
+                    raise
+                chrom = fields[0]
+                length = int(fields[1])
+            except Exception:
+                raise ValueError(f"bad length file line: {line}")
+            if chrom in chrom_to_length and length != chrom_to_length[chrom]:
+                raise ValueError(f"{chrom} has more than one length!")
+            chrom_to_length[chrom] = length
     return chrom_to_length

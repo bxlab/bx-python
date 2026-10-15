@@ -29,7 +29,6 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Operating System :: POSIX",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -38,7 +37,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Bio-Informatics",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "numpy",
     "pyparsing",
@@ -54,6 +53,10 @@ include = '\.pyi?$'
 line-length = 120
 
 [tool.cibuildwheel]
+enable = ["pypy"]
+# NumPy 2.5.0 removed support for PyPy3.12, can be restored when
+# https://github.com/numpy/numpy/pull/32332 is merged
+skip = ["pp312-*"]
 test-command = """
 python -c 'import bx, bx.align, bx.align.axt, bx.align.core, bx.align.epo, \
 bx.align.lav, bx.align.maf, bx.align.score, bx.align.sitemask, \

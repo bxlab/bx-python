@@ -4,6 +4,8 @@ Tests for `bx.seq.seq`.
 
 import unittest
 
+import pytest
+
 import bx.seq
 from bx.seq import (
     fasta_tests,
@@ -59,3 +61,22 @@ class SEQTestCase(unittest.TestCase):
 
 def check_get(seqfile, valid_seq, start, len):
     assert seqfile.get(start, len) == valid_seq[start : start + len]
+
+
+@pytest.mark.parametrize(
+    "revcomp, expected_revcomp, expected_get",
+    [
+        (False, False, "AAC"),
+        (True, "-5'", "GTA"),
+        ("+3'", "-5'", "GTA"),
+        ("+5'", "-3'", "GTT"),
+        ("maf", "-5'", "GTA"),
+        ("-5'", "-5'", "GTA"),
+        ("-3'", "-3'", "GTT"),
+    ],
+)
+def test_revcomp(revcomp, expected_revcomp, expected_get):
+    seqfile = bx.seq.seq.SeqFile(revcomp=revcomp)
+    seqfile.set_text("AACCGGTTAC")
+    assert seqfile.revcomp == expected_revcomp
+    assert seqfile.get(0, 3) == expected_get

@@ -33,7 +33,6 @@ jobs:
         run: python -m cibuildwheel --output-dir dist
         env:
           CIBW_ARCHS: ${{ matrix.archs }}
-          CIBW_ENABLE: "pypy"
       - name: Check packages
         run: twine check dist/*
       - uses: actions/upload-artifact@v7

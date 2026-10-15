@@ -116,19 +116,22 @@ class Writer:
             self.file.writelines(f" {key}={attributes[key]}")
         self.file.write("\n")
 
-    def write(self, alignment):
+    def write(self, alignment: Alignment) -> None:
         self.file.write("a score=" + str(alignment.score))
         for key in alignment.attributes:
             self.file.write(f" {key}={alignment.attributes[key]}")
         self.file.write("\n")
         # Components
-        rows = []
+        rows: list[tuple[str, str, str, str, str, str, str]] = []
         for c in alignment.components:
             # "Empty component" generates an 'e' row
+            assert c.strand is not None
             if c.empty:
+                assert c.synteny_empty is not None
                 rows.append(("e", c.src, str(c.start), str(c.size), c.strand, str(c.src_size), c.synteny_empty))
                 continue
             # Regular component
+            assert c.text is not None
             rows.append(("s", c.src, str(c.start), str(c.size), c.strand, str(c.src_size), c.text))
             # If component has quality, write a q row
             if c.quality is not None:
@@ -225,7 +228,7 @@ def read_next_maf(file, species_to_lengths=None, parse_e_rows=False):
     return alignment
 
 
-def readline(file, skip_blank=False):
+def readline(file, skip_blank: bool = False) -> str | None:
     """Read a line from provided file, skipping any blank or comment lines"""
     while True:
         line = file.readline()
