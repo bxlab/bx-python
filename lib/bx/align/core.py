@@ -168,12 +168,10 @@ class Alignment:
         """
         seqs = []
         for c in self.components:
-            if c.empty:
+            if c.empty or c.text is None:
                 seqs.append(None)
-            try:
+            else:
                 seqs.append(list(c.text))
-            except TypeError:
-                seqs.append(None)
         i = 0
         text_size = self.text_size
         while i < text_size:
