@@ -245,6 +245,7 @@ def test_remove_all_gap_column(empty_index, repeat_component):
     # Return the empty row to its fixture position for the equality check.
     complex_maf_gap.components.append(complex_maf_gap.components.pop(empty_index))
     assert complex_maf_gap == complex_maf
+    assert complex_maf_gap.text_size == complex_maf.text_size
 
 
 def test_read_with_synteny():
