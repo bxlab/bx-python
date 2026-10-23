@@ -4,6 +4,8 @@ Tests for `bx.align.maf`.
 
 from io import StringIO
 
+import pytest
+
 from bx import align
 from bx.align import maf
 
@@ -211,7 +213,9 @@ def test_column_iter():
         assert c == expected[i]
 
 
-def test_remove_all_gap_column():
+@pytest.mark.parametrize("empty_index", [0, 1, 3])
+@pytest.mark.parametrize("repeat_component", [False, True])
+def test_remove_all_gap_column(empty_index, repeat_component):
     complex_maf_gap = align.Alignment()
     complex_maf_gap.score = "7009"
     complex_maf_gap.components.append(
@@ -231,8 +235,17 @@ def test_remove_all_gap_column():
     complex_maf_gap.components[-1].empty = True
     complex_maf_gap.components[-1].synteny_empty = maf.MAF_INSERT_STATUS
     complex_maf_gap.text_size = 11
+    empty = complex_maf_gap.components.pop()
+    complex_maf_gap.components.insert(empty_index, empty)
+    if repeat_component:
+        complex_maf_gap.add_component(next(c for c in complex_maf_gap.components if not c.empty))
     complex_maf_gap.remove_all_gap_columns()
+    if repeat_component:
+        complex_maf_gap.components.pop()
+    # Return the empty row to its fixture position for the equality check.
+    complex_maf_gap.components.append(complex_maf_gap.components.pop(empty_index))
     assert complex_maf_gap == complex_maf
+    assert complex_maf_gap.text_size == complex_maf.text_size
 
 
 def test_read_with_synteny():
