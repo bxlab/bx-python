@@ -187,7 +187,7 @@ cdef class IntToIntMapping:
         return copy
 
     def expand( self, int x ):
-        """Grow the alphabet by making 'a' a seperate symbol. If it already mapped to a single symbol, do nothing"""
+        """Grow the alphabet by making 'a' a separate symbol. If it already mapped to a single symbol, do nothing"""
         cdef int i, count, a, b
         cdef IntToIntMapping copy
         # Get the symbol x maps to

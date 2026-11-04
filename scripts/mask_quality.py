@@ -12,7 +12,7 @@ usage: %prog input output
     -m, --mask=N: Character to use as mask character
     -q, --quality=N: Min quality allowed
     -t, --type=N: base_pair or nqs
-    -l, --list=N: colon seperated list of species,len_file[,qualityfile].
+    -l, --list=N: colon separated list of species,len_file[,qualityfile].
 """
 
 import fileinput

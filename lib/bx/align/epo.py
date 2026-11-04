@@ -8,7 +8,7 @@ from collections import namedtuple
 
 from ._epo import (  # noqa: F401
     bed_union,
-    cummulative_intervals,
+    cumulative_intervals,
     fastLoadChain,
     rem_dash,
 )
